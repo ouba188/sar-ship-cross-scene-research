@@ -1,0 +1,16 @@
+{
+  "posthoc_reason": "F0921 PE improves less than T and has much larger diagonal energy with negative P/E cross terms",
+  "task": "f0921",
+  "kinds": [
+    "linear",
+    "mlp"
+  ],
+  "support_budget": 64,
+  "draws": 5,
+  "intervention": "KR + gamma*(PP'+EE'); gamma=sum_support||T||^2 / sum_support(||P||^2+||E||^2)",
+  "fixed": "Same R50 prior, base, source maps,64supports,ridge8,softmax and equal fusion",
+  "gamma_selection": "One analytic trace match per support draw; no parameter search, no query rows or labels",
+  "boundary": "Uses true R18 support features for matching and residuals for queries; not a single-backbone replacement",
+  "claim": "Matching the SSL trace does not match its spectrum or establish physical causality",
+  "query_metrics": "Only after BOTH mapper outputs are saved; exploratory follow-up, not independent confirmation"
+}

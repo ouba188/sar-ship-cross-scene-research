@@ -1,0 +1,43 @@
+{
+  "budgets": [
+    16,
+    64,
+    128
+  ],
+  "doses": {
+    "16": 1.0,
+    "64": 0.5,
+    "128": 0.25
+  },
+  "simple": {
+    "16": {
+      "arm": "simple",
+      "intervention": 0.75,
+      "source_ba": 47.033191160871475
+    },
+    "64": {
+      "arm": "raw",
+      "intervention": 0.0,
+      "source_ba": 48.2810514619203
+    },
+    "128": {
+      "arm": "raw",
+      "intervention": 0.0,
+      "source_ba": 48.15630317370779
+    }
+  },
+  "corrector": "Original other-vessel same-class linear residual, fixed .1 trace Gram / dim ridge",
+  "initializer_fit": "Original source-fit cohort intersect task allowed rows, multi-product vessels only; own task coordinates",
+  "training_candidates": "Shared90 and isolated30perB preserved; no incompatible weight transplant",
+  "support": "Original5x64 row samples, nested16/64/128; extra64 from original support union, seed124000+draw",
+  "query": "Intersection of original five query masks, common to every budget and arm",
+  "identity_scope": "Historical row-only support/query separation, not vessel-held target confirmation",
+  "historical_selection": "Doses/simple choice frozen from previous development; some expanded ports contributed to historical hyperparameter selection",
+  "source_training": "Outer task permitted source rows; target port/identities are never reintroduced",
+  "runtime": "E:\\Hermes\\paper_tracking\\envs\\msfa-openmmlab-py310-rtx50-cu132\\Scripts\\python.exe",
+  "blas_threads": 2,
+  "gpu": false,
+  "statistics": "OA/BA,NLL,Brier,class-balanced risk,paired rescue/harm,draw composition; no universal-win requirement",
+  "feature_pipeline": "Same stored geometry; no PCA/encoder refit. Original-port caches replayed before wider conclusions",
+  "full_coverage_claim": false
+}

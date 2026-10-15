@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-13",
+  "seed": 20261013,
+  "datasets": [
+    "f0921",
+    "oss2"
+  ],
+  "budgets": [
+    16,
+    64
+  ],
+  "draws": 5,
+  "source": "One common self24 source-row intersection, additionally exclude known external identities and recovered external acquisitions",
+  "source_n": 28854,
+  "source_ridge": 1.0,
+  "support_ridge": 8.0,
+  "fusion": 0.5,
+  "model": "Frozen R50+C4 and e206 R18, common new source PCA/scales/3 heads; compact reader, NOT historical full model",
+  "source_geometry": "Existing compact recipe only; no method tuning or new encoder training",
+  "exposure": "F0921 corpus was used historically for R18 SSL; prior development remains, not independent encoder validation",
+  "dataset_adaptation": "24port source-only vs nested random16/64 unique-vessel target supports; fixed queries, query identities excluded",
+  "global_query": "Seeded30percent of known consistent-label vessels per class, one random observation each; samequeriesacrossB/arms",
+  "support_exchange": "Same24source model + F0921 or OSS2 support; exactsameB/classcounts andsamequeries; NOT pure F-to-OSS2 source-only training",
+  "acquisition_transfer": "Atmost5 metadata-selected acquisitions per target/B, fixedqueryvessels; F matches classes, OSS2 matches class x GRDH/SLC; same/other acquisition",
+  "acquisition_query": "30percent vessels, cap256peracquisition, oneobservationeach; B64-capable queries reusedB16",
+  "public_scope": "OSS2 actualportunknown; datatake groups GRDH/SLC together, product strata reported, notpureportchange",
+  "sampling": "Acquisition/exchange arms are labelmatcheddiagnostics, not labelblindB-label acquisition",
+  "main_model_changed": false,
+  "query_tuning": false
+}
