@@ -1,0 +1,42 @@
+{
+  "inputs": "Only cached predictions and metadata; full_teacher_data imported first.",
+  "layers": {
+    "representation_utility": "Retrieval is evaluated by the main workflow; not duplicated here.",
+    "classifier_continuous_risk": "Source students/completion and target base/expert.",
+    "full_model": "Original target equal-softmax base/expert fusion."
+  },
+  "temperature": 1,
+  "classes": 8,
+  "nll": "Natural log; logits use logsumexp; exact zero true probability gives infinity.",
+  "brier": "SUM of eight squared probability errors per row, then mean over rows.",
+  "cached_fusion": "Already probabilities; never softmax again. Verified against original equal-softmax fusion.",
+  "primary": "summary.csv micro_* pools query row exposures across configurations. These are proper scoring-rule row means at observed exposure prevalence, not calibration evidence.",
+  "secondary": "classmacro_* averages observed classes; portclassmacro_* averages observed classes within each ACTUAL port, then equal ports. These reweighted risks do not retain original prevalence and are not claimed calibrated.",
+  "accuracy": "OA and BA in percent; BA is conventional unweighted recall over present classes, pooled across actual ports. portclass_ba instead equal-weights actual ports then present classes. Missing classes excluded, never zero-filled.",
+  "episode_mean": "episode_mean_summary.csv equally averages configuration/draw metrics; target first pools actual ports at each draw. historical_equal_unit_summary.csv instead averages actual-port/draw units for targets, reproducing historical OA/BA aggregation. Neither is pooled micro risk.",
+  "pairing": "delta_nll/brier = baseline risk minus candidate risk; positive is improvement. delta_oa/ba and delta_trueprob = candidate minus baseline.",
+  "kernel": "Current code reviewed: unified_head_core coefficients/score uses balanced residual ridge lambda8; caches already recomputed KSS/KQS and alpha with fixed prior, support identities and labels. Students change query and support geometry; completion changes support geometry only. Fusion deltas include interaction with fixed base, not a standalone expert kernel risk.",
+  "source_context": "LA/Klang/Santos are geometry contexts, never actual source ports. Actual ports/classes from observations.csv.iloc[query_obs_ids].",
+  "target_context": "context=not_applicable; actual ports/classes from SOURCE/manifest.csv.iloc[rows], eval_masks exclude original support rows.",
+  "seeds": "Source draw_seed=31415 only, draws0..2; historical27182 draw tags duplicate these. Student training seeds31415/27182 remain separate. Completion training_seed=0 means no stochastic fit; target draw_seed=0 means original cached index, not an RNG seed.",
+  "robustness": "Worst actual-port BA, q10 across actual-port BA (linear quantile), highest per-port risk. Per-port pooled summaries and per-draw robustness supplied. Highest class-macro risk also supplied.",
+  "spread": "draw_spread.csv std uses ddof0 and is descriptive, never a CI. context_training_seed isolates draw variation; pooled_configurations mixes contexts/training seeds. Target per_draw first pools actual ports at each draw index.",
+  "confidence": "Candidate-wrong maxprob is descriptive on changing membership, with n. Baseline-wrong delta_trueprob is paired on a fixed baseline error set. Rescue/harm and both-wrong/both-correct are outcome-selected diagnostics; contributions sum to total risk change, not causal effects. Aggregated n counts row exposures.",
+  "diagnostics": "Fixed shape-only/new direction old centered norm and amplitude-only/old direction new norm exactly follow diagnose_completion_score_scale.py. Post-result diagnostic, no source-selected deployability/calibration claim; no tuning.",
+  "limitations": "Repeated historical observations, support draws and source contexts are dependent; source priors/readers held out ships but historical encoder/geometry exposure remains. Actual target evaluation retains original row-level support exclusion; query ships can overlap support. Only three actual target ports; no new generalization confirmation.",
+  "outputs": "Tidy aggregated CSVs; no per-sample JSON. No training, data refits, retrieval duplication, memory or report edits.",
+  "tests": [
+    "uniform8_logits_and_probabilities",
+    "perfect_probabilities",
+    "paired_fixed_prior_kernel_risk_sign",
+    "extreme_logits_logsumexp",
+    "unequal_prevalence_and_missing_classes"
+  ],
+  "prediction_units": 270,
+  "metric_draw_rows": 180,
+  "families": [
+    "actual_target",
+    "source_completion",
+    "source_students"
+  ]
+}

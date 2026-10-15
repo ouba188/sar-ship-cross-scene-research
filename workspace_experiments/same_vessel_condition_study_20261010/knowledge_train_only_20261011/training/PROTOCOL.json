@@ -1,0 +1,24 @@
+{
+  "arms": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "steps": 400,
+  "fit_observations": 1296,
+  "fitting_ships": 525,
+  "attributes_valid": 1086,
+  "selection": "Source new-vessel three fixed episodes; max mean BA, then min balanced CE, then earliest; every20 incl0.",
+  "teacher": "Native source-vessel-fold OOF prior, average other products of same source vessel; no held inputs.",
+  "inference": "SAR features only, training-only auxiliary head removed; fixed64labeled SAR supports retained.",
+  "control": "C real AIS reported logdims; D source class-mean logdims, identical masks and coefficient; no new exclusions by AIS type.",
+  "caution": "Existing fine labels can disagree with AIS broad descriptions; no relabeling and no causal-identification claim.",
+  "alpha": "Maximum0.1, reduce to at most10pct initial frame gradient on each of8fixed batches; C/D same.",
+  "labels": "Historical reused development data; frozen backbone historical exposure unchanged.",
+  "evaluation": "Freeze all eight fits before held/target classification; last snapshots diagnostic only, never reselect."
+}

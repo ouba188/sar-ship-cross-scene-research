@@ -1,0 +1,458 @@
+                VRM: Knowledge Distillation via Virtual Relation Matching
+                                           Supplementary Material
+ 8. Appendix                                                  Algorithm 1 PyTorch-style pseudo-code for computing
+                                                              VRM losses
+ 8.1. List of All Compared Methods                             1: # x: a batch of raw samples
+                                                               2: # Tr , Tv : transformation functions for real and virtual views
+ A list of all methods we have compared with in this paper     3: # fT , fS : teacher and student networks
+ is as follows:                                                4: # B: batch size, C: number of classes
+     Feature-based methods include FitNets [56], NST [31],     5: # Generate real and virtual views of samples
+ AT [74], AB [26], OFD [25], VID [1], CRD [60],                6: xr , xv = Tr (x), Tv (x) # [B]
+ SRRL [68], SemCKD [7], PEFD [12], MGD [71],                   7: # Obtain teacher and student predictions
+                                                               8: zT     T     T          T
+                                                                   r , zv = f (xr ), f (xv ) # [B,C]
+ CAT-KD [23], TaT [42], ReviewKD [10], NORM [47],              9: zS , zS
+                                                                           = f S
+                                                                                 (xr ), f S
+                                                                                            (xv ) # [B,C]
+                                                                   r    v
+ FCFD [45], and RSD [78].
+                                                              10: # Compute inter-sample virtual edge matrices
+     Logit-based methods include KD [27], DML [80],           11: eT           T                   T
+                                                                   ISV = Norm(zr .unsqueeze(0) - zv .unsqueeze(1)) # [B,B,C]
+
+ TAKD [50], CTKD [41], NKD [72], DKD [81], LSKD [59],         12: eS           S                  S
+                                                                   ISV = Norm(zr .unsqueeze(0) - zv .unsqueeze(1)) # [B,B,C]
+
+ TTM [82], SDD [63], and CRLD [76].                           13: # Compute inter-class virtual edge matrices
+                                                              14: eT           T                    T
+                                                                   ICV = Norm(zr .unsqueeze(1) - zv .unsqueeze(2)) # [C,C,B]
+     Relation-based methods include FSP [73], RKD [52],       15: eS           S                   S
+                                                                   ICV = Norm(zr .unsqueeze(1) - zv .unsqueeze(2)) # [C,C,B]
+ PKT [53], CC [54], SP [61], ICKD [46], and DIST [29].        16: # Obtain unreliable edge masks
+     For MS-COCO object detection, we also compare VRM        17: MISV = JE(zS                  S
+                                                                              r .unsqueeze(0), zv .unsqueeze(1)) < pm # [B,B]
+
+ with FGFI [62]. For ConvNet-to-ViT experiments, we also      18: MICV = JE(zSr .unsqueeze(1), zS
+                                                                                                v .unsqueeze(2)) < pm # [C,C]
+
+ present the results for LG [39] and AutoKD [40].             19: # Compute VRM losses
+                                                              20: loss isv = (MSE(eT      S
+                                                                                   ISV , eISV ) * MISV ).sum()
+                                                              21: loss icv = (MSE(eT       S
+                                                                                   ICV , eICV ) * MICV ).sum()
+ 8.2. List of All Transformation Operations
+                                                              22: return loss isv, loss icv
+ For our main experiments, we borrow the RandAug-
+ ment implementation from the TorchSSL codebase1 . It
+ comprises a total of 14 image transformation operations,     timm library 2 . This function contains 15 image transfor-
+ namely:                                                      mation operations:
+ 1. Autocontrast: automatically adjust image contrast         1. AutoContrast: automatically adjust image contrast
+ 2. Brightness: adjust image brightness                       2. Brightness: adjust image brightness
+ 3. Color: adjust image colour balance                        3. Color: adjust image colour balance
+ 4. Contrast: adjust image contrast                           4. Contrast: adjust image contrast
+ 5. Equalize: equalise image histogram                        5. Equalize: equalise image histogram
+ 6. Identity: leave image unaltered                           6. Invert: invert image
+ 7. Posterize: reduce number of bits for each channel         7. Posterize: reduce number of bits for each channel
+ 8. Rotate: rotate image                                      8. Rotate: rotate image
+ 9. Sharpness: adjust image sharpness                         9. Sharpness: adjust image sharpness
+10. Shear x: shear image horizontally                        10. ShearX: shear image horizontally
+11. Shear y: shear image vertically                          11. ShearY: shear image vertically
+12. Solarize: invert all pixels above a threshold            12. Solarize: invert all pixels above a threshold
+13. Translate x: translate image horizontally                13. SolarizeAdd: add a certain value to all pixels below
+14. Translate y: translate image vertically                      a threshold
+    Besides, we also apply Cutout with a probability of      14. TranslateXRel: translate image horizontally by a
+ 1.0, which sets a square patch of random size within the        fraction of its width
+ image to gray. The above operations are preceded by         15. TranslateYRel: translate image vertically by a frac-
+ RandomCrop and RandomHorizontalFlip in our                      tion of its height
+ virtual view image generation pipeline.                         Similar to the role of Cutout, the timm library addi-
+    For ConvNet-to-ViT experiments, we follow Li et al.       tionally implements a RandomErasing operation, which
+ [39] and use the RandAugment function provided by the
+                                                                2 https://github.com/huggingface/pytorch- image-
+   1 https://github.com/TorchSSL                              models
+                        Teacher                 ResNet56 ResNet110 ResNet32×4 WRN-40-2 WRN-40-2 VGG13
+                        Student                 ResNet20 ResNet32 ResNet8×4 WRN-16-2 WRN-40-1 VGG8
+                                     Venue
+                        Teacher                  72.34    74.31        79.42      75.61     75.61     74.64
+                        Student                  69.06    71.14        72.50      73.26     71.98     70.36
+                                                         Feature-based
+                     FitNets [56]  ICLR’15       69.21    71.06        73.50      73.58     72.24     71.02
+                       NST [31]    arXiv’17      69.60    71.96        73.30      73.68     72.24     71.53
+                       AT [74]     ICLR’17       70.55    72.31        73.44      74.08     72.77     71.43
+                       AB [26]     AAAI’19       69.47    70.98        73.17      72.50     72.38     70.94
+                      OFD [25]     ICCV’19       70.98    73.23        74.95      75.24     74.33     73.95
+                       VID [1]     CVPR’19       70.38    72.61        73.09      74.11     73.30     71.23
+                      CRD [60]     ICLR’20       71.16    73.48        75.51      75.48     74.14     73.94
+                      SRRL [68]    ICLR’21       71.13    73.48        75.33      75.59     74.18     73.44
+                      PEFD [12]   NeurIPS’22     70.07    73.26        76.08      76.02     74.92     74.35
+                     CAT-KD [23] CVPR’23         71.05    73.62        76.91      75.60     74.82     74.65
+                       TaT [42]    CVPR’22       71.59    74.05        75.89      76.06     74.97     74.39
+                    ReviewKD [10] CVPR’21        71.89    73.89        75.63      76.12     75.09     74.84
+                     NORM [47]     ICLR’23       71.35    73.67        76.49      75.65     74.82     73.95
+                      FCFD [45]    ICLR’23       71.96      -          76.62      76.43     75.46     75.22
+                                                          Logit-based
+                        KD [27]    arXiv’15      70.66    73.08       73.33       74.92     73.54     72.98
+                      DML [80]     CVPR’18       69.52    72.03       72.12       73.58     72.68     71.79
+                      TAKD [50]    AAAI’20       70.83    73.37       73.81       75.12     73.78     73.23
+                      CTKD [41]    AAAI’23       71.19    73.52       73.79       75.45     73.93     73.52
+                      NKD [72]     ICCV’23       70.40    72.77       76.35       75.24     74.07     74.86
+                      DKD [81]     CVPR’22       71.97    74.11       76.32       76.24     74.81     74.68
+                      LSKD [59]    CVPR’24       71.43    74.17       76.62       76.11     74.37     74.36
+                       TTM [82]    ICLR’24       71.83    73.97       76.17       76.23     74.32     74.33
+                      CRLD [76]     MM’24        72.10    74.42       77.60       76.45     75.58     75.27
+                                                         Relation-based
+                       FSP [73]     CVPR’17      69.95    71.89        72.62      72.91       -       70.20
+                      RKD [52]      CVPR’19      69.61    71.82        71.90      73.35     72.22     71.48
+                       PKT [53]     ECCV’18      70.34    72.61        73.64      74.54     73.45     72.88
+                      CCKD [54]     CVPR’19      69.63    71.48        72.97      73.56     72.21     70.71
+                        SP [61]     ICCV’19      69.67    72.69        72.94      73.83     72.43     72.68
+                      ICKD [46]     ICCV’21      71.76    73.89        75.25      75.64     74.33     73.42
+                      DIST [29]    NeurIPS’22    71.75      -          76.31        -       74.73       -
+                         VRM            -        72.09    75.03         78.76     77.47     76.46     76.19
+
+                        Table 12. Top-1 accuracy (%) on CIFAR-100 for same-model teacher-student pairs.
+
+
+sets a rectangular patch of random size and shape within           8.4. Details on Experimental Configurations
+the image to random pixels. The above operations are pre-
+                                                                   Datasets. We conduct experiments on CIFAR-100 and Im-
+ceded by RandomResizedCropAndInterpolation
+                                                                   ageNet for image classification, and MS-COCO for object
+and RandomHorizontalFlip in our strong view im-
+                                                                   detection. CIFAR-100 [35] contains 60k 32 × 32 RGB im-
+age generatino pipeline, which is the default configuration
+                                                                   ages annotated in 100 classes. It is split into 50,000 training
+in timm.
+                                                                   and 10,000 validation images. ImageNet [19] is a 1,000-
+                                                                   category large-scale image recognition dataset. It provides
+                                                                   1.28 million RGB images for training and 5k for validation.
+8.3. Pseudo-Code                                                   MS-COCO [43] is an object detection dataset with images
+                                                                   of common objects in 80 categories. We experiment with
+In Algorithm 1, we provide the PyTorch-style pseudo-code           its train2017 and val2017 that include 118k training
+for the calculation of the proposed VRM losses. The con-           and 5k validation images, respectively.
+struction of relation edges can be conveniently implemented
+through some matrix operations, with the redundancy edge
+pruning implicitly incorporated. Overall, the proposed             Configurations for main experiments. For CIFAR-100
+losses can be neatly implemented in about 10 lines of codes        main experiments, we strictly follow the standard training
+in PyTorch.                                                        configurations in previous works [45, 59, 81]. Specifically,
+                   Teacher                  ResNet32×4     VGG13      ResNet50 ResNet50 ResNet32×4 WRN-40-2
+                   Student                  ShuffleNetV2 MobileNetV2 MobileNetV2 VGG8 ShuffleNetV1 ShuffleNetV1
+                                  Venue
+                   Teacher                     79.42        74.64         79.34      79.34      79.42           75.61
+                   Student                     71.82        64.60         64.60      70.36      70.50           70.50
+                                                             Feature-based
+                 FitNets [56] ICLR’15          73.54        64.16          63.16     70.69      73.59           73.73
+                   NST [31]   arXiv’17         74.68        58.16          64.96     71.28      74.12           74.89
+                   AB [26]    AAAI’19          74.31        66.06          67.20     70.65      73.55           73.34
+                   AT [74]    ICLR’17          72.73        59.40          58.58     71.84      71.73           73.32
+                   VID [1]    CVPR’19          73.40        65.56          67.57     70.30      73.38           73.61
+                  OFD [25]    ICCV’19          76.82        69.48          69.04       -        75.98           75.85
+                  CRD [60]    ICLR’20          75.65        69.63          69.11     74.30      75.11           76.05
+                  MGD [71]    ECCV’22          76.65        69.44          68.54     73.89      76.22           75.89
+                 SemCKD [7]   AAAI’21          77.02        69.98          68.69     74.18      76.31           76.06
+                ReviewKD [10] CVPR’21          77.78        70.37          69.89     75.34      77.45           77.14
+                 NORM [47]    ICLR’23          78.32        69.38          71.17     75.67      77.79           77.63
+                  FCFD [45]   ICLR’23          78.18        70.65          71.00       -        78.12           77.99
+                 CAT-KD [23] CVPR’23           78.41        69.13          71.36       -        78.26           77.35
+                                                              Logit-based
+                    KD [27]     arXiv’15       74.45        67.37         67.35      73.81      74.07           74.83
+                  DML [80]      CVPR’18        73.45        65.63         65.71        -        72.89           72.76
+                  TAKD [50]     AAAI’20        74.82        67.91         68.02        -        74.53           75.34
+                  CTKD [41]     AAAI’23        75.31        68.46         68.47        -        74.48           75.78
+                  NKD [72]      ICCV’23        76.26        70.22         70.76      74.01      75.31           75.96
+                  DKD [81]      CVPR’22        77.07        69.71         70.35        -        76.45           76.70
+                  LSKD [59]     CVPR’24        75.56        68.61         69.02        -          -               -
+                   TTM [82]     ICLR’24        76.55        69.16         69.59      74.82      74.37           75.42
+                   SDD [63]     CVPR’24        76.67        68.79         69.55      74.89      76.30           76.54
+                  CRLD [76]      MM’24         78.27        70.39         71.36        -          -               -
+                                                            Relation-based
+                  RKD [52]      CVPR’19        73.21        64.52         64.43      71.50      72.28           72.21
+                   PKT [53]     ECCV’18        74.69        67.13         66.52      73.01      74.10           73.89
+                  CCKD [54]     CVPR’19        71.29        64.86         65.43      70.25      71.14           71.38
+                    SP [61]     ICCV’19        74.56        66.30         68.08      73.34      73.48           74.52
+                  DIST [29]    NeurIPS’22      77.35        68.50         68.66      74.11      76.34           76.40
+                     VRM            -          79.34        71.66          72.30     76.96      78.28           78.62
+
+                         Table 13. Top-1 accuracy (%) on CIFAR-100 for different-model teacher-student pairs.
+
+
+we train our framework for 240 epochs using the SGD op-                decays at the 120,000th and 160,000th iterations.
+timiser and a batch size of 64. The initial LR is 0.01 for
+MobileNets [28] and ShuffleNets [79] and 0.05 for other ar-
+chitectures, which decay by a factor of 10 at [150th, 180th,           Configurations for ConvNet-to-ViT experiments. As
+210th] epochs. Momentum and weight decay are set to 0.9                few studies have considered this setting, we developed our
+and 5e-4, respectively. Softmax temperature is set to 4.               experiments following [40, 59] on the codebase provided
+                                                                       by [39]. Our experimental configurations follow [39] and
+    For ImageNet experiments, as per standard practice, we             [49]. Specifically, the ResNet56 teacher is trained for 300
+train our framework for 100 epochs with a batch size of 256            epochs with an initial LR of 0.1 and a cosine LR sched-
+on two GPUs, with an initial LR of 0.1 that decays by a                ule. The resulted pretrained teacher has a top-1 accuracy of
+factor of 10 at [30th, 60th, 90th] epochs. Momentum and                71.61%. All ViTs are trained for 300 epochs (including 20-
+weight decay are set to 0.9 and 1e-4, respectively. Softmax            epoch linear warm-up) using the AdamW optimiser. The
+temperature is set to 2.                                               initial LR is 5e-4 with a weight decay of 0.05, which even-
+   For MS-COCO object detection, we adopt the configura-               tually decays to 5e-6 via a cosine LR policy. The ResNet56
+tions of Chen et al. [10], Liu et al. [47], Sun et al. [59], Wang      teacher is trained on 32 × 32 resolution images, while ViT
+et al. [62], Zhao et al. [81] whereby we experiment with               students are fed with 224 × 224 images. The default Ran-
+Faster-RCNN-FPN [44] with different backbone models.                   dAugment is applied for data augmentation, with number of
+All models are trained for 180,000 iterations on 2 GPUs                randomly sampled operations n set to 2, transform magni-
+with a batch size of 8. The LR is initially set as 0.01 and            tude m to 9, and probability of applying random erasing p
+                            ResNet32×4   VGG13                                             KD     RKD     DIST    VRM
+                            ResNet8×4    VGG8
+                                                                               Baseline   73.83   72.63   76.16   78.76
+                 Baseline     78.76       76.19                                  LT       73.82   72.49   75.90   78.97
+                 w/o LSce     78.47       75.66
+                                                                  Table 15. Effect of longer training. “LT”: long-training policy.
+              Table 14. Effect of LVce supervision.
+
+                                                                          τ         1       2       3       4       5        6
+to 0.25. All models are trained on a single NVIDIA RTX                Acc. (%)    78.16   78.69   78.57   78.76   78.41     78.63
+3090 GPU with a batch size of 128.
+                                                                              Table 16. Effect of different temperatures.
+Implementations. Our method is implemented in the
+mdistiller3 codebase in PyTorch for image classifi-
+cation experiments. For object detection, it also partially      epochs. All other configurations are kept the same. Accord-
+builds upon the detectron24 library. For ConvNet-                ing to Tab. 15, VRM indeed benefits from longer training as
+to-ViT experiments, we utilise the pycls5 and the                a 0.21% Top-1 accuracy gain is obtained with LT. In com-
+tiny-transformer6 codebases. All reported results                parison, the performance of other methods plateaued with
+are average over 3 trials.                                       more training epochs, which is likely due to overfitting to
+                                                                 the training samples and a lack of richer guidance signals
+Efficiency benchmarking. Tab. 10 benchmarks the train-           from the teacher.
+ing time per batch and the peak GPU memory usage of var-
+ious methods on a workstation equipped with 20 Intel Core
+i9-10850K CPUs (10 cores) and an NVIDIA RTX 3090                 Effect of different temperatures. The temperature of
+GPU. All measurements are taken on CIFAR-100 with a              Softmax, denoted by τ , controls the smoothness of the pre-
+batch size of 64.                                                dicted probabilistic distribution. We simply opt for the com-
+                                                                 mon choice of τ = 4 [27, 81], which is empirically shown
+8.5. More Experimental Results                                   to produce the best results. Moreover, the proposed method
+We present the full results on CIFAR-100 in Tabs. 12 and         is sufficiently robust to varying values of τ , as shown in
+13 to include more same-model and different-model distil-        Tab. 16.
+lation pairs and additional methods for comparison.
+
+8.6. More Ablation Studies
+                                                                 Effect of pruning redundant edges. We conduct abla-
+Effect of GT supervision policies. Tab. 14 shows the ef-         tion experiments to see the effect of pruning redundant
+fect of removing the GT supervision on the student model’s       edges, described in Sec. 5.4 of the main text. As presented
+predictions of the virtual-view image. It demonstrates that      in Tab. 17, matching the raw and bulky inter-sample affin-
+supervising student predictions of the virtual view is impor-    ity graph with redundancy and duplication is not only less
+tant for ensuring the quality of the virtual view predictions.   efficient but also inferior in terms of performance. We pos-
+The quality of vertices has a direct impact on the quality       tulate that this is partially ascribed the fact that each vertex
+of the edges (i.e., relations) constructed within the affinity   in the raw graph is connected to a larger and more com-
+graphs. As such, we choose to also supervise the virtual         plex set of other vertices that involve both real and vir-
+vertices of our graphs with GT labels.                           tual vertices. This complicates the learning while making
+                                                                 each vertex more vulnerable to an increased likelihood of
+Effect of longer training. The construction and transfer         adverse gradient propagation. Another possible reason is
+of richer and more diverse relations mean that VRM may           that matching real-virtual relations is more regularised, as
+benefit more from longer training. To verify this, we devise     opposed to matching real-real or virtual-virtual intra-view
+a longer training policy (denoted as “LT”) than the stan-        relations that are easier and more readily overfitted. Note
+dard 240-epoch policy in existing KD methods. For our LT         that we also conjectured that the degraded performance of
+policy, the model is trained for 360 epochs and the LR de-       matching the raw graph may be ascribed to different dis-
+cays by a factor of 10 at the 150th, 180th, 210th, and 270th     tribution patterns of the prediction vectors at the vertices
+  3 https://github.com/megvii-research/mdistiller
+                                                                 since they now have a dimension of 2 × B compared to B.
+  4 https://github.com/facebookresearch/detectron2               We experimented with different temperature τ in an attempt
+  5 https://github.com/facebookresearch/pycls                    to re-adjust the distributions to be more relation-matching-
+  6 https://github.com/lkhl/tiny-transformers                    friendly, but the results remain inferior.
+                 Pruning          ResNet32×4     VGG13                                                    ResNet32×4   VGG13
+                                                 VGG8                            Method     Location                   VGG8
+               Configuration      ResNet8×4                                                               ResNet8×4
+            Redundant E (τ = 1)      77.39        75.26                           RKD                       72.63      70.87
+            Redundant E (τ = 2)      77.80        74.94                           PKT                       74.41      72.78
+            Redundant E (τ = 4)      77.19        75.30                           CRD      pooled feats     75.51      73.94
+             Pruned E (τ = 4)        78.76        76.19                         ReviewKD                    75.63      74.84
+                                                                                  VRM                       76.39      74.92
+          Table 17. Effect of pruning redundant edges.                            VRM         logits        78.76      76.19
+
+                                                                              Table 18. Applying VRM to feature embeddings.
+
+
+                                                                       tional experiments to investigate to what extent VRM can
+                                                                       work with features. To this end, we simply reconstruct our
+                                                                       graphs from the feature maps {fi }B  i=1 right before the fi-
+                                                                       nal linear layer (denoted as “pooled feats” in Tab. 18) and
+                                                                       in the mdistiller codebase. Our virtual relation graphs
+                                                                       now become G IS ∈ RB×B×D and G IC ∈ RD×D×B where
+                                                                       D is the dimension of the feature vector. Note that since we
+Figure 8. Effect of unreliable edge pruning on gradient conflicts in
+training.                                                              no longer work with probability distributions, we remove
+                                                                       the Softmax operations that convert predictions to probabil-
+                                                                       ities. Other operations remain unchanged.
+8.7. More Analyses                                                         In Tab. 18, we compare the results of VRM trained using
+                                                                       graphs constructed from feature maps with existing meth-
+Analysis of logit mean & standard deviation. In Fig. 9,                ods that also build relations from the same features (i.e.,
+we plot the histogram of the mean and standard deviation               “pooled feats”), namely RKD [52], PKT [53], CRD [60],
+of instance-wise logit predictions given by various method.            and ReviewKD [10]. It can be observed that the per-
+IM methods are found to produce logits closer to the teach-            formance of VRM deteriorates when applied to features.
+ers’ in terms of both logit mean and standard deviation dis-           The reason may be that predicted logits are more compact
+tributions. Intriguingly, the proposed VRM, being a purely             condensation of categorical knowledge, which is therefore
+relation-based method that is free of any explicit instance-           more beneficial for our downstream task. This is particu-
+wise logit matching, is on par with IM methods in this re-             larly so given that VRM does not contain an IM objective
+gard and markedly outdoes DKD. This suggests that the                  that directly matches the logits. As such, VRM works best
+proposed real-virtual relational matching provides strong              when applied to logits. Nonetheless, when applied to fea-
+regularisation that better enables the student to learn the un-        tures, VRM still substantially outperforms all other meth-
+derlying logit distribution of the teacher. This is particularly       ods that also work on the very same feature maps. This
+evident given that RKD, a relation-based method which also             shows that VRM still encodes better and richer knowledge
+has an IM objective, is way further from teacher’s logit dis-          for distillation compared to the weaker relations transferred
+tribution.                                                             by RKD and PKT.
+
+Effect of UEP on optimisation conflicts in training. To
+gain further insights into the effect of unreliable edge prun-         Discussions on the use of joint entropy. In the formu-
+ing on the training dynamics, we trace the optimisation gra-           lation of our unreliable edge pruning scheme, we use the
+dient similarity in matching the edges throughout training.            joint entropy (JE) between two predictions (of two nodes)
+Specifically, we compute the averaged pairwise cosine sim-             as a measure of edge uncertainty. While other measures
+ilarity between all sample-wise gradient vectors within a              may be used, JE suits our purpose with several appealing
+batch, and visualise the results in Fig. 8. We observe that            properties:
+UEP leads to higher gradient similarity on average. In other           • Higher discrepancy between two vertices leads to higher
+words, there are fewer gradient conflicts, which also ex-                JE, which is a relative measure of uncertainty.
+plains the faster convergence evidenced by Figs 7d.                    • As two predictions get aligned, JE approaches their indi-
+                                                                         vidual uncertainty, which is an absolute measure of un-
+VRM on features. In this work, we have chosen to con-                    certainty.
+struct our virtual relation graphs G IS and G IC from network          As such, our criterion takes account of both relative and
+prediction logits {zi }Bi=1 . In this section, we conduct addi-        absolute edge uncertainties throughout the learning process.
+        Figure 9. Bivariate histogram of the mean and standard deviation of logits predicted by different models on CIFAR-100.
+
+
+Comparison to KD methods using SSL. We highlight                      This method is also fundamentally different from VRM
+the difference between our method and two KD meth-                    from the following aspects:
+ods that utilise self-supervised learning (SSL), namely               • Motivation: Like SSKD, HSAKD is also directly moti-
+SSKD [65] and HSAKD [66].                                               vated by the use of pretext tasks in self-supervised learn-
+   SSKD utilises self-supervision signals via image trans-              ing. HSAKD employs rotation prediction as its pretext
+formations and pretext tasks for knowledge distillation. The            task. The proposed VRM is free of pretext task learning.
+proposed VRM fundamentally differs from SSKD in at least              • Training formulation: To enable pretext task learning,
+the following aspects:                                                  HSAKD appends auxiliary classifiers to the intermediate
+• Motivation: While both methods involve the utilisation of             features at each stage to perform transformation classi-
+  transformations to produce augmented views of input im-               fication. This means that, akin to SSKD, HSAKD also
+  ages, SSKD is directly inspired by and leverage the pre-              needs to re-train the teacher model with modified archi-
+  text task in self-supervised learning [11]. In contrast, our          tecture over the pretext task. The auxiliary classifiers
+  method is pretext-task-free. Instead, VRM is motivated                also introduce extra parameters. In contrast, the proposed
+  by transformation invariance regularisation which was                 VRM does not involve these additional procedural, pa-
+  originally popularised in semi-supervised learning [3, 37]            rameter, and computational costs.
+  and domain adaptation [4].
+                                                                      • Nature of matching objectives: By matching the pre-
+• Training formulation: A direct consequence of the point               dictions made by a set of auxiliary classifiers between
+  above is that SSKD’s teacher first needs to be re-trained             teacher and student for each sample (as well as match-
+  with additional augmentations (which also causes SSKD                 ing the final predicted probability distributions between
+  to use teachers of higher accuracy than ours), followed               teacher and student), HSAKD is fundamentally a instance
+  by a separate fine-tuning stage for the pretext task. These           matching approach, whereas VRM transfers purely rela-
+  lead to significantly more procedures and computations,               tional knowledge. Moreover, HSAKD employs symmet-
+  whereas VRM is entirely free of such palaver.                         ric matching, which means the matching between teacher
+• Nature of matching objectives: SSKD is essentially a                  and student auxiliary predictions are for the same view of
+  hybrid method that employs both relation matching and                 the input samples. By contrast, VRM exploits the rela-
+  instance-to-instance matching objectives, whereas VRM                 tions across asymmetric real and virtual views with dif-
+  is purely relation-based method. In other words, SSKD                 ferent difficulties.
+  relies on IM to achieve competitive performance, while              • Design choices: HSAKD also differs from the proposed
+  VRM involves purely relation-based objectives.                        VRM in terms of specific designs made. For exam-
+• Design choices: The designs of both methods are vastly                ple, HSAKD adopts rotation to construct its pretext task,
+  different, including but not limited to the formulation of            whereas VRM utilises RandAugment policies. HSAKD
+  relations and the choices of augmentation policies, rela-             also relies on the use of the instance-wise logit match-
+  tion distance metrics, and model outputs used for com-                ing loss from vanilla KD [27] to reach competitive per-
+  puting relations.                                                     formance, whereas VRM does not use any instance-
+   HSAKD is another method that makes use of self-                      matching KD objective and still achieves much more su-
+supervised learning and transformed views of input images.              perior performance.
+                 (a) KD                                      (b) RKD                                       (c) PKT
+
+
+
+
+                 (d) SP                                      (e) ICKD                                      (f) DIST
+
+
+
+
+                (g) DKD                                     (h) MLLD                                       (i) VRM
+
+              Figure 10. More visualisations of teacher-student prediction discrepancy maps for different KD methods.
+
+
+More teacher-student discrepancy maps visualisations.               More loss landscape visualisations. Fig. 12 provides
+Fig. 10, we provide more visualisations of the class-wise           more visualisations of loss landscape for different KD meth-
+prediction discrepancy between teacher and student models           ods (ResNet32×4→ResNet8×4 on CIFAR-100).
+for different KD methods (ResNet32×4 → ResNet8×4 on
+CIFAR-100).
+
+
+More t-SNE visualisations. In Fig. 11, we further show-
+case the t-SNE visualisations of embeddings learnt by
+more KD methods as well as those by the teacher model
+(ResNet32×4→ResNet8×4 on CIFAR-100).
+ (a) KD                                          (b) RKD                                           (c) PKT
+
+
+
+
+  (d) SP                                         (e) ICKD                                         (f) DIST
+
+
+
+
+(g) FitNets                                       (h) DKD                                         (i) MLLD
+
+
+
+
+(j) LSKD                                         (k) VRM                                         (l) Teacher
+
+              Figure 11. More t-SNE visualisations of features learnt by different KD methods.
+                                                      175       150                                                                                      200                                                                       350
+                                                      150                                                                                                                                                                         300       250
+                                                      125                                                                                                150        150                                                           250
+                                                      100       100                                                                                                                                                               200       200
+                                                      75                                                                                                 100        100                                                           150
+                                                      50                                                                                                                                                                          100       150
+                                                                                                                                                         50
+                                                      25        50                                                                                                                                                                50        100
+                                                                                                                                                                    50
+                                                                                                                                                                                                                                            50
+                                                    1.0                                                                                                1.0                                                                      1.0
+                                              0.5                                                                                                0.5                                                                      0.5
+1.0                                     0.0                                 1.0                                                            0.0                            1.0                                       0.0
+      0.5                                                                           0.5                                                                                         0.5
+            0.0                      0.5                                                      0.0                                       0.5                                           0.0                        0.5
+                  0.5          1.0                                                                        0.5                     1.0                                                       0.5            1.0
+                        1.0                                                                                           1.0                                                                           1.0
+                        (a) KD                                                                                   (b) RKD                                                                           (c) PKT
+
+
+
+                                                          100   80                                                                                     120     100                                                                250
+                                                           80                                                                                          100                                                                                  200
+                                                                60                                                                                             80                                                                 200
+                                                          60                                                                                           80                                                                                   150
+                                                                                                                                                       60                                                                         150
+                                                          40                                                                                                   60
+                                                                40                                                                                     40                                                                         100
+                                                          20                                                                                                                                                                                100
+                                                                                                                                                       20      40                                                                 50
+                                                                20                                                                                             20                                                                           50
+                                                    1.0                                                                                          1.0                                                                            1.0
+                                              0.5                                                                                          0.5                                                                            0.5
+1.0                                     0.0                           1.0                                                            0.0                                  1.0                                       0.0
+      0.5                                                                         0.5                                                                                           0.5
+            0.0                      0.5                                                0.0                                       0.5                                                 0.0                        0.5
+                  0.5          1.0                                                                  0.5                     1.0                                                             0.5            1.0
+                         1.0                                                                                    1.0                                                                                 1.0
+                         (d) SP                                                                             (e) ICKD                                                                               (f) DIST
+
+
+
+
+                                                           60   50                                                                                 200         150                                                                      8
+                                                           50                                                                                                                                                                                8
+                                                                40                                                                                 150                                                                                 6
+                                                          40                                                                                                                                                                                 6
+                                                          30                                                                                       100         100                                                                     4
+                                                                30
+                                                          20                                                                                                                                                                           2     4
+                                                          10    20                                                                                 50
+                                                                                                                                                               50
+                                                                10                                                                                                                                                                           2
+                                                    1.0                                                                                          1.0                                                                             1.0
+                                              0.5                                                                                          0.5                                                                             0.5
+1.0                                     0.0                           1.0                                                            0.0                                  1.0                                        0.0
+      0.5                                                                     0.5                                                                                               0.5
+            0.0                      0.5                                                0.0                                       0.5                                                 0.0                         0.5
+                  0.5          1.0                                                                  0.5                     1.0                                                             0.5             1.0
+                         1.0                                                                                    1.0                                                                                  1.0
+                        (g) DKD                                                                            (h) VRM                                                                                (i) Teacher
+
+
+                                                     Figure 12. More loss landscape visualisations of different KD methods.
+

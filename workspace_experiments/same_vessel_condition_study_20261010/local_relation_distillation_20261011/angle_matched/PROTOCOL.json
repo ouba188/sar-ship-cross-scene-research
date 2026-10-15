@@ -1,0 +1,25 @@
+{
+  "seeds": [
+    31415,
+    27182
+  ],
+  "arms": [
+    "full_matched",
+    "local_matched",
+    "other_matched",
+    "local_all"
+  ],
+  "steps": 400,
+  "cap": 2.0,
+  "purpose": "Test task-anchored selective teaching before modifying a content encoder. Does same-vessel correspondence add to matched same-class information?",
+  "matching": "Only source-fit data. Prefer same teacher-product/same-port different-vessel same-class, now exclude known angle gaps>2deg even within a scene; otherwise same-port/platform/pass observed and incidence within2deg. Exact-scene unknown angles remain unknown. Exclude anchor vessel and anchor whole product. Deterministic metadata-only matching, no scores for donor selection.",
+  "revision": "Initial complete run retained in parent directory. Match audit exposed same-scene known incidence gaps up to13.573deg. This repair was decided from metadata before reading its target summary. local_all does not depend on matching and is reused exactly;6 matched-arm fits are new.",
+  "controls": "full_matched/local_matched/other_matched share matched source anchor cohort, paired donor counts, all1296 supervised training rows, seeds/batches/capacity. local_all keeps original full same-vessel teaching cohort. Original full_all/supervised/self_teacher reused separately.",
+  "positive_support": "Matched anchor eligibility intersects positive-relation availability for BOTH teacher types and BOTH seeds. Each teacher recomputes its own positive edges; local loss averages per positive edge within image, then eligible images. Not a shared same-vessel edge mask.",
+  "auxiliary": "Full:centered8score MSE. Local: true-vs-each-rival positive teacher margins capped2 (one-vs-all target margin), squared one-sided shortfall; do not pull a larger student margin down. No handpicked class pairs.",
+  "scale": "Source-only initial per-image logit-gradient RMS normalized to same-vessel fullMSE on same cohort; .5 outer coefficient. Matches initial magnitude only, not full optimization dynamics.",
+  "model": "Original frozen512 features and B additive condition correction; unchanged feature kernel, same33352param512-64-8 zero-init bounded residual prior. New module not a purified content encoder.",
+  "selection": "Source new-ship299/new-time149 meanBA every20steps earliest best including0; source-test823 and target queries not used.",
+  "deployment": "Single image; original64 target labels and balancedridge8,3ports x3draws. No extra target metadata/identity/multi-view access.",
+  "boundary": "Reused development data; conditional matching does not equal randomized intervention; sample-level matching cannot eliminate unmeasured confounding."
+}

@@ -1,0 +1,14 @@
+{
+  "scope": "Source-only raw delta prediction; no target query access or neural training.",
+  "weighting": "Equal represented classes, equal MMSIs within class, equal directed pairs within MMSI; reweighted within each reported slice.",
+  "independence": "Reverse pairs and repeated endpoints are dependent. Counts include undirected pairs and unique MMSIs; no pair-level confidence intervals or bootstrap.",
+  "metric": "Explained percent = 100*(1-weighted squared prediction error/weighted squared actual delta). Uncentered energy, not classification accuracy or causal variance explained.",
+  "projection": "Actual delta projected onto each predicted unit direction. Zero prediction has no direction, projection is recorded as zero and its full error is orthogonal by convention.",
+  "amplitude": "Weighted dot(actual,predicted)/weighted norm(predicted)^2. Descriptive only; never used to tune a coefficient or select an arm.",
+  "scene_seen": "Both products occur in the corresponding base encoder fitting IDs; cohort remains identity-held where labelled heldraw.",
+  "lopo": "Only response coefficients exclude the held port. Frozen base encoder, whitening and class context are NOT leave-port-out.",
+  "near_angle": "Near-angle and >=2-degree results are separate; aggregate gains can reflect near-zero responses or a no-condition intercept.",
+  "fitting": "Response-only LOPO calls main fit_response with fixed ridge and within-cell angle shuffle; no duplicated estimator, neural training, or tuning.",
+  "sham": "All main pair_prediction_metrics, including sourcefit, use real angles. Separate sham_training_objective reports the actual shuffled-angle training objective.",
+  "seed_summary": "Per-seed and per-base-model results retained; no cross-fold mixing of native representation axes."
+}

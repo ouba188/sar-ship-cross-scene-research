@@ -1,0 +1,15 @@
+{
+  "neural_fits": 0,
+  "target_data_used": false,
+  "seeds": [
+    31415,
+    27182
+  ],
+  "fit": "Cached native ship-fold OOF teacher scores on original source fit ships.",
+  "held": "Cached FULL source teacher on disjoint held vessels; historically reused diagnostic cohort.",
+  "operators": "Boundednear/far on log1p SOG gap/log6; confidence1+topgap/(1+topgap); hardselectors diagnostic, not tuning.",
+  "mass": "Knowneligible donor total mass unchanged; all others retain equal mass. Focal wholeproduct excluded.",
+  "oracle": "True-label best margin among baseline and selecting one eligible donor; diagnostic only, not deployable or a student-gain bound.",
+  "matched": "Additional same-port and incidence difference<=2deg eligible pools; availability limitations reported.",
+  "limitation": "Better teacher quality does not guarantee better student recognition; no new deployed model or causal identification."
+}

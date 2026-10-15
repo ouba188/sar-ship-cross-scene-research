@@ -1,0 +1,14 @@
+{
+  "primary": "Source-only paired incidence association and model-space intervention; not identification of physical causal factors.",
+  "source_fit": 1296,
+  "source_held": 823,
+  "fit_pairs": 384,
+  "held_pairs": 189,
+  "match": "Same MMSI, port, platform, orbit; distinct products, sorted acquisition time. Missing fields excluded. Relative-angle<=10deg sensitivity reported, not silently treated as matched.",
+  "estimator": "No-intercept delta_vector=(delta_incidence/5)*slope; equal vessel weight; ridge .05 times scalar design energy. No class-specific coefficients or label use in slope fit.",
+  "validation": "Identity-held source pairs, additionally both-scene-unseen subset and leave-held-port-out response estimates. Frozen factor encoder is NOT held-port-out, explicitly a weaker transfer test.",
+  "intervention": "Each real pair mapped to its midpoint incidence by equal/opposite predicted shifts. Paired mechanistic diagnostic, not a deployable single-chip algorithm or new rendered SAR observation.",
+  "controls": "Original no-intervention; 20 predetermined equal-norm random directions; projected angular variation versus full vector error. No best-random selection.",
+  "uncertainty": "400 vessel bootstrap descriptive intervals; shared scenes and repeated development remain. No target evaluation, no target labels, no new backbone training.",
+  "scope": "B anchor condition branch and stable branch frozen at both seeds; original rawR18 h classifier and original B gate. Only side folder writes."
+}

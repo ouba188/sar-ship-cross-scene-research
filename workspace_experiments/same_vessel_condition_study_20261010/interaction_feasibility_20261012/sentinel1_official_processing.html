@@ -1,0 +1,3135 @@
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+<!DOCTYPE html>
+<html
+	lang="en"
+	data-page-template="article"
+	
+ data-page-id="ci_d1c0ad11e9e0097cb73d04a65b270a76b83176f518e966827527b80c17d70321" data-confluence-content-id="1673372"
+		data-color-scheme="light"
+>
+<head>
+	<meta charset="UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<meta name="color-scheme" content="light">
+
+						<link id="pageTreeSource" rel="preload" href="/web/__pagetree.json" as="fetch" type="application/json" crossorigin="anonymous">
+
+		<meta name="site-path" content="/">
+
+					<link rel="x-site-path" href="/">
+	<link rel="x-root-path" href="/">
+
+	<meta name="site-default-language" content="en">
+		<meta name="site-languages" content="en">
+		<meta name="confluence-content-type" content="page">
+		<meta name="confluence-base-url" content="https://sentiwiki.atlassian.net/wiki">
+		<meta name="confluence-space-key" content="CSWK">
+
+
+
+
+	<link rel="icon" href="/__site/221041cd-2147-445f-83f7-7d08d954cd1d/ESA_logo_simple.svg.png" type="image/svg+xml">
+
+
+
+
+
+
+
+
+
+
+
+		<title>S1 Processing | SentiWiki</title>
+		<meta property="og:title" content="S1 Processing | SentiWiki">
+		<meta property="twitter:title" content="S1 Processing | SentiWiki">
+
+		<link rel="canonical" href="https://sentiwiki.copernicus.eu/web/s1-processing">
+		<meta property="og:url" content="https://sentiwiki.copernicus.eu/web/s1-processing">
+
+		<meta name="description" content="This page deepens the information regarding the Sentinel-1 production’s logic and algorithms and it’s targeted to all expert users looking for more details and…">
+		<meta property="og:description" content="This page deepens the information regarding the Sentinel-1 production’s logic and algorithms and it’s targeted to all expert users looking for more details and…">
+		<meta property="twitter:description" content="This page deepens the information regarding the Sentinel-1 production’s logic and algorithms and it’s targeted to all expert users looking for more details and…">
+
+		<meta property="og:image" content="https://sentiwiki.copernicus.eu/__attachments/a_f9c33ab750b4b9bfceb433c93a7fec6ed4c6363819fe4f6d1bf5c8b670b4eee0/image-20231026-142735.png?cb=0db0219c95c83d65c106c9275e0bf1c4">
+		<meta property="twitter:image" content="https://sentiwiki.copernicus.eu/__attachments/a_f9c33ab750b4b9bfceb433c93a7fec6ed4c6363819fe4f6d1bf5c8b670b4eee0/image-20231026-142735.png?cb=0db0219c95c83d65c106c9275e0bf1c4">
+
+	<meta property="og:type" content="website">
+	<meta property="twitter:card" content="summary_large_image">
+
+		<meta name="page-last-modified" content="2026-10-05T15:31:17.446Z">
+
+		<script>
+		(function () {
+			const defaultLanguageMeta = /** @type {string|undefined} */(document.querySelector('meta[name="site-default-language"]')?.content);
+			const availableLanguagesMeta = /** @type {string|undefined} */(document.querySelector('meta[name="site-languages"]')?.content);
+			const fallbackLanguage = defaultLanguageMeta ?? 'en';
+			const supportedLanguagesFromMeta = availableLanguagesMeta?.split(',') ?? [];
+			const supportedLanguages = [...new Set([fallbackLanguage, ...supportedLanguagesFromMeta])].filter(Boolean);
+			const detectedLanguage = new URLSearchParams(self.location.search).get('l') || document.documentElement.lang;
+			const resolvedLanguage = supportedLanguages.includes(detectedLanguage) ? detectedLanguage : fallbackLanguage;
+			document.documentElement.lang = resolvedLanguage;
+			const sheet = new CSSStyleSheet();
+			document.adoptedStyleSheets.push(sheet);
+			// Hide any element with a `data-lang` attribute that does NOT match the detected language
+			sheet.replaceSync('[data-lang]:not([data-lang="' + resolvedLanguage + '"]) { display: none; }');
+		})();
+	</script>
+
+		<script>
+		(function() {
+			/** @typedef {'light'|'dark'} ColorScheme */
+			/** @type {ColorScheme[]} */
+			const availableColorSchemes = document.documentElement.querySelector('meta[name="color-scheme"]').content.split(' ').filter(Boolean);
+			/** @type {ColorScheme|'system'} */
+			const userPreference = localStorage?.getItem('color-scheme-preference') ?? 'system';
+			// Clean-up user preference in case there's nothing to choose from
+			// Fall back to the HTML document's default color theme
+			if (availableColorSchemes.length <= 1 || ![...availableColorSchemes, 'system'].includes(userPreference)) {
+				localStorage?.removeItem('color-scheme-preference');
+				return;
+			}
+			// Override default HTML document with client-side user preference
+			if (userPreference === 'system') {
+				updateThemeAttribute(self.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+			} else {
+				updateThemeAttribute(userPreference)
+			}
+			/** @param {ColorScheme} colorScheme */
+			function updateThemeAttribute(colorScheme) {
+				document.documentElement.setAttribute('data-color-scheme', colorScheme);
+			}
+		})();
+	</script>
+
+		<script>
+		
+		function sortContentSources(a, b) {
+			let result = a.precedence - b.precedence;
+
+			if (result === 0) {
+				result = a.value.localeCompare(b.value);
+			}
+
+			return result;
+		}
+
+		
+		function applyContentSourceOrderToElements({ parent, children }) {
+			const contentSourceElements = [...children];
+
+			contentSourceElements
+				.sort((a, b) => (
+					sortContentSources(
+						{ value: a.dataset.orderValue, precedence: a.dataset.orderPrecedence },
+						{ value: b.dataset.orderValue, precedence: b.dataset.orderPrecedence }
+					)
+				))
+				.forEach((element) => {
+					delete element.dataset.orderValue;
+					delete element.dataset.orderPrecedence;
+				});
+
+			parent.replaceChildren(...contentSourceElements);
+		}
+	</script>
+
+<script>
+	(() => {
+		if (isInAppHelpEnabled()) {
+			document.documentElement.dataset.inAppHelp = 'true';
+
+			if (isTitleHidden()) {
+				document.documentElement.dataset.hideTitle = 'true';
+			}
+		}
+
+		function isInAppHelpEnabled() {
+			return new URLSearchParams(location.search).get('inAppHelp') === 'true';
+		}
+
+		function isTitleHidden() {
+			return new URLSearchParams(location.search).get('title') === 'false';
+		}
+	})();
+</script>
+
+<link rel="stylesheet" href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/in-app-help.css"/>
+<script type="module" src="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/in-app-help.js"></script>
+
+	<link rel="stylesheet" href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/styles.css">
+	<link rel="stylesheet" href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/fonts.css">
+	<link rel="stylesheet" href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/search-styles-bundle.css">
+
+
+	<style>
+		@layer overrides {
+			:root {
+				--theme-headline-font: "Roboto";
+				--theme-text-font: "Roboto";
+				--theme-headline-scale: calc(100 / 100);
+				--theme-text-scale: calc(100 / 100);
+			}
+		}
+	</style>
+
+	<style>
+		@layer overrides {
+			:root, :host {
+					--theme-header-logo-size: 40px;
+					--theme-footer-logo-size: 40px;
+			}
+
+			:root[data-color-scheme='light'],
+			:host([data-color-scheme='light']) {
+					--theme-header-text-color: #FFFFFF;
+					--theme-header-background-color: #0d284f;
+					--theme-footer-text-color: #FFF;
+					--theme-footer-background-color: #0d284f;
+			}
+
+			:root[data-color-scheme='dark'],
+			:host([data-color-scheme='dark']) {
+					--theme-header-text-color: #FFFFFF;
+					--theme-header-background-color: #0a0b0c;
+					--theme-footer-text-color: #FFFFFF;
+					--theme-footer-background-color: #0a0b0c;
+			}
+		}
+	</style>
+
+	 
+
+
+
+
+
+<script data-site-data="content-sources" type="application/json">
+{
+	"collection": {
+		"members": [
+
+
+	{
+	"name": "SentiWiki",
+	"id": "92625472-4650-4eae-857c-0f249472e91f",
+	"key": "CSWK",
+	"path": "/web",
+		"prefix": "/web",
+		"current": true,
+	"versions": {
+		"available": [
+		]
+	},
+	"variants": {
+		"available": [
+		]
+	},
+	"languages": {
+		"available": [
+		]
+	}
+}
+
+		]
+	}
+}
+</script>
+
+
+<script data-theme-placeholder="site" type="application/json">
+	{
+		"id": "131812fa-6c98-411c-8c5a-8623a325fb95",
+		"path": "/",
+		"url": "/",
+		"domain": "sentiwiki.copernicus.eu",
+		"aiSearchEnabled": false,
+		"visibleToSearchEngines": true,
+		"isProtectionEnabled": false,
+		"isPublished": true
+	}
+</script>
+ 
+<script data-config="cookieconsent" type="application/json">
+{
+	"enabled": true,
+	"mode": "opt-in",
+	"heading": "Cookie Notice",
+	"description": "We use cookies which are essential for you to access our website and to provide you with our services and allow us to measure and improve the performance of our website.",
+	"links": [
+	]
+}
+</script>
+
+	<script type="module" src="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/main.js"></script>
+	<script type="module" src="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/page-tree.js" fetchpriority="high"></script>
+	<script type="module" src="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/search-bundle.js"></script>
+
+							<script type="module" src="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/article.js"></script>
+
+		<link rel="stylesheet" href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/ai-actions.css">
+		<script type="module" src="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/ai-actions.js"></script>
+
+
+
+
+
+
+<template data-custom-overrides data-type="code-asset">
+	<link rel="stylesheet" href="/__site/76712f91-90a6-4142-b1a8-fae39cb188f2/code_custom_css_override_asset.css">
+</template>
+
+<template data-custom-overrides data-type="code-asset">
+				<script data-cfasync="false" src="/__site/5f705acf-5afa-46fe-8d05-33fd919c186a/code_custom_js_override_asset.js"></script>
+</template>
+
+<script data-cfasync="false">
+	(() => {
+		if (new URLSearchParams(location.search).has('disable-custom-overrides')) {
+			return;
+		}
+
+		document.querySelectorAll('[data-custom-overrides]').forEach(template => {
+			const type = template.getAttribute('data-type');
+
+			if (type === 'code-asset') {
+				const assetElement = template.content.cloneNode(true).firstElementChild;
+				const appendAsset = () => document.head.appendChild(assetElement);
+
+				if (assetElement.tagName === 'SCRIPT') {
+															if (document.readyState === 'complete') {
+						appendAsset();
+					} else {
+												document.addEventListener('DOMContentLoaded', appendAsset, { once: true });
+					}
+				} else {
+					appendAsset();
+				}
+			}
+		});
+	})();
+</script>
+
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+			</head>
+<body>
+	<a href="#content" class="skip-link">
+		<i18n-message i18nkey="navigation.skip.to.main.label">Skip to main content</i18n-message>
+	</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+<header data-component="header" class="header">
+
+	<div class="header-site-branding">
+		<i18n-message id="6807d3e7c54d40a9-2" class="sr-only" i18nkey="header.home.label"></i18n-message>
+
+		<a href="/" aria-labelledby="6807d3e7c54d40a9-2">
+
+
+
+
+		<img class="header-logo header-logo--dark" src="/__site/daf22bbc-3283-4247-8d4c-43dcc8aa2152/esa-brand-dark-transparent.png" alt="">
+
+		<img class="header-logo header-logo--light" src="/__site/daf22bbc-3283-4247-8d4c-43dcc8aa2152/esa-brand-dark-transparent.png" alt="">
+
+		</a>
+
+	</div>
+	<div class="header-content">
+			<div class="header-links">
+				<ul>
+						<li><a href="https://sentiwiki.copernicus.eu">SentiWiki</a></li>
+				</ul>
+			</div>
+
+		<div class="header-pickers">
+
+		</div>
+
+			<div class="header-search">
+				<search-bar quicksearch></search-bar>
+			</div>
+
+
+				<button type="button" aria-controls="drawer-6807d3e7c54d40a9-1" aria-haspopup="dialog" aria-expanded="false" class="header-nav-toggle" onclick="self['drawer-6807d3e7c54d40a9-1'].showModal()">
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-menu ">
+		<use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#menu"></use>
+	</svg>
+			<i18n-message class="sr-only" i18nkey="navigation.main.label">Main navigation</i18n-message>
+		</button>
+	</div>
+
+	
+
+<dialog id="drawer-6807d3e7c54d40a9-1" class="drawer">
+	<header data-component="header" class="header">
+
+	<div class="header-site-branding">
+		<i18n-message id="6807d3e7c54d40a9-3" class="sr-only" i18nkey="header.home.label"></i18n-message>
+
+		<a href="/" aria-labelledby="6807d3e7c54d40a9-3">
+
+
+
+
+		<img class="header-logo header-logo--dark" src="/__site/daf22bbc-3283-4247-8d4c-43dcc8aa2152/esa-brand-dark-transparent.png" alt="">
+
+		<img class="header-logo header-logo--light" src="/__site/daf22bbc-3283-4247-8d4c-43dcc8aa2152/esa-brand-dark-transparent.png" alt="">
+
+		</a>
+
+	</div>
+
+		<div class="header-content">
+			<button type="button" aria-controls="drawer-6807d3e7c54d40a9-1" aria-haspopup="dialog" aria-expanded="true" autofocus class="drawer-toggle" onclick="self['drawer-6807d3e7c54d40a9-1'].close()">
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-close ">
+		<use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#close"></use>
+	</svg>
+				<i18n-message class="sr-only" i18nkey="navigation.close.label">Close navigation</i18n-message>
+			</button>
+		</div>
+	</header>
+
+	<div class="drawer-section drawer-search">
+		<search-bar quicksearch></search-bar>
+	</div>
+
+
+	<nav id="drawer-nav" class="drawer-section drawer-nav tree" aria-labelledby="drawer-nav-label">
+		<i18n-message id="drawer-nav-label" class="sr-only" i18nkey="navigation.main.label">Main</i18n-message>
+
+						<copy-page-tree target="articleTree"></copy-page-tree>
+	</nav>
+
+			<div class="drawer-section drawer-links tree">
+<ul  >
+		<li class="tree-item">
+			<div class="tree-item-header">
+				<a id="6807d3e7c54d40a9-4" href="https://sentiwiki.copernicus.eu" >SentiWiki</a>
+			</div>
+
+		</li>
+</ul>
+		</div>
+</dialog>
+
+</header>
+		<section class="article-page body">
+		<theme-navigator class="navigator">
+			<button id="navigator-toggle" class="navigator-toggle" aria-controls="navigator-nav" aria-labelledby="navigator-nav-label" aria-expanded="true">
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-menu navigator-icon-closed">
+		<use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#menu"></use>
+	</svg>
+	<svg role="img" aria-hidden="true" data-component="icon" class="icon icon-chevron_left navigator-icon-opened">
+		<use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#chevron_left"></use>
+	</svg>
+			</button>
+						<nav id="navigator-nav" class="navigator-body tree" aria-labelledby="navigator-nav-label">
+				<i18n-message id="navigator-nav-label" class="sr-only" i18nkey="navigation.main.label">Main</i18n-message>
+				<theme-page-tree id="articleTree">
+<ul  >
+		<li class="tree-item">
+			<div class="tree-item-header">
+				<a id="6807d3e7c54d40a9-5" href="/web/sentiwiki" >SentiWiki</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+					<button
+						class="tree-action"
+						type="button"
+						aria-expanded="false"
+						aria-labelledby="6807d3e7c54d40a9-6"
+aria-busy="true" aria-disabled="true"					></button>
+				<a id="6807d3e7c54d40a9-6" href="/web/copernicus-programme" >Copernicus Programme</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+					<button
+						class="tree-action"
+						type="button"
+						aria-expanded="false"
+						aria-labelledby="6807d3e7c54d40a9-8"
+aria-busy="true" aria-disabled="true"					></button>
+				<a id="6807d3e7c54d40a9-8" href="/web/copernicus-applications" >Copernicus Applications</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+					<button
+						class="tree-action"
+						type="button"
+						aria-expanded="true"
+aria-controls="6807d3e7c54d40a9-11"						aria-labelledby="6807d3e7c54d40a9-10"
+					></button>
+				<a id="6807d3e7c54d40a9-10" href="/web/satellite-missions" >Satellite Missions</a>
+			</div>
+
+<ul  id="6807d3e7c54d40a9-11" >
+		<li class="tree-item">
+			<div class="tree-item-header">
+					<button
+						class="tree-action"
+						type="button"
+						aria-expanded="true"
+aria-controls="6807d3e7c54d40a9-13"						aria-labelledby="6807d3e7c54d40a9-12"
+					></button>
+				<a id="6807d3e7c54d40a9-12" href="/web/sentinel-1" >Sentinel-1</a>
+			</div>
+
+<ul  id="6807d3e7c54d40a9-13" >
+		<li class="tree-item">
+			<div class="tree-item-header">
+				<a id="6807d3e7c54d40a9-14" href="/web/s1-mission" >S1 Mission</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+				<a id="6807d3e7c54d40a9-15" href="/web/s1-applications" >S1 Applications</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+				<a id="6807d3e7c54d40a9-16" href="/web/s1-products" >S1 Products</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+				<a id="6807d3e7c54d40a9-17" href="/web/s1-processing" aria-current="page">S1 Processing</a>
+			</div>
+
+		</li>
+</ul>
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+					<button
+						class="tree-action"
+						type="button"
+						aria-expanded="false"
+						aria-labelledby="6807d3e7c54d40a9-18"
+aria-busy="true" aria-disabled="true"					></button>
+				<a id="6807d3e7c54d40a9-18" href="/web/sentinel-2" >Sentinel-2</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+					<button
+						class="tree-action"
+						type="button"
+						aria-expanded="false"
+						aria-labelledby="6807d3e7c54d40a9-20"
+aria-busy="true" aria-disabled="true"					></button>
+				<a id="6807d3e7c54d40a9-20" href="/web/sentinel-3" >Sentinel-3</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+					<button
+						class="tree-action"
+						type="button"
+						aria-expanded="false"
+						aria-labelledby="6807d3e7c54d40a9-22"
+aria-busy="true" aria-disabled="true"					></button>
+				<a id="6807d3e7c54d40a9-22" href="/web/sentinel-5p" >Sentinel-5P</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+					<button
+						class="tree-action"
+						type="button"
+						aria-expanded="false"
+						aria-labelledby="6807d3e7c54d40a9-24"
+aria-busy="true" aria-disabled="true"					></button>
+				<a id="6807d3e7c54d40a9-24" href="/web/future-missions" >Future Missions</a>
+			</div>
+
+		</li>
+</ul>
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+					<button
+						class="tree-action"
+						type="button"
+						aria-expanded="false"
+						aria-labelledby="6807d3e7c54d40a9-26"
+aria-busy="true" aria-disabled="true"					></button>
+				<a id="6807d3e7c54d40a9-26" href="/web/copernicus-operations" >Copernicus Operations</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+					<button
+						class="tree-action"
+						type="button"
+						aria-expanded="false"
+						aria-labelledby="6807d3e7c54d40a9-28"
+aria-busy="true" aria-disabled="true"					></button>
+				<a id="6807d3e7c54d40a9-28" href="/web/general-information" >General Information</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+					<button
+						class="tree-action"
+						type="button"
+						aria-expanded="false"
+						aria-labelledby="6807d3e7c54d40a9-30"
+aria-busy="true" aria-disabled="true"					></button>
+				<a id="6807d3e7c54d40a9-30" href="/web/document-library" >Document Library</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+				<a id="6807d3e7c54d40a9-32" href="/web/ask-copernicus-ai-data-guide" >Ask Copernicus - AI data guide</a>
+			</div>
+
+		</li>
+		<li class="tree-item">
+			<div class="tree-item-header">
+				<a id="6807d3e7c54d40a9-33" href="/web/terms-and-conditions" >Terms and Conditions</a>
+			</div>
+
+		</li>
+</ul>
+				</theme-page-tree>
+			</nav>
+		</theme-navigator>
+
+		<main class="main-content">
+			<div class="topbar">
+
+
+
+
+	<theme-breadcrumbs class="breadcrumbs" >
+		<i18n-message id="6807d3e7c54d40a9-34" class="sr-only" i18nkey="breadcrumbs.label">Breadcrumbs</i18n-message>
+		<nav aria-labelledby="6807d3e7c54d40a9-34">
+				<ol>
+														<li>
+								<a href="/web/satellite-missions">
+										Satellite Missions
+								</a>
+							</li>
+							<li>
+								<a href="/web/sentinel-1">
+										Sentinel-1
+								</a>
+							</li>
+				</ol>
+		</nav>
+	</theme-breadcrumbs>
+					<ai-actions class="ai-actions"><theme-dropdown></theme-dropdown></ai-actions>
+			</div>
+				<script src="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/breadcrumbs.js"></script>
+		<nav class="toc sticky" data-component="toc" aria-labelledby="6807d3e7c54d40a9-35">
+			<h2 class="toc-heading" id="6807d3e7c54d40a9-35">
+				<i18n-message i18nkey="page.article.toc.label">On this Page</i18n-message>
+			</h2>
+			<theme-toc for="content"></theme-toc>
+		</nav>
+			<article id="content" tabindex="-1" class="fb-layout-container">
+				<header>
+					<h1>S1 Processing</h1>
+				</header>
+				<section class="article-body fb-layout-body" data-searchable-content>
+			
+
+	
+	
+
+	
+	
+
+	
+	
+
+	
+	
+
+	
+	
+
+	
+	
+
+	
+
+	
+	
+
+
+	
+	
+	
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+		
+	
+	
+	
+	
+	
+	
+	
+
+	
+		
+		
+	
+	
+	
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+						
+		
+
+
+				
+
+
+	
+	
+	
+	
+	
+	<p>This page deepens the information regarding the Sentinel-1 production’s logic and algorithms and it’s targeted to all expert users looking for more details and explanation on product generation. As complementary information to the processing chain and useful for the user who needs to perform interferometry, the final paragraph hosts the Sentinel-1 Precise Orbit Determination products' specifications needed for Sentinel-1 data processing.</p>
+<h2 id="Processing-Baseline" style=""><span id="S1Processing-ProcessingBaseline"></span>Processing Baseline<span id="S1-Processing-Processing-Baseline"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Processing-Baseline">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h2>
+<h3 id="L0-Processing-Baseline" style=""><span id="S1Processing-L0ProcessingBaseline"></span>L0 Processing Baseline<span id="S1-Processing-L0-Processing-Baseline"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#L0-Processing-Baseline">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>The Sentinel-1 L0 (L0ASP and AIOP) processors history is referred to the packages delivered to reference system.</p>
+<p>For the full list of processors' releases, please refer to the <a href="https://operations.dashboard.copernicus.eu/processors-viewer.html?search=S1" data-scope="external" rel="external noreferrer">SentiBoard Processors page</a>.</p>
+<h3 id="L1---L2-Processing-Baseline" style=""><span id="S1Processing-L1-L2ProcessingBaseline"></span>L1 - L2 Processing Baseline<span id="S1-Processing-L1---L2-Processing-Baseline"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#L1---L2-Processing-Baseline">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>The L1-L2 processing baseline is composed by the version of the processors, i.e., of L1 and L2 Instrument Processing Facilities (IPF)s, and by the version of the internal Auxiliary Data Files (ADF)s. Internal Auxiliary Data Files contain information on, e.g., processing parameters, instrument characteristics and system calibration. They might depend on the instrument configuration of an specific unit (ICID), which can change in time, resulting in various existing ADFs and hundreds of processing baselines.</p>
+<p>The Internal ADFs are described in the Auxiliary Data File Specification Document (see <a href="/web/document-library#Library-S1-PDS" data-scope="internal">Product Specification Documents</a>):</p>
+<ul>
+ <li>
+  <p>L1</p>
+  <ul>
+   <li>
+    <p>AUX_PP1: Main L1 processing parameters</p>
+   </li>
+   <li>
+    <p>AUX_CAL: Calibration Parameters</p>
+   </li>
+   <li>
+    <p>AUX_INS: Instrument Parameters (not available to the public)</p>
+   </li>
+  </ul>
+ </li>
+ <li>
+  <p>L2</p>
+  <ul>
+   <li>
+    <p>AUX_PP2: Main L2 processing parameters</p>
+   </li>
+   <li>
+    <p>AUX_SCS: Simulated cross-spectra</p>
+   </li>
+   <li>
+    <p>AUX_ML2: Machine Learning Models fo L2</p>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p>Recent ADFs are also available from the Copernicus Data Space Ecosystem (CDSE), and the full ADF archive will be progressively added to the CDSE.</p>
+<p>The history of the SAR L1-L2 IPFs since the beginning of S-1 operations is available on the SAR MPC website at the link below:</p>
+<p><a href="https://sar-mpc.eu/processor/ipf/" data-scope="external" rel="external noreferrer">https://sar-mpc.eu/processor/ipf/</a></p>
+<p>Note that processing results can also be impacted by changes in external resources either from external Auxiliary Data files (AUX_WND, AUX_WAV, AUX_ICE and POD orbits) or internal resources, e.g., DEM used for processing. A detailed description of resources used for processing can be found in the processor ATBDs (see <a href="/web/document-library#Library-S1-ATBD" data-scope="internal">Algorithm Technical Baseline Documentation</a>) and Auxiliary Data File Specification Document (see <a href="/web/document-library#Library-S1-PDS" data-scope="internal">Product Specification Documents</a>).</p>
+<h4 id="SETAP-Processing-Baseline" style=""><span id="S1Processing-SETAPProcessingBaseline"></span>SETAP Processing Baseline
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#SETAP-Processing-Baseline">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h4>
+<p>The Sentinel-1 ETAD Processor (SETAP) is responsible for the generation of ETAD products. The SETAP processing baseline is composed by the version of SETAP IPF and the version of internal Auxiliary Data Files (ADF)s. Internal Auxiliary Data Files contain information on processing parameters (<a href="https://sar-mpc.eu/adf/aux_scf/" data-scope="external" rel="external noreferrer">https://sar-mpc.eu/adf/aux_scf/</a> ) and timing calibration constants (<a href="https://sar-mpc.eu/adf/aux_itc/" data-scope="external" rel="external noreferrer">https://sar-mpc.eu/adf/aux_itc/</a>). Unlike L1/L2 ADFs, SETAP auxiliary files don’t depend on instrument configuration ID.</p>
+<p>The history of the SETAP processor since the beginning of its operations in 2023 is available on the SAR MPC website at the link below:</p>
+<p><a href="https://sar-mpc.eu/processor/setap/" data-scope="external" rel="external noreferrer">https://sar-mpc.eu/processor/setap/</a></p>
+<p>For the full list of processors' releases, please refer to the <a href="https://operations.dashboard.copernicus.eu/processors-viewer.html?search=S1" data-scope="external" rel="external noreferrer">SentiBoard Processors page</a>.</p>
+<h2 id="Product-Slicing-Handling" style=""><span id="S1Processing-ProductSlicingHandling"></span>Product Slicing Handling<span id="S1-Processing-Product-Slicing-Handling"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Product-Slicing-Handling">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h2>
+<p>Considering that the SAR instrument can operate up to 25 minutes per orbit in any of the three high-bit rate modes (SM, IW, EW), the Sentinel-1 products are segmented into slices of defined length along a track, to make data more manageable for users.&nbsp;</p>
+<p>Further, feeding sliced Level-0 data to the processing facility enables the ground segment to process slice data in parallel, resulting in more efficient use of resources and more timely product delivery and allowing to archive acceptable throughput.</p>
+<p>The Instrument Processing Facility (IPF) is able to generate a Level-1 product that covers the entire Level-0 segment or it can divide the Level-0 segment, in azimuth, into multiple slices.</p>
+<p>Level-1 products may be generated by the Sentinel-1 IPF using one of the following processing options:</p>
+<ul>
+ <li>
+  <p>Processing an L0 segment of data and generating a single L1 product that covers the segment.</p>
+ </li>
+ <li>
+  <p>Dividing the L0 segment of data to process into multiple slices (where slices are overlapping subsets, in the azimuth direction, of the full segment) and processing each slice separately. These slices are processed such that the multiple L1 slice products generated can be recombined into a single, continuous L1 product after all the slices have been processed. The rationale for the slicing scenario is to enable the processing of a segment of data in parallel to increase processor throughput for SM, IW and EW acquisition modes.</p>
+ </li>
+</ul>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 960px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_f9c33ab750b4b9bfceb433c93a7fec6ed4c6363819fe4f6d1bf5c8b670b4eee0/image-20231026-142735.png?cb=0db0219c95c83d65c106c9275e0bf1c4" alt="image-20231026-142735.png" data-scope="internal" width="4543" height="2889">
+   </div>
+   <figcaption>
+    <strong>Figure 1: Data splitting for slicing scenario</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>From each Level-0 segment, all Level-1 slices are generated using the same set of processing parameters. The image data is continuous in terms of geometry, radiometry and phase, and the annotations are coherent in terms of update rate and grid spacing.</p>
+<p>The amount of black-fill at near and far range of the Level-1 image can vary with the segment length. The longer the segment the more black-fill is potentially needed.</p>
+<p>Slice products can be combined to form an assembled Level-1 product with the same product characteristics covering the complete segment. Assembly is performed following the three strategies of Include, Merge and Concatenate.</p>
+<ul>
+ <li>
+  <p>Include - the value of the information is identical for all slices and a single occurrence of the value is copied into the assembled product.</p>
+ </li>
+ <li>
+  <p>Merge - the value of the information may differ between slices and a single value must be amalgamated into the assembled product using the values from all slices. This can be accomplished by means of averaging, majority polling, summing, etc.</p>
+ </li>
+ <li>
+  <p>Concatenate - the information is stored in list format and the values from each slice are appended to the appropriate list in the assembled product in Zero Doppler Time (ZDT) ordered sequence and the list count attribute is updated to contain the number of items in the concatenated list. This applies to both binary image data and XML lists.</p>
+ </li>
+</ul>
+<p>Level-2 products may be generated from a Level-1 product covering a segment of data (non slicing scenario). In this case, the products correspond to the segment and are called Level-2 individual scene products.</p>
+<p>Level-2 products may also be generated from an L1 slice product that covers a single slice (slicing scenario before concatenation of L1 slices was performed). In this case, Level-2 products correspond to a single slice and are called Level-2 slice products.</p>
+<p>Fields in the annotations are included, merged and concatenated in accordance with the <a href="/__attachments/a_f95cf24d096311f765375fd20137ec58b183fc3832381fc77721830fc3c4635e/S1-RS-MDA-52-7441%20-%20Sentinel-1%20Product%20Specification%202023%20-%203.14.1.pdf?cb=462b3aa38b8e5c8e254da68411e05774" data-scope="internal">Sentinel-1 Product Specification document</a> and <a href="/__attachments/a_8d0512e860ed6f0ccc0bd1ffd11664f2bf5ee011569a52cf5ff1d7be78460336/S1-RS-MDA-52-7440%20-%20Sentinel-1%20Product%20Definition%202016%20-%202.7.pdf?cb=48faefa9db4d621976cd1c0c3897525b" data-scope="internal">Sentinel-1 Product Definition</a>.</p>
+<h2 id="L0-Algorithms" style=""><span id="S1Processing-L0Algorithms"></span>L0 Algorithms<span id="S1-Processing-L0-Algorithms"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#L0-Algorithms">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h2>
+<p>Level-0 SAR products contain the raw SAR data from the unprocessed Instrument Source Packets (ISP).
+ <br>
+ Level-0 products are sub-divided into four product classes:</p>
+<ul>
+ <li>
+  <p>SAR Level-0 standard products</p>
+ </li>
+ <li>
+  <p>SAR Level-0 calibration products</p>
+ </li>
+ <li>
+  <p>SAR Level-0 noise products</p>
+ </li>
+ <li>
+  <p>SAR Level-0 annotation products.</p>
+ </li>
+</ul>
+<p>Standard Level-0 products represent the stream of ISPs containing SAR echo, calibration or noise signal. Level-0 calibration products represent the calibration pulses as extracted from the SAR ISPs stream. Level-0 noise products represent the noise and noise-equivalent (or travelling) pulses as extracted from the SAR ISPs stream. Level-0 annotations products contain the primary and secondary headers extracted from the SAR ISPs stream.</p>
+<p>Raw data products are generated from the Sentinel-1 image modes:</p>
+<ul>
+ <li>
+  <p>Stripmap Mode (SM)</p>
+ </li>
+ <li>
+  <p>Interferometric Wide Swath Mode (IW)</p>
+ </li>
+ <li>
+  <p>Extra Wide Swath mode (EW)</p>
+ </li>
+ <li>
+  <p>Wave Mode (WV).</p>
+ </li>
+</ul>
+<p>Raw data products are also generated from the Sentinel-1 calibration modes:</p>
+<ul>
+ <li>
+  <p>RF Characterization Mode (RFC)</p>
+ </li>
+ <li>
+  <p>Elevation Notch Acquisition Mode (EN)</p>
+ </li>
+ <li>
+  <p>Azimuth Notch Acquisition Mode (AN).</p>
+ </li>
+</ul>
+<p>Up to Autumn 2023, only L0 standard products from the SM, IW, EW, WV modes have been distributed by the Ground Segment. From that moment on, corresponding Noise, Calibration and Annotation products are available to the expert users too on <a href="https://dataspace.copernicus.eu/" data-scope="external" rel="external noreferrer">Copernicus Data Space Ecosystem</a>: for these products the retention is of two weeks.</p>
+<p>Level-0 products may include data in single polarisation mode (HH or VV) or, for SM, IW, and EW modes, they may include dual polarisation modes (HH+HV or VV+VH). For dual polarisation data, data for each polarisation are available in separate files within the Level-0 product.</p>
+<h3 id="Packet-Encoding" style=""><span id="S1Processing-PacketEncoding"></span>Packet Encoding<span id="S1-Processing-Packet-Encoding"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Packet-Encoding">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>Raw SAR data compression is used to reduce the instrument data rate to fit the available data downlink. Application of a Block Adaptive Quantisation-like (BAQ) raw data compressor adds quantisation noise to the raw data which degrades the data Signal-to-Noise Ratio (SNR). A BAQ that applies a constant bit rate independent of radar signal power is not optimal. It produces a degradation of the SNR which varies with the power of the detected radar signal. To overcome this, Sentinel-1 Level-0 data products are compressed using Flexible Dynamic Block Adaptive Quantisation (FDBAQ).</p>
+<p>FDBAQ controls the bit rate in a flexible way as a function of the input radar signal power to provide a variable bit rate coding that increases the number of bits to be allocated to bright scatterers. The number of quantisation bits is selected according to a local estimate of clutter-to-noise ratio. This approach leads to a time variant bit rate.</p>
+<p>FDBAQ is an improvement over the Entropy Constrained Block Adaptive Quantisation (ECBAQ) used for ENVISAT.</p>
+<p>For noise and calibration data BAQ 5 bits compression algorithm is used instead.</p>
+<p>For the data to be usable, it will need to be decompressed following the decompression algorithm detailed in the <a href="/__attachments/a_9797e243d30ccc6788b5f8c7ed5bf16a80346a0e542c654e693359edf0c34677/S1-IF-ASD-PL-0007%20-%20Sentinel-1%20SAR%20Space%20Packet%20Protocol%20Data%20Unit%202014%20-%2013.0.pdf?cb=7d4a742c9963fbf7ba6a2cd6805e3df9" data-scope="internal">SAR Space Packet Protocol Data Unit</a>.</p>
+<h3 id="Generation-Concept" style=""><span id="S1Processing-GenerationConcept"></span>Generation Concept<span id="S1-Processing-Generation-Concept"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Generation-Concept">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>Due to the possibility of fragmentation of payload data downlinks over different Receiving Stations or over different passes, the SAR Level 0 data generation concept includes the need of a Level 0 consolidation functionality which is aimed at assembling “partial” (i.e. covering only part of an acquisition segment) Level 0 segments.</p>
+<p>The processing chain is composed by two different steps:</p>
+<ol>
+ <li>
+  <p>AIO Processor (AIOP): the All-In-One (AIO) Processor is able to process Channel Access Data Unit (CADU) streams and generate the corresponding L0 SAR, GPS, AIS (S1C/D only) and HKTM files. It extracts the Instrument Source Packets (ISP) from the CADUs, generating ISP annotations, it applies a Reed-Solomon correction and it performs SAR Packets processing for Annotation, Calibration, Noise and Segment L0 Products generation. This step is mandatory.</p>
+ </li>
+ <li>
+  <p>L0 Assembly/Slicing Processor (L0ASP): the L0 Assembly/Slicing Processor assembles partial segments of Level 0 Data Takes acquired at different Stations to generate a Complete Level 0 Product and it is moreover responsible to assemble the horizontal and vertical parts of a dual polarisation product. The assembled Level 0 Product is then cut into Level 0 Slices of approximately 25 seconds, used to feed the higher level productions.</p>
+ </li>
+</ol>
+<p>The orchestration of the two processors (when one or both of the steps are called) is out of the scope of this generation chain description: as a matter of fact, the majority of L0 products come out of the L0ASP. The result of the L0 generation chain are SAR L0 products covering complete data take, in the form of slices and the Annotation, Calibration and Noise products.</p>
+<h2 id="L1-Algorithms" style=""><span id="S1Processing-L1Algorithms"></span>L1 Algorithms<span id="S1-Processing-L1-Algorithms"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#L1-Algorithms">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h2>
+<p>The processing steps involved to produce Level-1 data products include pre-processing, Doppler centroid estimation, single look complex focusing, and image and post-processing for generation of the SLC and GRD products as well as mode specific processing for assembling of multiple sub-swath products.</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 960px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_d37c6da5687c11824b179df8336691500b3b8d96377e1af259117755e8204fe1/image-20231026-143022.png?cb=b59d0bcd535e45c4b3a086e783a1fc51" alt="image-20231026-143022.png" data-scope="internal" width="3735" height="1419">
+   </div>
+   <figcaption>
+    <strong>Figure 2: Level-1 Processing Flow</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>For converting digital pixel values to radiometrically calibrated backscatter, all the required information can be found in the product. A calibration vector is included as an annotation in the product allowing simple conversion of image intensity values into sigma or gamma nought values. Further details of how to calibrate Sentinel-1 Level 1 products can be found in the '<a href="/__attachments/a_362015d79d4b31d2ec7bfc41d6edf57727461ab4812ae4fbc7d634df98d3db58/ESA-EOPG-CSCOP-TN-0002%20-%20Sentienl-1%20Radiometric%20Calibration%20of%20Products%202015%20-%201.0.pdf?cb=8a5e65784659665b4ad23a67ec403efe" data-scope="internal">Radiometric Calibration of S-1 Level-1 Products Generated by the S-1 IPF</a>' document.</p>
+<h3 id="Single-Look-Complex-(SLC)" style=""><span id="S1Processing-SingleLookComplex(SLC)"></span>Single Look Complex (SLC)<span id="S1-Processing-Single-Look-Complex"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Single-Look-Complex-(SLC)">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>Level-1 Single Look Complex (SLC) products consist of focused SAR data, geo-referenced using orbit and attitude data from the satellite, and provided in slant-range geometry. Slant range is the natural radar range observation coordinate, defined as the line-of-sight from the radar to each reflecting object. The products are in zero-Doppler orientation where each row of pixels represents points along a line perpendicular to the sub-satellite track.</p>
+<p>The products include a single look in each dimension using the full available signal bandwidth and complex samples (real and imaginary) preserving the phase information. The products have been geo-referenced using the orbit and attitude data from the satellite and have been corrected for azimuth bi-static delay, elevation antenna pattern and range spreading loss. Fine timing corrections are available as separate auxiliary product for advanced users see <a href="/web/s1-products#S1-Products-ETAD-Products" data-scope="internal">ETAD products</a>.</p>
+<p>SM SLCs contain one image per polarisation for its single swath. IW, having three sub-swaths, has three images in single polarisation and six images for dual polarisation. EW, having five sub-swaths, has five images for single polarisation and ten images for dual polarisation products.</p>
+<p>For IW and EW, each sub-swath consists of a series of bursts in azimuth. The individually focused complex burst data are included, in azimuth-time order, into a single sub-swath image, with black-fill demarcation in between.</p>
+<p>For IW, a focused burst has a duration of ~2.75 seconds and a burst overlap of approximately ~0.4 seconds. For EW, a focused burst has a duration of ~3.19 seconds with an overlap of ~0.1 seconds. The overlap slightly increases in range within a sub-swath. This overlap is sufficient to provide contiguous coverage of the ground.</p>
+<p>Images for all bursts in all sub-swaths of IW/EW SLC products are re-sampled to a common pixel spacing grid in range and azimuth. Burst synchronisation is maintained for both IW and EW products to ensure that interferometry between pairs of products acquired multiple repeat periods apart can be performed.</p>
+<p>The Swath Timing data set record in SLC products contains information about the bursts including dimensions, timing and location that can be used to merge the bursts and swaths together. Sentinel-1 performs systematic acquisition of bursts in both IW and EW modes. The bursts overlap almost perfectly between different passes and are always located at the same place. With the deployment of the SAR processor S1-IPF 3.4, a new element has been added to the products annotations: the Burst ID, which should help the end user to identify a burst area of interest and facilitate searches. The Maps linking the Burst ID to the corresponding geographic footprint are publicly available at <a href="https://sar-mpc.eu/test-data-sets" data-scope="external" rel="external noreferrer">https://sar-mpc.eu/test-data-sets</a>.</p>
+<h3 id="Ground-Range-Detected-(GRD)" style=""><span id="S1Processing-GroundRangeDetected(GRD)"></span>Ground Range Detected (GRD)<span id="S1-Processing-Ground-Range-Detected"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Ground-Range-Detected-(GRD)">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>Level-1 Ground Range Detected (GRD) products consist of focused SAR data that has been detected, multi-looked and projected to ground range using the Earth ellipsoid model WGS84. The ellipsoid projection of the GRD products is corrected using the terrain height specified in the product general annotation. The terrain height used varies in azimuth and it is constant in range (For IW/EW modes only the terrain height of first subswath is considered)</p>
+<p>Ground range coordinates are the slant range coordinates projected onto the ellipsoid of the Earth. Pixel values represent detected amplitude. Phase information is lost. The resulting product has approximately square resolution pixels and square pixel spacing with reduced speckle at a cost of reduced spatial resolution.</p>
+<p>For the IW and EW GRD products, multi-looking is performed on each burst individually. All bursts in all sub-swaths are then seamlessly merged to form a single, contiguous, ground range, detected image per polarisation.</p>
+<h3 id="Algorithm-Overview" style=""><span id="S1Processing-AlgorithmOverview"></span>Algorithm Overview<span id="S1-Processing-Algorithm-Overview"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Algorithm-Overview">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>The ESA Earth Observation Framework - Copernicus Space Component (EOF-CSC) is responsible for:</p>
+<ul>
+ <li>
+  <p>implementing the Sentinel-1 mission observation scenario</p>
+ </li>
+ <li>
+  <p>X-band data reception</p>
+ </li>
+ <li>
+  <p>generating the operational core ground segment products</p>
+ </li>
+ <li>
+  <p>reacting to emergency orders with rush instrument tasking and processing</p>
+ </li>
+ <li>
+  <p>providing access to Sentinel-1 data</p>
+ </li>
+ <li>
+  <p>ensuring long term mission data archiving</p>
+ </li>
+ <li>
+  <p>monitoring the instrument and mission performance</p>
+ </li>
+ <li>
+  <p>ensuring Sentinel-1 core operational user products meet the expected quality, with necessary calibration and validation activities.</p>
+ </li>
+</ul>
+<p>Within the EOF-CSC, the Instrument Processing Facility (IPF) is responsible for the generation of Level-1 and Level-2 products. Level-0 data are ingested into the system where different pre-processing steps are performed. The system then applies the Single Look Complex (SLC) image processing for Doppler centroid estimation and focusing, as well as mode-specific processing for assembling of multi-swath products. The Level-1 post-processing then generates the output Level-1 SLC products and the Level-1 Ground Range Detected (GRD) products. From internally generated Level-1 SLC and GRD products, the Level-2 Ocean (OCN) products are produced.&nbsp;</p>
+<p>To accomplish this, the IPF is composed of several software components as shown in the following figure.</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 960px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_fd92cd160c878d1a69c9059a0979e45efa8e0768b23c9c809471901f32e00ebf/image-20231026-143319.png?cb=7a7771cad53c02cdc658fc94820376c1" alt="image-20231026-143319.png" data-scope="internal" width="6853" height="2964">
+   </div>
+   <figcaption>
+    <strong>Figure 3: Sentinel-1 IPF Architecture</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>The algorithms applied by the IPF to generate Level-1 products from Level-0 data include:</p>
+<ul>
+ <li>
+  <p>Level-1 pre-processing</p>
+ </li>
+ <li>
+  <p>Special handling for TOPSAR mode</p>
+ </li>
+ <li>
+  <p>Doppler centroid estimation</p>
+ </li>
+ <li>
+  <p>Level-1 SLC processing</p>
+ </li>
+ <li>
+  <p>Level-1 post-processing</p>
+ </li>
+ <li>
+  <p>Level-1 Radiometric Calibration.</p>
+ </li>
+</ul>
+<p>Processing of each polarisation is essentially the same. A separate image is generated for each polarisation, and polarisation-specific correction and calibration factors are applied during the processing of each polarisation The Doppler Centroid (DC) from the co-polarisation channel is used for processing both polarisations, so that the two resulting images are accurately co-registered.</p>
+<p>For further details on the Sentinel-1 Level-1 algorithms, please refer to the<a href="/__attachments/a_756fb6a7b0748da60a84b616db0d25be9f6a5115eeb185b38bfd75c6382d562e/DI-MPC-IPFDPM%20-%20Sentinel-1%20Level%201%20Detailed%20Algorithm%20Definition%202022%20-%202.5.pdf?cb=68b1b7de2b2941fa5cfc5745b54238dd" data-scope="internal"> Sentinel-1 Level-1 Detailed Algorithm Definition document</a>.</p>
+<p><strong>TOPSAR Processing</strong><span id="S1-Processing-TOPSAR-Processing"></span></p>
+<p>The Terrain Observation with Progressive Scans SAR (TOPSAR) technique is a form of ScanSAR imaging, where data is acquired in bursts by cyclically switching the antenna beam between multiple adjacent sub-swaths. TOPSAR acquisitions can provide large swath widths and enhanced radiometric performance by reducing the scalloping effect. TOPSAR is used in Sentinel-1's Interferometric Wide swath and Extra Wide swath modes.</p>
+<p>With the TOPSAR technique, in addition to steering the beam in range as in ScanSAR, the beam is also electronically steered from backward to forward in the azimuth direction for each burst, avoiding scalloping and resulting in homogeneous image quality throughout the swath. <a href="/web/s1-processing#1-Ref" data-scope="internal">[1]</a></p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 788px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_f9aec591b008a776077eeed09ce9ad7f92dd47958bce70ac93d438b7e7316211/Schematic%20representation%20of%20the%20TOPSAR%20Mode%20Acquisition%20.png?cb=c4b7be43713f9e1546c8e678c5cd6e3b" alt="Schematic representation of the TOPSAR Mode Acquisition .png" data-scope="internal" width="788" height="356">
+   </div>
+   <figcaption>
+    <strong>Figure 4: Schematic representation of the TOPSAR Mode Acquisition </strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>TOPSAR mode is intended to replace the conventional ScanSAR mode, achieving the same coverage and resolution as ScanSAR, but with a nearly uniform Signal-to-Noise Ratio (SNR) and Distributed Target Ambiguity Ratio (DTAR).</p>
+<p>Azimuth resolution is reduced compared to SM due to the shorter target illumination time of the burst. Using the sweeping azimuth pattern, each target is seen under the same antenna pattern, independently from its azimuth position in the burst image. By shrinking the azimuth antenna pattern, as seen by a target on the ground, scalloping effects on the image can be reduced. Bursts are synchronised from pass to pass to ensure the alignment of interferometric pairs.</p>
+<p>For TOPSAR, the processing must handle the antenna steering rate and the DC rate due to the steering. The azimuth pre and post-processing of the data must include de-ramping of the data prior to base-band DC estimation, azimuth ambiguity estimation and GRD azimuth processing. Please see the technical note <a href="/__attachments/a_ab20a069e0bf299920ebde9bc74c3bbc9d0b1f3ef33e427f7f9fcbd29b2deb53/COPE-GSEG-EOPG-TN-14-0025%20-%20Sentinel-1%20TOPS%20SLC%20Deramping%202017%20-%201.3.pdf?cb=8df4b3804d933d8be0a8c741d2cb9fdc" data-scope="internal">COPE-GSEG-EOPG-TN-14-0025</a> for details on how deramping is performed by the IPF.</p>
+<p>TOPSAR azimuth antenna sweeping causes Doppler centroid variations of approximately 5.5 kHz introducing an azimuth phase ramp (azimuth fringes) for small co-registration errors. To correct this, azimuth co-registration is required to be better than 0.001 samples in order to obtain phase error less than 3°.</p>
+<p>To be useful for generating interferograms, TOPSAR bursts are synchronized between repeat-pass data takes. A burst synchronization of &lt;5&nbsp;ms is required.</p>
+<p>&nbsp;<strong>[1]</strong><span id="1-Ref"></span> De Zan, F., &amp; Guarnieri, A. M. (2006). TOPSAR: Terrain Observation by Progressive Scans. Geoscience and Remote Sensing, IEEE Transactions on, 44(9), 2352-2360. doi:10.1109/TGRS.2006.873853</p>
+<h3 id="Pre-Processing-Algorithms" style=""><span id="S1Processing-Pre-ProcessingAlgorithms"></span>Pre-Processing Algorithms<span id="S1-Processing-Pre-Processing-Algorithms"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Pre-Processing-Algorithms">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>Preprocessing is applied to the Level-0 products before any parameter estimation and image formation steps are performed. Pre-processing includes four main components:</p>
+<ul>
+ <li>
+  <p>Raw data analysis.</p>
+ </li>
+ <li>
+  <p>Internal calibration.</p>
+ </li>
+ <li>
+  <p>Downlink header validation.</p>
+ </li>
+ <li>
+  <p>Terrain height function.</p>
+ </li>
+</ul>
+<p><strong>Raw Data Analysis</strong></p>
+<p>The Sentinel-1 SAR instrument's receive module performs demodulation in the digital domain. Therefore, unlike ENVISAT ASAR which requires corrections to the I and Q channels of the raw signal, for Sentinel-1, I and Q channel gain imbalance and non-orthogonality corrections are not necessary.</p>
+<p><strong>Internal Calibration</strong></p>
+<p>Internal calibration is based on information extracted from the calibration and noise measurements associated with a data-take as part of the initial, interleaved and final internal calibration sequence performed by the instrument. Internal calibration consists of:</p>
+<ul>
+ <li>
+  <p>calibration pulse extraction</p>
+ </li>
+ <li>
+  <p>replica reconstruction</p>
+ </li>
+ <li>
+  <p>reference replica derivation</p>
+ </li>
+ <li>
+  <p>instrument drift derivation</p>
+ </li>
+ <li>
+  <p>replica whitening</p>
+ </li>
+ <li>
+  <p>replica and PG product validation</p>
+ </li>
+ <li>
+  <p>noise measurement processing.</p>
+ </li>
+</ul>
+<p><strong>Noise Measurement Processing</strong></p>
+<p>Noise measurements are recorded during each data-take as part of the initial and final internal calibration packet. Noise measurements are recorded separately for each beam by switching off the TX signal for a sufficient number of TX pulses. In addition, noise-equivalent measurements are represented by the travelling echoes after each interleaved calibration sequence all along the data-take. The noise level is computed as the mean power of the available noise packets for each beam.</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 442px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_b90ba09e875c6c1e0a6ac4bfc8a8b206456f6d1013bae22c1b130b0acd7413b2/Noise%20Measurement%20Processing.png?cb=7670bb25152a670da54c05a88e42143b" alt="Noise Measurement Processing.png" data-scope="internal" width="546" height="169">
+   </div>
+   <figcaption>
+    <strong>Equation 1:</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>
+ <br>
+</p>
+<p>In this equation, M is the number of noise packets and N is the number of samples.</p>
+<p><strong>Downlink Header Validation</strong></p>
+<p>The downlink header validation step is performed to validate the fields of the downlink. It will detect bit errors, missing lines and gaps in the data.</p>
+<p>The validation also checks transmission patterns to determine whether the downlink is as expected for such things as the order of swaths, length of bursts and sequence of echo versus calibration and noise packets.</p>
+<p><strong>Terrain Height Function</strong></p>
+<p>The terrain height function assembles a vector of terrain height values along the azimuth direction of the scene. Each terrain height value is obtained for a particular azimuth time by averaging over a DEM for an azimuth block and covering the entire range dimension of the scene. The azimuth block can be configurable to any number of azimuth lines or for every single azimuth line.</p>
+<p>The IPF uses the Global Earth Topography And Sea Surface Elevation (GETASSE30) DEM version 2. The GETASSE30 DEM is a composite of four other data sets: the SRTM30 data, the Altimeter Corrected Elevations (ACE) DEM, the Mean Sea Surface (MSS) data and the EGM96 ellipsoid. The resulting GETASSE30 DEM represents the earth topography and sea surface elevation with respect to the WGS84 ellipsoid at 30 arc second resolution.</p>
+<p>In the case of terrain height values being averaged over several azimuth lines, if later processing requires an intermediate value that value is obtained by linear interpolation.</p>
+<p>A single terrain height vector is used for different polarisations and for all sub-swaths in IW and EW modes. This Terrain Height is then reused by later processing steps that may consider the values for all subswaths or only for the first one (to avoid introducing artefacts in the generated products).</p>
+<p><strong>Doppler Centroid Algorithms</strong></p>
+<p>The Doppler Centroid (DC) algorithms estimate the centre frequency of the Doppler spectrum of the data, related to the azimuth beam centre. The DC locates the azimuth signal energy in the azimuth frequency domain. It is needed so that the signal energy in the Doppler spectrum can be correctly captured by the azimuth compression filter, providing the best signal-to-noise ratio and azimuth resolution.</p>
+<p>The DC varies in both range and azimuth. The range variation depends on the satellite attitude and how closely the illuminated footprint on the ground follows an iso-Doppler line on the ground as a function of range. The azimuth variation is caused by slow changes in satellite attitude as a function of time.</p>
+<p>The DC is estimated at different ranges in the data and a polynomial function of range is fitted to the measurements. The DC is updated in successive azimuth blocks.</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 960px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_f9438aaf45a5fbd0f925fccc2a319419a26acf3e46c8e24453f388e991b19b80/image-20231026-142833.png?cb=5ae32f9d1fe0a93b5d28adcbc1600f3a" alt="image-20231026-142833.png" data-scope="internal" width="2655" height="2511">
+   </div>
+   <figcaption>
+    <strong>Figure 5: Doppler Centroid Estimation</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>The Doppler is composed of a fine DC frequency (the fractional part), which is ambiguous to within the Pulse Repetition Frequency (PRF) and a second absolute component, which is an integer multiple of the azimuth sampling rate.</p>
+<p>The DC estimation algorithm includes the following steps:</p>
+<ol>
+ <li>
+  <p>Absolute DC calculation from orbit and attitude.</p>
+ </li>
+ <li>
+  <p>Fine DC estimation.</p>
+ </li>
+ <li>
+  <p>Weighting factors calculation.</p>
+ </li>
+ <li>
+  <p>Fine DC estimate unwrapping.</p>
+ </li>
+ <li>
+  <p>Absolute DC estimation.</p>
+ </li>
+</ol>
+<p>For TOPSAR data, the data must be demodulated in the azimuth direction before applying the phase-based correlation DC estimator.</p>
+<h3 id="SLC-Processing-Algorithms" style=""><span id="S1Processing-SLCProcessingAlgorithms"></span>SLC Processing Algorithms<span id="S1-Processing-SLC-Processing-Algorithms"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#SLC-Processing-Algorithms">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>Single Look Complex (SLC) processing focuses the data in azimuth and range to form an image. The SLC processing takes as input, the signal data and the pre-processing output including orbit information and Doppler centroid estimation polynomials. The processing then applies range processing, azimuth pre-processing, azimuth processing and azimuth post-processing, as shown in the figure below.</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 960px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_dc60d273fe0bed399268bcc327422ca7385c87f657c3d17009babef3f3eecf26/image-20231026-143527.png?cb=ad2397fbae18f30a1d629eba61ff01da" alt="image-20231026-143527.png" data-scope="internal" width="2053" height="5176">
+   </div>
+   <figcaption>
+    <strong>Figure 6: SLC Processing Algorithm</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>Each burst in each sub-swath for TOPSAR products is processed independently. The independently focused burst images are then included in a single sub-swath image ordered by azimuth time and separated by black-fill.</p>
+<p><strong>Range Processing</strong></p>
+<p>Range processing consists of:</p>
+<ul>
+ <li>
+  <p>range reference function</p>
+ </li>
+ <li>
+  <p>range compression</p>
+ </li>
+ <li>
+  <p>range dependent gain correction</p>
+ </li>
+ <li>
+  <p>Sampling Window Start Time (SWST) bias correction.</p>
+ </li>
+</ul>
+<p>The SWST bias is accounted for by adding it to the range start time.</p>
+<p><strong>Azimuth Pre-Processing</strong></p>
+<p>Azimuth pre-processing applies azimuth zero-padding, azimuth forward FFT and, for TOPSAR products, azimuth frequency unfolding and resampling.</p>
+<p>Azimuth pre-processing converts the data into the range-Doppler domain needed for the range-Doppler algorithm in the azimuth processing.</p>
+<p><strong>Azimuth Processing</strong></p>
+<p>The azimuth processing utilises the range-Doppler algorithm characterised by a hyperbolic range equation.</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 204px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_67def959c0d967781060890d38f5636a0b0d04af059f55c987276843c913c8c7/Azimuth%20Processing%20(SLC)%20hyperbolic%20range%20equation.png?cb=c7a1849d035e152528e44d7b16843fea" alt="Azimuth Processing (SLC) hyperbolic range equation.png" data-scope="internal" width="550" height="148">
+   </div>
+   <figcaption>
+    <strong>Equation 2:</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>The range-Doppler algorithm is computationally efficient and, for typical space-borne imaging geometries, the range-Doppler algorithm is an accurate approximation of the exact SAR transfer function. The algorithm is phase-preserving and SLC images formed with it can be used for applications such as interferometry.</p>
+<p><strong>Secondary Range Compression</strong></p>
+<p>For range compression, raw data is multiplied in the frequency domain by the range reference function. This multiplication is carried out with complex values, i.e. the phase information in the data is preserved.</p>
+<p><strong>Range Cell Migration Correction</strong></p>
+<p>The range-Doppler algorithm uses the large difference in timescale of range and azimuth data and approximately separates processing in these two directions using Range Cell Migration Correction (RCMC). Target trajectories need to be corrected to account for the fact that the instantaneous slant range changes with azimuth time by moving all responses of a target from the trajectory into a straight line. RCMC is performed in range frequency and azimuth frequency domain.</p>
+<p>For TOPSAR data, a range resampling step is combined with RCMC.</p>
+<p><strong>Azimuth Compression</strong></p>
+<p>Azimuth compression applies an azimuth matched filter to each azimuth line and applies the inverse FFT to the azimuth line. The result is a focused image.</p>
+<p><strong>Azimuth post-processing</strong></p>
+<p>Azimuth post-processing is for TOPSAR products only, to resample to a common grid. This resolves issues with time aliasing due to the limited support during azimuth focusing. The algorithm includes the following steps:</p>
+<ol>
+ <li>
+  <p>Mosaicking.</p>
+ </li>
+ <li>
+  <p>De-ramping.</p>
+ </li>
+ <li>
+  <p>Low-pass filtering and resampling.</p>
+ </li>
+ <li>
+  <p>Re-ramping.</p>
+ </li>
+</ol>
+<h3 id="Post-Processing-Algorithms" style=""><span id="S1Processing-PostProcessingAlgorithms"></span>Post Processing Algorithms<span id="S1-Processing-Post-Processing-Algorithms"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Post-Processing-Algorithms">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>Post-processing generates the output SLC and GRD products as well as quicklook images. Post-processing consists of post-processing range processing, post-processing azimuth processing and post-processing output processing as shown in the figure below.</p>
+<p>The processing is applied to each sub-swath for IW and EW and for each azimuth block consisting of a burst for IW and EW and an entire vignette for WV.</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 960px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_ef57125ad76a06a0419763848eeaf2fcd555538ce3234ab536a577172fdfa5ae/image-20231026-143213.png?cb=15d02e408b23b10874b2b52d9d610e63" alt="image-20231026-143213.png" data-scope="internal" width="4718" height="6086">
+   </div>
+   <figcaption>
+    <strong>Figure 7: Post-Processing Algorithm</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p><strong>Post-Processing Range Processing</strong></p>
+<p>Post-processing range processing is performed on each range line within an individual burst of a sub-swath for TOPSAR or vignette for WV.</p>
+<p><strong>Post-Processing Azimuth Processing</strong></p>
+<p>Post-processing azimuth processing is performed on each azimuth line for each range look within an individual burst of a sub-swath for TOPSAR or vignette for WV.</p>
+<p><strong>Post-processing GRD Output Processing</strong></p>
+<p>For GRD products, the post-processing output processing consists of optionally removing the thermal noise, de-burst and merge for TOPSAR mode, generation of quicklooks and writing to the output file format. In Sentinel-1 A/B, every data-take contains two noise acquisitions, one at the beginning of the data-take and a second acquisition at the end. In addition, noise-equivalent acquisitions are represented by the travelling echoes after each interleaved calibration sequence all along the data-take. For Level-1 GRD products only, the thermal noise contribution is estimated and optionally removed to improve the quality of the image.</p>
+<p>The thermal noise contribution is reshaped in a range and azimuth varying fashion by the range and azimuth varying radiometric corrections applied by the SAR processor. In particular for multi-swath products, the noise can be different between swaths causing an intensity step at swath boundaries (See <a href="/__attachments/a_bcb41455c32282376117c18982b7865907a3a539b42f49d4a9d17739dc2d1550/DI-MPC-TN-MPC-0392%20-%20Thermal%20Denoising%20of%20Products%20Generated%20by%20Sentinel-1%20IPF%202017%20-%201.1.pdf?cb=25744db2e4463289266b1247a635e0c0" data-scope="internal"><strong>Thermal denoising of products generated by the Sentinel-1 IPF</strong></a>).</p>
+<p>For a particular azimuth time, thermal noise is estimated in slant range coordinates as follows:</p>
+<ol>
+ <li>
+  <p>Calculate the range spreading loss vector.</p>
+ </li>
+ <li>
+  <p>Calculate the elevation beam pattern vector.</p>
+ </li>
+ <li>
+  <p>Apply the scalar contributing factors.</p>
+ </li>
+</ol>
+<p>For TopSAR modes a further contribution is present along the azimuth direction (scalloping effect) and consists in the azimuth elementary beam pattern.</p>
+<p>For SLC products, the noise estimation vectors are then only saved in the annotation to allow for later use in removal and as input for Level-2 processing.</p>
+<p>For GRD products, the thermal noise vectors are converted to ground range coordinates and applied to the data by subtracting the noise from the power-detected image.</p>
+<p>When calibrating the product to β, σ or γ, the noise vector must be scaled by the corresponding calibration Look-Up Table (LUT) (β, σ or γ or dn, respectively):</p>
+<img class="wysiwyg-unknown-macro" src="https://sentiwiki.atlassian.net/wiki/plugins/servlet/confluence/placeholder/unknown-macro?name=easy-math-block&amp;locale=en_GB&amp;version=2">
+<p style="--text-align: center"><strong>Equation 3:</strong></p>
+<p>where, depending on the LUT selected to calibrate the image data:</p>
+<p data-indentation-level="1"><strong>noise(i) = calibrated noise profile for one of β</strong><sup><strong>0</strong></sup><sub><strong>i, σ</strong></sub><sup><strong>0</strong></sup><strong> , or </strong><em><strong>y</strong></em><sub><em><strong>i</strong></em></sub><strong> or </strong><em><strong>originalDN</strong></em><sub><strong>i</strong></sub><strong> </strong></p>
+<p data-indentation-level="2"><em><strong>η</strong></em><sub><em><strong>i</strong></em></sub><sub><strong> = </strong></sub><sub><em><strong>noiseLut (i)</strong></em></sub></p>
+<p data-indentation-level="2"><em><strong>A</strong></em><sub><em><strong>i = one of betaNought (i) , simaNough t( i) , gamma(i) , dn (i)</strong></em></sub></p>
+<p>
+ <br>
+</p>
+<p>Once the calibrated noise proﬁle has been obtained, the noise can be removed from the GRD data by subtraction.</p>
+<p>For any pixel<em> i</em> that falls between points in the LUT the value is found by bilinear interpolation.</p>
+<p>During TOPSAR sub-swath merging, the noise vectors are also merged into one vector following the same strategy as for merging two adjacent ground range images.</p>
+<p>Within the annotation of the resulting product, the noise vector annotation data set contains the thermal noise estimation along azimuth. This can be used to reverse the thermal noise correction in products in which it has been applied or can be used for applying the correction in products in which it has not.</p>
+<p><strong>TOPSAR Debursting and Sub-Swath Merging</strong></p>
+<p>The TOPSAR modes acquire data in bursts and for several sub-swaths. For GRD products, the bursts are concatenated and sub-swaths are merged to form one image.</p>
+<p>Bursts overlap minimally in azimuth and sub-swaths overlap minimally in range. Bursts for all beams have been resampled to a common grid during azimuth post-processing.</p>
+<p>For merging the sub-swaths, the optimal cut is determined taking half the overlap between them, considering only the valid samples of each line. Samples from two consecutive sub-swaths are put side-to-side according to the optimal cut position (without performing sample 'blending').</p>
+<p>In the azimuth direction, bursts are merged according to their zero Doppler time. Note that the black-fill demarcation is not distinctly zero at the end or start of the burst. Due to resampling, the data fades into zero and out. The merge time is determined by the average of the last line of the first burst and the first line of the next burst. For each range cell, the merging time is quantised to the nearest output azimuth cell to eliminate any fading to zero data.</p>
+<p><strong>Application LUT Scaling</strong></p>
+<p>Application LUTs are used to apply a range-dependent gain function to the processed data prior to generation of the final image output. The application LUT scaling is used to optimise the radiometric scaling of the main feature of interest, while optimising the available dynamic range in the output product and to compensate for changes in the radar backscatter with changing incidence angles. LUT's that could be used include:</p>
+<ul>
+ <li>
+  <p>Point target application LUTs - suited to applications involving scattering from bright points targets. Typically these LUTs provide poor quantisation over areas of very low backscatter.</p>
+ </li>
+ <li>
+  <p>Sea, land, mixed and ice LUTs - suited to the thematic applications they describe in which low backscatter features are expected. Typically, bright targets will saturate. Values vary with incidence angle.</p>
+ </li>
+ <li>
+  <p>General application LUT - typically very bright targets will be saturated.</p>
+ </li>
+</ul>
+<p>During satellite Commissioning Phase and related calibration activities, a general purpose LUT has been defined for each acquisition mode, allowing to avoid saturation of both brighter and darker targets and at the same time to reduce as much as possible the quantization error.</p>
+<p>Level-1 SLC and GRD images are then scaled to 16 bit and saved in GeoTIFF file format.</p>
+<p><strong>Quicklook Generation</strong></p>
+<p>Quicklooks are lower resolution images of the product data used to preview the data. Quicklooks are generated by power detecting, averaging and decimating in both azimuth and range directions by a configurable amount. IW and EW SLC product quicklooks are first de-burst and merged.</p>
+<p>The Red channel is the co-polarisation amplitude, the Green channel is the cross-polarisation amplitude and the Blue channel is the ratio of Green to Red channels. So for a HH/HV dual polarisation product, Red is HH, Green is HV. Separate scaling of each of the RGB channels is used to give a false colour image where the land is green and the ocean is generally blue (or sometimes red under higher wind conditions).</p>
+<p>Quicklook images are scaled to 8 bit and saved in PNG file format.</p>
+<h3 id="Radiometric-Calibration" style=""><span id="S1Processing-RadiometricCalibration"></span>Radiometric Calibration<span id="S1-Processing-Radiometric-Calibration"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Radiometric-Calibration">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p><strong>Application of Radiometric Calibration LUT</strong></p>
+<p>The objective of SAR calibration is to provide imagery in which the pixel values can be directly related to the radar backscatter of the scene. To do this, the output scaling applied by the processor must be undone and the desired scaling must be reintroduced. Level-1 products provide four calibration Look Up Tables (LUTs) to produce ß<sup>0</sup><sub>i</sub>, σ<sup>0</sup><sub>i</sub> and γ<sub>i</sub> or to return to the Digital Number (DN). The LUTs apply a range-dependent gain including the absolute calibration constant. For GRD products a constant offset is also applied.</p>
+<p>The radiometric calibration is applied by the following equation:</p>
+<img class="wysiwyg-unknown-macro" src="https://sentiwiki.atlassian.net/wiki/plugins/servlet/confluence/placeholder/unknown-macro?name=easy-math-block-l&amp;locale=en_GB&amp;version=2">
+<p style="--text-align: center"><strong>Equation 4:</strong></p>
+<p>where, depending on the selected LUT,</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <div class="block-image" style="--width: 680px" data-component="image" data-align="align-center">
+   <img src="/__attachments/a_654a8166cbd05e547be0769c552f2293d4f8a0cadcb2e1517a97c5a034675f34/image-20230510-154837.png?cb=3d5ffd1433d76ed7ae0f58544231b98f" alt="image-20230510-154837.png" data-scope="internal" width="767" height="96">
+  </div>
+ </image-lightbox>
+</div>
+<p>Bi-linear interpolation should be used for any pixels that fall between points in the LUT.</p>
+<p><strong>Application of De-noise LUT</strong></p>
+<p>Level-1 products provide a noise LUT for each measurement data set. The values in the de-noise LUT, provided in linear power, can be used to derive calibrated noise profiles matching the calibrated GRD data. The de-noise LUT must be calibrated matching the radiometric calibration LUT applied to the DN:</p>
+<img class="wysiwyg-unknown-macro" src="https://sentiwiki.atlassian.net/wiki/plugins/servlet/confluence/placeholder/unknown-macro?name=easy-math-block&amp;locale=en_GB&amp;version=2">
+<p style="--text-align: center"><strong>Equation 5:</strong></p>
+<p>where, depending on the LUT selected to calibrate the image data,</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <div class="block-image" style="--width: 827px" data-component="image" data-align="align-center">
+   <img src="/__attachments/a_a520f43a3f3f0ec4c9becaaaec733eff9bbe020e08ae99f01010b25e073ee3fd/image-20230510-154752.png?cb=9b77149f9746616382a52c6220ca191a" alt="image-20230510-154752.png" data-scope="internal" width="827" height="150">
+  </div>
+ </image-lightbox>
+</div>
+<p>The calibrated noise profile can then be applied to the data to remove the noise by subtraction. Application of the radiometric calibration LUT and the calibrated de-noise LUT can be applied in one step as follows:</p>
+<img class="wysiwyg-unknown-macro" src="https://sentiwiki.atlassian.net/wiki/plugins/servlet/confluence/placeholder/unknown-macro?name=easy-math-block-l&amp;locale=en_GB&amp;version=2">
+<p style="--text-align: center"><strong>Equation 6:</strong></p>
+<p>Bi-linear interpolation should be used for any pixels that fall between points in the LUT.</p>
+<h3 id="ETAD-processing" style=""><span id="S1Processing-ETADprocessing"></span>ETAD processing<span id="S1-Processing-ETAD-processing"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#ETAD-processing">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p><strong>Timing corrections for SAR imagery</strong></p>
+<p>The raw Sentinel-1 range and azimuth timings as annotated to the Level 1 SLC products require additional corrections to deliver consistent results in repeat pass geolocation and feature analysis at the sub-pixel level. The corrections comprise the delays stemming from the Earth’s atmosphere, the direct tidal deformation of Earth’s crust caused by Sun and Moon, and the Sentinel-1 system corrections associated with the methods of the Sentinel-1 SAR-IPF when annotating the level 1 products. The corrections are summarised and distributed by the Extended Timing Annotation Dataset for Sentinel-1 (S1-ETAD). In the <a href="/__attachments/a_79dd54ed134105e9683d65def5e41969f061979b56d98b2b1d4353814d0e0a39/ETAD-DLR-DD-0008-Algorithm-Technical-Baseline-Document-2.7.pdf?cb=3f74a6cf2e5294124887c74e0eec1c20" data-scope="internal">Sentinel-1 ETAD Algorithm Technical Baseline Document</a> methods defining the algorithmic cores of the Sentinel-1 Extend Timing Annotation Processor (SETAP) are deeply described.</p>
+<p><strong>Overview on Processing Steps</strong></p>
+<p>The SETAP computations are based on the sliced Sentinel-1 L1 SLC products forming a data take, which are provided to the processor along with the precise orbit ephemeris product, see Figure 8 below. Moreover, the different computational algorithms have access to their respective model data. These data are either provided by the external management layer to the processor (ECMWF numerical weather model data, TEC map data) or are part of the processor itself (global DEM, planetary ephemerides data, geoid data).</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 640px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_009a5df279c0d12766d85f5d94a6f14f711d23f8fe4674549552fb9f1bf147c5/image-20230912-093952.png?cb=262fb1cb91cbf0699504d7ed60a90ae5" alt="image-20230912-093952.png" data-scope="internal" width="640" height="418">
+   </div>
+   <figcaption>
+    <strong>Figure 8: Overview on the SETAP computational algorithms with their corresponding data access</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>Following the computational flow outlined in the figure, the first step is the preparation of the correction grid covering the extent of the data take. The grid is calculated in range and azimuth as two-way timeof-flight and seconds of day UTC, respectively, according to a predefined spacing. The default spacing is specified to achieve on average a 200 m sampling in both dimensions. This grid of radar timings has to be geolocated on the DEM in order to define the 3D sensor-to-ground geometry of the data take, which involves the algorithms:</p>
+<ul>
+ <li>
+  <p><strong>Correction Grid Definition:</strong> level 1 image timing annotations are used to create a consistent grid covering the data take which can be decomposed into sub-grids covering the slices</p>
+ </li>
+ <li>
+  <p><strong>Satellite State Vector Interpolation:</strong> the discretely sampled state vectors (position vector, velocity vector) of the precise orbit product are interpolated for the azimuth times of the computation grid.&nbsp;</p>
+ </li>
+ <li>
+  <p><strong>Correction Grid Geolocation:</strong> the 2D radar timings linked to corresponding satellite state vectors are geolocated on the DEM to obtain the 3D coordinates in the global terrestrial frame.</p>
+ </li>
+</ul>
+<p>With the satellite positions and the 3D coordinates of the computational grid known, the individual correction algorithms can be independently computed (Figure 8 lower part):</p>
+<ul>
+ <li>
+  <p><strong>Direct Integration of NWM for Tropospheric Delays:</strong> the 4D numerical weather model data (given at discrete positions and time steps) are interpolated to obtain the refractivity along the sensor to ground line-of-sight, which is then integrated to derive the tropospheric path delay in range.</p>
+ </li>
+ <li>
+  <p><strong>Ionospheric Delay Computation from TEC Maps:</strong> the delay in range caused by the dispersive ionosphere is derived from the global total electron content (TEC) maps containing the integrated free electrons inferred from global GNSS observations.</p>
+ </li>
+ <li>
+  <p><strong>Solid Earth Tidal Displacement Computation: </strong>the tidal deformation of the Earth’s crust by Sun and Moon is computed by the conventional geodynamic model associated with the geodetic reference frames and converted into timing corrections of range and azimuth</p>
+ </li>
+ <li>
+  <p><strong>Sentinel 1 system correction:</strong> The Sentinel-1 system specific corrections deal with the sub-pixel level deviation of the IPF SLC product annotation with respect to conventional zero-Doppler geometry. The corrections allow for the refinement of the azimuth and range annotation in post-processing without modifying the SLC image. Three corrections are required:</p>
+  <ul>
+   <li>
+    <p><strong>Bistatic Azimuth Effects Mitigation: </strong>the corrections for the residual bistatic affects in azimuth stemming from the movement of the satellite during the SAR acquisition are computed using the annotations of the S-1 input products.</p>
+   </li>
+   <li>
+    <p><strong>Doppler-induced Range Shift Mitigation: </strong>the corrections for the range shifts caused by the focussing of the Doppler-shifted radar pulses in Sentinel-1 TOPS modes are computed based on the annotations of the S-1 input products.</p>
+   </li>
+   <li>
+    <p><strong>FM-rate Mismatch Azimuth Shift Mitigation:</strong> the corrections for the azimuth shifts due to the mismatch of azimuth FM-rate, which is derived by the Sentinel-1 IPF applying topographic assumptions, are computed using the DEM and the annotations of the S-1 input products.</p>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p>For further details on the algorithms, refer to <a href="/__attachments/a_79dd54ed134105e9683d65def5e41969f061979b56d98b2b1d4353814d0e0a39/ETAD-DLR-DD-0008-Algorithm-Technical-Baseline-Document-2.7.pdf?cb=3f74a6cf2e5294124887c74e0eec1c20" data-scope="internal">Sentinel-1 ETAD Algorithm Technical Baseline Document</a>.</p>
+<h2 id="L2-Algorithms" style=""><span id="S1Processing-L2Algorithms"></span>L2 Algorithms <span id="S1-Processing-L2-Algorithms"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#L2-Algorithms">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h2>
+<p>Level-2 OCN products are processed by the Level-2 Instrument Processing Facility (IPF). For each OSW, OWI and RVL component:</p>
+<ul>
+ <li>
+  <p>the appropriate Level-1 internal product is read</p>
+ </li>
+ <li>
+  <p>the variables corresponding to the considered component are estimated</p>
+ </li>
+ <li>
+  <p>a temporary file containing the results is saved locally</p>
+ </li>
+</ul>
+<p>The figure below shows the Level-2 processing workflow at the IPF. External IPF interfaces have a white background, internal IPF interfaces are identified by a grey background.</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 960px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_79b3e5cb0c8840ae9a08dc5552d77845fee1169a118701a6a679b72d45bd8a00/image-20231026-143130.png?cb=76fb410d67593797c0e1e7554fac01a4" alt="image-20231026-143130.png" data-scope="internal" width="3994" height="2296">
+   </div>
+   <figcaption>
+    <strong>Figure 9: Level-2 Processing Workflow</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>During the processing, a job order is read by the processor retrieving high level information required for processing a particular product (e.g. names and directories of input Level-1 files, names and directories of auxiliary data files, directories of outputs files, etc). Processing then starts from Level-1 products using the auxiliary data files provided such as the Level-2 processor parameter file. During the processing, a log file is generated to monitor the status of each processing step. The final step of the processing is the creation of the product including writing of all the geophysical information into netCDF files.</p>
+<p>The SM and TOPS modes have the dual-polarisation option. However, the Level-2 OCN components are always estimated only using the information from the co-polarised signal. As a result, the algorithms for each component, as well as the workflow for the Level-2 OCN product generation, are not different from that of single polarisation product.</p>
+<p>Separate processing of the components include:</p>
+<ul>
+ <li>
+  <p><a href="/web/s1-processing#S1-Processing-Ocean-Swell-Spectra-Processing" data-scope="internal">Level-2 Ocean Swell Spectra (OSW) processing</a></p>
+ </li>
+ <li>
+  <p><a href="/web/s1-processing#S1-Processing-Ocean-Wind-Field-Processing" data-scope="internal">Level-2 Ocean Wind Field (OWI) processing</a></p>
+ </li>
+ <li>
+  <p><a href="/web/s1-processing#S1-Processing-Radial-Velocity-Processing" data-scope="internal">Level-2 Radial Surface Velocity (RVL) processing</a></p>
+ </li>
+</ul>
+<h3 id="Ocean-Swell-Spectra-Processing" style=""><span id="S1Processing-OceanSwellSpectraProcessing"></span>Ocean Swell Spectra Processing<span id="S1-Processing-Ocean-Swell-Spectra-Processing"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Ocean-Swell-Spectra-Processing">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>The OSW products are two-dimensional ocean surface wave spectra estimated from a Level-1 SLC by inversion of the corresponding image cross-spectra. The cross-spectra are computed by performing multi-looking in azimuth followed by co- and cross-spectra estimation among the detected individual look images. A single OSW can be computed from an Wave mode SLC imagette or from a sub-image extracted from a Stripmap mode SLC image.</p>
+<p>The OSW product cannot be generated from the TOPSAR mode, since individual looks with sufficient time separation are required. The obtained inter-look time separation within one burst is too short due to the progressive scanning (i.e. short dwell time). Individual looks from neighbouring bursts require significant spatial overlap.</p>
+<p>The Sentinel-1 wave processing system consists of:</p>
+<ul>
+ <li>
+  <p>a spectral estimation unit</p>
+ </li>
+ <li>
+  <p>a spectral inversion unit</p>
+ </li>
+</ul>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 960px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_fbc89f03c88b0cc178aae284828482896794fb68aa4321bee3cfd2dca972c42c/image-20231026-142926.png?cb=34a926be9e1499ebbb714a1eb102111f" alt="image-20231026-142926.png" data-scope="internal" width="1950" height="2961">
+   </div>
+   <figcaption>
+    <strong>Figure 10: High Level OSW Processing Algorithm</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>The OSW processing will use the following inputs:</p>
+<ul>
+ <li>
+  <p>SM or WV SLC product</p>
+ </li>
+ <li>
+  <p>External auxiliary data:</p>
+  <ul>
+   <li>
+    <p>ECMWF atmospheric model data</p>
+   </li>
+   <li>
+    <p>Level-2 processor parameters auxiliary data</p>
+   </li>
+   <li>
+    <p>Simulated cross-spectra data</p>
+   </li>
+  </ul>
+ </li>
+ <li>
+  <p>Internal auxiliary data:</p>
+  <ul>
+   <li>
+    <p>coastline and land masking data</p>
+   </li>
+   <li>
+    <p>General Bathymetry Chart of the Oceans (GEBCO)(in case of SM data)</p>
+   </li>
+   <li>
+    <p>Range Fourier profile</p>
+   </li>
+   <li>
+    <p>IPF Level-2 internal parameter file containing extra processing parameters specific to the OSW algorithm.</p>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p><strong>Spectral Estimation</strong></p>
+<p>The spectral estimation unit performs the processing from Level-1 SLC product to an internal co- and cross-variance function (Level-1B) product.</p>
+<p>The spectral estimation consists of inter-look cross spectral processing based on splitting the azimuth bandwidth into three non-overlapping looks, followed by an estimation of the co- and cross-variance function based on the periodogram method.</p>
+<p>The final result consists of one co-variance function and two cross-variance functions on cartesian grid. The two cross-variance functions correspond to the neighbour looks and the outer looks i.e. with two different look separation times. The co-variance function is the average of the co-variance functions from the three individual looks. The processing also estimates the percentage of land within the selected estimation area (in case of SM data), the range and azimuth cut-off wavelength, spectral resolution, and some image statistics (mean, variance, skewness).</p>
+<p>The figure below shows the flowchart for the spectral estimation.</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 960px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_3c5131022e18ee0cc2c753892a904492d3fc4b03a776ad438859e53faa30d61f/image-20231026-143616.png?cb=b974bad1f9a8896ae2d19eeeae215ae2" alt="image-20231026-143616.png" data-scope="internal" width="2916" height="3940">
+   </div>
+   <figcaption>
+    <strong>Figure 11: Spectral estimation unit</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p><strong>Spectral Inversion</strong></p>
+<p>The spectral inversion unit generates the Level-2 OSW product using the intermediate Level-1 data product as input.</p>
+<p>The OSW spectral inversion unit first accesses the intermediate product and performs a 2D Fourier transform to achieve the co- and cross-spectra on cartesian grid. A Hanning window is used in the 2D Fourier transform. The OSW processing then performs a wave spectral inversion of the co- and cross-spectra with respect to the detected SAR ocean wave-like pattern. This is done by first estimating and removing the non-linear contribution to the imaging process, assuming that this is caused only by the local wind field, and then applying a quasi-linear inversion in the most energetic part of the SAR co- and cross-spectrum. The wind field is therefore required, and this is estimated as described in the OSW processing.</p>
+<p>The estimation of wind sea significant wave height is performed using the estimated wind speed and the azimuth cut-off wavelength.</p>
+<p>The major requirements for the quality of the inversion is knowledge of the Real Aperture Radar (RAR) Modulation Transfer Function (MTF), the azimuth cut-off wavelength, and an accurate removal of the non-linear part of the spectra (i.e. the wind field). The RAR MTF is computed using a backscattering model including non-uniform distribution of scatterers on the long wave field. After the inversion, the ocean wave spectrum is converted to polar grid, rotated relative to north, partitioned, and ambiguity resolved followed by computation of key spectral parameters for the two most energetic partitions. Finally, an output product is generated from the polar spectra and stored in a netCDF format together with extracted parameters stored as attributes and some key parameters from the corresponding Level-1 product.</p>
+<h3 id="Ocean-Wind-Field-Processing" style=""><span id="S1Processing-OceanWindFieldProcessing"></span>Ocean Wind Field Processing<span id="S1-Processing-Ocean-Wind-Field-Processing"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Ocean-Wind-Field-Processing">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>The Sentinel-1 Level-2 OWI component is an ocean surface wind vector (speed and direction) estimated from a Sentinel-1 Level-1 SAR image by inversion of its associated Normalised Radar Cross Section (NRCS).</p>
+<p>Sentinel-1 wind processing consists of a calibration unit followed by an inversion unit.</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 960px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_258d83acc2d3363ba2697b09b1570fc24f3f56b55c82a5e795693dd3d9164846/image-20231026-142512.png?cb=ae0703fb0b7473ebffc13f329e6b0d89" alt="image-20231026-142512.png" data-scope="internal" width="2889" height="2961">
+   </div>
+   <figcaption>
+    <strong>Figure 12: High Level OWI Processing Algorithm</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>
+ <br>
+</p>
+<p>The Level-2 OWI processing system will access:</p>
+<ul>
+ <li>
+  <p>Level-1 internal GRD product.</p>
+ </li>
+ <li>
+  <p>Auxiliary information (through the auxiliary files) such as coastline data (in case of SM, IW and EW).</p>
+ </li>
+ <li>
+  <p>Atmospheric model wind speed and direction.</p>
+ </li>
+ <li>
+  <p>Ice mask.</p>
+ </li>
+ <li>
+  <p>Level-2 processor parameters.</p>
+ </li>
+ <li>
+  <p>Environment parameters like input/output file names and paths to read the appropriate auxiliary files are indicated in the job order.</p>
+ </li>
+ <li>
+  <p>The processor set-up parameter file <em>PRM_LOP</em> which may contain extra processing parameters specific to the OWI algorithm.</p>
+ </li>
+ <li>
+  <p>The processor configuration file used to extract the product report/product list extension and the <em>PRM_LOPIn</em> path.</p>
+ </li>
+</ul>
+<h4 id="Calibration-and-Pre-processing" style=""><span id="S1Processing-CalibrationandPre-processing"></span>Calibration and Pre-processing
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Calibration-and-Pre-processing">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h4>
+<p>The calibration unit performs the processing from Level-1 product to a calibrated product containing the parameters required for the wind inversion unit. They are calculated at the resolution of the desired wind cell for each wind cell of the OWI grid (which could be specified in the Level-2 processor parameters file AUX_PP2, normally set to 1km).</p>
+<p>Given the size in metres, of the SAR derived wind cells respect to the pixel size in metres (fromLevel-1 input data), and with the parameters for the bright target detection, the number of pixels to be averaged in range (x) and azimuth (y) direction are computed. Based on this, Arrays corresponding to parameters, useful for the OWI processing, such as the intensity image, NRCS, NESZ, longitude and latitude, incidence angle, track angle, two-way slant range time and the percentage of pixels in SAR image detected as bright targets are generated from the L1 internal product.</p>
+<p>The a <em>priori</em> wind and ice mask information from external ancillary data (S1_AUX_WND/S1_AUX_ICE) are interpolated on the SAR OWI grid. The coastline and land mask information from internal ancillary data are interpolated on the SAR OWI grid. Those are provided as owiMask variable. In addition, an estimation of calibration constant based on ancillary geophysical parameters is calculated for each SAR image product.</p>
+<h4 id="Inversion" style=""><span id="S1Processing-Inversion"></span>Inversion
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Inversion">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h4>
+<p>The inversion unit generates the Level-2 OWI component using parameters obtained from the calibration unit. The inversion estimates the wind vector using NRCS values, the incidence angles, the track angles and the a priori wind and ice information. This inversion is performed using statistical Bayesian inference. For HH polarisation, the NRCS in HH is transformed to a VV equivalent NRCS. In the case of dual polarisation data, the cross-polarisation NRCS is not used in the wind inversion scheme. However, the cross polarization information (NRCS and annotated NESZ) at the owi grid resolution will be present in the products generated with IPF 2.90 and latter. The possible wind speed values at each wind cell are estimated given the NRCS value and all possible wind directions. At each wind cell, the probability density function of a priori wind vector is computed for all the possible solution couples. Next, the most plausible wind speed and direction values at each SAR wind cell of the SAR wind grid are selected. Lastly, the SAR and ancillary model information consistency is estimated. The OWI component is then saved to be joined with the other components into a netCDF file.</p>
+<h3 id="Radial-Velocity-Processing" style=""><span id="S1Processing-RadialVelocityProcessing"></span>Radial Velocity Processing<span id="S1-Processing-Radial-Velocity-Processing"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Radial-Velocity-Processing">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>The Sentinel-1 Level-2 RVL component consists of an estimate of the total Doppler frequency (Hz) and the corresponding radial velocity (m/s) estimated from an internal Sentinel-1 Level-1 Single-Look Complex (SLC) SAR image. The RVL component contains an estimate of the width of the ocean Doppler spectra. The Doppler width is a new geophysical parameter that has never been estimated from SAR data before. For each of these parameters the RVL component contains the corresponding standard deviation of the estimates. The image from which a single RVL is computed can be a SLC vignette from the WV mode, or sub-image extracted from a SM SLC image, IW SLC image or an EW SLC image. The RVL product is given on a grid similar to the OSW or OWI components.</p>
+<p>The Doppler frequency is estimated from the SLC data by fitting (least square minimisation) the antenna model to the observed azimuth spectra taking into account effects from additive noise and side-band effects. The Doppler frequency is the total estimated Doppler frequency offset without any geometric or mis-pointing corrections. The corresponding radial velocity is retrieved from the Doppler frequency after correcting the estimated total Doppler frequency for antenna mis-pointing as function of elevation angle and compensating for the attitude/orbit Doppler signal error. As for the OSW and OWI components, the RVL component also contains information on the block size used for estimation. The spatial coverage of the RVL product is equal to the spatial coverage of the corresponding Level-1 WV SLC or sub-images extracted from the Level-1 SM/IW/EW SLC products.</p>
+<p>The figure below shows the flowchart of the RVL processing:</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 960px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_a4441dfe70e0dfe07e1150d0276df285135f592293652499c5a959ab66a0397c/image-20231026-142430.png?cb=365cde5436df8fa7a6bb578a166c49f3" alt="image-20231026-142430.png" data-scope="internal" width="2889" height="4543">
+   </div>
+   <figcaption>
+    <strong>Figure 13: Flowchart of RVL Algorithm</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<h2 id="POD-Sentinel-1-Products-Specification" style=""><span id="S1Processing-PODSentinel-1ProductsSpecification"></span>POD Sentinel-1 Products Specification<span id="S1-Processing-POD-Sentinel-1-Products-Specification"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#POD-Sentinel-1-Products-Specification">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h2>
+<p>Generic introduction to POD products is available in <a href="/web/precise-orbit-determination" data-scope="internal">overview of POD</a> and in <a href="/web/s1-mission#Precise-Orbit-Determination-Service" data-scope="internal">Sentinel-1 POD service</a>.</p>
+<p>Regarding access to Copernicus Sentinel-1 orbit files users are kindly invited to note that:</p>
+<ul>
+ <li>
+  <p>The reference for accessing the Sentinel-1 orbit files is on the <a href="https://dataspace.copernicus.eu/" data-scope="external" rel="external noreferrer">Copernicus Data Space Ecosystem</a></p>
+ </li>
+</ul>
+<p>Precise orbits are determined based on the dual-frequency GPS (Global Positioning System) data delivered by dedicated geodetic-grade GPS receivers on-board the satellites. Several updates in the operational orbit determination were done during the years including an update of the GPS antenna reference point coordinates.</p>
+<h3 id="Products-Description" style=""><span id="S1Processing-ProductsDescription"></span>Products Description<span id="S1-Processing-Products-Description"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Products-Description">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h3>
+<p>The NRT orbital product (AUX_RESORB) generation is associated to the availability of a new GPS L0 file, which typically have a coverage of several orbits with significant overlaps. It has the coverage of the latest ascending node crossing (ANX) contained in the GPS L0 that triggered its generation plus 2 orbits backwards. Thus, the official POD NRT products for Sentinel-1 typically show overlaps of 1 or 2 orbits, depending on the coverage of the GPS L0 file.</p>
+<p>The PRE orbital product (AUX_PREORB) generation is associated to the availability of a new GPS L0 file as the NRT case. It has the coverage of the latest ANX contained in the GPS L0 file that triggered its generation plus 4 orbits to the future. In this way, the official POD PRE products for Sentinel-1 typically show overlaps of 3 or 4 orbits, depending on the coverage of the GPS L0 file.</p>
+<p>The STC orbital product (AUX_MOEORB) is generated with a timeliness of 31 hours and covers 26 hours, from 1 hour before the start of the previous day and 1 hour after the end of it. Therefore, there is an overlap of 2 hours between consecutive files.</p>
+<p>The NTC orbital product (AUX_POEORB) is generated with a timeliness of 20 days and covers 26 hours, from 1 hour before the start of day N-20 until 1 hour after the end of day N-20 (being N the current day). Therefore, there is an overlap of 2 hours between consecutive NTC orbit files.</p>
+<p>Each of these products has different timeliness and accuracy requirements, which are summarised in the following table:</p>
+<p><em>Table 4: Sentinel-1 Copernicus POD Orbital Files Requirements</em></p>
+<div class="theme-table" style="--width: 760px;">
+ <table-expand>
+  <scroll-shadow>
+   <table-sort>
+    <div data-component="table" data-align="unset" data-number-column="false">
+     <table>
+      <colgroup>
+       <col style="width: 226.67px">
+       <col style="width: 226.67px">
+       <col style="width: 226.67px">
+      </colgroup>
+      <tbody>
+       <tr>
+        <td colspan="3" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Requirements of Orbital Products</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>Category</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>Latency</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>Orbit Accuracy</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>NRT Predicted (AUX_PREORB)</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>30 minutes</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>1 m (2D RMS 1-sigma)</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>NRT (AUX_RESORB)</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>45 minutes</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>10 cm (2D RMS 1-sigma)</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>STC (AUX_MOEORB)</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>31 hours</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>5 cm (3D RMS 1-sigma)</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>NTC (AUX_POEORB)</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>20 days</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>5 cm (3D RMS 1-sigma)</p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </table-sort>
+  </scroll-shadow>
+ </table-expand>
+</div>
+<p>The timeliness and performance results of the precise orbital products are provided in the <a href="https://sentiwiki.copernicus.eu/web/s1-processing#S1Processing-MetricsS1-Processing-Metrics" data-scope="external" rel="external noreferrer">Metrics</a> and <a href="https://sentiwiki.copernicus.eu/web/s1-processing#S1Processing-OrbitComparisonsS1-Processing-Orbit-Comparisons" data-scope="external" rel="external noreferrer">Orbit Comparisons</a> section.</p>
+<p>Additionally, the GNSS L1B RINEX files for Sentinel-1 are delivered on a daily basis to the CGS with a latency of 7 days. These files contain the decoded GPS observations (pseudorange and carrier phase) following the International GNSS Service (IGS) RINEX ICD. The Sentinel-1 GNSS L1B RINEX data products are made available to the user community through the ESA CDSE.</p>
+<p>Moreover, performing POD requires making use of the satellite attitude Quaternions files and validating the results obtained against an external reference solution. The Quaternions files and the NRT and NTC products generated by the CPOD Service are available to the user community through the ESA CDSE. It must be remarked that, at the beginning of year 2021, a Full Mission Reprocessing (FMR) was carried out on Sentinel-1 AUX_POEORB products, FMR 2021, in order to take into account the correction on the GPS antenna reference point location operationally performed on 29 to 30 July 2020 (<a href="/__attachments/a_1e6a28d52248817a9bfa00f23139b443b7da65a5ae1ed8de6a608a65befb28f0/GMV-CPOD-MEM-0052%20-%20Sentinel-1%20Full%20Mission%20Reprocessing%202021%20-%201.1.pdf" data-scope="internal">see this document for detailed information</a>).</p>
+<p>The following table summarises the availability of all Sentinel-1 CPOD Service products routinely delivered to the CDSE:</p>
+<p><em>Table 5: Sentinel-1 Copernicus POD Products in ESA CDSE</em></p>
+<div class="theme-table" style="--width: 760px;">
+ <table-expand>
+  <scroll-shadow>
+   <table-sort>
+    <div data-component="table" data-align="unset" data-number-column="false">
+     <table>
+      <colgroup>
+       <col style="width: 174px">
+       <col style="width: 161px">
+       <col style="width: 161px">
+       <col style="width: 161px">
+      </colgroup>
+      <tbody>
+       <tr>
+        <td colspan="4" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>S-1 CPOD Products</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>Product</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>Delivery Frequency (prod. per day)</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>Latency</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>Mission Availability</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>AUX_RESORB</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>~14</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>30 min*</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>Last 3 months</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>AUX_PREORB</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>~14</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>30 min*</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>Last 3 months</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>AUX_MOEORB</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>1</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>2 days</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>Last 3 months</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>AUX_POEORB</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>1</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>21 days</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>All mission</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>GNSS L1B RINEX Files</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>1</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>7 days</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>All mission</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p><span style="--color: var(--white, #fff);"><strong>Quaternions Files</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>1</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>2 days</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>All mission</p>
+        </td>
+       </tr>
+       <tr>
+        <td colspan="4" style="--bg-color: var(--white, #fff);">
+         <p>(*) w.r.t L0 availability</p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </table-sort>
+  </scroll-shadow>
+ </table-expand>
+</div>
+<p>
+ <br>
+</p>
+<h4 id="Satellite-Parameters-for-POD" style=""><span id="S1Processing-SatelliteParametersforPOD"></span>Satellite Parameters for POD<span id="S1-Processing-Satellite-Parameters-for-POD"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Satellite-Parameters-for-POD">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h4>
+<p>The Sentinel-1 mission is supported by two spacecraft, flying in the same orbital plane with a phase shift of 180º. An overall <a href="/web/s1-mission#S1-Mission-Satellite-Description" data-scope="internal">description of the satellite</a> is available, showing the main instruments and the geometry of the satellites. Additionally, they are equipped with two dual frequency RUAG GPS receivers to allow POD in order to meet the stringent accuracy requirements of the mission.</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 442px" data-component="image" data-align="align-center">
+    <img src="https://sentinels.copernicus.eu/documents/247904/3376705/Sentinel-1-satellite-parameters.jpg" alt="https://sentinels.copernicus.eu/documents/247904/3376705/Sentinel-1-satellite-parameters.jpg" data-scope="external" width="600" height="334">
+   </div>
+   <figcaption>
+    <strong>Figure 14: Drawing of Sentinel-1A showing the GPS receivers [Credits: ESA]</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>For Precise Orbit Determination processing it is of paramount importance to know in great detail the mass history of the satellite, the evolution of its centre of gravity, the manoeuvre history and the attitude information. Moreover, for GNSS based processing, the location and orientation of the antennae are required. In the case of the manoeuvre and mass history file (including the CoG position), available hereafter, a historical record is kept since the launch of the satellite:</p>
+<ul>
+ <li>
+  <p><a href="/__attachments/a_9e96338013b073ceff8912fe6d368a6194b67c3578744540c6a8af776af1ddcb/s1a.mhf?cb=9bd44ad2b3c8fca920e541fc38396cd5" data-scope="internal"><strong>Sentinel-1A Mass History file</strong></a><strong>, </strong><a href="/__attachments/a_30ecd52a6795fc9509a5cd10f13a9bd58f2ff3117f3bec254597207ce8f285e9/s1c.mhf?cb=42ac42bd463592c3fc03a53489428f1e" data-scope="internal"><strong>Sentinel-1C Mass History file</strong></a><strong> and </strong><a href="/__attachments/a_a305840fa756ca7066548585acb848118a4f66955b9533fc17ea5a69c2b5cc25/s1d.mhf?cb=0451a857e4d955303ba33d7f2ec974da" data-scope="internal"><strong>Sentinel-1D Mass History file</strong></a></p>
+ </li>
+ <li>
+  <p><a href="/__attachments/a_9e96338013b073ceff8912fe6d368a6194b67c3578744540c6a8af776af1ddcb/s1a.mhf?cb=9bd44ad2b3c8fca920e541fc38396cd5" data-scope="internal"><strong>Sentinel-1A Manoeuvre History file</strong></a><strong>, </strong><a href="/__attachments/a_e7900cb2038da4270115f6d1fc5e6eb3b93c74d725303aa667e7ce9481eb3bd4/s1c.man?cb=9b56edc83b66bdb11e6e4b46b7c96cc7" data-scope="internal"><strong>Sentinel-1C Manoeuvre History file</strong></a><strong> and </strong><a href="/__attachments/a_d5eae1aadc39e61174de2fcf48a2511af52d5553cb7b98b5322c648cd2929c68/s1d.man?cb=5a0ea2664880ce6d20427fff533470b2" data-scope="internal"><strong>Sentinel-1D Manoeuvre History file</strong></a></p>
+ </li>
+</ul>
+<p>For the convenience of users, another file combining information on manoeuvres and GNSS outages for the mission is provided below:</p>
+<ul>
+ <li>
+  <p><a href="/__attachments/a_fd07c8dad7248eeab4c61fd3a2f92470f30e2b724fc46bef194b7c5993271ab9/s1a.out?cb=b6fe967eb94b5e1a3b82cb2c394ebf0a" data-scope="internal"><strong>Sentinel-1A Outage file</strong></a><strong> , </strong><a href="/__attachments/a_9943372791fadd8fda353b29a157e0bd4c0e27c56c7d661004662d6a3a554a58/s1c.out?cb=1b1e233f523613cce3610a501670b600" data-scope="internal"><strong>Sentinel-1C Outage file</strong></a> <strong>and </strong><a href="/__attachments/a_380e680b575529ce491c7a31222d30acfebe35fe059df4f6d64f0669c3c7bff4/s1d.out?cb=6f0ddfd90dd1ad99ea28d89fcaffc698" data-scope="internal"><strong>Sentinel-1D Outage file</strong></a></p>
+ </li>
+</ul>
+<p>Please note that all of the files provided above contain a header that explains the format of their content.</p>
+<p>The GPS Antenna absolute phase centre offset and variations (PCO/PCV) of both GPS receivers is located in this <a href="/__attachments/a_69c75a1fb5db7a5c143df86a29028ffe5e1e3971a067d55387f03b80b0033ba1/sen20_2426.atx" data-scope="internal"><strong>ANTEX file</strong></a>.</p>
+<h4 id="Metrics" style=""><span id="S1Processing-Metrics"></span>Metrics<span id="S1-Processing-Metrics"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Metrics">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h4>
+<p>The official&nbsp;<a href="/web/s1-processing#S1-Processing-POD-Sentinel-1-Products-Specification" data-scope="internal">S1 Processing | S1 Processing POD Sentinel 1 Products Specification</a> &nbsp;in NRT are computed using 24 hours of data, whereas STC and NTC products are computed using 32 hours of data. This information and other modelling parameters are included in the <a href="/__attachments/a_ccb3492a4869b16ca22f4883fcba8bcd9af49b3cefa62fd1e36b3e91767a3547/GMV-CPOD3-PH-0001_v1.14_Copernicus%20POD%20Product%20Handbook.pdf?cb=07b0b90d314ae8abf9b6bfbfcdc03405" data-scope="internal">Product Handbook</a>. They are computed using P1/P2 code and L1/L2 phase ionosphere-free combinations. The number of used and rejected observations for each timeliness are shown hereafter:</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <div class="block-image" style="--width: 377px" data-component="image" data-align="align-center">
+   <img src="/__attachments/a_59874ec87b369e5c1dfe2543f81ee48b87ea383af0d6e521f983a35103017da3/image-20250506-155611.png?cb=0bb089ef846f1cdb9a823858f6b019d8" alt="image-20250506-155611.png" data-scope="internal" width="377" height="362">
+  </div>
+ </image-lightbox>
+</div>
+<div class="theme-block-image">
+ <image-lightbox>
+  <div class="block-image" style="--width: 377px" data-component="image" data-align="align-center">
+   <img src="/__attachments/a_664681abcbdf0d7e0afd00abc04cbb1563110ed538fcaf9512490f2ffcacdc00/image-20250506-155735.png?cb=893c502884acdec27f1757153c83e9aa" alt="image-20250506-155735.png" data-scope="internal" width="377" height="366">
+  </div>
+ </image-lightbox>
+</div>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 375px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_7646259d738df40359fa55d8140a8bff6bed2ee6397d5cf72611e7598d5e8108/image-20250506-155824.png?cb=fd5fc399c6b03bf4e0dfba95089fd094" alt="image-20250506-155824.png" data-scope="internal" width="375" height="398">
+   </div>
+   <figcaption>
+    <strong>Figure 15-17: Number of used and rejected observations in Sentinel-1 NRT, STC and NTC processing</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>The RMS of residuals obtained from the processing of pseudorange and carrier phase after applying an ANTEX correction [<a href="https://files.igs.org/pub/station/general/antex14.txt" data-scope="external" rel="external noreferrer">https://files.igs.org/pub/station/general/antex14.txt</a>] to the GPS antenna are shown below for all generated products:</p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <div class="block-image" style="--width: 380px" data-component="image" data-align="align-center">
+   <img src="/__attachments/a_8118d30df766bae676bce51756410582609ad3be717d7d176730856c541dfe68/image-20250506-160415.png?cb=a1cf2a0e09f00ecc280e3c9760780a35" alt="image-20250506-160415.png" data-scope="internal" width="380" height="341">
+  </div>
+ </image-lightbox>
+</div>
+<div class="theme-block-image">
+ <image-lightbox>
+  <div class="block-image" style="--width: 377px" data-component="image" data-align="align-center">
+   <img src="/__attachments/a_7012410d1f1825cea39cfbb28d58bb79aed9b830dbb1a27b5e4c31293e04b68d/image-20250506-160440.png?cb=23ba479fe613bf22225b073dc2daab4e" alt="image-20250506-160440.png" data-scope="internal" width="377" height="341">
+  </div>
+ </image-lightbox>
+</div>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 373px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_b3ab5dc37d481b8bd961a8620c7a99b725d98a98a5b719cf3a25b7fad007e8db/image-20250506-160536.png?cb=e4ffdd25608f65fd42c5efdd7b615f60" alt="image-20250506-160536.png" data-scope="internal" width="373" height="309">
+   </div>
+   <figcaption>
+    <strong>Figure 18-20: RMS of GNSS pseudorange residuals in Sentinel-1 NRT, STC and NTC processing</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<div class="theme-block-image">
+ <image-lightbox>
+  <div class="block-image" style="--width: 372px" data-component="image" data-align="align-center">
+   <img src="/__attachments/a_5c727efb133eaf63464dde823dd1bc7c4388997f5ee0d2e8bd8ab1c108b25a3e/image-20250506-160654.png?cb=a02872590a69fb571e10a70ee3fccf26" alt="image-20250506-160654.png" data-scope="internal" width="372" height="313">
+  </div>
+ </image-lightbox>
+</div>
+<div class="theme-block-image">
+ <image-lightbox>
+  <div class="block-image" style="--width: 377px" data-component="image" data-align="align-center">
+   <img src="/__attachments/a_d4fb763233e7dcaefb2b07b24e55d0c66df4f19f63d845b172b373b593a13b03/image-20250506-160720.png?cb=182755c1f88e89d03e96f985384ea030" alt="image-20250506-160720.png" data-scope="internal" width="377" height="312">
+  </div>
+ </image-lightbox>
+</div>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 376px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_2d997a83a5fa992b9d74eeac9dcea07bed727d088f1711009e970edc28e41745/image-20250506-160737.png?cb=7f4e0e242f4dc6f9202287df4ddb007b" alt="image-20250506-160737.png" data-scope="internal" width="376" height="337">
+   </div>
+   <figcaption>
+    <strong>Figures 21-23: RMS of GNSS carrier phase residuals in Sentinel-1 NRT, STC and NTC processing</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p style="--text-align: center">
+ <br>
+</p>
+<h4 id="Orbit-Comparisons" style=""><span id="S1Processing-OrbitComparisons"></span>Orbit Comparisons<span id="S1-Processing-Orbit-Comparisons"></span>
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#Orbit-Comparisons">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h4>
+<p>The operational Sentinel-1 AUX_PREORB, AUX_RESORB and AUX_POEORB solutions from the CPOD Service are compared here against the combined solution (which is computed as a weighted mean of several external solutions provided by the CPOD QWG). The AUX_PREORB solution is divided into its two orbits in order to analyse the difference between the first and the second prediction.</p>
+<p>In the following figures, the position accuracy of each orbit solution is shown (in 2D or 3D RMS depending on the requirement). Each figure is presented along with the distribution of the obtained accuracy metrics, where the percentiles of these metrics are calculated for different thresholds.</p>
+<p>The period of time for AUX_PREORB and AUX_RESORB products correspond to the latest <a href="/web/document-library#POD-Service-Reports%5BinlineExtension%5D" data-scope="internal"><u>Yearly Regular Service Review</u></a>. The period of the AUX_POEORB includes from the beginning of the mission.&nbsp;Orbit comparisons considered as outliers (i.e., those mostly generated from periods of time with manoeuvres or data gaps) have been filtered-out from the statistics shown below.</p>
+<p>For AUX_PREORB and AUX_POEORB products some dispersion is quite visible due to the increased solar activity that we have suffered during the last years (see <a href="/__attachments/a_f78e23ae7ba3fea00aaa60c779af32481585b90d769d79c5c4839eb8ca1f2bbc/GMV-CPOD3-MEM-0013%20-%20Analysis%20of%20Solar%20Activity%20Effects%20on%20POD%202024%20-%201.1.pdf" data-scope="internal"><u>Analysis of Solar Activity Effects on POD 2024</u></a> document for further information).</p>
+<h5 id="AUX_PREORB-(first-orbit)" style=""><span id="S1Processing-AUX_PREORB(firstorbit)"></span>AUX_PREORB (first orbit)
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#AUX_PREORB-(first-orbit)">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h5>
+<p><em>Sentinel-1 AUX_PREORB (1st orbit) products – Orbit comparisons against COMB solution [2D RMS; cm] (the accuracy requirement is shown with a blue line; vertical lines indicate periods of manoeuvres or data gaps)</em></p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 760px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_45667062dc9b2c48697f187035d1ace333d0a836ee0743d51d45df3077aec404/image-20260316-090717.png?cb=da5dd367e7d9526519ae8782e1f5dd2b" alt="image-20260316-090717.png" data-scope="internal" width="460" height="165">
+   </div>
+   <figcaption>
+    <strong>Figure 17: Sentinel-1 AUX_PREORB (1st orbit) products - Accuracy percentiles (they are calculated from the orbit comparisons against COMB solution [2D RMS])</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p>&nbsp;</p>
+<p><em>Table 6: &nbsp;Sentinel-1 AUX_PREORB (1st orbit) products – Accuracy percentiles (they are calculated from the orbit comparisons against COMB solution [2D RMS])</em></p>
+<div class="theme-table" style="--width: 760px;">
+ <table-expand>
+  <scroll-shadow>
+   <table-sort>
+    <div data-component="table" data-align="unset" data-number-column="false">
+     <table>
+      <colgroup>
+       <col style="width: 310px">
+       <col style="width: 219px">
+       <col style="width: 230px">
+      </colgroup>
+      <tbody>
+       <tr>
+        <td colspan="3" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Product Accuracy</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td rowspan="2" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p>&nbsp;</p>
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Threshold</strong></span></p>
+        </td>
+        <td colspan="2" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Percentage Fulfilment</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Sentinel-1A</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Sentinel-1C</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>5 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>31.30 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>32.96 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>10 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>76.64 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>76.64 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>20 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>94.68 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>94.51 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>50 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>99.06 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>98.69 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>99.89 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>99.68 %</p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </table-sort>
+  </scroll-shadow>
+ </table-expand>
+</div>
+<p>&nbsp;</p>
+<h5 id="AUX_PREORB-(second-orbit)" style=""><span id="S1Processing-AUX_PREORB(secondorbit)"></span>AUX_PREORB (second orbit)
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#AUX_PREORB-(second-orbit)">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h5>
+<p><em>Sentinel-1 AUX_PREORB (2nd orbit) products – Orbit comparisons against COMB solution [2D RMS; cm] (the accuracy requirement is shown with a blue line; vertical lines indicate periods of manoeuvres or data gaps)&nbsp;</em></p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 749px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_687082f02bb6aab3af07ff05481d3c7522903765d984d108cdd42baed8260a84/image-20260316-091829.png?cb=2fba5c505a2b2c9839dd0079bcd599ac" alt="image-20260316-091829.png" data-scope="internal" width="461" height="165">
+   </div>
+   <figcaption>
+    <strong>Figure 18: Sentinel-1 AUX_PREORB (2nd orbit) products – Accuracy percentiles (they are calculated from the orbit comparisons against COMB solution [2D RMS])</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p><em>Table 7: Sentinel-1 AUX_PREORB (2nd orbit) products – Accuracy percentiles (they are calculated from the orbit comparisons against COMB solution [2D RMS])</em></p>
+<div class="theme-table" style="--width: 760px;">
+ <table-expand>
+  <scroll-shadow>
+   <table-sort>
+    <div data-component="table" data-align="unset" data-number-column="false">
+     <table>
+      <colgroup>
+       <col style="width: 312px">
+       <col style="width: 219px">
+       <col style="width: 227px">
+      </colgroup>
+      <tbody>
+       <tr>
+        <td colspan="3" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Product Accuracy</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td rowspan="2" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p>&nbsp;</p>
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Threshold</strong></span></p>
+        </td>
+        <td colspan="2" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Percentage Fulfilment</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Sentinel-1A</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Sentinel-1C</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>5 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>4.83 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>5.28 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>10 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>26.25 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>28.40 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>20 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>56.71 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>58.86 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>50 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>88.42 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>88.81 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>96.05 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>95.16 %</p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </table-sort>
+  </scroll-shadow>
+ </table-expand>
+</div> 
+<h5 id="AUX_RESORB" style=""><span id="S1Processing-AUX_RESORB"></span>AUX_RESORB
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#AUX_RESORB">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h5>
+<p><em>Sentinel-1 AUX_RESORB products – Orbit comparisons against COMB solution [2D RMS; cm] (the accuracy requirement is shown with a blue line; vertical lines indicate periods of manoeuvres or data gaps)</em></p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 745px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_6472b05349572a8ceed0ee9cc93a8a67ce9c597720d51a1ed26ed48bf219ca50/image-20260316-091434.png?cb=6c8ea9ae5a64e898bd49c636446b367d" alt="image-20260316-091434.png" data-scope="internal" width="461" height="165">
+   </div>
+   <figcaption>
+    <strong>Figure 19: Sentinel-1 AUX_RESORB products - Accuracy percentiles (they are calculated from the orbit comparisons against COMB solution [2D RMS])</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p><em>Table 8: Sentinel-1 AUX_RESORB products – Accuracy percentiles (they are calculated from the orbit comparisons against COMB solution [2D RMS])</em></p>
+<div class="theme-table" style="--width: 760px;">
+ <table-expand>
+  <scroll-shadow>
+   <table-sort>
+    <div data-component="table" data-align="unset" data-number-column="false">
+     <table>
+      <colgroup>
+       <col style="width: 310px">
+       <col style="width: 257px">
+       <col style="width: 192px">
+      </colgroup>
+      <tbody>
+       <tr>
+        <th colspan="3" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Product Accuracy</strong></span></p>
+        </th>
+       </tr>
+       <tr>
+        <td rowspan="2" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p>&nbsp;</p>
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Threshold</strong></span></p>
+        </td>
+        <td colspan="2" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Percentage Fulfilment</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Sentinel-1A</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p>&nbsp;</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>1 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>0.30 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>0.17 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>2 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>31.98 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>26.91 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>3 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>84.06 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>80.40 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>5 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>98.96 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>99.07 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>10 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>99.87 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100.00 %</p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </table-sort>
+  </scroll-shadow>
+ </table-expand>
+</div> 
+<h5 id="AUX_MOEORB" style=""><span id="S1Processing-AUX_MOEORB"></span>AUX_MOEORB
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#AUX_MOEORB">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h5>
+<p><em>Sentinel-1 AUX_MOEORB products – Orbit comparisons against COMB solution [3D RMS; cm] (the accuracy requirement is shown with a blue line; vertical lines indicate periods of manoeuvres or data gaps)</em></p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 755px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_ce52559ff3b1d0d92d339eb21f25cbab6f7174ee82a7e30948850c2640c3ef0e/image-20260316-092002.png?cb=32f5341f8189498caee1e8c49f744108" alt="image-20260316-092002.png" data-scope="internal" width="461" height="165">
+   </div>
+   <figcaption>
+    <strong>Figure 20: Sentinel-1 AUX_MOEORB products - Accuracy percentiles (they are calculated from the orbit comparisons against COMB solution [3D RMS])</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p><em>Table 9: Sentinel-1 orbit comparisons – Accuracy percentiles (the accuracy percentiles are from AUX_MOEORB against COMB solution [3D RMS])</em></p>
+<div class="theme-table" style="--width: 760px;">
+ <table-expand>
+  <scroll-shadow>
+   <table-sort>
+    <div data-component="table" data-align="unset" data-number-column="false">
+     <table>
+      <colgroup>
+       <col style="width: 310px">
+       <col style="width: 228px">
+       <col style="width: 219px">
+      </colgroup>
+      <tbody>
+       <tr>
+        <th colspan="3" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Product Accuracy</strong></span></p>
+        </th>
+       </tr>
+       <tr>
+        <td rowspan="2" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p>&nbsp;</p>
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Threshold</strong></span></p>
+        </td>
+        <td colspan="2" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Percentage Fulfilment</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Sentinel-1A</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Sentinel-1C</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>2 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>91.33 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>72.44 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>3 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>99.46 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>99.29 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>5 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>99.73 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100.00 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>7 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>99.73 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100.00 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>10 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100.00 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100.00 %</p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </table-sort>
+  </scroll-shadow>
+ </table-expand>
+</div> 
+<h5 id="AUX_POEORB" style=""><span id="S1Processing-AUX_POEORB"></span>AUX_POEORB
+ <i18n-message i18nkey="clipboard.copyLink.label" attribute="description">
+  <copy-clipboard class="anchor-copy-button" value="https://sentiwiki.copernicus.eu/web/s1-processing#AUX_POEORB">
+   <svg role="img" aria-hidden="true" data-component="icon" class="icon icon-link copy-headline-link-icon">
+    <use href="/__theme/b_8ca5a7d7-80f3-41c8-bea7-75cce14ad14f/scroll-sites-help-center-theme/53/icons.svg#link"></use>
+   </svg>
+  </copy-clipboard>
+ </i18n-message></h5>
+<p><em>Sentinel-1 AUX_POEORB products – Orbit comparisons against COMB solution [3D RMS; cm] (the accuracy requirement is shown with a blue line; vertical lines indicate periods of manoeuvres or data gaps)</em></p>
+<div class="theme-block-image">
+ <image-lightbox>
+  <figure data-component="figure">
+   <div class="block-image" style="--width: 749px" data-component="image" data-align="align-center">
+    <img src="/__attachments/a_77236a1535e38007f88a9fe8ee75e4b4c705c547841608b1346a748c5bb8866b/image-20260316-092238.png?cb=941425db5c3982f76331e31127cb08cc" alt="image-20260316-092238.png" data-scope="internal" width="461" height="165">
+   </div>
+   <figcaption>
+    <strong>Figure 21: Sentinel-1 AUX_POEORB products - Accuracy percentiles (they are calculated from the orbit comparisons against COMB solution [3D RMS])</strong>
+   </figcaption>
+  </figure>
+ </image-lightbox>
+</div>
+<p><em>Table 10: Sentinel-1 orbit comparisons – Accuracy percentiles (the accuracy percentiles are from AUX_POEORB against COMB solution [3D RMS])</em></p>
+<div class="theme-table" style="--width: 760px;">
+ <table-expand>
+  <scroll-shadow>
+   <table-sort>
+    <div data-component="table" data-align="unset" data-number-column="false">
+     <table>
+      <colgroup>
+       <col style="width: 310px">
+       <col style="width: 235px">
+       <col style="width: 214px">
+      </colgroup>
+      <tbody>
+       <tr>
+        <th colspan="3" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Product Accuracy</strong></span></p>
+        </th>
+       </tr>
+       <tr>
+        <td rowspan="2" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p>&nbsp;</p>
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Threshold</strong></span></p>
+        </td>
+        <td colspan="2" style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Percentage Fulfilment</strong></span></p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p style="--text-align: center"><span style="--color: var(--white, #fff);"><strong>Sentinel-1A</strong></span></p>
+        </td>
+        <td style="--bg-color: var(--bold-blue, #4c9aff);">
+         <p>&nbsp;</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>0.5 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>52.46 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>50.00 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>1 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>89.34 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>97.87 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>3 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100.00 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100.00 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>5 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100.00 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100.00 %</p>
+        </td>
+       </tr>
+       <tr>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>7 cm</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100.00 %</p>
+        </td>
+        <td style="--bg-color: var(--white, #fff);">
+         <p>100.00 %</p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </table-sort>
+  </scroll-shadow>
+ </table-expand>
+</div>
+<p>
+ <br>
+</p>
+<p>
+ <br>
+</p>
+
+
+																				<script>
+						// Mark block images on the first level as breakout so they can grow wider than the article content.
+						document.querySelectorAll('.article-body > .theme-block-image [data-component="image"]').forEach((element) => {
+							const propertyValue = element.style.getPropertyValue('--width');
+							if (!propertyValue) {
+								return;
+							}
+							if (parseInt(propertyValue) >= 760) {
+								element.closest('.theme-block-image').classList.add('theme-block-image--breakout');
+							}
+						});
+
+						// Remove the inline size on page layouts as this would lead to layouts breaking out of the article content.
+						document.querySelectorAll('.article-body [data-component="layout-section"]').forEach((element) => {
+							const propertyValue = element.style.getPropertyValue('--inline-size');
+							if (!propertyValue) {
+								return;
+							}
+							// ONLY for this very specific width (Confluence default)
+							if (parseInt(propertyValue) === 760) {
+								element.style.removeProperty('--inline-size');
+							}
+						})
+
+						// Set the initial state of the navigation toggle to prevent shifting in the UI
+						try {
+							const navigationToggle = document.querySelector('#navigator-toggle');
+							const navigationState = localStorage.getItem('theme-navigation-state');
+
+							if (navigationState === 'collapsed' && navigationToggle) {
+								navigationToggle.setAttribute('aria-expanded', 'false');
+							}
+						} catch (error) {
+							console.error(error);
+						}
+					</script>
+																			</section>
+				<footer>
+
+				</footer>
+			</article>
+		</main>
+	</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer data-component="footer" class="footer">
+
+
+
+
+
+		<img class="footer-logo footer-logo--dark" src="/__site/daf22bbc-3283-4247-8d4c-43dcc8aa2152/esa-brand-dark-transparent.png" alt="">
+
+		<img class="footer-logo footer-logo--light" src="/__site/daf22bbc-3283-4247-8d4c-43dcc8aa2152/esa-brand-dark-transparent.png" alt="">
+	<ul class="footer-content">
+		<li><i18n-message i18nkey="footer.copyright.label">Copyright</i18n-message> <current-year></current-year> European Space Agency</li>		<li><i18n-message i18nkey="footer.poweredBy.label">Powered by</i18n-message> <a href="https://www.k15t.com/products/scroll-sites-for-confluence?utm_campaign=k15t-sts-attribution-line&utm_source=k15t-apps" rel="external nofollow">Scroll&nbsp;Sites</a> & <a href="https://www.atlassian.com/software/confluence" rel="external nofollow">Atlassian&nbsp;Confluence</a></li>
+			<li>
+				<button type="button" data-cc="show-preferencesModal">
+					<i18n-message i18nkey="cookieConsent.showPreferences">Manage cookie preferences</i18n-message>
+				</button>
+			</li>
+	</ul>
+
+</footer>
+
+
+</body>
+</html>

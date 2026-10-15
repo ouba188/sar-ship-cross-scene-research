@@ -1,0 +1,55 @@
+{
+  "scope": "source fit and held only; no target, training, nearest-time fallback or navigation status",
+  "self_tests": "passed: zero, sentinels, ranges, timezone, exact time/MMSI/product keys, position and ambiguity",
+  "join": "manifest UID -> unique JSON object -> MMSI/product/exact UTC epoch -> raw TXT",
+  "coordinate_tolerance_degrees": 1e-06,
+  "coordinate_limit": "Object/meta explicit lon/lat aliases only; crop pixel coordinates are not geographic coordinates",
+  "coverage_limit": "Only previously audited UID views and listed TXT files; not full recoverable coverage",
+  "semantics": {
+    "sog_knots": "column 4 / 10; 0 <= raw < 1023",
+    "cog_deg": "column 8 / 10; 0 <= raw < 3600; course over ground, not body heading",
+    "true_heading_deg": "column 9; 0 <= raw < 360; rejects 511"
+  },
+  "no_navigation_status": "Column 5 is position accuracy, not navigation status; not extracted",
+  "sources": {
+    "observations": "E:\\临时会话\\same_vessel_condition_study_20261010\\observations.csv",
+    "manifest": "E:\\临时会话\\visual_reliable_baseline\\artifacts\\eight_class_adaptive_20260916\\manifest.csv",
+    "cohorts": "E:\\临时会话\\same_vessel_condition_study_20261010\\incidence_transport_20261011\\source_cohorts.npz",
+    "views": "E:\\临时会话\\same_vessel_condition_study_20261010\\knowledge_train_only_design_20261011\\object_dimension_audit.csv",
+    "txt_paths": "E:\\临时会话\\same_vessel_condition_study_20261010\\knowledge_train_only_design_20261011\\read_source_txt_paths.json"
+  },
+  "json_files_read": 715,
+  "txt_files_read": 130,
+  "txt_bytes": 91256018,
+  "coverage": {
+    "fit": {
+      "observations": 1296,
+      "match_status": {
+        "no_audited_uid_json": 755,
+        "matched": 540,
+        "exact_time_not_found": 1
+      },
+      "valid": {
+        "sog_knots": 540,
+        "cog_deg": 534,
+        "true_heading_deg": 473
+      },
+      "valid_zero_sog": 175,
+      "stored_coordinates_available": 0
+    },
+    "held": {
+      "observations": 823,
+      "match_status": {
+        "no_audited_uid_json": 494,
+        "matched": 329
+      },
+      "valid": {
+        "sog_knots": 327,
+        "cog_deg": 317,
+        "true_heading_deg": 296
+      },
+      "valid_zero_sog": 74,
+      "stored_coordinates_available": 0
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "metric": "AP@R=sum_{k<=R}(precision@k * relevance@k)/R; R=eligible same-class gallery count",
+  "reference": "Musgrave official pytorch-metric-learning accuracy_calculator mean_average_precision(at_r=True)",
+  "query_gallery": "Same fixed823 source-held observations; actualtargetqueries additionally use that same823 sourceheld gallery",
+  "eligible": "Different actual port AND different known MMSI; unknown identities excluded; R=0 queries reported, not scored as zero",
+  "candidate_distribution": "All eligible fixed rows, not rebalanced or resampled by arm; same-vessel gallery repeats remain disclosed",
+  "aggregation": "Within each actual port/class average queries, then classes within port, then ports; micro separately",
+  "views": "Primary full expert phi WITHOUT constant bias; secondary R18-dependent576 coordinates; cosine distance, stable obs-id tie order",
+  "student": "Task/relation/readout maps both query and gallery; two true training seeds, three geometry contexts, not actual queryports",
+  "completion": "Raw queries, corrected eligible gallery only; reproduce original eligible-gallery centroid/energy matching, no labels in predictor",
+  "scope": "Gallery retrieval diagnostic, not the deployed64-support classifier or added budget labels",
+  "temperature": "Not used for retrieval",
+  "new_fits": 0,
+  "parameters_selected": false,
+  "limitations": "Existing repeated development cohorts; historical source encoder/geometry exposure; exploratory metric establishment"
+}

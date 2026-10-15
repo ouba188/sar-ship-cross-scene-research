@@ -1,0 +1,22 @@
+{
+  "arms": [
+    "C",
+    "D"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "steps": 400,
+  "fitting": 1296,
+  "valid_sog": 540,
+  "zero_speed": 175,
+  "targets": "C log1p AIS SOG; D source class-mean log1p SOG on SAME mask. No dimension targets.",
+  "objective": "B classification+support+OOF other-product teaching plus speed auxiliary. Actual C gradient capped10pct on8fixed batches; D same coefficient.",
+  "initialization": "32->1 auxiliary head fitted by fixed source ridge0.1; class projection/prior and schedules identical to B.",
+  "selection": "Original3source new-ship SAR support episodes; BA then CE then earliest every20steps incl0.",
+  "inference": "Metadata-free SAR input and64labeled SAR supports; auxiliary head removed.",
+  "evaluation": "4fits frozen before target evaluation. B selected/last predictions reused unchanged and replayed.",
+  "limitations": "AIS reports within3min, not exact physical synchronization; developmental ports and historical frozen features, no causal proof.",
+  "scope": "No sweep, no main model promotion by isolated positive. SOG source-only labels, no target AIS."
+}

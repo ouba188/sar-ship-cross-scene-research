@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-12",
+  "ports": [
+    "Los Angeles",
+    "Port Klang",
+    "Santos"
+  ],
+  "arms": [
+    "continued",
+    "equal_teacher",
+    "knowledge_teacher"
+  ],
+  "seed": 31415,
+  "steps": 64,
+  "query_batch": 64,
+  "teacher_batch": 64,
+  "lr": 1e-05,
+  "weight_decay": 0.0001,
+  "task_loss": "Class-balanced CE through current full expert, source support64 residual ridge8",
+  "teaching": "0.5 centered-score MSE, source same-vessel other-whole-product OOF prior teachers",
+  "knowledge": "4 bounded speed/double-direction inputs; no confidence; refit reader in full expert coordinates",
+  "coverage": "Original 1296 fit observations intersect allowed outer source; no new target metadata",
+  "teacher_scope": "Vessel-held linear source heads and quality readers; historical encoder/geometry not vessel-held; upstream head not nested in quality CV",
+  "prior_training": "Source episode and teacher head coefficients frozen during continuation; refit final source prior in updated features for all arms",
+  "geometry": "Original PCA/Qs/Qd/scales fixed; bank, complementary features and support kernel recomputed from new R18",
+  "inference": "Original SAR chip and existing SAR acquisition incidence only; NO new AIS, identity or history input",
+  "primary": "Equal softmax full fusion; original R50/frequency base unchanged; same5x64 supports",
+  "interpretation": "Bounded full-model integration pilot, not causal-factor identification or independent confirmation",
+  "frozen_selection": "Fixed final step64, no target selection or per-port hyperparameters"
+}

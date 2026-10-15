@@ -1,0 +1,30 @@
+{
+  "scope": "Source-only fixed original vessel3fold; no held or target prediction/selection.",
+  "attributes": "AIS reported L/W, NOT independently certified physical dimensions.",
+  "mask": "Single joint positive pair both identity and product; exact agreement; exclude L<=W,L>=500,L/W>30; missing rows retained in later classification.",
+  "ridge": 0.1,
+  "regularizer": "ridge * training standardized weighted Gram trace/dimension; no sweep",
+  "weights": "Equal classes then ships then observations, separately computed on each evaluated cohort.",
+  "probes": "SAR direct is deployable; class_mean and within_class use true class ONLY for diagnostic decomposition, never deployment.",
+  "conditional": "Train class-centered X to class-centered logdims; proves conditional predictability only, not causal identification.",
+  "gate": "Proceed to fixed four-arm study if at least one source-OOF conditional log dimension beats class-mean error; report both and every fold; no held metrics consulted.",
+  "replay_max_error": 0.0,
+  "folds": [
+    {
+      "fold": 0,
+      "train_ships": 327,
+      "test_ships": 165
+    },
+    {
+      "fold": 1,
+      "train_ships": 329,
+      "test_ships": 163
+    },
+    {
+      "fold": 2,
+      "train_ships": 328,
+      "test_ships": 164
+    }
+  ],
+  "continue_four_arms": true
+}

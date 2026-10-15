@@ -1,0 +1,24 @@
+{
+  "arms": [
+    "B",
+    "sham_near"
+  ],
+  "trained_arms": [
+    "sham_near"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "steps": 400,
+  "angle_scale_degrees": 5.0,
+  "baseline": "B same-vessel other-product OOF teaching; original classification/support losses retained.",
+  "intervention": "far: favor different incidence; near: favor similar incidence; sham: far after within-vessel permutation.",
+  "weights": "Known donor weights 1..2 then normalized to preserve known donor total mass; unknowns unchanged. At least2known donors.",
+  "metadata": "Only source-fit incidence builds teachers. No target/held metadata in training or model selection.",
+  "selection": "Same3new-vessel SAR support episodes, BA then CE then earliest, every20steps including0.",
+  "inference": "SAR only, same64SAR support labels. No incidence/MMSI/product/history/auxiliary head at prediction.",
+  "limitation": "Reused developmental ports, frozen historical R18; teacher weighting is not a causal intervention. Angle/port correlations not eliminated.",
+  "budget": "2seeds, no angle-scale or loss-weight sweep; freeze all before held/target metrics. Last snapshots diagnostic only.",
+  "followup": "sham_near is a post-original-result specificity control, not an independent confirmation."
+}

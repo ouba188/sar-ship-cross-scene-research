@@ -1,0 +1,976 @@
+Article
+
+Analysis of Image Domain Characteristics of Maritime
+Rotating Ships for Spaceborne Multichannel SAR
+Yongkang Li 1,2,*, Cuiqian Cao 2 and Hao Li 2
+
+                                         1 Research & Development Institute of Northwestern Polytechnical University in Shenzhen,
+                                           Shenzhen 518063, China
+                                         2 School of Electronics and Information, Northwestern Polytechnical University, Xi′an 710072, China
+
+                                         * Correspondence: ykli@nwpu.edu.cn
+
+
+                                         Highlights
+                                         What are the main findings?
+                                         •    For the eﬀect of each rotation motion on the ship′s signal characteristics in image
+                                              domain, the eﬀect of yaw is minimal and the eﬀect of pitch is the greatest.
+                                         •    The variations in ATI phase caused by roll and yaw are mainly related to the y′-axis
+                                              coordinate of the scatterer and are approximately linearly related to yq′ 0 , while those
+                                              caused by pitch is mainly related to the y′-axis and z′-axis coordinates of the scatterer
+                                              and is approximately linearly related to xq′ 0 and zq′ 0 .
+
+                                         What are the implications of the main findings?
+                                         •    It reveals the scatterer′s azimuth position shift, azimuth defocusing, azimuth sidelobe
+                                              asymmetry, and ATI phase variation introduced by each rotation motion and their
+                                              dependence on the scatterer′s position relative to the gravity center of the ship.
+                                         •    It can lay the foundation for the design of moving target indication methods for ro-
+                                              tating ship targets.
+
+                                         Abstract
+                                         Ship targets are usually high-value targets, and synthetic aperture radar (SAR) moving
+                                         ship indication is of great importance in maritime traﬃc monitoring. However, due to the
+                                         motion of the ocean, maritime ships may have rotational motion in addition to the con-
+                                         ventional translational motion. The rotational motion, including the yaw, pitch, and roll,
+                                         will cause the signal characteristics of the ship to become very complex, which increases
+                                         the diﬃculty of designing moving target indication methods. This paper studies the eﬀect
+                                         of each rotation motion on the ship′s signal characteristics in image domain for space-
+Academic Editor: Dusan Gleich            borne multichannel SAR. Firstly, the range equation of an arbitrary scatterer on the ship
+Received: 26 November 2025               with both rotational and translational motions is developed. Then, the influences of each
+Revised: 16 December 2025                rotation motion on the coeﬃcients of the range equation and the scatterer′s along-track
+Accepted: 16 December 2025               interferometric (ATI) phase are revealed. Finally, numerical experiments are conducted
+Published: 23 December 2025              to investigate the eﬀect of each rotation motion on the scatterer′s azimuth position shift,
+Copyright: © 2025 by the authors.        azimuth defocusing, azimuth sidelobe symmetry, and ATI phase, which are important
+Licensee MDPI, Basel, Switzerland.       parameters for moving target indication.
+This article is an open access article
+distributed under the terms and          Keywords: synthetic aperture radar; maritime moving target indication; rotation motion
+conditions of the Creative Commons
+                                         of ship
+Attribution (CC BY) license.
+
+
+
+
+Remote Sens. 2026, 18, 41                                                                                           https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                              2 of 17
+
+
+
+
+                            1. Introduction
+                                  Synthetic aperture radar (SAR) has the capability of all-weather, all-day, and long-
+                            range imaging and has been widely used in both civil and military fields [1–4]. Modern
+                            SAR systems are usually equipped with the operation mode of ground moving target in-
+                            dication (GMTI) and can indicate ground/maritime moving targets while simultaneously
+                            obtaining a high-resolution image of the observed scene. SAR-GMTI systems can play an
+                            important role in the fields of ground/maritime traﬃc monitoring, military reconnais-
+                            sance, and so on [5–10].
+                                  Unlike ground moving targets, due to the influence of the ocean′s motion, maritime
+                            moving targets may have rotational motion, including the yaw, pitch, and roll, in addition
+                            to the conventional translational motion [11,12]. The rotational motion will make maritime
+                            moving targets′ range equation and signal characteristics become very complex and, thus,
+                            will significantly increase the diﬃculty of the design of moving target indication methods.
+                                  Ship targets are usually high-value targets; thus, SAR moving ship indication has
+                            become a research hotspot in recent years. Specifically, the indication of moving ships
+                            with only translational motion has been extensively studied [13–16]. For instance, ref. [13]
+                            proposed an eﬃcient maritime moving target detection and imaging method for space-
+                            borne SAR, based on the constant false alarm detection technique and inverse SAR (ISAR)
+                            imaging technique. In [14], a maritime moving target detection method based on complex
+                            interferometric dissimilarity was proposed for dual-channel SAR. In addition, ref. [15]
+                            presented a study on the detection and motion parameter estimation of ships for space-
+                            borne polarimetric SAR-GMTI systems.
+                                  For the ships with rotational motion, the existing studies are mainly focused on the
+                            analysis of the target defocusing characteristics and the refocusing of rotating ships [17–
+                            22]. For instance, in [17], the defocusing caused by the rotational motion was intensively
+                            investigated through numerical simulations. Ref. [18] further studied the defocusing
+                            caused by the six-dimensional oscillations of ships. In [19], the space/time-varying char-
+                            acteristics of the defocusing caused by the rotational motion were analyzed in detail. By
+                            combining the range Doppler algorithm with ISAR technique, ref. [20] proposed a rotating
+                            ship imaging method for squint SAR. In addition, an imaging method based on the motion
+                            state estimation and ISAR technique was proposed for rotating ships in [21]. However,
+                            the study on the eﬀect of rotational motion on moving target indication is rare.
+                                  SAR moving target indication is usually performed in the image domain. In addition,
+                            the azimuth position shift and along-track interferometric (ATI) phase of the target are
+                            key parameters for moving target indication. In addition, the azimuth defocusing and
+                            sidelobe asymmetry of the target will lead to significant signal-to-noise ratio (SNR) loss
+                            and deterioration of the image and, thus, will deteriorate the performance of moving tar-
+                            get indication. Therefore, this paper investigates the eﬀect of rotational motion on the
+                            ship′s signal characteristics in the SAR image domain, including the azimuth position
+                            shift, azimuth defocusing, azimuth sidelobe asymmetry, and ATI phase.
+                                  In the paper, firstly, the range equation of an arbitrary scatterer on the ship with both
+                            rotational and translational motions is developed for multichannel SAR. Then, the influ-
+                            ences of each rotation motion on the coeﬃcients of the range equation and the scatterer′s
+                            ATI phase are figured out. Finally, the scatterer′s azimuth position shift, azimuth defocus-
+                            ing, azimuth sidelobe asymmetry, and ATI phase variation introduced by each rotation
+                            motion and their dependence on the scatterer′s position relative to the gravity center of
+                            the ship are analyzed.
+                                  The rest of the paper is organized as follows. In Section 2, the range equation model
+                            of the scatterer is developed. In Section 3, the variations in the coeﬃcients of the range
+                            equation caused by each rotation motion are figured out. Section 4 presents an analysis
+                            on the influence of each rotation on the scatterer′s ATI phase. In Section 5, the eﬀect of
+                                                                                             https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                                                    3 of 17
+
+
+
+
+                            rotation motions on the ship′s signal characteristics in the image domain is analyzed via
+                            numerical experiments. Finally, Section 6 concludes the paper.
+
+                            2. Range Equation Modeling
+                                 The geometric relationship between the radar and rotating ship is shown in Figure 1.
+                            The radar platform moves parallel to the y-axis, with a velocity of vs and a height of h. The
+                            radar has N channels in azimuth, and the distance between the equivalent phase centers
+                            of adjacent channels is d. At the azimuth time ta = 0, the coordinate of the nth channel radar
+                            in the o-xyz coordinate system is (0, −(n − 1)d, h), and the coordinate of the ship′s center of
+                            gravity in the o-xyz coordinate system is (x0, 0, 0). In addition, at ta = 0, the ship′s velocity
+                            and acceleration along the x-axis are vx and ax, respectively; the velocity and acceleration
+                            along the y-axis are vy and ay, respectively. o′-x′y′z′ is the ship′s coordinate system with its
+                            origin at the ship′s center of gravity. The x′-axis is transverse to the hull, the y′-axis is lon-
+                            gitudinal to the hull, and the z′-axis is perpendicular to the hull. Q is an arbitrary scatterer
+                                                                                                                                             ( x′ , y ′ , z ′ )
+                            of the ship, and its position at ta = 0 in the o′-x′y′z′ coordinate system is q 0 q 0 q 0 . The
+                            ship rotates under the action of wave thrust, including yaw, pitch, and roll, where the
+                            yaw-axis is perpendicular to the hull, the pitch-axis runs longitudinally through the bow
+                            and stern of the ship, and the roll-axis runs transversely through the hull. In other words,
+                            in the ship′s coordinate system o′-x′y′z′ shown in Figure 1, roll rotates about the x′-axis,
+                            pitch rotates about the y′-axis, and yaw rotates about the z′-axis.
+
+                                               vs          z                     Track of the radar platform
+                                     ...            d
+                                Multichannel SAR
+
+
+
+
+                                                                                              Along-track direction
+                                                z'              O
+                                                                                                                   y
+                                               yaw
+                                                           .Q
+                                                    o'              pitch
+                                                                            y'
+
+
+                                                    roll
+                                           x'
+
+                                           x
+                            Figure 1. Geometric relationship between the radar and ship.
+
+                                 According to Figure 1, the position vector of the scatterer Q in the o-xyz coordinate
+                            system can be expressed as
+                                                                                          rq (ta ) = rc (ta ) + rq′ (ta )                                         (1)
+
+                            with
+
+                                                                                      rc (ta ) = [ xc (ta ) yc (ta ) 0]
+                                                                                                                            Τ
+                                                                                                                                                                  (2)
+
+                                                                                                              1
+                                                                                        xc (ta ) = x0 + vxta + axta2                                              (3)
+                                                                                                              2
+
+
+
+
+                                                                                                                                https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                                                                      4 of 17
+
+
+
+
+                                                                                                        1
+                                                                                       yc (ta ) = vyta + ayta2                                                                     (4)
+                                                                                                        2
+                                                                                                                                Τ
+                                                                            rq′ (ta ) =  xq′ (ta ) yq′ (ta ) zq′ (ta ) 
+                                                                                                                           Τ
+                                                                                                                                                                                   (5)
+                                                                                        = Trot ⋅  xq′ 0 yq′ 0 zq′ 0 
+
+                            where rc(ta) is the position vector of the ship′s center of gravity in o-xyz, and rq′(ta ) is the
+                            position vector of the scatterer Q in o′-x′y′z′. xc(ta) and yc(ta) represent the instantaneous
+                            position components of the ship′s center of gravity along the x-axis and y-axis, respec-
+                            tively, in the o-xyz coordinate system. Trot is the rotation matrix of the ship, and it can be
+                            expressed as
+
+                                                             1    0              0   cosθ p 0 sinθ p  cosθ y                       − sinθ y 0
+                                                                                                            
+                                                     Trot = 0 cosθr          − sinθr  ⋅  0    1   0  ⋅  sinθ y                  cosθ y 0                                 (6)
+                                                             0 sinθr         cosθr  − sinθ p 0 cosθ p   0                         0    1
+
+                            with
+
+                                                                                         θ r = Ar sin(ωr ta )
+                                                                                        
+                                                                                        θ p = Ap sin(ω p ta )                                                                     (7)
+                                                                                        θ = A sin(ω t )
+                                                                                         y      y      y a
+
+
+                            where θr, θp, and θy are the three-dimensional rotation angles, Ar, Ap, and Ay are the three-
+                            dimensional rotation amplitudes, and ωr, ωp, and ωy are three-dimensional rotation angle
+                            frequencies, with the subscripts r, p, and y representing the parameters corresponding to
+                            roll, pitch, and yaw, respectively.
+                                  Based on Equation (1), the instantaneous range between the scatterer Q and the nth
+                            channel, i.e., the range equation of the scatterer Q, can be expressed as
+                                                                                 2                         2                                                               2
+                                       Rn (t a ) =     x c ( t a ) + x q′ (t a )  +  z q′ ( t a ) − h  +  y c ( t a ) + y q′ ( t a ) − v s t a + ( n − 1) d            (8)
+
+                                 To facilitate analysis of the eﬀect of rotation on the scatterer′s signal characteristics,
+                            the range equation in Equation (8) is expanded using a third-order Taylor series expansion
+                            at the time ta = 0, yielding the following result:
+                                                                   R n ( t a ) ≈ R 0 + [ l1 + ( n − 1) d ⋅ α ] t a + l 2 t a2 + l3 t a3                                            (9)
+
+                            where
+
+                                                                      R0 = ( x0 + xq′ 0 ) 2 + ( yq′ 0 ) 2 + ( zq′ 0 − h)2                                                        (10)
+
+                                            1
+                                     l1 =      ( x0 + xq′ 0 ) vx + yq′ 0 ( v y − vs ) − x0 yq′ 0 Ayω y + ( x0 zq′ 0 + hxq′ 0 ) Apω p − hyq′ 0 Ar ωr  (11)
+                                            R0                                                                                                      
+
+
+                                                                                     v y + x q′ 0 A y ω y − z q′ 0 Ar ω r − v s
+                                                                          α =                                                                                                    (12)
+                                                                                                         R0
+
+
+                                                                                              1  β l2 
+                                                                                          l2 =  − 1                                                                            (13)
+                                                                                              2  R0 R0 
+
+
+
+
+                                                                                                                                     https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                                                   5 of 17
+
+
+
+
+                                                β = ( vx + zq′ 0 Apω p − yq′ 0 Ayωy ) + ( vy + xq′ 0 Ayωy − zq′ 0 Arωr − vs )
+                                                                                                2                                             2
+
+
+
+                                                   + ( x0 + xq′ 0 ) ax + xq′ 0 ( − Ap2ω p2 − Ay2ω y2 )  + ( yq′ 0 Ar ωr − xq′ 0 Apω p )
+                                                                                                                                                      2
+
+
+                                                                                                                                                               (14)
+                                                   + yq′ 0 ay − 2 xq′ 0 Ar ωr Apω p − yq′ 0 ( Ar2ωr2 + Ay2ω y2 )  +
+
+                                                   ( z′ − h) 2x′ A ω A ω + 2 y′ A ω A ω − z′ ( A ω + A ω )
+                                                      q0            q0    r   r       y    y        q0   p   p   y       y   q0
+                                                                                                                                  2
+                                                                                                                                  r
+                                                                                                                                      2
+                                                                                                                                      r
+                                                                                                                                          2
+                                                                                                                                          p
+                                                                                                                                                  2
+                                                                                                                                                  p
+
+
+
+
+                                                                                               1 d 3 Rn (ta )
+                                                                                  l3 =                                                                         (15)
+                                                                                               6 dta3 t =0
+                                                                                                                 a
+
+
+                                Note that due to the expression for the cubic coeﬃcient, l3 is too complex and lengthy
+                            which is hence not given in the paper for simplicity of presentation.
+
+                            3. Influence of Each Rotation Motion on the Coeﬃcients of
+                            Range Equation
+                                 From Equations (9)–(15), it can be seen that the rotational motion has a significant
+                            impact on the coeﬃcients of the range equation. In this section, without loss of generality,
+                            the reference channel (the first channel) is taken as an example to investigate the influence
+                            of each rotation motion on the coeﬃcients of range equation of the scatterer Q.
+                                 According to Equations (11)–(15), when only translational motion exists, the coeﬃ-
+                            cients of range equation can be expressed as follows:
+                                                                         1
+                                                              l1_ t =       ( x0 + xq′ 0 ) v x + yq′ 0 ( v y − vs ) 
+                                                                         R0                                                                                  (16)
+
+
+                                                                                         1  β l1_ t 
+                                                                                                 2
+
+                                                                                  l2_ t =  t − 3                                                             (17)
+                                                                                         2  R0 R0 
+
+                                                             β t = v x2 + ( x 0 + x q′ 0 ) a x + ( v y − v s ) 2 + y q′ 0 a y                                  (18)
+
+                                                                                               1 d 3 Rt (ta )
+                                                                              l3 _ t =                                                                         (19)
+                                                                                               6 dta3 t =0
+                                                                                                                     a
+
+
+                            where Rt(ta) is the range equation when only translational motion exists, and the subscript
+                            t corresponds to the case where only translational motion exists.
+                                 By comparing Equations (11) and (16), (13) and (17), and (15) and (19), the changes in
+                            the coeﬃcients of range equation caused by the rotational motion are given by
+                                                  Δl1 = l1 − l1_ t
+                                                           1
+                                                       =       − x0 yq′ 0 Ayω y − hyq′ 0 Ar ωr + ( x0 zq′ 0 + hxq′ 0 ) Apω p                                 (20)
+                                                           R0                                                                
+
+
+                                                                         Δ l2 = l2 − l2 _ t
+                                                                                          1  β − β t l1 − l1_ t 
+                                                                                                        2    2
+                                                                                                                                                               (21)
+                                                                                  =                −           
+                                                                                          2  R0          R03 
+
+                                                                                            Δl3 = l3 − l3 _ t                                                  (22)
+
+                                  The changes in the coeﬃcients of the linear and quadratic terms of the range equation
+                            will result in variations in the Doppler center frequency and Doppler chirp rate of a target.
+                            The relationships between them are as follows:
+
+                                                                                                                                  https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                                                   6 of 17
+
+
+
+
+                                                                                                  2Δl1
+                                                                                       Δfdc = −                                                               (23)
+                                                                                                       λ
+
+                                                                                                  4Δl2
+                                                                                       Δka = −                                                                (24)
+                                                                                                       λ
+                            where Δ f dc and Δka denote the variations in the Doppler center frequency and Doppler
+                            chirp rate, respectively, and λ is the wavelength.
+                                 According to the principle of SAR imaging, the variation in the Doppler center fre-
+                            quency will result in an azimuth position shift of the target in the SAR image, while the
+                            variation in the Doppler chirp rate will cause azimuth defocusing. In addition, variations
+                            in the coeﬃcients of the cubic term of the range equation will cause residual azimuth
+                            modulation, which leads to azimuth sidelobes asymmetry when it is small and azimuth
+                            defocusing when it is large [23].
+                                 In the following, the influences of roll, pitch, and yaw on each coeﬃcient of the range
+                            equation are analyzed.
+
+                            3.1. Influence of Roll
+                                 When only roll exists, according to Equation (20), the variation in the coeﬃcient of
+                            the range equation′s linear term can be expressed as
+                                                                                           1
+                                                                                Δl1_ r =
+                                                                                           R0
+                                                                                              ( −hyq′ 0 Arωr )                                                (25)
+
+                                 One can see that the variation depends only on the y′-axis coordinate of the scatterer,
+                                                                y′
+                            and it is linearly related to q0 , i.e., the farther away from the ship′s center of gravity along
+                            the y′-axis (the along-track direction), the greater the variation in the coeﬃcient of linear
+                            term.
+                                 Similarly, according to Equations (13) and (17), the variation in the coeﬃcient of the
+                            range equation′s quadratic term due to roll can be written as
+                                                                              1
+                                                                Δl2 _ r =        hzq′ 0 Ar2ωr2 − 2 ( vy − vs ) zq′ 0 Ar ωr 
+                                                                             2R0                                                                            (26)
+
+                                                                                             Δl2 _ r
+                                 From Equation (26), it can be seen that                               depends only on the z′-axis (the height
+                                                                                                                             z′
+                            direction) coordinate of the scatterer and is linearly related to q 0 .
+                                 Since the variation in the coeﬃcient of the range equation′s cubic term caused by roll,
+                                 Δl
+                            i.e., 3 _ r , is very complex, the numerical analysis is used to clarify its dependence on the
+                            coordinates of the scatterer. The parameters for numerical simulations are shown in Ta-
+                                                                                                                                                 Δl3 _ r
+                            bles 1 and 2. The numerical results are shown in Figure 2. One can see that                                                    depends
+                                                                                                                                     yq′ 0
+                            only on the y′-axis coordinate of the scatterer and is proportional to                                           .
+                                                     x q′ 0 / y q′ 0 / z q′ 0 (m )
+                                 In Figures 2–4, “                                   ” corresponds to the three lines in the legend, repre-
+                                                                                                   xq′ 0 / yq′ 0 / zq′ 0
+                            senting the influence of coordinate component                                                  on the cubic term coeﬃcient
+                            when considering roll/pitch/yaw, respectively.
+
+
+
+
+                                                                                                                            https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                            7 of 17
+
+
+
+
+                            Table 1. System parameters of SAR.
+
+                                         System Parameter                                   Value
+                                         Carrier frequency                                 5.4 GHz
+                                             Bandwidth                                     50 MHz
+                                     Pulse repetition frequency                            5000 Hz
+                                            Radar speed                                    7352 m/s
+                                    Distance from radar to target                          1200 km
+                                      Synthetic aperture time                               2.22 s
+
+                            Table 2. Rotation parameters of the ship.
+
+                                          Rotation Parameter                                 Value
+                                              Roll period                                     12 s
+                                            Roll amplitude                                    30°
+                                             Pitch period                                      7s
+                                           Pitch amplitude                                    3.5°
+                                             Yaw period                                       14 s
+                                           Yaw amplitude                                       4°
+
+
+
+
+                            Figure 2. Influence of roll on the coeﬃcient of cubic term.
+
+
+
+
+                            Figure 3. Influence of pitch on the coeﬃcient of cubic term.
+
+                                                                                           https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                                        8 of 17
+
+
+
+
+                            Figure 4. Influence of yaw on the coeﬃcient of cubic term.
+
+                                  Based on the above analysis and the relationship between the Doppler parameters
+                            and the coeﬃcients of range equation, the following conclusions can be obtained: (1) The
+                            farther away the scatterer is from the ship′s center of gravity along the along-track direc-
+                            tion, the greater the variation in the coeﬃcients of linear and cubic terms;, thus, the greater
+                            the azimuth position shift and azimuth sidelobes asymmetry of this scatterer in the SAR
+                            image. (2) The farther the scatterer is away from the ship′s center of gravity along the
+                            height direction, the greater the variation in the coeﬃcient of the quadratic term, thus
+                            resulting in the more severe the azimuth defocusing.
+
+                            3.2. Influence of Pitch
+                                When only pitch exists, the variation in the coeﬃcient of the range equation′s linear
+                            term can be expressed as
+                                                                                  1
+                                                                       Δl1_ p =
+                                                                                  R0
+                                                                                     ( hxq′ 0 Apω p + x0 zq′ 0 Apω p )                                (27)
+
+                            It can be seen that the variation in the coeﬃcient of the linear term due to pitch depends
+                            only on the x′-axis (the cross-track direction) and z′-axis coordinates of the scatterer and is
+                                                      x′          z′
+                            linearly related to q 0 and q 0 .
+                                 Similarly, according to Equations (13) and (17), the variation in the coeﬃcient of the
+                            range equation′s quadratic term caused by pitch is given by
+                                                                        1
+                                                           Δl2 _ p =
+                                                                       2 R0
+                                                                            ( 2vx zq′ 0 Apω p + hzq′ 0 Ap2ω p2 − x0 xq′ 0 Ap2ω p2 )                   (28)
+
+                                                                                          Δl                                          x′         z′
+                                     From Equation (28) one can see that 2_ p is also linearly related to q 0 and q 0 .
+                                     The variation in the coeﬃcient of the range equation′s cubic term due to pitch (i.e.,
+                            Δl3_ p
+                                     ) is figured out via numerical analysis, with results being presented in Figure 3. One
+                                             Δl3_ p
+                            can see that              depends on the x′-axis and z′-axis coordinate of the scatterer and is
+                                                      x′          z′
+                            linearly related to q 0 and q 0 .
+                                 From the above analysis, it can be seen that the variations in the coeﬃcients of the
+                                                                       x′            z′
+                            three terms are all linearly to q 0 and q 0 . Therefore, it could be concluded that the far-
+                            ther the scatterer is away from the ship′s center of gravity along the cross-track direction
+
+
+
+                                                                                                                       https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                                                 9 of 17
+
+
+
+
+                            or height direction, the greater the azimuth position shift, azimuth defocusing, and azi-
+                            muth sidelobes asymmetry of this scatterer in the SAR image.
+
+                            3.3. Influence of Yaw
+                                When only yaw exists, the variation in the coeﬃcient of the range equation′s linear
+                            term can be expressed as
+
+                                                                                      Δ l1_ y =
+                                                                                                  1
+                                                                                                  R0
+                                                                                                       (
+                                                                                                     − x 0 y q 0 ′ Ay ω y   )                                (29)
+
+                                                                     Δl1_ y
+                                     It can be seen that                        depends only on the y′-axis coordinate of the scatterer and
+                                                             yq′ 0
+                            is linearly related to    .
+                                  Similarly, the variation in the coeﬃcient of the range equation′s quadratic term
+                            caused by the yawing motion can be expressed as
+                                                                          1 
+                                                            Δl2 _ y =           −2 yq 0′ Ayωy vx − x0 xq′ 0 Ay2ωy2 + 2 xq′ 0 Ayωy (vy − vs ) 
+                                                                         2R0                                                                
+                                                                                                                                                             (30)
+                                                                               1
+                                                                      ≈−           x0 xq′ 0 Ay2ωy2 + 2xq′ 0 Ayωy vs 
+                                                                              2R0 
+
+                                                                     Δl2 _ y
+                                     It can be seen that                        mainly depends only on the x′-axis coordinate of the scat-
+                                                                                                           x′
+                            terer and is approximately linearly related to q 0 . Note that the approximation in Equa-
+                            tion (30) is due to the fact that vx and vy are much less than x0 and vs.
+                                 The variation in the coeﬃcient of the range equation′s cubic term due to the yaw (i.e.,
+                            Δl3_ y
+                                     ) is figured out via numerical analysis, and the results are shown in Figure 4. It can
+                                                  Δl3_ y
+                            be seen that                   depends only on the y′-axis coordinate of the scatterer and is propor-
+                                          yq′ 0
+                            tional to    .
+                                 Based on the above analysis, the following conclusions can be obtained: (1) The far-
+                            ther away the scatterer is from the ship′s center of gravity along the along-track direction,
+                            the greater the variation in the coeﬃcient of the linear and cubic terms; thus, the greater
+                            the azimuth position shift and the azimuth sidelobe asymmetry of this scatterer in the SAR
+                            image. (2) The farther the scatterer is from the ship′s center of gravity along the cross-track
+                            direction, the greater the variation in the coeﬃcient of the quadratic term; thus, the more
+                            severe the azimuth defocusing.
+
+                            4. Influence of Each Rotation Motion on ATI Phase
+                                  For SAR-GMTI, the ATI phase of a target is a very important parameter because it
+                            can be used for target detection and motion parameter estimation. Therefore, in this sec-
+                            tion, the impact of each rotation motion on the ATI phase is analyzed.
+                                  The ATI phase of target between adjacent channels can be expressed as follows [24]:
+                                                                                                       2π dv s l1
+                                                                                             φ ATI =          ⋅                                              (31)
+                                                                                                        λ R0 l 2
+
+                                     Thus, the variations in ATI phase caused by each rotation motion can be expressed
+                            as
+
+                                                                               2π dvs  l1_ r l1_ t 
+                                                            Δφ ATI _ r =             ⋅       −        
+                                                                                λ R0  l2 _ r l2 _ t 
+                                                                                                                                                             (32)
+                                                                             4π dvs                  hyq′ 0 Ar ω r
+                                                                          ≈−        ⋅ 2
+                                                                              λ R0 v x + ( x0 + xq 0 ) a x + (v y − vs ) 2 + y q′ 0 a y
+                                                                                                 ′
+
+
+
+                                                                                                                                https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                             10 of 17
+
+
+
+
+                                                                     2π dvs  l1_ p l1_ t 
+                                                   Δ φ ATI _ p =           ⋅       −        
+                                                                      λ R0  l2 _ p l2 _ t 
+                                                                                                                                          (33)
+                                                                4π dvs           ( x0 z q′ 0 + hxq′ 0 ) Apω p
+                                                              ≈        ⋅ 2
+                                                                 λ R0 v x + ( x0 + xq′ 0 ) a x + (v y − vs ) 2 + yq′ 0 a y
+
+
+                                                                    2π dvs  l1_ y l1_ t 
+                                                  Δφ ATI _ y =            ⋅       −        
+                                                                     λ R0  l2 _ y l2 _ t 
+                                                                                                                                          (34)
+                                                               4π dvs                  x0 yq′ 0 Ayω y
+                                                            ≈−        ⋅ 2
+                                                                λ R0 v x + ( x0 + xq′ 0 ) a x + (v y − vs ) 2 + y q′ 0 a y
+
+                                    ΔφATI _ r ΔφATI _ p       ΔφATI _ y
+                            where            ,          , and           are the variations introduced by roll, pitch, and yaw,
+                            respectively.
+                                From Equations (32)–(34), it can be seen that each rotation motion has an impact on
+                            the ATI phase. Moreover, the following points can be noted: (1) The variations in ATI
+                            phase caused by roll and yaw are mainly related to the y′-axis coordinate of the scatterer
+                                                                                         y′
+                            and are approximately linearly related to q0 . (2) The variations in ATI phase caused by
+                            pitch is mainly related to the y′-axis and z′-axis coordinates of the scatterer and is approx-
+                                                            xq′ 0            zq′ 0
+                            imately linearly related to              and             .
+
+                            5. Experimental Results
+                                  In this section, numerical experiments are conducted to analyze the eﬀect of rotation
+                            motions on the ship′s characteristics in the SAR image domain, including the azimuth
+                            position shift, azimuth defocusing, azimuth sidelobe asymmetry, and ATI phase and their
+                            dependences on scatterers′ positions relative to the gravity center of the ship. The param-
+                            eters of the radar used in the simulations are presented in Table 1. The size of the simu-
+                            lated ship is 135 m in length, 30 m in width, and 30 m in height. The velocity of the ship is
+                            5 m/s. The rotational parameters of the ship are given in Table 2 [25].
+                                  To clearly reveal the dependence of the rotation motions′ eﬀect on the scatterer′s po-
+                            sitions, the ship′s horizontal and vertical slices passing through the gravity center are con-
+                            sidered in the following analysis, as illustrated in Figure 5. The imaging results of these
+                            two slices when only translational motion exists are shown in Figure 6. In addition, the
+                            imaging results in the presence of roll, pitch, yaw, and three-dimensional rotation motions
+                            are presented in Figures 7–10, respectively. Note that the classic range-Doppler algorithm
+                            is used in imaging, and only the parameters of the ship′s translational motion are used
+                            when performing range migration correction and azimuth compression.
+                                  Comparing Figure 6 with Figures 7–10, it can be seen that the rotation motions have
+                            a significant eﬀect on the imaging results. Specifically, from Figure 7 one can see that in
+                            the case of roll, the horizontal slice is significantly stretched and defocused along the azi-
+                            muth direction, and the vertical slice suﬀers significant azimuth defocusing. As can be
+                            seen from Figure 8, both the horizontal and vertical slices suﬀer severe deformation when
+                            pitch exists, and they look like an oblique ridge. According to Figure 9, in the presence of
+                            yaw, the horizontal slice is significantly stretched and defocused along the azimuth direc-
+                            tion. In addition, from Figure 10 one can see that when the three types of rotational motion
+                            all exist, there is severe stretching, azimuth defocusing, and deformation.
+
+
+
+
+                                                                                                             https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                      11 of 17
+
+
+
+
+                                                               (a)
+
+
+
+
+                                                               (b)
+
+                            Figure 5. Two slices of the ship. (a) Horizontal slice. (b) Vertical slice.
+
+
+
+
+                              (a)                                                             (b)
+
+                            Figure 6. Imaging results when only translational motion exists. (a) Horizontal slice. (b) Vertical
+                            slice.
+
+
+
+
+                                                                                                      https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                  12 of 17
+
+
+
+
+                              (a)                                                         (b)
+
+                            Figure 7. Imaging results when both translational motion and roll motion exist. (a) Horizontal slice.
+                            (b) Vertical slice.
+
+
+
+
+                              (a)                                                         (b)
+
+                            Figure 8. Imaging results when both translational motion and pitch motion exist. (a) Horizontal slice.
+                            (b) Vertical slice.
+
+
+
+
+                              (a)                                                         (b)
+
+                            Figure 9. Imaging results when both translational motion and raw motion exist. (a) Horizontal slice.
+                            (b) Vertical slice.
+
+
+
+
+                                                                                                  https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                                 13 of 17
+
+
+
+
+                                      (a)                                                               (b)
+
+                                    Figure 10. Imaging results when both translational motion and three-dimensional rotation motion
+                                    exist. (a) Horizontal slice. (b) Vertical slice.
+
+                                         In the following, the twelve scatterers in the red box of Figure 5 are selected to further
+                                    quantitatively analyze the azimuth position shift (ΔP), azimuth defocusing (ΔD), azimuth
+                                    sidelobe asymmetry (ΔS), and ATI phase variation (ΔATI) introduced by each rotation
+                                    motion, as well as their relationship with the coordinates of these scatterers. The measured
+                                    results are given in Tables 3–5. Note that the degree of azimuth defocusing is character-
+                                    ized by the multiple of the broadening of the azimuth impulse response width, and the
+                                    sidelobe asymmetry is indicated by the diﬀerence in peak values of left and right sidelobes.
+
+                                    Table 3. Measured position shift, defocusing, sidelobe asymmetry, and ATI phase variation intro-
+                                    duced by roll.
+
+                      xq1     xq2           xq3       xq4       yq1        yq2          yq3     yq4       zq1         zq2        zq3       zq4
+   ΔP (m)              0       0             0         0      −397.0     −198.5        198.5   397.0       0           0          0         0
+    ΔD                 0       0             0         0        2.8        2.6          2.6     2.8      106.2       52.4       52.4      106.2
+   ΔS (dB)             0       0             0         0       25.6       23.0         22.9    26.1        /           /          /         /
+  ΔATI (rad)           0       0             0         0       0.17       0.08         −0.08   −0.17       0           0          0         0
+
+                                    Table 4. Measured position shift, defocusing, sidelobe asymmetry, and ATI phase variation intro-
+                                    duced by pitch.
+
+                      xq1      xq2        xq3        xq4        yq1        yq2          yq3     yq4       zq1         zq2        zq3        zq4
+   ΔP (m)            236.8   117.7      −236.8     −117.7        0          0            0       0       34.2        16.4      −16.4      −34.2
+    ΔD                3.3     2.7         2.7        3.3         0          0            0       0       5.2         1.3        1.3        5.2
+   ΔS (dB)           31.0     25.3       25.4       31.8         0          0            0       0       20.2        18.1       17.9       20.2
+  ΔATI (rad)         −0.10   −0.05       0.05       0.10         0          0            0       0      −0.015      −0.007     0.007      0.015
+
+                                    Table 5. Measured position shift, defocusing, sidelobe asymmetry, and ATI phase variation intro-
+                                    duced by yaw.
+
+                      xq1     xq2           xq3      xq4        yq1       yq2        yq3         yq4      zq1         zq2        zq3        zq4
+   ΔP (m)              0       0             0        0       −20.5      −11.0      9.6         19.2       0           0          0          0
+    ΔD                3.2     1.1           1.1      3.1         0         0          0           0        0           0          0          0
+   ΔS (dB)             0       0             0        0        12.2       5.4       5.4         12.2       0           0          0          0
+  ΔATI (rad)           0       0             0        0       0.009      0.004     −0.004      −0.009      0           0          0          0
+
+
+
+
+                                                                                                                 https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                 14 of 17
+
+
+
+
+                            5.1. Eﬀect of Ship′s Roll Motion
+                                 The measured results are given in Table 3, and the following points can be noted.
+                            1.   Roll has no eﬀect on the scatterers on the x′-axis (i.e., qx1, qx2, qx3, qx4). This is because
+                                 the x′-axis is its axis of rotation.
+                            2.   For the scatterers with non-zero z′-axis coordinates, roll only causes them to suﬀer
+                                 severe azimuth defocusing, and the defocusing width increases with the distance be-
+                                 tween these scatterers and the ship′s gravity center. This is consistent with the anal-
+                                 yses presented in Section 3.1, which reveal that only Δl2 _ r is related to zq′ 0 [see
+                                 Equation (26)]. Note that the measurements of azimuth sidelobe asymmetry are not
+                                 presented in Table 3 because the azimuth defocusing is too severe to observe the
+                                 sidelobe.
+                            3.   Roll has a significant eﬀect on the scatterers with non-zero y′-axis coordinates. It in-
+                                 troduces significant azimuth position shift, azimuth defocusing, azimuth sidelobe
+                                 asymmetry, and ATI phase variation, and they become greater as the distance from
+                                 these scatterers to the gravity center increases. Moreover, one can see that the azi-
+                                 muth position shift and ATI phase variation are approximately linear to the scatter-
+                                 ers′ y′-axis coordinates. This is consistent with the analyses presented in Sections 3.1
+                                 and 4, which reveal that Δl1_ r and ΔφATI _ r are approximately linear to yq′ 0 [see
+                                 Equations (25) and (32)]. It should be noted that the azimuth defocusing is due to the
+                                 variation in the coeﬃcient of the range equation′s cubic term which is very large.
+                            4.   Since the azimuth position shift is directly proportional to the scatterer′s coordinate
+                                 of the y′-axis (the along-track direction), the ship is significantly stretched along the
+                                 azimuth direction in the SAR image, which will result in severe SNR loss just like
+                                 azimuth defocusing.
+
+                            5.2. Eﬀect of Ship′s Pitch Motion
+                                According to the measured results presented in Table 4, the following points can be
+                            noted.
+                            1.   Pitch has no eﬀect on the scatterers on the y′-axis (i.e., qy1, qy2, qy3, qy4). This is because
+                                 the y′-axis is its axis of rotation.
+                            2.   For the scatterers with non-zero x′-axis or z′-axis coordinates, pitch brings significant
+                                 eﬀects. It introduces significant azimuth position shift, azimuth defocusing, azimuth
+                                 sidelobe asymmetry, and ATI phase variation, and they become greater as the dis-
+                                 tance from these scatterers to the ship′s gravity center increases. Moreover, it can be
+                                 seen that the azimuth position shift and ATI phase variation are approximately linear
+                                 to the scatterers′ x′-axis and z′-axis coordinates. This is consistent with the analyses
+                                 presented in Sections 3.1 and 4, which reveal that Δl1_ p and ΔφATI _ p are linearly re-
+                                 lated to xq′ 0 and zq′ 0 [see Equations (27) and (33)].
+                            3.   Since the azimuth position shift is approximately linear to the scatterer′s coordinates
+                                 of the x′-axis (the cross-track direction) and z′-axis (the height direction), the ship suf-
+                                 fers severe deformation and is pulled into a widened oblique line in the SAR image.
+
+                            5.3. Eﬀect of Ship′s Yaw Motion
+                                 The measured results are given in Table 5, and the following points can be noted.
+                            1.   For the scatterers on the z′-axis (i.e., qz1, qz2, qz3, qz4), yaw has no eﬀect on them. This is
+                                 because the z′-axis is its axis of rotation.
+                            2.   For the scatterers with non-zero x′-axis coordinates, yaw only causes them to suﬀer
+                                 azimuth defocusing, and the defocusing width increases with the distance between
+                                 these scatterers and the ship′s gravity center. This is consistent with the analyses
+
+                                                                                                 https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                     15 of 17
+
+
+
+
+                                       presented in Section 3.3, which reveal that Δl2 _ y is approximately linearly related to
+                                       xq′ 0 [see Equation (30)].
+                                  3.   For the scatterers with non-zero y′-axis coordinates, yaw introduces significant azi-
+                                       muth position shift and azimuth sidelobe asymmetry and minor ATI phase variation,
+                                       which become greater as the distance from these scatterers to the center of gravity
+                                       increases. This is consistent with the analyses presented in Sections 3.3 and 4 [see
+                                       Equations (29) and (34)].
+                                  4.   Since the azimuth position shift is directly proportional to the scatterer′s coordinate
+                                       of the y′-axis (the along-track direction), the ship will be significantly stretched along
+                                       the azimuth direction after SAR imaging.
+
+                                  5.4. Summary of the Eﬀect of Each Rotation Motion
+                                       Based on the measured results and above analyses, the eﬀect of each rotation motion
+                                  is summarized in Table 6. It could be seen that the eﬀect of yaw is minimal and the eﬀect
+                                  of pitch is the greatest.
+
+                                  Table 6. Summary of the eﬀect of each rotation motion on the ship′s signal characteristics in the
+                                  image domain.
+
+        Effect
+                                                                                  Azimuth Sidelobe
+Type                Azimuth Position Shift          Azimuth Defocusing                                     ATI Phase Variation
+                                                                                     Asymmetry
+of Rotation
+                                                  The defocusing width in-
+                 The azimuth position shift is creases rapidly with the The degree of azimuth
+                  directly proportional to the distance from the scatterer sidelobe asymmetry
+                                                                                                      The ATI phase varia-
+                   scatterer′s coordinate of y′- to the gravity center along increases with the dis-
+                                                                                                      tion is approximately
+     Roll          axis (the along-track direc-   the height direction and     tance from the scat-
+                                                                                                     linear to the scatterer′s
+                 tion), and the ship is severely also increases with the dis- terer to the gravity
+                                                                                                        y′-axis coordinate.
+                  stretched along the azimuth tance from the scatterer to center along the along-
+                  direction in the SAR image. the gravity center along the       track direction.
+                                                    along-track direction.
+
+
+                  The azimuth position shift is                             The degree of azimuth
+                   approximately linear to the The defocusing width in- sidelobe asymmetry
+                  scatterer′s coordinates of the creases with the distance increases with the dis- The ATI phase varia-
+                  x′-axis (the cross-track direc- from the scatterer to the                          tion is approximately
+                                                                              tance from the scat-
+     Pitch         tion) and z′-axis (the height                                                    linear  to the scatterer′s
+                                                  gravity center along the     terer to the gravity
+                  direction), and the ship suf-                                                     x′-axis and z′-axis coor-
+                                                  height direction and the center along the height
+                 fers severe deformation and is                                                              dinates.
+                                                    cross-track direction.      direction and the
+                 pulled into a widened oblique                               cross-track direction.
+                      line in the SAR image.
+
+
+                  The azimuth position shift is                             The degree of azimuth
+                   directly proportional to the The defocusing width in- sidelobe asymmetry Yaw introduces minor
+                   scatterer′s coordinate of y′-  creases with the distance increases with the dis- ATI phase variation,
+     Yaw           axis (the along-track direc-   from the scatterer to the   tance from the scat- which is approximately
+                 tion), and the ship is stretched gravity center along the     terer to the gravity linear to the scatterer′s
+                 along the azimuth direction in     cross-track direction.  center along the along- y′-axis coordinates.
+                         the SAR image.                                          track direction.
+
+
+
+                                                                                                     https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                         16 of 17
+
+
+
+
+                                  6. Conclusions
+                                        From the perspective of SAR moving target indication, an analysis of the eﬀect of
+                                  each rotation motion on the ship′s signal characteristics in the image domain has been
+                                  presented in this paper. The range equation model of an arbitrary scatterer on the rotating
+                                  ship has been established. In addition, the influences of each rotation motion on the coef-
+                                  ficients of the range equation and the ATI phase have been analyzed in detail. Moreover,
+                                  numerical experiments have been conducted to reveal the eﬀect of each rotation motion
+                                  on the ship′s characteristics in the SAR image domain, including the azimuth position
+                                  shift, azimuth defocusing, azimuth sidelobe asymmetry, and ATI phase and their depend-
+                                  ences on scatterers′ positions relative to the ship′s gravity center.
+
+                                  Author Contributions: The research presented in this manuscript was accomplished in collabora-
+                                  tion with all of the authors. Y.L. proposed the idea, carried out the theoretical derivations and anal-
+                                  yses, conducted the numerical simulations, and wrote the manuscript C.C. validated the theoretical
+                                  derivations and analyses and reviewed the manuscript. H.L. conducted the numerical simulations,
+                                  proofed the manuscript, and reviewed the manuscript. All authors have read and agreed to the
+                                  published version of the manuscript.
+
+                                  Funding: This work was supported in part by the Guangdong Basic and Applied Basic Research
+                                  Foundation under Grant 2023A1515030090, in part by the Open Research Fund from Guangdong
+                                  Key Laboratory of Intelligent Low-Altitude Perception, under Grant No. GDKL-ILAP-25-09, and in
+                                  part by the National Natural Science Foundation of China under Grant 62271398.
+
+                                  Data Availability Statement: The data presented in this study are available on request from the
+                                  corresponding author.
+
+                                  Acknowledgments: The authors would like to thank the anonymous reviewers for their valuable
+                                  comments.
+
+                                  Conflicts of Interest: The authors declare no conflicts of interest.
+
+
+                                  Abbreviations
+                                  The following abbreviations are used in this manuscript:
+
+                                  SAR          Synthetic aperture radar
+                                  GMTI         Ground moving target indication
+                                  ATI          Along-track interferometric
+                                  ISAR         Inverse synthetic aperture radar
+                                  SNR          Signal-to-noise ratio
+
+
+References
+1.    Si, C.; Zhao, B.; Huang, L.; Liu, S. A Convolutional De-quantization Network for Harmonics Suppression in One-bit SAR Im-
+      aging. IEEE Trans. Geosci. Remote Sens. 2023, 61, 5221316.
+2.    Xu, G.; Zhang, B.; Yu, H.; Chen, J.; Xing, M.; Hong, W. Sparse synthetic aperture radar imaging from compressed sensing and
+      machine learning: Theories, applications, and trends. IEEE Geosci. Remote Sens. Mag. 2022, 10, 32–69.
+3.    Chen, J.; Xing, M.; Yu, H.; Liang, B.; Peng, J.; Sun, G.-C. Motion compensation/autofocus in airborne synthetic aperture radar:
+      A review. IEEE Geosci. Remote Sens. Mag. 2022, 10, 185–206.
+4.    Geng, J.; Ma, W.; Jiang, W. Causal intervention and parameter-free reasoning for few-shot SAR target recognition. IEEE Tran.
+      Circ. Syst. Video Techn. 2024, 34, 12702–12714.
+5.    Yan, H.; Liu, H.; Xu, X.; Zhou, Y.; Cheng, L.; Li, Y.; Wu, D.; Zhang, J.; Wang, L.; Zhu, D. A new method of video SAR ground
+      moving target detection and tracking based on the interframe amplitude temporal curve. IEEE Trans. Geosci. Remote Sens. 2023,
+      60, 5219217.
+
+
+
+                                                                                                         https://doi.org/10.3390/rs18010041
+Remote Sens. 2026, 18, 41                                                                                                           17 of 17
+
+
+
+
+6.    Liu, Q.; Zhao, B.; Huang, L. One-bit Cross-Range Scaling Approach to ISAR Imaging. IEEE Geosci. Remote Sens. Lett. 2024, 21,
+      4007605.
+7.    Zhao, B.; Huang, L.; Li, B.; Liu, S.; Bao, W. One-bit splitting deceptive jamming against SAR. Def. Technol. 2022, 18, 1760–1777.
+8.    Zhang, Q.; Han, Z. DRSNet: Rotated-ROI Ship Segmentation for SAR Images Based on Dual-Scale Cross Attention. IEEE Geosci.
+      Remote Sens. Lett. 2024, 21, 4012805.
+9.    Yu, Y.; Yang, X.; Li, J.; Gao, X. A Cascade Rotated Anchor-Aided Detector for Ship Detection in Remote Sensing Images. IEEE
+      Trans. Geosci. Remote Sens. 2022, 60, 5600514.
+10.   Ge, B.; An, D.; Chen, L.; Wang, W.; Feng, D.; Zhou, Z. Ground moving target detection and trajectory reconstruction methods
+      for multichannel airborne circular SAR. IEEE Trans. Aerosp. Electron. Syst. 2022, 58, 2900–2915.
+11.   Liu, W.; Sun, G.C.; Xia, X.G.; Fu, J.; Xing, M.; Bao, Z. Focusing challenges of ships with oscillatory motions and long coherent
+      processing interval. IEEE Trans. Geosci. Remote Sens. 2021, 59, 6562–6572.
+12.   Hua, Q.; Zhang, Y.; Jiang, Y.; Xu, D. CV-CFUNet: Complex valued channel fusion UNet for refocusing of ship targets in SAR
+      images. IEEE Trans. Aerosp. Electron. Syst. 2023, 59, 4478–4492.
+13.   Kirscht, M.; Mietzner, J.; Bickert, B.; Dallinger, A.; Hippler, J.; Meyer-Hilberg, J.; Zahn, R.; Boukamp, J. An airborne radar sensor
+      for maritime and ground surveillance and reconnaissance—Algorithmic issues and exemplary results. IEEE J. Sel. Topics Appl.
+      Earth Observ. Remote Sens. 2016, 9, 971–979.
+14.   Tian, M.; Yang, Z.; Duan, C.; Liao, G.; Liu, Y.; Wang, C.; Huang, P. A method for active marine target detection based on complex
+      interferometric dissimilarity in dual-channel ATI-SAR systems. IEEE Trans. Geosci. Remote Sens. 2020, 58, 251–267.
+15.   Chiu, S.; Gierull, C.; Rashid, M. Ship detection, discrimination, and motion estimation via spaceborne polarimetric SAR-GMTI.
+      In Proceedings of the IEEE Radar Conference, Boston, MA, USA, 22–26 April 2019; pp. 1–6.
+16.   Yang, Q.; Li, Z.; Li, J.; Xiao, Y.; An, H.; Wu, J.; Pi, Y.; Yang, J. An optimal polar format refocusing method for bistatic SAR moving
+      target imaging. IEEE Trans. Geosci. Remote Sens. 2022, 60, 5228417.
+17.   Liu, P.; Jin, Y.Q. A study of ship rotation eﬀects on SAR image. IEEE Trans. Geosci. Remote Sens. 2017, 55, 3132–3144.
+18.   Zhou, B.; Qi, X.; Zhang, J.; Zhang, H. Eﬀect of 6-DOF oscillation of ship target on SAR imaging. Remote Sens. 2021, 13, 1821.
+19.   Wang, J.; Leng, X.; Sun, Z.; Yang, Y.; Ji, K. Study on space/time-varying defocus characteristics of SAR imaging of complex
+      moving ship targets. Syst. Eng. Electron. 2024, 46, 2237–2255.
+20.   Xu, X.; Su, F.; Gao, J.; Jin, X. High-Squint SAR imaging of maritime ship targets. IEEE Trans. Geosci. Remote Sens. 2022, 60, 5200716.
+21.   Zhang, T.; Liu, S.; Ding, Z.; Gao, Y.; Zhu, K. A motion state judgment and radar imaging algorithm selection method for ship.
+      IEEE Trans. Geosci. Remote Sens. 2022, 60, 5236318.
+22.   Yu, J.; Yu, Z.; Li, C. GEO SAR imaging of maneuvering ships based on time–frequency features extraction. IEEE Trans. Geosci.
+      Remote Sens. 2022, 60, 5226321.
+23.   Carrara, W.G.; Goodman, R.S.; Majewski, R.M. Spotlight Synthetic Aperture Radar Signal Processing Algorithms; Artech House:
+      Norwood, MA, USA, 1995.
+24.   Baumgartner, S.V.; Krieger, G. Multi-Channel SAR for ground moving target indication. In Academic Press Library in Signal
+      Processing; Elsevier: New York, NY, USA, 2014; Volume 2, pp. 911–986.
+25.   Wehner, D.R. High Resolution Radar; Artech House: Norwood, MA, USA, 1987.
+
+Disclaimer/Publisher’s Note: The statements, opinions and data contained in all publications are solely those of the individual au-
+thor(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to
+people or property resulting from any ideas, methods, instructions or products referred to in the content.
+
+
+
+
+                                                                                                           https://doi.org/10.3390/rs18010041
+

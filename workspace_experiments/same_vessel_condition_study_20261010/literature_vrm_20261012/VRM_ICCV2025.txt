@@ -1,0 +1,769 @@
+                            This ICCV paper is the Open Access version, provided by the Computer Vision Foundation.
+                                          Except for this watermark, it is identical to the accepted version;
+                                    the final published version of the proceedings is available on IEEE Xplore.
+
+
+
+
+                 VRM: Knowledge Distillation via Virtual Relation Matching
+
+                       Weijia Zhang1       Fei Xie1      Weidong Cai2        Chao Ma1, *
+                         1
+                           Shanghai Jiao Tong University 2 The University of Sydney
+                   {weijia.zhang, feixie, chaoma}@sjtu.edu.cn                         tom.cai@sydney.edu.au
+
+
+
+                             Abstract
+
+Knowledge distillation (KD) aims to transfer the knowl-
+edge of a more capable yet cumbersome teacher model to
+a lightweight student model. In recent years, relation-based
+KD methods have fallen behind, as their instance-matching
+counterparts dominate in performance. In this paper, we                       (a) Instance Matching           (b) Relation Matching
+revive relational KD by identifying and tackling several key
+issues in relation-based methods, including their suscepti-
+bility to overfitting and spurious responses. Specifically, we
+transfer novelly constructed affinity graphs that compactly
+encapsulate a wealth of beneficial inter-sample, inter-class,
+and inter-view correlations by exploiting virtual views and
+relations as a new kind of knowledge. As a result, the stu-
+dent has access to richer guidance signals and stronger reg-                    (c) VRM (Dense)                (d) VRM (Pruned)
+ularisation throughout the distillation process. To further
+                                                                        Figure 1. Conceptual illustration of VRM compared to existing
+mitigate the adverse impact of spurious responses, we prune             KD methods based on instance matching and relation matching.
+the affinity graphs by dynamically detaching redundant and
+unreliable edges. Extensive experiments on CIFAR-100,
+ImageNet, and MS-COCO datasets demonstrate the supe-                    tance between compact representations of knowledge ex-
+rior performance of the proposed virtual relation matching              tracted from the teacher and student models. It has found
+(VRM) method, where it consistently sets new state-of-the-              widespread application across a spectrum of downstream
+art records over a range of models, architectures, tasks, and           tasks [18, 22, 30, 34, 62, 64, 67, 70, 75, 77, 83].
+set-ups. For instance, VRM for the first time hits 74.0%                    According to the type of knowledge representations to
+accuracy for ResNet50→MobileNetV2 distillation on Ima-                  be transferred, KD methods can be broadly categorised into
+geNet, and improves DeiT-T by 14.44% on CIFAR-100 with                  feature-based [56], logit-based [27], and relation-based [52]
+a ResNet56 teacher. The code and models are released at                 approaches. The former two directly match the feature
+https://github.com/VISION-SJTU/VRM .                                    maps or logit vectors produced by the teacher and student
+                                                                        models for each training sample, which is essentially in-
+                                                                        stance matching (IM). By contrast, relation matching (RM)
+                                                                        methods construct and match structured relations extracted
+1. Introduction                                                         within a batch of model responses. A conceptual illustration
+Deep learning is achieving incredible performance at the                is presented in Figs. 1a and 1b.
+cost of increasing model complexity and overheads. As a                     Instance matching has been the prevailing distillation ap-
+consequence, large and cumbersome neural models strug-                  proach in recent years. Popular KD benchmarks see a dom-
+gle to work in resource-constrained environments. Knowl-                inance by IM methods such as FCFD [45], NORM [47],
+edge distillation (KD) [27] has been proposed to address                and CRLD [76], with different downstream tasks suc-
+this issue by transferring the knowledge of larger and                  cessfully tackled by directly adopting IM-based distilla-
+more capable models to smaller and lightweight ones that                tion [6, 14, 62, 69]. Yet, recent studies discovered that rela-
+are resource-friendly. KD works by minimising the dis-                  tional knowledge is more robust to variations in neural ar-
+                                                                        chitectures, data modalities, and tasks [52, 61]. Meanwhile,
+  * Corresponding author.                                               methods transferring relations have also achieved promising
+
+
+
+                                                                 2707
+performance for a range of tasks, including but not limited                matching virtual relations. We also for the first time
+to segmentation [67] and detection [15, 32].                               tackle relational KD with considerations of spurious sam-
+    Despite growing interest, relation-based methods still                 ples and gradients by pruning redundant and unreliable
+fall significantly short compared to their instance matching               edges, alongside designs to relax the matching criterion.
+counterparts. Even the strongest RM method has been out-                 • We present the streamlined VRM framework for knowl-
+performed easily by recent IM solutions [29] (see Tabs. 1                  edge distillation, with extensive experimental results on a
+and 2). RM-based methods also struggle with more chal-                     diversity of models and tasks to highlight its superior per-
+lenging tasks such as object detection [29]. Moreover,                     formance, alongside rigorous analyses on the soundness
+previous RM solutions are primarily limited to match-                      and efficiency of our designs.
+ing inter-sample [29, 53, 61], inter-class [29], or inter-
+channel [46, 73] relations via simple Gram matrices. To our              2. Related Work
+best knowledge, no different forms of relations other than
+these have been proposed since the work of DIST [29].                    KD via instance matching. KD was first proposed in Hin-
+                                                                         ton et al. [27], where a student is trained to mimic the
+    This paper fills this gap with a new kind of relations for
+                                                                         prediction of a pre-trained teacher model for each sam-
+KD – inter-view relations (Fig. 1c), which seamlessly and
+                                                                         ple. Follow-up works have mostly followed such instance
+compactly integrate with previous inter-sample and inter-
+                                                                         matching (IM) paradigm, and can be categorised into logit
+class relations. Our designs are motivated by two impor-
+                                                                         (or prediction)-based and feature-based methods according
+tant observations made about RM methods in a set of pilot
+                                                                         to what is matched. Logit-based KD has evolved from using
+experiments: 1) RM methods are more susceptible to over-
+                                                                         adaptive-softened logits [33, 41] to decoupling target- and
+fitting than IM methods; 2) RM methods are subject to an
+                                                                         non-target logits [24, 72, 81] and applying logit transforma-
+adverse gradient propagation effect. We empirically find
+                                                                         tion [59, 82]. Others [50, 58] set up auxiliary ad-hoc net-
+that incorporating richer and more diverse relations into the
+                                                                         works between teacher and student to facilitate logit trans-
+matching objective helps mitigate both issues.
+                                                                         fer. Feature-based methods minimise the distance between
+    To this end, we generate virtual views of samples through            the feature maps [1, 25, 56] or salient regions within in fea-
+simple transformations, followed by constructing virtual                 tures [23, 74] from specified layers in both teacher and stu-
+affinity graphs and transferring the virtual relations be-               dent networks. Some also design sophisticated distillation
+tween real and virtual samples along the edges. In lieu                  paths [7, 42]. All these methods are based on instance-wise
+of Gram matrices that suffer from significant knowledge                  transfer of knowledge, and are herein referred to as the “IM”
+loss [29, 53, 61], we preserve the raw relations along the               methods, as illustrated by Fig. 1a.
+secondary dimension as auxiliary knowledge which adds to
+the types and density of relational knowledge transferred.               KD via relation matching. Some works transfer instead
+Moreover, we also prune our affinity graphs by striping                  mutual relations mined amongst the network outputs ex-
+away both redundant and unreliable edges to further allevi-              tracted from a batch of training instances. These rela-
+ate the propagating gradients of spurious samples (Fig. 1d).             tion matching (RM) methods usually involve construct-
+    The above insights and remedies altogether lead to a                 ing network outputs into compact relation representations
+novel Virtual Relation Matching (VRM) framework for                      that encode rich higher-order information, as depicted in
+knowledge distillation. VRM is conceptually simple, easy                 Fig. 1b. Different relation encoding functions mare, includ-
+to implement, and devoid of complicated training proce-                  ing inter-sample [29, 48, 52–54, 61], inter-class [29], inter-
+dures. It is capable of transferring rich, sophisticated knowl-          channel [46, 73, 78], inter-layer [48], and contrastive [60]
+edge robust to overfitting and spurious signals. VRM                     relations. To date, IM solutions have dominated KD
+sets new state-of-the-art performance for different datasets,            with their superior performance, leading top-performing
+tasks, and settings. Perhaps more significant is that VRM                relation-based methods by considerable margins. While
+makes relation-based methods regain competitiveness and                  many new IM methods are found within the last two years,
+back in the lead over instance matching approaches in dif-               frustratingly few RM solutions are being proposed. In this
+ferent scenarios. To summarise, the contributions of this                work, we strive to close this gap with a new kind of relations
+work include:                                                            for KD — inter-view virtual relations, and revive relation-
+                                                                         based KD by making it overtake its IM counterparts.
+• We make an early effort to present comparative analy-
+   ses of existing KD methods through the lens of training               Learning with virtual knowledge. While not a standalone
+   dynamics and sample-wise gradients, and identify over-                research topic, learning with virtual knowledge finds rele-
+   fitting and spurious gradient diffusion as two main cruxes            vance in a variety of learning-based problems. For instance,
+   in relational KD methods.                                             a commonly used paradigm in 3D vision tasks is to learn (or
+• We distill richer, more diverse relations by generating                construct) from the raw data a virtual view or representa-
+   virtual views, constructing virtual affinity graphs, and              tion as auxiliary knowledge in solving the main task, rang-
+
+
+
+                                                                  2708
+   (a) Increasing performance on training set.                                                                                                                                                                                                      (b) Plateaued performance on validation set.                                                                                           (c) Diffusion of gradient perturbations within a batch.
+                                              Figure 2. Pilot studies that reveal the overfitting and spurious gradient diffusion issues with RM-based KD.
+
+
+ing from object reconstruction [5] and optical flow [2] to                                                                                                                                                                                                                                                       where B is the batch size, and subscript i of LKD is dropped
+3D semantic segmentation [36], monocular 3D object de-                                                                                                                                                                                                                                                           as the loss is computed for a batch of instances. DIST uses
+tection [13], and 3D GAN inversion [64]. More broadly,                                                                                                                                                                                                                                                           both inter-class and inter-sample relation encoders as ψ(·).
+many data-efficient learning methods also share the spirit
+of utilising virtual knowledge. For instance, self-supervised                                                                                                                                                                                                                                                    4. Pilot Studies
+learning methods generate virtual views of the unlabelled
+                                                                                                                                                                                                                                                                                                                 Training dynamics of KD methods. We examine the
+data to enable the learning of pretext tasks [11, 20]. Another
+                                                                                                                                                                                                                                                                                                                 training dynamics of different relation-based methods on
+popular paradigm is transformation-invariant representation
+                                                                                                                                                                                                                                                                                                                 CIFAR-100 with ResNet32×4→ResNet8×4 as the teacher-
+learning [51, 57] in semi-supervised learning and domain
+                                                                                                                                                                                                                                                                                                                 student pair. In Figs. 2a and 2b, we immediately notice that
+adaptation. It enforces consistency between representations
+                                                                                                                                                                                                                                                                                                                 relational methods achieve significantly higher training ac-
+learnt for a raw sample and a virtual view of it. The vir-
+                                                                                                                                                                                                                                                                                                                 curacy, but they only marginally lead or even fall short in
+tual view is often obtained by applying semantic-preserving
+                                                                                                                                                                                                                                                                                                                 test accuracy compared to IM-based KD [27]. We hypothe-
+transformations to the raw sample [16, 17]. This work is
+                                                                                                                                                                                                                                                                                                                 sise that relational methods are more prone to overfitting.
+more related to this later paradigm, but involves learning
+                                                                                                                                                                                                                                                                                                                 This is expected given that the optimality of IM match-
+with virtual knowledge in a different context, via different
+                                                                                                                                                                                                                                                                                                                 ing (cond. A) implies the optimality of relation matching
+approaches, and for a different problem.
+                                                                                                                                                                                                                                                                                                                 (cond. B), while the converse does not hold. Concretely,
+                                                                                                                                                                                                                                                                                                                 A ⇒ B ∧ ¬B ⇒ ¬A. In other words, relation matching
+3. Preliminaries
+                                                                                                                                                                                                                                                                                                                 is a weaker and less constrained objective than IM, which
+KD methods generally employ a cross-entropy (CE) loss                                                                                                                                                                                                                                                            makes the student more readily fit the teaching signals and
+and a distillation loss to supervise student learning. The CE                                                                                                                                                                                                                                                    not generalise well. Thus, we conclude that C1: relation
+loss is computed between student logits zsi for each sample                                                                                                                                                                                                                                                      matching methods are more prone to overfitting.
+and its ground-truth label yi . The distillation loss matches                                                                                                                                                                                                                                                    Gradient analysis of KD methods. We investigate the gra-
+teacher and student outputs via a distance metric ϕ(·). In                                                                                                                                                                                                                                                       dient patterns within a batch when a spurious sample pro-
+vanilla KD [27], ϕ(·) is the Kullback–Leibler divergence                                                                                                                                                                                                                                                         duces a major misguiding signal. To this end, we first gener-
+(KLD) between teacher logits zt and student logits zs :                                                                                                                                                                                                                                                          ate two random vectors x, y ∼ N (0, 1) for x, y ∈ RB×D ,
+                        \mathcal {L}^{\text {KD}}_i &= \phi _{\text {KLD}}(\mathbf {z}^s_{i}, \mathbf {z}^t_{i}) \nonumber \\ &= \tau ^2\sum _{j=1}^C \sigma _j(\mathbf {z}^{t}_{i}/\tau )\log \frac {\sigma _j(\mathbf {z}^{t}_{i}/\tau )}{\sigma _j(\mathbf {z}^{s}_{i}/\tau )}, \vspace {-3mm}                where B is the batch size and D is the dimension of per-
+                                                                                                                                                                                                                                                                                                                 sample predictions, x is taken as the sample-wise predic-
+                                                                                                                                                                                                                                                                                                    (1)          tions, and y the supervision signals. We then add a noise
+                                                                                                                                                                                                                                                                                                                 vector ϵ = c · z to xt , where z ∼ N (0, 1) and c is a scaling
+                                                                                                                                                                                                                                                                                                                 factor. In this case, xt + ϵ becomes a spurious prediction
+where σ(·) is the Softmax operation with temperature pa-                                                                                                                                                                                                                                                         within our batch. We compute the loss from x and y us-
+rameter τ , and C is the number of classes. For feature-                                                                                                                                                                                                                                                         ing either IM or RM objectives, and consider the change in
+based methods, ϕ(·) can be the mean squared error (MSE)                                                                                                                                                                                                                                                          sample-wise gradients g within the batch upon the injection
+between teacher and student feature maps for each in-                                                                                                                                                                                                                                                            of the spurious sample. Formally, we visualise:
+stance [56], i.e., LKD
+                    i   = ϕMSE (fis , fit ).
+   For relation-based methods, a relation encoding function
+                                                                                                                                                                                                                                                                                                                          \Delta \mathbf {g} &= \left [ \|\frac {\partial \mathcal {L}}{\partial (\mathbf {x'}_i)}\|_2 - \|\frac {\partial \mathcal {L}}{\partial (\mathbf {x}_i)}\|_2 \right ]_{i=1}^{B}, \quad \nonumber \\ \text {s. t. } \mathbf {x'}_i &= \mathbf {x}_i + \epsilon \cdot \mathbb {I}(i=t), \quad \mathcal {L} \in \{ \mathcal {L}_{IM}, \mathcal {L}_{RM} \}.
+ψ(·) first abstracts teacher or student outputs of all instances
+within a training batch into a relational representation, be-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        (3)
+fore applying ϕ(·) to match these relational representations
+between the teacher and the student. For example, the KD                                                                                                                                                                                                                                                             In Fig. 2c (B = 64 and t = 32), when the IM objective
+objectives of DIST [29] take the general form of:                                                                                                                                                                                                                                                                is used, only the spurious sample receives a prominent gra-
+                                                                                                                                                                                                                                                                                                                 dient. Whereas for an RM objective, many other samples
+         \mathcal {L}^{\text {KD}} = \phi (\psi (\mathbf {z}^s_{1}, \mathbf {z}^s_{2}, ..., \mathbf {z}^s_{B}), \psi (\mathbf {z}^t_{1}, \mathbf {z}^t_{2}, ..., \mathbf {z}^t_{B})),                                                                                                               (2)          receive significant gradients as they are directly connected
+
+
+
+                                                                                                                                                                                                                                                                                                          2709
+            (a) Training accuracy                       (b) Test accuracy
+          Figure 3. Alleviated overfitting and improved training dynamics.                                                      Figure 4. Alleviated spurious gradients.
+
+to xt in the computational graph of the RM loss. In other                   E IS ∈ RB×B×C , in which:
+words, the spurious signals produced by one malign predic-
+tion will propagate to and affect all samples within a batch                             \mathcal {E}^{IS}_{i,j} = \frac {\mathbf {z}_i - \mathbf {z}_j}{\|\mathbf {z}_i - \mathbf {z}_j\|_2} \in \mathbb {R}^C \quad \text {for} \quad i, j \in [1, B],   (4)
+(in fact, those closer to xt within the prediction manifold
+are more strongly affected). This means other sample-wise                   where we empirically find that normalisation along the sec-
+predictions will be significantly updated only to accommo-                  ondary dimension helps regularise relations and improves
+date a malign prediction, even if they are already in rela-                 performance. Concretely, E encodes inter-sample class-
+tively good shape. Through this investigation, we discover                  wise relations within a batch of B training samples. This
+that C2: relation matching methods are more prone to the                    design is different from and empirically more effective than
+adverse impact of spurious samples. We also present this                    previous relation formulations.
+pilot analysis on ImageNet training in Fig. 4.
+    For C1, common approaches to combat overfitting in-                     5.2. Constructing Inter-Class Relations
+clude the incorporation of richer learning signals and regu-
+                                                                            Although G IS encodes rich inter-sample relations within
+larisation, which for RM-based KD methods means richer
+                                                                            a batch, it fails to explicitly model inter-class correlation
+relations constructed and transferred. For C2, an intuitive
+                                                                            patterns that are also beneficial structured knowledge [29].
+solution is to identify and suppress the effect of spurious
+                                                                            Therefore, we propose to build a novel inter-class batch-
+predictions or relations or to slacken the matching criterion.
+                                                                            wise relation graph G IC = (V IC , E IC ), instead of the
+Guided by these principles, we now proceed to formally
+                                                                            Gram matrices in the inner product space as in [29]. The
+build up our method step by step.
+                                                                            construction of G IC mirrors that of G IS . Vertices in G IC
+                                                                            are the class-wise logit vectors w ∈ RB . Each edge in
+5. Method                                                                   E IC ∈ RC×C×B embeds the pairwise difference between
+5.1. Constructing Inter-Sample Relations                                    the i-th and j-th per-class vectors. Concretely:
+We first construct relation graph G IS that encodes inter-
+sample affinity within a batch of sample predictions                              \mathcal {E}^{IC}_{i,j} = \frac {\mathbf {w}_i - \mathbf {w}_j}{\|\mathbf {w}_i - \mathbf {w}_j\|_2} \in \mathbb {R}^B \quad \text {for} \quad i, j \in [1, C].          (5)
+{zi }B
+     i=1 . Different from [52, 61], our relations are con-
+structed from predicted logits which embed more compact                         Our inter-class relations preserve the batch-wise dis-
+categorical knowledge. We use the pairwise distance be-                     crepancies by treating them as a dimension of additional
+tween instance-wise predictions within a batch as our mea-                  knowledge (reciprocal to the case of inter-sample relations),
+sure of affinity. Existing methods leverage the Gram matri-                 which is unlike any other previous methods [29]. We will
+ces [29, 53, 54, 61] to encode inter-sample relations, but we               demonstrate in Tab. 7 that our novel formulation of inter-
+find that this leads to collapsed inter-class knowledge via                 sample and inter-class relations by preserving the raw affin-
+the inner product operation. Instead, our pairwise distance                 ity knowledge along the secondary dimension perform sig-
+preserves the inter-class knowledge along the secondary di-                 nificantly better than previous relation encoders ψ(·) via
+mension (i.e., the class dimension), which enables such in-                 Gram matrices [29, 52, 53, 61] or third-order angular dis-
+formation to be explicitly transferred as auxiliary knowl-                  tances [52].
+edge alongside the matching of inter-sample relations.
+    Thus, we have constructed a dense relation graph G IS ,
+                                                                            5.3. Constructing Virtual Relations
+which comprises B vertices and B × B edges: G IS =                          For each prediction zi within a batch {zi }B i=1 , we create a
+(V IS , E IS ). Each vertex in G IS represents the prediction               virtual view of it, denoted as “z̃i ”, by applying semantic-
+vector z ∈ RC for one instance within a batch, and is con-                  preserving transformations to original image xi . While
+nected to all instances within the batch including itself. The              other transformations are applicable, we choose RandAug-
+                    IS
+attribute of edge Ei,j  connecting vertices i and j describes               ment [17] that applies stochastic image transformations (see
+the class-wise relations between the predictions of instances               Supplementary Material for details). With our batch of pre-
+i and j. In practice, we can organise all edges into matrix                 dictions augmented into {zi , z̃i }Bi=1 , we can construct a
+
+
+
+
+                                                                  2710
+          Teacher                                                                     ResNet56 ResNet32×4 WRN-40-2 WRN-40-2 VGG13 ResNet32×4   VGG13      ResNet50    WRN-40-2
+          Student                                                                     ResNet20 ResNet8×4 WRN-16-2 WRN-40-1 VGG8 ShuffleNetV2 MobileNetV2 MobileNetV2 ShuffleNetV1
+                                                 Venue
+          Teacher                                                                             72.34                                         79.42               75.61         75.61     74.64    79.42      74.64       79.34      75.61
+          Student                                                                             69.06                                         72.50               73.26         71.98     70.36    71.82      64.60       64.60      70.50
+                                                                                                                                                                        Feature-based
+        FitNets [56] ICLR’15                                                                  69.21                                         73.50               73.58      72.24     71.02       73.54      64.16       63.16      73.73
+          AT [74]    ICLR’17                                                                  70.55                                         73.44               74.08      72.77     71.43       72.73      59.40       58.58      73.32
+         CRD [60]    ICLR’20                                                                  71.16                                         75.51               75.48      74.14     73.94       75.65      69.63       69.11      76.05
+         SRRL [68]   ICLR’21                                                                  71.13                                         75.33               75.59      74.18     73.44         -          -           -          -
+         PEFD [12] NeurIPS’22                                                                 70.07                                         76.08               76.02      74.92     74.35         -          -           -          -
+          TaT [42]   CVPR’22                                                                  71.59                                         75.89               76.06      74.97     74.39         -          -           -          -
+       ReviewKD [10] CVPR’21                                                                  71.89                                         75.63               76.12      75.09     74.84       77.78      70.37       69.89      77.14
+        NORM [47]    ICLR’23                                                                  71.35                                         76.49               75.65      74.82     73.95       78.32      69.38       71.17      77.63
+         FCFD [45]   ICLR’23                                                                  71.96                                         76.62               76.43      75.46     75.22       78.18      70.65       71.00      77.99
+                                                                                                                                                                         Logit-based
+           KD [27]                        arXiv’15                                            70.66                                         73.33               74.92      73.54     72.98       74.45      67.37       67.35      74.83
+         TAKD [50]                        AAAI’20                                             70.83                                         73.81               75.12      73.78     73.23       74.82      67.91       68.02      75.34
+         CTKD [41]                        AAAI’23                                             71.19                                         73.79               75.45      73.93     73.52       75.31      68.46       68.47      75.78
+          NKD [72]                        ICCV’23                                             70.40                                         76.35               75.24      74.07     74.86       76.26      70.22       70.76      75.96
+          DKD [81]                        CVPR’22                                             71.97                                         76.32               76.24      74.81     74.68       77.07      69.71       70.35      76.70
+         LSKD [59]                        CVPR’24                                             71.43                                         76.62               76.11      74.37     74.36       75.56      68.61       69.02        -
+          TTM [82]                        ICLR’24                                             71.83                                         76.17               76.23      74.32     74.33       76.55      69.16       69.59      75.42
+         CRLD [76]                         MM’24                                              72.10                                         77.60               76.45      75.58     75.27       78.27      70.39       71.36        -
+                                                                                                                                                                        Relation-based
+          RKD [52]                     CVPR’19                                                69.61                                         71.90               73.35       72.22    71.48       73.21      64.52       64.43      72.21
+           CC [54]                     CVPR’19                                                69.63                                         72.97               73.56       72.21    70.71       71.29      64.86       65.43      71.38
+           SP [61]                     ICCV’19                                                69.67                                         72.94               73.83       72.43    72.68       74.56      66.30       68.08      74.52
+         ICKD [46]                     ICCV’21                                                71.76                                         75.25               75.64       74.33    73.42         -          -           -          -
+         DIST [29]†                   NeurIPS’22                                              71.75                                         76.31                 -         74.73       -        77.35      68.50       68.66      76.40
+            VRM                            -                                                  72.09                                         78.76               77.47       76.46     76.19      79.34      71.66       72.30       78.62
+
+       Table 1. Results for same- and different-model teacher-student pairs on CIFAR-100. †: using re-trained, stronger teachers.
+
+
+larger inter-sample edge matrix E IS ∈ R2B×2B×C and a                                                                                                                                 affinity knowledge with halved parameters. With redundant
+larger inter-class edge matrix E IC ∈ RC×C×2B .                                                                                                                                       edge pruning (REP), our graphs now become sparse and the
+   From the perspective of sample views, our new E IS and                                                                                                                             remaining edges can again be rearranged into compact ma-
+E IC
+     constructed from a batch of real and virtual samples                                                                                                                             trices: E ISV ∈ RB×B×C and E ICV ∈ RC×C×B .
+essentially capture three types of knowledge, namely rela-
+                                                                                                                                                                                      Pruning unreliable edges. To mitigate the diffusive ef-
+tions amongst real views (denoted as “real-real”), relations
+                                                                                                                                                                                      fect of spurious predictions discovered earlier, we further
+amongst virtual views (“virtual-virtual”), and relations be-
+                                                                                                                                                                                      identify and prune the unreliable edges. In previous graph
+tween pairs of real and virtual views (“real-virtual”). For
+                                                                                                                                                                                      learning works, the absolute certainty of two vertices are
+instance, a real-virtual edge that connects real vertex m and
+                                                                                                                                                                                      often used to determine the reliability of an edge. For in-
+virtual vertex n in E IS is computed as:
+                                                                                                                                                                                      stance, REM [9] computes the reliability of an edge as the
+                                                                                                                                                                                      mean of the maximum predicted probabilities of two sam-
+                  \mathcal {E}^{IS}_{m,n} = \frac {\mathbf {z}_m - \tilde {\mathbf {z}}_n}{\|\mathbf {z}_m - \tilde {\mathbf {z}}_n \|_2} \in \mathbb {R}^C.            (6)           ples (i.e., two vertices). However, we argue this could bias
+                                                                                                                                                                                      the learning towards easy samples. Instead, we measure
+5.4. Pruning into Sparse Graphs                                                                                                                                                       the discrepancy between two predictions. The larger this
+                                                                                                                                                                                      discrepancy, the more unreliable the relation constructed.
+Pruning redundant edges. The augmented E IS in Sec. 5.3
+                                                                                                                                                                                      The unreliable edge pruning (UEP) criterion is given by
+contains 2B × 2B edges, leading to quadrupled overheads.                                                                                                                                ISV
+                                                                                                                                                                                      Ei,j   = ∅ if H(zsi , z˜sj ) > Pm where H(·) computes the
+For better efficiency, we prune G IS into sparse graphs.
+                                                                                                                                                                                      joint entropy (JE) between two predictions and Pm is the
+Noticing that E IS is symmetric along its diagonals, we first
+                                                                                                                                                                                      m-th percentile within the batch. Note that the criterion is
+prune its redundant half to save up to 50% edge count.
+                                                                                                                                                                                      enforced on student predictions, resulting in adaptive and
+We also remove intra-view edges to get a further 50% re-
+                                                                                                                                                                                      dynamic pruning as different edges get pruned in each iter-
+duction, as we empirically find them redundant and harm
+                                                                                                                                                                                      ation, which improves learning most of the time.
+knowledge transfer. For G IC , we decompose the augmented
+batch of predictions of size 2B into a real-view batch and
+                                                                                                                                                                                      5.5. Full Objective
+a virtual-view batch, each of size B, and in lieu use the
+inter-sample batch-wise affinity vectors between them as its                                                                                                                          With G IS and G IC constructed for both teacher and stu-
+vertices. Compared to their original intra-view formulation                                                                                                                           dent predictions, our VRM objective matches edge matrices
+of size 2B in Sec. 5.3, this design encodes purely inter-view                                                                                                                         E ISV and E ICV between teacher and student via distance
+
+
+
+                                                                                                                                                                              2711
+           Teacher                               ResNet34                                ResNet50                                    ResNet101→ResNet18            ResNet50→MobileNetV2
+           Student                               ResNet18                              MobileNetV1                                    AP     AP50 AP75              AP     AP50   AP75
+                                       Venue
+           Teacher                              73.31/91.42                             76.16/92.86                    Teacher       42.04 62.48 45.88             40.22 61.02    43.81
+           Student                              69.75/89.07                            68.87/88.76                     Student       33.26 53.61 35.26             29.47 48.87    30.90
+                                       Feature-based
+                                                                                                                                                   Feature-based
+            AT [74]                ICLR’17      70.69/90.01                              69.56/89.33
+           OFD [25]                ICCV’19      70.81/89.98                              71.25/90.34                 FitNets [56]    34.43        54.16 36.71       30.20   49.80    31.69
+          CRD [60]                 ICLR’20      71.17/90.13                              71.37/90.41                  FGFI [62]      35.44        55.51 38.17       31.16   50.68    32.92
+         CAT-KD [23]               CVPR’23      71.26/90.45                              72.24/91.13                  TAKD [50]      34.59        55.35 37.12       31.26   51.03    33.46
+          SimKD [8]                CVPR’22      71.59/90.48                              72.25/90.86                ReviewKD [10]    36.75        56.72 34.00       33.71   53.15    36.13
+        ReviewKD [10]              CVPR’21      71.61/90.51                              72.56/91.00                  FCFD [45]      37.37        57.60 40.34       34.97   55.04    37.51
+          SRRL [68]                ICLR’21      71.73/90.60                              72.49/90.92                                                Logit-based
+          PEFD [12]               NeurIPS’22 71.94/90.68                                 73.16/91.24                   KD [27]       33.97        54.66 36.62       30.13   50.28    31.35
+           RSD [78]                ICCV’25      72.18/90.75                              73.05/91.26                  CTKD [41]      34.56        55.43 36.91       31.39   52.34    33.10
+          FCFD [45]                ICLR’23      72.24/90.74                              73.37/91.35                  LSKD [59]        -            -        -      31.74   52.77    33.40
+                                                                                                                      DKD [81]       35.05        56.60 37.54       32.34   53.77    34.01
+                                         Logit-based
+            KD [27]                 arXiv’15     70.66/89.88                             68.58/88.98                                              Relation-based
+          TAKD [50]                 AAAI’20      70.78/90.16                             70.82/90.01                      VRM        35.46        56.91 37.93       32.67   53.96    34.48
+           DKD [81]                 CVPR’22      71.70/90.41                             72.05/91.05
+           SDD [63]                 CVPR’24      71.14/90.05                             72.24/90.71          Table 3. Results on MS-COCO. All detectors are based on a Faster-
+           TTM [82]                 ICLR’24        72.19/-                                 73.09/-            RCNN [55] backbone.
+          LSKD [59]                 CVPR’24      72.08/90.74                             73.22/91.59
+          CRLD [76]                  MM’24       72.37/90.76                             73.53/91.43
+                                       Relation-based                                                           Teacher    Student   T.      S.     KD    AT   SP     LG AutoKD LSKD VRM
+           RKD [52]                CVPR’19      71.34/90.37                              71.32/90.62
+            CC [54]                CVPR’19         70.74/-                                    -                ResNet56 DeiT-T 70.43 65.08 73.25 73.51 67.36 78.15          78.58   78.55    79.52
+          ICKD [46]                ICCV’21      72.19/90.72                                   -                ResNet56 T2T-ViT-7 70.43 69.37 74.15 74.01 72.26 78.35       78.62   78.43    78.88
+          DIST [29]               NeurIPS’22 72.07/90.42                                 73.24/91.12           ResNet56 PiT-T 70.43 73.58 75.47 76.03 74.97 78.48           78.51   78.76    79.25
+             VRM                       -         72.67/90.68                             74.16/91.78           ResNet56 PVT-T 70.43 69.22 74.66 77.07 70.48 77.48           73.60   78.43    79.42
+
+                        Table 2. Results on ImageNet.                                                          Table 4. Results for cross-architecture distillation on CIFAR-100.
+
+
+metric ϕ(·), for which the Huber loss is used. Formally,                                                            These are significant, given that IM methods are known
+LISV
+ vrm = ϕ(ES
+               ISV
+                   , ETISV ) and LICV
+                                  vrm = ϕ(ES
+                                              ICV
+                                                   , ETICV ).                                                       to be naturally more adapt at distilling between homoge-
+The full objective is a weighted combination of the CE loss                                                         neous model pairs. For different-model KD (right of Tab. 1),
+and the proposed VRM losses:                                                                                        which RM methods are supposed to be more competent
+                                                                                                                    with, VRM readily surpasses all RM and IM methods with
+              \label {eqn:loss} L_{total} = L_{ce}+\alpha L^{ISV}_{vrm} +\beta L^{ICV}_{vrm}           (7)          notable margins. These results highlight VRM’s versatility
+                                                                                                                    on both homogeneous and heterogeneous model pairs.
+where Lce is the CE loss applied to student’s predictions of
+both real and virtual views and supervised by GT; α and                                                             Results on ImageNet. VRM surpasses all feature- and
+β are balancing scalars. A PyTorch-style pseudo-code for                                                            relation-based methods on this large-scale dataset, as shown
+the computing of VRM losses is provided in Algorithm 1 in                                                           in Tab. 2. The advantage of VRM is again more appar-
+Supplementary Material.                                                                                             ent over the heterogeneous pair (i.e., ResNet50 → Mo-
+                                                                                                                    bileNetV2), whereby it for the first time hits 74.0% Top-
+6. Experiments                                                                                                      1 accuracy. Notably, VRM outperforms strong competitors
+                                                                                                                    such as FCFD [45] and CRLD [76] with comparable or even
+6.1. Experimental Settings
+                                                                                                                    less computational overheads as compared in Tab. 10.
+Our method is evaluated on CIFAR-100 [35] and Im-
+                                                                                                                    Results on MS-COCO. We demonstrate that VRM gen-
+ageNet [19] datasets for image classification, and MS-
+                                                                                                                    eralises to more challenging tasks by adapting it to object
+COCO [43] for object detection. All experimental config-
+                                                                                                                    detection. From Tab. 3, VRM performs better than exist-
+urations follow the standard practice in prior works. More
+                                                                                                                    ing logit-based methods and competitively to feature-based
+details are provided in Supplementary Material.
+                                                                                                                    methods. VRM is slightly behind top-performing feature-
+6.2. Main Results                                                                                                   based methods such as FCFD [45] and ReviewKD [10].
+                                                                                                                    This is a consequence of the very nature of the object de-
+Results on CIFAR-100. The results for different KD
+                                                                                                                    tection task, where fine-grained contextual features play a
+methods on CIFAR-100 are shown in Tab. 1. For same-
+                                                                                                                    vital role, making feature-based methods inherently better-
+model KD, (left of Tab. 1), VRM surpasses all previous
+                                                                                                                    off [62]. Nonetheless, we experimentally demonstrate that
+relation-based methods across all teacher-student pairs by
+                                                                                                                    VRM is effective on object detection, whereby it improves
+large margins, including DIST [29]. Noticeably, VRM sig-
+                                                                                                                    the baseline by 2–3% AP, surpasses all logit-based methods,
+nificantly outperforms the strongest feature-based method,
+                                                                                                                    and is on par with strong feature-based methods.
+FCFD [45]. On average, it also performs much better than
+top logit-based methods such as CRLD [76] and TTM [82].                                                             Results for cross-architecture distillation. We follow the
+
+
+
+                                                                                                             2712
+                                    RN32×4 VGG13                Matching     RN32×4 VGG13 RN50                          Shape of          RN32×4 VGG13 RN50
+         Component                                                                                             ψ(·)                Method RN8×4 VGG8 MNV2
+                                    RN8×4 VGG8                               RN8×4 VGG8 MNV2                           Rel. Matrix
+                                                                 Choice
+                                                                                                               Gram [B, B] & CC, SP,
+          Baseline                    72.50       70.36         Match ∅       72.50     70.36   68.33        matrices [C, C] PKT, DIST 77.31 75.12 70.28
+       + Match {E IS }                75.64       74.08
+                                                               Match {E}      78.76     76.19   72.30        Angular
+    + Match {E IS , E IC }            75.94       74.47                                                                 [B, B, B]   RKD    77.14 75.09 69.65
+      + Match {E ISV }                77.63       75.30       Match {E, V}    78.63     75.60   70.97        relations
+  + Match {E ISV , E ICV }            78.38       75.56        Match {V}      78.46     75.77   68.33         ISV & [B, B, C] &
+                                                                                                                                   VRM     78.46 75.30 72.10
+          + Pruning                   78.76       76.19                                                        ICV      [C, C, B]
+
+    Table 5. Ablation of major designs.                       Table 6. Effect of matching vertices.         Table 7. Comparing different relation functions.
+
+
+   α      32         64       128       256        512
+  Acc.   78.03   78.13        78.76     78.32     77.84
+
+   β         8       16        32        64        128
+  Acc.   78.40   78.51        78.76     78.86     78.60
+
+   n     0       1        2         3         4     5
+  Acc. 77.92 78.38 78.76 78.55 78.43 78.50
+
+ Table 8. Effect of different α, β, and n.                Figure 5. Effect of different difficulty pairs.         Figure 6. Robustness to varying B.
+
+
+settings in [39] and [59] to perform CNN-to-ViT cross-                                   experiment with different strength combinations for gener-
+architecture distillation. Tab. 4 shows that VRM sets new                                ating the real and virtual samples. The results are presented
+record under this set-up for different ViT architectures. No-                            in Fig. 5, where “Weak” denotes the default transformation
+tably, by simply replacing the vanilla KD loss with the pro-                             used in previous methods, and “Strong” denotes RandAug-
+posed VRM objective and making no other modifications,                                   ment with n = 2. Overall, we conclude that 1) a moderate
+VRM improves DeiT-T’s accuracy by 14.44%, leading the                                    discrepancy leads to optimal performance, and 2) the dis-
+relation-based SP [61] by 12.16% and even surpassing Au-                                 crepancy is significant to the success of VRM.
+toKD [40] with AutoML search.                                                            Robustness to varying batch sizes. Relational methods are
+                                                                                         known to be sensitive to training batch size B. We conduct
+6.3. Ablation Studies
+                                                                                         experiments to examine how robust VRM is against varying
+Ablations of main design choices. In Tab. 5, starting from                               B. To adjust the learning rate accordingly, we consider two
+the baseline where only the CE loss is applied, we gradu-                                LR scaling rules: linear LR scaling [21] and square root LR
+ally incorporate each of our designs. As shown, each extra                               scaling [11]. From Fig. 6, VRM yields competitive results
+design consistently brings performance gains, which cor-                                 across a wide range of B values. In contrast, DIST [29]
+roborate the validity of individual design choices.                                      degrades significantly as B grows.
+Effect of different relation encoding functions. Tab. 7                                  6.4. Further Analysis
+compares our proposed relation encoding scheme with ex-
+                                                                                         Analysis of training dynamics. Figs. 3a and 3b plot the
+isting ones. To demonstrate the superiority of our formu-
+                                                                                         per-epoch training and validation set accuracies throughout
+lation, we substitute it with existing Gram matrices [29,
+                                                                                         training. VRM maintains a all-time lead in both training and
+53, 54, 61] or angle-wise relations [52]. Results show that
+                                                                                         validation performance, with faster convergence. Besides,
+our inter-sample class-wise and inter-class sample-wise re-
+                                                                                         while VRM’s lead in training performance tapers off to-
+lations consistently yield much better performance than ex-
+                                                                                         wards the end of training, it remains more substantial, if not
+isting relations, which highlights VRM’s contribution of a
+                                                                                         further enlarging, in validation performance, which high-
+novel and superior type of relation encoding in addition to
+                                                                                         lights its superior generalisation properties. This analysis
+the introduction of virtual relation.
+                                                                                         also shows our designs are effective in mitigating the issues
+Effect of varying hyperparameters. VRM involves three                                    with existing RM methods identified in the pilot studies.
+major hyperparameters: α and β, and n. According to
+                                                                                         Analysis of spurious gradients. We revisit our second pilot
+Tab. 8, VRM works generally well with α and β in a rea-
+                                                                                         study by analysing how spurious gradients are suppressed in
+sonable range. Larger α and β may produce better results
+                                                                                         real ImageNet training. From Fig. 4, similar gradient diffu-
+for certain model pairs but worse results for others. For n, a
+                                                                                         sion patterns are observed in real distillation. Samples se-
+larger n means more difficult images and larger inter-view
+                                                                                         mantically more similar to the sample with spurious predic-
+prediction discrepancy. From Tab. 8, n = 2 works best,
+                                                                                         tions are more affected by spurious gradients (e.g., the dog
+whereas other values also report competitive results.
+                                                                                         image with a watery background resembles the bubbly tex-
+Effect of different real-virtual difficulty pairs. We also                               ture in another sample that is actually a computer mouse.).
+
+
+
+                                                                                  2713
+                                                                                          200
+                                                                                                150
+                                                                                                                                                           200    150          Real            Virtual      RN50→MNV2         RN34→RN18
+                                                                                          150                                                              150
+                                                                                          100   100                                                        100    100
+                                                                                          50                                                               50
+                                                                                                                                                                  50
+                                                                                                                                                                              Default        Default            74.16/91.78   72.67/90.68
+                                                                                                50
+
+                                                                                  0.5
+                                                                                        1.0
+                                                                                                                                                   0.5
+                                                                                                                                                         1.0                  Default     RandAug(n=0)          74.10/91.70   72.60/90.88
+                                     1.0                                    0.0                       1.0                                    0.0
+                                           0.5
+                                                 0.0                     0.5
+                                                                                                            0.5
+                                                                                                                  0.0                     0.5                                 Default     RandAug(n=1)          74.13/91.63   72.59/90.82
+                                                       0.5         1.0                                                  0.5         1.0
+                                                             1.0                                                              1.0
+                                                                                                                                                                              Default     RandAug(n=2)          74.13/91.68   72.48/90.73
+    (a) RKD           (b) VRM                          (c) RKD                                                          (d) VRM
+Figure 7. t-SNE (a–b) and loss landscape (c–d) visualisations for RN8×4                                                                                                    Table 9. Effect of different transformation strength pairs
+students distilled with an RN32×4 teacher via RKD and VRM.                                                                                                                 on ImageNet.
+
+        Method        KD FitNets RKD ICKD DIST CRD ReviewKD                                                                                                                          RN32×4→RN8×4                   V13→V8     W40-2→SNV2
+                                                                                                                                                                 Pruning
+    Train. Time (ms) 24.9 26.7   31.0 28.0 27.2 41.2  39.9                                                                                                                   Acc.       tbatch (s)   Mem. (MB)         Acc.        Acc.
+ Peak GPU Mem. (MB) 323 330      330   381 330 1418  1042
+                                                                                                                                                                   w/o       78.38        61.4           34.3         75.56        78.45
+        Method       SDD MLLD CRLD NORM PEFD FCFD    VRM
+                                                                                                                                                                  + REP      78.46        46.3           13.6         75.30        78.41
+    Train. Time (ms) 34.2 57.2   43.2 35.1 36.2 56.4  47.2
+ Peak GPU Mem. (MB) 690 576      551  1806 701 953    579                                                                                                         + UEP      78.76        47.2           13.1         76.19        78.62
+
+  Table 10. Training efficiency of different distillation methods.                                                                                                Table 11. Effectiveness and efficiency of pruning operations.
+
+
+Visualisation of embedding space. We conduct t-SNE                                                                                                               in the discrepancy of teacher and student predictions, where
+analysis on student penultimate layer embeddings learnt via                                                                                                      regularisation comes into crucial play. On smaller and eas-
+different methods. As presented in Fig. 7a and 7b, VRM                                                                                                           ier datasets such as CIFAR-100, the gap between teacher
+leads to more compact per-class clusters with clearer inter-                                                                                                     and student predictions are relatively small, and manually
+class separation and less stray points. These imply better                                                                                                       enlarging this gap via extra transformations leads to promis-
+student features distilled by VRM for the downstream task.                                                                                                       ing outcomes. Whereas the more difficult ImageNet data
+                                                                                                                                                                 already sees large teacher-student prediction discrepancy,
+Visualisation of loss landscape. We further analyse the
+                                                                                                                                                                 such that it benefits less from further amplification.
+generalisation and convergence properties of our method
+through the lens of visualised loss landscape [38]. From                                                                                                         Training efficiency. From Tab. 10, VRM is reasonably effi-
+Fig. 7c and 7d, compared to RKD, VRM has a wider, flat-                                                                                                          cient compared to existing algorithms, including some lead-
+ter, and deeper region of minima – typical hint of better                                                                                                        ing feature- [12, 45, 47] and logit-based [33, 63] methods.
+model generalisation and robustness; this wide convexity                                                                                                         VRM does not introduce any extra overheads at inference.
+basin surrounded by salient pikes in various directions indi-                                                                                                    We also breakdown the proposed pruning designs in Tab. 11
+cates excellent convergence properties. More visualisations                                                                                                      to understand how they individually impact the performance
+are provided in Supplementary Material.                                                                                                                          and efficiency of VRM. We see REP boosts efficiency at
+                                                                                                                                                                 minimal performance cost, whereas UEP trades minimal ef-
+Vertex matching. Within the constructed graphs G IS and                                                                                                          ficiency cost for performance.
+G IC , VRM matches edges E ISV and E ICV which carry re-
+lational knowledge. By extension, we can naturally expect                                                                                                        More experiments, analyses, and discussions are pro-
+vertices V to be also transferred. From Tab. 6, matching                                                                                                         vided in Supplementary Material.
+vertices is not as effective. The advantage of matching re-
+lations (i.e., edges) is more pronounced for heterogeneous                                                                                                       7. Conclusion
+KD pairs such as ResNet50→MobileNetV2. Adding vertex                                                                                                             This paper presents VRM, a novel knowledge distillation
+matching to the proposed edge matching does not improve                                                                                                          framework that constructs and transfers virtual relations.
+but instead degrade performance. We argue this is because                                                                                                        Our designs are motivated by a set of pilot experiments,
+introducing vertex matching objectives make the matching                                                                                                         from which we identified two main cruxes with existing
+criterion more stringent which is against our motivation of                                                                                                      relation-based KD methods: their tendency to overfit and
+using more slackened matching.                                                                                                                                   susceptibility to adverse gradient propagation. A series
+Role of transformation operations. We emphasise the                                                                                                              of tailored designs are developed and are shown to suc-
+strong performance of VRM is not a simple outcome of                                                                                                             cessfully mitigate these issues. We have conducted exten-
+the transformations involved. This can be verified by the                                                                                                        sive experiments on different tasks and multiple datasets
+results in Fig. 5 and Tab. 9, where using only the default                                                                                                       and verified VRM’s validity and superiority in diverse set-
+weak transformation (i.e., random crop and horizontal flip)                                                                                                      tings, whereby it consistently achieves state-of-the-art per-
+for both views achieves highly competitive and even supe-                                                                                                        formance. We hope that this work could renew the commu-
+rior performance under VRM. In fact, in the case of “Weak-                                                                                                       nity’s interest in relation-based knowledge distillation, and
+Weak”, both views still differ because of the stochastic op-                                                                                                     encourage more systematic reassessment of the design prin-
+erations used. Essentially, the success of VRM lies exactly                                                                                                      ciples of such solutions.
+
+
+
+                                                                                                                                    2714
+Acknowledgements. This work was supported by NSFC                          [17] Ekin Dogus Cubuk, Barret Zoph, Jon Shlens, and Quoc Le.
+(62322113, 62376156), Shanghai Municipal Science and                            Randaugment: Practical automated data augmentation with
+Technology Major Project (2021SHZDZX0102), and the                              a reduced search space. In NeurIPS, 2020. 3, 4
+Fundamental Research Funds for the Central Universities.                   [18] Kaiwen Cui, Yingchen Yu, Fangneng Zhan, Shengcai Liao,
+                                                                                Shijian Lu, and Eric P Xing. Kd-dlgan: Data limited image
+References                                                                      generation via knowledge distillation. In CVPR, 2023. 1
+                                                                           [19] Jia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai Li,
+ [1] Sungsoo Ahn, Shell Xu Hu, Andreas Damianou, Neil D.                        and Li Fei-Fei. Imagenet: A large-scale hierarchical image
+     Lawrence, and Zhenwen Dai. Variational information dis-                    database. In CVPR, 2009. 6, 2
+     tillation for knowledge transfer. In CVPR, 2019. 2, 1, 3              [20] Spyros Gidaris, Praveer Singh, and Nikos Komodakis. Un-
+ [2] Filippo Aleotti, Matteo Poggi, and Stefano Mattoccia.                      supervised representation learning by predicting image rota-
+     Learning optical flow from still images. In CVPR, 2021. 3                  tions. In ICLR, 2018. 3
+ [3] Philip Bachman, Ouais Alsharif, and Doina Precup. Learn-              [21] P Goyal. Accurate, large minibatch sgd: training imagenet
+     ing with pseudo-ensembles. NeurIPS, 2014. 6                                in 1 hour. arXiv preprint arXiv:1706.02677, 2017. 7
+ [4] David Berthelot, Rebecca Roelofs, Kihyuk Sohn, Nicholas               [22] Yuxian Gu, Li Dong, Furu Wei, and Minlie Huang. Minillm:
+     Carlini, and Alex Kurakin. Adamatch: A unified approach                    Knowledge distillation of large language models. In ICLR,
+     to semi-supervised learning and domain adaptation. arXiv                   2024. 1
+     preprint arXiv:2106.04732, 2021. 6                                    [23] Ziyao Guo, Haonan Yan, Hui Li, and Xiaodong Lin. Class
+ [5] Joao Carreira, Abhishek Kar, Shubham Tulsiani, and Jiten-                  attention transfer based knowledge distillation. In CVPR,
+     dra Malik. Virtual view networks for object reconstruction.                2023. 2, 6, 1, 3
+     In CVPR, 2015. 3                                                      [24] Zhiwei Hao, Jianyuan Guo, Kai Han, Yehui Tang, Han Hu,
+ [6] Jiahao Chang, Shuo Wang, Hai-Ming Xu, Zehui Chen,                          Yunhe Wang, and Chang Xu. One-for-all: Bridge the gap be-
+     Chenhongyi Yang, and Feng Zhao. Detrdistill: A universal                   tween heterogeneous architectures in knowledge distillation.
+     knowledge distillation framework for detr-families. In ICCV,               NeurIPS, 2024. 2
+     2023. 1                                                               [25] Byeongho Heo, Jeesoo Kim, Sangdoo Yun, Hyojin Park, No-
+ [7] Defang Chen, Jian-Ping Mei, Yuan Zhang, Can Wang, Zhe                      jun Kwak, and Jin Young Choi. A comprehensive overhaul
+     Wang, Yan Feng, and Chun Chen. Cross-layer distillation                    of feature distillation. In ICCV, 2019. 2, 6, 1, 3
+     with semantic calibration. In AAAI, 2021. 2, 1, 3                     [26] Byeongho Heo, Minsik Lee, Sangdoo Yun, and Jin Young
+ [8] Defang Chen, Jian-Ping Mei, Hailin Zhang, Can Wang, Yan                    Choi. Knowledge transfer via distillation of activation
+     Feng, and Chun Chen. Knowledge distillation with the                       boundaries formed by hidden neurons. In AAAI, 2019. 1,
+     reused teacher classifier. In CVPR, 2022. 6                                2, 3
+ [9] Peibin Chen, Tao Ma, Xu Qin, Weidi Xu, and Shuchang                   [27] Geoffrey Hinton, Oriol Vinyals, and Jeff Dean. Distilling the
+     Zhou. Data-efficient semi-supervised learning by reliable                  knowlegde in a neural network. In arXiv:1503.02531, 2015.
+     edge mining. In CVPR, 2020. 5                                              1, 2, 3, 5, 6, 4
+[10] Pengguang Chen, Shu Liu, Hengshuang Zhao, and Jiaya Jia.              [28] Andrew G. Howard, Menglong Zhu, Bo Chen, Dmitry
+     Distilling knowledge via knowledge review. In CVPR, 2021.                  Kalenichenko, Weijun Wang, Tobias Weyand, Marco An-
+     5, 6, 1, 2, 3                                                              dreetto, and Hartwig Adam. Mobilenets: Efficient convo-
+[11] Ting Chen, Simon Kornblith, Mohammad Norouzi, and Ge-                      lutional neural networks for mobile vision applications. In
+     offrey Hinton. A simple framework for contrastive learning                 arXiv:1704.04861, 2017. 3
+     of visual representations. 2020. 3, 7, 6                              [29] Tao Huang, Shan You, Fei Wang, Chen Qian, and Chang Xu.
+[12] Yudong Chen, Sen Wang, Jiajun Liu, Xuwei Xu, Frank de                      Knowledge distillation from a stronger teacher. In NeurIPS,
+     Hoog, and Zi Huang. Improved feature distillation via pro-                 2022. 2, 3, 4, 5, 6, 7, 1
+     jector ensemble. In NeurIPS, 2022. 5, 6, 8, 1, 2                      [30] Yuge Huang, Jiaxiang Wu, Xingkun Xu, and Shouhong
+[13] Yi-Nan Chen, Hang Dai, and Yong Ding. Pseudo-stereo for                    Ding. Evaluation-oriented knowledge distillation for deep
+     monocular 3d object detection in autonomous driving. In                    face recognition. In CVPR, 2022. 1
+     CVPR, 2022. 3                                                         [31] Zehao Huang and Naiyan Wang. Like what you like:
+[14] Zehui Chen, Zhenyu Li, Shiquan Zhang, Liangji Fang, Qin-                   Knowledge distill via neuron selectivity transfer.         In
+     hong Jiang, and Feng Zhao. Bevdistill: Cross-modal bev dis-                arXiv:1707.01219, 2017. 1, 2, 3
+     tillation for multi-view 3d object detection. In ICLR, 2023.          [32] Sujin Jang, Dae Ung Jo, Sung Ju Hwang, Dongwook Lee,
+     1                                                                          and Daehyun Ji. Stxd: structural and temporal cross-modal
+[15] Zhiyu Chong, Xinzhu Ma, Hong Zhang, Yuxin Yue, Haojie                      distillation for multi-view 3d object detection. NeurIPS,
+     Li, Zhihui Wang, and Wanli Ouyang. Monodistill: Learning                   2024. 2
+     spatial features for monocular 3d object detection. ICLR,             [33] Ying Jin, Jiaqi Wang, and Dahua Lin. Multi-level logit dis-
+     2022. 2                                                                    tillation. In CVPR, 2023. 2, 8
+[16] Ekin D. Cubuk, Barret Zoph, Dandelion Mane, Vijay Va-                 [34] Minha Kim, Shahroz Tariq, and Simon S Woo. Fretal:
+     sudevan, and Quoc V. Le. Autoaugment: Learning augmen-                     Generalizing deepfake detection using knowledge distilla-
+     tation strategies from data. In CVPR, 2019. 3                              tion and representation learning. In CVPR, 2021. 1
+
+
+
+
+                                                                    2715
+[35] Alex Krizhevsky. Learning multiple layers of features from              [53] Nikolaos Passalis and Anastasios Tefas. Learning deep rep-
+     tiny images. 2009. 6, 2                                                      resentations with probabilistic knowledge transfer. In ECCV,
+[36] Abhijit Kundu, Xiaoqi Yin, Alireza Fathi, David Ross, Brian                  2018. 2, 4, 7, 1, 3, 5
+     Brewington, Thomas Funkhouser, and Caroline Pantofaru.                  [54] Baoyun Peng, Xiao Jin, Jiaheng Liu, Shunfeng Zhou, Yichao
+     Virtual multi-view fusion for 3d semantic segmentation. In                   Wu, Yu Liu, Dongsheng Li, and Zhaoning Zhang. Correla-
+     ECCV, 2020. 3                                                                tion congruence for knowledge distillation. In CVPR, 2019.
+[37] Samuli Laine and Timo Aila. Temporal ensembling for semi-                    2, 4, 5, 6, 7, 1, 3
+     supervised learning. In ICLR, 2017. 6                                   [55] Shaoqing Ren, Kaiming He, Ross Girshick, and Jian Sun.
+[38] Hao Li, Zheng Xu, Gavin Taylor, Christoph Studer, and Tom                    Faster r-cnn: Towards real-time object detection with region
+     Goldstein. Visualizing the loss landscape of neural nets.                    proposal networks. IEEE T-PAMI, 39(6):1137–1149, 2016.
+     NeurIPS, 2018. 8                                                             6
+[39] Kehan Li, Runyi Yu, Zhennan Wang, Li Yuan, Guoli Song,                  [56] Adriana Romero, Nicolas Ballas, Samira Ebrahimi Kahou,
+     and Jie Chen. Locality guidance for improving vision trans-                  Antoine Chassang, Carlo Gatta, and Yoshua Bengio. Fitnets:
+     formers on tiny datasets. In ECCV, 2022. 7, 1, 3                             Hints for thin deep nets. In ICLR, 2015. 1, 2, 3, 5, 6
+[40] Lujun Li, Peijie Dong, Zimian Wei, and Ya Yang. Automated               [57] Kihyuk Sohn, David Berthelot, Chun-Liang Li, Zizhao
+     knowledge distillation via monte carlo tree search. In ICCV,                 Zhang, Nicholas Carlini, Ekin D. Cubuk, Alex Kurakin,
+     2023. 7, 1, 3                                                                Han Zhang, and Colin Raffel. Fixmatch: Simplifying semi-
+[41] Zheng Li, Xiang Li, Lingfeng Yang, Borui Zhao, Renjie                        supervised learning with consistency and confidence. In
+     Song, Lei Luo, Jun Li, and Jian Yang. Curriculum temper-                     NeurIPS, 2020. 3
+     ature for knowledge distillation. In AAAI, 2023. 2, 5, 6, 1,            [58] Wonchul Son, Jaemin Na, Junyong Choi, and Wonjun
+     3                                                                            Hwang. Densely guided knowledge distillation using mul-
+[42] Sihao Lin, Hongwei Xie, Bing Wang, Kaicheng Yu, Xiaojun                      tiple teacher assistants. In ICCV, 2021. 2
+     Chang, Xiaodan Liang, and Gang Wang. Knowledge distil-                  [59] Shangquan Sun, Wenqi Ren, Jingzhi Li, Rui Wang, Rui
+     lation via the target-aware transformer. In CVPR, 2022. 2, 5,                Wang, and Xiaochun Cao. Logit standardization in knowl-
+     1                                                                            edge distillation. In CVPR, 2024. 2, 5, 6, 7, 1, 3
+[43] Tsung-Yi Lin, Michael Maire, Serge Belongie, James Hays,                [60] Yonglong Tian, Dilip Krishnan, and Phillip Isola. Con-
+     Pietro Perona, Deva Ramanan, Piotr Dollár, and C Lawrence                   trastive representation distillation. In ICLR, 2020. 2, 5, 6,
+     Zitnick. Microsoft coco: Common objects in context. In                       1, 3
+     ECCV, 2014. 6, 2                                                        [61] Frederick Tung and Greg Mori. Similarity-preserving knowl-
+[44] Tsung-Yi Lin, Piotr Dollár, Ross Girshick, Kaiming He,                      edge distillation. In ICCV, 2019. 1, 2, 4, 5, 7, 3
+     Bharath Hariharan, and Serge Belongie. Feature pyramid                  [62] Tao Wang, Li Yuan, Xiaopeng Zhang, and Jiashi Feng. Dis-
+     networks for object detection. In CVPR, 2017. 3                              tilling object detectors with fine-grained feature imitation. In
+[45] Dongyang Liu, Meina Kan, Shiguang Shan, and Xilin Chen.                      CVPR, 2019. 1, 6, 3
+     Function-consistent feature distillation. In ICLR, 2023. 1, 5,          [63] Shicai Wei, Chunbo Luo, and Yang Luo. Scale decoupled
+     6, 8, 2, 3                                                                   distillation. In CVPR, 2024. 6, 8, 1, 3
+[46] Li Liu, Qingle Huang, Sihao Lin, Hongwei Xie, Bing Wang,                [64] Jiaxin Xie, Hao Ouyang, Jingtan Piao, Chenyang Lei, and
+     Xiaojun Chang, and Xiaodan Liang. Exploring inter-channel                    Qifeng Chen. High-fidelity 3d gan inversion by pseudo-
+     correlation for diversity-preserved knowledge distillation. In               multi-view optimization. In CVPR, 2023. 1, 3
+     ICCV, 2021. 2, 5, 6, 1                                                  [65] Guodong Xu, Ziwei Liu, Xiaoxiao Li, and Chen Change Loy.
+[47] Xiaolong Liu, Lujun Li, Chao Li, and Anbang Yao. Norm:                       Knowledge distillation meets self-supervision. In ECCV,
+     Knowledge distillation via n-to-one representation matching.                 2020. 6
+     In ICLR, 2023. 1, 5, 8, 2, 3                                            [66] Chuanguang Yang, Zhulin An, Linhang Cai, and Yongjun
+[48] Yufan Liu, Jiajiong Cao, Bing Li, Chunfeng Yuan, Weiming                     Xu. Hierarchical self-supervised augmented knowledge dis-
+     Hu, Yangxi Li, and Yunqiang Duan. Knowledge distillation                     tillation. In IJCAI, 2021. 6
+     via instance relationship graph. In CVPR, 2019. 2                       [67] Chuanguang Yang, Helong Zhou, Zhulin An, Xue Jiang,
+[49] Yahui Liu, Enver Sangineto, Wei Bi, Nicu Sebe, Bruno                         Yongjun Xu, and Qian Zhang. Cross-image relational knowl-
+     Lepri, and Marco Nadai. Efficient training of visual trans-                  edge distillation for semantic segmentation. In CVPR, 2022.
+     formers with small datasets. NeurIPS, 2021. 3                                1, 2
+[50] Seyed-Iman Mirzadeh, Mehrdad Farajtabar, Ang Li, Nir                    [68] Jing Yang, Brais Martinez, Adrian Bulat, and Georgios Tz-
+     Levine, Akihiro Matsukawa, and Hassan Ghasemzadeh. Im-                       imiropoulos. Knowledge distillation via softmax regression
+     proved knowledge distillation via teacher assistant. In AAAI,                representation learning. In ICLR, 2021. 5, 6, 1, 2
+     2020. 2, 5, 6, 1, 3                                                     [69] Longrong Yang, Xianpan Zhou, Xuewei Li, Liang Qiao,
+[51] Ishan Misra and Laurens van der Maaten. Self-supervised                      Zheyang Li, Ziwei Yang, Gaoang Wang, and Xi Li. Bridg-
+     learning of pretext-invariant representations. In CVPR, 2020.                ing cross-task protocol inconsistency for distillation in dense
+     3                                                                            object detection. In ICCV, 2023. 1
+[52] Wonpyo Park, Dongju Kim, Yan Lu, and Minsu Cho. Rela-                   [70] Zhendong Yang, Zhe Li, Xiaohu Jiang, Yuan Gong, Ze-
+     tional knowledge distillation. In IEEE TMM, 2019. 1, 2, 4,                   huan Yuan, Danpei Zhao, and Chun Yuan. Focal and global
+     5, 6, 7, 3                                                                   knowledge distillation for detectors. In CVPR, 2022. 1
+
+
+
+
+                                                                      2716
+[71] Zhendong Yang, Zhe Li, Mingqi Shao, Dachuan Shi, Zehuan
+     Yuan, and Chun Yuan. Masked generative distillation. In
+     ECCV, 2022. 1, 3
+[72] Zhendong Yang, Ailing Zeng, Zhe Li, Tianke Zhang, Chun
+     Yuan, and Yu Li. From knowledge distillation to self-
+     knowledge distillation: A unified approach with normalized
+     loss and customized soft labels. In ICCV, 2023. 2, 5, 1, 3
+[73] Junho Yim, Donggyu Joo, Jihoon Bae, and Junmo Km. A
+     gift from knowledge distillation: Fast optimization, network
+     minimization and transfer learning. In CVPR, 2017. 2, 1
+[74] Sergey Zagoruyko and Nikos Komodakis. Paying more at-
+     tention to attention: Improving the performance of convolu-
+     tional neural networks via attention transfer. In ICLR, 2017.
+     2, 5, 6, 1, 3
+[75] Bo Zhang, Jiacheng Sui, and Li Niu. Foreground object
+     search by distilling composite image feature. In ICCV, 2023.
+     1
+[76] Weijia Zhang, Dongnan Liu, Weidong Cai, and Chao Ma.
+     Cross-view consistency regularisation for knowledge distil-
+     lation. In ACM MM, 2024. 1, 5, 6, 2, 3
+[77] Weijia Zhang, Dongnan Liu, Chao Ma, and Weidong Cai.
+     Alleviating foreground sparsity for semi-supervised monoc-
+     ular 3d object detection. In WACV, 2024. 1
+[78] Weijia Zhang, Yuehao Liu, Wu Ran, and Chao Ma. Cross-
+     architecture distillation made simple with redundancy sup-
+     pression. ICCV, 2025. 2, 6, 1
+[79] Xiangyu Zhang, Xinyu Zhou, Mengxiao Lin, and Jian Sun.
+     Shufflenet: An extremely efficient convolutional neural net-
+     work for mobile devices. In CVPR, 2018. 3
+[80] Ying Zhang, Tao Xiang, Timothy M. Hospedales, and
+     Huchuan Lu. Deep mutual learning. In CVPR, 2018. 1,
+     2, 3
+[81] Borui Zhao, Quan Cui, Renjie Song, Yiyu Qiu, and Jiajun
+     Liang. Decoupled knowledge distillation. In CVPR, 2022.
+     2, 5, 6, 1, 3, 4
+[82] Kaixiang Zheng and En-Hui Yang. Knowledge distillation
+     based on transformed teaching matching. In ICLR, 2024. 2,
+     5, 6, 1, 3
+[83] Shengchao Zhou, Weizhou Liu, Chen Hu, Shuchang Zhou,
+     and Chao Ma. Unidistill: A universal cross-modality knowl-
+     edge distillation framework for 3d object detection in bird’s-
+     eye view. In CVPR, 2023. 1
+
+
+
+
+                                                                      2717
+

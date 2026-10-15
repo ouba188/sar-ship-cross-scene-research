@@ -1,0 +1,13 @@
+{
+  "objective": "Does metadata-driven, anchor-context-dependent incidence response predict new-vessel changes better than a generic correction or common slope? First test condition learnability, not a new claim of purified content.",
+  "fixed": "Frozen cachedR18, originalfull/3MMSIfold32prior+case pipelines fromcrossfit_evidence_20261011. Source1296/525ships,held823/302ships,2seeds,same64supports. No backbone/projection/classifier refit.",
+  "context": "Existing source-fit class_only7 class-scorecontrast features fromeachbase pipeline. Not groundtruthqueryclass andnotclaimedcausalcontent. Fixedcontext iscalculated ONLY fromAimage for A->B prediction.",
+  "response": "Predict delta_z=(delta_incidence/5)*[1,contextA7]@coef. angle_shared usesdeltaalone; no_condition uses[1,contextA7]withoutdelta. Eachcontextarm256coeffs,shared32. Equalinformationavailable, no_condition isgenericcorrection not physicallyidentifiedcounterfactual.",
+  "pairs": "Knownincidence/orbit/platform; SAME MMSI/port/platform/orbit, DIFFERENTproduct. Bothorientations. Equalclasses,shipswithinclass,pairswithinship; directedduplicates notindependentpairs. Othergeometry/time/sea/state notcontrolled.",
+  "fit": "Fixedridge=.05*trace(weighteddesignGram)/dimension,allcoeffsregularized. TargetBimage appearsONLYasregressionanswer, neverdecoderinput. No fittedvessel-ID or portinput.",
+  "sham": "Onefixedseed20261011 traininganglepermutation WITHINsameMMSI/port/platform/orbit. Preservesstratumanglevalues; breakswhichacquisitionhaswhichangle. Realheldangles forprediction; notglobalpermutationorsignificanceclaim.",
+  "deployment": "Single-image firstorderstep to sourcefitknownmetadata medianangle; deltaangleclippedatsourcefitpairedabsdelta95percentile; unknownmetadata or angleoutsideknownsourceinterval isexactno-op. Canonicalized32vector exportedbutnotpurecausal. Fulloldcasekernelretained; prior_delta=delta_z@inversewhitener@oldheadweight.T.",
+  "gains": "Only0/.5/1 selectedbyOLDnewship+newtime3drawssourceBA; equalroles,lowergainties. NewtimeoverlapsfitMMSIs, otherhistoricalcohortsrepeatedlydeveloped. No targetparameterselection.",
+  "scope": "32smallresponsefits(4armsx4basesx2seeds),noneuralfits. Fold-unseen sourcepairs diagnosepipelinegeneralization; optionalresponse-onlyleaveportout NOTheldportoutbackbone. Threeoldtargetportsx3draws, no otherdatasets.",
+  "no_search": "No extra rank,anglefeature,coefficient,temperature orinteraction sweep. Preserve negative response andrecognition results."
+}

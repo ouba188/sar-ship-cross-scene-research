@@ -1,0 +1,31 @@
+{
+  "arms": [
+    "current",
+    "swap",
+    "anchor",
+    "joint"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "steps": 400,
+  "metadata": {
+    "angle_center": 39.555784131950155,
+    "angle_scale": 4.285905050978179,
+    "angle_valid": 855,
+    "orbit_valid": 698,
+    "orbit_counts": [
+      457,
+      241
+    ],
+    "inference_metadata_required": false
+  },
+  "source_fit_chips": 1296,
+  "source_fit_ships": 525,
+  "swap": "Half original self reconstruction replaced with paired same-ship cross reconstruction. Total coefficient remains .1. Each target uses content from the other acquisition, never itself.",
+  "anchor": "Auxiliary linear32to3 predicts source-standardized incidence and binary pass. Missing metadata masked. Mean available-task loss with coefficient .1; pass class weights source-fit only.",
+  "unchanged": "Original purified losses, architecture,400steps Adam.001,264parameter evidence gate and source-only checkpoint selection, original64 target supports, fixed source classifier and residual ridge8. CPU1.",
+  "controls": "All heads allocated after original initialization; current encoder and predictions must reproduce prior purified arm exactly. Metadata labels only used in source training; no inference metadata input.",
+  "limits": "Repeated-development data, not causal identification. Source identity holdout shares many scenes. No main-model modifications."
+}

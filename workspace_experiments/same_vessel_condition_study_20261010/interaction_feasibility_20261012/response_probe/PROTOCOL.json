@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-12",
+  "neural_fits": 0,
+  "target_ports_used": false,
+  "targets": [
+    "center_signed_change",
+    "center_absolute_change",
+    "class_margin_change",
+    "next_error"
+  ],
+  "arms": [
+    "anchor",
+    "additive",
+    "pairwise",
+    "triple",
+    "capacity",
+    "sham"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "ridge": 0.1,
+  "structure": "AIS logL/logW; partial geometry proxy, not full scattering structure.",
+  "direction": "sin2/cos2 AIS heading relative native ground-range axis plus incidence.",
+  "motion": "log1p SOG; does NOT test angular-velocity rotation model in cited paper.",
+  "design": "A-image context plus Ametadata; add B-A main/pairwise/triple functions; Bimage is response only.",
+  "controls": "Capacity adds6univariate nonlinear changes instead of6tripleterms. Sham jointpermutes D/M in training vessels/ports/platform/pass; evaluates real metadata.",
+  "cv": "Original vessel3fold response-only CV; upstream OOF models not nestedrefit. Full fits frozen before held response and teacher selection.",
+  "selection": "No best-arm or best-task promotion from held metrics; report all predefined arms/tasks. Teacher softweights2-predictederror, hard risk minimum diagnostic.",
+  "limitation": "20heldships, historicalcohort, no posture timeseries; no deployedSAR-onlyclassifier change or claim of causal identification."
+}

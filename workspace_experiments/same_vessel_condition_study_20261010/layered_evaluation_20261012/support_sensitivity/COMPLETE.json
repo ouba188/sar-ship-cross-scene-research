@@ -1,0 +1,18 @@
+{
+  "status": "complete",
+  "unique_support_sets": 18,
+  "original_metric_replays": 210,
+  "refits": 0,
+  "training": 0,
+  "tests": [
+    "query_id_intersection",
+    "unbalanced_oa_ba",
+    "known_identity_overlap",
+    "paired_win_tie_loss_and_std"
+  ],
+  "common_query": "Intersection of existing query IDs across all draws within each fixed model context.",
+  "support_seeds": "Source three distinct draws reused across contexts and training seeds; target five per actual port.",
+  "interpretation": "All ranges/std/q10/win fractions are descriptive. No independent-replication or causal-composition claim.",
+  "baseline": "Same support IDs and query mask for both arms; base may itself be support-adapted.",
+  "missing_classes": "BA averages classes present in that query scope; original/common coverage is explicitly saved."
+}

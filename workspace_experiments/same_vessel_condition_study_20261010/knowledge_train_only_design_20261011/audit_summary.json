@@ -1,0 +1,37 @@
+{
+  "observations": 37893,
+  "identities": 18766,
+  "manifest_rows": 38091,
+  "obs_manifest_alignment": true,
+  "db_query_plan": [
+    [
+      2,
+      0,
+      56,
+      "SEARCH points USING PRIMARY KEY (mmsi=?)"
+    ]
+  ],
+  "db_rows_read": 75760,
+  "synced_txt_files_read": 130,
+  "object_matched_views": 1719,
+  "object_mmsi_disagreements": 0,
+  "object_index_disagreements": 79,
+  "object_sources": {
+    "raw_ais_review_only": 1719
+  },
+  "spacing_pairs": [
+    [
+      10.0,
+      10.0
+    ]
+  ],
+  "raw_column_semantics": "AIS TXT 0-based columns 14 length, 15 beam per existing export consumers; no independent registry validation",
+  "all_observation_scope": "MMSI mode table and returned raster headers only; exact source/raw audits limited to fit+held",
+  "dimension_scope": "Positive numeric pairs are availability, not accuracy or independent true-measurement certification",
+  "geometry_scope": "UTM raster-header sampling spacing, not SAR resolving power or resized-network spacing",
+  "source_paths": {
+    "manifest": "E:\\临时会话\\visual_reliable_baseline\\artifacts\\eight_class_adaptive_20260916\\manifest.csv",
+    "ais": "E:\\Hermes\\paper_tracking\\port_ais_2024_2025_from_zip",
+    "sync": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\metadata\\local_knowledge_sync_v1"
+  }
+}
