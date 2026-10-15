@@ -1,0 +1,59 @@
+{
+  "status": "passed",
+  "tasks": [
+    {
+      "task": "oss1",
+      "fold": 0,
+      "draws": [
+        0,
+        4
+      ],
+      "conditions": [
+        "original",
+        "target_shuffle",
+        "outer_shuffle",
+        "target_display",
+        "outer_display",
+        "sham_flat"
+      ],
+      "checks": 1104,
+      "feature_id_alignment": "full dataset frame and exact target archived IDs passed for replay_original/target_shuffle",
+      "legacy_probability_max_error": [
+        7.450580596923828e-08,
+        1.1920928955078125e-07
+      ],
+      "primary_vs_archived_query_flips": [
+        5,
+        2
+      ]
+    },
+    {
+      "task": "oss2",
+      "fold": 0,
+      "draws": [
+        0,
+        4
+      ],
+      "conditions": [
+        "original",
+        "target_shuffle",
+        "outer_shuffle",
+        "target_display",
+        "outer_display",
+        "sham_flat"
+      ],
+      "checks": 1104,
+      "feature_id_alignment": "full dataset frame and exact target archived IDs passed for replay_original/target_shuffle",
+      "legacy_probability_max_error": [
+        8.940696716308594e-08,
+        8.940696716308594e-08
+      ],
+      "primary_vs_archived_query_flips": [
+        21,
+        13
+      ]
+    }
+  ],
+  "pending": [],
+  "limitation": "No new fits; scores/metrics replay only on named tasks, one public fold, two draws and six conditions; not full matrix"
+}

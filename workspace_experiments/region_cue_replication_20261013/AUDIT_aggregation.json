@@ -1,0 +1,81 @@
+{
+  "status": "passed",
+  "equal_port_synthetic_expected": 40.0,
+  "public_cells": [
+    {
+      "dataset": "oss1",
+      "condition": "target_shuffle",
+      "contexts": 25,
+      "delta_ba": -6.154314266758684
+    },
+    {
+      "dataset": "oss1",
+      "condition": "outer_shuffle",
+      "contexts": 25,
+      "delta_ba": -3.5732989076764388
+    },
+    {
+      "dataset": "oss1",
+      "condition": "target_display",
+      "contexts": 25,
+      "delta_ba": -2.868830354432145
+    },
+    {
+      "dataset": "oss1",
+      "condition": "outer_display",
+      "contexts": 25,
+      "delta_ba": -5.372171493250021
+    },
+    {
+      "dataset": "oss2",
+      "condition": "target_shuffle",
+      "contexts": 25,
+      "delta_ba": -3.022299751419341
+    },
+    {
+      "dataset": "oss2",
+      "condition": "outer_shuffle",
+      "contexts": 25,
+      "delta_ba": -0.2113218987756606
+    },
+    {
+      "dataset": "oss2",
+      "condition": "target_display",
+      "contexts": 25,
+      "delta_ba": -2.032747041677609
+    },
+    {
+      "dataset": "oss2",
+      "condition": "outer_display",
+      "contexts": 25,
+      "delta_ba": -4.028851618067517
+    }
+  ],
+  "actual_port_cells": [
+    {
+      "condition": "target_shuffle",
+      "ports": 23,
+      "contexts": 115,
+      "delta_ba": -1.2950163685477225
+    },
+    {
+      "condition": "outer_shuffle",
+      "ports": 23,
+      "contexts": 115,
+      "delta_ba": -0.5166573352522628
+    },
+    {
+      "condition": "target_display",
+      "ports": 23,
+      "contexts": 115,
+      "delta_ba": -1.0146037865627595
+    },
+    {
+      "condition": "outer_display",
+      "ports": 23,
+      "contexts": 115,
+      "delta_ba": -0.7218883390224471
+    }
+  ],
+  "limitation": "Eight public cells and four actual equal-port B cells; unequal-task-size synthetic test; no full-matrix metric replay"
+}

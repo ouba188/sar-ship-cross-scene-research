@@ -1,0 +1,228 @@
+{
+  "status": "passed",
+  "port_cases": [
+    {
+      "sample_id": "pair_0000000",
+      "manifest_row": 0,
+      "shapes": [
+        [
+          64,
+          64
+        ],
+        [
+          64,
+          64
+        ]
+      ],
+      "region_area": [
+        0.257080078125,
+        0.185302734375
+      ],
+      "original_saturation": [
+        0.02099609375,
+        0.000244140625
+      ]
+    },
+    {
+      "sample_id": "pair_0000002",
+      "manifest_row": 2,
+      "shapes": [
+        [
+          88,
+          88
+        ],
+        [
+          96,
+          96
+        ]
+      ],
+      "region_area": [
+        0.34168388429752067,
+        0.3773871527777778
+      ],
+      "original_saturation": [
+        0.012396694214876033,
+        0.013671875
+      ]
+    },
+    {
+      "sample_id": "pair_0088361",
+      "manifest_row": 18215,
+      "shapes": [
+        [
+          64,
+          64
+        ],
+        [
+          64,
+          64
+        ]
+      ],
+      "region_area": [
+        0.064453125,
+        0.067138671875
+      ],
+      "original_saturation": [
+        0.009765625,
+        0.0107421875
+      ]
+    },
+    {
+      "sample_id": "pair_0000015",
+      "manifest_row": 15,
+      "shapes": [
+        [
+          64,
+          64
+        ],
+        [
+          64,
+          64
+        ]
+      ],
+      "region_area": [
+        0.087158203125,
+        0.126953125
+      ],
+      "original_saturation": [
+        0.033447265625,
+        0.030517578125
+      ]
+    },
+    {
+      "sample_id": "pair_0000050",
+      "manifest_row": 50,
+      "shapes": [
+        [
+          64,
+          64
+        ],
+        [
+          64,
+          64
+        ]
+      ],
+      "region_area": [
+        0.1708984375,
+        0.228515625
+      ],
+      "original_saturation": [
+        0.000732421875,
+        0.0
+      ]
+    }
+  ],
+  "port_conditions": [
+    "original",
+    "target_flat",
+    "outer_flat",
+    "sham_flat",
+    "target_shuffle",
+    "outer_shuffle",
+    "target_display",
+    "outer_display",
+    "wide_target_flat",
+    "wide_outer_flat"
+  ],
+  "oss1_cases": [
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20150823T221233_20150823T221258_007396_00A2CA_54D0:x1673:y6973",
+      "xml": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20150823T221233_20150823T221258_007396_00A2CA_54D0\\Ship.xml",
+      "xml_ship_index": 0,
+      "origin": [
+        1631,
+        6931
+      ],
+      "native_shape": [
+        85,
+        85
+      ],
+      "actual_local_points": [
+        [
+          36,
+          30
+        ],
+        [
+          48,
+          51
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20160328T095421_20160328T095446_010568_00FB64_215C:x20074:y8287",
+      "xml": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160328T095421_20160328T095446_010568_00FB64_215C\\Ship.xml",
+      "xml_ship_index": 300,
+      "origin": [
+        20068,
+        8281
+      ],
+      "native_shape": [
+        13,
+        13
+      ],
+      "actual_local_points": [
+        [
+          5,
+          6
+        ],
+        [
+          8,
+          6
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20150928T221239_20150928T221304_007921_00B100_32A3:x2304:y5915",
+      "xml": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20150928T221239_20150928T221304_007921_00B100_32A3\\Ship.xml",
+      "xml_ship_index": 9,
+      "origin": [
+        2216,
+        5827
+      ],
+      "native_shape": [
+        177,
+        177
+      ],
+      "actual_local_points": [
+        [
+          110,
+          87
+        ],
+        [
+          66,
+          89
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20150916T221233_20150916T221258_007746_00AC44_BA63:x5988:y10317",
+      "xml": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20150916T221233_20150916T221258_007746_00AC44_BA63\\Ship.xml",
+      "xml_ship_index": 30,
+      "origin": [
+        5962,
+        10291
+      ],
+      "native_shape": [
+        53,
+        53
+      ],
+      "actual_local_points": [
+        [
+          -71,
+          -107
+        ],
+        [
+          -58,
+          -99
+        ]
+      ],
+      "valid": false
+    }
+  ],
+  "checks": "actual pixels, outside-mask identity, flat value, per-pol histogram, shared display complement, deterministic shuffle, input immutability, native bbox coordinates, exact R50 bilinear128 pixels, native VH RGB handoff to R18 plus frozen Resize128/ToTensor configuration, direct XML origin/extent/endpoints and invalid no-op",
+  "limitations": "Small real-case audit, not all-image or full-XML scan; no GPU/feature re-extraction; large detection-box neighborhoods are not vessel segmentation; no cross-pol tuple preservation claim",
+  "audit_environment": "Pillow exited while decoding the first OSS1 TIFF in this environment; OSS1 native pixels independently decoded with tifffile. No parent files or reader were changed."
+}
