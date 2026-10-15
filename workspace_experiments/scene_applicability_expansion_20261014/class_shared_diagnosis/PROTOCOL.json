@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-14",
+  "status": "Posthoc one decomposition and one source-scaled repair",
+  "arms": [
+    "shared_keep",
+    "within_keep",
+    "shared_scaled"
+  ],
+  "source_shared_energy_fraction": 0.1744230949719837,
+  "source_scale": 2.3944071782590663,
+  "meaning": "Class block projection averages references of each known SOURCE class; target query labels not used",
+  "fixed": "Same queries/supports/prior/rho.25/ridge8; each arm re-solves its support coefficients",
+  "correction": "shared_scaled drops within-class mode responses and matches source energy by fixed rule, no parameter sweep",
+  "controls": "shared_keep/within_keep preserve native component amplitudes; their score gains are not additive after re-solving",
+  "evaluation": "Same expanded development observations, not independent confirmation of posthoc repair"
+}

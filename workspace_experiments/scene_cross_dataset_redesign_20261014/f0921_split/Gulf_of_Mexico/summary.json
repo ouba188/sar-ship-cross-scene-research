@@ -1,0 +1,53 @@
+{
+  "target_region": "Gulf_of_Mexico",
+  "seed": 20261014,
+  "source_train_rows": 15987,
+  "source_val_rows": 4795,
+  "target_acquisition_rows": 35965,
+  "target_region_rows": 31210,
+  "target_acquisitions": 1284,
+  "pilot_acquisition": "S1A|054706|06A90A",
+  "pilot_query_rows": 19,
+  "pilot_max_support_budget": 16,
+  "pilot_query_classes": [
+    0,
+    2,
+    3,
+    4,
+    5
+  ],
+  "pilot_support_class_counts": [
+    1,
+    0,
+    1,
+    12,
+    1,
+    1,
+    0,
+    0
+  ],
+  "source_train_classes": [
+    7286,
+    578,
+    793,
+    948,
+    4094,
+    630,
+    1563,
+    95
+  ],
+  "source_val_classes": [
+    1337,
+    327,
+    113,
+    356,
+    1670,
+    249,
+    716,
+    27
+  ],
+  "split_unit": "satellite|orbit|datatake",
+  "selection": "median-size acquisition with matched support capacity, metadata/labels only; no predictions",
+  "support_note": "class-matched retrospective diagnostic; pool labeling cost exceeds B",
+  "ssl_target_pixels": 0
+}

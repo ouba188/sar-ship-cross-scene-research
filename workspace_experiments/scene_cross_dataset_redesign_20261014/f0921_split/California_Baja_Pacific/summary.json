@@ -1,0 +1,52 @@
+{
+  "target_region": "California_Baja_Pacific",
+  "seed": 20261015,
+  "source_train_rows": 21619,
+  "source_val_rows": 4688,
+  "target_acquisition_rows": 46045,
+  "target_region_rows": 31941,
+  "target_acquisitions": 1497,
+  "pilot_acquisition": "S1A|038162|048108",
+  "pilot_query_rows": 16,
+  "pilot_max_support_budget": 16,
+  "pilot_query_classes": [
+    0,
+    3,
+    4,
+    5
+  ],
+  "pilot_support_class_counts": [
+    0,
+    0,
+    0,
+    1,
+    14,
+    1,
+    0,
+    0
+  ],
+  "source_train_classes": [
+    5828,
+    277,
+    2474,
+    4508,
+    3648,
+    2730,
+    1778,
+    376
+  ],
+  "source_val_classes": [
+    933,
+    92,
+    371,
+    909,
+    862,
+    560,
+    773,
+    188
+  ],
+  "split_unit": "satellite|orbit|datatake",
+  "selection": "median-size acquisition with matched support capacity, metadata/labels only; no predictions",
+  "support_note": "class-matched retrospective diagnostic; pool labeling cost exceeds B",
+  "ssl_target_pixels": 0
+}

@@ -1,0 +1,22 @@
+{
+  "manifest": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\visual_reliable_baseline\\artifacts\\eight_class_adaptive_20260916\\manifest.csv",
+  "pixel_cache": "D:\\SAR_completion_cache_20261010\\source_inputs128.npy",
+  "pixel_ids": "D:\\SAR_completion_cache_20261010\\source_ids.npy",
+  "target_unit": "entire port, all its acquisitions, all its MMSI",
+  "source_validation": "identity-clean best retained source train among ten stratified acquisition-grouped splits",
+  "query": "one row per ship, stratified half from one acquisition; >=40 ships and >=3 present classes",
+  "support": "same/cross acquisition matched class quota, B16, five draws",
+  "selection": "query class coverage, minimum per-class query ships, total ships, then matched support capacity; no model outcomes",
+  "requested_ports": [
+    "Ningbo-Zhoushan",
+    "Shanghai",
+    "Jebel Ali",
+    "Qingdao"
+  ],
+  "fallback_ports": [
+    "Santos",
+    "Port Said",
+    "Tanger Med",
+    "Houston"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "manifest": "E:\\临时会话\\visual_reliable_baseline\\artifacts\\eight_class_adaptive_20260916\\manifest.csv",
+  "pixel_cache": "D:\\SAR_completion_cache_20261010\\source_inputs128.npy",
+  "pixel_ids": "D:\\SAR_completion_cache_20261010\\source_ids.npy",
+  "split_unit": "entire target port and every associated acquisition; target MMSI removed globally",
+  "query": "one observation per ship; stratified half per class from target acquisition; second fold excludes prior query ships",
+  "cross": "one different acquisition in the held target port, selected by eight-class B16 capacity",
+  "source_validation": "largest identity-clean source train among eligible stratified acquisition-grouped ten-fold partitions; source fit=train+validation",
+  "support": "same/cross matched eight-class quota, B16 five draws; target labels only for episode freezing",
+  "selection": "metadata and class capacity only; no model scores or target predictions",
+  "ports": [
+    "Singapore",
+    "Port Klang"
+  ],
+  "query_acquisitions_per_port": 2
+}

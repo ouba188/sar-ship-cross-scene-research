@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-14",
+  "status": "Frozen before expanded predictions",
+  "ports": [
+    "Jebel Ali",
+    "Port Klang",
+    "Singapore"
+  ],
+  "source_rows": 10633,
+  "source_fitted_overlap": 0,
+  "neural_training": 0,
+  "new_geometry_fits": 0,
+  "new_memory_fits": 0,
+  "candidates": "Original and all3 relative-profile memory controls from previous pilot, exact reused calibration",
+  "rho": 0.25,
+  "ridge": 8.0,
+  "budgets": [
+    16,
+    64
+  ],
+  "draws": 5,
+  "probability_temperature": 1.0,
+  "fusion": 0.5,
+  "primary": "All newly enrolled acquisitions, average draws then scenes within ports then equal ports",
+  "secondary": "Query ships not observed in pilot queries, evaluated as fixed subset without resampling supports",
+  "pooled": "Also pool repeated query/support exposures; not independent ships or independent training seeds",
+  "cohort": "All metadata-eligible acquisitions of same3source-held ports, retains original6 for exact replay",
+  "scope": "Compact reader, historical encoder/data exposure remains; NOT new independent dataset",
+  "old_artifacts_modified": false,
+  "external_datasets": false,
+  "repair_rule": "Preserve frozen first results; diagnose before atmostone targeted correction"
+}
