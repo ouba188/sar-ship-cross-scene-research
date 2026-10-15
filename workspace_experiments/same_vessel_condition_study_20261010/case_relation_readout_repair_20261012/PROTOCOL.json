@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-12",
+  "parent": "E:\\临时会话\\same_vessel_condition_study_20261010\\case_relation_student_20261012",
+  "change": "Replace row-normalized Gram loss by class-balanced centered adapted-logit MSE",
+  "teacher": "Same equal-history case map, same original source prior, actual support64 ridge8",
+  "training": "Same1296sourcefit, same folds/seeds64steps/lr1e-5/taskCE; all302heldships excluded from readers",
+  "loss_scale": "Match initial teaching gradient to0.5 oldscoreMSE; fixed thereafter, same rule as original relation arm",
+  "inputs": "Teacher uses source training history/support labels; student prediction never uses identities/history",
+  "scope": "One diagnosis-led correction, not new global sweep; source expert kernel only, not final fusion"
+}

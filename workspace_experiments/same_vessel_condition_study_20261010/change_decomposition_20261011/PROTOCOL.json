@@ -1,0 +1,11 @@
+{
+  "objective": "Test explicit observed-change residual versus class-only same-capacity decomposition; then ordinary versus bounded relation correction. Not pure causal identification.",
+  "fixed": "Reuse crossfit_evidence_20261011 full/fold base checkpoints, teachers, kernels, whitening, folds,400 correction episodes,64supports,2seeds. No backbone/base retraining or mainmodelchange.",
+  "decomposition": "Source-whitened32 -> learnedorthogonal32 frame plus32-32-32 tanh offset; first7content,last25residual. Orthogonal linear outputcomponents; reconstruction approximate aftertraining. Class-only initialization uses sourceclassbetween eigenspace andridgehead. No hardfeaturediscard.",
+  "losses": "Full SOURCEfit class/ship/acquisitionweighted one-versus-rest targetMSE +.25 reconstructionMSE. paired additionally .25 distinctproduct sameMMSI residualdelta error dividedbyfitdeltaenergy. Pairclasses/ships/acquisitionpairs nestedbalanced. All observedchanges,notprovennuisance; no queryidentityconditioninput.",
+  "selection": "400 Adam.001 steps; every20including0 select independent ridgecontentprobe BA onoriginalnewship sourcevalidation; lowerstep ties. Full/folds never fitheldMMSIs. Samevalidation reusedresearch,notindependentconfirmation. Newtimeexcludedfromdecompositionselection.",
+  "correction": "All corrections TRAIN only fold-unseen source observations. Same400originalepisodes. Global same priorclosedformridge8. Relation28 coefficients, fixedpaircontrast tanh evidence times1/(1+abspriorcontrast), perclassdelta<=.5,400Adam.02updates; adaptedbalancedMSE+.25correctbaseline decisioncrossingpenalty+.001coefL2. Bothsupport/query corrections andabsentsupportmask included.",
+  "gain": "Originalsourcevalidation2roles selects0/.5/1 equalroles/draws. No targetselection. 2factorarmsx2correctionsx2seeds; oldOOFpaired/class baselines replayedwithoutrefit.",
+  "tests": "Source test_source same3identitydisjoint64support draws seeds91011-13. Target original3portsx3supportdraws. Source/targets repeatedlyuseddevelopment,notindependentconfirm. Freeze all targetpredictions beforemetrics.",
+  "no_search": "16 small decomposition fits,8correctionfits; no dimension/coefficient sweep. Selectedstep0 retainedandreported. Mechanism diagnostics separate from accuracy."
+}

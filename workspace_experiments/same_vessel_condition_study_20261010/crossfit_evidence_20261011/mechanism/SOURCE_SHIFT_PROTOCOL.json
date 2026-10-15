@@ -1,0 +1,40 @@
+{
+  "purpose": "Distinguish crossfit-to-full transfer changes from correction generalization failure.",
+  "scope": "Source development diagnostics only, including previously used test_source; NOT independent confirmation.",
+  "source_roles": [
+    "val_new_ship",
+    "val_new_time",
+    "test_source"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "bundles": [
+    "full",
+    "fold0",
+    "fold1",
+    "fold2"
+  ],
+  "correction_origins": [
+    "full_in",
+    "size_matched_in",
+    "crossfit"
+  ],
+  "methods": [
+    "paired",
+    "class_only"
+  ],
+  "episodes": "Original 3 validation draws per role. test_source uses identity_episode with seeds91011/91012/91013, 64 distinct support ships and ALL remaining ships as query. Same global IDs for every model, seed and correction.",
+  "selection": "No fitting or selection here. Every coefficient and selected_gain is loaded from the runner; selected_full applies that saved gain unchanged to each fold. fixed_grid0/.5 and forced1 are diagnostics only, never deployment choices.",
+  "readout": "Own frozen case kernel for each bundle; tested support_operator ridge8 with balanced support residual and absent-class mask. Correction changes BOTH support and query priors.",
+  "metrics": "OA/BA in percent; MSE is CLASS-BALANCED mean squared error against2*onehot-1, averaged over query-present classes, matching runner MSE and training balanced_mse. unbalanced_MSE is the ordinary sample mean. Raw and adapted scores use the same query IDs. *_change subtracts the same bundle/episode/readout baseline.",
+  "aggregation": "Arithmetic mean over3 draws per seed; overlapping draws/folds are not independent samples. No significance tests or target measurements.",
+  "comparison": "full_minus_fold columns pair the SAME episode/seed/coefficient/gain/readout; positive BA_change difference means correction is more helpful on full, positive MSE_change difference means less helpful. Descriptive transfer evidence, not a unique causal attribution.",
+  "identity": "val_new_time can overlap base fitting identities differently across folds; episode rows report those counts. val_new_ship/test_source are unseen-vessel source roles. New-ship validation also selected base checkpoints and gains.",
+  "size_matched_in": "The runner fits seen corrections using fold(k+1)%3 on episode batchk; crossfit uses foldk on the same batch. Both bases use about350ships. This diagnostic loads their saved coefficients without reconstructing or refitting training views.",
+  "boundaries": "No target files, target metrics, backbone features, model fitting, gain reselection or model changes. Training-residual loss is not recomputed here.",
+  "rows": 3600,
+  "correction_files": 12,
+  "bundles_evaluated": 8
+}

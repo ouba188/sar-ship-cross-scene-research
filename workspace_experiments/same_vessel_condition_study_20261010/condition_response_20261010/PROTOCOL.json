@@ -1,0 +1,31 @@
+{
+  "objective": "Retain channels and spatial arrangement; correct only condition-predicted amplitude changes",
+  "inputs": "incidence, incidence squared, pass, incidence*pass, platform; missing condition -> unchanged",
+  "estimator": "Within same MMSI and port demeaned regression on log channel spatial means; common coefficients across classes and ports",
+  "weighting": "Ports equal; vessels equal within port; observations equal within vessel/port",
+  "labels": "No ship-type labels in response estimator or gain generation; same939 labels for all classification heads",
+  "additional_source_information": "Repeated-vessel source observations and acquisition metadata; extra identity information is explicit",
+  "source_repeats": 7460,
+  "classification_train": 939,
+  "test": 5654,
+  "ridge": "Fixed0.05*trace(within-vessel condition Gram)/5",
+  "alpha": 0.5,
+  "gain_bounds": [
+    0.5,
+    2.0
+  ],
+  "basis_reference": "Weighted source repeated-vessel condition mean",
+  "controls": [
+    "baseline",
+    "sample_mean_shrink",
+    "condition_gain",
+    "permuted_channel_gain"
+  ],
+  "head_controls": "Original fixed head versus source-refit head on each corrected representation",
+  "permutation": "One fixed source-seed channel reassignment of condition coefficients; identical per-sample gain multiset",
+  "source_cv": "Three identity folds and three whole-port folds; purge validation identities from train",
+  "target_protocol": "Same three jointly held-out ports, no target fitting or target-specific hyperparameters",
+  "boundaries": "Geometry-associated response only; not all port/sea-state factors or causal noise identified; no main64-label result",
+  "seed": 20261010,
+  "resources": "CPU1, cached layer3/boundary, no main files or GPU modified"
+}

@@ -1,0 +1,16 @@
+{
+  "gate_parameters": 264,
+  "static_effective_parameters": 8,
+  "rank": 8,
+  "gain_bound": 0.1,
+  "steps": 400,
+  "seeds": [
+    31415,
+    27182
+  ],
+  "learning_rate": 0.01,
+  "selection": "earliest checkpoint maximizing mean BA of source new-ship/new-time groups; step0 included",
+  "target_labels_per_task": 64,
+  "target_head": "same fixed fold1 source classifier for every arm; original 64-support residual head with ridge8",
+  "notes": "Small frozen-R18 prototype, not full dual model. Target baseline differs from earlier all-source baseline because it uses the same fold1 classifier as the source diagnostic. Frozen context encoders historically used source folds1+2 including gate-validation identities. Final source fold0 and target labels are not used for checkpoint selection; repeated development test sets remain non-confirmatory."
+}

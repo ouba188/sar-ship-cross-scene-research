@@ -1,0 +1,85 @@
+{
+  "status": "complete",
+  "seconds": 2.963370500016026,
+  "output": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\same_vessel_condition_study_20261010\\condition_evidence_20261011\\evidence_features.npz",
+  "shape": [
+    2418,
+    6
+  ],
+  "feature_names": [
+    "low_log_energy",
+    "middle_log_energy",
+    "high_log_energy",
+    "low_energy_share",
+    "middle_energy_share",
+    "center_border_log_ratio"
+  ],
+  "source_map": "E:\\Hermes\\paper_tracking\\sensitivity\\neural_complement_pilot_20261007\\source_layer3.npy",
+  "source_map_shape": [
+    38091,
+    256,
+    8,
+    8
+  ],
+  "source_map_dtype": "float16",
+  "split": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\same_vessel_condition_study_20261010\\grouped_condition_anchor_20261011\\source_split.npz",
+  "coverage": {
+    "factor_fit": {
+      "observations": 1296,
+      "ships": 525,
+      "ports": 21,
+      "incidence_known": 855
+    },
+    "test_source": {
+      "observations": 823,
+      "ships": 302,
+      "ports": 20,
+      "incidence_known": 523
+    },
+    "val_new_ship": {
+      "observations": 299,
+      "ships": 80,
+      "ports": 20,
+      "incidence_known": 193
+    }
+  },
+  "observation_alignment": "Global obs_id equals observations.csv row; manifest_row checked against original manifest on instance_id, product, port, mmsi, class_id.",
+  "extraction": "Memory-mapped source cache, batches64, NumPy/SciPy only; no network fitting, no GPU, no target query evaluation.",
+  "frequency": "CNN layer3 spatial frequencies, NOT radar carrier/polarization frequency bands. Reuse masks/transform pure function AST from spectral_residual.py; orthonormal DCT-II, low Gaussian width.2, upper.7, middle=upper-low, high=1-upper.",
+  "energy": "Mean squared masked DCT coefficients over channels and8x8 grid; natural log(E+1e-12). Shares=Eband/sum(Ebands). Soft masks overlap, so this denominator is branch-energy sum, NOT total original-map energy. Omit redundant high share.",
+  "center_border": "Natural log ratio of mean squared activation at central4x4 versus remaining48cells, with1e-12 floor. Proxy only: not segmented ship/background, deep receptive fields overlap.",
+  "upstream": "e206 epoch40 SAR SSL R18 frozen prefix through layer3, original float16 cache. Cache maker uses channel index1 repeated3channels and /255 from historical128pixel chips; no new image encoding. Historical protocol acknowledges inherited F0921 unlabeled pretraining. Backbone not refit for current ship split; no full-pipeline unseen-ship or unseen-port guarantee.",
+  "provenance_files": [
+    "E:\\Hermes\\paper_tracking\\sensitivity\\neural_complement_pilot_20261007\\protocol.json",
+    "E:/Hermes/paper_tracking/sensitivity/oof_reliability_check/train_neural_complement.py",
+    "E:\\\u4e34\u65f6\u4f1a\u8bdd\\same_vessel_condition_study_20261010\\spectral_residual.py"
+  ],
+  "zero_energy_observations": 0,
+  "checks": [
+    "mask_partition",
+    "zero_energy_finite",
+    "constant_map_dc_only",
+    "uniform_center_border_zero",
+    "amplitude_and_share_scaling",
+    "source_only_cohort",
+    "exact_manifest_alignment",
+    "fit_vs_held_ship_disjoint",
+    "export_replay"
+  ],
+  "feature_min": [
+    -0.7771786451339722,
+    -2.352830648422241,
+    -4.8923563957214355,
+    0.6999838352203369,
+    0.12211146205663681,
+    -0.46222570538520813
+  ],
+  "feature_max": [
+    0.7481372952461243,
+    -0.44576072692871094,
+    -2.8418259620666504,
+    0.8660842180252075,
+    0.27784132957458496,
+    1.9970839023590088
+  ]
+}

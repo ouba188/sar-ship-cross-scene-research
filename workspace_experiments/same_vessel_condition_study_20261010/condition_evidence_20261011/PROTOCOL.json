@@ -1,0 +1,15 @@
+{
+  "objective": "Find partial incidence-dependent evidence changes or reliability changes in unseen source vessels; no factor separation or recognition deployment yet.",
+  "fixed": "Original source-fit1296,held823; matchedpairs384/189. Known incidence/platform/pass; same ship,port,platform,pass,different product. Equal class/ship/pair weights; two directions are not independent samples.",
+  "evidence": "Six fixed descriptors of cached CNN spatial maps, not radar frequencies or actual ship segmentation. Three confusion score differences from sourceOOF only; actual true-margin decrease and B-view error as distinct risk targets.",
+  "inputs": "Only A evidence and A context plus A/B incidence. B image evidence is never a regressor input; true labels only define risk outcomes and weights.",
+  "estimators": "Anchor2+intercept; capacity adds4 anchor-only nonlinear terms; condition adds4 condition terms; sham identical to condition with withinship/port/platform/pass training-angle permutation. Equal parameter count is not equal hypothesis space. Fixed ridge.05 after training-only weighted standardization; clip magnitude/drop>=0,error in[0,1]. No sweep.",
+  "condition_terms": "signed:d,d*mid,d*u,d*v; magnitude/drop:abs(d),d*d,mid,abs(d)*u; error:a,b,b*b,d*v. a/b=(incidence-38)/5; u/v are source-pair-normalized anchor/context.",
+  "selection": "Three source-vessel response folds; freeze one candidate per family/mode by worst gain across anchor/capacity/sham averaged across folds/seeds if all three mean gains>0. Report fold consistency. SourceOOF confusion-pair selection precedes response CV, so screening is developmental, not nested independent assessment.",
+  "upstream": "Spatial CNN cache is historically trained. Decision scores are ship-OOF on sourcefit and full-source on held; source response CV is not nested upstream refitting. Fixed semantic score axes, but OOF/full distribution mismatch remains. No full-pipeline unseen-vessel/scene claim.",
+  "held": "All candidates reported transparently but only source-selected candidates considered for follow-up. Original held development data reused, not independent confirmation. Report near/far and acquisition coverage. No target ports or other datasets.",
+  "boundary": "Magnitude means evidence volatility, NOT classification unreliability. Error and true-margin-drop are separate tests. No causal identification from predictive association alone.",
+  "tasks": 28,
+  "neural_fits": 0,
+  "main_model_modified": false
+}

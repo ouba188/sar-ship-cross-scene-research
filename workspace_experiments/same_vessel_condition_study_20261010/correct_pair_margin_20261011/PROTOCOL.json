@@ -1,0 +1,16 @@
+{
+  "seeds": [
+    31415,
+    27182
+  ],
+  "steps": 400,
+  "margin": 0.1,
+  "coefficient": 0.05,
+  "common_auxiliary_scale": 0.23924146263194745,
+  "normalization": "Center scores per sample, divide by L2 norm (epsilon1e-8). True-class minus strongest-rival margin.",
+  "objectives": "point: mean hinge(.1-margin) across identical pair endpoints; paired: worst endpoint hinge per true same-vessel pair; rewired: same worst loss, same endpoint multisets within every batch but class-preserving identity re-pairing.",
+  "pairing": "Same-vessel different-product pairs, equal vessel sampling32 pairs, source supervised128 class/ship balanced. Rewire chooses circular shift with most distinct identities within class; unbreakable same-identity pairs retained and fraction reported.",
+  "fixed": "Frozen B factor encoders, original classifier, +-10% gate capacity, original400step schedule, Adam.01, source pool1296, all source validations unchanged. No new target labels.",
+  "selection": "Earliest highest source validation meanBA every20steps including0. Six new gate fits, old reference and JS checkpoints replayed without retraining. No target choice of coefficient or checkpoint.",
+  "paths": "both and prior-only; same9 original64-support draws, ridge8. Scores and pair diagnostics saved. Local prototype, repeated development, not full model or physical causal claim."
+}

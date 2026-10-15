@@ -1,0 +1,29 @@
+{
+  "seeds": [
+    31415,
+    27182
+  ],
+  "methods": [
+    "paired",
+    "class_only"
+  ],
+  "modes": [
+    "full_in",
+    "size_matched_in",
+    "crossfit"
+  ],
+  "folds": 3,
+  "fold_seed": 20261011,
+  "steps": 400,
+  "hypothesis": "Does training corrections on vessel-held-out base errors reduce the previous fit/validation degradation?",
+  "fixed": "Frozen cached R18 input features, original1296sourcefit/525ships, original heldsource and64target supports. No backbone retraining; no claim backbone itself never saw these identities historically.",
+  "upstream": "Eachfull/fold independently fits rawnormalization, PCAinit,512ridge teacher, same-vessel other-product teachers, case32 and prior32. No old fullteacher/case/statistics warmstart. Ordinarytask objective supervised+.5teacher+.5adaptation,400steps.",
+  "checkpoint": "case/prior earliest best on THREE ORIGINAL val_new_ship episodes every20steps including0. Originalval_new_time all149identities belongfactorfit; excluded from ALLbasecheckpointselection includingfull. This differs fromhistoricaltwo-role recipe, newfull baseline isprimary.",
+  "representation": "Foldlocal paired7 andclassonly7; independent sourcefitridge8scoreprobe ->fixedHelmert8x7 classcontrasts /SOURCE-fit weightedRMS. Semanticfixedaxis instead of mixing rotatedlatentaxes. Bothcontrols use identical new64parametercorrection input.",
+  "correction": "TOTAL400episodes perarm, cycle originalsource3heldfolds. Each64support96query episode entirelyonefold, shipdisjoint. Same EXACTsampleIDs acrossallthreearms. Closedform ridge8 correction through nativefixedcasekernel; supportprior subtraction/absentclasses retained.",
+  "arms": "full_in:fullmodelonall episode rows; size_matched_in:fold(k+1)%3 model, trainedonbatchk; crossfit:foldk model, excludedallbatchkships. Samefoldmodels supplybothsize-matchedarms. Each foldbase hasabout350ships vs full525.",
+  "selection": "Correctiongain0/.5/1 selectedusingOLDtwo-role sourcevalidation BA, equalroles/draws, lowergain ties. Onlyfulldeployment predictor selects gain; no fold-specific or targetgainselection.",
+  "deployment": "Full-data newlyrefit case/prior/factors plus one64parameterresidual. Original32Ddecisioninformationretained; nohard7Dreplacement. Fold/full errors canstilldiffer despitealignedaxes; diagnose separately.",
+  "boundary": "OOFquerylabels TRAINthecorrector; OOFerrorsnotindependentcorrectorvalidation. Newtime sharescorrectiontrainMMSIs; newshipusedforbaseandgainselection. Target3portsarepreviouslyreuseddevelopment, NOTindependentconfirmation orcausalidentification.",
+  "no_search": "No extra coefficient/rank/network sweep; firstcomplete12corrections,16basefits. Do notpromote merelybecauseOOFtrainlossfalls. Allpredictionssavedbeforequerymetricread."
+}

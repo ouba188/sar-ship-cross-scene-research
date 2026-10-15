@@ -1,0 +1,28 @@
+{
+  "seeds": [
+    31415,
+    27182
+  ],
+  "arms": [
+    "logit",
+    "all_directions",
+    "selected_directions"
+  ],
+  "reference_arms": [
+    "pca",
+    "task",
+    "relation",
+    "uniform",
+    "reliable"
+  ],
+  "steps": 400,
+  "dimension": 32,
+  "purpose": "Test whether restricting invariance to task-discriminative directions preserves class usefulness versus full-vector contraction.",
+  "controls": "All unchanged source1296/PCA32init/16648parameters/fullMSE/reliableinterval/.5adapted64supportqueryloss/.1stability/sourceval adaptedBAselection. Reuse exact previous train/validation episodes and teachergraph. Only stability metric changes; initial expected metric each normalized to1.",
+  "logit": "CoRe-inspired centered logit pair consistency on same graph and reliabilityweights; head receives gradients. This is an adapted compact reference, not official CoRe reproduction.",
+  "all_directions": "Mean squared same-vessel latent difference projected on normalized current W_y-W_k for all7rivals. Directions stop-gradient; latent gradients remain. Same scalar graph reliability as selected/fullvector.",
+  "selected_directions": "Same as all_directions but mask restricts to original same-vessel plus condition-matched different-vessel jointlypositive reliable class relations. Zero selected rows contributezero. Direction loss counts each relation; it is a PSD directional metric, not an orthogonal span projector.",
+  "mathematical_scope": "8linearclassrows span atmost7 difference directions in32D. Orthogonal complement is unpenalized by directional stability alone, not provennoise orcausal. Normalization avoids direct headweight shrink reducingthe loss; detached directions still change through supervised headupdates.",
+  "no_search": "No weights/ranks/masks selected on target queries. Predictions frozen before metrics. Initial source-only loss normalization matches value not exactgradient magnitude.",
+  "boundary": "FrozenR18sideprototype; reused3portsx3drawsx64targetlabels,2optimizer/teacherseeds. Not independentconfirmation/fullmainmodel/officialliteraturebenchmark."
+}

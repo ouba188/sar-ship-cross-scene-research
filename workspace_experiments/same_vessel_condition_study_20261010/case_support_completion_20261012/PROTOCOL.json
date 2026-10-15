@@ -1,0 +1,27 @@
+{
+  "premise": "Matched support-only real-history teacher has +1.620321 BA points",
+  "primary": "class_image_history versus unchanged and class_center controls",
+  "arms": [
+    "class_center",
+    "class_history_mean",
+    "image_history",
+    "class_image_history"
+  ],
+  "doses": [
+    0.0,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "ridge": "Fixed .1 trace(weighted feature Gram)/dimension",
+  "source": "1296 source-fit, only 1040 multi-observation rows train completion; equal class/vessel weights",
+  "controls": "All predictors and raw class centers use exactly the same fitting rows",
+  "selection": "Three vessel folds x three support draws x three geometry contexts; source OOF BA, smaller dose ties; shared dose across contexts",
+  "priors": "Cached source OOF priors exclude validation fold ships AND all held ships",
+  "support": "64 distinct ships per episode, SAR representation plus existing support class label",
+  "query": "Unchanged SAR feature and prior, no query label, history, MMSI, port or AIS as model input",
+  "scaling": "Original support centroid and centered energy restored after correction",
+  "evaluation": "Same historical 823 source-held observations; not fresh data or target generalization",
+  "scope": "Fixed initial full expert, not final base/expert fusion and not retrained backbone",
+  "no_held_parameter_selection": true
+}

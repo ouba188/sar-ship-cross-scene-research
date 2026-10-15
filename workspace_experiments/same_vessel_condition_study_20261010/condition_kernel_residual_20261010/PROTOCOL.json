@@ -1,0 +1,17 @@
+{
+  "seed": 20261010,
+  "source_steps": 120,
+  "source_episodes": 6,
+  "source_ports": [
+    "Jebel Ali",
+    "Singapore"
+  ],
+  "correction_parameters": 16896,
+  "max_coordinate_gain_change": 0.1,
+  "prior": "Exact original prior scores unchanged for every arm",
+  "source_training": "Final query weighted MSE through differentiable64-support ridge8 +.1 gain square; identity initialization,120 Adam steps lr.01",
+  "source_split": "Same1744 observations/605 identities as previous representation training;302 identities remain diagnostic only",
+  "context_control": "Previous task_only32d vs relations32d; frozen matched factor network architecture and source budget",
+  "target": "Original9x64 splits; residual-head fit only, no target neural adaptation; no query selection",
+  "resources": "CPU1; no backbone or parent changes"
+}

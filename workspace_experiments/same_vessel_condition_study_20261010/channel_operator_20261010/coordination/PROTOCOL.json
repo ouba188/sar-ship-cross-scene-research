@@ -1,0 +1,10 @@
+{
+  "reason": "Stage attribution locates loss of suppression during classification-head refit",
+  "design": "Gate absent/present x ordinary/scene-regularized source head; original gates unchanged",
+  "rank": 8,
+  "tau": 0.1,
+  "parameters": "Same rank/strength as previous scene-training pilot; no search",
+  "fit": "Source-only class/identity-weighted ridge plus trace-normalized PSD shared-scene penalty",
+  "query_labels": "Only for evaluation after all fixed choices; no per-port winner selection",
+  "limitations": "Sequential development follow-up, not independent confirmation; not gate retraining through added penalty"
+}

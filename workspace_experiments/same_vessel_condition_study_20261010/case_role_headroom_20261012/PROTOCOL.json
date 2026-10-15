@@ -1,0 +1,21 @@
+{
+  "question": "Which side of same-vessel history creates actual recognition headroom?",
+  "arms": [
+    "raw",
+    "support_only",
+    "query_only",
+    "both"
+  ],
+  "scales": [
+    "native",
+    "matched"
+  ],
+  "ridge": 8,
+  "supports": 64,
+  "prior": "Shared original vessel-held source prior, unchanged",
+  "geometry": "Coherent role-specific feature maps for both Kss and Kqs",
+  "access": "History arms are privileged diagnostics, NOT deployable results",
+  "held": "Repeated source-held 823 observations / 302 vessels, not new target evaluation",
+  "gate": "Train only a bounded legal support-completion pilot if support-only history improves BA",
+  "no_hyperparameter_search": true
+}

@@ -1,0 +1,32 @@
+{
+  "seed": 20261010,
+  "ports": [
+    "Santos",
+    "Port Klang",
+    "Los Angeles"
+  ],
+  "split": "All three previous pilot ports jointly held out; not three independent LOPO fits",
+  "source_sampling": "Up to4 rich scenes/port, up to4 distinct vessels/class/scene, minimum48/class where available",
+  "train": 939,
+  "test": 5654,
+  "source_class_counts": {
+    "0": 268,
+    "1": 134,
+    "2": 230,
+    "3": 71,
+    "4": 71,
+    "5": 48,
+    "6": 66,
+    "7": 51
+  },
+  "target_labels_for_fit": false,
+  "identity_overlap": 0,
+  "scene_overlap": 0,
+  "location": "R18 layer4[1] input, after first residual block, before frozen convolutions/BN/ReLU/addition",
+  "recipe": "e206 pre-episode R18 and original float16 layer3 cache; no new image encoding",
+  "selection": "Positive distinct-class shared-scene diagonal, divided by source class-centroid variance plus its median; top64/512",
+  "training": "Three alternating gate-gradient/source-ridge-refit epochs, batch16, gate LR2, shrink penalty.05, gate bounds[.5,1]",
+  "control": "Fixed.75 selected gates, learned selected gates, three fixed random-channel draws with identical training",
+  "limits": "Development operator pilot; historical pretraining exposure retained; not main64-support model or pure-noise identification",
+  "resources": "CPU1 only; no GPU or parent-file modifications"
+}

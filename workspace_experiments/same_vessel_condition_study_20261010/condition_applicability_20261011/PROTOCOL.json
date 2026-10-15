@@ -1,0 +1,19 @@
+{
+  "scope": "Source only, fixed center_border_log_ratio absolute-change response. No classification or target-port evaluation.",
+  "gate_inputs": [
+    "raw A center ratio",
+    "A total log energy",
+    "absolute incidence gap",
+    "mean incidence"
+  ],
+  "forbidden_inputs": "MMSI, port, true classes; MMSI is used only for splitting/leaf coverage, labels only existing class/ship/pair weights.",
+  "response": "Unchanged condition_evidence_response fit_model/predict_model; fixed ridge and old four arms.",
+  "gain_target": "Squared OOF anchor error minus squared OOF condition error.",
+  "selection": "Root plus one depth1 stump: four features x ordinary directed-training-row quantiles .25/.50/.75. Each leaf >=12 distinct vessels. Select strictly smaller class/ship/pair-weighted gain-target SSE; ties keep first/root. No held choices.",
+  "blend": "clip((leaf weighted anchor MSE - leaf weighted condition MSE)/(their sum +1e-12),0,1). Not a learned optimal convex-blend coefficient.",
+  "source_assessment": "Outer original three vessel folds. For each outer fold, response crossfit within the two remaining folds trains the gate; response models fit all outertrain to evaluate outerval. Pooled metrics recompute original class/ship/pair weights.",
+  "deployment": "Gate from all three source response-OOF folds; full response models from original1296 source rows. Export before reading held outcomes.",
+  "limitations": "Developmental reused held cohort; historically pretrained frozen CNN not refit. Center/border is not true segmentation; magnitude is not recognition risk or causal identification. Both pair directions dependent; leaf ship sets can overlap.",
+  "neural_fits": 0,
+  "target_evaluations": 0
+}

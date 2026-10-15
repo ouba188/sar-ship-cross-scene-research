@@ -1,0 +1,9 @@
+{
+  "rule": "mean_incidence_deg <= 37.38015340: condition blend=0.00000000; otherwise: condition blend=0.05361371",
+  "held_used": false,
+  "api": "load_features(); gate_inputs(anchor_a,total_logenergy_a,angle_a,angle_b); predict_gate(inputs,model)",
+  "fit_rows": 1296,
+  "pairs": 384,
+  "ships": 88,
+  "response_api": "condition_evidence_response.predict_model(anchor_a,total_logenergy_a,angle_a,angle_b,model)"
+}

@@ -1,0 +1,22 @@
+{
+  "hypothesis": "Can an observed condition-related within-vessel spatial-change scale improve use of support cases from different vessels? This cross-vessel use is an experiment, not assumed valid.",
+  "fixed": "Cached full source prior/case models, original64support3draws,2seeds; no backbone/head training or target dataset evaluation. Source-held823/302ships is historically reused development data.",
+  "response": "Old center_border_log_ratio magnitude regressions anchor/capacity/condition/sham unchanged. New applicability gate uses sourceOOF response errors only, never held identities/ports as rules.",
+  "matching": "Original balanced signed support residual influence O_qs is multiplied by exp(-.5*(r_q-r_s)^2/tolerance^2). Tolerance is symmetric mean of two directed forecasts, floored at source weighted25th change percentile. Fixed uses sourceweightedmedian. More predicted movement tolerates a larger observed difference; NOT suppressing all high-volatility observations.",
+  "increment_only": true,
+  "residual_formula": "signed_target_minus_prior_v2",
+  "residual_erratum": "Increment now uses (2*onehot-1-prior_s)*present, matching baseline. Historical unversioned runs omitted -1 in the increment; preserve their archives and replay explicitly as legacy.",
+  "corrective_formula": "If increment_only=True, final multiplier=1+(raw_multiplier_arm-raw_multiplier_anchor), in[0,2]. This cancels generic center attenuation and isolates conditional/capacity/sham increments. Exactly1 for anchor and unknown edges. No parameter changes or new response fits. Post-negative developmental correction, NOT independentconfirmation.",
+  "gate": "Mix A-only and angle-conditioned directed forecasts using sourceOOF shallow applicability model, then symmetrize. Both support/query images used for matching, but query labels are never inputs.",
+  "restriction": "Only sameport/platform/pass, knownmetadata, sourceknownangle range and sourcepair maxgap. Missing/out-of-scope edge multiplier exactly1. Same-vessel learning does not ensure different-vessel applicability.",
+  "operator": "This is post-solve support-influence calibration, not a refitted PSD kernel or changed bone/feature. Support residual coefficients fixed; originalprior preserved. Attenuation may remove helpful AND harmful signed contributions.",
+  "selection": "Gain0/.5/1 chosen by mean BA on original3val_new_ship episodes ONLY, lower gain ties. Validation was used historically by upstream checkpoint selection, so reused development not independentconfirmation. No new-time role or held-source gain selection.",
+  "readouts": "Matched baseline and6arms; selectedgain andforced1 diagnostic, transparent sourceOA/BA, rescues/harms and exact fixed-baseline-rival margin contributions. Forced1 not target-selected deployment.",
+  "scale_limits": {
+    "floor": 0.09464263916015625,
+    "fixed": 0.16783130168914795,
+    "angle_min": 30.304198734892616,
+    "angle_max": 45.83010362795817,
+    "max_gap": 11.794119135818992
+  }
+}

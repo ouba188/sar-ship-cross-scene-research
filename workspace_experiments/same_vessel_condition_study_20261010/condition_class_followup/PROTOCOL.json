@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-10",
+  "analysis": "observational anchored condition contrasts",
+  "thresholds": {
+    "incidence_control_max": 2,
+    "incidence_exposed_min": 5,
+    "relative_control_max": 10,
+    "relative_exposed_min": 25
+  },
+  "matching": "same earlier observation, same vessel, same gap_bin; nearest gap first, greedy 1:1 pair IDs",
+  "max_gap_difference_days": 30,
+  "exposure_and_control_both_after_anchor": true,
+  "selection_uses_outcomes": false,
+  "class_support_minimum_vessels": 5,
+  "aggregation": "triplet means within each vessel, equal vessel weight within class",
+  "bootstrap": "2000 vessel resamples, descriptive 95% intervals; scene dependence and multiple comparisons uncorrected",
+  "diagnostic_only": true,
+  "refit": false,
+  "limitations": [
+    "Observed conditions only; no randomized physical intervention",
+    "Relative direction from image-derived body axis, not verified heading",
+    "Frozen diagnostic R50/R18, not current full-model LOPO",
+    "64 references describe class relations; not actual classifier training influence",
+    "Removing R18 at fixed head is not a retrained single-backbone comparison"
+  ]
+}

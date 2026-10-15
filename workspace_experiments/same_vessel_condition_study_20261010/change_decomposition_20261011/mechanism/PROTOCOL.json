@@ -1,0 +1,59 @@
+{
+  "artifacts": [
+    "full_27182_class_only_decomposition.npz",
+    "full_27182_paired_decomposition.npz",
+    "full_31415_class_only_decomposition.npz",
+    "full_31415_paired_decomposition.npz"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "methods": [
+    "class_only",
+    "paired"
+  ],
+  "model": "full",
+  "roles": [
+    "sourcefit",
+    "test_source"
+  ],
+  "dimensions": {
+    "content": 7,
+    "residual": 25,
+    "z": 32,
+    "content_component": 32,
+    "residual_component": 32
+  },
+  "sourcefit_chips": 1296,
+  "sourcefit_ships": 525,
+  "held_chips": 823,
+  "held_ships": 302,
+  "probes": "Existing fit_probe ridge=1 and score_probe on supplied coordinates, without rescaling. Shared fit row_weights: equal classes, vessels/class, acquisitions/vessel, chips/acquisition. Held OA and class recall are chip means; BA is mean recall of present classes. No checkpoint selection.",
+  "pairs": "Mean chips within MMSI/product/port first; only distinct-product same-vessel pairs. all includes same-port and cross-port; cross_port requires different ports. Equal pairs/vessel, vessels/class, then covered classes. class_id=-1 is the aggregate.",
+  "energies": "Uncentered coordinate-mean squared deltas in common source-whitened baseprior32. residual_delta_mse=E||delta_residual_component-delta_z||^2/32. Every paired ratio divides weighted mean numerator by actual weighted E||delta_z||^2/32 on the SAME cohort; no per-pair ratio averaging or denominator from another space. Explained fraction=1-residual_delta_mse_ratio, may be negative. content_delta_energy_ratio=E||delta_content_component||^2/E||delta_z||^2. full_reconstruction_delta_ratio uses delta_content+delta_residual-delta_z.",
+  "reconstruction": "Full reconstruction ratio=weighted E||content_component+residual_component-z||^2/weighted E||z||^2, using role-local row_weights and uncentered z energy.",
+  "acquisition_input": "Load exported selected model without training; run model(mean acquisition z). Compare with acquisition mean of exported model(chip z) components. acquisition_input_* metrics use the former, ordinary metrics the latter. Both use identical actual original z deltas and class/ship/pair weights. Jensen gap=model(mean z).residual-mean(model(z).residual). Delta RMS ratio is sqrt(E||gap_a-gap_b||^2/E||delta_z||^2). Endpoint RMS ratio is sqrt(E[(||gap_a||^2+||gap_b||^2)/2]/E||delta_z||^2), on the same covered pairs.",
+  "mechanical_identity": "Orthogonal decoder components impose delta_content dot delta_residual=0. Let e=delta_content+delta_residual-delta_z. Residual delta error energy =content delta energy+||e||^2-2 delta_content dot e. Exact reconstruction therefore forces residual explained fraction=1-content delta energy ratio. These are not independent evidence of separation. partition_identity_gap is residual error ratio minus content energy ratio; approximate reconstruction can change it. No fixed physical axes or causal factors are identified.",
+  "selected_readout": "Selected checkpoint content head applied to exported c7; compare its held OA/BA with the independent sourcefit ridge probe. No additional model selection.",
+  "summary": "Arithmetic mean of two full-model seed metrics on test_source only. Defined-seed counts expose zero-denominator or absent-class results; coverage counts are unique cohort counts, never summed across seeds or methods.",
+  "matched_control": "Reused existing held-source class-matched other-vessel exact donor product/port cohort. Chip anchor versus acquisition-mean donors; equal matched donors/anchor then row_weights over covered anchors. Ratio of weighted mean squared same/other distances.",
+  "matched_cohort_path": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\same_vessel_condition_study_20261010\\paired_evidence_factors_20261011\\identity_controls\\matches.csv",
+  "matched_pairs": 359,
+  "matched_anchors": 233,
+  "absent_cross_port_coverage": [
+    {
+      "role": "sourcefit",
+      "class_id": 7,
+      "chips": 61,
+      "ships": 26
+    },
+    {
+      "role": "test_source",
+      "class_id": 7,
+      "chips": 41,
+      "ships": 18
+    }
+  ],
+  "limitations": "Observational separation diagnostics, not causal identification. Residual class readability is not expected to be zero. Coverage is class dependent; zero coverage is not zero drift. No validation or target metrics, architecture comparisons, or neural training."
+}

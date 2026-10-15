@@ -1,0 +1,21 @@
+{
+  "classifier_fold": 1,
+  "source_training_fold": 2,
+  "held_identity_fold": 0,
+  "source_cv_folds": 3,
+  "training_steps": 400,
+  "seeds": [
+    20261031,
+    20261032
+  ],
+  "learning_rate": 0.001,
+  "task_weight": 1.0,
+  "scene_weight": 0.2,
+  "anchor_weight": 0.1,
+  "source_scene_anchors": 635,
+  "residual_scale": [
+    0.6642120833156411,
+    0.33101771250244844
+  ],
+  "notes": "Only scene_task backpropagates task residual loss into the encoder. scene_control uses identical initial encoder, head, batches and optimizer but stops that gradient. Frozen controls learn heads only. Source OOF state normalizations exclude held ships; inherited encoder pretrained on source folds1+2. Test holdout reused for development, not new confirmation."
+}

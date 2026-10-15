@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-12",
+  "stage": "Student exploitability after teacher-kernel benefit",
+  "arms": [
+    "task",
+    "score",
+    "relation",
+    "joint"
+  ],
+  "contexts": [
+    "Los Angeles",
+    "Port Klang",
+    "Santos"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "steps": 64,
+  "lr": 1e-05,
+  "batch": 192,
+  "training": "Only1296fit observations; 3vessel-fold episodes, support64/query64 disjoint ships plus64teachers",
+  "teacher": "Equal other-product history, product-balanced; no motion/quality weighting",
+  "scores": "Source vessel-OOF teacher heads exclude all302heldships; centered MSE",
+  "relation": "SPKD-inspired row-L2 Gram across different ships, current full teacher geometry minus bias",
+  "weighting": "Relation gradient norm matched initially to0.5scoreMSE and frozen; joint splits teaching budget",
+  "task": "Actual full expert residual ridge8; FIXED source prior isolates case geometry",
+  "checkpoint": "Fixed step64; no held selection, two genuine training seeds",
+  "scope": "Train R18layer4 only; existing original prior remains fixed, not refitted full-model integration",
+  "inference": "Single SAR observation with existing SAR acquisition incidence; no new AIS/MMSI/history",
+  "limits": "Historical source encoder/geometry exposure; three contexts reuse same823held observations; no target/full-fusion confirmation"
+}

@@ -1,0 +1,19 @@
+{
+  "steps": 400,
+  "seeds": [
+    31415,
+    27182
+  ],
+  "consistency_weight": 0.05,
+  "js_normalizer": 0.015947744338224937,
+  "fit_chips": 1296,
+  "fit_ships": 525,
+  "fit_pairs": 2281,
+  "paired_ships": 269,
+  "objective": "Original class/ship-balanced supervised squared loss +.01gainL2; consistent adds .05 same-ship JS normalized by source raw-prior mean JS, floor1e-4. Vessel-balanced pairs32, supervised128, Adam.01.",
+  "paths": "both: corrected source prior and corrected support geometry; prior: corrected source prior but raw original512 geometry. All64 residual heads refit, ridge8.",
+  "encoder": "Frozen previous anchor seed-matched factor checkpoints. Context standardization refit using common1296 source pool. No encoder training.",
+  "selection": "Earliest best mean new-ship/new-observation source BA among0,20,...400. Identical gate weights for two deployment paths;4unique fits yield8seed/path cells.",
+  "labels": "Original source labels only; same9x64 target supports. No query selection or per-class handcrafted rule.",
+  "caveats": "Expanded source gate pool differs from previous462, so retrained within-run reference is primary. This prototype is not the full dual model; repeated-development data and shared scenes remain. JS agreement can include both-wrong cases; diagnosed separately."
+}

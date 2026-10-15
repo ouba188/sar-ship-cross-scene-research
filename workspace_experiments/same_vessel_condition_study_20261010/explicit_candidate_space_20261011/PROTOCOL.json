@@ -1,0 +1,24 @@
+{
+  "arms": [
+    "task",
+    "relation",
+    "uniform",
+    "reliable"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "steps": 400,
+  "dimension": 32,
+  "objective": "Operational target: relatively condition-insensitive class-useful explicit coordinates. No absolute invariance, physical axis names or universal port gains required.",
+  "representation": "Learn512x32 frame, QR-orthogonalized, per-coordinate population variance from SOURCE FIT covariance normalized to1/32. Export frame, scales, center, vectors and exact orthogonal input-space residual decomposition. Original R18 frozen; no prior residual shortcut around z.",
+  "capacity": "All4 arms identical32D frame and8-class linearhead; sourcePCA32 initialization and balancedridge1 initial head. All predictions and support kernels use z. PCA reference untrained. Not apples-to-apples with old full512 score-residual pipeline.",
+  "training": "Same source1296,525ships;128 supervised rows;64support identities+96query samples from disjoint remaining identities in POOLED source-fit ports. Episodic train is not strictleaveportout. Same batches/episodes acrossarms.",
+  "losses": "All: supervisedMSE+.5 originalfullteachercenteredMSE+.5 post64support classbalancedMSE. relation adds.25 gradientRMSscaled jointinterval. uniform adds.1 same-vessel latentdrift to relation. reliable instead weights samegraph by fractionjointpositiveedges. Both drift terms divided by own sourceinitialexpected drift, no target tuning.",
+  "graph": "Same metadataeligible612anchors, other-acquisition same-vessel scene-mean features. Reliability from prior jointmask over7rivals, includes cross-vessel donor agreement. Normalize expected weight; zero-reliability edges retained withzero contribution. Other-vessel feature vectors are not forced equal.",
+  "selection": "Source validation3fixed64support identity-disjoint episodes each in originalnewship/newtime roles; earliestbest mean adaptedBA every20steps including0. Newtime may sharefitidentities by originaldesign. Heldsource823 never selects.",
+  "target": "Original3ports x3draws x64labels; singlechip input, no target identity/condition information at inference. Allvectors/predictions frozen beforequerymetrics. Previouslyreuseddevelopment notindependentconfirmation.",
+  "diagnostics": "Heldsource explicitvectors: effective rank, energy-normalized withinvessel drift, sameclass other-vessel ratio, independent fixedridge classprobe, selectedhead raw/adapted OA/BA, observational incidenceprobe. Lower readability not proofnoncausal factors absent.",
+  "no_search": "Fixed32dimension400steps4arms2seeds; no target-selected dimension, weight, or checkpoint. Mainmodel notmodified."
+}

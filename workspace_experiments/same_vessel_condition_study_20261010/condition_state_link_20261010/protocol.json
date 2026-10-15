@@ -1,0 +1,22 @@
+{
+  "classifier_fold": 1,
+  "predictor_fold": 2,
+  "evaluation_fold": 0,
+  "primary_context_dim": 32,
+  "prespecified_low_capacity_dim": 8,
+  "ridge": 10,
+  "state": "8 class scores, maximum score, top-two score gap",
+  "state_matched": "32 or 8 source PCA coordinates of quadratic state; no new information",
+  "pair_features": "endpoint differences of state quadratic, context, context squared, state-context products; absolute differences for magnitude",
+  "parameters_signed": {
+    "state_base": 65,
+    "state_matched32": 449,
+    "state_ordinary32": 449,
+    "state_condition32": 449,
+    "state_matched8": 161,
+    "state_ordinary8": 161,
+    "state_condition8": 161
+  },
+  "normalization": "source fold2 only; RMS pair scaling; each feature block divided by square root of its dimension",
+  "notes": "Frozen encoders learned folds1+2; held ship IDs but overlapping scenes; previous diagnostic holdout reused; no target-port training or model changes."
+}

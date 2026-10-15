@@ -1,0 +1,21 @@
+{
+  "status": "complete",
+  "seconds": 29.54545600002166,
+  "response_fits": 1264,
+  "candidates": [
+    [
+      "center_border_log_ratio",
+      "magnitude"
+    ],
+    [
+      "middle_energy_share",
+      "signed"
+    ]
+  ],
+  "product_pair_folds": 158,
+  "protocol": "Only the two already source-selected candidates. Remove both held-pair products from original fitting observations and pairs; refit same4arms, original ridge/design/sham recipe. No tuning or classification deployment.",
+  "aggregation": "Two directions averaged per unordered pair; original equal-class/equal-ship/equal-pair weights. Scene-heldout predictions reassembled then globally weighted, not mean fold performance. Class/port/ship global contributions sum to original global MSE reduction. Ship influence reweights after removing that ship, without refitting.",
+  "comparison": "Center large>=5 vs near<2 only within port/class cells with both bins; equal ship means within each cell/bin. All coverage retained including ineligible cells. Common-ship means also provided; no unadjusted pooled causal interpretation.",
+  "exposure": "Response-layer product holdout only. Frozen historical backbone and source-defined candidate selection are not product-heldout; both-new-scene evidence limited. Repeatedly used held development data, not independent confirmation.",
+  "review": "9 focused response tests passed before main study; no B evidence/true-class input or held-based candidate selection found. Deterioration angle design symmetric under swapping angles at fixed anchor; not relevant to selected magnitude/signed candidates. Source CV upstream is nonnested, explicitly documented."
+}

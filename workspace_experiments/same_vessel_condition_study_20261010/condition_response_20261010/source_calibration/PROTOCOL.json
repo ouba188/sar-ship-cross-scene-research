@@ -1,0 +1,10 @@
+{
+  "trigger": "Uncalibrated condition correction harms; original whole-port relation fit is weak and CV folds uneven in row count",
+  "folds": "Greedy source-port row-count balance into3 folds; purge held MMSIs",
+  "correction": "One global scalar k=clip(sum(weight*predicted*observed)/sum(weight*predicted^2),0,1), estimated exclusively on source-held-port within-vessel residuals",
+  "no_class_specific": true,
+  "no_port_specific": true,
+  "no_target_selection": true,
+  "alpha": "Original0.5 retained; multiply source-fitted response coefficients by calibrated k",
+  "boundary": "OOF predictions fit calibration; calibrated OOF error is not independent confirmation"
+}
