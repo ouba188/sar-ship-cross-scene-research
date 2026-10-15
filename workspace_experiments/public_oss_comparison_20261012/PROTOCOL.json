@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-12",
+  "datasets": [
+    "oss1",
+    "oss2"
+  ],
+  "regimes": [
+    "task_trained",
+    "shared_frozen"
+  ],
+  "task_trained": "Original dataset-specific purged source, existing task-trained R18 tail and geometry; OSS2 mapper reused, OSS1 same fixed recipe",
+  "shared_frozen": "Identical ImageNet R50 and pre-task e206 R18 weights; common source-row intersection, one shared PCA/scales, heads and mapper pair",
+  "source": "Existing self-collected source corpus remains training data; public datasets are targets, not a public-source-only benchmark",
+  "mapper": "R50original2048+C4pooled2048 -> R18512; source standardization floor1e-4; linear ridge.01; MLP4096-512-512 GELU AdamW lr.001 wd.0001,8epochs,batch512,seed20261010",
+  "arms": [
+    "R",
+    "P",
+    "E",
+    "PE",
+    "T",
+    "PE_scaled",
+    "DD"
+  ],
+  "decomposition": "P=deployed reconstructed SSL coordinates; E=T-P; preserve original sqrt192/sqrt2560 scales",
+  "prior": "R50 prior identical for R/P/E/PE/T/PE_scaled; DD additionally replaces prior with dual source head",
+  "scaled": "PE_scaled analytically matches added SSL support trace to T separately each draw, no search/query use",
+  "base": "New matched compact C4-PCA128 source ridge1 plus target ridge8, identical between arms; NO learned-frequency/stable/incidence modules",
+  "readouts": [
+    "expert",
+    "c4_late"
+  ],
+  "support": "Historical5 draws of64 rows; same supports per method; retain original and fixed-common-query scopes",
+  "evaluation": "All four regime/dataset predictions frozen before new query metrics; macro/micro Brier,NLL,OA,BA,class recalls and support coverage",
+  "limitations": [
+    "Architecture/recipe matches in task_trained, not identical weights or sources",
+    "shared_frozen controls weights and source but omits task-tail adaptation; not the full recent system",
+    "Historical encoder/development exposure remains; target support/query is row-disjoint, not necessarily vessel-disjoint",
+    "F0921 public status unestablished here; historical reference only, no new F or self-port target evaluation",
+    "Residual usefulness is mapper-relative, not information-theoretic novelty; one new mapper training seed",
+    "64 is one budget; five overlapping supports are not independent neural seeds"
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-12",
+  "ports": [
+    "Antwerp-Bruges",
+    "Busan",
+    "Callao",
+    "Fujairah",
+    "Hamburg",
+    "Houston",
+    "Jebel Ali",
+    "Los Angeles",
+    "Mombasa",
+    "New York",
+    "Newcastle",
+    "Ningbo-Zhoushan",
+    "Port Hedland",
+    "Port Klang",
+    "Port Said",
+    "Qingdao",
+    "Richards Bay",
+    "Rotterdam",
+    "Santos",
+    "Shanghai",
+    "Singapore",
+    "Sydney Botany",
+    "Tanger Med"
+  ],
+  "folds": [
+    {
+      "fold": 0,
+      "ports": [
+        "Antwerp-Bruges",
+        "Houston",
+        "Newcastle",
+        "Qingdao",
+        "Singapore"
+      ],
+      "source_n": 23872
+    },
+    {
+      "fold": 1,
+      "ports": [
+        "Busan",
+        "Jebel Ali",
+        "Ningbo-Zhoushan",
+        "Richards Bay",
+        "Sydney Botany"
+      ],
+      "source_n": 21223
+    },
+    {
+      "fold": 2,
+      "ports": [
+        "Callao",
+        "Los Angeles",
+        "Port Hedland",
+        "Rotterdam",
+        "Tanger Med"
+      ],
+      "source_n": 31335
+    },
+    {
+      "fold": 3,
+      "ports": [
+        "Fujairah",
+        "Mombasa",
+        "Port Klang",
+        "Santos"
+      ],
+      "source_n": 27417
+    },
+    {
+      "fold": 4,
+      "ports": [
+        "Hamburg",
+        "New York",
+        "Port Said",
+        "Shanghai"
+      ],
+      "source_n": 27745
+    }
+  ],
+  "public_targets": [
+    "oss1",
+    "oss2",
+    "oss2_grdh"
+  ],
+  "partition": "Alphabetically sorted 23 eligible ports, round-robin five folds; no outcome-based selection",
+  "source": "Intersection of both public-purged source sets and every held-port permitted source set",
+  "fitting": "One source geometry, source heads and linear/MLP mapper pair per fold; identical across that fold's port/public targets",
+  "features": "Unchanged pre-task e206 R18 + ImageNet R50 original/C4 features. No new encoder training",
+  "operator": "Exact public_oss_comparison_20261012.evaluate operator; no port drift/stable/incidence/frequency modules",
+  "mapper": "Unchanged ridge.01 and fixed 8epoch MLP, seed20261010; final checkpoint, no sweep",
+  "support": "Original five64 supports per port/OSS1/OSS2; prior GRDH five64 supports retained",
+  "inference": "R/P/E/PE/T/PE_scaled/DD; fixed R50 prior except DD; expert and compact C4 late readouts",
+  "primary": "Mean within-port macro Brier/BA, equal port weight; public fold average and same-fold class-matched comparison",
+  "diagnostics": "Class-matched risks; support-present/absent strata; source-standardized input distance; source-defined shift bins",
+  "limitations": [
+    "Five source models, not one model across all 23 ports",
+    "Grouped-port holdout is harder/different from historic single-port LOPO",
+    "Frozen encoder historical/pretraining exposure unchanged; not a from-scratch inductive benchmark",
+    "Support-query can share vessel/product; five draws and public folds are not independent test datasets",
+    "Residual is mapper-relative, not proof of new information; correlations do not identify physical causes",
+    "64-label operating point only; compact readout is not latest full-system model"
+  ]
+}

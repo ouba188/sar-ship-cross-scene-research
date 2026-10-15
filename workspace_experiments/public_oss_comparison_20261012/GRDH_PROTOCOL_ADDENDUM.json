@@ -1,0 +1,12 @@
+{
+  "reason": "Metadata-only audit found OSS1 entirely GRDH versus mixed GRDH/SLC in OSS2",
+  "defined_before_new_query_metrics": true,
+  "query_metric_readout_started": false,
+  "task": "oss2_grdh",
+  "eligible": "scene_id contains literal _GRDH_; no label-based filtering",
+  "support": "Five uniform64 row draws, seeds0..4, within GRDH; query excludes selected support",
+  "source": "Same fitted models/maps as complete OSS2 target; shared_frozen still uses both-public-purged source",
+  "comparison": "OSS1 original already all GRDH; preserve OSS2 full-cohort results. Both product mix and support composition change",
+  "no_new_fit": true,
+  "no_search": true
+}

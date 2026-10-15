@@ -1,0 +1,113 @@
+{
+  "status": "complete",
+  "date": "2026-10-13",
+  "owned_directory": "E:/临时会话/ports_root_cause_20261013/dataset_audit",
+  "report": "DATASET_AUDIT_ZH.md",
+  "cohort_rows": {
+    "source24": 38091,
+    "oss1": 1349,
+    "oss2": 3745,
+    "oss2_grdh": 2746
+  },
+  "native_paired_rows": {
+    "oss1": 5673,
+    "oss2": 9120
+  },
+  "local_xml_rows": {
+    "oss1": 5673,
+    "oss2": 10024
+  },
+  "local_xml_products": {
+    "oss1": 41,
+    "oss2": 46
+  },
+  "native_paired_products": {
+    "oss1": 41,
+    "oss2": 38
+  },
+  "publication_count_units": "Distinct from local paired targets; local OSS1 has 5673 VV plus 5673 VH files, but publication units are not definitively inferred from this factor of two.",
+  "cross_release": {
+    "shared_mmsi": 419,
+    "identity_datatake_pairs": 162,
+    "same_sar_time_pairs": 159,
+    "same_sar_time_label_agreement": 159,
+    "same_sar_time_ais_timestamp_and_dimensions_agreement": 159,
+    "exact_pixel_duplicate_claim": false
+  },
+  "oss2_grdh_slc_pairs": {
+    "file": "oss2_grdh_slc_pairs.csv",
+    "exact_sar_time_pairs": 234,
+    "same_label_pairs": 233,
+    "unique_datatake_pairs": 370,
+    "ambiguous_groups_excluded": 6,
+    "both_query_pairs_by_draw": [
+      228,
+      224,
+      225,
+      223,
+      224
+    ],
+    "original_labels_preserved": true
+  },
+  "slc_metadata_final": {
+    "early_missing_finding_superseded": true,
+    "reason": "Actual OSS2 metadata uses full product-name.xml",
+    "selected_products_with_exact_spacing": 11,
+    "selected_rows": 999,
+    "range_spacing_m": 2.329562,
+    "azimuth_spacing_m_min": 13.927475,
+    "azimuth_spacing_m_max": 14.02869,
+    "raw_cal_uint8_xml_shape_matches": 999,
+    "deterministic_pixel_probes": 22,
+    "amplitude_sorted_uint8_decreases": 0,
+    "physical_geometry_or_performance_cause_resolved": false,
+    "geometry_experiment_executed_by_this_branch": false
+  },
+  "execution": {
+    "model_fits": 0,
+    "gpu_runs": 0,
+    "experimental_encoding_runs": 0,
+    "image_hashes": 0,
+    "labels_changed": false,
+    "other_stream_files_modified": false,
+    "owned_processes_running": 0,
+    "all_started_commands_exited": true,
+    "stopped_further_exploration": true
+  },
+  "limitations": [
+    "Public cohorts are selected fine-label subsets and not independent releases.",
+    "Pixel checks are deterministic probes; header and crop-shape checks cover all 999 selected SLC rows.",
+    "Physical mechanism remains unresolved; this audit branch did not execute geometric experiments, and subsequently verified existing main-branch fold-2 results.",
+    "Paper release facts supplied by main branch; bundled ReadMe independently parsed locally.",
+    "Downstream purging does not remove historical encoder pretraining exposure."
+  ],
+  "main_branch_status": "Two-arm two-fold geometry readout complete in main branch; independent fold-2 R/T expert and paired metrics audit passed here; supersedes earlier temporary closing",
+  "geometry_implementation_audit": {
+    "report": "GEOMETRY_IMPLEMENTATION_AUDIT_ZH.md",
+    "receipt": "GEOMETRY_IMPLEMENTATION_VERIFIED.json",
+    "fold": 2,
+    "scalar_checks": 840,
+    "maximum_numeric_error": 1.0658141036401503e-14,
+    "blocking_implementation_findings": 0
+  },
+  "primary_R_T_DD_requires_mapper": false,
+  "native_grid_export": {
+    "file": "oss2_slc_native_grid.csv",
+    "rows": 999,
+    "path_columns": [
+      "source_path_vv",
+      "source_path_vh",
+      "chip_path_vv",
+      "chip_path_vh",
+      "raw_path",
+      "cal_path"
+    ],
+    "ratio_columns": [
+      "range_compress_ratio",
+      "native_pixel_aspect_ratio",
+      "actual_aspect_ratio"
+    ],
+    "actual_aspect_ratio_definition": "native_width*ground_range_spacing/(native_height*azimuth_spacing)",
+    "basis": "local planar metadata approximation, not measured ship-body aspect ratio"
+  }
+}

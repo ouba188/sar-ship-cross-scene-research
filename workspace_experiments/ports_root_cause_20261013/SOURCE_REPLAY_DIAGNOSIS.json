@@ -1,0 +1,129 @@
+{
+  "rows": [
+    0,
+    823,
+    1603,
+    3196,
+    4869,
+    6495,
+    7698,
+    8077,
+    8709,
+    9724,
+    11340,
+    11533,
+    12531,
+    13031,
+    14666,
+    16333,
+    16421,
+    17558,
+    17999,
+    19725,
+    21388,
+    23128,
+    24822,
+    26457,
+    27481,
+    28042,
+    29641,
+    31299,
+    32912,
+    34611,
+    36366,
+    38090
+  ],
+  "sample_ids": [
+    "pair_0000000",
+    "pair_0001818",
+    "pair_0004960",
+    "pair_0018906",
+    "pair_0042837",
+    "pair_0044463",
+    "pair_0045666",
+    "pair_0046045",
+    "pair_0046677",
+    "pair_0059893",
+    "pair_0066475",
+    "pair_0066668",
+    "pair_0082068",
+    "pair_0082568",
+    "pair_0007637",
+    "pair_0022532",
+    "pair_0022620",
+    "pair_0054101",
+    "pair_0088145",
+    "pair_0056160",
+    "returned_20260915_0000243",
+    "returned_20260915_0002058",
+    "returned_20260915_0003863",
+    "returned_local_knowledge_0001552",
+    "returned_local_knowledge_0003088",
+    "returned_local_knowledge_0003918",
+    "returned_local_knowledge_0006517",
+    "returned_local_knowledge_0010123",
+    "returned_local_knowledge_0013027",
+    "returned_local_knowledge_0016647",
+    "returned_local_knowledge_0020030",
+    "returned_local_knowledge_0023613"
+  ],
+  "pixel_inputs_match_legacy": true,
+  "checks": {
+    "raw": {
+      "current_reencoding": {
+        "max_relative_l2": 0.009402255313768867,
+        "mean_relative_l2": 0.0002938204785552771,
+        "max_abs": 0.05078125
+      },
+      "batch32_to64": {
+        "max_relative_l2": 0.0039035189973815987,
+        "mean_relative_l2": 0.0007594146363230151,
+        "max_abs": 0.025390625
+      }
+    },
+    "c4": {
+      "current_reencoding": {
+        "max_relative_l2": 0.004392070215004012,
+        "mean_relative_l2": 0.00013725219421887536,
+        "max_abs": 0.025634765625
+      },
+      "batch32_to64": {
+        "max_relative_l2": 0.0010560957089805314,
+        "mean_relative_l2": 0.000527075478022934,
+        "max_abs": 0.00830078125
+      }
+    },
+    "extra": {
+      "current_reencoding": {
+        "max_relative_l2": 2.179646353091856e-06,
+        "mean_relative_l2": 1.0027730876142563e-06,
+        "max_abs": 1.049041748046875e-05
+      },
+      "batch32_to64": {
+        "max_relative_l2": 2.7076845866008014e-06,
+        "mean_relative_l2": 1.5149633558207498e-06,
+        "max_abs": 9.775161743164062e-06
+      }
+    }
+  },
+  "full_legacy_drift": {
+    "raw": {
+      "max_relative_l2": 0.028372370953790263,
+      "mean_relative_l2": 0.00403356515978106,
+      "max_abs": 0.2138671875
+    },
+    "c4": {
+      "max_relative_l2": 0.0053199422592352785,
+      "mean_relative_l2": 3.912328371832325e-06,
+      "max_abs": 0.03424072265625
+    },
+    "extra": {
+      "max_relative_l2": 0.0001661901920335108,
+      "mean_relative_l2": 4.9900987131537874e-05,
+      "max_abs": 0.0008373260498046875
+    }
+  },
+  "raw_rows_over_old_two_percent": 1,
+  "interpretation": "Current frozen preprocessing independently reproduced. Legacy raw feature drift retained; exact historical numeric cause not identified.",
+  "next_action": "Use fresh original source fit as factorial baseline; separately evaluate its legacy-model score drift. Do not claim old cache bit exact."
+}

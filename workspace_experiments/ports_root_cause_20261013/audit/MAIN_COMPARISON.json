@@ -1,0 +1,89 @@
+{
+  "status": "passed",
+  "scope": "Selected24 factorial contexts, all arms/heads/draws; original and common_query scopes",
+  "selected_tasks": {
+    "2": [
+      "Los Angeles",
+      "oss1",
+      "oss2"
+    ],
+    "3": [
+      "Port Klang",
+      "oss1",
+      "oss2"
+    ]
+  },
+  "tables": [
+    {
+      "table": "metrics",
+      "rows": 2160,
+      "max_errors": {
+        "n": 0.0,
+        "oa": 1.4210854715202004e-14,
+        "ba": 0.0,
+        "brier_micro": 4.440892098500626e-16,
+        "brier_macro": 4.440892098500626e-16,
+        "nll_micro": 0.0,
+        "nll_macro": 1.3322676295501878e-15
+      }
+    },
+    {
+      "table": "classes",
+      "rows": 17280,
+      "max_errors": {
+        "n": 0.0,
+        "recall": 0.0,
+        "brier": 6.661338147750939e-16
+      }
+    },
+    {
+      "table": "effects_and_interaction",
+      "rows": 3240,
+      "max_errors": {
+        "delta_ba": 2.1316282072803006e-14,
+        "delta_oa": 2.1538326677728037e-14,
+        "risk_gain_macro": 7.008282842946301e-16,
+        "risk_gain_micro": 5.0133508455729725e-16
+      }
+    },
+    {
+      "table": "task_cells",
+      "rows": 432,
+      "max_errors": {
+        "oa": 2.1316282072803006e-14,
+        "ba": 1.4210854715202004e-14,
+        "brier_macro": 3.3306690738754696e-16,
+        "brier_micro": 2.220446049250313e-16,
+        "nll_macro": 1.3322676295501878e-15
+      }
+    },
+    {
+      "table": "task_effects",
+      "rows": 648,
+      "max_errors": {
+        "delta_ba": 8.881784197001252e-15,
+        "delta_oa": 1.4210854715202004e-14,
+        "risk_gain_macro": 3.7816971776294395e-16,
+        "risk_gain_micro": 3.9898639947466563e-16
+      }
+    },
+    {
+      "table": "rescue_harm",
+      "rows": 1080,
+      "max_errors": {
+        "rescue_ba": 1.0658141036401503e-14,
+        "harm_ba": 7.105427357601002e-15,
+        "delta_ba": 1.4210854715202004e-14
+      }
+    },
+    {
+      "table": "source_cache_drift",
+      "rows": 540,
+      "max_errors": {
+        "delta_ba": 0.0,
+        "delta_oa": 1.4297590889000844e-14
+      }
+    }
+  ],
+  "additional_identity_product_sensitivities": "not independently recalculated"
+}

@@ -27,7 +27,7 @@ function Publish-Batch {
     if ($LASTEXITCODE -ne 0) { throw 'git commit failed' }
     $pushed = $false
     for ($attempt = 1; $attempt -le 3; $attempt++) {
-        git -C $repo -c http.version=HTTP/1.1 -c http.postBuffer=524288000 push -u origin main
+        git -C $repo -c http.sslBackend=openssl -c http.version=HTTP/1.1 -c http.postBuffer=524288000 push -u origin main
         if ($LASTEXITCODE -eq 0) { $pushed = $true; break }
         if ($attempt -lt 3) {
             Write-Host "Push attempt $attempt failed; retrying this batch"
