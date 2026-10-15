@@ -1,0 +1,103 @@
+{
+  "target": "public OpenSARShip2 mapped eight-class cohort",
+  "target_rows": 3745,
+  "evaluated_rows_per_draw": 3681,
+  "target_labels_per_draw": 64,
+  "draws": 5,
+  "means": [
+    {
+      "arm": "original_base",
+      "ba": 0.19457722806092337,
+      "acc": 0.1856560717196414,
+      "admission_fraction": 0.0,
+      "class_recall": [
+        0.4612556989782467,
+        0.1259901396881998,
+        0.5247574102004376,
+        0.034352999674861925,
+        0.01442500634056837,
+        0.025983749455643645,
+        0.024002883922134104,
+        0.3458499362272947
+      ]
+    },
+    {
+      "arm": "base_visual64",
+      "ba": 0.2929527284557071,
+      "acc": 0.3063841347459929,
+      "admission_fraction": 0.0,
+      "class_recall": [
+        0.40655350299614923,
+        0.6558220432930366,
+        0.40177373701923413,
+        0.1309771101870966,
+        0.1872308259380238,
+        0.252608417345073,
+        0.11327998077385244,
+        0.19537621009319125
+      ]
+    },
+    {
+      "arm": "visual_handoff5",
+      "ba": 0.29938363857156436,
+      "acc": 0.32382504754142893,
+      "admission_fraction": 0.04998641673458299,
+      "class_recall": [
+        0.44917695240491523,
+        0.6566449597788552,
+        0.41207783281449367,
+        0.1327131342621684,
+        0.21586368020896435,
+        0.221115845415562,
+        0.11594664744051911,
+        0.1915300562470374
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "candidate": "visual_handoff5",
+      "control": "base_visual64",
+      "mean_delta_ba_pp": 0.643091011585728,
+      "draw_deltas_pp": [
+        0.2562306653089652,
+        0.5413459717999614,
+        1.0924339077300615,
+        0.8947631615894069,
+        0.430681351500245
+      ],
+      "positive_draws": 5
+    },
+    {
+      "candidate": "base_visual64",
+      "control": "original_base",
+      "mean_delta_ba_pp": 9.837550039478375,
+      "draw_deltas_pp": [
+        10.533023925496343,
+        8.40296312439531,
+        10.308039531548035,
+        11.151284529700927,
+        8.792439086251255
+      ],
+      "positive_draws": 5
+    },
+    {
+      "candidate": "visual_handoff5",
+      "control": "original_base",
+      "mean_delta_ba_pp": 10.480641051064103,
+      "draw_deltas_pp": [
+        10.789254590805308,
+        8.944309096195271,
+        11.400473439278096,
+        12.046047691290335,
+        9.2231204377515
+      ],
+      "positive_draws": 5
+    }
+  ],
+  "statistical_unit": "one dataset, five overlapping support draws; not five independent datasets",
+  "independent_confirmation": false,
+  "interpretation": "Cross-dataset transfer under frozen parameters, not new blind data.",
+  "encoder_scope": "Existing frozen paired R50 and F0921-domain SSL R18; source identity purge applies to heads/gate.",
+  "cost": "5% expert admission, not 5% feature inference cost or 5% changes relative to original base"
+}

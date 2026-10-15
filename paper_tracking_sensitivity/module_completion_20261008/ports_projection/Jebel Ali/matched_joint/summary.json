@@ -1,0 +1,224 @@
+{
+  "n_ports": 1,
+  "contexts": 5,
+  "means": [
+    {
+      "arm": "aligned_only",
+      "acc": 0.37822829440282063,
+      "ba": 0.3993399711954181,
+      "expert_acc": 0.39277214631996477,
+      "expert_ba": 0.4092205548986578,
+      "base_acc": 0.3650506831203173,
+      "base_ba": 0.3870996629195686,
+      "selected": 226.0,
+      "rescued": 100.4,
+      "harmed": 40.6
+    },
+    {
+      "arm": "complement_only",
+      "acc": 0.3783164389598942,
+      "ba": 0.4015306534645271,
+      "expert_acc": 0.38307624504186866,
+      "expert_ba": 0.413539771457323,
+      "base_acc": 0.3650506831203173,
+      "base_ba": 0.3870996629195686,
+      "selected": 226.0,
+      "rescued": 100.8,
+      "harmed": 40.6
+    },
+    {
+      "arm": "joint",
+      "acc": 0.37765535478184226,
+      "ba": 0.3981798170045362,
+      "expert_acc": 0.39995592772146316,
+      "expert_ba": 0.4105954037835769,
+      "base_acc": 0.3650506831203173,
+      "base_ba": 0.3870996629195686,
+      "selected": 226.0,
+      "rescued": 102.2,
+      "harmed": 45.0
+    },
+    {
+      "arm": "reference",
+      "acc": 0.3780960775672102,
+      "ba": 0.40142345388396006,
+      "expert_acc": 0.3875275451740855,
+      "expert_ba": 0.41644543757034375,
+      "base_acc": 0.3650506831203173,
+      "base_ba": 0.3870996629195686,
+      "selected": 226.0,
+      "rescued": 99.6,
+      "harmed": 40.4
+    }
+  ],
+  "contrasts": [
+    {
+      "candidate": "complement_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": 0.022036139268399868,
+        "ba": 0.010719958056698564,
+        "expert_acc": -0.44513001322168294,
+        "expert_ba": -0.2905666113020755
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Jebel Ali",
+          "acc": 0.022036139268399868,
+          "ba": 0.010719958056698564,
+          "expert_acc": -0.44513001322168294,
+          "expert_ba": -0.2905666113020755
+        }
+      ]
+    },
+    {
+      "candidate": "aligned_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": 0.013221683561041031,
+        "ba": -0.2083482688541971,
+        "expert_acc": 0.5244601145879246,
+        "expert_ba": -0.7224882671685962
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Jebel Ali",
+          "acc": 0.013221683561041031,
+          "ba": -0.2083482688541971,
+          "expert_acc": 0.5244601145879246,
+          "expert_ba": -0.7224882671685962
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.044072278536799736,
+        "ba": -0.3243636879423861,
+        "expert_acc": 1.2428382547377692,
+        "expert_ba": -0.5850033786766906
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Jebel Ali",
+          "acc": -0.044072278536799736,
+          "ba": -0.3243636879423861,
+          "expert_acc": 1.2428382547377692,
+          "expert_ba": -0.5850033786766906
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "aligned_only",
+      "means_pp": {
+        "acc": -0.05729396209784077,
+        "ba": -0.11601541908818902,
+        "expert_acc": 0.7183781401498447,
+        "expert_ba": 0.13748488849190554
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Jebel Ali",
+          "acc": -0.05729396209784077,
+          "ba": -0.11601541908818902,
+          "expert_acc": 0.7183781401498447,
+          "expert_ba": 0.13748488849190554
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "complement_only",
+      "means_pp": {
+        "acc": -0.0661084178051996,
+        "ba": -0.3350836459990847,
+        "expert_acc": 1.687968267959452,
+        "expert_ba": -0.2944367673746151
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Jebel Ali",
+          "acc": -0.0661084178051996,
+          "ba": -0.3350836459990847,
+          "expert_acc": 1.687968267959452,
+          "expert_ba": -0.2944367673746151
+        }
+      ]
+    }
+  ],
+  "units": "OA/BA fractions; contrasts percentage points",
+  "reference": "New initial-tail float16-prefix replay; see separate old-reference comparisons",
+  "statistical_unit": "Equal outer-port means over five shared64 support draws; one fixed training seed",
+  "independent_confirmation": false,
+  "fixed_old_base64": true,
+  "target_encoder_labels": 0,
+  "parameters": "Fixed six epochs and last checkpoint; no target tuning or port selection",
+  "new_reference_minus_old_reference_pp": {
+    "acc": 0.0,
+    "ba": 0.0,
+    "expert_acc": 0.0,
+    "expert_ba": 0.0
+  }
+}

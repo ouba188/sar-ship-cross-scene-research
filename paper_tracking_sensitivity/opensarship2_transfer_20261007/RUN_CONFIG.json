@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-07",
+  "arms": [
+    "original_base",
+    "base_visual64",
+    "visual_handoff5"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "labels_per_draw": 64,
+  "support_sampling": "uniform without replacement, no class balancing",
+  "base_pca": 128,
+  "ssl_pca": 64,
+  "source_ridge": 1.0,
+  "residual_ridge": 8.0,
+  "gate_lr_c": 1.0,
+  "budget": 0.05,
+  "gate_threshold": 0.0,
+  "source_identity_purge": true,
+  "target_split": "row-level, matching current main experiment",
+  "no_quality_filter": true,
+  "no_target_tuning": true,
+  "original_results_untouched": true
+}

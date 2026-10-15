@@ -1,0 +1,224 @@
+{
+  "n_ports": 1,
+  "contexts": 5,
+  "means": [
+    {
+      "arm": "aligned_only",
+      "acc": 0.6867924528301887,
+      "ba": 0.2548040238024808,
+      "expert_acc": 0.7217610062893082,
+      "expert_ba": 0.29224362239719087,
+      "base_acc": 0.6633962264150943,
+      "base_ba": 0.23458590094703585,
+      "selected": 39.0,
+      "rescued": 25.2,
+      "harmed": 6.6
+    },
+    {
+      "arm": "complement_only",
+      "acc": 0.6754716981132075,
+      "ba": 0.23724159445964324,
+      "expert_acc": 0.5952201257861635,
+      "expert_ba": 0.22362886722762448,
+      "base_acc": 0.6633962264150943,
+      "base_ba": 0.23458590094703585,
+      "selected": 39.0,
+      "rescued": 19.4,
+      "harmed": 9.8
+    },
+    {
+      "arm": "joint",
+      "acc": 0.6943396226415095,
+      "ba": 0.27574750419380517,
+      "expert_acc": 0.750943396226415,
+      "expert_ba": 0.3144920324240613,
+      "base_acc": 0.6633962264150943,
+      "base_ba": 0.23458590094703585,
+      "selected": 39.0,
+      "rescued": 29.4,
+      "harmed": 4.8
+    },
+    {
+      "arm": "reference",
+      "acc": 0.6764779874213837,
+      "ba": 0.24881023853659845,
+      "expert_acc": 0.6208805031446542,
+      "expert_ba": 0.23995765299938782,
+      "base_acc": 0.6633962264150943,
+      "base_ba": 0.23458590094703585,
+      "selected": 39.0,
+      "rescued": 19.8,
+      "harmed": 9.4
+    }
+  ],
+  "contrasts": [
+    {
+      "candidate": "complement_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.10062893081761004,
+        "ba": -1.1568644076955192,
+        "expert_acc": -2.5660377358490583,
+        "expert_ba": -1.632878577176336
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Port Hedland",
+          "acc": -0.10062893081761004,
+          "ba": -1.1568644076955192,
+          "expert_acc": -2.5660377358490583,
+          "expert_ba": -1.632878577176336
+        }
+      ]
+    },
+    {
+      "candidate": "aligned_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": 1.031446540880503,
+        "ba": 0.5993785265882389,
+        "expert_acc": 10.08805031446541,
+        "expert_ba": 5.228596939780302
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Port Hedland",
+          "acc": 1.031446540880503,
+          "ba": 0.5993785265882389,
+          "expert_acc": 10.08805031446541,
+          "expert_ba": 5.228596939780302
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "reference",
+      "means_pp": {
+        "acc": 1.7861635220125784,
+        "ba": 2.6937265657206697,
+        "expert_acc": 13.006289308176099,
+        "expert_ba": 7.4534379424673505
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Port Hedland",
+          "acc": 1.7861635220125784,
+          "ba": 2.6937265657206697,
+          "expert_acc": 13.006289308176099,
+          "expert_ba": 7.4534379424673505
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "aligned_only",
+      "means_pp": {
+        "acc": 0.7547169811320753,
+        "ba": 2.094348039132431,
+        "expert_acc": 2.918238993710691,
+        "expert_ba": 2.224841002687048
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Port Hedland",
+          "acc": 0.7547169811320753,
+          "ba": 2.094348039132431,
+          "expert_acc": 2.918238993710691,
+          "expert_ba": 2.224841002687048
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "complement_only",
+      "means_pp": {
+        "acc": 1.8867924528301885,
+        "ba": 3.850590973416189,
+        "expert_acc": 15.572327044025158,
+        "expert_ba": 9.086316519643686
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Port Hedland",
+          "acc": 1.8867924528301885,
+          "ba": 3.850590973416189,
+          "expert_acc": 15.572327044025158,
+          "expert_ba": 9.086316519643686
+        }
+      ]
+    }
+  ],
+  "units": "OA/BA fractions; contrasts percentage points",
+  "reference": "New initial-tail float16-prefix replay; see separate old-reference comparisons",
+  "statistical_unit": "Equal outer-port means over five shared64 support draws; one fixed training seed",
+  "independent_confirmation": false,
+  "fixed_old_base64": true,
+  "target_encoder_labels": 0,
+  "parameters": "Fixed six epochs and last checkpoint; no target tuning or port selection",
+  "new_reference_minus_old_reference_pp": {
+    "acc": 0.0,
+    "ba": 0.0,
+    "expert_acc": 0.0,
+    "expert_ba": 0.0
+  }
+}

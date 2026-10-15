@@ -1,0 +1,431 @@
+{
+  "n_ports": 23,
+  "contexts": 115,
+  "policy_metric_rows": 805,
+  "means": [
+    {
+      "arm": "original_base",
+      "ba": 0.4326899546361159,
+      "acc": 0.4409433401562296,
+      "recover_ba": 0.0,
+      "harm_ba": 0.0,
+      "admission_fraction": 0.0,
+      "original_change_fraction": 0.0
+    },
+    {
+      "arm": "base_bias",
+      "ba": 0.48138134161834245,
+      "acc": 0.5010588368130268,
+      "recover_ba": 0.08236310702427745,
+      "harm_ba": 0.033671720042050934,
+      "admission_fraction": 0.0,
+      "original_change_fraction": 0.20018647498177858
+    },
+    {
+      "arm": "base_visual",
+      "ba": 0.48540070182997946,
+      "acc": 0.5479433030613952,
+      "recover_ba": 0.1050944331496607,
+      "harm_ba": 0.05238368595579718,
+      "admission_fraction": 0.0,
+      "original_change_fraction": 0.27244958379741496
+    },
+    {
+      "arm": "bias_handoff",
+      "ba": 0.4992960203458412,
+      "acc": 0.5263567189249456,
+      "recover_ba": 0.10629410508988256,
+      "harm_ba": 0.03968803938015726,
+      "admission_fraction": 0.04932515516431631,
+      "original_change_fraction": 0.2324642648025491
+    },
+    {
+      "arm": "visual_handoff",
+      "ba": 0.5038209815957801,
+      "acc": 0.5665381949564942,
+      "recover_ba": 0.12579195318746106,
+      "harm_ba": 0.05466092622779675,
+      "admission_fraction": 0.04932515516431631,
+      "original_change_fraction": 0.2969227419909586
+    },
+    {
+      "arm": "frozen_handoff",
+      "ba": 0.4584639045729368,
+      "acc": 0.469269032758193,
+      "recover_ba": 0.033461321938687574,
+      "harm_ba": 0.0076873720018667225,
+      "admission_fraction": 0.04932515516431631,
+      "original_change_fraction": 0.04932515516431631
+    },
+    {
+      "arm": "advantage_reference",
+      "ba": 0.45885986043842797,
+      "acc": 0.46899882674378507,
+      "recover_ba": 0.03252652401450438,
+      "harm_ba": 0.006356618212192354,
+      "admission_fraction": 0.04932515516431631,
+      "original_change_fraction": 0.04932515516431631
+    }
+  ],
+  "comparisons": [
+    {
+      "candidate": "visual_handoff",
+      "control": "base_visual",
+      "mean_delta_ba_pp": 1.84202797658008,
+      "mean_delta_acc_pp": 1.8594891895099064,
+      "positive_ports": 21,
+      "negative_ports": 2,
+      "port_bootstrap_95ci_pp": [
+        1.303648212501087,
+        2.3971735620742294
+      ],
+      "draw_deltas_pp": [
+        1.5647710440132614,
+        1.8020583256403802,
+        2.014042718167152,
+        2.1656931536043347,
+        1.6635746414752728
+      ],
+      "port_deltas_pp": {
+        "Antwerp-Bruges": 3.2294259142130395,
+        "Busan": 2.41176273750753,
+        "Callao": -0.30785137290638587,
+        "Fujairah": 2.6716005549433586,
+        "Hamburg": 2.8713364285509746,
+        "Houston": 1.7776768631230688,
+        "Jebel Ali": 1.4323790964391503,
+        "Los Angeles": 1.1896065723341875,
+        "Mombasa": -0.8002616677035269,
+        "New York": 0.3606794977486738,
+        "Newcastle": 4.541131690458742,
+        "Ningbo-Zhoushan": 4.781601650720906,
+        "Port Hedland": 1.4224337589562575,
+        "Port Klang": 0.6348428798285921,
+        "Port Said": 0.9430313261317691,
+        "Qingdao": 2.4684141273862714,
+        "Richards Bay": 0.4104499481174662,
+        "Rotterdam": 2.931403879565462,
+        "Santos": 2.333187983208329,
+        "Shanghai": 2.460363629508502,
+        "Singapore": 1.0950054230807726,
+        "Sydney Botany": 1.7708121926244733,
+        "Tanger Med": 1.7376103475042304
+      }
+    },
+    {
+      "candidate": "visual_handoff",
+      "control": "advantage_reference",
+      "mean_delta_ba_pp": 4.496112115735228,
+      "mean_delta_acc_pp": 9.753936821270905,
+      "positive_ports": 18,
+      "negative_ports": 5,
+      "port_bootstrap_95ci_pp": [
+        0.980815380378779,
+        8.236976776703582
+      ],
+      "draw_deltas_pp": [
+        4.5369283101594995,
+        3.7041083339429597,
+        5.121058659200748,
+        4.718520744435355,
+        4.399944530937581
+      ],
+      "port_deltas_pp": {
+        "Antwerp-Bruges": 16.963970704939936,
+        "Busan": 23.38765419645977,
+        "Callao": 1.4559048551306297,
+        "Fujairah": 24.603819067148414,
+        "Hamburg": 15.432729190983826,
+        "Houston": 1.3207706315623435,
+        "Jebel Ali": 0.878346415325395,
+        "Los Angeles": 1.179448476567827,
+        "Mombasa": -13.612986271703592,
+        "New York": 0.7684967821769328,
+        "Newcastle": -6.665249923292466,
+        "Ningbo-Zhoushan": 11.61498132925507,
+        "Port Hedland": 5.919367168279903,
+        "Port Klang": 0.18731378544832755,
+        "Port Said": -2.259592625775433,
+        "Qingdao": 2.446860592302229,
+        "Richards Bay": 0.6352859554328427,
+        "Rotterdam": 10.955725171026199,
+        "Santos": 1.477652281505999,
+        "Shanghai": 8.721912987989086,
+        "Singapore": 0.250380988260932,
+        "Sydney Botany": -0.9206112772855568,
+        "Tanger Med": -1.3316018198283741
+      }
+    },
+    {
+      "candidate": "base_visual",
+      "control": "original_base",
+      "mean_delta_ba_pp": 5.27107471938635,
+      "mean_delta_acc_pp": 10.699996290516548,
+      "positive_ports": 18,
+      "negative_ports": 5,
+      "port_bootstrap_95ci_pp": [
+        1.7520458330765125,
+        9.127372278631764
+      ],
+      "draw_deltas_pp": [
+        5.494655144571574,
+        4.454392234493383,
+        5.7168560787089655,
+        5.31338257589563,
+        5.376087563262198
+      ],
+      "port_deltas_pp": {
+        "Antwerp-Bruges": 17.25353192824874,
+        "Busan": 25.35379576820801,
+        "Callao": 1.563617283071388,
+        "Fujairah": 27.800364433295837,
+        "Hamburg": 15.597353292397752,
+        "Houston": 1.4734731866966022,
+        "Jebel Ali": 0.6486443899037175,
+        "Los Angeles": 1.7446357041082863,
+        "Mombasa": -10.369857797468658,
+        "New York": 0.22947060638628505,
+        "Newcastle": -3.8633902795402353,
+        "Ningbo-Zhoushan": 13.8583782715402,
+        "Port Hedland": 5.021016146910301,
+        "Port Klang": 0.25671119549675714,
+        "Port Said": -2.393939449751241,
+        "Qingdao": 3.761994056084763,
+        "Richards Bay": 1.763252858029991,
+        "Rotterdam": 11.842936970244804,
+        "Santos": 2.3177702708749424,
+        "Shanghai": 9.456758300971376,
+        "Singapore": 0.009347988405077334,
+        "Sydney Botany": -0.2394005659485066,
+        "Tanger Med": -1.8517460122801441
+      }
+    },
+    {
+      "candidate": "base_visual",
+      "control": "base_bias",
+      "mean_delta_ba_pp": 0.40193602116369775,
+      "mean_delta_acc_pp": 4.688446624836838,
+      "positive_ports": 13,
+      "negative_ports": 10,
+      "port_bootstrap_95ci_pp": [
+        -0.2515480100092956,
+        1.0151750370752655
+      ],
+      "draw_deltas_pp": [
+        0.4729957207809323,
+        -0.8637001360326994,
+        0.1975649874389179,
+        0.20347121083653302,
+        1.9993483227948048
+      ],
+      "port_deltas_pp": {
+        "Antwerp-Bruges": 3.4333168315690625,
+        "Busan": 0.27536316378170334,
+        "Callao": 1.7751126755450608,
+        "Fujairah": 1.9477930778681782,
+        "Hamburg": 0.2113737334707766,
+        "Houston": 0.8266219990054048,
+        "Jebel Ali": 0.9943017527358943,
+        "Los Angeles": 1.8235420984376594,
+        "Mombasa": -1.1050640533812572,
+        "New York": 2.2524108525346898,
+        "Newcastle": -3.570935121002418,
+        "Ningbo-Zhoushan": -0.6169143662029564,
+        "Port Hedland": 1.1319572925888806,
+        "Port Klang": 0.8462680439150738,
+        "Port Said": -2.1848427986401875,
+        "Qingdao": -0.25479931157206703,
+        "Richards Bay": -0.11029454381427661,
+        "Rotterdam": 2.486017118013699,
+        "Santos": -0.051279766782286185,
+        "Shanghai": 1.0839084864345616,
+        "Singapore": -0.43229561262941196,
+        "Sydney Botany": -0.6852320334196893,
+        "Tanger Med": -0.8318010316910462
+      }
+    },
+    {
+      "candidate": "base_bias",
+      "control": "original_base",
+      "mean_delta_ba_pp": 4.869138698222652,
+      "mean_delta_acc_pp": 6.011549665679711,
+      "positive_ports": 14,
+      "negative_ports": 9,
+      "port_bootstrap_95ci_pp": [
+        1.602247437914767,
+        8.54877245433195
+      ],
+      "draw_deltas_pp": [
+        5.0216594237906405,
+        5.318092370526081,
+        5.519291091270048,
+        5.109911365059096,
+        3.376739240467394
+      ],
+      "port_deltas_pp": {
+        "Antwerp-Bruges": 13.82021509667968,
+        "Busan": 25.078432604426304,
+        "Callao": -0.21149539247367288,
+        "Fujairah": 25.852571355427656,
+        "Hamburg": 15.385979558926977,
+        "Houston": 0.6468511876911975,
+        "Jebel Ali": -0.34565736283217685,
+        "Los Angeles": -0.0789063943293733,
+        "Mombasa": -9.264793744087399,
+        "New York": -2.0229402461484045,
+        "Newcastle": -0.29245515853781767,
+        "Ningbo-Zhoushan": 14.475292637743156,
+        "Port Hedland": 3.8890588543214206,
+        "Port Klang": -0.5895568484183167,
+        "Port Said": -0.2090966511110537,
+        "Qingdao": 4.01679336765683,
+        "Richards Bay": 1.8735474018442677,
+        "Rotterdam": 9.356919852231105,
+        "Santos": 2.3690500376572285,
+        "Shanghai": 8.372849814536815,
+        "Singapore": 0.44164360103448924,
+        "Sydney Botany": 0.4458314674711828,
+        "Tanger Med": -1.019944980589098
+      }
+    },
+    {
+      "candidate": "bias_handoff",
+      "control": "base_bias",
+      "mean_delta_ba_pp": 1.7914678727498772,
+      "mean_delta_acc_pp": 2.5297882111918906,
+      "positive_ports": 22,
+      "negative_ports": 1,
+      "port_bootstrap_95ci_pp": [
+        1.1452979673573778,
+        2.4116691448319347
+      ],
+      "draw_deltas_pp": [
+        1.4935706849782775,
+        2.169155842826231,
+        1.582417395995109,
+        1.8902612483290469,
+        1.8219341916207215
+      ],
+      "port_deltas_pp": {
+        "Antwerp-Bruges": 3.1892301453372385,
+        "Busan": 2.3676188848546365,
+        "Callao": 0.41005566364584517,
+        "Fujairah": 1.0276385382699305,
+        "Hamburg": 2.828122184291022,
+        "Houston": 1.7628176319713882,
+        "Jebel Ali": 1.2736934704220626,
+        "Los Angeles": 2.152651444421926,
+        "Mombasa": -3.14026485602392,
+        "New York": 2.1665543138380916,
+        "Newcastle": 5.1901393546326915,
+        "Ningbo-Zhoushan": 3.8264051021178225,
+        "Port Hedland": 0.31319976493438983,
+        "Port Klang": 0.6647392951774111,
+        "Port Said": 1.1910805878182318,
+        "Qingdao": 2.043661364586189,
+        "Richards Bay": 0.9022949619659881,
+        "Rotterdam": 3.3330648247495915,
+        "Santos": 2.068002103065958,
+        "Shanghai": 2.7769309962708477,
+        "Singapore": 0.9439131098668719,
+        "Sydney Botany": 1.9972645327067617,
+        "Tanger Med": 1.914947654326201
+      }
+    },
+    {
+      "candidate": "visual_handoff",
+      "control": "bias_handoff",
+      "mean_delta_ba_pp": 0.45249612499390063,
+      "mean_delta_acc_pp": 4.018147603154854,
+      "positive_ports": 17,
+      "negative_ports": 6,
+      "port_bootstrap_95ci_pp": [
+        -0.2375548770067107,
+        1.094062791564885
+      ],
+      "draw_deltas_pp": [
+        0.5441960798159163,
+        -1.2307976532185505,
+        0.6291903096109605,
+        0.47890311611182046,
+        1.8409887726493566
+      ],
+      "port_deltas_pp": {
+        "Antwerp-Bruges": 3.4735126004448635,
+        "Busan": 0.319507016434597,
+        "Callao": 1.0572056389928297,
+        "Fujairah": 3.5917550945416066,
+        "Hamburg": 0.25458797773072916,
+        "Houston": 0.8414812301570851,
+        "Jebel Ali": 1.152987378752982,
+        "Los Angeles": 0.8604972263499211,
+        "Mombasa": 1.2349391349391359,
+        "New York": 0.44653603644527196,
+        "Newcastle": -4.219942785176367,
+        "Ningbo-Zhoushan": 0.338282182400127,
+        "Port Hedland": 2.241191286610748,
+        "Port Klang": 0.8163716285662547,
+        "Port Said": -2.43289206032665,
+        "Qingdao": 0.16995345122801542,
+        "Richards Bay": -0.6021395576627986,
+        "Rotterdam": 2.084356172829569,
+        "Santos": 0.21390611336008503,
+        "Shanghai": 0.7673411196722157,
+        "Singapore": -0.28120329941551114,
+        "Sydney Botany": -0.9116843735019775,
+        "Tanger Med": -1.009138338513017
+      }
+    },
+    {
+      "candidate": "visual_handoff",
+      "control": "frozen_handoff",
+      "mean_delta_ba_pp": 4.535707702284347,
+      "mean_delta_acc_pp": 9.72691621983012,
+      "positive_ports": 18,
+      "negative_ports": 5,
+      "port_bootstrap_95ci_pp": [
+        1.0700148117844697,
+        8.257938514784376
+      ],
+      "draw_deltas_pp": [
+        4.618393683738538,
+        3.5837431843714067,
+        5.575583233798471,
+        4.576677653491802,
+        4.324140756021512
+      ],
+      "port_deltas_pp": {
+        "Antwerp-Bruges": 17.034487223172828,
+        "Busan": 23.337755698730586,
+        "Callao": 0.911722799274083,
+        "Fujairah": 25.344511202448928,
+        "Hamburg": 15.59926061988789,
+        "Houston": 1.4830852286408036,
+        "Jebel Ali": 0.8004286203994371,
+        "Los Angeles": 1.004988564562298,
+        "Mombasa": -11.239975948693264,
+        "New York": 0.08223766956566791,
+        "Newcastle": -7.825959351283005,
+        "Ningbo-Zhoushan": 11.66357061733873,
+        "Port Hedland": 6.118771810791756,
+        "Port Klang": 0.2958711857344509,
+        "Port Said": -2.3221427733058397,
+        "Qingdao": 2.5007985371677965,
+        "Richards Bay": 1.5463112049747407,
+        "Rotterdam": 10.928831037743407,
+        "Santos": 1.1817582023102602,
+        "Shanghai": 8.265831927458281,
+        "Singapore": 0.0384356965093402,
+        "Sydney Botany": -0.7463688530431323,
+        "Tanger Med": -1.6829337678460898
+      }
+    }
+  ],
+  "passes_development_screen": true,
+  "primary": "visual_handoff beats adapted base alone AND old advantage reference",
+  "changed_setting": "base may adapt globally; 5% bounds expert handoff, NOT changes versus original base",
+  "independent_confirmation": false,
+  "novelty_established": false,
+  "unique_target_labels": 64,
+  "cost": "expert admission only, all expert scores accessed before selection"
+}

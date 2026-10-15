@@ -1,0 +1,137 @@
+{
+  "dataset": "oss2",
+  "means": [
+    {
+      "arm": "reference",
+      "acc": 0.32382504754142893,
+      "ba": 0.29938363857156436,
+      "expert_acc": 0.3494702526487367,
+      "expert_ba": 0.3090983807766664,
+      "selected": 184.0,
+      "rescued": 86.2,
+      "harmed": 22.0
+    },
+    {
+      "arm": "complement_only",
+      "acc": 0.3244227112197772,
+      "ba": 0.2997186598450209,
+      "expert_acc": 0.36761749524585713,
+      "expert_ba": 0.3138450036406792,
+      "selected": 184.0,
+      "rescued": 87.0,
+      "harmed": 20.6
+    },
+    {
+      "arm": "aligned_only",
+      "acc": 0.32882368921488725,
+      "ba": 0.3031817148802328,
+      "expert_acc": 0.36620483564248846,
+      "expert_ba": 0.3189474577565797,
+      "selected": 184.0,
+      "rescued": 103.8,
+      "harmed": 21.2
+    },
+    {
+      "arm": "joint",
+      "acc": 0.33137734311328443,
+      "ba": 0.30556508451712394,
+      "expert_acc": 0.397826677533279,
+      "expert_ba": 0.3260823623848556,
+      "selected": 184.0,
+      "rescued": 113.2,
+      "harmed": 21.2
+    }
+  ],
+  "contrasts": [
+    {
+      "candidate": "complement_only",
+      "control": "reference",
+      "draw_deltas_pp": {
+        "acc": [
+          0.027166530834016323,
+          0.27166530834012437,
+          -0.27166530834012437,
+          -0.08149959250203787,
+          0.35316490084216223
+        ],
+        "ba": [
+          -0.17097071787163243,
+          0.46252272153319285,
+          -0.5261721444291378,
+          0.12345259995231173,
+          0.27867817754351765
+        ]
+      },
+      "means_pp": {
+        "acc": 0.05976636783482814,
+        "ba": 0.03350212734565039
+      },
+      "positive_draws": {
+        "acc": 3,
+        "ba": 3
+      }
+    },
+    {
+      "candidate": "aligned_only",
+      "control": "reference",
+      "draw_deltas_pp": {
+        "acc": [
+          1.0051616408584652,
+          0.7878293941863623,
+          0.1901657158380865,
+          0.21733224667209727,
+          0.29883183917413514
+        ],
+        "ba": [
+          0.8601228035347241,
+          1.0543005347630918,
+          -0.27704533411206933,
+          0.1042987334171186,
+          0.15736141673133863
+        ]
+      },
+      "means_pp": {
+        "acc": 0.4998641673458293,
+        "ba": 0.3798076308668408
+      },
+      "positive_draws": {
+        "acc": 5,
+        "ba": 4
+      }
+    },
+    {
+      "candidate": "joint",
+      "control": "reference",
+      "draw_deltas_pp": {
+        "acc": [
+          0.7334963325183408,
+          1.3039934800326003,
+          0.5433306166802487,
+          0.7334963325183352,
+          0.46183102417821087
+        ],
+        "ba": [
+          0.5554325401525118,
+          1.2895733944607024,
+          0.20997028016481178,
+          0.9156501142717266,
+          0.12009664372999995
+        ]
+      },
+      "means_pp": {
+        "acc": 0.7552295571855472,
+        "ba": 0.6181445945559505
+      },
+      "positive_draws": {
+        "acc": 5,
+        "ba": 5
+      }
+    }
+  ],
+  "source_encoder_target_excluded": true,
+  "exclusion_scope": "New supervised tail training only; inherited SSL foundation pretraining is not newly isolated",
+  "target_labels_per_draw": 64,
+  "draws": 5,
+  "statistical_unit": "five support draws, one fixed neural training seed",
+  "independent_confirmation": false
+}

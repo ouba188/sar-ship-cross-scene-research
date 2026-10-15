@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-07",
+  "paths": {
+    "pred_cache": "E:\\Hermes\\paper_tracking\\sensitivity\\pred_cache",
+    "oof_cache": "E:\\Hermes\\paper_tracking\\sensitivity\\oof_predictions_v1",
+    "parent": "E:\\Hermes\\paper_tracking\\sensitivity\\oof_reliability_results_v1",
+    "manifest": "E:\\临时会话\\visual_reliable_baseline\\artifacts\\eight_class_adaptive_20260916\\manifest.csv",
+    "out": "E:\\Hermes\\paper_tracking\\sensitivity\\oof_enriched_results_20261007",
+    "ports": "None"
+  },
+  "arms": [
+    "conf_ridge0",
+    "conf_ridge64",
+    "rich_ridge0",
+    "rich_ridge64",
+    "rich_hgb0",
+    "rich_hgb64"
+  ],
+  "contrasts": [
+    [
+      "rich_ridge64",
+      "conf_ridge64"
+    ],
+    [
+      "rich_hgb64",
+      "rich_ridge64"
+    ],
+    [
+      "rich_ridge0",
+      "conf_ridge0"
+    ],
+    [
+      "rich_hgb0",
+      "rich_ridge0"
+    ],
+    [
+      "conf_ridge64",
+      "conf_ridge0"
+    ],
+    [
+      "rich_ridge64",
+      "rich_ridge0"
+    ],
+    [
+      "rich_hgb64",
+      "rich_hgb0"
+    ],
+    [
+      "rich_ridge0",
+      "simple"
+    ],
+    [
+      "rich_ridge0",
+      "s2"
+    ],
+    [
+      "rich_ridge0",
+      "oof_lr0"
+    ],
+    [
+      "rich_ridge64",
+      "simple"
+    ],
+    [
+      "rich_ridge64",
+      "s2"
+    ],
+    [
+      "rich_ridge64",
+      "oof_lr0"
+    ],
+    [
+      "rich_hgb0",
+      "simple"
+    ],
+    [
+      "rich_hgb0",
+      "s2"
+    ],
+    [
+      "rich_hgb0",
+      "oof_lr0"
+    ],
+    [
+      "rich_hgb64",
+      "simple"
+    ],
+    [
+      "rich_hgb64",
+      "s2"
+    ],
+    [
+      "rich_hgb64",
+      "oof_lr0"
+    ]
+  ],
+  "tree_params": {
+    "loss": "squared_error",
+    "max_iter": 100,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 30,
+    "l2_regularization": 1.0,
+    "max_bins": 63,
+    "random_state": 0,
+    "early_stopping": false
+  },
+  "source_ridge_lambda": 0.01,
+  "target_prior_strength": 8.0
+}

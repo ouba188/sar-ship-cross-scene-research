@@ -1,0 +1,391 @@
+{
+  "arms": {
+    "frozen_replay": {
+      "target": "F0921 fixed-crop representation pilot: frozen_replay",
+      "target_rows": 123489,
+      "evaluated_rows_per_draw": 123425,
+      "target_labels_per_draw": 64,
+      "draws": 5,
+      "means": [
+        {
+          "arm": "original_base",
+          "class_recall": [
+            0.7433587876492351,
+            0.1961352344036573,
+            0.2602127271175635,
+            0.014282636704606458,
+            0.07060844443443523,
+            0.0952223892309129,
+            0.1223089467408783,
+            0.12301016461235954
+          ],
+          "ba": 0.20314241636170602,
+          "acc": 0.24207575450678548,
+          "admission_fraction": 0.0
+        },
+        {
+          "arm": "base_visual64",
+          "class_recall": [
+            0.5238880686093765,
+            0.2855261907927835,
+            0.18370142575162632,
+            0.15119920244875545,
+            0.28321387341769566,
+            0.21196430213182688,
+            0.19968008069143747,
+            0.15296986811864063
+          ],
+          "ba": 0.2490178764952678,
+          "acc": 0.2893708729997974,
+          "admission_fraction": 0.0
+        },
+        {
+          "arm": "visual_handoff5",
+          "class_recall": [
+            0.5271656159298703,
+            0.2669368067407375,
+            0.1810290409904834,
+            0.15296513980739687,
+            0.30380705874810254,
+            0.21527887018808314,
+            0.21040728777267464,
+            0.15094493642708023
+          ],
+          "ba": 0.2510668445755536,
+          "acc": 0.2963435284585781,
+          "admission_fraction": 0.049997974478428193
+        }
+      ],
+      "comparisons": [
+        {
+          "candidate": "visual_handoff5",
+          "control": "base_visual64",
+          "mean_delta_ba_pp": 0.20489680802857899,
+          "draw_deltas_pp": [
+            -0.023229905432264886,
+            0.44424177095910566,
+            0.34720711515096037,
+            -0.20818459707538373,
+            0.46444965654047765
+          ],
+          "positive_draws": 3
+        },
+        {
+          "candidate": "base_visual64",
+          "control": "original_base",
+          "mean_delta_ba_pp": 4.587546013356176,
+          "draw_deltas_pp": [
+            4.680585678924482,
+            3.360575861567963,
+            4.678383199508285,
+            3.8212196966866676,
+            6.396965630093487
+          ],
+          "positive_draws": 5
+        },
+        {
+          "candidate": "visual_handoff5",
+          "control": "original_base",
+          "mean_delta_ba_pp": 4.792442821384756,
+          "draw_deltas_pp": [
+            4.657355773492217,
+            3.804817632527069,
+            5.0255903146592455,
+            3.6130350996112837,
+            6.8614152866339655
+          ],
+          "positive_draws": 5
+        }
+      ],
+      "statistical_unit": "one dataset, five overlapping support draws; not five independent datasets",
+      "independent_confirmation": false,
+      "interpretation": "Cross-dataset transfer under frozen parameters, not new blind data.",
+      "encoder_scope": "e206 target-unlabeled pretraining inherited. Supervised arms train layer4 only on identity-purged source labels. Source OOF is head-only conditional on these encoders, not encoder-level independence. No external target labels fine-tune the backbone.",
+      "cost": "5% expert admission, not 5% feature inference cost or 5% changes relative to original base"
+    },
+    "supervised": {
+      "target": "F0921 fixed-crop representation pilot: supervised",
+      "target_rows": 123489,
+      "evaluated_rows_per_draw": 123425,
+      "target_labels_per_draw": 64,
+      "draws": 5,
+      "means": [
+        {
+          "arm": "original_base",
+          "class_recall": [
+            0.7433587876492351,
+            0.1961352344036573,
+            0.2602127271175635,
+            0.014282636704606458,
+            0.07060844443443523,
+            0.0952223892309129,
+            0.1223089467408783,
+            0.12301016461235954
+          ],
+          "ba": 0.20314241636170602,
+          "acc": 0.24207575450678548,
+          "admission_fraction": 0.0
+        },
+        {
+          "arm": "base_visual64",
+          "class_recall": [
+            0.5238880686093765,
+            0.2855261907927835,
+            0.18370142575162632,
+            0.15119920244875545,
+            0.28321387341769566,
+            0.21196430213182688,
+            0.19968008069143747,
+            0.15296986811864063
+          ],
+          "ba": 0.2490178764952678,
+          "acc": 0.2893708729997974,
+          "admission_fraction": 0.0
+        },
+        {
+          "arm": "visual_handoff5",
+          "class_recall": [
+            0.5352303751374149,
+            0.27904904164394007,
+            0.1864264299864829,
+            0.15009662892077827,
+            0.2845855774339763,
+            0.21431662276872815,
+            0.2010881812979098,
+            0.14901326961201275
+          ],
+          "ba": 0.24997576585015535,
+          "acc": 0.2924755924650598,
+          "admission_fraction": 0.049997974478428193
+        }
+      ],
+      "comparisons": [
+        {
+          "candidate": "visual_handoff5",
+          "control": "base_visual64",
+          "mean_delta_ba_pp": 0.09578893548875811,
+          "draw_deltas_pp": [
+            0.06197644919580525,
+            0.022245143397556233,
+            0.02150404630753,
+            0.004733172123411178,
+            0.3684858664194879
+          ],
+          "positive_draws": 5
+        },
+        {
+          "candidate": "base_visual64",
+          "control": "original_base",
+          "mean_delta_ba_pp": 4.587546013356176,
+          "draw_deltas_pp": [
+            4.680585678924482,
+            3.360575861567963,
+            4.678383199508285,
+            3.8212196966866676,
+            6.396965630093487
+          ],
+          "positive_draws": 5
+        },
+        {
+          "candidate": "visual_handoff5",
+          "control": "original_base",
+          "mean_delta_ba_pp": 4.6833349488449345,
+          "draw_deltas_pp": [
+            4.742562128120287,
+            3.3828210049655194,
+            4.699887245815814,
+            3.8259528688100786,
+            6.765451496512975
+          ],
+          "positive_draws": 5
+        }
+      ],
+      "statistical_unit": "one dataset, five overlapping support draws; not five independent datasets",
+      "independent_confirmation": false,
+      "interpretation": "Cross-dataset transfer under frozen parameters, not new blind data.",
+      "encoder_scope": "e206 target-unlabeled pretraining inherited. Supervised arms train layer4 only on identity-purged source labels. Source OOF is head-only conditional on these encoders, not encoder-level independence. No external target labels fine-tune the backbone.",
+      "cost": "5% expert admission, not 5% feature inference cost or 5% changes relative to original base"
+    },
+    "utility_tail": {
+      "target": "F0921 fixed-crop representation pilot: utility_tail",
+      "target_rows": 123489,
+      "evaluated_rows_per_draw": 123425,
+      "target_labels_per_draw": 64,
+      "draws": 5,
+      "means": [
+        {
+          "arm": "original_base",
+          "class_recall": [
+            0.7433587876492351,
+            0.1961352344036573,
+            0.2602127271175635,
+            0.014282636704606458,
+            0.07060844443443523,
+            0.0952223892309129,
+            0.1223089467408783,
+            0.12301016461235954
+          ],
+          "ba": 0.20314241636170602,
+          "acc": 0.24207575450678548,
+          "admission_fraction": 0.0
+        },
+        {
+          "arm": "base_visual64",
+          "class_recall": [
+            0.5238880686093765,
+            0.2855261907927835,
+            0.18370142575162632,
+            0.15119920244875545,
+            0.28321387341769566,
+            0.21196430213182688,
+            0.19968008069143747,
+            0.15296986811864063
+          ],
+          "ba": 0.2490178764952678,
+          "acc": 0.2893708729997974,
+          "admission_fraction": 0.0
+        },
+        {
+          "arm": "visual_handoff5",
+          "class_recall": [
+            0.5356115195206382,
+            0.27873230934975424,
+            0.19483987053563603,
+            0.15026017964978927,
+            0.2940623190921253,
+            0.21180603618063004,
+            0.20459390258744597,
+            0.15567210546128546
+          ],
+          "ba": 0.25319728029716304,
+          "acc": 0.29565971237593686,
+          "admission_fraction": 0.049997974478428193
+        }
+      ],
+      "comparisons": [
+        {
+          "candidate": "visual_handoff5",
+          "control": "base_visual64",
+          "mean_delta_ba_pp": 0.41794038018952706,
+          "draw_deltas_pp": [
+            0.2967551396609258,
+            0.35763122535129865,
+            0.4257395339114345,
+            0.3908721914145985,
+            0.6187038106093778
+          ],
+          "positive_draws": 5
+        },
+        {
+          "candidate": "base_visual64",
+          "control": "original_base",
+          "mean_delta_ba_pp": 4.587546013356176,
+          "draw_deltas_pp": [
+            4.680585678924482,
+            3.360575861567963,
+            4.678383199508285,
+            3.8212196966866676,
+            6.396965630093487
+          ],
+          "positive_draws": 5
+        },
+        {
+          "candidate": "visual_handoff5",
+          "control": "original_base",
+          "mean_delta_ba_pp": 5.005486393545704,
+          "draw_deltas_pp": [
+            4.977340818585407,
+            3.7182070869192616,
+            5.104122733419719,
+            4.212091888101266,
+            7.015669440702865
+          ],
+          "positive_draws": 5
+        }
+      ],
+      "statistical_unit": "one dataset, five overlapping support draws; not five independent datasets",
+      "independent_confirmation": false,
+      "interpretation": "Cross-dataset transfer under frozen parameters, not new blind data.",
+      "encoder_scope": "e206 target-unlabeled pretraining inherited. Supervised arms train layer4 only on identity-purged source labels. Source OOF is head-only conditional on these encoders, not encoder-level independence. No external target labels fine-tune the backbone.",
+      "cost": "5% expert admission, not 5% feature inference cost or 5% changes relative to original base"
+    }
+  },
+  "contrasts": [
+    {
+      "candidate": "supervised",
+      "control": "frozen_replay",
+      "draw_deltas_pp": {
+        "acc": [
+          -0.02916751063398726,
+          -0.9803524407535014,
+          -0.34514887583553255,
+          -0.3167915738302607,
+          -0.262507595705902
+        ],
+        "ba": [
+          0.08520635462807014,
+          -0.42199662756154943,
+          -0.3257030688434248,
+          0.21291776919878935,
+          -0.09596379012098977
+        ]
+      },
+      "means_pp": {
+        "acc": -0.38679359935183677,
+        "ba": -0.1091078725398209
+      }
+    },
+    {
+      "candidate": "utility_tail",
+      "control": "supervised",
+      "draw_deltas_pp": {
+        "acc": [
+          0.24711363176017076,
+          0.4845047599757013,
+          0.2722300992505533,
+          0.14826817905609913,
+          0.4399432853959995
+        ],
+        "ba": [
+          0.23477869046512057,
+          0.33538608195375075,
+          0.40423548760389894,
+          0.3861390192911901,
+          0.25021794418988996
+        ]
+      },
+      "means_pp": {
+        "acc": 0.3184119910877048,
+        "ba": 0.32215144470077006
+      }
+    },
+    {
+      "candidate": "utility_tail",
+      "control": "frozen_replay",
+      "draw_deltas_pp": {
+        "acc": [
+          0.2179461211261835,
+          -0.49584768077780006,
+          -0.07291877658497925,
+          -0.16852339477416156,
+          0.1774356896900975
+        ],
+        "ba": [
+          0.3199850450931907,
+          -0.08661054560779868,
+          0.07853241876047412,
+          0.5990567884899795,
+          0.1542541540689002
+        ]
+      },
+      "means_pp": {
+        "acc": -0.06838160826413198,
+        "ba": 0.21304357216094916
+      }
+    }
+  ],
+  "independent_confirmation": false,
+  "same_backbone_training_budget": true,
+  "full_attention_proposal_implemented": false,
+  "target_used_for_checkpoint_selection": false
+}

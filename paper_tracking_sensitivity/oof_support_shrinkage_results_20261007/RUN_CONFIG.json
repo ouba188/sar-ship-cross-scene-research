@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-07",
+  "arms": [
+    "base_visual",
+    "visual_handoff",
+    "bias_handoff",
+    "shrink_base",
+    "shrink_base_handoff",
+    "shrink_expert_handoff",
+    "shrink_both_handoff"
+  ],
+  "contrasts": [
+    [
+      "shrink_base_handoff",
+      "visual_handoff"
+    ],
+    [
+      "shrink_expert_handoff",
+      "visual_handoff"
+    ],
+    [
+      "shrink_both_handoff",
+      "visual_handoff"
+    ],
+    [
+      "shrink_base",
+      "base_visual"
+    ],
+    [
+      "shrink_base_handoff",
+      "shrink_base"
+    ],
+    [
+      "shrink_both_handoff",
+      "bias_handoff"
+    ]
+  ],
+  "strength": 8.0,
+  "target_labels": 64,
+  "loo_train_rows": 63,
+  "fold_class_weights": "recomputed from fitting63",
+  "expert_admission_cap": 0.05,
+  "protocol": "E:\\Hermes\\paper_tracking\\sensitivity\\oof_reliability_check\\SUPPORT_SHRINKAGE_PROTOCOL_20261007.md"
+}

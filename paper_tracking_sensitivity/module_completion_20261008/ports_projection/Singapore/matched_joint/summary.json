@@ -1,0 +1,224 @@
+{
+  "n_ports": 1,
+  "contexts": 5,
+  "means": [
+    {
+      "arm": "aligned_only",
+      "acc": 0.34845043310875845,
+      "ba": 0.3680173764475604,
+      "expert_acc": 0.3710875842155919,
+      "expert_ba": 0.3937316863979522,
+      "base_acc": 0.34102021174205965,
+      "base_ba": 0.3573344620687814,
+      "selected": 259.0,
+      "rescued": 83.8,
+      "harmed": 45.2
+    },
+    {
+      "arm": "complement_only",
+      "acc": 0.34968238691049086,
+      "ba": 0.3673879219625846,
+      "expert_acc": 0.3812512030798845,
+      "expert_ba": 0.3907095310312435,
+      "base_acc": 0.34102021174205965,
+      "base_ba": 0.3573344620687814,
+      "selected": 259.0,
+      "rescued": 85.2,
+      "harmed": 40.2
+    },
+    {
+      "arm": "joint",
+      "acc": 0.3492204042348412,
+      "ba": 0.3679570175113683,
+      "expert_acc": 0.3774013474494707,
+      "expert_ba": 0.397021817199147,
+      "base_acc": 0.34102021174205965,
+      "base_ba": 0.3573344620687814,
+      "selected": 259.0,
+      "rescued": 86.8,
+      "harmed": 44.2
+    },
+    {
+      "arm": "reference",
+      "acc": 0.3493358999037536,
+      "ba": 0.3682845162995891,
+      "expert_acc": 0.38140519730510103,
+      "expert_ba": 0.3925204078270189,
+      "base_acc": 0.34102021174205965,
+      "base_ba": 0.3573344620687814,
+      "selected": 259.0,
+      "rescued": 85.4,
+      "harmed": 42.2
+    }
+  ],
+  "contrasts": [
+    {
+      "candidate": "complement_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": 0.03464870067372394,
+        "ba": -0.08965943370045082,
+        "expert_acc": -0.015399422521655826,
+        "expert_ba": -0.18108767957753846
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Singapore",
+          "acc": 0.03464870067372394,
+          "ba": -0.08965943370045082,
+          "expert_acc": -0.015399422521655826,
+          "expert_ba": -0.18108767957753846
+        }
+      ]
+    },
+    {
+      "candidate": "aligned_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.08854667949951822,
+        "ba": -0.026713985202870827,
+        "expert_acc": -1.031761308950916,
+        "expert_ba": 0.12112785709333274
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Singapore",
+          "acc": -0.08854667949951822,
+          "ba": -0.026713985202870827,
+          "expert_acc": -1.031761308950916,
+          "expert_ba": 0.12112785709333274
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.011549566891241314,
+        "ba": -0.03274987882208258,
+        "expert_acc": -0.40038498556304153,
+        "expert_ba": 0.4501409372128107
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Singapore",
+          "acc": -0.011549566891241314,
+          "ba": -0.03274987882208258,
+          "expert_acc": -0.40038498556304153,
+          "expert_ba": 0.4501409372128107
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "aligned_only",
+      "means_pp": {
+        "acc": 0.07699711260827691,
+        "ba": -0.006035893619211752,
+        "expert_acc": 0.6313763233878744,
+        "expert_ba": 0.32901308011947794
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Singapore",
+          "acc": 0.07699711260827691,
+          "ba": -0.006035893619211752,
+          "expert_acc": 0.6313763233878744,
+          "expert_ba": 0.32901308011947794
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "complement_only",
+      "means_pp": {
+        "acc": -0.046198267564965256,
+        "ba": 0.05690955487836824,
+        "expert_acc": -0.38498556304138565,
+        "expert_ba": 0.631228616790349
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Singapore",
+          "acc": -0.046198267564965256,
+          "ba": 0.05690955487836824,
+          "expert_acc": -0.38498556304138565,
+          "expert_ba": 0.631228616790349
+        }
+      ]
+    }
+  ],
+  "units": "OA/BA fractions; contrasts percentage points",
+  "reference": "New initial-tail float16-prefix replay; see separate old-reference comparisons",
+  "statistical_unit": "Equal outer-port means over five shared64 support draws; one fixed training seed",
+  "independent_confirmation": false,
+  "fixed_old_base64": true,
+  "target_encoder_labels": 0,
+  "parameters": "Fixed six epochs and last checkpoint; no target tuning or port selection",
+  "new_reference_minus_old_reference_pp": {
+    "acc": 0.0,
+    "ba": 0.0,
+    "expert_acc": 0.0,
+    "expert_ba": 0.0
+  }
+}

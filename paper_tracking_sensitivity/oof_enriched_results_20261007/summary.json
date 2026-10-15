@@ -1,0 +1,236 @@
+{
+  "n_ports": 23,
+  "seeds_per_port": 5,
+  "means_ba": {
+    "conf_ridge0": 0.47986917107193433,
+    "conf_ridge64": 0.4745935016674936,
+    "rich_ridge0": 0.4752470445181499,
+    "rich_ridge64": 0.4722319958386309,
+    "rich_hgb0": 0.47529187016238755,
+    "rich_hgb64": 0.4724595344048776,
+    "base": 0.432689954636116,
+    "fusion": 0.4709381677647732,
+    "simple": 0.4790338587036565,
+    "s2": 0.4790637008060875,
+    "oracle": 0.5244144230938186,
+    "oof_lr0": 0.48040769176541,
+    "oof_lr64": 0.47706147596969534
+  },
+  "comparisons": {
+    "rich_ridge64 minus conf_ridge64": {
+      "mean_delta_ba_pp": -0.23615058288626395,
+      "positive_ports": 10,
+      "negative_ports": 13,
+      "port_bootstrap_95ci_pp": [
+        -0.5946555601455521,
+        0.11867928740981626
+      ],
+      "wilcoxon_p": 0.30013346672058105
+    },
+    "rich_hgb64 minus rich_ridge64": {
+      "mean_delta_ba_pp": 0.022753856624657193,
+      "positive_ports": 9,
+      "negative_ports": 14,
+      "port_bootstrap_95ci_pp": [
+        -0.11088833153733407,
+        0.16132111353079082
+      ],
+      "wilcoxon_p": 0.9643125534057617
+    },
+    "rich_ridge0 minus conf_ridge0": {
+      "mean_delta_ba_pp": -0.46221265537844997,
+      "positive_ports": 9,
+      "negative_ports": 14,
+      "port_bootstrap_95ci_pp": [
+        -0.8646367657266045,
+        -0.09853516252537602
+      ],
+      "wilcoxon_p": 0.06503629684448242
+    },
+    "rich_hgb0 minus rich_ridge0": {
+      "mean_delta_ba_pp": 0.0044825644237528805,
+      "positive_ports": 11,
+      "negative_ports": 12,
+      "port_bootstrap_95ci_pp": [
+        -0.2484469766285892,
+        0.25773594403448385
+      ],
+      "wilcoxon_p": 0.988100528717041
+    },
+    "conf_ridge64 minus conf_ridge0": {
+      "mean_delta_ba_pp": -0.5275669404440806,
+      "positive_ports": 8,
+      "negative_ports": 15,
+      "port_bootstrap_95ci_pp": [
+        -0.9215954186571486,
+        -0.13644877761144672
+      ],
+      "wilcoxon_p": 0.013528585433959961
+    },
+    "rich_ridge64 minus rich_ridge0": {
+      "mean_delta_ba_pp": -0.3015048679518946,
+      "positive_ports": 7,
+      "negative_ports": 16,
+      "port_bootstrap_95ci_pp": [
+        -0.7663072714383853,
+        0.16309098490654758
+      ],
+      "wilcoxon_p": 0.18954229354858398
+    },
+    "rich_hgb64 minus rich_hgb0": {
+      "mean_delta_ba_pp": -0.28323357575099023,
+      "positive_ports": 6,
+      "negative_ports": 17,
+      "port_bootstrap_95ci_pp": [
+        -0.7506460458060816,
+        0.19530126034586917
+      ],
+      "wilcoxon_p": 0.23447084426879883
+    },
+    "rich_ridge0 minus simple": {
+      "mean_delta_ba_pp": -0.3786814185506519,
+      "positive_ports": 8,
+      "negative_ports": 15,
+      "port_bootstrap_95ci_pp": [
+        -0.9373580802592093,
+        0.19603569547091068
+      ],
+      "wilcoxon_p": 0.16010499000549316
+    },
+    "rich_ridge0 minus s2": {
+      "mean_delta_ba_pp": -0.3816656287937597,
+      "positive_ports": 8,
+      "negative_ports": 15,
+      "port_bootstrap_95ci_pp": [
+        -0.9760019099772307,
+        0.20592593855062827
+      ],
+      "wilcoxon_p": 0.18954229354858398
+    },
+    "rich_ridge0 minus oof_lr0": {
+      "mean_delta_ba_pp": -0.5160647247260098,
+      "positive_ports": 9,
+      "negative_ports": 14,
+      "port_bootstrap_95ci_pp": [
+        -0.911207348385027,
+        -0.15484996253058134
+      ],
+      "wilcoxon_p": 0.021372318267822266
+    },
+    "rich_ridge64 minus simple": {
+      "mean_delta_ba_pp": -0.6801862865025465,
+      "positive_ports": 5,
+      "negative_ports": 18,
+      "port_bootstrap_95ci_pp": [
+        -1.0817557165698553,
+        -0.2801316840807237
+      ],
+      "wilcoxon_p": 0.003874063491821289
+    },
+    "rich_ridge64 minus s2": {
+      "mean_delta_ba_pp": -0.6831704967456542,
+      "positive_ports": 7,
+      "negative_ports": 16,
+      "port_bootstrap_95ci_pp": [
+        -1.0993647643361704,
+        -0.27500248941053695
+      ],
+      "wilcoxon_p": 0.006032705307006836
+    },
+    "rich_ridge64 minus oof_lr0": {
+      "mean_delta_ba_pp": -0.8175695926779044,
+      "positive_ports": 3,
+      "negative_ports": 20,
+      "port_bootstrap_95ci_pp": [
+        -1.156179458333531,
+        -0.4640130248726182
+      ],
+      "wilcoxon_p": 0.0002980232238769531
+    },
+    "rich_hgb0 minus simple": {
+      "mean_delta_ba_pp": -0.374198854126899,
+      "positive_ports": 9,
+      "negative_ports": 14,
+      "port_bootstrap_95ci_pp": [
+        -0.9107739074593616,
+        0.1896059007614283
+      ],
+      "wilcoxon_p": 0.14241743087768555
+    },
+    "rich_hgb0 minus s2": {
+      "mean_delta_ba_pp": -0.3771830643700068,
+      "positive_ports": 10,
+      "negative_ports": 13,
+      "port_bootstrap_95ci_pp": [
+        -0.9348293538539942,
+        0.19002631936362754
+      ],
+      "wilcoxon_p": 0.14241743087768555
+    },
+    "rich_hgb0 minus oof_lr0": {
+      "mean_delta_ba_pp": -0.511582160302257,
+      "positive_ports": 7,
+      "negative_ports": 15,
+      "port_bootstrap_95ci_pp": [
+        -0.8728714842875636,
+        -0.16829411438266015
+      ],
+      "wilcoxon_p": 0.022089328068250483
+    },
+    "rich_hgb64 minus simple": {
+      "mean_delta_ba_pp": -0.6574324298778893,
+      "positive_ports": 7,
+      "negative_ports": 16,
+      "port_bootstrap_95ci_pp": [
+        -1.0240657954225534,
+        -0.28064509616348565
+      ],
+      "wilcoxon_p": 0.003070831298828125
+    },
+    "rich_hgb64 minus s2": {
+      "mean_delta_ba_pp": -0.6604166401209971,
+      "positive_ports": 6,
+      "negative_ports": 17,
+      "port_bootstrap_95ci_pp": [
+        -1.043757323739752,
+        -0.27164798680914276
+      ],
+      "wilcoxon_p": 0.003874063491821289
+    },
+    "rich_hgb64 minus oof_lr0": {
+      "mean_delta_ba_pp": -0.7948157360532473,
+      "positive_ports": 4,
+      "negative_ports": 19,
+      "port_bootstrap_95ci_pp": [
+        -1.1192916220366487,
+        -0.4663766354992184
+      ],
+      "wilcoxon_p": 0.000152587890625
+    }
+  },
+  "statistical_unit": "port mean over five overlapping support draws",
+  "independent_confirmation": false,
+  "novelty_established": false,
+  "max_parent_control_error": 0.0,
+  "protocol": {
+    "features": "4D versus 82D (4+14+64), identical richer input for ridge/HGB",
+    "support_labels": 64,
+    "source_ridge_lambda": 0.01,
+    "target_prior_strength": 8.0,
+    "tree_params": {
+      "loss": "squared_error",
+      "max_iter": 100,
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 7,
+      "min_samples_leaf": 30,
+      "l2_regularization": 1.0,
+      "max_bins": 63,
+      "random_state": 0,
+      "early_stopping": false
+    },
+    "source_models_per_port": 3,
+    "replacement_budget": "uncapped, same as parent; not old 5% protocol",
+    "target_isolation": "row-only; shared MMSI/products possible",
+    "sklearn": "1.8.0"
+  }
+}

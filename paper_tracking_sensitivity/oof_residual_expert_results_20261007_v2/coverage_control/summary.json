@@ -1,0 +1,66 @@
+{
+  "post_readout_followup": true,
+  "no_fitting": true,
+  "n_ports": 23,
+  "contexts": 115,
+  "means": {
+    "fusion": {
+      "ba": 0.4709381677647732,
+      "acc": 0.49009942420566965
+    },
+    "oof_lr0": {
+      "ba": 0.48040769176541,
+      "acc": 0.5032262260403169
+    },
+    "anchor_bias64": {
+      "ba": 0.5175677420310777,
+      "acc": 0.5372383905554813
+    },
+    "anchor_visual64": {
+      "ba": 0.52894866700364,
+      "acc": 0.5842576453834871
+    },
+    "fusion_observed64": {
+      "ba": 0.5109510391883024,
+      "acc": 0.5795307129544287
+    }
+  },
+  "contrasts": {
+    "fusion minus fusion_observed64": {
+      "mean_delta_ba_pp": -4.001287142352928,
+      "positive_ports": 10,
+      "negative_ports": 11,
+      "port_bootstrap_95ci_pp": [
+        -8.83097221779537,
+        0.4044837371141067
+      ]
+    },
+    "oof_lr0 minus fusion_observed64": {
+      "mean_delta_ba_pp": -3.0543347422892384,
+      "positive_ports": 11,
+      "negative_ports": 12,
+      "port_bootstrap_95ci_pp": [
+        -7.215798424726969,
+        0.7606070265807843
+      ]
+    },
+    "anchor_bias64 minus fusion_observed64": {
+      "mean_delta_ba_pp": 0.661670284277525,
+      "positive_ports": 11,
+      "negative_ports": 12,
+      "port_bootstrap_95ci_pp": [
+        -1.5244045940202333,
+        2.970340844950937
+      ]
+    },
+    "anchor_visual64 minus fusion_observed64": {
+      "mean_delta_ba_pp": 1.799762781533764,
+      "positive_ports": 15,
+      "negative_ports": 8,
+      "port_bootstrap_95ci_pp": [
+        0.025956097984427835,
+        3.597951247096752
+      ]
+    }
+  }
+}

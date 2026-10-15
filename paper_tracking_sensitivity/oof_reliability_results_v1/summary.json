@@ -1,0 +1,134 @@
+{
+  "n_ports": 23,
+  "seeds_per_port": 5,
+  "means_ba": {
+    "base": 0.432689954636116,
+    "fusion": 0.4709381677647732,
+    "simple": 0.4790338587036565,
+    "s2": 0.4790637008060875,
+    "oof_lr0": 0.48040769176541,
+    "oof_utility0": 0.47986917107193433,
+    "oof_lr64": 0.47706147596969534,
+    "oof_utility64": 0.4745935016674936,
+    "insample_lr0": 0.4817678604900222,
+    "insample_utility0": 0.4809912441869599,
+    "oracle": 0.5244144230938186
+  },
+  "comparisons": {
+    "s2 minus simple": {
+      "mean_delta_ba": 2.9842102431077844e-05,
+      "positive_ports": 6,
+      "negative_ports": 17,
+      "port_bootstrap_95ci": [
+        -0.0007315452895550502,
+        0.000869953360454986
+      ],
+      "wilcoxon_p": 0.21117830276489258
+    },
+    "simple minus fusion": {
+      "mean_delta_ba": 0.008095690938883283,
+      "positive_ports": 14,
+      "negative_ports": 9,
+      "port_bootstrap_95ci": [
+        0.0003745785172121334,
+        0.016221517312039337
+      ],
+      "wilcoxon_p": 0.11864614486694336
+    },
+    "oof_lr0 minus simple": {
+      "mean_delta_ba": 0.00137383306175358,
+      "positive_ports": 11,
+      "negative_ports": 12,
+      "port_bootstrap_95ci": [
+        -0.003739141996379377,
+        0.006454316399847625
+      ],
+      "wilcoxon_p": 0.7090141773223877
+    },
+    "oof_utility0 minus simple": {
+      "mean_delta_ba": 0.0008353123682779804,
+      "positive_ports": 10,
+      "negative_ports": 13,
+      "port_bootstrap_95ci": [
+        -0.004222189913652749,
+        0.005816103784220975
+      ],
+      "wilcoxon_p": 0.7539846897125244
+    },
+    "oof_lr64 minus simple": {
+      "mean_delta_ba": -0.0019723827339611488,
+      "positive_ports": 6,
+      "negative_ports": 17,
+      "port_bootstrap_95ci": [
+        -0.006157779490267924,
+        0.0026437509441667754
+      ],
+      "wilcoxon_p": 0.16010499000549316
+    },
+    "oof_utility64 minus simple": {
+      "mean_delta_ba": -0.004440357036162825,
+      "positive_ports": 5,
+      "negative_ports": 18,
+      "port_bootstrap_95ci": [
+        -0.008932512477550569,
+        0.0005638456648517132
+      ],
+      "wilcoxon_p": 0.05625271797180176
+    },
+    "oof_utility64 minus oof_lr64": {
+      "mean_delta_ba": -0.0024679743022016764,
+      "positive_ports": 6,
+      "negative_ports": 17,
+      "port_bootstrap_95ci": [
+        -0.004123998357556224,
+        -0.0009604927975474523
+      ],
+      "wilcoxon_p": 0.0034525394439697266
+    },
+    "oof_utility64 minus oof_utility0": {
+      "mean_delta_ba": -0.005275669404440806,
+      "positive_ports": 8,
+      "negative_ports": 15,
+      "port_bootstrap_95ci": [
+        -0.009215954186571486,
+        -0.0013644877761144671
+      ],
+      "wilcoxon_p": 0.013528585433959961
+    },
+    "oof_utility0 minus insample_utility0": {
+      "mean_delta_ba": -0.0011220731150254613,
+      "positive_ports": 4,
+      "negative_ports": 10,
+      "port_bootstrap_95ci": [
+        -0.002181820682195031,
+        -0.0002582625319650382
+      ],
+      "wilcoxon_p": 0.04132685891250041
+    },
+    "oof_lr0 minus insample_lr0": {
+      "mean_delta_ba": -0.0013601687246122107,
+      "positive_ports": 6,
+      "negative_ports": 8,
+      "port_bootstrap_95ci": [
+        -0.0035140412545857647,
+        0.00031605971427527374
+      ],
+      "wilcoxon_p": 0.33053567270784123
+    }
+  },
+  "statistical_unit": "port mean over five overlapping support seeds",
+  "reference_only": false,
+  "skipped_ports": [
+    "Melbourne"
+  ],
+  "protocol": {
+    "source_ridge_lambda": 0.01,
+    "source_lr_C": 1.0,
+    "target_prior_strength": 8.0,
+    "query_tuning": false,
+    "features": "expert/base margins and entropies (4D)",
+    "support_budget": 64,
+    "all_learned_gates_use_same_observed_expert_guard": true,
+    "status": "development diagnostic; previously inspected ports are not fresh blind confirmation"
+  }
+}

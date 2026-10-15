@@ -1,0 +1,224 @@
+{
+  "n_ports": 1,
+  "contexts": 5,
+  "means": [
+    {
+      "arm": "aligned_only",
+      "acc": 0.4684729064039409,
+      "ba": 0.4800558310779561,
+      "expert_acc": 0.5630541871921182,
+      "expert_ba": 0.5164376075246299,
+      "base_acc": 0.45221674876847295,
+      "base_ba": 0.47442423412129,
+      "selected": 20.0,
+      "rescued": 10.0,
+      "harmed": 3.4
+    },
+    {
+      "arm": "complement_only",
+      "acc": 0.46059113300492616,
+      "ba": 0.4811333075234373,
+      "expert_acc": 0.42561576354679803,
+      "expert_ba": 0.4499422603711757,
+      "base_acc": 0.45221674876847295,
+      "base_ba": 0.47442423412129,
+      "selected": 20.0,
+      "rescued": 6.2,
+      "harmed": 2.8
+    },
+    {
+      "arm": "joint",
+      "acc": 0.48423645320197045,
+      "ba": 0.49095904752755076,
+      "expert_acc": 0.6103448275862069,
+      "expert_ba": 0.5270050343862528,
+      "base_acc": 0.45221674876847295,
+      "base_ba": 0.47442423412129,
+      "selected": 20.0,
+      "rescued": 14.2,
+      "harmed": 1.2
+    },
+    {
+      "arm": "reference",
+      "acc": 0.45862068965517244,
+      "ba": 0.4780310290987767,
+      "expert_acc": 0.44778325123152707,
+      "expert_ba": 0.461315888275582,
+      "base_acc": 0.45221674876847295,
+      "base_ba": 0.47442423412129,
+      "selected": 20.0,
+      "rescued": 5.6,
+      "harmed": 3.0
+    }
+  ],
+  "contrasts": [
+    {
+      "candidate": "complement_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": 0.19704433497536922,
+        "ba": 0.3102278424660587,
+        "expert_acc": -2.216748768472907,
+        "expert_ba": -1.1373627904406303
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "New York",
+          "acc": 0.19704433497536922,
+          "ba": 0.3102278424660587,
+          "expert_acc": -2.216748768472907,
+          "expert_ba": -1.1373627904406303
+        }
+      ]
+    },
+    {
+      "candidate": "aligned_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": 0.9852216748768461,
+        "ba": 0.20248019791793137,
+        "expert_acc": 11.527093596059112,
+        "expert_ba": 5.512171924904792
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "New York",
+          "acc": 0.9852216748768461,
+          "ba": 0.20248019791793137,
+          "expert_acc": 11.527093596059112,
+          "expert_ba": 5.512171924904792
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "reference",
+      "means_pp": {
+        "acc": 2.561576354679801,
+        "ba": 1.292801842877399,
+        "expert_acc": 16.256157635467982,
+        "expert_ba": 6.5689146110670835
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "New York",
+          "acc": 2.561576354679801,
+          "ba": 1.292801842877399,
+          "expert_acc": 16.256157635467982,
+          "expert_ba": 6.5689146110670835
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "aligned_only",
+      "means_pp": {
+        "acc": 1.5763546798029549,
+        "ba": 1.0903216449594677,
+        "expert_acc": 4.72906403940887,
+        "expert_ba": 1.056742686162292
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "New York",
+          "acc": 1.5763546798029549,
+          "ba": 1.0903216449594677,
+          "expert_acc": 4.72906403940887,
+          "expert_ba": 1.056742686162292
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "complement_only",
+      "means_pp": {
+        "acc": 2.3645320197044315,
+        "ba": 0.9825740004113402,
+        "expert_acc": 18.47290640394089,
+        "expert_ba": 7.706277401507714
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "New York",
+          "acc": 2.3645320197044315,
+          "ba": 0.9825740004113402,
+          "expert_acc": 18.47290640394089,
+          "expert_ba": 7.706277401507714
+        }
+      ]
+    }
+  ],
+  "units": "OA/BA fractions; contrasts percentage points",
+  "reference": "New initial-tail float16-prefix replay; see separate old-reference comparisons",
+  "statistical_unit": "Equal outer-port means over five shared64 support draws; one fixed training seed",
+  "independent_confirmation": false,
+  "fixed_old_base64": true,
+  "target_encoder_labels": 0,
+  "parameters": "Fixed six epochs and last checkpoint; no target tuning or port selection",
+  "new_reference_minus_old_reference_pp": {
+    "acc": 0.0,
+    "ba": 0.0,
+    "expert_acc": 0.0,
+    "expert_ba": 0.0
+  }
+}

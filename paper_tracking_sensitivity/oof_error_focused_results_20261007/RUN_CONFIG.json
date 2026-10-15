@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-07",
+  "arms": [
+    "base_visual",
+    "visual_handoff",
+    "bias_handoff",
+    "loo_error_handoff",
+    "insample_error_handoff"
+  ],
+  "experts": [
+    "old_expert",
+    "loo_error",
+    "insample_error"
+  ],
+  "contrasts": [
+    [
+      "loo_error_handoff",
+      "visual_handoff"
+    ],
+    [
+      "loo_error_handoff",
+      "insample_error_handoff"
+    ],
+    [
+      "loo_error_handoff",
+      "bias_handoff"
+    ],
+    [
+      "loo_error_handoff",
+      "base_visual"
+    ],
+    [
+      "insample_error_handoff",
+      "visual_handoff"
+    ]
+  ],
+  "strength": 8.0,
+  "error_emphasis": 2.0,
+  "class_mass": "64/K_present per class",
+  "target_labels": 64,
+  "expert_admission_cap": 0.05,
+  "post_complementary_readout": true,
+  "loo_cache": "E:\\Hermes\\paper_tracking\\sensitivity\\oof_support_shrinkage_results_20261007",
+  "protocol": "E:\\Hermes\\paper_tracking\\sensitivity\\oof_reliability_check\\ERROR_FOCUSED_PROTOCOL_20261007.md"
+}

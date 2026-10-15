@@ -1,0 +1,164 @@
+{
+  "n_ports": 23,
+  "contexts": 115,
+  "means": {
+    "base": {
+      "ba": 0.432689954636116,
+      "acc": 0.4409433401562296,
+      "recover_ba": 0.05347625532904537,
+      "harm_ba": 0.09172446845770263,
+      "rescue_both_wrong_ba": 0.0
+    },
+    "fusion": {
+      "ba": 0.4709381677647732,
+      "acc": 0.49009942420566965,
+      "recover_ba": 0.0,
+      "harm_ba": 0.0,
+      "rescue_both_wrong_ba": 0.0
+    },
+    "oof_lr0": {
+      "ba": 0.48040769176541,
+      "acc": 0.5032262260403169,
+      "recover_ba": 0.01613048174351159,
+      "harm_ba": 0.006660957742874713,
+      "rescue_both_wrong_ba": 0.0
+    },
+    "legacy_target64": {
+      "ba": 0.43788251603653494,
+      "acc": 0.6160860411859993,
+      "recover_ba": 0.1557458709591474,
+      "harm_ba": 0.1888015226873857,
+      "rescue_both_wrong_ba": 0.13540258157923699
+    },
+    "target64": {
+      "ba": 0.41390680555875503,
+      "acc": 0.553066260609096,
+      "recover_ba": 0.14661324757134797,
+      "harm_ba": 0.20364460977736618,
+      "rescue_both_wrong_ba": 0.1267023081713022
+    },
+    "anchor_bias64": {
+      "ba": 0.5175677420310777,
+      "acc": 0.5372383905554813,
+      "recover_ba": 0.07182096430298711,
+      "harm_ba": 0.02519139003668263,
+      "rescue_both_wrong_ba": 0.0561028764640495
+    },
+    "anchor_visual64": {
+      "ba": 0.52894866700364,
+      "acc": 0.5842576453834871,
+      "recover_ba": 0.09686917375141724,
+      "harm_ba": 0.03885867451255031,
+      "rescue_both_wrong_ba": 0.07808939189372235
+    }
+  },
+  "comparisons": {
+    "anchor_visual64 minus fusion": {
+      "mean_delta_ba_pp": 5.801049923886692,
+      "mean_delta_acc_pp": 9.415822117781742,
+      "positive_ports": 20,
+      "negative_ports": 3,
+      "port_bootstrap_95ci_pp": [
+        2.5086072643178476,
+        9.453557924805603
+      ],
+      "draw_deltas_pp": [
+        5.993144381338937,
+        5.21339993829583,
+        5.9649255405147885,
+        5.914739539337246,
+        5.919040219946664
+      ]
+    },
+    "anchor_visual64 minus anchor_bias64": {
+      "mean_delta_ba_pp": 1.138092497256239,
+      "mean_delta_acc_pp": 4.701925482800583,
+      "positive_ports": 19,
+      "negative_ports": 4,
+      "port_bootstrap_95ci_pp": [
+        -0.14766100699938656,
+        2.1353656512175934
+      ],
+      "draw_deltas_pp": [
+        1.220319682541544,
+        -0.02737782235485986,
+        0.9310873731556545,
+        1.4873388815575455,
+        2.079094371381327
+      ]
+    },
+    "anchor_visual64 minus oof_lr0": {
+      "mean_delta_ba_pp": 4.854097523823002,
+      "mean_delta_acc_pp": 8.103141934317016,
+      "positive_ports": 20,
+      "negative_ports": 3,
+      "port_bootstrap_95ci_pp": [
+        1.9547151919071093,
+        7.994774873853962
+      ],
+      "draw_deltas_pp": [
+        4.844485975750986,
+        4.648481959732817,
+        5.0422077586485194,
+        4.850002433133679,
+        4.885309491849017
+      ]
+    },
+    "anchor_visual64 minus target64": {
+      "mean_delta_ba_pp": 11.504186144488507,
+      "mean_delta_acc_pp": 3.119138477439108,
+      "positive_ports": 23,
+      "negative_ports": 0,
+      "port_bootstrap_95ci_pp": [
+        9.068943938261805,
+        13.955491609224657
+      ],
+      "draw_deltas_pp": [
+        12.114872528237077,
+        9.923139022768595,
+        10.508309804704869,
+        11.960005285883025,
+        13.01460408084898
+      ]
+    },
+    "anchor_visual64 minus legacy_target64": {
+      "mean_delta_ba_pp": 9.106615096710518,
+      "mean_delta_acc_pp": -3.182839580251217,
+      "positive_ports": 23,
+      "negative_ports": 0,
+      "port_bootstrap_95ci_pp": [
+        6.089123641976295,
+        12.150736626840075
+      ],
+      "draw_deltas_pp": [
+        9.133652594631284,
+        8.080299230165998,
+        7.662994017728499,
+        9.72305579047206,
+        10.933073850554749
+      ]
+    },
+    "anchor_bias64 minus fusion": {
+      "mean_delta_ba_pp": 4.662957426630452,
+      "mean_delta_acc_pp": 4.71389663498116,
+      "positive_ports": 17,
+      "negative_ports": 6,
+      "port_bootstrap_95ci_pp": [
+        2.0182992055460938,
+        7.740251134755758
+      ],
+      "draw_deltas_pp": [
+        4.772824698797393,
+        5.2407777606506905,
+        5.033838167359132,
+        4.4274006577797005,
+        3.8399458485653355
+      ]
+    }
+  },
+  "passes_development_screen": true,
+  "independent_confirmation": false,
+  "novelty_established": false,
+  "protocol": "64 labels, fixed strength8, full-query expert quality; not 5% handoff",
+  "statistical_unit": "port mean over five overlapping support draws"
+}

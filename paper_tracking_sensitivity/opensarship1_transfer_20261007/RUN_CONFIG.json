@@ -1,0 +1,23 @@
+{
+  "dataset": "OpenSARShip1 GRDH compatible fine labels",
+  "global_target_labels": 64,
+  "support_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "handoff_cap": 0.05,
+  "ridge_source": 1.0,
+  "ridge_residual": 8.0,
+  "base_pca": 128,
+  "ssl_pca": 64,
+  "encoders": "current paired R50 V2 and VH e206 SSL R18; newly extracted",
+  "historical_development_exposure": true,
+  "independent_confirmation": false,
+  "support_split": "row-level, not vessel-disjoint",
+  "source_purge": "all native GRD+SLC identities",
+  "no_target_hyperparameter_search": true,
+  "old_results_preserved": true
+}

@@ -1,0 +1,56 @@
+{
+  "dataset": "pacs",
+  "target_domain": "art_painting",
+  "n_classes": 7,
+  "target_rows": 2048,
+  "means": [
+    {
+      "arm": "original_base",
+      "acc": 0.7210685483870967,
+      "ba": 0.7204320916237048,
+      "admitted_rows": 0.0
+    },
+    {
+      "arm": "base_visual64",
+      "acc": 0.7860887096774194,
+      "ba": 0.7839556279176628,
+      "admitted_rows": 0.0
+    },
+    {
+      "arm": "visual_handoff5",
+      "acc": 0.8065524193548388,
+      "ba": 0.8061238604447937,
+      "admitted_rows": 99.0
+    }
+  ],
+  "handoff_draw_deltas_pp": {
+    "acc": [
+      2.066532258064513,
+      2.0161290322580627,
+      2.116935483870974,
+      2.066532258064524,
+      1.9657258064516125
+    ],
+    "ba": [
+      2.219204075259207,
+      2.1989023874112945,
+      2.3292283391243673,
+      2.264573990398766,
+      2.0722074713717675
+    ]
+  },
+  "handoff_mean_deltas_pp": {
+    "acc": 2.0463709677419373,
+    "ba": 2.21682325271308
+  },
+  "ba_positive_draws": 5,
+  "observed_support_classes": [
+    7,
+    7,
+    7,
+    7,
+    7
+  ],
+  "inner_encoder_oof": false,
+  "independent_confirmation": false
+}

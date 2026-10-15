@@ -1,0 +1,224 @@
+{
+  "n_ports": 1,
+  "contexts": 5,
+  "means": [
+    {
+      "arm": "aligned_only",
+      "acc": 0.44333333333333336,
+      "ba": 0.40229310872196605,
+      "expert_acc": 0.46333333333333326,
+      "expert_ba": 0.4554091244042365,
+      "base_acc": 0.43499999999999994,
+      "base_ba": 0.3898856585142953,
+      "selected": 12.0,
+      "rescued": 5.4,
+      "harmed": 3.4
+    },
+    {
+      "arm": "complement_only",
+      "acc": 0.4525,
+      "ba": 0.40414910354850564,
+      "expert_acc": 0.48666666666666664,
+      "expert_ba": 0.46364227486319487,
+      "base_acc": 0.43499999999999994,
+      "base_ba": 0.3898856585142953,
+      "selected": 12.0,
+      "rescued": 6.2,
+      "harmed": 2.0
+    },
+    {
+      "arm": "joint",
+      "acc": 0.44666666666666666,
+      "ba": 0.40442690897300027,
+      "expert_acc": 0.4525,
+      "expert_ba": 0.44709864934977295,
+      "base_acc": 0.43499999999999994,
+      "base_ba": 0.3898856585142953,
+      "selected": 12.0,
+      "rescued": 5.6,
+      "harmed": 2.8
+    },
+    {
+      "arm": "reference",
+      "acc": 0.45499999999999996,
+      "ba": 0.40759378044054007,
+      "expert_acc": 0.49333333333333335,
+      "expert_ba": 0.4741207499150083,
+      "base_acc": 0.43499999999999994,
+      "base_ba": 0.3898856585142953,
+      "selected": 12.0,
+      "rescued": 6.6,
+      "harmed": 1.8
+    }
+  ],
+  "contrasts": [
+    {
+      "candidate": "complement_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.2499999999999991,
+        "ba": -0.3444676892034393,
+        "expert_acc": -0.6666666666666654,
+        "expert_ba": -1.0478475051813463
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Sydney Botany",
+          "acc": -0.2499999999999991,
+          "ba": -0.3444676892034393,
+          "expert_acc": -0.6666666666666654,
+          "expert_ba": -1.0478475051813463
+        }
+      ]
+    },
+    {
+      "candidate": "aligned_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": -1.1666666666666656,
+        "ba": -0.5300671718573924,
+        "expert_acc": -2.999999999999999,
+        "expert_ba": -1.8711625510771879
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Sydney Botany",
+          "acc": -1.1666666666666656,
+          "ba": -0.5300671718573924,
+          "expert_acc": -2.999999999999999,
+          "expert_ba": -1.8711625510771879
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.8333333333333325,
+        "ba": -0.31668714675397563,
+        "expert_acc": -4.083333333333333,
+        "expert_ba": -2.7022100565235396
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Sydney Botany",
+          "acc": -0.8333333333333325,
+          "ba": -0.31668714675397563,
+          "expert_acc": -4.083333333333333,
+          "expert_ba": -2.7022100565235396
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "aligned_only",
+      "means_pp": {
+        "acc": 0.33333333333333326,
+        "ba": 0.2133800251034168,
+        "expert_acc": -1.083333333333334,
+        "expert_ba": -0.8310475054463516
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Sydney Botany",
+          "acc": 0.33333333333333326,
+          "ba": 0.2133800251034168,
+          "expert_acc": -1.083333333333334,
+          "expert_ba": -0.8310475054463516
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "complement_only",
+      "means_pp": {
+        "acc": -0.5833333333333334,
+        "ba": 0.027780542449463708,
+        "expert_acc": -3.416666666666668,
+        "expert_ba": -1.6543625513421936
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Sydney Botany",
+          "acc": -0.5833333333333334,
+          "ba": 0.027780542449463708,
+          "expert_acc": -3.416666666666668,
+          "expert_ba": -1.6543625513421936
+        }
+      ]
+    }
+  ],
+  "units": "OA/BA fractions; contrasts percentage points",
+  "reference": "New initial-tail float16-prefix replay; see separate old-reference comparisons",
+  "statistical_unit": "Equal outer-port means over five shared64 support draws; one fixed training seed",
+  "independent_confirmation": false,
+  "fixed_old_base64": true,
+  "target_encoder_labels": 0,
+  "parameters": "Fixed six epochs and last checkpoint; no target tuning or port selection",
+  "new_reference_minus_old_reference_pp": {
+    "acc": 0.0,
+    "ba": 0.0,
+    "expert_acc": 0.0,
+    "expert_ba": 0.0
+  }
+}

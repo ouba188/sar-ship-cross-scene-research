@@ -1,0 +1,97 @@
+"""Summarize the bounded fusion trial, including its negative results."""
+
+import json
+import pandas as pd
+from compact_fusion_run import OUT
+
+NAMES = dict(self24ports='自建24港（23个任务）', f0921='F_0921', oss2='OpenSARShip 2.0')
+LABELS = dict(base='仅基础模型', expert='仅专家', hard_uncapped='不限预算硬交接',
+              equal='等权融合', fixed_source='源域选定固定权重', adaptive='自适应软融合',
+              adaptive_nll='概率损失动态权重（原负对照）', constant_nll='概率损失常数权重（诊断）',
+              utility_constant='独有正确率常数权重（诊断）', adaptive_mean='动态权重取目标均值（诊断）')
+
+
+def table(frame):
+    rows = ['| '+' | '.join(map(str, frame.columns))+' |', '| '+' | '.join(['---']*len(frame.columns))+' |']
+    rows += ['| '+' | '.join(map(str, row))+' |' for row in frame.itertuples(index=False, name=None)]
+    return '\n'.join(rows)
+
+
+def main():
+    complete = json.loads((OUT/'COMPLETE.json').read_text())
+    summary = pd.read_csv(OUT/'summary.csv').set_index(['dataset', 'mode'])
+    draw = pd.read_csv(OUT/'draw_metrics.csv').set_index(['dataset', 'draw', 'mode'])
+    source = pd.read_csv(OUT/'source_oof.csv')
+    source_mean = source.groupby(['dataset', 'task', 'mode'])[['oa', 'ba', 'balanced_nll']].mean()
+    source_mean = source_mean.groupby(['dataset', 'mode']).mean()
+    source_mean.to_csv(OUT/'source_oof_summary.csv')
+    weights = pd.read_csv(OUT/'weight_statistics.csv')
+    diag = pd.read_csv(OUT/'diagnostics.csv')
+    source_diag = pd.read_csv(OUT/'source_diagnostics.csv')
+    rows = []
+    for mode in LABELS:
+        row = {'方法': LABELS[mode]}
+        for dataset, name in NAMES.items():
+            r = summary.loc[dataset, mode]
+            row[name+' OA / BA'] = f'{r.oa:.4f} / {r.ba:.4f}'
+        rows.append(row)
+    comparison = pd.DataFrame(rows)
+    comparison.to_csv(OUT/'COMPARISON_TABLE.csv', index=False, encoding='utf-8-sig')
+    text = ['# 两路冻结模型的紧凑融合对照', '',
+        '## 结论先行', '',
+        '自适应软融合相对等权融合的平均BA：24港+0.0294、F_0921+0.0282、OpenSARShip 2.0+0.2643个百分点；OA分别-0.0376、+0.0613、+0.0054个百分点。不是全面稳定的大幅提升。',
+        '固定平均专家偏好、去掉逐样本动态性后，动态部分的BA增量为-0.0248、+0.0088、+0.2446个百分点；正收益抽样分别2/5、3/5、2/5。24港没有动态性优势，F_0921增量很小，OSS2有候选信号但依赖支持集抽样。',
+        '建议保留等权融合为简单强参照，保留自适应为可选候选，不将它直接包装成已被一致验证的核心创新，也不按目标数据集挑选各自最优版本拼成主方案。当前冻结主模型文件未改动。', '',
+        '## 完成范围', '',
+        f'{complete["tasks"]}个任务、{complete["draws"]}次支持集抽样；三个主对照，加已有参考和必要诊断，共{complete["rows"]}条评估记录。',
+        '两路模型、64个目标标注、划分与五次支持集抽样全部固定。没有训练新图像网络，没有根据目标测试结果选择权重或改参数。',
+        '等权融合、基础模型、专家、不限预算硬交接的预测及汇总指标均与上一轮精确复现。', '',
+        '## 总体结果', '', '下表数值为百分数；24港按任务等权，再汇总五次支持集抽样。', '', table(comparison), '',
+        '## 主比较与动态性诊断', '']
+    paired = []
+    for dataset, name in NAMES.items():
+        a = summary.loc[dataset, 'adaptive']
+        text += [f'### {name}', '']
+        for mode in ('equal', 'fixed_source', 'utility_constant', 'adaptive_mean'):
+            ref = summary.loc[dataset, mode]
+            diff = [draw.loc[(dataset, d, 'adaptive'), 'ba']-draw.loc[(dataset, d, mode), 'ba'] for d in range(5)]
+            paired.append(dict(dataset=dataset, reference=mode, delta_oa=a.oa-ref.oa, delta_ba=a.ba-ref.ba,
+                               positive_draws=sum(x > 1e-10 for x in diff), draws=5))
+            text += [f'- 自适应相对{LABELS[mode]}：OA {a.oa-ref.oa:+.4f}、BA {a.ba-ref.ba:+.4f}个百分点；BA为正的支持集抽样 {sum(x > 1e-10 for x in diff)}/5。']
+        w = weights[weights.dataset == dataset]
+        d = diag[diag.dataset == dataset]
+        sd = source_diag[source_diag.dataset == dataset]
+        text += [f'- 专家动态权重均值 {w.weight_mean.mean():.4f}；任务内标准差均值 {w.weight_std.mean():.4f}。',
+            f'- 恰好一方正确时，权重区分“专家正确”的AUC：源域融合器分组留出 {sd.unique_correct_auc.mean():.4f}；目标域 {d.unique_correct_auc.mean():.4f}。',
+            f'- 目标域仅专家正确时平均专家权重 {d.expert_only_weight.mean():.4f}；仅基础模型正确时 {d.base_only_weight.mean():.4f}。', '']
+    pd.DataFrame(paired).to_csv(OUT/'paired_comparisons.csv', index=False)
+    text += ['## 源域分组留出结果', '',
+        '按源港案例组分为3折，固定权重选择与自适应拟合只使用另2折；这些指标不使用相应留出折的标签拟合融合器。最后在全部允许源域案例上重新拟合，冻结后应用到目标。',
+        '这里仅隔离融合器的拟合。既有表征仍可能接触这些源港，因此不是完整模型的独立验证。', '']
+    sr = []
+    for dataset, name in NAMES.items():
+        for mode in ('equal', 'fixed_source', 'adaptive', 'adaptive_nll', 'constant_nll', 'utility_constant'):
+            r = source_mean.loc[dataset, mode]
+            sr.append(dict(数据集=name, 方法=LABELS[mode], OA=f'{r.oa:.4f}', BA=f'{r.ba:.4f}', 均衡NLL=f'{r.balanced_nll:.5f}'))
+    text += [table(pd.DataFrame(sr)), '', '## 如何解释，而不是只看涨点', '',
+        '1. 自适应超过等权，不自动说明动态选择有效：更合适的固定偏好也可能做到。先看它是否超过源域选定的固定权重。',
+        '2. 源域试算发现混合NLL将动态权重推近1，但源域BA最优权重并不总为1。原方案完整保留为adaptive_nll。仅根据源域证据、在本轮目标读出前，新增一次针对性修正：只在恰好一方正确的源案例上，学习哪一路独有地答对。其常数对照使用相同加权案例的专家独有正确比例。',
+        '3. 将每条样本的动态权重替换为同一目标批次的无标签平均值，保持平均专家偏好，仅移除样本间差异。这是动态性诊断，不是用测试标签挑选的新主方案。',
+        '4. 恰好一方正确的AUC检验权重有没有倾向正确的一方，但它不是融合准确率本身；软融合可能因类别分数的共同作用，得到不同于任一单模型的结果。',
+        '5. `class_metrics.csv`保留每类召回变化，`cases.csv`给出每个任务第一抽样按原始顺序最多3个救回、3个伤害案例，不将展示案例当总体结论。', '',
+        '## 实现与证据边界', '',
+        '- 融合输入为两路8类分数分别softmax后的输出，不声称已经校准的真实概率。',
+        '- 固定权重候选为0到1、间隔0.1；同分优先靠近0.5。自适应使用两路分数间隔、归一化熵和预测分歧，共5个特征加截距。',
+        '- 自适应权重为sigmoid。先按源域案例组和组内类别等权，再取恰好一方正确的案例、重新归一化权重，优化专家独有正确相对基础独有正确的二分类对数损失；斜率L2系数固定0.01，无新超参数搜索。此权重不是有保证校准的融合最优权重。',
+        '- 每个源域案例的支持集必须与专家重建一致；具体来源与重建细节保存在各任务`source/.../FUSION.json`的provenance字段。',
+        '- 外部专家源域分类头也按港口留出：用原始pre-tail特征训练留港线性头，在冻结joint-tail特征上预测，再用该案例原有64个支持标签校正。与基础头的留港边界一致；不在专家见过的标签上直接学习融合偏好。',
+        '- 6项新增单元测试通过；F_0921真实64支持+8查询样本上，新源域辅助实现与原有实现的先验、核矩阵和校正后专家分数最大误差均为0；旧目标参考预测和OA/BA均精确复现。',
+        '- 数据均属于历史研发数据；五次支持集抽样不是五次网络训练种子，也不构成独立确认。',
+        '- 全量计算两路输出；本轮不宣称预算交接带来端到端计算节省。',
+        '- 本轮只回答固定模型输出如何组合，不自动证明此前每个表示模块在全量融合下仍有独立增益。', '']
+    (OUT/'FINDINGS_ZH.md').write_text('\n'.join(text), encoding='utf-8')
+    print(table(comparison))
+
+
+if __name__ == '__main__':
+    main()

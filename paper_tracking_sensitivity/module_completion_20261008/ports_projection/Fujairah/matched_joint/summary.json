@@ -1,0 +1,224 @@
+{
+  "n_ports": 1,
+  "contexts": 5,
+  "means": [
+    {
+      "arm": "aligned_only",
+      "acc": 0.696526508226691,
+      "ba": 0.6474942925810862,
+      "expert_acc": 0.70018281535649,
+      "expert_ba": 0.6787733017729363,
+      "base_acc": 0.6862888482632541,
+      "base_ba": 0.6145679276315431,
+      "selected": 54.0,
+      "rescued": 30.4,
+      "harmed": 19.2
+    },
+    {
+      "arm": "complement_only",
+      "acc": 0.7042047531992688,
+      "ba": 0.6371372107519367,
+      "expert_acc": 0.6959780621572211,
+      "expert_ba": 0.6008811360892256,
+      "base_acc": 0.6862888482632541,
+      "base_ba": 0.6145679276315431,
+      "selected": 54.0,
+      "rescued": 33.8,
+      "harmed": 14.2
+    },
+    {
+      "arm": "joint",
+      "acc": 0.6981718464351006,
+      "ba": 0.6489558388203305,
+      "expert_acc": 0.7177330895795248,
+      "expert_ba": 0.6923936223101828,
+      "base_acc": 0.6862888482632541,
+      "base_ba": 0.6145679276315431,
+      "selected": 54.0,
+      "rescued": 31.4,
+      "harmed": 18.4
+    },
+    {
+      "arm": "reference",
+      "acc": 0.7047531992687386,
+      "ba": 0.6412839331809768,
+      "expert_acc": 0.7063985374771481,
+      "expert_ba": 0.6198062334063161,
+      "base_acc": 0.6862888482632541,
+      "base_ba": 0.6145679276315431,
+      "selected": 54.0,
+      "rescued": 33.8,
+      "harmed": 13.6
+    }
+  ],
+  "contrasts": [
+    {
+      "candidate": "complement_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.05484460694698434,
+        "ba": -0.41467224290399507,
+        "expert_acc": -1.0420475319926892,
+        "expert_ba": -1.8925097317090578
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Fujairah",
+          "acc": -0.05484460694698434,
+          "ba": -0.41467224290399507,
+          "expert_acc": -1.0420475319926892,
+          "expert_ba": -1.8925097317090578
+        }
+      ]
+    },
+    {
+      "candidate": "aligned_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.8226691042047541,
+        "ba": 0.6210359400109455,
+        "expert_acc": -0.6215722120658174,
+        "expert_ba": 5.896706836662007
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Fujairah",
+          "acc": -0.8226691042047541,
+          "ba": 0.6210359400109455,
+          "expert_acc": -0.6215722120658174,
+          "expert_ba": 5.896706836662007
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.6581352833638032,
+        "ba": 0.7671905639353738,
+        "expert_acc": 1.1334552102376594,
+        "expert_ba": 7.258738890386658
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Fujairah",
+          "acc": -0.6581352833638032,
+          "ba": 0.7671905639353738,
+          "expert_acc": 1.1334552102376594,
+          "expert_ba": 7.258738890386658
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "aligned_only",
+      "means_pp": {
+        "acc": 0.1645338208409508,
+        "ba": 0.14615462392442824,
+        "expert_acc": 1.755027422303477,
+        "expert_ba": 1.362032053724651
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Fujairah",
+          "acc": 0.1645338208409508,
+          "ba": 0.14615462392442824,
+          "expert_acc": 1.755027422303477,
+          "expert_ba": 1.362032053724651
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "complement_only",
+      "means_pp": {
+        "acc": -0.6032906764168189,
+        "ba": 1.1818628068393688,
+        "expert_acc": 2.1755027422303486,
+        "expert_ba": 9.151248622095716
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Fujairah",
+          "acc": -0.6032906764168189,
+          "ba": 1.1818628068393688,
+          "expert_acc": 2.1755027422303486,
+          "expert_ba": 9.151248622095716
+        }
+      ]
+    }
+  ],
+  "units": "OA/BA fractions; contrasts percentage points",
+  "reference": "New initial-tail float16-prefix replay; see separate old-reference comparisons",
+  "statistical_unit": "Equal outer-port means over five shared64 support draws; one fixed training seed",
+  "independent_confirmation": false,
+  "fixed_old_base64": true,
+  "target_encoder_labels": 0,
+  "parameters": "Fixed six epochs and last checkpoint; no target tuning or port selection",
+  "new_reference_minus_old_reference_pp": {
+    "acc": 0.0,
+    "ba": 0.0,
+    "expert_acc": 0.0,
+    "expert_ba": 0.0
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "n_ports": 1,
+  "contexts": 5,
+  "means": [
+    {
+      "arm": "aligned_only",
+      "acc": 0.3938519447929737,
+      "ba": 0.4196934363982151,
+      "expert_acc": 0.41392722710163116,
+      "expert_ba": 0.4613727117791835,
+      "base_acc": 0.3819322459222083,
+      "base_ba": 0.39686652007791856,
+      "selected": 79.0,
+      "rescued": 32.8,
+      "harmed": 13.8
+    },
+    {
+      "arm": "complement_only",
+      "acc": 0.3983688833124216,
+      "ba": 0.42030123692887206,
+      "expert_acc": 0.41656210790464243,
+      "expert_ba": 0.4464472578138798,
+      "base_acc": 0.3819322459222083,
+      "base_ba": 0.39686652007791856,
+      "selected": 79.0,
+      "rescued": 37.2,
+      "harmed": 11.0
+    },
+    {
+      "arm": "joint",
+      "acc": 0.3974905897114178,
+      "ba": 0.4235416689471565,
+      "expert_acc": 0.41781681304893353,
+      "expert_ba": 0.4583838293104569,
+      "base_acc": 0.3819322459222083,
+      "base_ba": 0.39686652007791856,
+      "selected": 79.0,
+      "rescued": 37.6,
+      "harmed": 12.8
+    },
+    {
+      "arm": "reference",
+      "acc": 0.3957340025094103,
+      "ba": 0.4201983999100018,
+      "expert_acc": 0.4089084065244668,
+      "expert_ba": 0.44179303657717794,
+      "base_acc": 0.3819322459222083,
+      "base_ba": 0.39686652007791856,
+      "selected": 79.0,
+      "rescued": 35.0,
+      "harmed": 13.0
+    }
+  ],
+  "contrasts": [
+    {
+      "candidate": "complement_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": 0.2634880803011286,
+        "ba": 0.010283701887023877,
+        "expert_acc": 0.7653701380175648,
+        "expert_ba": 0.4654221236701906
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Santos",
+          "acc": 0.2634880803011286,
+          "ba": 0.010283701887023877,
+          "expert_acc": 0.7653701380175648,
+          "expert_ba": 0.4654221236701906
+        }
+      ]
+    },
+    {
+      "candidate": "aligned_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.1882057716436636,
+        "ba": -0.05049635117867268,
+        "expert_acc": 0.5018820577164362,
+        "expert_ba": 1.9579675202005595
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Santos",
+          "acc": -0.1882057716436636,
+          "ba": -0.05049635117867268,
+          "expert_acc": 0.5018820577164362,
+          "expert_ba": 1.9579675202005595
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "reference",
+      "means_pp": {
+        "acc": 0.17565872020075202,
+        "ba": 0.3343269037154639,
+        "expert_acc": 0.890840652446674,
+        "expert_ba": 1.6590792733279058
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Santos",
+          "acc": 0.17565872020075202,
+          "ba": 0.3343269037154639,
+          "expert_acc": 0.890840652446674,
+          "expert_ba": 1.6590792733279058
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "aligned_only",
+      "means_pp": {
+        "acc": 0.3638644918444156,
+        "ba": 0.3848232548941366,
+        "expert_acc": 0.38895859473023764,
+        "expert_ba": -0.2988882468726539
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Santos",
+          "acc": 0.3638644918444156,
+          "ba": 0.3848232548941366,
+          "expert_acc": 0.38895859473023764,
+          "expert_ba": -0.2988882468726539
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "complement_only",
+      "means_pp": {
+        "acc": -0.08782936010037656,
+        "ba": 0.32404320182844004,
+        "expert_acc": 0.12547051442910906,
+        "expert_ba": 1.1936571496577153
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Santos",
+          "acc": -0.08782936010037656,
+          "ba": 0.32404320182844004,
+          "expert_acc": 0.12547051442910906,
+          "expert_ba": 1.1936571496577153
+        }
+      ]
+    }
+  ],
+  "units": "OA/BA fractions; contrasts percentage points",
+  "reference": "New initial-tail float16-prefix replay; see separate old-reference comparisons",
+  "statistical_unit": "Equal outer-port means over five shared64 support draws; one fixed training seed",
+  "independent_confirmation": false,
+  "fixed_old_base64": true,
+  "target_encoder_labels": 0,
+  "parameters": "Fixed six epochs and last checkpoint; no target tuning or port selection",
+  "new_reference_minus_old_reference_pp": {
+    "acc": 0.0,
+    "ba": 0.0,
+    "expert_acc": 0.0,
+    "expert_ba": 0.0
+  }
+}

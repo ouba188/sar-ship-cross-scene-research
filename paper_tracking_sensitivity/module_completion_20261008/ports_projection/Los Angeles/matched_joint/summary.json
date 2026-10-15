@@ -1,0 +1,224 @@
+{
+  "n_ports": 1,
+  "contexts": 5,
+  "means": [
+    {
+      "arm": "aligned_only",
+      "acc": 0.45433526011560693,
+      "ba": 0.39614207225655224,
+      "expert_acc": 0.48901734104046246,
+      "expert_ba": 0.4404351619342052,
+      "base_acc": 0.4285163776493256,
+      "base_ba": 0.37453544005685274,
+      "selected": 25.0,
+      "rescued": 16.8,
+      "harmed": 3.4
+    },
+    {
+      "arm": "complement_only",
+      "acc": 0.44547206165703274,
+      "ba": 0.38678880970004076,
+      "expert_acc": 0.464354527938343,
+      "expert_ba": 0.41670154368119616,
+      "base_acc": 0.4285163776493256,
+      "base_ba": 0.37453544005685274,
+      "selected": 25.0,
+      "rescued": 13.4,
+      "harmed": 4.6
+    },
+    {
+      "arm": "joint",
+      "acc": 0.45202312138728323,
+      "ba": 0.3994532837434041,
+      "expert_acc": 0.4901734104046243,
+      "expert_ba": 0.44068259304499013,
+      "base_acc": 0.4285163776493256,
+      "base_ba": 0.37453544005685274,
+      "selected": 25.0,
+      "rescued": 15.8,
+      "harmed": 3.6
+    },
+    {
+      "arm": "reference",
+      "acc": 0.44277456647398844,
+      "ba": 0.38643150578019464,
+      "expert_acc": 0.4620423892100193,
+      "expert_ba": 0.4131587394727704,
+      "base_acc": 0.4285163776493256,
+      "base_ba": 0.37453544005685274,
+      "selected": 25.0,
+      "rescued": 12.4,
+      "harmed": 5.0
+    }
+  ],
+  "contrasts": [
+    {
+      "candidate": "complement_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": 0.26974951830443405,
+        "ba": 0.03573039198461525,
+        "expert_acc": 0.23121387283236983,
+        "expert_ba": 0.3542804208425898
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Los Angeles",
+          "acc": 0.26974951830443405,
+          "ba": 0.03573039198461525,
+          "expert_acc": 0.23121387283236983,
+          "expert_ba": 0.3542804208425898
+        }
+      ]
+    },
+    {
+      "candidate": "aligned_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": 1.1560693641618502,
+        "ba": 0.9710566476357618,
+        "expert_acc": 2.697495183044317,
+        "expert_ba": 2.727642246143487
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Los Angeles",
+          "acc": 1.1560693641618502,
+          "ba": 0.9710566476357618,
+          "expert_acc": 2.697495183044317,
+          "expert_ba": 2.727642246143487
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "reference",
+      "means_pp": {
+        "acc": 0.9248554913294804,
+        "ba": 1.3021777963209502,
+        "expert_acc": 2.8131021194605013,
+        "expert_ba": 2.752385357221981
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Los Angeles",
+          "acc": 0.9248554913294804,
+          "ba": 1.3021777963209502,
+          "expert_acc": 2.8131021194605013,
+          "expert_ba": 2.752385357221981
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "aligned_only",
+      "means_pp": {
+        "acc": -0.23121387283236983,
+        "ba": 0.3311211486851884,
+        "expert_acc": 0.1156069364161838,
+        "expert_ba": 0.024743111078494584
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Los Angeles",
+          "acc": -0.23121387283236983,
+          "ba": 0.3311211486851884,
+          "expert_acc": 0.1156069364161838,
+          "expert_ba": 0.024743111078494584
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "complement_only",
+      "means_pp": {
+        "acc": 0.6551059730250464,
+        "ba": 1.266447404336335,
+        "expert_acc": 2.5818882466281314,
+        "expert_ba": 2.3981049363793914
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Los Angeles",
+          "acc": 0.6551059730250464,
+          "ba": 1.266447404336335,
+          "expert_acc": 2.5818882466281314,
+          "expert_ba": 2.3981049363793914
+        }
+      ]
+    }
+  ],
+  "units": "OA/BA fractions; contrasts percentage points",
+  "reference": "New initial-tail float16-prefix replay; see separate old-reference comparisons",
+  "statistical_unit": "Equal outer-port means over five shared64 support draws; one fixed training seed",
+  "independent_confirmation": false,
+  "fixed_old_base64": true,
+  "target_encoder_labels": 0,
+  "parameters": "Fixed six epochs and last checkpoint; no target tuning or port selection",
+  "new_reference_minus_old_reference_pp": {
+    "acc": 0.0,
+    "ba": 0.0,
+    "expert_acc": 0.0,
+    "expert_ba": 0.0
+  }
+}

@@ -1,0 +1,437 @@
+{
+  "n_ports": 23,
+  "contexts": 115,
+  "policy_metric_rows": 1380,
+  "means": [
+    {
+      "budget": 0.05,
+      "arm": "matched_binary",
+      "ba": 0.45709694200380596,
+      "acc": 0.4653066639021785,
+      "recover_ba": 0.031807493666598706,
+      "harm_ba": 0.007400506298908688,
+      "admission_fraction": 0.04932515516431631,
+      "change_fraction": 0.04932515516431631
+    },
+    {
+      "budget": 0.05,
+      "arm": "gain_3way",
+      "ba": 0.4563395162402306,
+      "acc": 0.46427853123092566,
+      "recover_ba": 0.03220392409401687,
+      "harm_ba": 0.008554362489902058,
+      "admission_fraction": 0.04932515516431631,
+      "change_fraction": 0.04932515516431631
+    },
+    {
+      "budget": 0.05,
+      "arm": "frozen_bias",
+      "ba": 0.45802449970023174,
+      "acc": 0.4652587083733546,
+      "recover_ba": 0.03272799013683638,
+      "harm_ba": 0.007393445072720581,
+      "admission_fraction": 0.04932515516431631,
+      "change_fraction": 0.04932515516431631
+    },
+    {
+      "budget": 0.05,
+      "arm": "frozen_visual",
+      "ba": 0.4584639045729368,
+      "acc": 0.469269032758193,
+      "recover_ba": 0.033461321938687574,
+      "harm_ba": 0.0076873720018667225,
+      "admission_fraction": 0.04932515516431631,
+      "change_fraction": 0.04932515516431631
+    },
+    {
+      "budget": 0.1,
+      "arm": "matched_binary",
+      "ba": 0.47231142204678433,
+      "acc": 0.4811423460644622,
+      "recover_ba": 0.05596517311182968,
+      "harm_ba": 0.01634370570116122,
+      "admission_fraction": 0.09924631037626072,
+      "change_fraction": 0.09924631037626072
+    },
+    {
+      "budget": 0.1,
+      "arm": "gain_3way",
+      "ba": 0.473360389061372,
+      "acc": 0.4810806036957366,
+      "recover_ba": 0.057300470124452364,
+      "harm_ba": 0.01663003569919626,
+      "admission_fraction": 0.09924631037626072,
+      "change_fraction": 0.09924631037626072
+    },
+    {
+      "budget": 0.1,
+      "arm": "frozen_bias",
+      "ba": 0.473957804101752,
+      "acc": 0.4820688366192501,
+      "recover_ba": 0.05684745977203771,
+      "harm_ba": 0.01557961030640163,
+      "admission_fraction": 0.09924631037626072,
+      "change_fraction": 0.09924631037626072
+    },
+    {
+      "budget": 0.1,
+      "arm": "frozen_visual",
+      "ba": 0.47491992520311654,
+      "acc": 0.49136717651775524,
+      "recover_ba": 0.058506316779727716,
+      "harm_ba": 0.01627634621272695,
+      "admission_fraction": 0.09924631037626072,
+      "change_fraction": 0.09924631037626072
+    },
+    {
+      "budget": 0.2,
+      "arm": "matched_binary",
+      "ba": 0.49573626028608886,
+      "acc": 0.5081556581727021,
+      "recover_ba": 0.09478575423092865,
+      "harm_ba": 0.03173944858095573,
+      "admission_fraction": 0.19358647851984576,
+      "change_fraction": 0.19358647851984576
+    },
+    {
+      "budget": 0.2,
+      "arm": "gain_3way",
+      "ba": 0.49736642062888214,
+      "acc": 0.508294057643913,
+      "recover_ba": 0.09657348949464177,
+      "harm_ba": 0.03189702350187553,
+      "admission_fraction": 0.19355745227400875,
+      "change_fraction": 0.19355745227400875
+    },
+    {
+      "budget": 0.2,
+      "arm": "frozen_bias",
+      "ba": 0.4935228227333346,
+      "acc": 0.5095390794344815,
+      "recover_ba": 0.09545829449377732,
+      "harm_ba": 0.034625426396558634,
+      "admission_fraction": 0.19329588773011114,
+      "change_fraction": 0.19329588773011114
+    },
+    {
+      "budget": 0.2,
+      "arm": "frozen_visual",
+      "ba": 0.4954497802943758,
+      "acc": 0.5275176843582234,
+      "recover_ba": 0.09753757720076857,
+      "harm_ba": 0.034777751542508686,
+      "admission_fraction": 0.1937596956283389,
+      "change_fraction": 0.1937596956283389
+    }
+  ],
+  "comparisons": [
+    {
+      "budget": 0.05,
+      "candidate": "gain_3way",
+      "control": "frozen_visual",
+      "mean_delta_ba_pp": -0.21243883327060278,
+      "mean_delta_acc_pp": -0.4990501527267378,
+      "positive_ports": 8,
+      "negative_ports": 15,
+      "port_bootstrap_95ci_pp": [
+        -0.6608701045398514,
+        0.19029475796815276
+      ],
+      "draw_deltas_pp": [
+        0.07715299342123985,
+        -0.5486602682562097,
+        -0.007524931032933174,
+        -0.24253952006600216,
+        -0.3406224404191089
+      ]
+    },
+    {
+      "budget": 0.05,
+      "candidate": "gain_3way",
+      "control": "matched_binary",
+      "mean_delta_ba_pp": -0.07574257635752026,
+      "mean_delta_acc_pp": -0.1028132671252905,
+      "positive_ports": 9,
+      "negative_ports": 13,
+      "port_bootstrap_95ci_pp": [
+        -0.17980680891086356,
+        0.020111608657888042
+      ],
+      "draw_deltas_pp": [
+        -0.06335100063362277,
+        -0.1574735036311999,
+        -0.13372262194546206,
+        0.057619677344203486,
+        -0.08178543292152017
+      ]
+    },
+    {
+      "budget": 0.05,
+      "candidate": "gain_3way",
+      "control": "frozen_bias",
+      "mean_delta_ba_pp": -0.1684983460000986,
+      "mean_delta_acc_pp": -0.0980177142428947,
+      "positive_ports": 9,
+      "negative_ports": 13,
+      "port_bootstrap_95ci_pp": [
+        -0.3864381707050084,
+        0.02620895344136156
+      ],
+      "draw_deltas_pp": [
+        -0.10845545390329737,
+        -0.16634373766137733,
+        -0.4569494161170621,
+        -0.13941976889355961,
+        0.028676646574803427
+      ]
+    },
+    {
+      "budget": 0.05,
+      "candidate": "matched_binary",
+      "control": "frozen_visual",
+      "mean_delta_ba_pp": -0.1366962569130825,
+      "mean_delta_acc_pp": -0.39623688560144726,
+      "positive_ports": 12,
+      "negative_ports": 11,
+      "port_bootstrap_95ci_pp": [
+        -0.6169434018644663,
+        0.29672497089000927
+      ],
+      "draw_deltas_pp": [
+        0.1405039940548626,
+        -0.3911867646250098,
+        0.12619769091252886,
+        -0.30015919741020564,
+        -0.2588370074975887
+      ]
+    },
+    {
+      "budget": 0.05,
+      "candidate": "matched_binary",
+      "control": "frozen_bias",
+      "mean_delta_ba_pp": -0.09275576964257834,
+      "mean_delta_acc_pp": 0.004795552882395806,
+      "positive_ports": 12,
+      "negative_ports": 10,
+      "port_bootstrap_95ci_pp": [
+        -0.3214602259884638,
+        0.11750160493071635
+      ],
+      "draw_deltas_pp": [
+        -0.04510445326967461,
+        -0.008870234030177436,
+        -0.3232267941716,
+        -0.1970394462377631,
+        0.1104620794963236
+      ]
+    },
+    {
+      "budget": 0.1,
+      "candidate": "gain_3way",
+      "control": "frozen_visual",
+      "mean_delta_ba_pp": -0.15595361417446596,
+      "mean_delta_acc_pp": -1.0286572822018765,
+      "positive_ports": 8,
+      "negative_ports": 15,
+      "port_bootstrap_95ci_pp": [
+        -0.7508225773470785,
+        0.5145624536340001
+      ],
+      "draw_deltas_pp": [
+        0.1981922871068222,
+        -1.0047890419352445,
+        -0.02306563183552244,
+        0.7499751205762345,
+        -0.7000808047846194
+      ]
+    },
+    {
+      "budget": 0.1,
+      "candidate": "gain_3way",
+      "control": "matched_binary",
+      "mean_delta_ba_pp": 0.10489670145876547,
+      "mean_delta_acc_pp": -0.006174236872570445,
+      "positive_ports": 11,
+      "negative_ports": 12,
+      "port_bootstrap_95ci_pp": [
+        -0.1340658797247514,
+        0.38666682794304724
+      ],
+      "draw_deltas_pp": [
+        -0.051200400748350965,
+        0.05691443177848126,
+        0.13665171536327775,
+        0.49255342548462117,
+        -0.11043566458420195
+      ]
+    },
+    {
+      "budget": 0.1,
+      "candidate": "gain_3way",
+      "control": "frozen_bias",
+      "mean_delta_ba_pp": -0.05974150403799698,
+      "mean_delta_acc_pp": -0.09882329235135386,
+      "positive_ports": 8,
+      "negative_ports": 15,
+      "port_bootstrap_95ci_pp": [
+        -0.3395367739023957,
+        0.22707191812345864
+      ],
+      "draw_deltas_pp": [
+        -0.3511779873697757,
+        0.005132979964450492,
+        -0.19217601014996705,
+        0.3933500427669925,
+        -0.15383654540168512
+      ]
+    },
+    {
+      "budget": 0.1,
+      "candidate": "matched_binary",
+      "control": "frozen_visual",
+      "mean_delta_ba_pp": -0.2608503156332314,
+      "mean_delta_acc_pp": -1.022483045329306,
+      "positive_ports": 10,
+      "negative_ports": 13,
+      "port_bootstrap_95ci_pp": [
+        -0.9077963328877263,
+        0.3087110734250393
+      ],
+      "draw_deltas_pp": [
+        0.24939268785517313,
+        -1.0617034737137259,
+        -0.15971734719880018,
+        0.25742169509161333,
+        -0.5896451402004175
+      ]
+    },
+    {
+      "budget": 0.1,
+      "candidate": "matched_binary",
+      "control": "frozen_bias",
+      "mean_delta_ba_pp": -0.1646382054967624,
+      "mean_delta_acc_pp": -0.09264905547878341,
+      "positive_ports": 14,
+      "negative_ports": 9,
+      "port_bootstrap_95ci_pp": [
+        -0.5406925783041432,
+        0.08417396093904103
+      ],
+      "draw_deltas_pp": [
+        -0.29997758662142465,
+        -0.051781451814030766,
+        -0.3288277255132448,
+        -0.0992033827176286,
+        -0.04340088081748316
+      ]
+    },
+    {
+      "budget": 0.2,
+      "candidate": "gain_3way",
+      "control": "frozen_visual",
+      "mean_delta_ba_pp": 0.1916640334506346,
+      "mean_delta_acc_pp": -1.9223626714310444,
+      "positive_ports": 9,
+      "negative_ports": 14,
+      "port_bootstrap_95ci_pp": [
+        -0.5191828505110869,
+        1.105234563927078
+      ],
+      "draw_deltas_pp": [
+        -0.4079237393156571,
+        0.4833615287265811,
+        0.1760182779807464,
+        0.32568197343077937,
+        0.38118212643072324
+      ]
+    },
+    {
+      "budget": 0.2,
+      "candidate": "gain_3way",
+      "control": "matched_binary",
+      "mean_delta_ba_pp": 0.16301603427933206,
+      "mean_delta_acc_pp": 0.013839947121095883,
+      "positive_ports": 11,
+      "negative_ports": 11,
+      "port_bootstrap_95ci_pp": [
+        -0.13173189360961574,
+        0.5969003923168421
+      ],
+      "draw_deltas_pp": [
+        -0.10350084623762137,
+        0.13727387940394323,
+        -0.13277702604316835,
+        0.15643256587497315,
+        0.7576515983985337
+      ]
+    },
+    {
+      "budget": 0.2,
+      "candidate": "gain_3way",
+      "control": "frozen_bias",
+      "mean_delta_ba_pp": 0.38435978955475414,
+      "mean_delta_acc_pp": -0.12450217905684911,
+      "positive_ports": 13,
+      "negative_ports": 10,
+      "port_bootstrap_95ci_pp": [
+        -0.07087905633317548,
+        0.945004633397535
+      ],
+      "draw_deltas_pp": [
+        0.34893147742344227,
+        0.08754226428616468,
+        -0.09508499536354374,
+        0.3949584645614861,
+        1.1854517368662214
+      ]
+    },
+    {
+      "budget": 0.2,
+      "candidate": "matched_binary",
+      "control": "frozen_visual",
+      "mean_delta_ba_pp": 0.028647999171302483,
+      "mean_delta_acc_pp": -1.9362026185521402,
+      "positive_ports": 8,
+      "negative_ports": 15,
+      "port_bootstrap_95ci_pp": [
+        -0.4713323136112358,
+        0.5798889286807104
+      ],
+      "draw_deltas_pp": [
+        -0.3044228930780358,
+        0.3460876493226379,
+        0.3087953040239147,
+        0.1692494075558062,
+        -0.37646947196781044
+      ]
+    },
+    {
+      "budget": 0.2,
+      "candidate": "matched_binary",
+      "control": "frozen_bias",
+      "mean_delta_ba_pp": 0.22134375527542205,
+      "mean_delta_acc_pp": -0.138342126177945,
+      "positive_ports": 13,
+      "negative_ports": 10,
+      "port_bootstrap_95ci_pp": [
+        -0.13278733104436277,
+        0.6733477849037455
+      ],
+      "draw_deltas_pp": [
+        0.45243232366106356,
+        -0.04973161511777853,
+        0.03769203067962458,
+        0.23852589868651294,
+        0.4278001384676877
+      ]
+    }
+  ],
+  "source_episodes": 2530,
+  "new_gate_fits": 46,
+  "passes_development_screen": false,
+  "independent_confirmation": false,
+  "novelty_established": false,
+  "primary": "5% gain_3way minus frozen_visual AND minus matched_binary",
+  "cost": "admission cap; expert scores accessed before selection, no measured compute savings",
+  "statistical_unit": "port mean over five overlapping support draws"
+}

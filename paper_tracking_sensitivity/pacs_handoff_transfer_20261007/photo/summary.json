@@ -1,0 +1,56 @@
+{
+  "dataset": "pacs",
+  "target_domain": "photo",
+  "n_classes": 7,
+  "target_rows": 1670,
+  "means": [
+    {
+      "arm": "original_base",
+      "acc": 0.9661270236612701,
+      "ba": 0.9580621101688835,
+      "admitted_rows": 0.0
+    },
+    {
+      "arm": "base_visual64",
+      "acc": 0.9772104607721046,
+      "ba": 0.9719907934555732,
+      "admitted_rows": 0.0
+    },
+    {
+      "arm": "visual_handoff5",
+      "acc": 0.9510585305105854,
+      "ba": 0.9398547988590856,
+      "admitted_rows": 80.0
+    }
+  ],
+  "handoff_draw_deltas_pp": {
+    "acc": [
+      -3.175591531755917,
+      -2.8019925280199254,
+      -2.428393524283934,
+      -2.8019925280199254,
+      -1.8679950186799466
+    ],
+    "ba": [
+      -3.840621978312453,
+      -3.450150516159911,
+      -2.9883176549184043,
+      -3.4732674621849813,
+      -2.315639686667992
+    ]
+  },
+  "handoff_mean_deltas_pp": {
+    "acc": -2.6151930261519296,
+    "ba": -3.2135994596487487
+  },
+  "ba_positive_draws": 0,
+  "observed_support_classes": [
+    7,
+    7,
+    7,
+    7,
+    7
+  ],
+  "inner_encoder_oof": false,
+  "independent_confirmation": false
+}

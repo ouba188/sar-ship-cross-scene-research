@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-07",
+  "arms": [
+    "matched_binary",
+    "gain_3way",
+    "frozen_bias",
+    "frozen_visual"
+  ],
+  "contrasts": [
+    [
+      "gain_3way",
+      "frozen_visual"
+    ],
+    [
+      "gain_3way",
+      "matched_binary"
+    ],
+    [
+      "gain_3way",
+      "frozen_bias"
+    ],
+    [
+      "matched_binary",
+      "frozen_visual"
+    ],
+    [
+      "matched_binary",
+      "frozen_bias"
+    ]
+  ],
+  "labels": 64,
+  "budgets": [
+    0.05,
+    0.1,
+    0.2
+  ],
+  "adaptation_strength": 8.0,
+  "logistic_C": 1.0,
+  "source_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "frozen": "E:\\Hermes\\paper_tracking\\sensitivity\\oof_receiver_consistent_results_20261007",
+  "manifest": "E:\\临时会话\\visual_reliable_baseline\\artifacts\\eight_class_adaptive_20260916\\manifest.csv",
+  "protocol": "E:\\Hermes\\paper_tracking\\sensitivity\\oof_reliability_check\\EPISODIC_GAIN_PROTOCOL_20261007.md"
+}

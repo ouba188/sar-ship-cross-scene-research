@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-07",
+  "parent": "E:\\Hermes\\paper_tracking\\sensitivity\\oof_residual_expert_results_20261007_v2",
+  "gate": "E:\\Hermes\\paper_tracking\\sensitivity\\oof_context_results_20261007",
+  "selectors": [
+    "old_lr_cap",
+    "base_uncertainty"
+  ],
+  "experts": [
+    "fusion",
+    "fusion_observed64",
+    "anchor_bias64",
+    "anchor_visual64"
+  ],
+  "budgets": [
+    0.05,
+    0.1,
+    0.2
+  ],
+  "labels": 64,
+  "cap": "floor(budget*number_of_non_support_query_rows)",
+  "protocol": "E:\\Hermes\\paper_tracking\\sensitivity\\oof_reliability_check\\BUDGETED_RESIDUAL_PROTOCOL_20261007.md"
+}

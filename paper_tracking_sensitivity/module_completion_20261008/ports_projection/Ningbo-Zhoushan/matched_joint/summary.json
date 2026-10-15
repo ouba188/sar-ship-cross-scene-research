@@ -1,0 +1,224 @@
+{
+  "n_ports": 1,
+  "contexts": 5,
+  "means": [
+    {
+      "arm": "aligned_only",
+      "acc": 0.8835207308503161,
+      "ba": 0.7577772946803049,
+      "expert_acc": 0.8526001405481377,
+      "expert_ba": 0.7362608439314163,
+      "base_acc": 0.8699226985242445,
+      "base_ba": 0.6992819867497365,
+      "selected": 284.0,
+      "rescued": 164.0,
+      "harmed": 86.6
+    },
+    {
+      "arm": "complement_only",
+      "acc": 0.8834855938158819,
+      "ba": 0.7439294235486791,
+      "expert_acc": 0.8647224174279691,
+      "expert_ba": 0.7294707548427097,
+      "base_acc": 0.8699226985242445,
+      "base_ba": 0.6992819867497365,
+      "selected": 284.0,
+      "rescued": 168.0,
+      "harmed": 90.8
+    },
+    {
+      "arm": "joint",
+      "acc": 0.8858046380885453,
+      "ba": 0.7567870300107766,
+      "expert_acc": 0.8605059732958539,
+      "expert_ba": 0.7458569236386373,
+      "base_acc": 0.8699226985242445,
+      "base_ba": 0.6992819867497365,
+      "selected": 284.0,
+      "rescued": 171.0,
+      "harmed": 80.6
+    },
+    {
+      "arm": "reference",
+      "acc": 0.8861911454673226,
+      "ba": 0.7470980032569456,
+      "expert_acc": 0.8703092059030217,
+      "expert_ba": 0.7370525314117412,
+      "base_acc": 0.8699226985242445,
+      "base_ba": 0.6992819867497365,
+      "selected": 284.0,
+      "rescued": 175.2,
+      "harmed": 82.6
+    }
+  ],
+  "contrasts": [
+    {
+      "candidate": "complement_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.27055516514405964,
+        "ba": -0.3168579708266517,
+        "expert_acc": -0.5586788475052673,
+        "expert_ba": -0.7581776569031473
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Ningbo-Zhoushan",
+          "acc": -0.27055516514405964,
+          "ba": -0.3168579708266517,
+          "expert_acc": -0.5586788475052673,
+          "expert_ba": -0.7581776569031473
+        }
+      ]
+    },
+    {
+      "candidate": "aligned_only",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.2670414617006345,
+        "ba": 1.0679291423359238,
+        "expert_acc": -1.770906535488401,
+        "expert_ba": -0.07916874803248097
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Ningbo-Zhoushan",
+          "acc": -0.2670414617006345,
+          "ba": 1.0679291423359238,
+          "expert_acc": -1.770906535488401,
+          "expert_ba": -0.07916874803248097
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "reference",
+      "means_pp": {
+        "acc": -0.03865073787772566,
+        "ba": 0.9689026753831008,
+        "expert_acc": -0.9803232607167933,
+        "expert_ba": 0.880439222689613
+      },
+      "positive_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Ningbo-Zhoushan",
+          "acc": -0.03865073787772566,
+          "ba": 0.9689026753831008,
+          "expert_acc": -0.9803232607167933,
+          "expert_ba": 0.880439222689613
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "aligned_only",
+      "means_pp": {
+        "acc": 0.22839072382290881,
+        "ba": -0.09902646695282291,
+        "expert_acc": 0.790583274771608,
+        "expert_ba": 0.9596079707220939
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Ningbo-Zhoushan",
+          "acc": 0.22839072382290881,
+          "ba": -0.09902646695282291,
+          "expert_acc": 0.790583274771608,
+          "expert_ba": 0.9596079707220939
+        }
+      ]
+    },
+    {
+      "candidate": "joint",
+      "control": "complement_only",
+      "means_pp": {
+        "acc": 0.23190442726633398,
+        "ba": 1.2857606462097526,
+        "expert_acc": -0.421644413211526,
+        "expert_ba": 1.6386168795927603
+      },
+      "positive_ports": {
+        "acc": 1,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 1
+      },
+      "negative_ports": {
+        "acc": 0,
+        "ba": 0,
+        "expert_acc": 1,
+        "expert_ba": 0
+      },
+      "port_deltas_pp": [
+        {
+          "port": "Ningbo-Zhoushan",
+          "acc": 0.23190442726633398,
+          "ba": 1.2857606462097526,
+          "expert_acc": -0.421644413211526,
+          "expert_ba": 1.6386168795927603
+        }
+      ]
+    }
+  ],
+  "units": "OA/BA fractions; contrasts percentage points",
+  "reference": "New initial-tail float16-prefix replay; see separate old-reference comparisons",
+  "statistical_unit": "Equal outer-port means over five shared64 support draws; one fixed training seed",
+  "independent_confirmation": false,
+  "fixed_old_base64": true,
+  "target_encoder_labels": 0,
+  "parameters": "Fixed six epochs and last checkpoint; no target tuning or port selection",
+  "new_reference_minus_old_reference_pp": {
+    "acc": 0.0,
+    "ba": 0.0,
+    "expert_acc": 0.0035137034434251646,
+    "expert_ba": 0.0014887598630330956
+  }
+}

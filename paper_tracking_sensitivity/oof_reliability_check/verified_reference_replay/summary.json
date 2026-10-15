@@ -1,0 +1,48 @@
+{
+  "n_ports": 23,
+  "seeds_per_port": 5,
+  "means_ba": {
+    "base": 0.432689954636116,
+    "fusion": 0.4709381677647732,
+    "simple": 0.4790338587036565,
+    "s2": 0.4790637008060875,
+    "oracle": 0.5244144230938186
+  },
+  "comparisons": {
+    "s2 minus simple": {
+      "mean_delta_ba": 2.9842102431077844e-05,
+      "positive_ports": 6,
+      "negative_ports": 17,
+      "port_bootstrap_95ci": [
+        -0.0007315452895550502,
+        0.000869953360454986
+      ],
+      "wilcoxon_p": 0.21117830276489258
+    },
+    "simple minus fusion": {
+      "mean_delta_ba": 0.008095690938883283,
+      "positive_ports": 14,
+      "negative_ports": 9,
+      "port_bootstrap_95ci": [
+        0.0003745785172121334,
+        0.016221517312039337
+      ],
+      "wilcoxon_p": 0.11864614486694336
+    }
+  },
+  "statistical_unit": "port mean over five overlapping support seeds",
+  "reference_only": true,
+  "skipped_ports": [
+    "Melbourne"
+  ],
+  "protocol": {
+    "source_ridge_lambda": 0.01,
+    "source_lr_C": 1.0,
+    "target_prior_strength": 8.0,
+    "query_tuning": false,
+    "features": "expert/base margins and entropies (4D)",
+    "support_budget": 64,
+    "all_learned_gates_use_same_observed_expert_guard": true,
+    "status": "development diagnostic; previously inspected ports are not fresh blind confirmation"
+  }
+}
