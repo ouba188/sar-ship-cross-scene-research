@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-14",
+  "status": "Frozen before metric-training outcomes",
+  "question": "Does learning class-reference geometry through deployed support residual solve improve held-port decisions?",
+  "anchors": [
+    "class_mean",
+    "cluster_0"
+  ],
+  "cluster_control": "Preselected first of3 existing seed banks, no target choice",
+  "objectives": [
+    "supervised multi-positive cosine contrastive at T=.1",
+    "macro NLL after weighted residual ridge and .5 full fusion"
+  ],
+  "seeds": [
+    20261014,
+    20261015,
+    20261016
+  ],
+  "steps": 240,
+  "optimizer": "Adam lr.01, identity start, .01 mean-square metric-to-identity penalty",
+  "sampler": "One random training task from each of two training ports per step, equal port weights",
+  "metric": "M=L L^T; source covariance trace matched to identity at every step",
+  "frozen": "visual2752, source prior, reference banks, rho.25, ridge8, probability fusion.5",
+  "training": "Leave one of3source-held ports out. Remove all its known MMSIs/acquisitions from metric training. Original query cohort filtered; 3new64-unique-ship support draws per scene from other acquisitions, excluding all training query ships.",
+  "support_sampling": "matched_scene_counts",
+  "matched_sampling": "When enabled, reuse each TRAINING scene original class quota; no held-port counts or outcomes used. One posthoc sampler control, not independent confirmation.",
+  "evaluation": "Original48 scenes and5support draws; both same/other acquisition. Final240-step model only, no held selection.",
+  "primary": "Other-acquisition, equal scenes within port then equal3ports; report training-seed and support-draw variability separately",
+  "scope": "Source-corpus pilot only; no F0921/OSS2, no new backbone/source-head fits, historical exposure retained",
+  "main_model_changed": false
+}

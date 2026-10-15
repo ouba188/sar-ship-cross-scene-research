@@ -1,0 +1,95 @@
+{
+  "models": [
+    {
+      "context": "pooled",
+      "name": "score_only",
+      "width": 8,
+      "events": 219,
+      "iterations": 19
+    },
+    {
+      "context": "pooled",
+      "name": "contextual",
+      "width": 16,
+      "events": 219,
+      "iterations": 24
+    },
+    {
+      "context": "Los Angeles",
+      "name": "score_only",
+      "width": 8,
+      "events": 77,
+      "iterations": 17
+    },
+    {
+      "context": "Los Angeles",
+      "name": "contextual",
+      "width": 16,
+      "events": 77,
+      "iterations": 16
+    },
+    {
+      "context": "Port Klang",
+      "name": "score_only",
+      "width": 8,
+      "events": 70,
+      "iterations": 14
+    },
+    {
+      "context": "Port Klang",
+      "name": "contextual",
+      "width": 16,
+      "events": 70,
+      "iterations": 18
+    },
+    {
+      "context": "Santos",
+      "name": "score_only",
+      "width": 8,
+      "events": 72,
+      "iterations": 13
+    },
+    {
+      "context": "Santos",
+      "name": "contextual",
+      "width": 16,
+      "events": 72,
+      "iterations": 16
+    }
+  ],
+  "C": 0.1,
+  "threshold": 0.5,
+  "features": [
+    "raw_max",
+    "initial_max",
+    "raw_margin",
+    "initial_margin",
+    "probability_l1",
+    "js_divergence",
+    "base_agrees_raw",
+    "base_agrees_initial",
+    "support_gain_raw_role",
+    "support_gain_initial_role",
+    "support_sd_raw_role",
+    "support_sd_initial_role",
+    "support_fraction_raw_role",
+    "support_fraction_initial_role",
+    "support_class_coverage",
+    "support_macro_gain"
+  ],
+  "constant_initial": {
+    "pooled": true,
+    "Los Angeles": true,
+    "Port Klang": true,
+    "Santos": true
+  },
+  "source_units": 27,
+  "source_exposures": 2178,
+  "informative_events": 219,
+  "unique_event_obs": 91,
+  "unique_event_ships": 60,
+  "source_mean_ba_gain": 1.835625954952048,
+  "source_held_labels_used": false,
+  "target_labels_used": false,
+  "seconds": 0.6266010000836104
+}

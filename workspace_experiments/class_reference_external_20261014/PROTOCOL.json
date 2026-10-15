@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-14",
+  "status": "Frozen before new source/target outcomes",
+  "arms": [
+    "original",
+    "class_mean",
+    "shrink_control"
+  ],
+  "kernel": "original or .75 original + .25 relative-class-reference; shrink_control=.75 original",
+  "memory": "8 source class centers, one seeded observation per source ship; median source distance bandwidth; response L2, source centering and energy match",
+  "parameters": {
+    "rho": 0.25,
+    "support_ridge": 8.0,
+    "source_ridge": 1.0,
+    "temperature": 1.0,
+    "seed": 20261013
+  },
+  "source_validation_ports": [
+    "Singapore",
+    "Jebel Ali",
+    "Port Klang"
+  ],
+  "selection": "Top3 eight-class source ports by known consistent ship capacity, metadata only",
+  "validation_fit_n": 16384,
+  "deployment_source_n": 28854,
+  "source_validation": "One shared fit excluding full held ports, their known identities and acquisitions; 30percent per-class ships query; nested random16/64 supports,5 draws",
+  "weight_grid": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "weight_meaning": "expert probability weight; base weight=1-weight",
+  "choose": "Separate per arm and B; mean draw then equal source ports BA; exact ties closest to.5 then smaller weight",
+  "deployment": "Refit source class memory to existing common external geometry; shared chosen weights across both targets, no external outcome selection",
+  "primary": "Existing global one-query-per-vessel cohorts, identical historical queries/supports",
+  "secondary": "Existing5acq per external dataset, same/other matched class supports; OSS2 also product-type matched",
+  "report": "Expert alone, equal fusion, each arm own source-chosen fusion; full grid descriptive only, no target oracle selection",
+  "diagnostic": "Fixed shrink-only control distinguishes reference geometry from original-kernel weakening; no extra parameter tuning",
+  "scope": "Compact readout, NOT legacy full-model integration; historical encoder and development exposure persists",
+  "neural_training": 0,
+  "main_model_changed": false,
+  "memory_identity": "Known consistent-label source ships only; exclude unknown identities rather than treat them as one ship",
+  "selection_vs_deployment": "Held source ports excluded during weight-selection fitting; deployment reuses full allowed source including validation ports. This is source-selected hyperparameter transfer, not a permanently held-source model. No external labels used for selection."
+}
