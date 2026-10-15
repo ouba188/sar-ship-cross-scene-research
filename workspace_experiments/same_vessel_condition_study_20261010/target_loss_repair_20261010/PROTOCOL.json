@@ -1,0 +1,15 @@
+{
+  "comparison": "ordinary baseline vs mask only vs added source supervision vs both",
+  "labels": "Same939 source labels and exact previous9x64 target supports; no additional labels",
+  "split": "Load previous support/query indices; source excludes all3 target ports and identities; query excludes support identities",
+  "architecture": "Frozen R18;1024 affine parameters before final residual block; source geometry and source classifier frozen",
+  "target_loss": "Balanced support analytic leave-one-out MSE; missing columns masked only in enabled arms, divisor remains8",
+  "residual_head": "Same balanced ridge8 and zero residual columns for support-absent classes in all arms",
+  "source_loss": "Original0.25 score-preservation always retained; enabled arms add0.25 eight-class supervised MSE on same balanced32 replay samples",
+  "optimization": "Adam lr0.01,24 steps, same replay draws, same0.1 identity regularizer and parameter bounds",
+  "guidance": "Ordinary adaptation only; previous scene guidance had negligible extra gain; no target-selected new channel rules",
+  "selection": "Coefficients and all4 cells fixed before new query results; no grid or port-specific choice",
+  "reuse": "Previous baseline reused; mask inactive with all8 support classes, so exact objective-equivalent cells reused and labeled",
+  "limitations": "Development pilot, not complete dual; supports/queries can share scenes;3 support draws not3 independent cohorts; inherited pretraining exposure",
+  "resources": "CPU1; no parent modifications"
+}

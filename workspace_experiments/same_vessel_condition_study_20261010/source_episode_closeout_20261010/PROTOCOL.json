@@ -1,0 +1,22 @@
+{
+  "purpose": "Final bounded attempt on channel-affine adaptation: source query-supervised few-shot initialization",
+  "source_labels": 939,
+  "target_supports": "Exact previous9x64 support/query splits; no extra target labels",
+  "source_episodes": "Ports with >=80 distinct source vessels and8-class remaining reference;64 support vessels, remaining vessels query;3 draws each",
+  "reference": "Per-episode standardization and source head fitted excluding entire pseudo-target port and all its identities",
+  "source_initialization": "Shared1024 affine parameters,24 Adam steps lr0.01; episode query gradient through64-support differentiable ridge8",
+  "comparison": "Ordinary source-supervised warmup also24 steps same1024 parameters; equal steps, not equal forward FLOPs",
+  "target_adaptation": "24-step corrected mask+source objective from previous run; initialize from warmup, regularizer still anchored to identity",
+  "arms": [
+    "previous_repaired",
+    "supervised_init_head",
+    "supervised_init_adapt",
+    "episode_init_head",
+    "episode_init_adapt"
+  ],
+  "no_target_selection": "Final24-step weights, no checkpoint/grid/port-specific selection",
+  "operational_stop": "Keep as positive pilot only if episode_init_adapt mean BA exceeds previous repair and ordinary warmup+adapt, and missing-class recall is not worse than previous repair; otherwise stop iterating this channel route",
+  "limitations": "Only2 eligible source ports expected; repeated source-query episodes are training, not heldout evidence; source and target support/query can share scenes; development pilot and inherited pretraining exposure",
+  "paper_relation": "Not a Causal-Tune reproduction: no DCT filter or causal tokens; closes current channel route before spatial-frequency alternative",
+  "resources": "CPU1, no GPU or parent edits"
+}

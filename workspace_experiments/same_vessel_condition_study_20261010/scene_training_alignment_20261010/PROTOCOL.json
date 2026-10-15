@@ -1,0 +1,20 @@
+{
+  "seed": 20261010,
+  "ports": [
+    "Santos",
+    "Port Klang",
+    "Los Angeles"
+  ],
+  "port_selection": "Top3 eight-class ports by number of scenes with >=3 classes each >=3 vessels; metadata only",
+  "tasks": "3 existing identity folds +3 held-port pilots",
+  "shared_direction_estimate": "Cross-products of distinct-class leave-scene-out within-port residual centroids; scenes equal within port, ports equal; positive spectral part top8",
+  "projection": "0.5 shrink and1.0 removal, each test-only versus source-refit; mechanism controls only",
+  "consistency": "Additional ridge penalty on source shared-scene score variance, trace =0.1*source Gram trace",
+  "protected": "Project scene covariance away from source between-class-centroid span before penalty; not full semantic protection guarantee",
+  "isotropic_control": "Same penalty trace, no scene directional information",
+  "query_labels": "No query labels, query scene statistics, or target support used in fitting/prediction; labels only evaluate",
+  "source_fit": "Held-port centering, scaling, PCA, nuisance directions, weights, heads all source-only; source identities overlapping target removed",
+  "exposure": "Neural encoders frozen from historical caches; pretraining domain exposure not removed",
+  "limitations": "Development pilot; not main64-label model, not causal identification, no best-arm selection or independent confirmation",
+  "resources": "CPU1 batch128; no GPU/backbone training"
+}

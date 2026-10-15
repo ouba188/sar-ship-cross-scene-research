@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-13",
+  "seed": 20261013,
+  "arms": [
+    "original",
+    "class_mean",
+    "class_cluster",
+    "scene_memory"
+  ],
+  "rho": 0.25,
+  "budgets": [
+    16,
+    64
+  ],
+  "draws": 5,
+  "task": "Source-development held ports, same/other acquisition support within each port",
+  "enrollment": "Top3 ports by number metadata-eligible scenes; earliest/latest eligible scene per port; no predictions used",
+  "candidate_ports": {
+    "Jebel Ali": 14,
+    "Port Klang": 20,
+    "Port Said": 3,
+    "Singapore": 14,
+    "Tanger Med": 4
+  },
+  "held_ports": [
+    "Port Klang",
+    "Jebel Ali",
+    "Singapore"
+  ],
+  "query": "30percent known consistent-label ships per class reserved across each whole port; max128 per scene",
+  "support": "Known unique ships, class quotas matched between same/other acquisition; same queries at B16/64, nonnested supports",
+  "gallery": "Fixed up to512 unique non-query ships from other acquisitions in same port; classes not forced balanced",
+  "source_rows": 10633,
+  "source_classes": {
+    "0": 2741,
+    "1": 1715,
+    "2": 2791,
+    "3": 1367,
+    "4": 651,
+    "5": 592,
+    "6": 621,
+    "7": 155
+  },
+  "source_port_identity_acquisition_overlap": 0,
+  "max_prototypes_per_class": 8,
+  "kmeans_n_init": 5,
+  "relation": "RBF to source references, common source pair-distance bandwidth; class-capacity scaling; source mean-diagonal matching",
+  "model": "New common compact PCA/stats/prior fit, frozen R50/C4+e206 SSL, not canonical full model",
+  "priors": "Identical across arms, base branch unchanged; expert coefficients re-solved for every kernel",
+  "exposure": "Historical frozen encoder and development exposure remains; not independent new data",
+  "calibration": "softmax T=1 frozen across arms, descriptive probability risks not calibrated-probability claim",
+  "target_external_tested": false,
+  "neural_training": false,
+  "main_model_changed": false
+}

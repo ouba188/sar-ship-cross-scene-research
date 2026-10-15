@@ -1,0 +1,27 @@
+{
+  "seed": 20261010,
+  "date": "2026-10-10",
+  "hypothesis": "Shared scene factors may affect class decisions; class/domain interactions are allowed",
+  "source": "24-port existing frozen identity-fold R50/R18 diagnostic heads; not main LOPO",
+  "scene_key": "product",
+  "identity": "MMSI proxy, existing disjoint three folds",
+  "reference": "Equal-scene class centroids; both compared scenes excluded; at least two reference scenes",
+  "donor": "Other classes only, >=2 classes, >=3 distinct source-fold ships per class, max8 per class",
+  "control": "Closest-time different scene in SAME port, same donor classes and sample counts",
+  "levels": [
+    "global_class_reference",
+    "within_port_class_reference"
+  ],
+  "correction": "Subtract residual from frozen PCA features; strengths0.5 primary,1 secondary, no selection",
+  "label_boundary": "Query true class defines excluded donor class and evaluation cohort. Oracle diagnostic; source-fold donor labels exceed main64-label setting.",
+  "no_query_identities_in_donors_or_references": true,
+  "primary": "Cross-class cosine advantage over matched other-scene control, and correction rescue/harm versus control",
+  "limitations": [
+    "Shared scene is not pure noise or identified physical cause",
+    "Existing heads and frozen encoders have historical scene/domain exposure",
+    "References retain subclass and unobserved ship-state differences",
+    "Nearest other-scene comparison not a randomized intervention",
+    "Does not quantify the actual within-port vs LOPO gap"
+  ],
+  "resources": "CPU1, batch128, no GPU or parent-project modifications"
+}

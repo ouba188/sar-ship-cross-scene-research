@@ -1,0 +1,582 @@
+                 Few-Shot Image Classification Benchmarks are Too Far From Reality:
+                           Build Back Better with Semantic Task Sampling
+
+
+         Etienne Bennequin1, 2    Myriam Tami1          Antoine Toubhans2                           Céline Hudelot1
+                          1
+                            CentraleSupélec, Université Paris-Saclay, France
+                                            2
+                                              Sicara, France
+               {etienneb, antoinet}@sicara.com                  firstname.name@centralesupelec.fr
+
+
+                        Abstract                                  not necessarily possess hundreds of labeled images for each
+                                                                  class. It can be because some (or all) classes are rare, or
+    Every day, a new method is published to tackle Few-           appeared recently, or because classes change every day. In
+Shot Image Classification, showing better and better per-         the last three years, our team was involved in a variety of in-
+formances on academic benchmarks. Nevertheless, we ob-            dustrial use cases: retrieving a tool in a merchant’s catalog,
+serve that these current benchmarks do not accurately rep-        identifying a floor to facilitate recycling, recognizing dishes
+resent the real industrial use cases that we encountered. In      in a cafeteria given today’s menu, or finding the reference
+this work, through both qualitative and quantitative stud-        of a printed circuit board. In all of these use cases, some
+ies, we expose that the widely used benchmark tieredIma-          or all classes were represented in our database by only 1 to
+geNet is strongly biased towards tasks composed of very se-       5 examples. They also had in common that they consisted
+mantically dissimilar classes e.g. bathtub, cabbage, pizza,       in recognizing an object among many classes that were se-
+schipperke, and cardoon. This makes tieredImageNet (and           mantically similar to one another.
+similar benchmarks) irrelevant to evaluate the ability of a           Sadly, because of this, we could not rely on academic
+model to solve real-life use cases usually involving more         benchmarks to identify the most appropriate methods. The
+fine-grained classification. We mitigate this bias using se-      first reason is that, as we show in this paper, standard Few-
+mantic information about the classes of tieredImageNet and        Shot Image Classification benchmarks generate tasks using
+generate an improved, balanced benchmark. Going further,          uniform random sampling from a wide range of semanti-
+we also introduce a new benchmark for Few-Shot Image              cally dissimilar or unrelated classes (e.g. tieredImageNet),
+Classification using the Danish Fungi 2020 dataset. This          which leads to evaluating our models mostly on tasks com-
+benchmark proposes a wide variety of evaluation tasks with        posed of objects that we would never need to distinguish
+various fine-graininess. Moreover, this benchmark includes        in real-life use cases (see Figure 1a). The second reason is
+many-way tasks (e.g. composed of 100 classes), which is a         that the Few-Shot Learning community has chosen to for-
+challenging setting yet very common in industrial applica-        malize the Few-Shot Image classification problem as an ac-
+tions. Our experiments bring out the correlation between          cumulation of n-way k-shot classification tasks i.e. classi-
+the difficulty of a task and the semantic similarity between      fying query images, assuming that they belong to one of n
+its classes, as well as a heavy performance drop of state-of-     classes for which we have k labeled examples each. In prac-
+the-art methods on many-way few-shot classification, rais-        tice, most works compared their methods on benchmarks
+ing questions about the scaling abilities of these methods.       for which they fixed n = 5 (sometimes n = 10) and k = 1
+We hope that our work will encourage the community to fur-        or k = 51 . To the best of our knowledge, only one method
+ther question the quality of standard evaluation processes        was evaluated with n > 50 [22]. The choice made by the
+and their relevance to real-life applications.                    community, while relevant to facilitate experiments in the
+                                                                  early stages of Few-Shot Learning research, casts a dark
+                                                                  shadow on the robustness of state-of-the-art few-shot learn-
+                                                                  ing methods when discriminating between a large number
+1. Introduction                                                   of classes.
+   Few-Shot Learning is the science of learning new con-              How can we improve our current evaluation processes to
+cepts with only a few examples. This task is one of the key       better fit real-life use cases? In this paper, we bring out limi-
+abilities of humans but one of the major shortcomings of          tations of current Few-Shot Classification benchmarks with
+standard deep learning methods [15]. It is also required for      both quantitative and qualitative studies and propose new
+the success of many industrial applications of computer vi-         1 https : / / paperswithcode . com / task / few - shot -
+
+sion. Businesses that need automatic image recognition do         image-classification
+
+
+
+
+                                                                4767
+(a) Coarsity histogram (top) and an example of task (bottom) of a testbed designed
+                                                                                         (b) Coarsity histogram (top) and an example of task (bottom) of our testbed better-
+from tieredImageNet with uniform class sampling. This task presents a coarsity of
+                                                                                         tieredImageNet. This task presents a coarsity of 15.8. Tasks with this coarsity never
+85.1, which is the median coarsity for this testbed. ”We really need a machine that
+                                                                                         occur in the uniformly sampled testbed, although they are more representative of real
+will distinguish bathroom tubs from cabbage, pizzas, cardoon, and some very specific
+                                                                                         few-shot classification use cases.
+kind of dog!” said no one in the history of humankind.
+
+Figure 1. Comparison, in terms of our coarsity measure defined in Section 4.1, between a testbed designed with uniform class sampling
+(left) and a testbed designed with semantic awareness (right, ours). Our testbed gives a better representativity to tasks with low coarsity i.e.
+composed of classes semantically relevant to one another.
+
+
+benchmarks to get past these limitations. More specifically:                                    of Few-Shot Learning. We compare state-of-the-art
+                                                                                                methods on both 5-way and 100-way tasks generated
+  1. We use the WordNet taxonomy [19] to evaluate seman-                                        from this dataset. To the best of our knowledge, these
+     tic distances between classes of the popular Few-Shot                                      are the first published results of few-shot methods on
+     Classification benchmark tieredImageNet. Based on                                          such wide tasks.
+     these semantic distances we put forward the concept of
+     coarsity of an image classification task, which quanti-                             All our implementations, datasets and experiments are pub-
+     fies how semantically close are the classes of the task.                            licly available2 . We hope that our work will drive the re-
+                                                                                         search community towards a better awareness of the biases
+  2. We conduct both quantitative and qualitative studies of                             in few-shot evaluation processes and that the new bench-
+     the tasks generated from the test set of tieredImageNet                             marks that we propose to counterbalance some of these bi-
+     i.e. the tasks composing the benchmark on which most                                ases will find echoes in the community and be further im-
+     papers evaluate different methods. We show that this                                proved in future works.
+     benchmark is heavily biased towards tasks composed
+     of semantically unrelated classes.                                                  2. Related Works
+  3. We harness the semantic distances between classes                                   Few-Shot Image Classification Few-Shot Classification
+     to generate the improved benchmark better-                                          methods historically use episodic training i.e. training in-
+     tieredImageNet reestablishing the balance between                                   stances are not images but episodes that mimic evaluation
+     fine-grained and coarse tasks. We compare state-of-                                 tasks that will be sampled from the test set [11, 23, 26, 29].
+     the-art Few-Shot Classification methods on this new                                 Recent works suggest that simple fine-tuning baselines are
+     benchmark and bring out the relation between the                                    competitive with sophisticated episodic methods, and fo-
+     coarsity of a task and its difficulty.                                              cus on developing a good inference method while keep-
+  4. We put forward the Danish Fungi 2020 dataset [21]                                   ing a classically trained feature extractor [4, 6, 9, 12, 17].
+     for evaluating Few-Shot Classification models. This                                 Note that some of those methods also consider a transduc-
+     dataset offers a wide range of fine-grained classes and                             tive few-shot classification problem [4, 9, 12, 17] i.e. they
+     therefore allows the sampling of tasks that we deem                                   2 https : / / github . com / sicara / semantic - task -
+
+     to be more representative of industrial applications                                sampling
+
+
+
+
+                                                                                       4768
+use unlabeled information from the whole query set to help                      that among many other contributions, the original paper
+classification.                                                                 for Meta-Dataset [28] proposed a small study of the per-
+                                                                                formance of state-of-the-art few-shot classifiers depending
+Benchmarks The most simple few-shot classification                              on a measure of task fine-graininess on ImageNet. How-
+benchmarks are built respectively on the basic image recog-                     ever, they failed to highlight any correlation between the
+nition dataset CIFAR100 [3] and Omniglot [14], which                            fine-graininess and difficulty of a task, leaving it for future
+is a dataset of handwritten characters. Rather quickly,                         works. We claim to be this future work: compared to [28],
+miniImageNet [29] became the reference dataset for Few-                         we use more precise tools to define the fine-graininess of a
+Shot Learning. It is a small subset of ImageNet [7] (60k                        task and decorrelate the fine-graininess from the shape of
+images in 100 classes, split across classes as train/val/test).                 the task (i.e. the number of ways). Thereby we successfully
+Later, [24] introduced the larger dataset tieredImageNet,                       show the correlation between fine-graininess and difficulty
+also built from ImageNet but with 608 classes, which are                        on tieredImageNet (see Section 6.2).
+split in a way that preserves the super-category structure
+of the classes. In this work we focus on tieredImageNet                         Characterizing classification tasks Some recent works
+because miniImageNet offers only 20 test classes which                          try and find a way to represent classification tasks so that
+clearly do not allow the sampling of any fine-grained 5-                        they can be compared with one another [1, 20]. Here we fo-
+way task3 . Note that the classification benchmark CU-Birds                     cus on characterizing tasks using class semantics. [8] show
+200 [30], which happens to be a fine-grained benchmark, is                      that on ImageNet, visual and semantic similarities between
+now also used for Few-Shot Image Classification, especially                     classes are linked. They measure the semantic similarity
+to study cross-domain robustness [6]. To our knowledge, all                     with the Jiang & Conrath pseudo-distance [13], which de-
+benchmarks built on these datasets follow the same process                      pends on the WordNet Directed Acyclic Graph and on the
+to generate few-shot classification tasks i.e. we sample 5                      number of images in each class. Other methods to evaluate
+classes 4 uniformly at random from the test set, then sample                    the similarity between categories can be found in [2].
+a fixed number of images per class for the support set and
+for the query set. However, more recently, [28] merged 10                       3. Problem formalization
+computer vision datasets to build a gigantic benchmark for
+                                                                                Few-Shot Image Classification Consider a training set
+few-shot classification methods: Meta-Dataset. They intro-
+                                                                                Dtrain = {(x, y) | x ∈ χ, y ∈ Ctrain } and a test set
+duced some randomness in the shape of the tasks (number
+                                                                                Dtest = {(x, y) | x ∈ χ, y ∈ Ctest } where Ctrain and
+of ways, shots and queries) and proposed to study the hier-
+                                                                                Ctest are their respective class sets, with Ctrain ∩ Ctest = ∅,
+archy of the methods depending on the number of ways and
+                                                                                and χ is the image space. Few-Shot Classification consists
+shots. Despite its ability to benchmark methods on incred-
+                                                                                in learning on Dtrain a classification model that can gener-
+ibly diverse datasets and tasks, Meta-Dataset remains un-
+                                                                                alize to the unseen classes in Ctest with only a few training
+derused by the community compared to a simpler and more
+                                                                                examples per class.
+lightweight benchmark like tieredImageNet5 . In this work
+                                                                                    Given a subset C ⊂ Ctest , we note Dtest|C = {(x, y) ∈
+we mitigate the biases of current benchmarks while avoid-
+                                                                                Dtest | y ∈ C}. Then a few-shot classification task T is
+ing additional engineering challenges that would make it
+                                                                                defined by a subset of classes C ⊂ Ctest , a small support
+harder to adopt our novel benchmarks.
+                                                                                set S ⊂ Dtest|C of labeled examples (with at least one ex-
+                                                                                ample for each class i.e. ∀c ∈ C, S ∩ Dtest|{c} ̸= ∅) and
+Fine-graininess in Few-Shot Learning Recent works                               a query set Q ⊂ Dtest|C , such that S ∩ Q = ∅ i.e. images
+proposed specific methods for Fine-Grained Few-Shot Im-                         in the query set cannot appear in the support set. The task’s
+age Classification [25, 27, 31, 32]. These methods are typ-                     objective is to maximize the model’s accuracy on Q.
+ically compared on CU-Birds [30] or FGVC Aircraft [18].
+These datasets propose respectively 50 and 25 test classes.                     Model evaluation We define Etest (n) (and similarly
+In this work, we propose to use Danish Fungi 2020 [21],                         Etrain (n)) the set of n-way classification tasks that can be
+a fine-grained image classification dataset equipped with                       sampled from Dtest i.e.
+1604 classes, which allowed us to compare methods on
+tasks composed of a large number of classes. Also note                                       \mathsf E_{test}(n) = \lbrace &\mathbf T = (\mathbf S, \mathbf Q) \;| \\ & \mathbf S, \mathbf Q \subset \mathcal D_{test|\mathbf C}, \\ & \mathbf S \cap \mathbf Q = \emptyset , \\ & \mathbf C \subset \mathcal C_{test} \text { and } |\mathbf C| = n \rbrace
+    3 The classes are nematode, king crab, golden retriever, malamute, dal-
+
+matian, African hunting dog, lion, ant, black-footed ferret, bookshop,
+crate, cuirass, electric guitar, hourglass, mixing bowl, school bus, score-
+board, theater curtain, vase, and trifle.
+    4 Rarely 10, or 20 for Omniglot
+    5 21 papers used Meta-Dataset between 2020 and 2021 v.s. 92 for             In practice, most benchmarks are limited to Etest (5) (which
+tieredImageNet. Source: PapersWithCode                                          we will note Etest when there is no ambiguity), and further
+
+
+
+                                                                              4769
+                                                                                 most specific common ancestor of c1 and c2 in the directed
+                                                                                 acyclic graph. Our choice of pseudo-distance6 was moti-
+                                                                                 vated by the results of [8], who showed that this semantic
+                                                                                 pseudo-distance between classes is correlated with visual
+                                                                                 similarity between images of these classes on ImageNet.
+                                                                                 We insist, however, that the definition of the coarsity and
+                                                                                 the subsequent sampling strategy are agnostic of the choice
+                                                                                 of the distance, and that other semantic distances may be
+                                                                                 used in future works.
+                                                                                    From this pseudo-distance, we define the coarsity κ of a
+                                                                                 task TC constituted of instances from a set of classes C as
+                                                                                 the mean square distance between the classes of C i.e.
+
+                                                                                                   \kappa (\mathbf T_{\mathbf C}) = \mean _{c_i, c_j \in \mathbf C \\ c_i \ne c_j} D^{JC}(c_i, c_j)^2    (2)
+Figure 2. Subgraph of WordNet spanning the 160 classes of
+tieredImageNet’s test set, which are shown in red. The root (in                     This coarsity is an indicator of how semantically close
+green) corresponds to the concept of “entity”. This is a Directed                are the classes that constitute a task. As shown in [8], on
+Acyclic Graph. Best viewed in color.                                             datasets derived from ImageNet, this measure is closely
+                                                                                 linked to the visual similarity between items of these
+                                                                                 classes.
+limited to tasks with 1 or 5 support images per class, and
+10 query images per class. The number of possible tasks is                       4.2. Generate a more informative benchmark using
+still untractable (∼10173 on tieredImageNet). Therefore we                             class semantics
+evaluate few-shot classification models on a subset Ẽtest =
+{T ∈ Etest |T ∼ U} with U the uniform distribution. This                             As discussed in Section 3, finding an appropriate subset
+design choice gives the same weight to all tasks from Etest ,                    of Etest is a key point to ensure that we provide an accurate
+regardless of how informative they are on a model’s ability                      evaluation of a model. In the literature, testing tasks are
+to perform on real-life few-shot learning problems. In this                      sampled uniformly at random from Etest [29]. However, we
+work, we study alternative distributions for Ẽtest .                            observed that the resulting testbeds are biased towards tasks
+                                                                                 with high coarsity i.e. composed of classes semantically far
+                                                                                 from each other with respect to the Jiang & Conrath pseudo-
+Class sampling and instance sampling Here we limit
+                                                                                 distance (see Figure 1a). We argue that in practice, few-
+ourselves to the sampling of the classes that constitute each
+                                                                                 shot learning models are often used to distinguish between
+episode. We iterate only on the probability distribution over
+                                                                                 similar objects rather than distinguishing between objects
+classes that constitute a task. Once the classes are sampled,
+                                                                                 that have nothing to do with one another (e.g. circuit boards
+we use uniform sampling over all instances for each class to
+                                                                                 from circuit boards, carpets from carpets, or people from
+constitute the support and query sets.
+                                                                                 people). A testbed presenting this type of bias is therefore
+                                                                                 irrelevant to evaluate a model’s ability to solve this family
+4. Building the better-tieredImagenet bench-
+                                                                                 of problems.
+   mark                                                                              In this work, we define a unique, reproducible set of test-
+4.1. Measuring task coarsity with WordNet taxon-                                 ing tasks to evaluate all models. This testbed is built with a
+     omy                                                                         dual objective:
+   Since tieredImageNet is a subset of ImageNet, its classes                          • We want tasks with a smooth repartition in terms of
+are the leaves of a directed acyclic graph which is a sub-                              coarsity to ensure that the testbed also evaluates the
+graph of the WordNet graph [19] (see Figure 2). Using this                              ability of a model to distinguish between classes close
+graph, it is possible to establish a semantic similarity be-                            to each other. Providing a good span of coarsities also
+tween classes. We use the Jiang & Conrath pseudo-distance                               allows to compare models on different types of tasks:
+between classes [13], which is defined for two classes c1                               a model might be better for coarse tasks but not for
+and c2 as:                                                                              fine-grained tasks.
+   D^{JC}(c_1, c_2) = 2 \log |lso(c_1,c_2)| - (\log |c_1| + \log |c_2|)  (1)          6 We call it a pseudo-distance since it is positive, symmetric and sepa-
+
+                                                                                 rated. However, due to the weak assumption on the directed acyclic graph,
+where |c| is the number of instances of the dataset with                         it is possible to find c1 , c2 , c3 such that DJC (c1 , c3 ) > DJC (c1 , c2 ) +
+class c, and lso(c1 , c2 ) is the lowest superordinate, i.e. the                 DJC (c2 , c3 ).
+
+
+
+
+                                                                               4770
+   • This first objective inherently creates a bias towards                                                                                                  Algorithm 1 How classes of a task are sampled using the
+     classes with many neighbouring classes. However we                                                                                                      potential matrix, following [16]
+     want our testbed to be balanced, i.e. all images must be                                                                                                Input: potential matrix P0 , number of tasks T , number of
+     sampled roughly as many times as the others 7 .                                                                                                         classes per task n
+   To achieve these goals, we define a semantic task sam-                                                                                                    Output: set of sampled tasks T
+pler based on the Jiang & Conrath pseudo-distance. We                                                                                                         1: T ←− {}
+build an initial potential matrix [16] P0 such that P0 (i, j) =                                                                                               2: P ←− P0
+       JC
+e−αD (ci ,cj ) with α ∈ R+ an arbitrary scalar. For the first                                                                                                 3: occ ←− [1]i
+task, the probability for a pair of classes (ci , cj ) to be sam-                                                                                             4: for t < T do
+                                                                                                                                                                                        occ
+pled together is proportional to P0 (i, j). To enforce that                                                                                                   5:     p ←− exp(−β max(occ)     )
+the testbed is balanced, once the t − 1th task is sampled we                                                                                                  6:     C ←− {c0 } with c0 sampled according to a distri-
+update the number occt (i) of occurrences of class ci in pre-                                                                                                    bution of probability proportional to p
+vious tasks. Then we update the potential matrix to penalize                                                                                                  7:     p ←− p ⊙ P0 (c0 )
+classes with higher values of occt :                                                                                                                          8:     while |C| < n do
+                                                                                                                                                              9:          C ←− C ∪ {c} with c sampled according to a
+      \mathcal {P}_t(i,j) = \mathcal {P}_0(i,j) \times \exp (-\beta \frac {\textit {occ}_t(i) + \textit {occ}_t(j)}{\max _k(\textit {occ}_t(k))})    (3)         distribution of probability proportional to p
+                                                                                                                                                             10:          p ←− p ⊙ P0 (c)
+with β ∈ R+ an arbitrary scalar. Intuitively, a larger α gives                                                                                               11:     T ←− T ∪ {C}
+more weight to pairs of semantically close classes, while a                                                                                                  12:     ∀i ∈ C, occ(i) ←− occ(i) + 1
+larger β forces a stricter balance between classes. The class
+sampling process is detailed in Algorithm 18 .
+    We then sample instances from these classes uniformly
+at random. As shown in Figure 1b, our 5000-tasks testbed
+gives far greater representation to fine-grained tasks com-
+pared to a uniformly sampled testbed. Our testbed offers
+a wide range and balance of task coarsities, allowing to
+test models on both coarse and fine-grained tasks, while
+the uniformly sampled testbed only allows the evaluation
+on coarse tasks. Figure 3 shows that the occurrences-based
+penalty successfully enforces the balance between classes
+in our testbed.
+
+5. Fungi: a large fine-grained dataset for Few-
+    Shot Image Classification
+5.1. Danish Fungi 2020                                                                                                                                       Figure 3. Comparison of class imbalance in testbeds. We show
+   Danish Fungi 2020 (DF20) [21] is an image recognition                                                                                                     the proportion of tasks containing each one of the 160 classes of
+dataset of 295 938 images of fungi distributed in 1604 fine-                                                                                                 tieredImageNet’s test set, with uniform task sampling (blue) and
+                                                                                                                                                             our semantic task sampling (red). A perfectly balanced testbed
+grained classes, with no overlap with ImageNet. The dataset
+                                                                                                                                                             will show a flat line i.e. each class is equally represented in the
+offers insightful metadata, such as the object’s geograph-                                                                                                   testbed. We see that our sampling does not raise class imbalance
+ical location, habitat, and substrate. DF20’s classes are                                                                                                    compared to uniform sampling.
+equipped with a seven-level hierarchical structure. Note that
+Meta-Dataset [28] also include a Fungi dataset, from the
+FGVCx 2018 Fungi classification challenge9 . This Fungi                                                                                                      5.2. DF20 for Few-Shot Image Classification Bench-
+dataset came from the same source as DF20 but offered                                                                                                              mark
+fewer images, fewer classes, no metadata, and no taxonomy,
+which convinced us to push forward DF20. The semantic                                                                                                        Why do we use it? Following our observations on the
+tree of DF20 is shown in Figure 4.                                                                                                                           high coarsity of tasks sampled from tieredImageNet, we
+    7 In the case of tieredImageNet, which presents as many images for
+                                                                                                                                                             propose to use DF20 as a test set for few-shot image classi-
+each class, this is equivalent to ensuring the balance between classes.                                                                                      fication models. This dataset allows sampling a wide vari-
+    8 We use the convention P(i) = [P(i, j)]|Ctest | . Also, occ represents                                                                                  ety of fine-grained few-shot classification tasks, which are
+                                                j=1
+the whole vector, while occ(i) represents the element at index i.                                                                                            to our experience more representative of real-world appli-
+    9 https://github.com/visipedia/fgvcx_fungi_comp                                                                                                          cations. It also offers a taxonomy allowing to further study
+
+
+
+                                                                                                                                                           4771
+                                                                     early works because GPU memory limitations made it very
+                                                                     hard to use back-propagation on batches mimicking 100-
+                                                                     way tasks during episodic training. We claim that these
+                                                                     constraints do not justify overlooking such an interesting
+                                                                     problem. Specifically for DF20, the task of recognizing an
+                                                                     image among a wide variety of fungi makes way more sense
+                                                                     than recognizing an image among 5 random species11 .
+
+                                                                     6. Experiments on new benchmarks
+                                                                     6.1. Implementation details
+                                                                        We conducted the necessary experiments to bring out
+                                                                     the need for novel few-shot classification benchmarks and
+                                                                     showcase the limitations of state-of-the-art methods on
+                                                                     more challenging settings. We restricted the comparison to
+Figure 4. Semantic tree spanning the 1604 classes of DF20 (in        methods allowing classical training (i.e. non episodic) and
+red). The root is shown in green. DF20 contains images of            to a unique set of hyper-parameters. This comparison will
+species that belong to three kingdoms: Chromista (purple), Pro-      be enriched in future works. All parameters of our experi-
+tozoa (cyan), and Fungi (orange). As we can see from the tree,       ments can be found on our publicly available code 12 .
+the vast majority of classes are spanned from the Fungi kingdom.
+Best viewed in color.
+                                                                     tieredImageNet We followed the original split of [24].
+                                                                     All methods tested in our benchmark use a common
+the performance of few-shot models depending on the coar-            ResNet12 with parameters trained for 500 epochs with clas-
+sity of the task. Since we consider the whole dataset as a           sical cross-entropy among the 351 classes of the train set us-
+test set, we allow the comparison of methods with param-             ing stochastic gradient descent with a batch size of 512 and
+eters optimized on various training sets, provided that they         learning rate of 0.1 with a decreasing factor of 0.1 after 350,
+do not overlap with DF20. This brings the few-shot learn-            450 and 480 epochs. The trained weights are directly down-
+ing methodology closer to the neighboring field of transfer          loadable from our code. We built two testbeds with uniform
+learning, in which training data is not part of the bench-           class sampling (1-shot and 5-shot), and two testbeds (1-shot
+mark [10]. This can also be considered as a generaliza-              and 5-shot) with semantic task sampling (see Section 4.2)
+tion of the cross-domain few-shot learning setting, in which         with α = 0.383 and β = 100.0. These hyperparameters
+we train a model on the training set of one benchmark                were selected to enforce the sampling of tasks with small
+(e.g. miniImageNet) and test it on the testing set of another        coarsity while ensuring that all classes were equally repre-
+benchmark (e.g. CUB [6]). Note that in this work, com-               sented in the testbed (with a small margin). This selection
+pared methods all share the same backbone with parame-               was monitored with visual observations shown in Figures
+ters classically trained on ImageNet’s training set. This was        1b and 3. We upsampled 10000 tasks, then we removed all
+a convenient baseline, but we insist that this does not make         duplicate tasks and downsampled them to 5000 tasks. All
+it mandatory for future work to train on ImageNet. In fact,          tasks present 10 queries per class.
+we believe that it is of prior importance to study the effect of
+the choice of the training data on the few-shot classification       Danish Fungi 2020 All methods tested in our benchmark
+model’s performance.                                                 use the built-in ResNet18 from PyTorch with weights
+                                                                     trained on ImageNet. Since DF20 is already fine-grained,
+How do we use it? We sampled four benchmarks: 5-                     we built four 5000-tasks testbeds (5-way 1-shot, 5-way 5-
+way 1-shot, 5-way 5-shot, 100-way 1-shot, and 100-way                shot, 100-way 1-shot, and 100-way 5-shot) with uniform
+5-shot. The 5-way settings are very common in the few-               class sampling. All tasks present 10 queries per class.
+shot learning literature [28]. However, to the best of our
+knowledge, very few works evaluate their method on wide              Methods For Finetune [6] we use 10 fine-tuning steps
+(i.e. more than 10-way) few-shot classification tasks10 . We         with a learning rate of 10−3 . For Transductive Informa-
+believe that such tasks are at least equally interesting as          tion Maximization (TIM) [4] we use 100 fine-tuning steps
+5-way tasks. We assume that this setting was avoided by
+                                                                          11 As of 2020, experts have identified ∼148 000 species of fungi [5].
+  10 https : / / paperswithcode . com / task / few - shot -            12 https : / / github . com / sicara / semantic - task -
+
+image-classification                                                 sampling
+
+
+
+
+                                                                   4772
+                                                                                   1-shot
+                                                                 better-tieredImageNet
+                                                                                                                  Uniform testbed
+                                              Whole testbed      1st. Qtl 2nd. Qtl 3rd Qtl             4th Qtl
+          ProtoNet [26]                       53.10 ± 0.40        42.01       51.11     56.35           62.88       65.24 ± 0.35
+          Finetune [6]                        56.60 ± 0.41        44.56       54.29     60.12           67.43       69.96 ± 0.35
+          BD-CSPN [17]                        59.99 ± 0.45        46.69       57.50     63.80           71.95       74.55 ± 0.37
+          TIM [4]                             59.19 ± 0.43        46.74       56.76     63.03           70.21       73.09 ± 0.35
+          Transductive Finetuning [9]         53.01 ± 0.40        41.98       51.74     56.31           62.82       65.27 ± 0.35
+          PT MAP [12]                         56.74 ± 0.38        45.81       54.38     59.76           66.96       69.58 ± 0.37
+
+Table 1. Top-1 accuracy of various few-shot learning methods on 1-shot tasks sampled from the tieredImageNet test set with uniform
+and semantic sampling strategies. For better-tieredImageNet, we show the average accuracy on the whole testbed, along with the average
+accuracy on the four quartiles of the testbed, when sorted by coarsity of the task (1st quartile contains the tasks with the smallest coarsity).
+For the testbed of uniformly sampled tasks, we only show the average accuracy on the whole testbed, as the results on each quartile are
+very similar to one another. We separate inductive (top) from transductive (bottom) methods. Best method(s) in each column is shown in
+bold.
+
+                                                                                   5-shot
+                                                                 better-tieredImageNet
+                                                                                                                  Uniform testbed
+                                              Whole testbed      1st. Qtl 2nd. Qtl 3rd Qtl             4th Qtl
+          ProtoNet [26]                       70.77 ± 0.37        59.72       68.95     74.05           80.41       82.79 ± 0.25
+          Finetune [6]                        71.60 ± 0.37        60.63       69.68     74.86           81.26       83.66 ± 0.25
+          BD-CSPN [17]                        72.50 ± 0.37        61.23       70.47     75.94           82.38       84.70 ± 0.25
+          TIM [4]                             73.32 ± 0.37        62.40       71.48     76.53           82.92       85.49 ± 0.24
+          Transductive Finetuning [9]         70.79 ± 0.37        59.73       68.98     74.08           80.43       82.79 ± 0.25
+          PT MAP [12]                         69.45 ± 0.36        58.97       67.40     72.36           79.09       81.54 ± 0.26
+
+Table 2. Top-1 accuracy of various few-shot learning methods on 1-shot tasks sampled from the tieredImageNet test set with uniform
+and semantic sampling strategies. For better-tieredImageNet, we show the average accuracy on the whole testbed, along with the average
+accuracy on the four quartiles of the testbed, when sorted by coarsity of the task (1st quartile contains the tasks with the smallest coarsity).
+For the testbed of uniformly sampled tasks, we only show the average accuracy on the whole testbed, as the results on each quartile are
+very similar to one another. We separate inductive (top) from transductive (bottom) methods. Best method(s) in each column is shown in
+bold.
+
+
+with a learning rate of 10−3 and put a 0.1 weight on the                   sistently improves when moving towards coarser tasks. We
+conditional entropy term of the loss. For Transductive Fine-               finally observed that even the 4th quartile seems to be more
+tuning [9] we use 25 inference steps with a learning rate of               challenging than the uniform benchmark. This is consis-
+5 × 10−5 . These hyperparameters were selected to fit the                  tent with the demography of tasks shown in Figure 1, since
+original implementations of these methods. We insist that                  the tasks constituting the 4th quartile of our testbed show a
+we didn’t put any additional effort into further optimizing                smaller average coarsity than the uniform testbed.
+any few-shot method on our benchmarks.                                         We observed that transductive methods [4, 9, 12, 17],
+                                                                           which use the unlabeled information from the query set,
+6.2. Results
+                                                                           unsurprisingly show the best results on both set-ups but es-
+tieredImageNet Results for tieredImageNet are shown in                     pecially in 1-shot classification. The leaderboard seems to
+Tables 1 and 2. The immediate observation that we can                      be consistent on all quartiles, suggesting that none of these
+make is that our benchmark better-tieredImageNet is much                   methods are ”specialized” towards a particular demographic
+more challenging than uniform task sampling, with a perfor-                of tasks.
+mance drop of 12 to 15% in top-1 accuracy for all settings
+and methods. For further details, we sorted all 5000 tasks
+with respect to their coarsity and grouped them into four                  Danish Fungi 2020 Results for DF20 are shown in Ta-
+quartiles. The 1st quartile contains the most fine-grained                 ble 3. They show that while being more challenging
+tasks, and the 4th quartile contains the coarsest tasks. From              than tieredImageNet and better-tieredImageNet, our DF20
+these results, we can confirm that coarsity is indeed corre-               benchmark still constitutes an achievable task. We also re-
+lated to the difficulty of the task since the performance con-             port results showing that all methods struggle in the more
+
+
+
+                                                                       4773
+                                           5-way                                              100-way
+                                  1-shot            5-shot                    1-shot                          5-shot
+                                         Top-1                         Top-1         Top-5            Top-1          Top-5
+   ProtoNet [26]              37.55 ± 0.25 60.53 ± 0.27             7.81 ± 0.08   20.12 ± 0.13     17.69 ± 0.12 40.20 ± 0.16
+   Finetune [6]               47.00 ± 0.30 65.06 ± 0.29             9.70 ± 0.09   25.94 ± 0.15     19.60 ± 0.12 44.25 ± 0.17
+   BD-CSPN [17]               47.81 ± 0.33 66.32 ± 0.30             9.75 ± 0.09   24.11 ± 0.15     19.52 ± 0.13 41.79 ± 0.17
+   TIM [4]                    40.73 ± 0.28 62.89 ± 0.28             8.36 ± 0.09   21.30 ± 0.14     18.53 ± 0.12 41.47 ± 0.17
+   Trans. Finetuning [9]      37.54 ± 0.25 60.54 ± 0.27             7.71 ± 0.08   20.13 ± 0.13     17.69 ± 0.12 40.21 ± 0.16
+   PT MAP [12]                52.08 ± 0.35 66.78 ± 0.29             9.54 ± 0.09   26.37 ± 0.15     18.50 ± 0.12 43.36 ± 0.16
+
+Table 3. Accuracy of various few-shot learning methods on DF20. For 100-way tasks, we report both top-1 and top-5 accuracy. For 5-way
+tasks, we do not report top-5 accuracy as we found that it was always 100%. Best method(s) in each column is shown in bold.
+
+
+                                                                        informative testbed from tieredImageNet’s test set. We also
+                                                                        pushed forward as a new benchmark for Few-shot Image
+                                                                        Classification models the Danish Fungi 2020 dataset, which
+                                                                        we believe to be an incredibly promising playing field for
+                                                                        future research in Few-Shot Learning. Finally, we showed
+                                                                        that state-of-the-art methods dramatically fail when con-
+                                                                        fronted with many-way classification (here many is 100) of
+                                                                        fine-grained objects. We insist that this setting is not far-
+                                                                        fetched and fits tangible industrial use cases. We believe
+                                                                        that these results should push us to take a step back and re-
+                                                                        assess the way we currently think about Few-Shot Image
+                                                                        Classification.
+                                                                            We used to define a few-shot classification task by its
+                                                                        number of ways and its number of shots, addressing n-way
+                                                                        k-shot classification as an indivisible problem. What we did
+                                                                        here can be seen as a novel framework, in which the number
+Figure 5. Correlation between the coarsity of the 5000 tasks sam-
+pled from DF20 for our 5-way 5-shot testbed and the accuracy of
+                                                                        of classes is not sufficient to define a task: we need to know
+the PT-MAP [12] method. The plot is smoothed using the rolling          what these classes are. In the same fashion, future works
+average over a window of 200 tasks.                                     may go beyond tasks defined by their number of shots, and
+                                                                        consider which images are chosen for the support set.
+                                                                            In this work, we addressed what we believe to be a very
+challenging problem of 100-way classification, especially               limiting bias of current Few-Shot Learning benchmarks i.e.
+in the 1-shot setting (less than 10% top-1 accuracy for the             a bias towards coarse tasks. We chose to tackle this par-
+best model, less than 20% in the 5-shot setting). We believe            ticular shortcoming because we observed that it was the
+that this should stand as a red flag regarding the ability of           main difference between academic benchmarks and the in-
+state-of-the-art few-shot classification methods to scale to            dustrial applications of Few-Shot Learning that we encoun-
+real-life use cases.                                                    tered. However, many more limitations of few-shot learning
+   To complete the study, we show in Figure 5 the correla-              benchmarks are yet to address: the fixed shape of the tasks,
+tion between the coarsity of a task (based on the taxonomy              the strict balance in both support and query sets, the empty
+of DF20) and the accuracy of the PT-MAP [12] method.                    overlap between large-scale classes (currently only used for
+We observe that, as was the case for better-tieredImageNet,             base training) and few-shot classes, no prior in the choice of
+the closest the classes sampled from Fungi are from one an-             support instances, and many other of which we did not think
+other, the harder the task composed of these classes.                   yet. We believe that addressing these shortcomings must be
+                                                                        considered a priority in our field, and we encourage any and
+                                                                        all who agree to join us in this effort.
+7. Conclusion
+   We showed that the widely used tieredImageNet bench-                 References
+mark with uniform sampling of classes led to evaluat-                    [1] Alessandro Achille, Michael Lam, Rahul Tewari, Avinash
+ing few-shot learning models on disproportionately coarse                    Ravichandran, Subhransu Maji, Charless C Fowlkes, Ste-
+tasks. We used semantic task sampling to generate a more                     fano Soatto, and Pietro Perona. Task2vec: Task embedding
+
+
+
+
+                                                                     4774
+     for meta-learning. In Proceedings of the IEEE/CVF Inter-           [16] Chenghao Liu, Zhihao Wang, Doyen Sahoo, Yuan Fang, Kun
+     national Conference on Computer Vision, pages 6430–6439,                Zhang, and Steven CH Hoi. Adaptive task sampling for
+     2019. 3                                                                 meta-learning. In Computer Vision–ECCV 2020: 16th Eu-
+ [2] Guilherme Alves, Miguel Couceiro, and Amedeo Napoli.                    ropean Conference, Glasgow, UK, August 23–28, 2020, Pro-
+     Sélection de mesures de similarité pour les données                  ceedings, Part XVIII 16, pages 752–769. Springer, 2020. 5
+     catégorielles. In EGC 2020-20ème édition de la conférence      [17] Jinlu Liu, Liang Song, and Yongqiang Qin. Prototype rec-
+     Extraction et Gestion des Connaissances, 2020. 3                        tification for few-shot learning. In Computer Vision–ECCV
+ [3] Luca Bertinetto, Joao F Henriques, Philip HS Torr, and An-              2020: 16th European Conference, Glasgow, UK, August 23–
+     drea Vedaldi. Meta-learning with differentiable closed-form             28, 2020, Proceedings, Part I 16, pages 741–756. Springer,
+     solvers. arXiv preprint arXiv:1805.08136, 2018. 3                       2020. 2, 7, 8
+                                                                        [18] Subhransu Maji, Esa Rahtu, Juho Kannala, Matthew
+ [4] Malik Boudiaf, Ziko Imtiaz Masud, Jérôme Rony, José Dolz,
+                                                                             Blaschko, and Andrea Vedaldi. Fine-grained visual classi-
+     Pablo Piantanida, and Ismail Ben Ayed. Transductive infor-
+                                                                             fication of aircraft. arXiv preprint arXiv:1306.5151, 2013.
+     mation maximization for few-shot learning. arXiv preprint
+                                                                             3
+     arXiv:2008.11297, 2020. 2, 6, 7, 8
+                                                                        [19] George A Miller. Wordnet: a lexical database for english.
+ [5] M Cheek, E Nic Lughadha, P Kirk, H Lindon, J Carretero, B               Communications of the ACM, 38(11):39–41, 1995. 2, 4
+     Looney, B Douglas, D Haelewaters, E Gaya, T Llewellyn,
+                                                                        [20] Cuong Nguyen, Thanh-Toan Do, and Gustavo Carneiro.
+     et al. New discoveries: plants and fungi. plants. People
+                                                                             Similarity of classification tasks.           arXiv preprint
+     Planet, 2020. 6
+                                                                             arXiv:2101.11201, 2021. 3
+ [6] Wei-Yu Chen, Yen-Cheng Liu, Zsolt Kira, Yu-Chiang Wang,            [21] Lukáš Picek, Milan Šulc, Jiřı́ Matas, Thomas S Jeppe-
+     and Jia-Bin Huang. A closer look at few-shot classification.            sen, Jacob Heilmann-Clausen, Thomas Læssøe, and Tobias
+     In International Conference on Learning Representations,                Frøslev. Danish fungi 2020-not just another image recogni-
+     2019. 2, 3, 6, 7, 8                                                     tion dataset. In Proceedings of the IEEE/CVF Winter Confer-
+ [7] Jia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai Li,                  ence on Applications of Computer Vision, pages 1525–1535,
+     and Li Fei-Fei. Imagenet: A large-scale hierarchical image              2022. 2, 3, 5
+     database. In 2009 IEEE conference on computer vision and           [22] Tiago Ramalho and Marta Garnelo. Adaptive posterior learn-
+     pattern recognition, pages 248–255. Ieee, 2009. 3                       ing: few-shot learning with a surprise-based memory mod-
+ [8] Thomas Deselaers and Vittorio Ferrari. Visual and semantic              ule. arXiv preprint arXiv:1902.02527, 2019. 1
+     similarity in imagenet. In CVPR 2011, pages 1777–1784.             [23] Sachin Ravi and Hugo Larochelle. Optimization as a model
+     IEEE, 2011. 3, 4                                                        for few-shot learning. In 5th International Conference on
+ [9] Guneet Singh Dhillon, Pratik Chaudhari, Avinash Ravichan-               Learning Representations, 2017. 2
+     dran, and Stefano Soatto. A baseline for few-shot image clas-      [24] Mengye Ren, Eleni Triantafillou, Sachin Ravi, Jake Snell,
+     sification. In ICLR, 2020. 2, 7, 8                                      Kevin Swersky, Joshua B Tenenbaum, Hugo Larochelle, and
+[10] Vincent Dumoulin, Neil Houlsby, Utku Evci, Xiaohua Zhai,                Richard S Zemel. Meta-learning for semi-supervised few-
+     Ross Goroshin, Sylvain Gelly, and Hugo Larochelle. Com-                 shot classification. ICLR, 2019. 3, 6
+     paring transfer and meta learning approaches on a uni-             [25] Xiaoqian Ruan, Guosheng Lin, Cheng Long, and Shengli
+     fied few-shot classification benchmark. arXiv preprint                  Lu. Few-shot fine-grained classification with spatial atten-
+     arXiv:2104.02638, 2021. 6                                               tive comparison. Knowledge-Based Systems, 218:106840,
+                                                                             2021. 3
+[11] Chelsea Finn, Pieter Abbeel, and Sergey Levine. Model-
+                                                                        [26] Jake Snell, Kevin Swersky, and Richard S Zemel. Pro-
+     agnostic meta-learning for fast adaptation of deep networks.
+                                                                             totypical networks for few-shot learning. arXiv preprint
+     In International conference on machine learning, pages
+                                                                             arXiv:1703.05175, 2017. 2, 7, 8
+     1126–1135. PMLR, 2017. 2
+                                                                        [27] Luming Tang, Davis Wertheimer, and Bharath Hariha-
+[12] Yuqing Hu, Vincent Gripon, and Stéphane Pateux. Leverag-
+                                                                             ran. Revisiting pose-normalization for fine-grained few-shot
+     ing the feature distribution in transfer-based few-shot learn-
+                                                                             recognition. In Proceedings of the IEEE/CVF Conference
+     ing. In International Conference on Artificial Neural Net-
+                                                                             on Computer Vision and Pattern Recognition, pages 14352–
+     works, pages 487–499. Springer, 2021. 2, 7, 8
+                                                                             14361, 2020. 3
+[13] Jay J Jiang and David W Conrath. Semantic similarity based         [28] Eleni Triantafillou, Tyler Zhu, Vincent Dumoulin, Pascal
+     on corpus statistics and lexical taxonomy. arXiv preprint               Lamblin, Utku Evci, Kelvin Xu, Ross Goroshin, Carles
+     cmp-lg/9709008, 1997. 3, 4                                              Gelada, Kevin Swersky, Pierre-Antoine Manzagol, et al.
+[14] Brenden Lake, Ruslan Salakhutdinov, Jason Gross, and                    Meta-dataset: A dataset of datasets for learning to learn from
+     Joshua Tenenbaum. One shot learning of simple visual con-               few examples. ICLR, 2020. 3, 5, 6
+     cepts. In Proceedings of the annual meeting of the cognitive       [29] Oriol Vinyals, Charles Blundell, Timothy Lillicrap, Daan
+     science society, volume 33, 2011. 3                                     Wierstra, et al. Matching networks for one shot learning. Ad-
+[15] Brenden M Lake, Ruslan Salakhutdinov, and Joshua B                      vances in neural information processing systems, 29:3630–
+     Tenenbaum. Human-level concept learning through proba-                  3638, 2016. 2, 3, 4
+     bilistic program induction. Science, 350(6266):1332–1338,          [30] P. Welinder, S. Branson, T. Mita, C. Wah, F. Schroff, S. Be-
+     2015. 1                                                                 longie, and P. Perona. Caltech-UCSD Birds 200. Technical
+
+
+
+
+                                                                      4775
+     Report CNS-TR-2010-001, California Institute of Technol-
+     ogy, 2010. 3
+[31] Jingyi Xu, Hieu Le, Mingzhen Huang, ShahRukh Athar,
+     and Dimitris Samaras. Variational feature disentangling for
+     fine-grained few-shot classification. In Proceedings of the
+     IEEE/CVF International Conference on Computer Vision,
+     pages 8812–8821, 2021. 3
+[32] Yaohui Zhu, Chenlong Liu, and Shuqiang Jiang. Multi-
+     attention meta learning for few-shot fine-grained image
+     recognition. In IJCAI, pages 1090–1096, 2020. 3
+
+
+
+
+                                                                   4776
+

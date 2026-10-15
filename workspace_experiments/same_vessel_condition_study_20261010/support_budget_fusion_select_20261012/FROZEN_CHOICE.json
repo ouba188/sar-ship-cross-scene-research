@@ -1,0 +1,145 @@
+{
+  "choices": {
+    "16": {
+      "expert_selected": {
+        "arm": "simple",
+        "intervention": 0.5,
+        "source_ba": 46.99688456545878
+      },
+      "fusion_selected": {
+        "arm": "simple",
+        "intervention": 0.75,
+        "source_ba": 47.033191160871475
+      },
+      "repair_expert_selected": {
+        "arm": "corrected",
+        "intervention": 1.0,
+        "source_ba": 45.12622651233067
+      },
+      "repair_fusion_selected": {
+        "arm": "corrected",
+        "intervention": 1.0,
+        "source_ba": 46.17363117920066
+      },
+      "simple_expert_selected": {
+        "arm": "simple",
+        "intervention": 0.5,
+        "source_ba": 46.99688456545878
+      },
+      "simple_fusion_selected": {
+        "arm": "simple",
+        "intervention": 0.75,
+        "source_ba": 47.033191160871475
+      }
+    },
+    "64": {
+      "expert_selected": {
+        "arm": "corrected",
+        "intervention": 0.5,
+        "source_ba": 49.74291084288299
+      },
+      "fusion_selected": {
+        "arm": "raw",
+        "intervention": 0.0,
+        "source_ba": 48.2810514619203
+      },
+      "repair_expert_selected": {
+        "arm": "corrected",
+        "intervention": 0.5,
+        "source_ba": 49.74291084288299
+      },
+      "repair_fusion_selected": {
+        "arm": "raw",
+        "intervention": 0.0,
+        "source_ba": 48.2810514619203
+      },
+      "simple_expert_selected": {
+        "arm": "raw",
+        "intervention": 0.0,
+        "source_ba": 49.44294171076404
+      },
+      "simple_fusion_selected": {
+        "arm": "raw",
+        "intervention": 0.0,
+        "source_ba": 48.2810514619203
+      }
+    },
+    "128": {
+      "expert_selected": {
+        "arm": "corrected",
+        "intervention": 0.25,
+        "source_ba": 46.959749178490476
+      },
+      "fusion_selected": {
+        "arm": "raw",
+        "intervention": 0.0,
+        "source_ba": 48.15630317370779
+      },
+      "repair_expert_selected": {
+        "arm": "corrected",
+        "intervention": 0.25,
+        "source_ba": 46.959749178490476
+      },
+      "repair_fusion_selected": {
+        "arm": "raw",
+        "intervention": 0.0,
+        "source_ba": 48.15630317370779
+      },
+      "simple_expert_selected": {
+        "arm": "raw",
+        "intervention": 0.0,
+        "source_ba": 46.949895767773796
+      },
+      "simple_fusion_selected": {
+        "arm": "raw",
+        "intervention": 0.0,
+        "source_ba": 48.15630317370779
+      }
+    }
+  },
+  "candidates": [
+    [
+      "raw",
+      0.0
+    ],
+    [
+      "simple",
+      0.25
+    ],
+    [
+      "simple",
+      0.5
+    ],
+    [
+      "simple",
+      0.75
+    ],
+    [
+      "simple",
+      1.0
+    ],
+    [
+      "corrected",
+      0.25
+    ],
+    [
+      "corrected",
+      0.5
+    ],
+    [
+      "corrected",
+      0.75
+    ],
+    [
+      "corrected",
+      1.0
+    ]
+  ],
+  "selection": "Equal source episode expert or fusion BA on identical candidate outputs",
+  "ties": "Least intervention, then raw/simple/corrected",
+  "target_selection": false,
+  "source_expert_replay_count": 648,
+  "source_prior": "OOF by vessel, exclude held vessels",
+  "historical_encoder_geometry_exposure": true,
+  "loss_changed": false
+}

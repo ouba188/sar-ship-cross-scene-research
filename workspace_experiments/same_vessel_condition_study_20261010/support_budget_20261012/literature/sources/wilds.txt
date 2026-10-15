@@ -1,0 +1,1724 @@
+                    W ILDS: A Benchmark of in-the-Wild Distribution Shifts
+
+
+           Pang Wei Koh * 1 Shiori Sagawa * 1 Henrik Marklund 1 Sang Michael Xie 1 Marvin Zhang 2
+    Akshay Balsubramani 1 Weihua Hu 1 Michihiro Yasunaga 1 Richard Lanas Phillips 3 Irena Gao 1 Tony Lee 1
+         Etienne David 4 Ian Stavness 5 Wei Guo 6 Berton A. Earnshaw 7 Imran S. Haque 7 Sara Beery 8
+        Jure Leskovec 1 Anshul Kundaje 1 Emma Pierson 3 9 Sergey Levine 2 Chelsea Finn 1 Percy Liang 1
+
+
+                                                                                                       Domain generalization
+                           Abstract                                         Train (mixture of domains)                        Test (unseen domains)
+
+       Distribution shifts—where the training distribu-
+                                                                                                x=                    x=                         x=
+       tion differs from the test distribution—can sub-                x=
+                                                                                        …                                                …
+       stantially degrade the accuracy of machine learn-               y = active               y = inactive          y = active                 y = inactive
+                                                                       d = scaffold 1           d = scaffold          d = scaffold               d = scaffold
+       ing (ML) systems deployed in the wild. De-                                                   44,930                44,931                     90,124
+       spite their ubiquity in the real-world deployments,
+                                                                       drawn from           drawn from              drawn from               drawn from
+       these distribution shifts are under-represented in
+                                                                                                                             average precision = 27.2%
+       the datasets widely used in the ML community
+       today. To address this gap, we present W ILDS,                                                   Subpopulation shift
+                                                                            Train (mixture of domains)               Test (Americas)                  Test (Africa)
+       a curated benchmark of 10 datasets reflecting
+       a diverse range of distribution shifts that natu-
+                                                                       x=
+       rally arise in real-world applications, such as                                                                x=                              x=
+                                                                                            …     x=                                         …
+       shifts across hospitals for tumor identification;               y = mall
+                                                                                                                      y = rec facility                y = school
+                                                                       d = Americas
+                                                                                                  y = residential     d = Americas                    d = Africa
+       across camera traps for wildlife monitoring; and                                           d = Africa
+       across time and location in satellite imaging and              drawn from                drawn from          drawn from                     drawn from
+       poverty mapping. On each dataset, we show that                                                               accuracy = 55.3%               accuracy = 32.8%
+       standard training yields substantially lower out-                                                                     worst-region accuracy = 32.8%
+       of-distribution than in-distribution performance.
+                                                                     Figure 1: In each W ILDS dataset, each data point (x, y, d) is asso-
+       This gap remains even with models trained by                  ciated with a domain d. Each domain corresponds to a distribution
+       existing methods for tackling distribution shifts,            Pd over data points which are similar in some way, e.g., molecules
+       underscoring the need for new methods for train-              with the same scaffold, or satellite images from the same region.
+       ing models that are more robust to the types of               We study two types of distribution shifts. Top: In domain general-
+       distribution shifts that arise in practice. To facil-         ization, we train and test on disjoint sets of domains. The goal is to
+                                                                     generalize to domains unseen during training, e.g., molecules with
+       itate method development, we provide an open-                 a new scaffold in OGB-M OL PCBA (Hu et al., 2020b). Bottom:
+       source package that automates dataset loading,                In subpopulation shift, the training and test domains overlap, but
+       contains default model architectures and hyperpa-             their relative proportions differ. We typically assess models by
+       rameters, and standardizes evaluations. The full              their worst performance over test domains, each of which corre-
+       paper, code, and leaderboards are available at                spond to a subpopulation of interest, e.g., different geographical
+                                                                     regions in FM OW- WILDS (Christie et al., 2018).
+       https://wilds.stanford.edu.
+
+                                                                     machine learning (ML) systems deployed in the wild. In this
+1. Introduction                                                      work, we consider two common types of distribution shifts:
+                                                                     domain generalization and subpopulation shift (Figure 1).
+Distribution shifts—where the training distribution differs
+                                                                     Both of these shifts arise naturally in many real-world sce-
+from the test distribution—pose significant challenges for
+                                                                     narios, and prior work has shown that they can substantially
+   *
+     Equal contribution 1 Stanford 2 UC Berkeley 3 Cornell 4 INRAE   degrade model performance. In domain generalization, the
+5
+ USask 6 UTokyo 7 Recursion 8 Caltech 9 Microsoft Research. Cor-     training and test distributions comprise data from related
+respondence to: Shiori Sagawa <ssagawa@cs.stanford.edu>,             but distinct domains, such as patients from different hospi-
+Pang Wei Koh <pangwei@cs.stanford.edu>, Percy Liang <pli-            tals (Zech et al., 2018), images taken by different cameras
+ang@cs.stanford.edu>.
+                                                                     (Beery et al., 2018), bioassays from different cell types (Li
+Proceedings of the 38 th International Conference on Machine         et al., 2019a), or satellite images from different countries
+Learning, PMLR 139, 2021. Copyright 2021 by the author(s).           and time periods (Jean et al., 2016). In subpopulation shift,
+                                                                                                                                     Subpopulation
+                                                                        Domain generalization                                                                     Domain generalization + subpopulation shift
+                                                                                                                                         shift
+          Dataset                 iWildCam               Camelyon17             RxRx1         OGB-MolPCBA GlobalWheat CivilComments                        FMoW           PovertyMap        Amazon               Py150
+          Input (x)           camera trap photo tissue slide                  cell image      molecular graph wheat image online comment satellite image satellite image product review                          code
+          Prediction (y)       animal species               tumor          perturbed gene       bioassays        wheat head bbox         toxicity         land use        asset wealth    sentiment        autocomplete
+          Domain (d)               camera                  hospital             batch            scaffold         location, time demographic            time, region country, rural-urban     user         git repository
+          # domains                   323                      5                   51            120,084                47                  16             16 x 5           23 x 2           2,586               8,421
+          # examples               203,029                455,954Train         125,510           437,929
+                                                                                                  Val (OOD)
+                                                                                                                      6,515
+                                                                                                                       Test (OOD)
+                                                                                                                                        448,000           523,846           19,669          539,502             150,000
+                                                            Experiment 1       Experiment 2       Experiment 3        Experiment 4
+
+                                                                                                                                      What do Black                                      Overall a solid    import
+                                                                                                                                      and LGBT                                           package that       numpy as np
+                                                                                                                                      people have to                                     has a good
+          Train example                        siRNA A
+                                                                                                                                      do with bicycle                                    quality of         …
+                                                                                                                                      licensing?                                         construction
+                      Train                               Val (OOD)             Test (OOD)                                                                                               for the price.     norm=np.___
+             Experiment 1       Experiment 2             Experiment 3          Experiment 4
+                                                                                                                                      As a Christian,                                    I *loved* my       import
+                                               siRNA B                                                                                I will not be                                      French press,      subprocess
+                                                                                                                                      patronizing                                        it’s so perfect    as sp
+siRNA A   Test example                                                                                                                any of those                                       and came with
+                                                                                                                                      businesses.                                        all this fun       p=sp.Popen()
+                                                                                                                                                                                         stuff!             stdout=p.___
+
+
+                                 Beery et al.            Bandi et al.        Taylor et al.       Hu et al.         David et al.      Borkan et al.      Christie et al.    Yeh et al.       Ni et al.      Raychev et al.
+          Adapted from
+siRNA B                            2020                    2018                 2019              2020               2021               2019                2018             2020            2019              2016
+
+
+      Figure 2: The W ILDS benchmark contains 10 datasets across a diverse set of application areas, data modalities, and dataset sizes. Each
+      dataset comprises data from different domains, and the benchmark is set up to evaluate models on distribution shifts across these domains.
+
+
+      we consider test distributions that are subpopulations of the                                                          sis (Ni et al., 2019), and code completion (Raychev et al.,
+      training distribution, with the goal of doing well even on the                                                         2016; Lu et al., 2021). These datasets reflect natural dis-
+      worst-case subpopulation; e.g., we might seek models that                                                              tribution shifts arising from different cameras, hospitals,
+      perform well on all demographic subpopulations, including                                                              molecular scaffolds, experiments, demographics, countries,
+      minority individuals (Buolamwini & Gebru, 2018).                                                                       time periods, users, and codebases.
+      Despite their ubiquity in real-world deployments, these                                                                W ILDS builds on extensive data-collection efforts by domain
+      types of distribution shifts are under-represented in the                                                              experts, who are often forced to grapple with distribution
+      datasets widely used in the ML community today (Geirhos                                                                shifts to make progress in their applications. To design
+      et al., 2020). Most of these datasets were designed for                                                                W ILDS, we worked with them to identify, select, and adapt
+      the standard i.i.d. setting, with training and test sets from                                                          datasets that fulfilled the following criteria:
+      the same distribution, and prior work on retrofitting them
+      with distribution shifts has focused on shifts that are cleanly                                                        1. Distribution shifts with performance drops. The
+      characterized but not always likely to arise in real-world                                                                train/test splits reflect shifts that substantially degrade
+      deployments. For instance, many recent papers have studied                                                                model performance, i.e., with a large gap between in-
+      datasets with shifts induced by synthetic transformations,                                                                distribution and out-of-distribution performance.
+      such as changing the color of MNIST digits (Arjovsky et al.,
+      2019), or by disparate data splits, such as generalizing from                                                          2. Real-world relevance. The training/test splits and eval-
+      cartoons to photos (Li et al., 2017a). Datasets like these are                                                            uation metrics are motivated by real-world scenarios
+      important testbeds for systematic studies; but to develop and                                                             and chosen in conjunction with domain experts. In Ap-
+      evaluate methods for real-world shifts, we need to comple-                                                                pendix A, we further discuss the framework we use to
+      ment them with datasets that capture shifts in the wild.                                                                  assess the realism of a dataset.
+      In this paper, we present W ILDS, a curated benchmark of 10                                                            3. Potential leverage. Distribution shift benchmarks must
+      datasets with evaluation metrics and train/test splits repre-                                                             be non-trivial but also possible to solve, as models cannot
+      senting a broad array of distribution shifts that ML models                                                               be expected to generalize to arbitrary distribution shifts.
+      face in the wild (Figure 2). W ILDS datasets span many im-                                                                We constructed each W ILDS dataset to have training data
+      portant applications: animal species categorization (Beery                                                                from multiple domains, with domain annotations and
+      et al., 2020a), tumor identification (Bandi et al., 2018), bioas-                                                         other metadata available at training time. We hope that
+      say prediction (Wu et al., 2018; Hu et al., 2020b), genetic                                                               these can be used to learn robust models: e.g., for domain
+      perturbation classification (Taylor et al., 2019), wheat head                                                             generalization, one could use these annotations to learn
+      detection (David et al., 2020), text toxicity classification                                                              models that are invariant to domain-specific features,
+      (Borkan et al., 2019b), land use classification (Christie et al.,                                                         while for subpopulation shift, one could learn models
+      2018), poverty mapping (Yeh et al., 2020), sentiment analy-                                                               that perform uniformly well across each subpopulation.
+We chose the W ILDS datasets to collectively encompass a            (Xiao et al., 2020) and Waterbirds (Sagawa et al., 2020a),
+diverse set of tasks, data modalities, dataset sizes, and num-      which alter image backgrounds; or Colored MNIST (Ar-
+bers of domains, so as to enable evaluation across a broad          jovsky et al., 2019), which changes the colors of MNIST
+range of real-world distribution shifts. In Appendix C, we          digits. It is also common to use data splits or combinations
+further survey the distribution shifts that occur in other appli-   of disparate datasets to induce shifts, such as generalizing
+cation areas—algorithmic fairness and policing, medicine            to photos solely from cartoons and other stylized images in
+and healthcare, genomics, natural language and speech pro-          PACS (Li et al., 2017a); generalizing to objects at different
+cessing, education, and robotics—and discuss examples of            scales solely from a single scale in DeepFashion Remixed
+datasets from these areas that we considered but did not            (Hendrycks et al., 2020b); or using training and test sets
+include in W ILDS, as their distribution shifts did not cause       with disjoint subclasses in BREEDS (Santurkar et al., 2020)
+an appreciable performance drop.                                    and similar datasets (Hendrycks & Dietterich, 2019). While
+                                                                    our treatment here is necessarily brief, we discuss other
+To make the W ILDS datasets more accessible, we have
+                                                                    similar datasets in Appendix B.
+substantially modified most of them, e.g., to clarify the dis-
+tribution shift, standardize the data splits, or preprocess the     These existing benchmarks are useful and important testbeds
+data for use in standard ML frameworks. In Appendix F,              for method development. As they typically target well-
+we introduce our accompanying open-source Python pack-              defined and isolated shifts, they facilitate clean analysis
+age that fully automates data loading and evaluation. The           and controlled experimentation, e.g., studying the effect of
+package also includes default models appropriate for each           backgrounds on image classification (Xiao et al., 2020), or
+dataset, allowing all of the baseline results reported in this      showing that training with added Gaussian blur improves
+paper to be easily replicated. To track the state-of-the-art        performance on real-world blurry images (Hendrycks et al.,
+in training algorithms and model architectures that are ro-         2020b). Moreover, by studying how off-the-shelf models
+bust to these distribution shifts, we are also hosting a public     trained on standard datasets like ImageNet perform on dif-
+leaderboard; we discuss guidelines for developers in Sec-           ferent test datasets, we can better understand the robustness
+tion 7. Code, leaderboards, and updates are available at            of these widely-used models (Geirhos et al., 2018b; Recht
+https://wilds.stanford.edu.                                         et al., 2019; Hendrycks & Dietterich, 2019; Taori et al.,
+                                                                    2020; Djolonga et al., 2020; Hendrycks et al., 2020b).
+Datasets are significant catalysts for ML research. Like-
+wise, benchmarks that curate and standardize datasets—e.g.,         However, existing benchmarks do not generally represent
+the GLUE and SuperGLUE benchmarks for language un-                  realistic distribution shifts, i.e., train/test splits that are likely
+derstanding (Wang et al., 2019a;b) and the Open Graph               to arise in real-world deployments. As model robustness
+Benchmark for graph ML (Hu et al., 2020b)—can acceler-              need not transfer across shifts , it is important to develop
+ate research by focusing community attention, easing de-            and evaluate methods on real-world shifts. For example,
+velopment on multiple datasets, and enabling systematic             models can be robust to image corruptions but not to shifts
+comparisons between approaches. In this spirit, we hope             across datasets (Taori et al., 2020; Djolonga et al., 2020),
+that W ILDS will facilitate the development of ML methods           and a method that improves robustness on a standard vision
+and models that are robust to real-world distribution shifts        dataset can actually consistently harm robustness on real-
+and can therefore be deployed reliably in the wild.                 world satellite imagery datasets (Xie et al., 2020). With
+                                                                    W ILDS, we seek to complement these existing benchmarks
+2. Comparison with existing ML benchmarks                           by focusing on datasets with realistic distribution shifts
+                                                                    across a diverse set of data modalities and applications.
+Distribution shifts have been a longstanding problem in the
+ML research community (Hand, 2006; Quiñonero-Candela                3. Problem settings
+et al., 2009). Earlier work studied shifts in datasets for tasks
+including part-of-speech tagging (Marcus et al., 1993), senti-      Each W ILDS dataset is associated with a type of domain
+ment analysis (Blitzer et al., 2007), land cover classification     shift: domain generalization, subpopulation shift, or a hy-
+(Bruzzone & Marconcini, 2009), object recognition (Saenko           brid of both (Figure 2). In each setting, we can view the
+et al., 2010), and flow cytometry (Blanchard et al., 2011).         overall data distribution as a mixture of D domains D =
+However, these datasets are not as widely used today, in part       {1, . . . , D}. Each domain d ∈ D corresponds to a fixed
+because they tend to be much smaller than modern datasets.          data distribution Pd over (x, y, d), where x is the input, y is
+                                                                    the prediction target, and all points sampled from Pd have
+Instead, recent papers have focused on object recognition
+                                                                    domain d. We encode the domain     Pshift by assuming that the
+datasets with shifts induced by synthetic transformations,
+                                                                    training distribution P train = d∈D qdtrain Pd has mixture
+such as ImageNet-C (Hendrycks & Dietterich, 2019), which                         train
+                                                                    weights qP   d     for each domain d, while the test distribution
+corrupts images with noise; the Backgrounds Challenge                 test                 test
+                                                                    P       =       d∈D qd Pd is a different mixture of domains
+with weights qdtest . For convenience, we define the set of        on related distribution shifts for each dataset in Appendix H.
+training domains as Dtrain = {d ∈ D | qdtrain > 0}, and like-
+wise, the set of test domains as Dtest = {d ∈ D | qdtest > 0}.     4.1. Domain generalization datasets
+At training time, the learning algorithm gets to see the do-       I W ILD C AM 2020- WILDS (Appendix H.1). Animal popu-
+main annotations d, i.e., the training set comprises points        lations have declined 68% on average since 1970 (Grooten
+(x, y, d) ∼ P train . At test time, the model gets either x or     et al., 2020). To better understand and monitor wildlife bio-
+(x, d) drawn from P test , depending on the application.           diversity loss, ecologists commonly deploy camera traps—
+Domain generalization (Figure 1-Top). In domain gen-               heat or motion-activated static cameras placed in the wild
+eralization, we aim to generalize to test domains Dtest            (Wearn & Glover-Kapfer, 2017)—and then use ML models
+that are disjoint from the training domains Dtrain , i.e.,         to process the data collected (Weinstein, 2018; Norouzzadeh
+Dtrain ∩ Dtest = ∅. To make this problem tractable, the train-     et al., 2019; Tabak et al., 2019; Beery et al., 2019; Ahumada
+ing and test domains are typically similar to each other: e.g.,    et al., 2020). Typically, these models would be trained on
+in C AMELYON 17- WILDS, we train on data from some hospi-          photos from existing camera traps and then used across new
+tals and test on a different hospital, and in I W ILD C AM 2020-   camera trap deployments. However, across different camera
+WILDS , we train on data from some camera traps and test
+                                                                   traps, there is drastic variation in illumination, color, camera
+on different camera traps. We typically seek to minimize           angle, background, vegetation, and relative animal frequen-
+the average error on the test distribution.                        cies, which results in models generalizing poorly to new
+                                                                   camera trap deployments (Beery et al., 2018).
+Subpopulation shift (Figure 1-Bottom). In subpopulation
+shift, we aim to perform well across a wide range of domains       We study this shift on a variant of the iWildCam 2020 dataset
+seen during training time. Concretely, all test domains are        (Beery et al., 2020a), where the input x is a photo from a
+seen at training, with Dtest ⊆ Dtrain , but the proportions of     camera trap, the label y is one of 182 animal species, and
+the domains can change, with q test ̸= q train . We typically      the domain d specifies the identity of the camera trap. The
+seek to minimize the maximum error over all test domains.          training and test sets comprise photos from disjoint sets of
+For example, in C IVIL C OMMENTS - WILDS, the domains              camera traps. As leverage, we include over 200 camera traps
+d represent particular demographics, some of which are             in the training set, capturing a wide range of variation. We
+a minority in the training set, and we seek high accuracy          evaluate models by their macro F1 scores, which emphasizes
+on each of these subpopulations without observing their            performance on rare species, as rare and endangered species
+demographic identity d at test time.                               are the most important to accurately monitor.
+
+Hybrid settings. It is not always possible to cleanly de-          C AMELYON 17- WILDS (Appendix H.2). Models for medi-
+fine a problem as domain generalization or subpopulation           cal applications are often trained on data from a small num-
+shift; for example, a test domain might be present in the          ber of hospitals, but with the goal of being deployed more
+training set but at a very low frequency. In W ILDS, we also       generally across other hospitals. However, variations in
+consider some hybrid settings that combine both problem            data collection and processing can degrade model accuracy
+settings. For example, in FM OW- WILDS, the inputs are             on data from new hospital deployments (Zech et al., 2018;
+satellite images and the domains correspond to the year and        AlBadawy et al., 2018). In histopathology applications—
+geographical region in which they were taken. We simul-            studying tissue slides under a microscope—this variation
+taneously consider domain generalization across time (the          can arise from sources like differences in the patient popula-
+training/test sets comprise images taken before/after a cer-       tion or in slide staining and image acquisition (Veta et al.,
+tain year) and subpopulation shift across regions (there are       2016; Komura & Ishikawa, 2018; Tellez et al., 2019).
+images from the same regions in the training and test sets,        We study this shift on a patch-based variant of the Came-
+and we seek high performance across all regions).                  lyon17 dataset (Bandi et al., 2018), where the input x is a
+                                                                   96x96 patch of a whole-slide image of a lymph node section
+4. W ILDS datasets                                                 from a patient with potentially metastatic breast cancer, the
+                                                                   label y is whether the patch contains tumor, and the domain
+We now briefly describe each W ILDS dataset (Figure 2). For        d specifies which of 5 hospitals the patch was from. The
+each dataset, we consider a problem setting—domain gener-          training and test sets comprise class-balanced patches from
+alization, subpopulation shift, or a hybrid—that we believe        separate hospitals, and we evaluate models by their average
+best reflects the real-world challenges in the corresponding       accuracy. Prior work suggests that staining differences are
+application area; see Appendix A for more discussion of            the main source of variation between hospitals in similar
+these considerations. To avoid confusion between our modi-         datasets (Tellez et al., 2019). As we have training data from
+fied datasets and their original sources, we append - WILDS        multiple hospitals, a model could use that as leverage to
+to the dataset names. We provide more details and context          learn to be robust to stain variation.
+R X R X 1- WILDS (Appendix H.3). High-throughput screen-           folds; for leverage, the training set has molecules from over
+ing techniques that can generate large amounts of data             40,000 scaffolds. We evaluate models by averaging the
+are now common in many fields of biology, including                Average Precision (AP) across each of the 128 assays.
+transcriptomics (Harrill et al., 2019), genomics (Echev-
+                                                                   G LOBALW HEAT - WILDS (Appendix H.5). Models for au-
+erri & Perrimon, 2006; Zhou et al., 2014), proteomics
+                                                                   tomated, high-throughput plant phenotyping—measuring
+and metabolomics (Taylor et al., 2021), and drug discov-
+                                                                   the physical characteristics of plants and crops, such as
+ery (Broach et al., 1996; Macarron et al., 2011; Swinney &
+                                                                   wheat head density and counts—are important tools for
+Anthony, 2011; Boutros et al., 2015). Such large volumes of
+                                                                   crop breeding (Thorp et al., 2018; Reynolds et al., 2020)
+data, however, need to be created in experimental batches,
+                                                                   and agricultural field management (Shi et al., 2016). These
+or groups of experiments executed at similar times under
+                                                                   models are typically trained on data collected in a limited
+similar conditions. Despite attempts to carefully control
+                                                                   number of regions, even for crops grown worldwide such
+experimental variables such as temperature, humidity, and
+                                                                   as wheat (Madec et al., 2019; Xiong et al., 2019; Ubbens
+reagent concentration, measurements from these screens are
+                                                                   et al., 2020; Ayalew et al., 2020). However, there can be
+confounded by technical artifacts that arise from differences
+                                                                   substantial variation between regions, due to differences in
+in the execution of each batch. These batch effects make it
+                                                                   crop varieties, growing conditions, and data collection pro-
+difficult to draw conclusions from data across experimental
+                                                                   tocols. Prior work on wheat head detection has shown that
+batches (Leek et al., 2010; Parker & Leek, 2012; Soneson
+                                                                   this variation can significantly degrade model performance
+et al., 2014; Nygaard et al., 2016; Caicedo et al., 2017).
+                                                                   on regions unseen during training (David et al., 2020).
+We study the shift induced by batch effects on a variant of
+                                                                   We study this shift in an expanded version of the Global
+the RxRx1 dataset (Taylor et al., 2019), where the input
+                                                                   Wheat Head Dataset (David et al., 2020; 2021), a large set of
+x is a 3-channel image of cells obtained by fluorescent
+                                                                   wheat images collected from 12 countries around the world.
+microscopy (Bray et al., 2016), the label y indicates which
+                                                                   It is a detection dataset, where the input x is a cropped
+of the 1,139 genetic treatments (including no treatment) the
+                                                                   overhead image of a wheat field, the label y is the set of
+cells received, and the domain d specifies the batch in which
+                                                                   bounding boxes for each wheat head visible in the image,
+the imaging experiment was run. The training and test sets
+                                                                   and the domain d specifies an image acquisition session
+consist of disjoint experimental batches; as leverage, the
+                                                                   (i.e., a specific location, time, and sensor with which a set
+training set has images from 33 different batches, with each
+                                                                   of images was collected). The data split captures a shift
+batch containing one sample for every class. We assess a
+                                                                   in location, with training and test sets comprising images
+model’s ability to normalize batch effects while preserving
+                                                                   from disjoint countries. As leverage, we include images
+biological signal by evaluating how well it can classify
+                                                                   from 18 acquisition sessions over 5 countries in the training
+images of treated cells in the out-of-distribution test set.
+                                                                   set. We evaluate model performance on unseen countries
+OGB-M OL PCBA (Appendix H.4). Accurate prediction                  by measuring accuracy at a fixed Intersection over Union
+of the biochemical properties of small molecules can signif-       (IoU) threshold, and averaging across acquisition sessions
+icantly accelerate drug discovery by reducing the need for         to account for imbalances in the numbers of images in them.
+expensive lab experiments (Shoichet, 2004; Hughes et al.,
+2011). However, the experimental data available for training       4.2. Subpopulation shift datasets
+such models is limited compared to the extremely diverse
+and combinatorially large universe of candidate molecules          C IVIL C OMMENTS - WILDS (Appendix H.6). Automatic
+that we would want to make predictions on (Bohacek et al.,         review of user-generated text is an important tool for mod-
+1996; Sterling & Irwin, 2015; Lyu et al., 2019; McCloskey          erating the sheer volume of text written on the Internet. We
+et al., 2020). This means that models need to generalize to        focus here on the task of detecting toxic comments. Prior
+out-of-distribution molecules that are structurally different      work has shown that toxicity classifiers can pick up on bi-
+from those seen in the training set.                               ases in the training data and spuriously associate toxicity
+                                                                   with the mention of certain demographics (Park et al., 2018;
+We study this shift on the OGB-M OL PCBA dataset, which            Dixon et al., 2018). These types of spurious correlations
+is directly adopted from the Open Graph Benchmark (Hu              can significantly degrade model performance on particular
+et al., 2020b) and originally from MoleculeNet (Wu et al.,         subpopulations (Sagawa et al., 2020a).
+2018). It is a multi-label classification dataset, where the in-
+put x is a molecular graph, the label y is a 128-dimensional       We study this problem on a variant of the CivilComments
+binary vector where each component corresponds to a bio-           dataset (Borkan et al., 2019b), a large collection of com-
+chemical assay result, and the domain d specifies the scaf-        ments on online articles taken from the Civil Comments
+fold (i.e., a cluster of molecules with similar structure). The    platform. The input x is a text comment, the label y is
+training and test sets comprise molecules with disjoint scaf-      whether the comment was rated as toxic, and the domain
+                                                                   d is a 8-dimensional binary vector where each component
+corresponds to whether the comment mentions one of the          We study this shift through a variant of the poverty map-
+8 demographic identities male, female, LGBTQ, Christian,        ping dataset collected by Yeh et al. (2020), where the input
+Muslim, other religions, Black, and White. The training and     x is a multispectral satellite image, the output y is a real-
+test sets comprise comments on disjoint articles, and we        valued asset wealth index from surveys, and the domain d
+evaluate models by the lowest true positive/negative rate       represents the country the image was taken in and whether
+over each of these 8 demographic groups; these groups over-     the image is of an urban or rural area. The training and
+lap with each other, deviating slightly from the standard       test set comprise data from disjoint sets of countries, and
+subpopulation shift framework in Section 3. Models can          we evaluate models by the correlation of their predictions
+use the provided domain annotations as leverage to learn to     with the ground truth. Specifically, we take the lower of
+perform well over each demographic group.                       the correlations over the urban and rural subpopulations,
+                                                                as prior work has shown that accurately predicting poverty
+4.3. Hybrid datasets                                            within these subpopulations is especially challenging. As
+                                                                poverty measures are highly correlated across space (Jean
+FM OW- WILDS (Appendix H.7). ML models for satellite            et al., 2018; Rolf et al., 2020), methods can utilize the pro-
+imagery can enable global-scale monitoring of sustainability    vided location coordinates, and the country and urban/rural
+and economic challenges, aiding policy and humanitarian ef-     annotations, to improve robustness.
+forts in applications such as deforestation tracking (Hansen
+et al., 2013), population density mapping (Tiecke et al.,       A MAZON - WILDS (Appendix H.9). In many consumer-
+2017), crop yield prediction (Wang et al., 2020b), and other    facing ML applications, models are trained on data collected
+economic tracking applications (Katona et al., 2018). As        on one set of users and then deployed across a wide range of
+satellite data constantly changes due to human activity and     potentially new users. These models can perform well on av-
+environmental processes, these models must be robust to         erage but poorly on some users (Tatman, 2017; Caldas et al.,
+distribution shifts over time. Moreover, as there can be dis-   2018; Li et al., 2019b; Koenecke et al., 2020). These large
+parities in the data available between regions, these models    performance disparities across users are practical concerns
+should ideally have uniformly high accuracies instead of        in consumer-facing applications, and they can also indicate
+only doing well on data-rich regions and countries.             that models are exploiting biases or spurious correlations in
+                                                                the data (Badgeley et al., 2019; Geva et al., 2019).
+We study this problem on a variant of the Functional Map of
+the World dataset (Christie et al., 2018), where the input x    We study a variant of the Amazon review dataset (Ni et al.,
+is an RGB satellite image, the label y is one of 62 building    2019), where the input x is the review text, the label y
+or land use categories, and the domain d represents the year    is the corresponding 1-to-5 star rating, and the domain d
+the image was taken and its geographical region (Africa, the    identifies the user who wrote the review. The training and
+Americas, Oceania, Asia, or Europe). The different regions      test sets comprise reviews from disjoint sets of users; for
+have different numbers of examples, e.g., there are far fewer   leverage, the training set has reviews from 5,008 different
+images from Africa than the Americas. The training set          users. As our goal is to train models with consistently high
+comprises data from before 2013, while the test set com-        performance across users, we evaluate models by the 10th
+prises data from 2016 and after; years 2013 to 2015 are         percentile of per-user accuracies. We discuss other distribu-
+reserved for the validation set. We evaluate models by their    tion shifts on this dataset (e.g., by category) in Appendix I.3.
+test accuracy on the worst geographical region, which com-      P Y 150- WILDS (Appendix H.10). Code completion
+bines both a domain generalization problem over time and        models—autocomplete tools used by programmers to sug-
+a subpopulation shift problem over regions. As we provide       gest subsequent source code tokens, such as the names of
+both time and region annotations, models can leverage the       API calls—are commonly used to reduce the effort of soft-
+structure across both space and time to improve robustness.     ware development (Robbes & Lanza, 2008; Bruch et al.,
+P OVERTY M AP - WILDS (Appendix H.8). Global-scale              2009; Nguyen & Nguyen, 2015; Proksch et al., 2015; Franks
+poverty estimation is a specific remote sensing application     et al., 2015). These models are typically trained on data
+which is essential for targeted humanitarian efforts in poor    collected from existing codebases but then deployed more
+regions (Abelson et al., 2014; Espey et al., 2015). However,    generally across other codebases, which may have different
+ground truth measurements of poverty are lacking for much       distributions of API usages (Nita & Notkin, 2010; Proksch
+of the developing world, as field surveys for collecting the    et al., 2016; Allamanis & Brockschmidt, 2017). This shift
+ground truth are expensive (Blumenstock et al., 2015). This     across codebases can cause substantial performance drops
+motivates the approach of training ML models on countries       in code completion models. Moreover, prior studies of real-
+with ground truth labels and then deploying them on differ-     world usage of code completion models have noted that they
+ent countries where we have satellite data but no labels (Xie   can generalize poorly on some important subpopulations of
+et al., 2016; Jean et al., 2016; Yeh et al., 2020).             tokens such as method names (Hellendoorn et al., 2019).
+Table 1: The in-distribution (ID) vs. out-of-distribution (OOD) performance of models trained with empirical risk minimization. The
+OOD test sets are drawn from the shifted test distributions described in Section 4, while the ID comparisons vary per dataset and are
+described in the main text. For each dataset, higher numbers are better. In all tables in this paper, we report in parentheses the standard
+deviation across 3+ replicates, which measures the variability between replicates; note that this is higher than the standard error of the
+mean, which measures the variability in the estimate of the mean across replicates.
+
+  Dataset                                      Metric                In-distribution type      In-distribution     Out-of-distribution
+  I W ILD C AM 2020- WILDS                 Macro F1                      Fixed-train               47.0 (1.4)                31.0 (1.3)
+  C AMELYON 17- WILDS                  Average accuracy                  Fixed-train               93.2 (5.2)                70.3 (6.4)
+  R X R X 1- WILDS                     Average accuracy                   Fixed-test               39.8 (0.2)                29.9 (0.4)
+  OGB-M OL PCBA                           Average AP                     Randomized                34.4 (0.9)                27.2 (0.3)
+  G LOBALW HEAT - WILDS             Average domain accuracy               Fixed-test               64.8 (0.4)                48.4 (1.8)
+  C IVIL C OMMENTS - WILDS           Worst-group accuracy                  Average                 92.2 (0.1)                56.0 (3.6)
+  FM OW- WILDS                       Worst-region accuracy                Fixed-test               48.6 (0.9)                32.3 (1.3)
+  P OVERTY M AP - WILDS              Worst-U/R Pearson R                  Fixed-test              0.60 (0.06)               0.45 (0.06)
+  A MAZON - WILDS                   10th percentile accuracy               Average                 71.9 (0.1)                53.8 (0.8)
+  P Y 150- WILDS                     Method/class accuracy               Fixed-train               75.4 (0.4)                67.9 (0.1)
+
+
+We study a variant of the Py150 Dataset (Raychev et al.,                   traps are randomly split across training and test sets.
+2016; Lu et al., 2021), where the goal is to predict the next
+token given the context of previous tokens. The input x is a            2. Fixed-test. We hold the OOD test set approximately
+sequence of source code tokens, the label y is the next token,             constant and modify the training set to mix in data from
+and the domain d specifies the repository that the source                  the (OOD) test distribution, while keeping the size of
+code belongs to. The training and test sets comprise code                  training set similar or smaller. We use this comparison
+from disjoint GitHub repositories. As leverage, we include                 when the training and test distributions are qualitatively
+over 5,300 repositories in the training set, capturing a wide              different: e.g., in FM OW- WILDS, where the test distri-
+range of source code variation. We evaluate models by their                bution comes from a later time period, we replace half
+accuracy on the subpopulation of class and method tokens.                  of the data in the training set with otherwise unused data
+                                                                           from the test distribution.
+
+5. Performance drops from distribution shifts                           3. Randomized. We shuffle all of the data into i.i.d. train-
+                                                                           ing, validation, and test splits. We use this for OGB-
+For a dataset to be included in W ILDS, the shift reflected                M OL PCBA, where the small size of the domains pre-
+in its train/test split should cause significant performance               clude the other options.
+drops in standard models. We ascertained this for each
+dataset by training standard models using empirical risk                4. Average. For subpopulation shift datasets, where models
+minimization (ERM), i.e., minimizing the average training                  are evaluated on a subpopulation of the data, we report
+loss, and then comparing their out-of-distribution (OOD)                   the average performance across the entire OOD test set.
+vs. in-distribution (ID) performance. The OOD setting is
+captured by the default train/test split and the evaluation             More details on the ID and OOD test sets, and additional
+criteria described in Section 4: for domain generalization,             results for datasets that admit multiple ID comparisons, are
+we report performance on unseen domains, and for subpop-                described in Appendix H. We further describe model selec-
+ulation shift, we report performance on the worst-case sub-             tion and the general experimental protocol in Appendix G.
+population. ID comparisons vary by dataset. Each dataset
+has at least one of the following types of ID comparisons:              Results. Table 1 shows that for each dataset, OOD per-
+                                                                        formance is consistently and substantially lower than ID
+                                                                        performance. Moreover, on the datasets that allow for fixed-
+1. Fixed-train. We hold the training set constant and eval-             test ID comparisons, we show that oracle models trained
+   uate on a separate ID test set of data from the same                 on a mix of the ID and OOD distributions can simultane-
+   domains (e.g., camera traps) as the training set. This               ously achieve high ID and OOD performance, indicating
+   comparison is convenient because it does not require                 that lower OOD performance is not due to the OOD test
+   retraining the model, and we use it when we expect the               sets being intrinsically more difficult than the ID test sets
+   training and test domains to be interchangeable in the               (Appendix H). Overall, these results demonstrate that the
+   sense of being randomly drawn from the same distribu-                real-world distribution shifts reflected in the W ILDS datasets
+   tion, e.g., in I W ILD C AM 2020- WILDS, where the camera            meaningfully degrade standard model performance.
+Table 2: The out-of-distribution test performance of models trained with different baseline algorithms: CORAL, originally designed for
+unsupervised domain adaptation; IRM, for domain generalization; and Group DRO, for subpopulation shifts. Evaluation metrics for each
+dataset are the same as in Table 1; higher is better. Overall, these algorithms failed to improve over ERM, except on C IVIL C OMMENTS -
+WILDS where they perform better but still do not close the in-distribution gap in Table 1. For G LOBALW HEAT - WILDS , we omit CORAL
+and IRM as those methods do not port straightforwardly to detection settings; its ERM number also differs from Table 1 as its ID
+comparison required a slight change to the OOD test set. Parentheses show standard deviation across 3+ replicates.
+
+           Dataset                              Setting             ERM         CORAL             IRM         Group DRO
+           I W ILD C AM 2020- WILDS          Domain gen.        31.0 (1.3)      32.8 (0.1)      15.1 (4.9)       23.9 (2.1)
+           C AMELYON 17- WILDS               Domain gen.        70.3 (6.4)      59.5 (7.7)      64.2 (8.1)       68.4 (7.3)
+           R X R X 1- WILDS                  Domain gen.        29.9 (0.4)      28.4 (0.3)       8.2 (1.1)       23.0 (0.3)
+           OGB-M OL PCBA                     Domain gen.        27.2 (0.3)      17.9 (0.5)      15.6 (0.3)       22.4 (0.6)
+           G LOBALW HEAT - WILDS             Domain gen.        49.2 (1.5)             —               —         46.1 (1.6)
+           C IVIL C OMMENTS - WILDS          Subpop. shift      56.0 (3.6)      65.6 (1.3)      66.3 (2.1)       70.0 (2.0)
+           FM OW- WILDS                         Hybrid          32.3 (1.3)     31.7 (1.2)      30.0 (1.4)       30.8 (0.8)
+           P OVERTY M AP - WILDS                Hybrid         0.45 (0.06)    0.44 (0.06)     0.43 (0.07)      0.39 (0.06)
+           A MAZON - WILDS                      Hybrid          53.8 (0.8)     52.9 (0.8)      52.4 (0.8)       53.3 (0.0)
+           P Y 150- WILDS                       Hybrid          67.9 (0.1)     65.9 (0.1)      64.3 (0.2)       65.9 (0.1)
+
+
+6. Baseline algorithms for distribution shifts                        Subpopulation shift baselines. In subpopulation shift set-
+                                                                      tings, our aim is to train models that perform well on all
+Many algorithms have been proposed for training models                relevant subpopulations. We test the following approach:
+that are more robust to particular distribution shifts than
+standard ERM models. Unlike ERM, these algorithms tend                    • Group DRO (Hu et al., 2018; Sagawa et al., 2020a),
+to utilize domain annotations during training, with the goal                which uses distributionally robust optimization to ex-
+of learning a model that can generalize across domains. In                  plicitly minimize the loss on the worst-case domain
+this section, we evaluate several representative algorithms                 during training. Group DRO builds on the maximin ap-
+from prior work and show that the out-of-distribution per-                  proach developed in Meinshausen & Bühlmann (2015).
+formance drops shown in Section 5 still remain.
+Domain generalization baselines. Methods for domain                   Other methods for subpopulation shifts include reweighting
+generalization typically involve adding a penalty to the ERM          methods based on class/domain frequencies (Shimodaira,
+objective that encourages some form of invariance across              2000; Cui et al., 2019); label-distribution-aware margin
+domains. We include two such methods as representatives:              losses (Cao et al., 2019); adaptive Lipschitz regularization
+                                                                      (Cao et al., 2020); slice-based learning (Chen et al., 2019b;
+   • CORAL (Sun & Saenko, 2016), which penalizes dif-                 Ré et al., 2019); style transfer across domains (Goel et al.,
+     ferences in the means and covariances of the feature dis-        2020); or other DRO algorithms that do not make use of
+     tributions (i.e., the distribution of last layer activations     explicit domain information and rely on, for example, unsu-
+     in a neural network) for each domain. Conceptually,              pervised clustering (Oren et al., 2019; Sohoni et al., 2020).
+     CORAL is similar to other methods that encourage                 Subpopulation shifts are also connected to the well-studied
+     feature representations to have the same distribution            notions of tail performance and risk-averse optimization
+     across domains (Tzeng et al., 2014; Long et al., 2015;           (Chapter 6 in Shapiro et al. (2014)). For example, optimiz-
+     Ganin et al., 2016; Li et al., 2018c;b).                         ing for the worst case over all subpopulations of a certain
+   • IRM (Arjovsky et al., 2019), which penalizes feature             size, regardless of domain, can guarantee a certain level of
+     distributions that have different optimal linear classi-         performance over the smaller set of subpopulations defined
+     fiers for each domain. This builds on earlier work on            by domains (Duchi et al., 2020; Duchi & Namkoong, 2021).
+     invariant predictors (Peters et al., 2016).                      Setup. We trained CORAL, IRM, and Group DRO models
+                                                                      on each dataset. While Group DRO was originally devel-
+Other techniques for domain generalization include con-               oped for subpopulation shifts, for completeness, we also
+ditional variance regularization (Heinze-Deml & Mein-                 experiment with using it for domain generalization. In that
+shausen, 2017); self-supervision (Carlucci et al., 2019);             setting, Group DRO models aim to achieve similar per-
+and meta-learning-based approaches (Li et al., 2018a; Balaji          formance across domains: e.g., in C AMELYON 17- WILDS,
+et al., 2018; Dou et al., 2019).                                      where the domains are hospitals, Group DRO optimizes for
+the training hospital with the highest loss. Similarly, we also   These include location and time shifts in the BDD100K au-
+test CORAL and IRM on subpopulation shifts, where they            tonomous driving dataset (Yu et al., 2020), location and race
+encourage models to learn invariant representations across        shifts in the New York stop-question-and-frisk dataset (Goel
+subpopulations. As in Section 5, we used the same OOD val-        et al., 2016), and category and time shifts in the Amazon
+idation set for early stopping and to tune the penalty weights    and Yelp review datasets (Ni et al., 2019). Understanding
+for the CORAL and IRM algorithms. More experimental               when distribution shifts result in large performance drops is
+details are in Appendix G, and dataset-specific hyperparam-       an important question for future work to resolve.
+eters and domain choices are discussed in Appendix H.
+                                                                  Other problem settings. In this paper, we focused on the
+Results. Table 2 shows that models trained with CORAL,            domain generalization and subpopulation shift problem set-
+IRM, and Group DRO generally fail to improve over models          tings. In Appendix D, we discuss how W ILDS can be used
+trained with ERM. The exception is the C IVIL C OMMENTS -         to develop and evaluate models in other problem settings
+WILDS subpopulation shift dataset, where the worst-               that allow training algorithms to leverage additional infor-
+performing subpopulation is a minority domain. By up-             mation, such as unlabeled test data in unsupervised domain
+weighting the minority domain, Group DRO obtains an               adaptation (Ben-David et al., 2006).
+OOD accuracy of 70.0% on the worst-performing subpopu-
+                                                                  Guidelines for algorithm development. W ILDS is a bench-
+lation compared to 56.0% for ERM, though this is compa-
+                                                                  mark for developing and evaluating algorithms for training
+rable to simple class balancing (Appendix H.6) and is still
+                                                                  models that are robust to distribution shifts. To facilitate sys-
+substantially below the ERM model’s average accuracy of
+                                                                  tematic comparisons between these algorithms, we encour-
+92.2% over the entire test set. CORAL and IRM also per-
+                                                                  age algorithm developers to use the standardized datasets
+form well on C IVIL C OMMENTS - WILDS, though their gains
+                                                                  (i.e., with no external data), evaluation criteria, and default
+stem largely from how our implementation heuristically up-
+                                                                  model architectures provided in W ILDS. Moreover, we
+samples the minority domain. All other datasets involve
+                                                                  encourage developers to test their algorithms on all applica-
+domain generalization; the failures here are consistent with
+                                                                  ble W ILDS datasets. We emphasize that it is still an open
+other recent findings on standard domain generalization
+                                                                  question if a single general-purpose training algorithm can
+datasets (Gulrajani & Lopez-Paz, 2020).
+                                                                  produce models that do well on all of the datasets without
+These results indicate that training models to be robust to       accounting for the particular structure of the distribution
+distribution shifts in the wild remains a significant open        shift in each dataset. As such, it would still be a substantial
+challenge. However, we are optimistic about future progress       advance if an algorithm significantly improves performance
+for two reasons. First, current methods were mostly de-           on one type of shift but not others.
+signed for other problem settings besides domain general-
+                                                                  Methods beyond training algorithms. Beyond new train-
+ization, e.g., CORAL for unsupervised domain adaptation
+                                                                  ing algorithms, there are many other promising direc-
+and Group DRO for subpopulation shifts. Second, compared
+                                                                  tions for improving distributional robustness, including new
+to existing distribution shift datasets, the W ILDS datasets
+                                                                  model architectures and pre-training on additional external
+generally contain diverse training data from many more do-
+                                                                  data beyond what is used in our default models. We en-
+mains as well as metadata on these domains, which future
+                                                                  courage developers to test these approaches on W ILDS as
+algorithms might be able to leverage.
+                                                                  well, and we will track all such submissions on a separate
+                                                                  leaderboard from the training algorithm leaderboard.
+7. Discussion
+                                                                  Avoiding overfitting to the test distribution. While each
+We end by discussing extensions to W ILDS and community           W ILDS dataset aims to benchmark robustness to a type of
+guidelines for method development using W ILDS.                   distribution shift (e.g., shifts to unseen hospitals), practi-
+                                                                  cal limitations mean that for some datasets, we have data
+Other applications and datasets. Distribution shifts are
+                                                                  from only a limited number of domains (e.g., one OOD test
+a challenge in many application areas beyond those cov-
+                                                                  hospital in C AMELYON 17- WILDS). As there can be substan-
+ered in W ILDS. In Appendix C, we survey other applica-
+                                                                  tial variability in performance across domains, developers
+tion areas—algorithmic fairness and policing, medicine and
+                                                                  should be careful to avoid overfitting to the specific test
+healthcare, natural language and speech processing, code,
+                                                                  sets in W ILDS, especially on datasets like C AMELYON 17-
+education, and robotics—and discuss relevant distribution
+                                                                  WILDS with limited test domains. We strongly encourage
+shifts as well as the challenges associated with finding ap-
+                                                                  all model developers to use the provided OOD validation
+propriate datasets in these areas. In Appendix I, we also
+                                                                  sets for development and model selection, and to only use
+present results on datasets from these areas that we had con-
+                                                                  the OOD test sets for their final evaluations.
+sidered including in W ILDS, but for which we did not see
+an appreciable performance drop under distribution shift.
+Reproducibility                                               (DURIP); NSF under Nos. OAC-1835598 (CINES),
+                                                              OAC-1934578 (HDR), CCF-1918940 (Expeditions),
+An executable version of our paper, hosted on CodaLab,        IIS-2030477 (RAPID); Stanford Data Science Initiative,
+can be found at https://wilds.stanford.edu/c                  Wu Tsai Neurosciences Institute, Chan Zuckerberg Biohub,
+odalab. This contains the exact commands, code, en-           Amazon, JPMorgan Chase, Docomo, Hitachi, JD.com,
+vironment, and data used for the experiments reported         KDDI, NVIDIA, Dell, Toshiba, and UnitedHealth Group.
+in our paper, as well as all trained model weights. The
+WILDS package is open-source and can be found at https:
+//github.com/p-lambda/wilds.                                  References
+                                                              Abelson, B., Varshney, K. R., and Sun, J. Targeting direct
+Acknowledgements                                                cash transfers to the extremely poor. In International
+                                                               Conference on Knowledge Discovery and Data Mining
+Many people generously volunteered their time and exper-       (KDD), 2014.
+tise to advise us on W ILDS. We are grateful for all of
+the helpful suggestions and constructive feedback from:       Adragna, R., Creager, E., Madras, D., and Zemel, R. Fair-
+Aditya Khosla, Andreas Schlueter, Annie Chen, Aleksander        ness and robustness in invariant learning: A case study in
+Madry, Alexander D’Amour, Allison Koenecke, Alyssa              toxicity classification. arXiv preprint arXiv:2011.06485,
+Lees, Ananya Kumar, Andrew Beck, Behzad Haghgoo,                2020.
+Charles Sutton, Christopher Yeh, Cody Coleman, Dan            Agrawal, A., Batra, D., Parikh, D., and Kembhavi, A. Don’t
+Hendrycks, Dan Jurafsky, Daniel Levy, Daphne Koller,            just assume; look and answer: Overcoming priors for vi-
+David Tellez, Erik Jones, Evan Liu, Fisher Yu, Georgi Mari-     sual question answering. In Computer Vision and Pattern
+nov, Hongseok Namkoong, Irene Chen, Jacky Kang, Jacob           Recognition (CVPR), pp. 4971–4980, 2018.
+Schreiber, Jacob Steinhardt, Jared Dunnmon, Jean Feng,
+Jeffrey Sorensen, Jianmo Ni, John Hewitt, John Miller,        Ahadi, A., Lister, R., Haapala, H., and Vihavainen, A. Ex-
+Kate Saenko, Kelly Cochran, Kensen Shi, Kyle Loh, Li            ploring machine learning methods to automatically iden-
+Jiang, Lucy Vasserman, Ludwig Schmidt, Luke Oakden-             tify students in need of assistance. In Proceedings of
+Rayner, Marco Tulio Ribeiro, Matthew Lungren, Megha             the Eleventh Annual International Conference on Inter-
+Srivastava, Nelson Liu, Nimit Sohoni, Pranav Rajpurkar,         national Computing Education Research, pp. 121–130,
+Robin Jia, Rohan Taori, Sarah Bird, Sharad Goel, Sherrie        2015.
+Wang, Shyamal Buch, Stefano Ermon, Steve Yadlowsky,
+                                                              Ahumada, J. A., Fegraus, E., Birch, T., Flores, N., Kays,
+Tatsunori Hashimoto, Tengyu Ma, Vincent Hellendoorn,
+                                                                R., O’Brien, T. G., Palmer, J., Schuttler, S., Zhao, J. Y.,
+Yair Carmon, Zachary Lipton, and Zhenghao Chen.
+                                                               Jetz, W., Kinnaird, M., Kulkarni, S., Lyet, A., Thau,
+The design of the WILDS benchmark was inspired by the           D., Duong, M., Oliver, R., and Dancer, A. Wildlife
+Open Graph Benchmark (Hu et al., 2020b), and we are             insights: A platform to maximize the potential of camera
+grateful to the Open Graph Benchmark team for their advice      trap and other passive sensor wildlife data for the planet.
+and help in setting up our benchmark.                          Environmental Conservation, 47(1):1–6, 2020.
+This project was funded by an Open Philanthropy Project       Aich, S., Josuttes, A., Ovsyannikov, I., Strueby, K., Ahmed,
+Award and NSF Award Grant No. 1805310. Shiori Sagawa            I., Duddu, H. S., Pozniak, C., Shirtliffe, S., and Stavness,
+was supported by the Herbert Kunzel Stanford Gradu-             I. Deepwheat: Estimating phenotypic traits from crop
+ate Fellowship. Henrik Marklund was supported by the            images with deep learning. In 2018 IEEE Winter Con-
+Dr. Tech. Marcus Wallenberg Foundation for Education            ference on Applications of Computer Vision (WACV), pp.
+in International Industrial Entrepreneurship, CIFAR, and        323–332. IEEE, 2018.
+Google. Sang Michael Xie and Marvin Zhang were sup-
+ported by NDSEG Graduate Fellowships. Weihua Hu was           AlBadawy, E., Saha, A., and Mazurowski, M. Deep learn-
+supported by the Funai Overseas Scholarship and the Masa-       ing for segmentation of brain tumors: Impact of cross-
+son Foundation Fellowship. Sara Beery was supported by          institutional training and testing. Med Phys., 45, 2018.
+an NSF Graduate Research Fellowship and is a PIMCO Fel-       Alexandari, A., Kundaje, A., and Shrikumar, A. Maximum
+low in Data Science. Jure Leskovec is a Chan Zuckerberg         likelihood with bias-corrected calibration is hard-to-beat
+Biohub investigator. Chelsea Finn is a CIFAR Fellow in the      at label shift adaptation. In International Conference on
+Learning in Machines and Brains Program.                        Machine Learning (ICML), pp. 222–232, 2020.
+We also gratefully acknowledge the support of DARPA           Allamanis, M. and Brockschmidt, M. Smartpaste: Learning
+under Nos. N660011924033 (MCS); ARO under                       to adapt source code. arXiv preprint arXiv:1705.07867,
+Nos. W911NF-16-1-0342 (MURI), W911NF-16-1-0171                  2017.
+Allamanis, M., Barr, E. T., Bird, C., and Sutton, C. Suggest-    Badgeley, M. A., Zech, J. R., Oakden-Rayner, L., Glicks-
+  ing accurate method and class names. In Proceedings of           berg, B. S., Liu, M., Gale, W., McConnell, M. V., Percha,
+  the 2015 10th Joint Meeting on Foundations of Software           B., Snyder, T. M., and Dudley, J. T. Deep learning pre-
+  Engineering, pp. 38–49, 2015.                                    dicts hip fracture using confounding patient and health-
+                                                                   care variables. npj Digital Medicine, 2, 2019.
+Amorim, E., Cançado, M., and Veloso, A. Automated essay
+ scoring in the presence of biased ratings. In Association       Balaji, Y., Sankaranarayanan, S., and Chellappa, R. Metareg:
+ for Computational Linguistics (ACL), pp. 229–237, 2018.           Towards domain generalization using meta-regularization.
+                                                                   In Advances in Neural Information Processing Systems
+Ando, D. M., McLean, C. Y., and Berndl, M. Improving phe-          (NeurIPS), pp. 998–1008, 2018.
+  notypic measurements in high-content imaging screens.
+                                                                 Bandi, P., Geessink, O., Manson, Q., Dijk, M. V., Balkenhol,
+  BioRxiv, pp. 161422, 2017.
+                                                                   M., Hermsen, M., Bejnordi, B. E., Lee, B., Paeng, K.,
+Ardila, R., Branson, M., Davis, K., Kohler, M., Meyer, J.,         Zhong, A., et al. From detection of individual metastases
+  Henretty, M., Morais, R., Saunders, L., Tyers, F., and           to classification of lymph node status at the patient level:
+  Weber, G. Common voice: A massively-multilingual                 the CAMELYON17 challenge. IEEE Transactions on
+  speech corpus. In Language Resources and Evaluation              Medical Imaging, 38(2):550–560, 2018.
+  Conference (LREC), pp. 4218–4222, 2020.                        Barbu, A., Mayo, D., Alverio, J., Luo, W., Wang, C., Gut-
+                                                                   freund, D., Tenenbaum, J., and Katz, B. Objectnet: A
+Arjovsky, M., Bottou, L., Gulrajani, I., and Lopez-
+                                                                   large-scale bias-controlled dataset for pushing the limits
+  Paz, D. Invariant risk minimization. arXiv preprint
+                                                                   of object recognition models. In Advances in Neural In-
+  arXiv:1907.02893, 2019.
+                                                                   formation Processing Systems (NeurIPS), pp. 9453–9463,
+Asuncion, A. and Newman, D. UCI Machine Learning                   2019.
+  Repository, 2007.                                              Bartlett, P. L. and Wegkamp, M. H. Classification with
+                                                                   a reject option using a hinge loss. Journal of Machine
+Attene-Ramos, M. S., Miller, N., Huang, R., Michael, S.,
+                                                                   Learning Research (JMLR), 9(0):1823–1840, 2008.
+  Itkin, M., Kavlock, R. J., Austin, C. P., Shinn, P., Sime-
+  onov, A., Tice, R. R., et al. The tox21 robotic platform for   Baumann, T., Köhn, A., and Hennig, F. The Spoken
+  the assessment of environmental chemicals–from vision            Wikipedia Corpus collection: Harvesting, alignment and
+  to reality. Drug Discovery Today, 18(15):716–723, 2013.          an application to hyperlistening. Language Resources
+                                                                   and Evaluation, 53(2):303–329, 2019.
+Atwood, J., Halpern, Y., Baljekar, P., Breck, E., Sculley,
+  D., Ostyakov, P., Nikolenko, S. I., Ivanov, I., Solovyev,      BBC. A-levels and GCSEs: How did the exam algo-
+  R., Wang, W., et al. The Inclusive Images competition.          rithm work? The British Broadcasting Corporation,
+  In Advances in Neural Information Processing Systems            2020. URL https://www.bbc.com/news/exp
+  (NeurIPS), pp. 155–186, 2020.                                   lainers-53807730.
+
+Aviv, R., Teichmann, S. A., Lander, E. S., Ido, A.,              Beck, A. H., Sangoi, A. R., Leung, S., Marinelli, R. J.,
+  Christophe, B., Ewan, B., Bernd, B., Campbell, P., Piero,        Nielsen, T. O., Vijver, M. J. V. D., West, R. B., Rijn, M.
+  C., Menna, C., et al. The human cell atlas. eLife, 6, 2017.      V. D., and Koller, D. Systematic analysis of breast cancer
+                                                                   morphology uncovers stromal features associated with
+Avsec, Ž., Weilert, M., Shrikumar, A., Alexandari, A.,             survival. Science, 3(108), 2011.
+  Krueger, S., Dalal, K., Fropf, R., McAnany, C., Gag-
+                                                                 Becke, A. D. Perspective: Fifty years of density-functional
+  neur, J., Kundaje, A., and Zeitlinger, J. Deep learning at
+                                                                   theory in chemical physics. The Journal of Chemical
+  base-resolution reveals motif syntax of the cis-regulatory
+                                                                   Physics, 140(18):18A301, 2014.
+  code. bioRxiv, 2019.
+                                                                 Beede, E., Baylor, E., Hersch, F., Iurchenko, A., Wilcox, L.,
+Ayalew, T. W., Ubbens, J. R., and Stavness, I. Unsupervised        Ruamviboonsuk, P., and Vardoulakis, L. M. A human-
+  domain adaptation for plant organ counting. In European          centered evaluation of a deep learning system deployed
+  Conference on Computer Vision, pp. 330–346. Springer,            in clinics for the detection of diabetic retinopathy. In
+  2020.                                                            Conference on Human Factors in Computing Systems
+                                                                   (CHI), pp. 1–12, 2020.
+Azizzadenesheli, K., Liu, A., Yang, F., and Anandkumar,
+  A. Regularized learning for domain adaptation under            Beery, S., Horn, G. V., and Perona, P. Recognition in terra
+  label shifts. In International Conference on Learning            incognita. In European Conference on Computer Vision
+  Representations (ICLR), 2019.                                    (ECCV), pp. 456–473, 2018.
+Beery, S., Morris, D., and Yang, S. Efficient pipeline         Blitzer, J., Dredze, M., and Pereira, F. Biographies, bol-
+  for camera trap image review.       arXiv preprint             lywood, boom-boxes and blenders: Domain adaptation
+  arXiv:1907.06772, 2019.                                        for sentiment classification. In Proceedings of the 45th
+                                                                 Annual Meeting of the Association of Computational Lin-
+Beery, S., Cole, E., and Gjoka, A. The iWildCam 2020             guistics, pp. 440–447, 2007.
+  competition dataset. arXiv preprint arXiv:2004.10340,
+  2020a.                                                       Blodgett, S. L. and O’Connor, B. Racial disparity
+                                                                 in natural language processing: A case study of so-
+Beery, S., Wu, G., Rathod, V., Votel, R., and Huang, J. Con-     cial media African-American English. arXiv preprint
+  text r-cnn: Long term temporal context for per-camera          arXiv:1707.00061, 2017.
+  object detection. In Proceedings of the IEEE/CVF Con-
+  ference on Computer Vision and Pattern Recognition, pp.      Blodgett, S. L., Green, L., and O’Connor, B. Demo-
+  13075–13085, 2020b.                                            graphic dialectal variation in social media: A case study
+                                                                 of African-American English. In Empirical Methods in
+Bejnordi, B. E., Veta, M., Diest, P. J. V., Ginneken, B. V.,     Natural Language Processing (EMNLP), pp. 1119–1130,
+  Karssemeijer, N., Litjens, G., Laak, J. A. V. D., Hermsen,     2016.
+  M., Manson, Q. F., Balkenhol, M., et al. Diagnostic as-
+  sessment of deep learning algorithms for detection of        Blumenstock, J., Cadamuro, G., and On, R. Predicting
+  lymph node metastases in women with breast cancer.             poverty and wealth from mobile phone metadata. Science,
+  JAMA, 318(22):2199–2210, 2017.                                 350, 2015.
+
+Bellamy, D., Celi, L., and Beam, A. L. Evaluating progress     Bohacek, R. S., McMartin, C., and Guida, W. C. The art
+  on machine learning for longitudinal electronic healthcare     and practice of structure-based drug design: a molecular
+  data. arXiv preprint arXiv:2010.01149, 2020.                   modeling perspective. Medicinal Research Reviews, 16
+                                                                 (1):3–50, 1996.
+Bellemare, M. G., Candido, S., Castro, P. S., Gong, J.,
+  Machado, M. C., Moitra, S., Ponda, S. S., and Wang, Z.       Borkan, D., Dixon, L., Li, J., Sorensen, J., Thain, N., and
+  Autonomous navigation of stratospheric balloons using          Vasserman, L. Limitations of pinned AUC for measur-
+  reinforcement learning. Nature, 588, 2020.                     ing unintended bias. arXiv preprint arXiv:1903.02088,
+                                                                 2019a.
+Ben-David, S., Blitzer, J., Crammer, K., and Pereira, F.
+  Analysis of representations for domain adaptation. In        Borkan, D., Dixon, L., Sorensen, J., Thain, N., and Vasser-
+  Advances in Neural Information Processing Systems              man, L. Nuanced metrics for measuring unintended bias
+  (NeurIPS), pp. 137–144, 2006.                                  with real data for text classification. In WWW, pp. 491–
+                                                                 500, 2019b.
+Bender, E. M. and Friedman, B. Data statements for natural
+  language processing: Toward mitigating system bias and       Bottou, L., Peters, J., Quiñonero-Candela, J., Charles, D. X.,
+  enabling better science. Transactions of the Association       Chickering, D. M., Portugaly, E., Ray, D., Simard, P., and
+  for Computational Linguistics (TACL), 6:587–604, 2018.         Snelson, E. Counterfactual reasoning and learning sys-
+                                                                 tems: The example of computational advertising. Journal
+BenTaieb, A. and Hamarneh, G. Adversarial stain transfer         of Machine Learning Research (JMLR), 14:3207–3260,
+  for histopathology image analysis. IEEE Transactions on        2013.
+  Medical Imaging, 37(3):792–802, 2017.
+                                                               Boutros, M., Heigwer, F., and Laufer, C. Microscopy-based
+Berman, G., de la Rosa, S., and Accone, T. Ethical consid-       high-content screening. Cell, 163(6):1314–1325, 2015.
+  erations when using geospatial technologies for evidence
+  generation. Innocenti Discussion Paper, UNICEF Office        Bray, M.-A., Singh, S., Han, H., Davis, C. T., Borgeson,
+  of Research, 2018.                                             B., Hartland, C., Kost-Alimova, M., Gustafsdottir, S. M.,
+                                                                 Gibson, C. C., and Carpenter, A. E. Cell painting, a high-
+Beyene, A. A., Welemariam, T., Persson, M., and Lavesson,        content image-based assay for morphological profiling
+  N. Improved concept drift handling in surgery predic-          using multiplexed fluorescent dyes. Nature protocols, 11
+  tion and other applications. Knowledge and Information         (9):1757, 2016.
+  Systems, 44(1):177–196, 2015.
+                                                               Broach, J. R., Thorner, J., et al. High-throughput screening
+Blanchard, G., Lee, G., and Scott, C. Generalizing from          for drug discovery. Nature, 384(6604):14–16, 1996.
+  several related classification tasks to a new unlabeled
+  sample. In Advances in Neural Information Processing         Broussard, M. When algorithms give real students
+  Systems (NeurIPS), pp. 2178–2186, 2011.                        imaginary grades. The New York Times, 2020. URL
+  https://www.nytimes.com/2020/09/08/op                            computational pathology using weakly supervised deep
+  inion/international-baccalaureate-alg                            learning on whole slide images. Nature Medicine, 25(8):
+  orithm-grades.html.                                              1301–1309, 2019.
+
+Bruch, M., Monperrus, M., and Mezini, M. Learning from           Cao, K., Wei, C., Gaidon, A., Arechiga, N., and Ma,
+  examples to improve code completion systems. In Eu-              T. Learning imbalanced datasets with label-distribution-
+  ropean software engineering conference and the ACM               aware margin loss. In Advances in Neural Information
+  SIGSOFT symposium on the foundations of software en-             Processing Systems (NeurIPS), 2019.
+  gineering, 2009.
+                                                                 Cao, K., Chen, Y., Lu, J., Arechiga, N., Gaidon, A., and Ma,
+Bruzzone, L. and Marconcini, M. Domain adaptation prob-            T. Heteroskedastic and imbalanced deep learning with
+  lems: A DASVM classification technique and a circular            adaptive regularization. arXiv preprint arXiv:2006.15766,
+  validation strategy. IEEE Transactions on Pattern Analy-         2020.
+  sis and Machine Intelligence, 32(5):770–787, 2009.
+                                                                 Carlucci, F. M., D’Innocente, A., Bucci, S., Caputo, B., and
+Bug, D., Schneider, S., Grote, A., Oswald, E., Feuerhake,          Tommasi, T. Domain generalization by solving jigsaw
+  F., Schüler, J., and Merhof, D. Context-based normal-            puzzles. In Computer Vision and Pattern Recognition
+  ization of histological stains using deep convolutional          (CVPR), pp. 2229–2238, 2019.
+  features. Deep Learning in Medical Image Analysis and
+  Multimodal Learning for Clinical Decision Support, pp.         Chanussot, L., Das, A., Goyal, S., Lavril, T., Shuaibi, M.,
+ 135–142, 2017.                                                    Riviere, M., Tran, K., Heras-Domingo, J., Ho, C., Hu,
+                                                                   W., Palizhati, A., Sriram, A., Wood, B., Yoon, J., Parikh,
+Bunel, R., Hausknecht, M., Devlin, J., Singh, R., and Kohli,       D., Zitnick, C. L., and Ulissi, Z. The Open Catalyst 2020
+  P. Leveraging grammar and reinforcement learning for             (oc20) dataset and community challenges. arXiv preprint
+  neural program synthesis. In International Conference            arXiv:2010.09990, 2020.
+  on Learning Representations (ICLR), 2018.
+                                                                 Chen, I., Johansson, F. D., and Sontag, D. Why is my clas-
+Buolamwini, J. and Gebru, T. Gender shades: Intersectional
+                                                                   sifier discriminatory? In Advances in Neural Information
+  accuracy disparities in commercial gender classification.
+                                                                   Processing Systems (NeurIPS), pp. 3539–3550, 2018.
+  In Conference on Fairness, Accountability and Trans-
+  parency, pp. 77–91, 2018.                                      Chen, I. Y., Szolovits, P., and Ghassemi, M. Can AI help
+                                                                   reduce disparities in general medical and mental health
+Burke, M., Heft-Neal, S., and Bendavid, E. Sources of
+                                                                   care? AMA Journal of Ethics, 21(2):167–179, 2019a.
+  variation in under-5 mortality across sub-Saharan Africa:
+  a spatial analysis. Lancet Global Health, 4, 2016.             Chen, I. Y., Pierson, E., Rose, S., Joshi, S., Ferryman, K.,
+Byrd, J. and Lipton, Z. What is the effect of importance           and Ghassemi, M. Ethical machine learning in health
+  weighting in deep learning? In International Conference          care. arXiv preprint arXiv:2009.10576, 2020.
+  on Machine Learning (ICML), pp. 872–881, 2019.                 Chen, V., Wu, S., Ratner, A. J., Weng, J., and Ré, C. Slice-
+Caicedo, J. C., Cooper, S., Heigwer, F., Warchal, S., Qiu, P.,     based learning: A programming model for residual learn-
+  Molnar, C., Vasilevich, A. S., Barry, J. D., Bansal, H. S.,      ing in critical data slices. In Advances in Neural Infor-
+  Kraus, O., et al. Data-analysis strategies for image-based       mation Processing Systems (NeurIPS), pp. 9397–9407,
+  cell profiling. Nature methods, 14(9):849–863, 2017.             2019b.
+
+Caicedo, J. C., McQuin, C., Goodman, A., Singh, S., and          Ching, T., Himmelstein, D. S., Beaulieu-Jones, B. K.,
+  Carpenter, A. E. Weakly supervised learning of single-           Kalinin, A. A., Do, B. T., Way, G. P., Ferrero, E., Agapow,
+  cell feature embeddings. In Proceedings of the IEEE              P., Zietz, M., Hoffman, M. M., et al. Opportunities and
+  Conference on Computer Vision and Pattern Recognition,           obstacles for deep learning in biology and medicine. Jour-
+  pp. 9309–9318, 2018.                                             nal of The Royal Society Interface, 15(141), 2018.
+
+Caldas, S., Wu, P., Li, T., Konečnỳ, J., McMahan, H. B.,       Christie, G., Fendley, N., Wilson, J., and Mukherjee, R.
+  Smith, V., and Talwalkar, A. Leaf: A benchmark for fed-          Functional map of the world. In Computer Vision and
+  erated settings. arXiv preprint arXiv:1812.01097, 2018.          Pattern Recognition (CVPR), 2018.
+
+Campanella, G., Hanna, M. G., Geneslaw, L., Miraflor,            Chung, J. S., Nagrani, A., and Zisserman, A. Voxceleb2:
+  A., Silva, V. W. K., Busam, K. J., Brogi, E., Reuter,            Deep speaker recognition. Proc. Interspeech, pp. 1086–
+  V. E., Klimstra, D. S., and Fuchs, T. J. Clinical-grade         1090, 2018.
+Clark, J. H., Choi, E., Collins, M., Garrette, D.,                Courtiol, P., Maussion, C., Moarii, M., Pronier, E., Pilcer,
+  Kwiatkowski, T., Nikolaev, V., and Palomaki, J. Tydi qa:          S., Sefta, M., Manceron, P., Toldo, S., Zaslavskiy, M.,
+  A benchmark for information-seeking question answer-              Stang, N. L., et al. Deep learning-based classification
+  ing in typologically diverse languages. arXiv preprint            of mesothelioma improves prediction of patient outcome.
+  arXiv:2003.05002, 2020.                                           Nature Medicine, 25(10):1519–1525, 2019.
+Codella, N., Rotemberg, V., Tschandl, P., Celebi, M. E.,          Croce, F., Andriushchenko, M., Sehwag, V., Flammarion,
+  Dusza, S., Gutman, D., Helba, B., Kalloo, A., Liopyris,           N., Chiang, M., Mittal, P., and Hein, M. Robustbench:
+  K., Marchetti, M., et al. Skin lesion analysis toward             a standardized adversarial robustness benchmark. arXiv
+  melanoma detection 2018: A challenge hosted by the                preprint arXiv:2010.09670, 2020.
+  international skin imaging collaboration (ISIC). arXiv
+  preprint arXiv:1902.03368, 2019.                                Crunchant, A.-S., Borchers, D., Kühl, H., and Piel, A. Lis-
+                                                                    tening and watching: Do camera traps or acoustic sensors
+Conneau, A. and Lample, G. Cross-lingual language model             more efficiently detect wild chimpanzees in an open habi-
+  pretraining. In Advances in Neural Information Process-           tat? Methods in Ecology and Evolution, 11(4):542–552,
+  ing Systems (NeurIPS), pp. 7059–7069, 2019.                       2020.
+Conneau, A., Rinott, R., Lample, G., Williams, A., Bowman,        Cuccarese, M. F., Earnshaw, B. A., Heiser, K., Fogelson, B.,
+  S., Schwenk, H., and Stoyanov, V. Xnli: Evaluating cross-         Davis, C. T., McLean, P. F., Gordon, H. B., Skelly, K.,
+  lingual sentence representations. In Empirical Methods in         Weathersby, F. L., Rodic, V., et al. Functional immune
+  Natural Language Processing (EMNLP), pp. 2475–2485,               mapping with deep-learning enabled phenomics applied
+  2018.                                                             to immunomodulatory and COVID-19 drug discovery.
+                                                                    bioRxiv, 2020.
+Consortium, E. P. et al. An integrated encyclopedia of DNA
+  elements in the human genome. Nature, 489(7414):57–             Cui, Y., Jia, M., Lin, T., Song, Y., and Belongie, S. Class-
+  74, 2012.                                                         balanced loss based on effective number of samples. In
+Consortium, G. et al. The GTEx Consortium atlas of genetic          Computer Vision and Pattern Recognition (CVPR), pp.
+  regulatory effects across human tissues. Science, 369             9268–9277, 2019.
+  (6509):1318–1330, 2020.                                         Dai, D. and Van Gool, L. Dark model adaptation: Seman-
+Consortium, H. et al. The human body at cellular resolution:        tic image segmentation from daytime to nighttime. In
+  the NIH human biomolecular atlas program. Nature, 574             International Conference on Intelligent Transportation
+  (7777), 2019.                                                     Systems (ITSC), 2018.
+
+Corbett-Davies, S. and Goel, S. The measure and mismea-           D’Amour, A., Heller, K., Moldovan, D., Adlam, B., Ali-
+  sure of fairness: A critical review of fair machine learning.     panahi, B., Beutel, A., Chen, C., Deaton, J., Eisenstein,
+  arXiv preprint arXiv:1808.00023, 2018.                            J., Hoffman, M. D., et al. Underspecification presents
+                                                                    challenges for credibility in modern machine learning.
+Corbett-Davies, S., Pierson, E., Feller, A., and Goel, S. A         arXiv preprint arXiv:2011.03395, 2020a.
+  computer program used for bail and sentencing decisions
+  was labeled biased against blacks. It’s actually not that       D’Amour, A., Srinivasan, H., Atwood, J., Baljekar, P., Scul-
+  clear. Washington Post, 2016. ISSN 0190-8286. URL                 ley, D., and Halpern, Y. Fairness is not static: deeper
+  https://www.washingtonpost.com/news/                              understanding of long term fairness via simulation stud-
+  monkey-cage/wp/2016/10/17/can-an-alg                              ies. In Proceedings of the 2020 Conference on Fairness,
+  orithm-be-racist-our-analysis-is-mor                              Accountability, and Transparency, pp. 525–534, 2020b.
+  e-cautious-than-propublicas/.
+                                                                  David, E., Madec, S., Sadeghi-Tehran, P., Aasen, H., Zheng,
+Corbett-Davies, S., Pierson, E., Feller, A., Goel, S., and Huq,     B., Liu, S., Kirchgessner, N., Ishikawa, G., Nagasawa,
+  A. Algorithmic decision making and the cost of fairness.          K., Badhon, M. A., Pozniak, C., de Solan, B., Hund,
+  In Proceedings of the 23rd ACM SIGKDD International               A., Chapman, S. C., Baret, F., Stavness, I., and Guo, W.
+  Conference on Knowledge Discovery and Data Mining,                Global wheat head detection (gwhd) dataset: a large and
+  pp. 797–806, 2017.                                                diverse dataset of high-resolution rgb-labelled images to
+                                                                    develop and benchmark wheat head detection methods.
+Cordella, L. P., Stefano, C. D., Tortorella, F., and Vento,         Plant Phenomics, 2020, 2020.
+  M. A method for improving classification reliability of
+  multilayer perceptrons. IEEE Transactions on Neural             David, E., Serouart, M., Smith, D., Madec, S., Velumani,
+  Networks, 6(5):1140–1147, 1995.                                   K., Liu, S., Wang, X., Espinosa, F. P., Shafiee, S., Tahir, I.
+  S. A., Tsujimoto, H., Nasuda, S., Zheng, B., Kichgessner,     Dressel, J. and Farid, H. The accuracy, fairness, and limits
+  N., Aasen, H., Hund, A., Sadhegi-Tehran, P., Nagasawa,          of predicting recidivism. Science Advances, 4(1), 2018.
+  K., Ishikawa, G., Dandrifosse, S., Carlier, A., Merca-
+  toris, B., Kuroki, K., Wang, H., Ishii, M., Badhon, M. A.,    Duchi, J. and Namkoong, H. Learning models with uniform
+  Pozniak, C., LeBauer, D. S., Lilimo, M., Poland, J., Chap-      performance via distributionally robust optimization. An-
+  man, S., de Solan, B., Baret, F., Stavness, I., and Guo,        nals of Statistics, 2021.
+  W. Global wheat head dataset 2021: an update to im-           Duchi, J., Hashimoto, T., and Namkoong, H. Distribution-
+  prove the benchmarking wheat head localization with             ally robust losses for latent covariate mixtures. arXiv
+  more diversity, 2021.                                           preprint arXiv:2007.13982, 2020.
+Davis, S. E., Lasko, T. A., Chen, G., Siew, E. D., and Ma-      Dwork, C., Hardt, M., Pitassi, T., Reingold, O., and Zemel,
+  theny, M. E. Calibration drift in regression and machine       R. Fairness through awareness. In Innovations in Theo-
+  learning models for acute kidney injury. Journal of the        retical Computer Science (ITCS), pp. 214–226, 2012.
+ American Medical Informatics Association, 24(6):1052–
+ 1061, 2017.                                                    Echeverri, C. J. and Perrimon, N. High-throughput rnai
+                                                                  screening in cultured cells: a user’s guide. Nature Reviews
+DeGrave, A. J., Janizek, J. D., and Lee, S. AI for radio-         Genetics, 7(5):373, 2006.
+  graphic COVID-19 detection selects shortcuts over signal.
+  medRxiv, 2020.                                                Elvidge, C. D., Sutton, P. C., Ghosh, T., Tuttle, B. T., Baugh,
+                                                                  K. E., Bhaduri, B., and Bright, E. A global poverty map
+Desmarais, M. C. and Baker, R. A review of recent advances        derived from satellite data. Computers and Geosciences,
+  in learner and skill modeling in intelligent learning envi-     35, 2009.
+  ronments. User Modeling and User-Adapted Interaction,
+  22(1):9–38, 2012.                                             Eraslan, G., Avsec, Ž., Gagneur, J., and Theis, F. J. Deep
+                                                                  learning: new computational modelling techniques for ge-
+DigitalGlobe, N. and Works, C. Spacenet. https://aw               nomics. Nature Reviews Genetics, 20(7):389–403, 2019.
+  s.amazon.com/publicdatasets/spacenet/,
+  2016.                                                         Espey, J., Swanson, E., Badiee, S., Chistensen, Z., Fischer,
+                                                                  A., Levy, M., Yetman, G., de Sherbinin, A., Chen, R.,
+Dill, K. A. and MacCallum, J. L. The protein-folding prob-        Qiu, Y., Greenwell, G., Klein, T., , Jutting, J., Jerven,
+  lem, 50 years on. Science, 338(6110):1042–1046, 2012.           M., Cameron, G., Rivera, A. M. A., Arias, V. C., , Mills,
+                                                                  S. L., and Motivans, A. Data for development: A needs
+Dixon, L., Li, J., Sorensen, J., Thain, N., and Vasserman,
+                                                                  assessment for SDG monitoring and statistical capacity
+  L. Measuring and mitigating unintended bias in text
+                                                                  development. Sustainable Development Solutions Net-
+  classification. In Association for the Advancement of
+                                                                  work, 2015.
+  Artificial Intelligence (AAAI), pp. 67–73, 2018.
+                                                                Esteva, A., Kuprel, B., Novoa, R. A., Ko, J., Swetter, S. M.,
+Djolonga, J., Yung, J., Tschannen, M., Romijnders, R.,
+                                                                  Blau, H. M., and Thrun, S. Dermatologist-level classifi-
+  Beyer, L., Kolesnikov, A., Puigcerver, J., Minderer, M.,
+                                                                  cation of skin cancer with deep neural networks. Nature,
+  D’Amour, A., Moldovan, D., et al. On robustness and
+                                                                  542(7639):115–118, 2017.
+  transferability of convolutional neural networks. arXiv
+  preprint arXiv:2007.08558, 2020.                              et al, O. Solving Rubik’s cube with a robot hand. arXiv
+                                                                   preprint arXiv:1910.07113, 2019.
+Dodge, S. and Karam, L. A study and comparison of human
+  and deep learning recognition performance under visual        Fan, Z., Lu, J., Gong, M., Xie, H., and Goodman, E. D.
+  distortions. In 26th International Conference on Com-           Automatic tobacco plant detection in uav images via deep
+  puter Communication and Networks (ICCCN), pp. 1–7.              neural networks. IEEE Journal of Selected Topics in
+  IEEE, 2017.                                                     Applied Earth Observations and Remote Sensing, 11(3):
+                                                                  876–887, 2018.
+Dou, Q., Castro, D., Kamnitsas, K., and Glocker, B. Domain
+  generalization via model-agnostic learning of semantic        Fang, C., Xu, Y., and Rockmore, D. N. Unbiased metric
+  features. In Advances in Neural Information Processing          learning: On the utilization of multiple datasets and web
+  Systems (NeurIPS), 2019.                                        images for softening bias. In International Conference
+                                                                  on Computer Vision (ICCV), pp. 1657–1664, 2013.
+Dreccer, M. F., Molero, G., Rivera-Amado, C., John-Bejai,
+  C., and Wilson, Z. Yielding to the image: how phenotyp-       Feng, J., Sondhi, A., Perry, J., and Simon, N. Selective
+  ing reproductive growth can assist crop improvement and         prediction-set models with coverage guarantees. arXiv
+  production. Plant science, 282:73–82, 2019.                     preprint arXiv:1906.05473, 2019.
+Filmer, D. and Scott, K. Assessing asset indices. Demogra-        Geirhos, R., Temme, C. R., Rauber, J., Schütt, H. H., Bethge,
+   phy, 49, 2011.                                                   M., and Wichmann, F. A. Generalisation in humans and
+                                                                    deep neural networks. Advances in Neural Information
+Franks, C., Tu, Z., Devanbu, P., and Hellendoorn, V.                Processing Systems, 31:7538–7550, 2018b.
+  Cacheca: A cache language model based code suggestion
+  tool. In International Conference on Software Engineer-         Geirhos, R., Jacobsen, J., Michaelis, C., Zemel, R., Brendel,
+  ing (ICSE), 2015.                                                 W., Bethge, M., and Wichmann, F. A. Shortcut learning in
+                                                                    deep neural networks. arXiv preprint arXiv:2004.07780,
+Fuentes, A., Yoon, S., Kim, S. C., and Park, D. S. A ro-
+                                                                    2020.
+  bust deep-learning-based detector for real-time tomato
+  plant diseases and pests recognition. Sensors, 17(9):2022,      Gelman, A., Fagan, J., and Kiss, A. An Analysis of the New
+  2017.                                                             York City Police Department’s “Stop-and-Frisk” Policy in
+                                                                    the Context of Claims of Racial Bias. Journal of the Amer-
+Futoma, J., Simons, M., Panch, T., Doshi-Velez, F., and Celi,
+                                                                    ican Statistical Association, 102(479):813–823, Sep 2007.
+  L. A. The myth of generalisability in clinical research
+                                                                    ISSN 0162-1459. doi: 10.1198/016214506000001040.
+  and machine learning in health care. The Lancet Digital
+                                                                    URL          https://amstat.tandfonline.com
+  Health, 2(9):e489–e492, 2020.
+                                                                    /doi/abs/10.1198/016214506000001040.
+Gal, Y. and Ghahramani, Z. Dropout as a Bayesian approx-            Publisher: Taylor & Francis.
+  imation: Representing model uncertainty in deep learn-
+  ing. In International Conference on Machine Learning            Geva, M., Goldberg, Y., and Berant, J. Are we modeling the
+ (ICML), 2016.                                                      task or the annotator? an investigation of annotator bias
+                                                                    in natural language understanding datasets. In Empiri-
+Ganin, Y. and Lempitsky, V. Unsupervised domain adapta-             cal Methods in Natural Language Processing (EMNLP),
+  tion by backpropagation. In International Conference on           2019.
+  Machine Learning (ICML), pp. 1180–1189, 2015.
+                                                                  Gilmer, J., Schoenholz, S. S., Riley, P. F., Vinyals, O., and
+Ganin, Y., Ustinova, E., Ajakan, H., Germain, P., Larochelle,       Dahl, G. E. Neural message passing for quantum chem-
+  H., Laviolette, F., March, M., and Lempitsky, V. Domain-          istry. In International Conference on Machine Learning
+  adversarial training of neural networks. Journal of Ma-           (ICML), pp. 1273–1272, 2017.
+  chine Learning Research (JMLR), 17, 2016.
+                                                                  Godinez, W. J., Hossain, I., and Zhang, X. Unsupervised
+Garg, S., Wu, Y., Balakrishnan, S., and Lipton, Z. C. A             phenotypic analysis of cellular images with multi-scale
+  unified view of label shift estimation. arXiv preprint            convolutional neural networks. BioRxiv, pp. 361410,
+  arXiv:2003.07554, 2020.                                           2018.
+Gebru, T., Morgenstern, J., Vecchione, B., Vaughan, J. W.,        Goel, K., Gu, A., Li, Y., and Ré, C. Model patching: Closing
+ Wallach, H., Ill, H. D., and Crawford, K. Datasheets for           the subgroup performance gap with data augmentation.
+  datasets. arXiv preprint arXiv:1803.09010, 2018.                  arXiv preprint arXiv:2008.06775, 2020.
+Geifman, Y. and El-Yaniv, R. Selective classification for
+                                                                  Goel, S., Rao, J. M., and Shroff, R. Precinct or prejudice?
+  deep neural networks. In Advances in Neural Information
+                                                                    Understanding racial disparities in New York City’s stop-
+  Processing Systems (NeurIPS), 2017.
+                                                                    and-frisk policy. The Annals of Applied Statistics, 10(1):
+Geifman, Y. and El-Yaniv, R. Selectivenet: A deep neural            365–394, March 2016. ISSN 1932-6157. doi: 10.1214/
+  network with an integrated reject option. In International       15-AOAS897. URL http://projecteuclid.or
+  Conference on Machine Learning (ICML), 2019.                      g/euclid.aoas/1458909920.
+
+Geifman, Y., Uziel, G., and El-Yaniv, R. Bias-reduced un-         Gogoll, D., Lottes, P., Weyler, J., Petrinic, N., and Stachniss,
+  certainty estimation for deep neural classifiers. In Interna-     C. Unsupervised domain adaptation for transferring plant
+  tional Conference on Learning Representations (ICLR),             classification systems to new field environments, crops,
+  2018.                                                             and robots. In 2020 IEEE/RSJ International Conference
+                                                                    on Intelligent Robots and Systems (IROS), pp. 2636–2642.
+Geirhos, R., Rubisch, P., Michaelis, C., Bethge, M., Wich-          IEEE, 2020.
+  mann, F. A., and Brendel, W. Imagenet-trained cnns are
+  biased towards texture; increasing shape bias improves ac-      Goh, W. W. B., Wang, W., and Wong, L. Why batch effects
+  curacy and robustness. arXiv preprint arXiv:1811.12231,           matter in omics data, and how to avoid them. Trends in
+  2018a.                                                            biotechnology, 35(6):498–507, 2017.
+Goodfellow, I. J., Shlens, J., and Szegedy, C. Explaining         Opinion in Toxicology, 15:64–75, 2019. ISSN 2468-2020.
+  and harnessing adversarial examples. In International           doi: https://doi.org/10.1016/j.cotox.2019.05.004. URL
+ Conference on Learning Representations (ICLR), 2015.             https://www.sciencedirect.com/scienc
+                                                                  e/article/pii/S2468202019300129.                  Risk
+Graetz, N., Friedman, J., Osgood-Zimmerman, A., Burstein,         Assessment in Toxicology.
+  R., Biehl, M. H., Shields, C., Mosser, J. F., Casey, D. C.,
+  Deshpande, A., Earl, L., Reiner, R. C., Ray, S. E., Full-     Hashimoto, T. B., Srivastava, M., Namkoong, H., and Liang,
+  man, N., Levine, A. J., Stubbs, R. W., Mayala, B. K.,           P. Fairness without demographics in repeated loss mini-
+  Longbottom, J., Browne, A. J., Bhatt, S., Weiss, D. J.,         mization. In International Conference on Machine Learn-
+  Gething, P. W., Mokdad, A. H., Lim, S. S., Murray, C.           ing (ICML), 2018.
+  J. L., Gakidou, E., and Hay, S. I. Mapping local varia-
+  tion in educational attainment across Africa. Nature, 555,    He, K., Zhang, X., Ren, S., and Sun, J. Deep residual
+  2018.                                                           learning for image recognition. In Computer Vision and
+                                                                  Pattern Recognition (CVPR), 2016.
+Grooten, M., Peterson, T., and Almond, R. Living Planet
+  Report 2020 - Bending the curve of biodiversity loss.         He, Y., Shen, Z., and Cui, P. Towards non-IID image clas-
+  WWF, Gland, Switzerland, 2020.                                  sification: A dataset and baselines. Pattern Recognition,
+                                                                 110, 2020.
+Gu, S., Holly, E., Lillicrap, T., and Levine, S. Deep rein-
+  forcement learning for robotic manipulation with asyn-        Heinze-Deml, C. and Meinshausen, N. Conditional variance
+  chronous off-policy updates. In International Conference        penalties and domain shift robustness. arXiv preprint
+  on Robotics and Automation (ICRA), 2017.                        arXiv:1710.11469, 2017.
+
+Gulrajani, I. and Lopez-Paz, D. In search of lost domain        Hellendoorn, V. J., Proksch, S., Gall, H. C., and Bacchelli,
+  generalization. arXiv preprint arXiv:2007.01434, 2020.          A. When code completion fails: A case study on real-
+                                                                  world completions. In 2019 IEEE/ACM 41st International
+Guo, J., Shah, D. J., and Barzilay, R. Multi-source do-           Conference on Software Engineering (ICSE), pp. 960–
+  main adaptation with mixture of experts. arXiv preprint         970. IEEE, 2019.
+  arXiv:1809.02256, 2018.
+                                                                Henderson, B. E., Lee, N. H., Seewaldt, V., and Shen, H.
+Gupta, A., Murali, A., Gandhi, D., and Pinto, L. Robot            The influence of race and ethnicity on the biology of
+  learning in homes: Improving generalization and reduc-          cancer. Nature Reviews Cancer, 12(9):648–653, 2012.
+  ing dataset bias. In Advances in Neural Information
+ Processing Systems (NIPS), 2018.                               Hendrycks, D. and Dietterich, T. Benchmarking neural
+                                                                  network robustness to common corruptions and perturba-
+Gurcan, M. N., Boucheron, L. E., Can, A., Madabhushi,             tions. In International Conference on Learning Represen-
+ A., Rajpoot, N. M., and Yener, B. Histopathological              tations (ICLR), 2019.
+  image analysis: A review. IEEE reviews in biomedical
+  engineering, 2:147–171, 2009.                                 Hendrycks, D. and Gimpel, K. A baseline for detecting
+                                                                  misclassified and out-of-distribution examples in neural
+Han, X. and Tsvetkov, Y. Fortifying toxic speech detectors        networks. In International Conference on Learning Rep-
+  against veiled toxicity. arXiv preprint arXiv:2010.03154,       resentations (ICLR), 2017.
+  2020.
+                                                                Hendrycks, D., Basart, S., Mazeika, M., Mostajabi,
+Hand, D. J. Classifier technology and the illusion of             M., Steinhardt, J., and Song, D. Scaling out-of-
+  progress. Statistical science, pp. 1–14, 2006.                  distribution detection for real-world settings. arXiv
+                                                                  preprint arXiv:1911.11132, 2020a.
+Hansen, M. C., Potapov, P. V., Moore, R., Hancher, M.,
+  Turubanova, S. A., Tyukavina, A., Thau, D., Stehman,          Hendrycks, D., Basart, S., Mu, N., Kadavath, S., Wang, F.,
+  S. V., Goetz, S. J., Loveland, T. R., Kommareddy, A.,           Dorundo, E., Desai, R., Zhu, T., Parajuli, S., Guo, M.,
+  Egorov, A., Chini, L., Justice, C. O., and Townshend, J.        Song, D., Steinhardt, J., and Gilmer, J. The many faces
+  R. G. High-resolution global maps of 21st-century forest        of robustness: A critical analysis of out-of-distribution
+  cover change. Science, 342, 2013.                               generalization. arXiv preprint arXiv:2006.16241, 2020b.
+
+Harrill, J., Shah, I., Setzer, R. W., Haggard, D., Auerbach,    Hendrycks, D., Liu, X., Wallace, E., Dziedzic, A., Krishnan,
+  S., Judson, R., and Thomas, R. S. Considerations                R., and Song, D. Pretrained transformers improve out-of-
+  for strategic use of high-throughput transcriptomics            distribution robustness. arXiv preprint arXiv:2004.06100,
+  chemical screening data in regulatory decisions. Current        2020c.
+Ho, J. W., Jung, Y. L., Liu, T., Alver, B. H., Lee, S., Ikegami,   Jin, W., Barzilay, R., and Jaakkola, T. Enforcing predictive
+  K., Sohn, K., Minoda, A., Tolstorukov, M. Y., Appert,               invariance across structured biomedical domains. arXiv
+  A., et al. Comparative analysis of metazoan chromatin               preprint arXiv:2006.03908, 2020.
+  organization. Nature, 512(7515):449–452, 2014.
+                                                                   Johnson, A. E., Pollard, T. J., Shen, L., Li-Wei, H. L., Feng,
+Hoffman, J., Tzeng, E., Park, T., Zhu, J., Isola, P., Saenko,        M., Ghassemi, M., Moody, B., Szolovits, P., Celi, L. A.,
+  K., Efros, A. A., and Darrell, T. Cycada: Cycle con-               and Mark, R. G. Mimic-iii, a freely accessible critical
+  sistent adversarial domain adaptation. In International            care database. Scientific Data, 3(1):1–9, 2016.
+ Conference on Machine Learning (ICML), 2018.
+                                                                   Johnson, J., Hariharan, B., van der Maaten, L., Fei-Fei, L.,
+Hovy, D. and Spruit, S. L. The social impact of natural              Zitnick, C. L., and Girshick, R. Clevr: A diagnostic
+  language processing. In Association for Computational              dataset for compositional language and elementary visual
+ Linguistics (ACL), pp. 591–598, 2016.                               reasoning. In Computer Vision and Pattern Recognition
+Hu, J., Ruder, S., Siddhant, A., Neubig, G., Firat, O., and          (CVPR), 2017.
+ Johnson, M. Xtreme: A massively multilingual multi-task
+                                                                   Jones, E., Sagawa, S., Koh, P. W., Kumar, A., and Liang,
+  benchmark for evaluating cross-lingual generalization.
+                                                                     P. Selective classification can magnify disparities across
+  arXiv preprint arXiv:2003.11080, 2020a.
+                                                                     groups. In International Conference on Learning Repre-
+Hu, W., Niu, G., Sato, I., and Sugiyama, M. Does distri-             sentations (ICLR), 2021.
+  butionally robust supervised learning give robust classi-
+  fiers? In International Conference on Machine Learning           Jumper, J., Evans, R., Pritzel, A., Green, T., Figurnov,
+ (ICML), 2018.                                                       M., Tunyasuvunakool, K., Ronneberger, O., Bates, R.,
+                                                                     Žídek, A., Bridgland, A., Meyer, C., Kohl, S. A. A.,
+Hu, W., Fey, M., Zitnik, M., Dong, Y., Ren, H., Liu, B.,             Potapenko, A., Ballard, A. J., Cowie, A., Romera-Paredes,
+  Catasta, M., and Leskovec, J. Open graph benchmark:                B., Nikolov, S., Jain, R., Adler, J., Back, T., Petersen, S.,
+  Datasets for machine learning on graphs. arXiv preprint            Reiman, D., Steinegger, M., Pacholska, M., Silver, D.,
+  arXiv:2005.00687, 2020b.                                           Vinyals, O., Senior, A. W., Kavukcuoglu, K., Kohli, P.,
+                                                                     and Hassabis, D. High accuracy protein structure predic-
+Huang, G., Liu, Z., Maaten, L. V. D., and Weinberger, K. Q.          tion using deep learning. Fourteenth Critical Assessment
+  Densely connected convolutional networks. In Proceed-              of Techniques for Protein Structure Prediction, 2020.
+  ings of the IEEE conference on Computer Vision and
+  Pattern Recognition, pp. 4700–4708, 2017.                        Jung, J., Goel, S., Skeem, J., et al. The limits of human
+                                                                     predictions of recidivism. Science Advances, 6(7), 2020.
+Hughes, J. P., Rees, S., Kalindjian, S. B., and Philpott, K. L.
+  Principles of early drug discovery. British journal of           Jørgensen, A. K., Hovy, D., and Søgaard, A. Challenges of
+  pharmacology, 162(6):1239–1249, 2011.                              studying and processing dialects in social media. In ACL
+                                                                     Workshop on Noisy User-generated Text, pp. 9–18, 2015.
+Husain, H., Wu, H.-H., Gazit, T., Allamanis, M., and
+  Brockschmidt, M. Codesearchnet challenge: Evaluat-
+                                                                   Kahn, G., Abbeel, P., and Levine, S. BADGR: An au-
+  ing the state of semantic code search. arXiv preprint
+                                                                     tonomous self-supervised learning-based navigation sys-
+  arXiv:1909.09436, 2019.
+                                                                     tem. arXiv preprint arXiv:2002.05700, 2020.
+Jaganathan, K., Panagiotopoulou, S. K., McRae, J. F., Dar-
+  bandi, S. F., Knowles, D., Li, Y. I., Kosmicki, J. A.,           Kallus, N. and Zhou, A. Residual Unfairness in Fair Ma-
+  Arbelaez, J., Cui, W., Schwartz, G. B., et al. Predicting          chine Learning from Prejudiced Data. arXiv:1806.02887
+  splicing from primary sequence with deep learning. Cell,           [cs, stat], June 2018. URL http://arxiv.org/ab
+  176(3):535–548, 2019.                                              s/1806.02887. arXiv: 1806.02887.
+
+Jean, N., Burke, M., Xie, M., Davis, W. M., Lobell, D. B.,         Kamath, A., Jia, R., and Liang, P. Selective question answer-
+  and Ermon, S. Combining satellite imagery and machine              ing under domain shift. In Association for Computational
+  learning to predict poverty. Science, 353, 2016.                   Linguistics (ACL), 2020.
+
+Jean, N., Xie, S. M., and Ermon, S. Semi-supervised deep           Katona, Z., Painter, M., Patatoukas, P. N., and Zeng, J.
+  kernel learning: Regression with unlabeled data by mini-           On the capital market consequences of alternative data:
+  mizing predictive variance. In Advances in Neural Infor-           Evidence from outer space. Miami Behavioral Finance
+  mation Processing Systems (NeurIPS), 2018.                         Conference, 2018.
+Kaushik, D., Hovy, E., and Lipton, Z. Learning the dif-        Kulkarni, C., Koh, P. W., Huy, H., Chia, D., Papadopou-
+  ference that makes a difference with counterfactually-         los, K., Cheng, J., Koller, D., and Klemmer, S. R. Peer
+  augmented data. In International Conference on Learning        and self assessment in massive online classes. Design
+  Representations (ICLR), 2019.                                 Thinking Research, pp. 131–168, 2015.
+Kearns, M., Neel, S., Roth, A., and Wu, Z. S. Preventing       Kulkarni, C. E., Socher, R., Bernstein, M. S., and Klemmer,
+  fairness gerrymandering: Auditing and learning for sub-        S. R. Scaling short-answer grading by combining peer
+  group fairness. In International Conference on Machine         assessment with algorithmic scoring. In Proceedings of
+  Learning (ICML), pp. 2564–2572, 2018.                          the first ACM conference on Learning@Scale conference,
+                                                                 pp. 99–108, 2014.
+Keilwagen, J., Posch, S., and Grau, J. Accurate prediction
+  of cell type-specific transcription factor binding. Genome   Kumar, A., Ma, T., and Liang, P. Understanding self-training
+  Biology, 20(1), 2019.                                          for gradual domain adaptation. In International Confer-
+                                                                 ence on Machine Learning (ICML), 2020.
+Kelley, D. R., Snoek, J., and Rinn, J. L. Basset: learning
+  the regulatory code of the accessible genome with deep       Kundaje, A., Meuleman, W., Ernst, J., Bilenky, M., Yen, A.,
+  convolutional neural networks. Genome Research, 26(7):         Heravi-Moussavi, A., Kheradpour, P., Zhang, Z., Wang,
+  990–999, 2016.                                                 J., Ziller, M. J., et al. Integrative analysis of 111 reference
+                                                                 human epigenomes. Nature, 518(7539):317–330, 2015.
+Kim, J. H., Xie, M., Jean, N., and Ermon, S. Incorporat-
+  ing spatial context and fine-grained detail from satellite   Kuznichov, D., Zvirin, A., Honen, Y., and Kimmel, R. Data
+  imagery to predict poverty. Stanford University, 2016a.        augmentation for leaf segmentation and counting tasks in
+                                                                 rosette plants. In Proceedings of the IEEE/CVF Confer-
+Kim, N. and Linzen, T. Cogs: A compositional generaliza-         ence on Computer Vision and Pattern Recognition Work-
+  tion challenge based on semantic interpretation. arXiv         shops, pp. 0–0, 2019.
+  preprint arXiv:2010.05465, 2020.
+                                                               Lake, B. and Baroni, M. Generalization without systematic-
+Kim, S., Thiessen, P. A., Bolton, E. E., Chen, J., Fu, G.,       ity: On the compositional skills of sequence-to-sequence
+  Gindulyte, A., Han, L., He, J., He, S., Shoemaker, B. A.,      recurrent networks. In International Conference on Ma-
+  Wang, J., Yu, B., Zhang, J., and Bryant, S. H. Pubchem         chine Learning (ICML), 2018.
+  substance and compound databases. Nucleic Acids Re-
+  search, 44(D1):D1202–D1213, 2016b.                           Lakshminarayanan, B., Pritzel, A., and Blundell, C. Simple
+                                                                 and scalable predictive uncertainty estimation using deep
+Kingma, D. P. and Ba, J. Adam: A method for stochastic           ensembles. In Advances in Neural Information Process-
+  optimization. In International Conference on Learning          ing Systems (NeurIPS), 2017.
+  Representations (ICLR), 2015.
+                                                               Landrum, G. et al. Rdkit: Open-source cheminformatics,
+Koenecke, A., Nam, A., Lake, E., Nudell, J., Quartey, M.,        2006.
+  Mengesha, Z., Toups, C., Rickford, J. R., Jurafsky, D.,
+  and Goel, S. Racial disparities in automated speech recog-   Larrazabal, A. J., Nieto, N., Peterson, V., Milone, D. H.,
+  nition. Science, 117(14):7684–7689, 2020.                      and Ferrante, E. Gender imbalance in medical imaging
+                                                                 datasets produces biased classifiers for computer-aided
+Koh, P. W., Nguyen, T., Tang, Y. S., Mussmann, S., Pierson,      diagnosis. Proceedings of the National Academy of Sci-
+  E., Kim, B., and Liang, P. Concept bottleneck models. In       ences, 117(23):12592–12594, 2020.
+  International Conference on Machine Learning (ICML),
+  2020.                                                        Larson, J., Mattu, S., Kirchner, L., and Angwin, J. How we
+                                                                 analyzed the compas recidivism algorithm. ProPublica,
+Kompa, B., Snoek, J., and Beam, A. Empirical frequen-            9(1), 2016.
+  tist coverage of deep learning uncertainty quantification
+  procedures. arXiv preprint arXiv:2010.03039, 2020.           Latessa, E. J., Lemke, R., Makarios, M., and Smith, P. The
+                                                                 Creation and Validation of the Ohio Risk Assessment
+Komura, D. and Ishikawa, S. Machine learning methods             System (ORAS). Federal Probation, 74:16, 2010. URL
+  for histopathological image analysis. Computational and        https://heinonline.org/HOL/Page?hand
+  Structural Biotechnology Journal, 16:34–42, 2018.              le=hein.journals/fedpro74&id=16&div=
+                                                                 &collection=.
+Kulal, S., Pasupat, P., Chandra, K., Lee, M., Padon, O.,
+ Aiken, A., and Liang, P. S. Spoc: Search-based pseu-          Lau, R. Y., Li, C., and Liao, S. S. Social analytics: Learning
+  docode to code. In Advances in Neural Information Pro-         fuzzy product ontologies for aspect-oriented sentiment
+  cessing Systems, pp. 11906–11917, 2019.                        analysis. Decision Support Systems, 65:80–94, 2014.
+LeCun, Y., Cortes, C., and Burges, C. J. The MNIST              Libbrecht, M. W. and Noble, W. S. Machine learning ap-
+  database of handwritten digits. http://yann.lec                 plications in genetics and genomics. Nature Reviews
+  un.com/exdb/mnist/, 1998.                                       Genetics, 16(6):321–332, 2015.
+
+Leek, J. T., Scharpf, R. B., Bravo, H. C., Simcha, D., Lang-    Lipton, Z., Wang, Y., and Smola, A. Detecting and cor-
+  mead, B., Johnson, W. E., Geman, D., Baggerly, K., and          recting for label shift with black box predictors. In In-
+  Irizarry, R. A. Tackling the widespread and critical im-        ternational Conference on Machine Learning (ICML),
+  pact of batch effects in high-throughput data. Nature           2018.
+  Reviews Genetics, 11(10), 2010.
+                                                                Liu, L. T., Dean, S., Rolf, E., Simchowitz, M., and Hardt, M.
+Li, D., Yang, Y., Song, Y., and Hospedales, T. M. Deeper,         Delayed impact of fair machine learning. In International
+  broader and artier domain generalization. In Proceed-           Conference on Machine Learning (ICML), 2018.
+  ings of the IEEE International Conference on Computer
+                                                                Liu, Y., Gadepalli, K., Norouzi, M., Dahl, G. E., Kohlberger,
+  Vision, pp. 5542–5550, 2017a.
+                                                                  T., Boyko, A., Venugopalan, S., Timofeev, A., Nelson,
+Li, D., Yang, Y., Song, Y.-Z., and Hospedales, T. Learning to     P. Q., Corrado, G. S., et al. Detecting cancer metas-
+   generalize: Meta-learning for domain generalization. In        tases on gigapixel pathology images. arXiv preprint
+  Association for the Advancement of Artificial Intelligence      arXiv:1703.02442, 2017.
+  (AAAI), 2018a.
+                                                                Ljosa, V., Sokolnicki, K. L., and Carpenter, A. E. Annotated
+Li, H. and Guan, Y. Leopard: fast decoding cell type-             high-throughput microscopy image sets for validation.
+  specific transcription factor binding landscape at single-      Nature methods, 9(7):637–637, 2012.
+  nucleotide resolution. bioRxiv, 2019.                         Long, M., Cao, Y., Wang, J., and Jordan, M. Learning
+                                                                  transferable features with deep adaptation networks. In
+Li, H., Pan, S. J., Wang, S., and Kot, A. C. Domain gener-
+                                                                  International Conference on Machine Learning, pp. 97–
+  alization with adversarial feature learning. In Computer
+                                                                  105, 2015.
+  Vision and Pattern Recognition (CVPR), pp. 5400–5409,
+  2018b.                                                        Loshchilov, I. and Hutter, F. Decoupled weight decay reg-
+                                                                  ularization. In International Conference on Learning
+Li, H., Quang, D., and Guan, Y. Anchor: trans-cell type
+                                                                  Representations (ICLR), 2019.
+  prediction of transcription factor binding sites. Genome
+  Research, 29(2):281–292, 2019a.                               Lu, S., Guo, D., Ren, S., Huang, J., Svyatkovskiy, A.,
+                                                                  Blanco, A., Clement, C., Drain, D., Jiang, D., Tang,
+Li, J., Miller, A. H., Chopra, S., Ranzato, M., and Weston,       D., Li, G., Zhou, L., Shou, L., Zhou, L., Tufano, M.,
+  J. Dialogue learning with human-in-the-loop. In Interna-        Gong, M., Zhou, M., Duan, N., Sundaresan, N., Deng,
+  tional Conference on Learning Representations (ICLR),           S. K., Fu, S., and Liu, S. Codexglue: A machine learning
+  2017b.                                                          benchmark dataset for code understanding and generation.
+                                                                  arXiv preprint arXiv:2102.04664, 2021.
+Li, T., Sanjabi, M., Beirami, A., and Smith, V. Fair re-
+  source allocation in federated learning. arXiv preprint       Lum, K. and Isaac, W. To predict and serve? Significance,
+  arXiv:1905.10497, 2019b.                                        13(5):14–19, 2016.
+Li, Y., Wang, N., Shi, J., Liu, J., and Hou, X. Revisiting      Lum, K. and Shah, T. Measures of fairness for New York
+  batch normalization for practical domain adaptation. In         City’s Supervised Release Risk Assessment Tool. Human
+  International Conference on Learning Representations            Rights Data Analytics Group, pp. 21, 2019.
+  Workshop (ICLRW), 2017c.
+                                                                Lyu, J., Wang, S., Balius, T. E., Singh, I., Levit, A., Moroz,
+Li, Y., Tian, X., Gong, M., Liu, Y., Liu, T., Zhang, K.,          Y. S., O’Meara, M. J., Che, T., Algaa, E., Tolmachova,
+  and Tao, D. Deep domain generalization via conditional          K., et al. Ultra-large library docking for discovering new
+  invariant adversarial networks. In European Conference          chemotypes. Nature, 566(7743):224–229, 2019.
+  on Computer Vision (ECCV), pp. 624–639, 2018c.
+                                                                Macarron, R., Banks, M. N., Bojanic, D., Burns, D. J.,
+Liang, S., Li, Y., and Srikant, R. Enhancing the reliability     Cirovic, D. A., Garyantes, T., Green, D. V., Hertzberg,
+  of out-of-distribution image detection in neural networks.     R. P., Janzen, W. P., Paslay, J. W., et al. Impact of high-
+  In International Conference on Learning Representations        throughput screening in biomedical research. Nature
+  (ICLR), 2018.                                                  reviews Drug discovery, 10(3):188, 2011.
+Macenko, M., Niethammer, M., Marron, J. S., Borland, D.,       Miller, J., Krauth, K., Recht, B., and Schmidt, L. The effect
+ Woosley, J. T., Guan, X., Schmitt, C., and Thomas, N. E.       of natural distribution shift on question answering models.
+ A method for normalizing histology slides for quantitative     arXiv preprint arXiv:2004.14444, 2020.
+ analysis. In 2009 IEEE International Symposium on
+                                                               Mirowski, P., Pascanu, R., Viola, F., Soyer, H., Ballard,
+ Biomedical Imaging: From Nano to Macro, pp. 1107–
+                                                                A., Banino, A., Denil, M., Goroshin, R., Sifre, L.,
+ 1110, 2009.
+                                                                Kavukcuoglu, C., Kumaran, D., and Hadsell, R. Learning
+Madec, S., Jin, X., Lu, H., De Solan, B., Liu, S., Duyme,       to navigate in complex environments. In International
+ F., Heritier, E., and Baret, F. Ear density estimation         Conference on Learning Representations (ICLR), 2017.
+ from high resolution rgb imagery using deep learning          Moore, J. E., Purcaro, M. J., Pratt, H. E., Epstein, C. B.,
+ technique. Agricultural and forest meteorology, 264:225–       Shoresh, N., Adrian, J., Kawli, T., Davis, C. A., Dobin,
+ 234, 2019.                                                     A., Kaul, R., et al. Expanded encyclopaedias of DNA
+Malloy, B. A. and Power, J. F. Quantifying the transition       elements in the human and mouse genomes. Nature, 583
+ from python 2 to 3: an empirical study of python appli-        (7818):699–710, 2020.
+ cations. In 2017 ACM/IEEE International Symposium             Moult, J., Pedersen, J. T., Judson, R., and Fidelis, K. A
+ on Empirical Software Engineering and Measurement              large-scale experiment to assess protein structure predic-
+ (ESEM), pp. 314–323. IEEE, 2017.                               tion methods. Proteins: Structure, Function, and Bioin-
+                                                                formatics, 23(3):ii–iv, 1995.
+Mansour, Y., Mohri, M., and Rostamizadeh, A. Domain
+ adaptation with multiple sources. In Advances in Neural       Nekoto, W., Marivate, V., Matsila, T., Fasubaa, T., Kola-
+ Information Processing Systems (NeurIPS), pp. 1041–             wole, T., Fagbohungbe, T., Akinola, S. O., Muhammad,
+ 1048, 2009.                                                     S. H., Kabongo, S., Osei, S., Freshia, S., Niyongabo,
+                                                                 R. A., Macharm, R., Ogayo, P., Ahia, O., Meressa, M.,
+Marcus, M. P., Marcinkiewicz, M. A., and Santorini, B.           Adeyemi, M., Mokgesi-Selinga, M., Okegbemi, L., Mart-
+ Building a large annotated corpus of English: the Penn          inus, L. J., Tajudeen, K., Degila, K., Ogueji, K., Siminyu,
+ Treebank. Computational Linguistics, 19:313–330, 1993.          K., Kreutzer, J., Webster, J., Ali, J. T., Abbott, J., Orife, I.,
+                                                                 Ezeani, I., Dangana, I. A., Kamper, H., Elsahar, H., Duru,
+McCloskey, K., Sigel, E. A., Kearnes, S., Xue, L., Tian, X.,
+                                                                 G., Kioko, G., Murhabazi, E., van Biljon, E., Whitenack,
+ Moccia, D., Gikunju, D., Bazzaz, S., Chan, B., Clark,
+                                                                 D., Onyefuluchi, C., Emezue, C., Dossou, B., Sibanda,
+ M. A., et al. Machine learning on DNA-encoded libraries:
+                                                                 B., Bassey, B. I., Olabiyi, A., Ramkilowan, A., Öktem,
+ A new paradigm for hit finding. Journal of Medicinal
+                                                                 A., Akinfaderin, A., and Bashir, A. Participatory research
+ Chemistry, 2020.
+                                                                 for low-resourced machine translation: A case study in
+McCoy, R. T., Min, J., and Linzen, T. Berts of a feather         African languages. In Findings of Empirical Methods
+ do not generalize together: Large variability in general-       in Natural Language Processing (Findings of EMNLP),
+ ization across models with similar test set performance.        2020.
+ arXiv preprint arXiv:1911.02969, 2019a.                       Nestor, B., McDermott, M., Boag, W., Berner, G., Nau-
+                                                                 mann, T., Hughes, M. C., Goldenberg, A., and Ghas-
+McCoy, R. T., Pavlick, E., and Linzen, T. Right for the
+                                                                 semi, M. Feature robustness in non-stationary health
+ wrong reasons: Diagnosing syntactic heuristics in natural
+                                                                 records: caveats to deployable model performance in
+ language inference. In Association for Computational
+                                                                 common clinical machine learning tasks. arXiv preprint
+ Linguistics (ACL), 2019b.
+                                                                 arXiv:1908.00690, 2019.
+McKinney, S. M., Sieniek, M., Godbole, V., Godwin, J.,         Nguyen, A. T. and Nguyen, T. N. Graph-based statistical
+ Antropova, N., Ashrafian, H., Back, T., Chesus, M., Cor-        language model for code. In International Conference on
+ rado, G. C., Darzi, A., et al. International evaluation of     Software Engineering (ICSE), 2015.
+ an AI system for breast cancer screening. Nature, 577
+ (7788):89–94, 2020.                                           Ni, J., Li, J., and McAuley, J. Justifying recommendations
+                                                                 using distantly-labeled reviews and fine-grained aspects.
+Mehrabi, N., Morstatter, F., Saxena, N., Lerman, K., and         In Empirical Methods in Natural Language Processing
+ Galstyan, A. A survey on bias and fairness in machine           (EMNLP), pp. 188–197, 2019.
+ learning. arXiv preprint arXiv:1908.09635, 2019.
+                                                               Nita, M. and Notkin, D. Using twinning to adapt programs
+Meinshausen, N. and Bühlmann, P. Maximin effects in              to alternative apis. In 2010 ACM/IEEE 32nd International
+ inhomogeneous large-scale data. Annals of Statistics, 43,       Conference on Software Engineering, volume 1, pp. 205–
+ 2015.                                                           214. IEEE, 2010.
+Noor, A., Alegana, V., Gething, P., Tatem, A., and Snow,            with citizen science and photographic identification. In
+  R. Using remotely sensed night-time light as a proxy for          AAAI Spring Symposium-Technical Report, 2017.
+  poverty in Africa. Population Health Metrics, 6, 2008.
+                                                                  Park, J. H., Shin, J., and Fung, P. Reducing gender bias
+Norouzzadeh, M. S., Morris, D., Beery, S., Joshi, N., Jojic,        in abusive language detection. In Empirical Methods in
+  N., and Clune, J. A deep active learning system for               Natural Language Processing (EMNLP), pp. 2799–2804,
+  species identification and counting in camera trap images.        2018.
+  arXiv preprint arXiv:1910.09716, 2019.
+                                                                  Parker, H. S. and Leek, J. T. The practical effect of batch on
+Nygaard, V., Rødland, E. A., and Hovig, E. Methods that re-         genomic prediction. Statistical applications in genetics
+  move batch effects while retaining group differences may          and molecular biology, 11(3), 2012.
+  lead to exaggerated confidence in downstream analyses.
+  Biostatistics, 17(1):29–39, 2016.                               Patro, G. K., Biswas, A., Ganguly, N., Gummadi, K. P.,
+                                                                    and Chakraborty, A. Fairrec: Two-sided fairness for
+NYTimes. The Times is partnering with Jigsaw to expand
+                                                                    personalized recommendations in two-sided platforms.
+ comment capabilities. The New York Times, 2016. URL
+                                                                    In Proceedings of The Web Conference 2020, pp. 1194–
+ https://www.nytco.com/press/the-times
+                                                                    1204, 2020.
+ -is-partnering-with-jigsaw-to-expan
+ d-comment-capabilities/.                                         Peng, X., Usman, B., Kaushik, N., Wang, D., Hoffman, J.,
+                                                                    and Saenko, K. VisDA: A synthetic-to-real benchmark
+Obermeyer, Z., Powers, B., Vogeli, C., and Mullainathan,
+                                                                    for visual domain adaptation. In Computer Vision and
+  S. Dissecting racial bias in an algorithm used to manage
+                                                                    Pattern Recognition (CVPR), pp. 2021–2026, 2018.
+  the health of populations. Science, 366(6464):447–453,
+  2019.
+                                                                  Peng, X., Bai, Q., Xia, X., Huang, Z., Saenko, K., and Wang,
+Oren, Y., Sagawa, S., Hashimoto, T., and Liang, P. Distribu-        B. Moment matching for multi-source domain adaptation.
+  tionally robust language modeling. In Empirical Methods           In International Conference on Computer Vision (ICCV),
+  in Natural Language Processing (EMNLP), 2019.                     2019.
+
+Osgood-Zimmerman, A., Millear, A. I., Stubbs, R. W.,              Peng, X., Coumans, E., Zhang, T., Lee, T., Tan, J., and
+  Shields, C., Pickering, B. V., Earl, L., Graetz, N., Kinyoki,     Levine, S. Learning agile robotic locomotion skills by
+  D. K., Ray, S. E., Bhatt, S., Browne, A. J., Burstein, R.,        imitating animals. In Robotics: Science and Systems
+  Cameron, E., Casey, D. C., Deshpande, A., Fullman, N.,            (RSS), 2020.
+  Gething, P. W., Gibson, H. S., Henry, N. J., Herrero, M.,
+  Krause, L. K., Letourneau, I. D., Levine, A. J., Liu, P. Y.,    Perelman, L. When “the state of the art” is counting words.
+  Longbottom, J., Mayala, B. K., Mosser, J. F., Noor, A. M.,        Assessing Writing, 21:104–111, 2014.
+  Pigott, D. M., Piwoz, E. G., Rao, P., Rawat, R., Reiner,
+                                                                  Peters, J., Bühlmann, P., and Meinshausen, N. Causal in-
+  R. C., Smith, D. L., Weiss, D. J., Wiens, K. E., Mokdad,
+                                                                    ference by using invariant prediction: identification and
+  A. H., Lim, S. S., Murray, C. J. L., Kassebaum, N. J.,
+                                                                    confidence intervals. Journal of the Royal Statistical
+  and Hay, S. I. Mapping child growth failure in Africa
+                                                                    Society. Series B (Methodological), 78, 2016.
+  between 2000 and 2015. Nature, 555, 2018.
+
+Ovadia, Y., Fertig, E., Ren, J., Nado, Z., Sculley, D.,           Phillips, N. A., Rajpurkar, P., Sabini, M., Krishnan, R.,
+  Nowozin, S., Dillon, J. V., Lakshminarayanan, B., and             Zhou, S., Pareek, A., Phu, N. M., Wang, C., Ng, A. Y.,
+  Snoek, J. Can you trust your model’s uncertainty? evaluat-        and Lungren, M. P. Chexphoto: 10,000+ smartphone
+  ing predictive uncertainty under dataset shift. In Advances       photos and synthetic photographic transformations of
+  in Neural Information Processing Systems (NeurIPS),               chest x-rays for benchmarking deep learning robustness.
+  2019.                                                             arXiv preprint arXiv:2007.06199, 2020.
+
+Panayotov, V., Chen, G., Povey, D., and Khudanpur, S.             Piech, C., Huang, J., Chen, Z., Do, C., Ng, A., and Koller, D.
+  Librispeech: an ASR corpus based on public domain                 Tuned models of peer assessment in moocs. Educational
+  audio books. In International Conference on Acoustics,            Data Mining, 2013.
+  Speech, and Signal Processing (ICASSP), pp. 5206–5210,
+  2015.                                                           Pierson, E., Corbett-Davies, S., and Goel, S. Fast Threshold
+                                                                    Tests for Detecting Discrimination. arXiv:1702.08536
+Parham, J., Crall, J., Stewart, C., Berger-Wolf, T., and            [cs, stat], March 2018. URL http://arxiv.org/
+  Rubenstein, D. I. Animal population censusing at scale            abs/1702.08536. arXiv: 1702.08536.
+Pimentel, M. A., Clifton, D. A., Clifton, L., and Tarassenko,      diarrheal morbidity and mortality in Africa, 2000–2015.
+  L. A review of novelty detection. Signal Processing, 99:         New England Journal of Medicine, 379, 2018.
+  215–249, 2014.
+                                                                 Reker, D. Practical considerations for active machine learn-
+Pipal, K. A., Notch, J. J., Hayes, S. A., and Adams, P. B.         ing in drug discovery. Drug Discovery Today: Technolo-
+  Estimating escapement for a low-abundance steelhead              gies, 2020.
+  population using dual-frequency identification sonar (did-
+                                                                 Ren, S., He, K., Girshick, R., and Sun, J. Faster r-cnn:
+  son). North American Journal of Fisheries Management,
+                                                                   Towards real-time object detection with region proposal
+  32(5):880–893, 2012.
+                                                                   networks. arXiv preprint arXiv:1506.01497, 2015.
+Price, W. N. and Cohen, I. G. Privacy in the age of medical
+                                                                 Reynolds, M., Chapman, S., Crespo-Herrera, L., Molero,
+  big data. Nature Medicine, 25(1):37–43, 2019.
+                                                                   G., Mondal, S., Pequeno, D. N., Pinto, F., Pinera-Chavez,
+Proksch, S., Lerch, J., and Mezini, M. Intelligent code            F. J., Poland, J., Rivera-Amado, C., et al. Breeder friendly
+  completion with bayesian networks. ACM Transactions              phenotyping. Plant Science, pp. 110396, 2020.
+  on Software Engineering and Methodology (TOSEM),
+                                                                 Ribeiro, M. T., Wu, T., Guestrin, C., and Singh, S. Beyond
+  2015.
+                                                                   accuracy: Behavioral testing of NLP models with Check-
+Proksch, S., Amann, S., Nadi, S., and Mezini, M. Evaluating        List. In Association for Computational Linguistics (ACL),
+  the evaluations of code recommender systems: A reality           pp. 4902–4912, 2020.
+  check. In 2016 31st IEEE/ACM International Conference          Richter, S. R., Vineet, V., Roth, S., and Koltun, V. Play-
+  on Automated Software Engineering (ASE), 2016.                   ing for data: Ground truth from computer games. In
+Quang, D. and Xie, X. Factornet: a deep learning framework         European Conference on Computer Vision, pp. 102–118,
+  for predicting cell type specific transcription factor bind-     2016.
+  ing from nucleotide-resolution sequential data. Methods,       Rigaki, M. and Garcia, S. Bringing a GAN to a knife-fight:
+ 166:40–47, 2019.                                                  Adapting malware communication to avoid detection. In
+Quiñonero-Candela, J., Sugiyama, M., Schwaighofer, A.,             2018 IEEE Security and Privacy Workshops (SPW), pp.
+  and Lawrence, N. D. Dataset shift in machine learning.           70–75, 2018.
+ The MIT Press, 2009.                                            Robbes, R. and Lanza, M. How program history can im-
+Raychev, V., Vechev, M., and Yahav, E. Code completion             prove code completion. In International Conference on
+  with statistical language models. In Proceedings of the          Automated Software Engineering, 2008.
+  35th ACM SIGPLAN Conference on Programming Lan-                Rolf, E., Jordan, M. I., and Recht, B. Post-estimation
+  guage Design and Implementation, pp. 419–428, 2014.              smoothing: A simple baseline for learning with side infor-
+                                                                   mation. In Artificial Intelligence and Statistics (AISTATS),
+Raychev, V., Bielik, P., and Vechev, M. Probabilistic model
+                                                                   2020.
+  for code with decision trees. ACM SIGPLAN Notices,
+  2016.                                                          Ros, G., Sellart, L., Materzynska, J., Vazquez, D., and
+                                                                   Lopez, A. M. The SYNTHIA dataset: A large collection
+Ré, C., Niu, F., Gudipati, P., and Srisuwananukorn,
+                                                                   of synthetic images for semantic segmentation of urban
+  C. Overton: A data system for monitoring and im-
+                                                                   scenes. In Proceedings of the IEEE Conference on Com-
+  proving machine-learned products. arXiv preprint
+                                                                   puter Vision and Pattern Recognition, pp. 3234–3243,
+  arXiv:1909.05372, 2019.
+                                                                   2016.
+Recht, B., Roelofs, R., Schmidt, L., and Shankar, V. Do
+                                                                 Rosenfeld, A., Zemel, R., and Tsotsos, J. K. The elephant
+  ImageNet classifiers generalize to ImageNet? In Interna-
+                                                                   in the room. arXiv preprint arXiv:1808.03305, 2018.
+  tional Conference on Machine Learning (ICML), 2019.
+                                                                 Sadeghi, F. and Levine, S. CAD2RL: Real single-image
+Reiner, R. C., Graetz, N., Casey, D. C., Troeger, C., Garcia,      flight without a single real image. In Robotics: Science
+  G. M., Mosser, J. F., Deshpande, A., Swartz, S. J., Ray,         and Systems (RSS), 2017.
+  S. E., Blacker, B. F., Rao, P. C., Osgood-Zimmerman,
+  A., Burstein, R., Pigott, D. M., Davis, I. M., Letourneau,     Sadeghi-Tehran, P., Virlet, N., Sabermanesh, K., and
+  I. D., Earl, L., Ross, J. M., Khalil, I. A., Farag, T. H.,       Hawkesford, M. J. Multi-feature machine learning model
+  Brady, O. J., Kraemer, M. U., Smith, D. L., Bhatt, S.,           for automatic segmentation of green fractional vegeta-
+  Weiss, D. J., Gething, P. W., Kassebaum, N. J., Mokdad,          tion cover for high-throughput field phenotyping. Plant
+  A. H., Murray, C. J., and Hay, S. I. Variation in childhood      methods, 13(1):1–16, 2017.
+Saenko, K., Kulis, B., Fritz, M., and Darrell, T. Adapting       Shapiro, A., Dentcheva, D., and Ruszczyński, A. Lectures
+  visual category models to new domains. In European               on stochastic programming: modeling and theory. SIAM,
+  Conference on Computer Vision, pp. 213–226, 2010.                2014.
+
+Saerens, M., Latinne, P., and Decaestecker, C. Adjusting         Shen, J., Qu, Y., Zhang, W., and Yu, Y. Wasserstein distance
+  the outputs of a classifier to new a priori probabilities:       guided representation learning for domain adaptation. In
+  a simple procedure. Neural Computation, 14(1):21–41,             Association for the Advancement of Artificial Intelligence
+  2002.                                                            (AAAI), 2018.
+Sagawa, S., Koh, P. W., Hashimoto, T. B., and Liang, P.
+                                                                 Shermis, M. D. State-of-the-art automated essay scoring:
+  Distributionally robust neural networks for group shifts:
+                                                                   Competition, results, and future directions from a united
+  On the importance of regularization for worst-case gen-
+                                                                   states demonstration. Assessing Writing, 20:53–76, 2014.
+  eralization. In International Conference on Learning
+  Representations (ICLR), 2020a.                                 Shetty, R., Schiele, B., and Fritz, M. Not using the car to see
+Sagawa, S., Raghunathan, A., Koh, P. W., and Liang, P. An          the sidewalk–quantifying and controlling the effects of
+  investigation of why overparameterization exacerbates            context in classification and segmentation. In Proceedings
+  spurious correlations. In International Conference on            of the IEEE Conference on Computer Vision and Pattern
+  Machine Learning (ICML), 2020b.                                  Recognition, pp. 8218–8226, 2019.
+
+Sahn, D. E. and Stifel, D. Exploring alternative measures of     Shi, Y., Thomasson, J. A., Murray, S. C., Pugh, N. A.,
+  welfare in the absence of expenditure data. The Review           Rooney, W. L., Shafian, S., Rajan, N., Rouze, G., Mor-
+  of Income and Wealth, 49, 2003.                                  gan, C. L. S., Neely, H. L., Rana, A., Bagavathiannan,
+                                                                   M. V., Henrickson, J., Bowden, E., Valasek, J., Olsen-
+Sanh, V., Debut, L., Chaumond, J., and Wolf, T. Distilbert,        holler, J., Bishop, M. P., Sheridan, R., Putman, E. B.,
+  a distilled version of bert: smaller, faster, cheaper and        Popescu, S., Burks, T., Cope, D., Ibrahim, A., Mc-
+  lighter. arXiv preprint arXiv:1910.01108, 2019.                  Cutchen, B. F., Baltensperger, D. D., Avant, Jr, R. V.,
+                                                                   Vidrine, M., and Yang, C. Unmanned aerial vehicles for
+Santurkar, S., Tsipras, D., and Madry, A. Breeds: Bench-
+                                                                   high-throughput phenotyping and agronomic research.
+  marks for subpopulation shift. arXiv, 2020.
+                                                                   PLOS ONE, 11(7):1–26, 07 2016. doi: 10.1371/journal.
+Sap, M., Card, D., Gabriel, S., Choi, Y., and Smith, N. A.         pone.0159781. URL https://doi.org/10.1371/
+  The risk of racial bias in hate speech detection. In Associ-     journal.pone.0159781.
+  ation for Computational Linguistics (ACL), 2019.
+                                                                 Shimodaira, H. Improving predictive inference under covari-
+Schneider, S. and Zhuang, A. Counting fish and dolphins            ate shift by weighting the log-likelihood function. Journal
+  in sonar images using deep learning. arXiv preprint              of Statistical Planning and Inference, 90:227–244, 2000.
+  arXiv:2007.12808, 2020.
+                                                                 Shin, R., Kant, N., Gupta, K., Bender, C., Trabucco, B.,
+Seyyed-Kalantari, L., Liu, G., McDermott, M., and Ghas-            Singh, R., and Song, D. Synthetic datasets for neural pro-
+  semi, M. Chexclusion: Fairness gaps in deep chest X-ray          gram synthesis. In International Conference on Learning
+  classifiers. arXiv preprint arXiv:2003.00827, 2020.              Representations (ICLR), 2019.
+Shakoor, N., Lee, S., and Mockler, T. C. High throughput
+                                                                 Shiu, Y., Palmer, K., Roch, M. A., Fleishman, E., Liu, X.,
+  phenotyping to accelerate crop breeding and monitoring
+                                                                   Nosal, E.-M., Helble, T., Cholewiak, D., Gillespie, D.,
+  of diseases in the field. Current opinion in plant biology,
+                                                                   and Klinck, H. Deep neural networks for automated
+  38:184–192, 2017.
+                                                                   detection of marine mammal species. Scientific Reports,
+Shankar, S., Halpern, Y., Breck, E., Atwood, J., Wilson,           10(1):1–12, 2020.
+  J., and Sculley, D. No classification without represen-
+  tation: Assessing geodiversity issues in open data sets        Shoichet, B. K. Virtual screening of chemical libraries.
+  for the developing world. Advances in Neural Informa-            Nature, 432(7019):862–865, 2004.
+  tion Processing Systems (NeurIPS) Workshop on Machine
+  Learning for the Developing World, 2017.                       Slack, D., Friedler, S., and Givental, E. Fairness Warn-
+                                                                   ings and Fair-MAML: Learning Fairly with Minimal
+Shankar, V., Dave, A., Roelofs, R., Ramanan, D., Recht, B.,        Data. arXiv:1908.09092 [cs, stat], December 2019. URL
+  and Schmidt, L. Do image classifiers generalize across           http://arxiv.org/abs/1908.09092. arXiv:
+  time? arXiv preprint arXiv:1906.02168, 2019.                     1908.09092.
+Sohoni, N., Dunnmon, J., Angus, G., Gu, A., and Ré, C. No          Svyatkovskiy, A., Zhao, Y., Fu, S., and Sundaresan, N.
+  subclass left behind: Fine-grained robustness in coarse-           Pythia: ai-assisted code completion system. In Proceed-
+  grained classification problems. In Advances in Neural             ings of the 25th ACM SIGKDD International Conference
+  Information Processing Systems (NeurIPS), 2020.                    on Knowledge Discovery & Data Mining, pp. 2727–2735,
+                                                                     2019.
+Soneson, C., Gerster, S., and Delorenzi, M. Batch effect
+  confounding leads to strong bias in performance estimates        Swinney, D. C. and Anthony, J. How were new medicines
+  obtained by cross-validation. PloS one, 9(6):e100335,              discovered? Nature reviews Drug discovery, 10(7):507,
+  2014.                                                              2011.
+
+Srivastava, D. and Mahony, S. Sequence and chromatin               Tabak, G., Fan, M., Yang, S., Hoyer, S., and Davis, G.
+  determinants of transcription factor binding and the estab-        Correcting nuisance variation using wasserstein distance.
+  lishment of cell type-specific binding patterns. Biochim-          PeerJ, 8:e8594, 2020.
+  ica et Biophysica Acta (BBA)-Gene Regulatory Mecha-              Tabak, M. A., Norouzzadeh, M. S., Wolfson, D. W.,
+  nisms, 1863(6), 2020.                                              Sweeney, S. J., VerCauteren, K. C., Snow, N. P., Halseth,
+Srivastava, M., Hashimoto, T., and Liang, P.    Ro-                  J. M., Di Salvo, P. A., Lewis, J. S., White, M. D., et al.
+  bustness to Spurious Correlations via Human Anno-                  Machine learning to classify animal species in camera
+  tations.   In International Conference on Machine                  trap images: Applications in ecology. Methods in Ecology
+  Learning, pp. 9109–9119. PMLR, November 2020.                      and Evolution, 10(4):585–590, 2019.
+  URL http://proceedings.mlr.press/v119/                           Taghipour, K. and Ng, H. T. A neural approach to automated
+  srivastava20a.html. ISSN: 2640-3498.                               essay scoring. In Proceedings of the 2016 conference on
+Sterling, T. and Irwin, J. J. Zinc 15 – ligand discovery for ev-     empirical methods in natural language processing, pp.
+  eryone. Journal of Chemical Information and Modeling,              1882–1891, 2016.
+  55(11):2324–2337, 2015. doi: 10.1021/acs.jcim.5b00559.           Taori, R., Dave, A., Shankar, V., Carlini, N., Recht, B.,
+  PMID: 26479676.                                                    and Schmidt, L. Measuring robustness to natural dis-
+                                                                     tribution shifts in image classification. arXiv preprint
+Stowell, D., Wood, M. D., Pamuła, H., Stylianou, Y., and
+                                                                     arXiv:2007.00644, 2020.
+  Glotin, H. Automatic acoustic detection of birds through
+  deep learning: the first bird audio detection challenge.         Tatman, R. Gender and dialect bias in YouTube’s automatic
+  Methods in Ecology and Evolution, 10(3):368–380, 2019.             captions. In Workshop on Ethics in Natural Langauge
+                                                                     Processing, volume 1, pp. 53–59, 2017.
+Subbaswamy, A., Adams, R., and Saria, S. Evaluat-
+  ing model robustness to dataset shift. arXiv preprint            Taylor, J., Earnshaw, B., Mabey, B., Victors, M., and Yosin-
+  arXiv:2010.15100, 2020.                                            ski, J. Rxrx1: An image set for cellular morphological
+                                                                     variation across many experimental batches. In Interna-
+Sun, B. and Saenko, K. Deep CORAL: Correlation align-                tional Conference on Learning Representations (ICLR),
+  ment for deep domain adaptation. In European confer-               2019.
+  ence on computer vision, pp. 443–450, 2016.
+                                                                   Taylor, M. J., Lukowski, J. K., and Anderton, C. R. Spatially
+Sun, B., Feng, J., and Saenko, K. Return of frustratingly            resolved mass spectrometry at the single cell: Recent
+  easy domain adaptation. In Association for the Advance-            innovations in proteomics and metabolomics. Journal
+  ment of Artificial Intelligence (AAAI), 2016.                      of the American Society for Mass Spectrometry, 32(4):
+                                                                     872–894, 2021.
+Sun, P., Kretzschmar, H., Dotiwalla, X., Chouard, A., Pat-
+  naik, V., Tsui, P., Guo, J., Zhou, Y., Chai, Y., Caine,          Tellez, D., Balkenhol, M., Otte-Höller, I., van de Loo, R.,
+  B., Vasudevan, V., Han, W., Ngiam, J., Zhao, H., Timo-             Vogels, R., Bult, P., Wauters, C., Vreuls, W., Mol, S.,
+  feev, A., Ettinger, S., Krivokon, M., Gao, A., Joshi, A.,          Karssemeijer, N., et al. Whole-slide mitosis detection in
+  Zhao, S., Cheng, S., Zhang, Y., Shlens, J., Chen, Z., and          h&e breast histology using phh3 as a reference to train dis-
+  Anguelov, D. Scalability in perception for autonomous              tilled stain-invariant convolutional networks. IEEE Trans-
+  driving: Waymo open dataset. In Conference on Com-                 actions on Medical Imaging, 37(9):2126–2136, 2018.
+  puter Vision and Pattern Recognition (CVPR), 2020a.
+                                                                   Tellez, D., Litjens, G., Bándi, P., Bulten, W., Bokhorst, J.,
+Sun, Y., Wang, X., Liu, Z., Miller, J., Efros, A. A., and            Ciompi, F., and van der Laak, J. Quantifying the effects
+  Hardt, M. Test-time training with self-supervision for             of data augmentation and stain color normalization in con-
+  generalization under distribution shifts. In International         volutional neural networks for computational pathology.
+  Conference on Machine Learning (ICML), 2020b.                      Medical Image Analysis, 58, 2019.
+Temel, D., Lee, J., and AlRegib, G. Cure-or: Challenging          scanning sonar. ICES Journal of Marine Science, 75(5):
+  unreal and real environments for object recognition. In         1803–1812, 2018.
+  2018 17th IEEE International Conference on Machine
+  Learning and Applications (ICMLA), pp. 137–144. IEEE,         Veeling, B. S., Linmans, J., Winkens, J., Cohen, T., and
+  2018.                                                           Welling, M. Rotation equivariant cnns for digital pathol-
+                                                                  ogy. In International Conference on Medical Image Com-
+Thorp, K. R., Thompson, A. L., Harders, S. J., French, A. N.,     puting and Computer-assisted Intervention, pp. 210–218,
+  and Ward, R. W. High-throughput phenotyping of crop             2018.
+  water use efficiency via multispectral drone imagery and
+  a daily soil water balance model. Remote Sensing, 10          Venkateswara, H., Eusebio, J., Chakraborty, S., and Pan-
+  (11):1682, 2018.                                                chanathan, S. Deep hashing network for unsupervised do-
+                                                                  main adaptation. In Computer Vision and Pattern Recog-
+Tiecke, T. G., Liu, X., Zhang, A., Gros, A., Li, N., Yetman,      nition (CVPR), pp. 5018–5027, 2017.
+  G., Kilic, T., Murray, S., Blankespoor, B., Prydz, E. B.,
+  and Dang, H. H. Mapping the world population one              Veta, M., Diest, P. J. V., Jiwa, M., Al-Janabi, S., and Pluim,
+  building at a time. arXiv, 2017.                                J. P. Mitosis counting in breast cancer: Object-level
+                                                                  interobserver agreement and comparison to an automatic
+Tobin, J., Fong, R., Ray, A., Schneider, J., Zaremba, W.,
+                                                                  method. PloS one, 11(8), 2016.
+  and Abbeel, P. Domain randomization for transferring
+  deep neural networks from simulation to the real world.       Veta, M., Heng, Y. J., Stathonikos, N., Bejnordi, B. E.,
+  In International Conference on Intelligent Robots and           Beca, F., Wollmann, T., Rohr, K., Shah, M. A., Wang, D.,
+  Systems (IROS), 2017.                                           Rousson, M., et al. Predicting breast tumor proliferation
+                                                                  from whole-slide images: the tupac16 challenge. Medical
+Toda, Y. and Okura, F. How convolutional neural networks
+                                                                  image analysis, 54:111–121, 2019.
+  diagnose plant disease. Plant Phenomics, 2019, 2019.
+
+Torralba, A. and Efros, A. A. Unbiased look at dataset bias.    Volpi, R., Namkoong, H., Sener, O., Duchi, J., Murino, V.,
+  In Computer Vision and Pattern Recognition (CVPR), pp.          and Savarese, S. Generalizing to unseen domains via
+  1521–1528, 2011.                                                adversarial data augmentation. In Advances in Neural
+                                                                  Information Processing Systems (NeurIPS), 2018.
+Tuschl, T. Rna interference and small interfering rnas.
+  Chembiochem, 2(4):239–245, 2001.                              Wang, A., Pruksachatkun, Y., Nangia, N., Singh, A.,
+                                                                 Michael, J., Hill, F., Levy, O., and Bowman, S. R. Su-
+Tzeng, E., Hoffman, J., Zhang, N., Saenko, K., and Darrell,      perGLUE: A stickier benchmark for general-purpose lan-
+  T. Deep domain confusion: Maximizing for domain                guage understanding systems. In Advances in Neural
+  invariance. arXiv preprint arXiv:1412.3474, 2014.              Information Processing Systems (NeurIPS), 2019a.
+Tzeng, E., Hoffman, J., Saenko, K., and Darrell, T. Ad-         Wang, A., Singh, A., Michael, J., Hill, F., Levy, O., and
+  versarial discriminative domain adaptation. In Computer        Bowman, S. R. GLUE: A multi-task benchmark and
+  Vision and Pattern Recognition (CVPR), 2017.                   analysis platform for natural language understanding. In
+                                                                 International Conference on Learning Representations
+Ubbens, J. R., Ayalew, T. W., Shirtliffe, S., Josuttes, A.,
+                                                                 (ICLR), 2019b.
+  Pozniak, C., and Stavness, I. Autocount: Unsupervised
+  segmentation and counting of organs in field images. In
+                                                                Wang, D., Shelhamer, E., Liu, S., Olshausen, B., and Darrell,
+ European Conference on Computer Vision, pp. 391–399.
+                                                                 T. Fully test-time adaptation by entropy minimization.
+  Springer, 2020.
+                                                                 arXiv preprint arXiv:2006.10726, 2020a.
+Uzkent, B. and Ermon, S. Learning when and where to
+                                                                Wang, H., Ge, S., Lipton, Z., and Xing, E. P. Learning ro-
+  zoom with deep reinforcement learning. In Computer
+                                                                 bust global representations by penalizing local predictive
+ Vision and Pattern Recognition (CVPR), 2020.
+                                                                 power. In Advances in Neural Information Processing
+Vasic, M., Kanade, A., Maniatis, P., Bieber, D., and Singh,      Systems (NeurIPS), 2019c.
+  R. Neural program repair by jointly learning to localize
+  and repair. In International Conference on Learning           Wang, S., Bai, M., Mattyus, G., Chu, H., Luo, W., Yang,
+  Representations (ICLR), 2019.                                  B., Liang, J., Cheverie, J., Fidler, S., and Urtasun, R.
+                                                                 Torontocity: Seeing the world with a million eyes. In
+Vatnehol, S., Peña, H., and Handegard, N. O. A method to         International Conference on Computer Vision (ICCV),
+  automatically detect fish aggregations using horizontally      2017.
+Wang, S., Chen, W., Xie, S. M., Azzari, G., and Lobell,           rotation equivariance. In Computer Vision and Pattern
+ D. B. Weakly supervised deep learning for segmentation           Recognition (CVPR), pp. 5028–5037, 2017.
+ of remote sensing imagery. Remote Sensing, 12, 2020b.
+                                                                Wu, M., Mosse, M., Goodman, N., and Piech, C. Zero shot
+Ward, D. and Moghadam, P. Scalable learning for bridg-           learning for code education: Rubric sampling with deep
+ ing the species gap in image-based plant phenotyping.           learning inference. In Association for the Advancement
+ Computer Vision and Image Understanding, 197:103009,            of Artificial Intelligence (AAAI), volume 33, pp. 782–790,
+ 2020.                                                           2019a.
+
+Wearn, O. and Glover-Kapfer, P. Camera-trapping for con-        Wu, M., Davis, R. L., Domingue, B. W., Piech, C., and
+ servation: a guide to best-practices. WWF conservation          Goodman, N. Variational item response theory: Fast,
+ technology series, 1(1):2019–04, 2017.                          accurate, and expressive. International Conference on
+                                                                 Educational Data Mining, 2020.
+Weinberger, S. Speech accent archive. George Mason
+ University, 2015.                                              Wu, Y., Winston, E., Kaushik, D., and Lipton, Z. Domain
+                                                                 adaptation with asymmetrically-relaxed distribution align-
+Weinstein, B. G. A computer vision for animal ecology.           ment. In International Conference on Machine Learning
+ Journal of Animal Ecology, 87(3):533–545, 2018.                 (ICML), pp. 6872–6881, 2019b.
+Weinstein, J. N., Collisson, E. A., Mills, G. B., Shaw, K.      Wu, Z., Ramsundar, B., Feinberg, E. N., Gomes, J., Ge-
+ R. M., Ozenberger, B. A., Ellrott, K., Shmulevich, I.,          niesse, C., Pappu, A. S., Leswing, K., and Pande, V.
+ Sander, C., Stuart, J. M., Network, C. G. A. R., et al. The     Moleculenet: a benchmark for molecular machine learn-
+ cancer genome atlas pan-cancer analysis project. Nature         ing. Chemical Science, 9(2):513–530, 2018.
+ genetics, 45(10), 2013.
+                                                                Wulfmeier, M., Bewley, A., and Posner, I. Incremental
+West, R., Paskov, H. S., Leskovec, J., and Potts, C. Ex-         adversarial domain adaptation for continually changing
+ ploiting social network structure for person-to-person          environments. In International Conference on Robotics
+ sentiment analysis. Transactions of the Association for         and Automation (ICRA), 2018.
+ Computational Linguistics (TACL), 2:297–310, 2014.
+                                                                Xiao, K., Engstrom, L., Ilyas, A., and Madry, A. Noise or
+Widmer, G. and Kubat, M. Learning in the presence of              signal: The role of image backgrounds in object recogni-
+ concept drift and hidden contexts. Machine learning, 23          tion. arXiv preprint arXiv:2006.09994, 2020.
+ (1):69–101, 1996.
+                                                                Xie, M., Jean, N., Burke, M., Lobell, D., and Ermon, S.
+Williams, J. J., Kim, J., Rafferty, A., Maldonado, S., Gajos,     Transfer learning from deep features for remote sensing
+ K. Z., Lasecki, W. S., and Heffernan, N. Axis: Generating        and poverty mapping. In Association for the Advancement
+ explanations at scale with learnersourcing and machine           of Artificial Intelligence (AAAI), 2016.
+ learning. In Proceedings of the Third (2016) ACM Con-
+ ference on Learning@Scale, pp. 379–388, 2016.                  Xie, S. M., Kumar, A., Jones, R., Khani, F., Ma, T., and
+                                                                  Liang, P. In-N-Out: Pre-training and self-training using
+Wilson, B., Hoffman, J., and Morgenstern, J. Pre-                 auxiliary information for out-of-distribution robustness.
+ dictive inequity in object detection. arXiv preprint             arXiv, 2020.
+ arXiv:1902.11097, 2019.
+                                                                Xiong, H., Cao, Z., Lu, H., Madec, S., Liu, L., and Shen,
+Wolf, T., Debut, L., Sanh, V., Chaumond, J., Delangue,            C. Tasselnetv2: in-field counting of wheat spikes with
+ C., Moi, A., Cistac, P., Rault, T., Louf, R., Funtowicz,         context-augmented local regression networks. Plant
+ M., and Brew, J. HuggingFace’s transformers: State-              Methods, 15(1):1–14, 2019.
+ of-the-art natural language processing. arXiv preprint
+ arXiv:1910.03771, 2019.                                        Xu, K., Hu, W., Leskovec, J., and Jegelka, S. How powerful
+                                                                  are graph neural networks? In International Conference
+Wong, H. Y. F., Lam, H. Y. S., Fong, A. H.-T., Leung,             on Learning Representations (ICLR), 2018.
+ S. T., Chin, T. W.-Y., Lo, C. S. Y., Lui, M. M.-S., Lee, J.
+ C. Y., Chiu, K. W.-H., Chung, T., et al. Frequency and         Yang, Y. and Newsam, S. Bag-of-visual-words and spa-
+ distribution of chest radiographic findings in covid-19          tial extensions for land-use classification. Geographic
+ positive patients. Radiology, pp. 201160, 2020.                  Information Systems, 2010.
+
+Worrall, D. E., Garbin, S. J., Turmukhambetov, D., and          Yang, Y., Caluwaerts, K., Iscen, A., Zhang, T., Tan, J., and
+ Brostow, G. J. Harmonic networks: Deep translation and           Sindhwani, V. Data efficient reinforcement learning for
+  legged robots. In Conference on Robot Learning (CoRL),          Zhou, J. and Troyanskaya, O. G. Predicting effects of
+  2019.                                                             noncoding variants with deep learning–based sequence
+                                                                    model. Nature Methods, 12(10):931–934, 2015.
+Yasunaga, M. and Liang, P. Graph-based, self-supervised
+  program repair from diagnostic feedback. In Interna-            Zhou, X., Nie, Y., Tan, H., and Bansal, M. The curse
+  tional Conference on Machine Learning (ICML), 2020.               of performance instability in analysis datasets: Con-
+                                                                    sequences, source, and suggestions. arXiv preprint
+Yeh, C., Perez, A., Driscoll, A., Azzari, G., Tang, Z., Lobell,
+                                                                    arXiv:2004.13606, 2020.
+  D., Ermon, S., and Burke, M. Using publicly available
+  satellite imagery and deep learning to understand eco-          Zhou, Y., Zhu, S., Cai, C., Yuan, P., Li, C., Huang, Y.,
+  nomic well-being in Africa. Nature Communications, 11,            and Wei, W. High-throughput screening of a crispr/cas9
+  2020.                                                             library for functional genomics in human cells. Nature,
+You, J., Li, X., Low, M., Lobell, D., and Ermon, S. Deep            509(7501):487, 2014.
+  gaussian process for crop yield prediction based on re-         Zitnick, C. L., Chanussot, L., Das, A., Goyal, S., Heras-
+  mote sensing data. In Association for the Advancement             Domingo, J., Ho, C., Hu, W., Lavril, T., Palizhati, A.,
+  of Artificial Intelligence (AAAI), 2017.                          Riviere, M., Shuaibi, M., Sriram, A., Tran, K., Wood, B.,
+Yu, F., Chen, H., Wang, X., Xian, W., Chen, Y., Liu, F.,            Yoon, J., Parikh, D., and Ulissi, Z. An introduction to
+  Madhavan, V., and Darrell, T. BDD100K: A diverse                  electrocatalyst design using machine learning for renew-
+  driving dataset for heterogeneous multitask learning. In          able energy storage. arXiv preprint arXiv:2010.09435,
+  Conference on Computer Vision and Pattern Recognition             2020.
+  (CVPR), 2020.
+Yuval, N., Tao, W., Adam, C., Alessandro, B., Bo, W., and Y,
+  N. A. Reading digits in natural images with unsupervised
+  feature learning. In NIPS Workshop on Deep Learning
+  and Unsupervised Feature Learning, 2011.
+Zafar, M. B., Valera, I., Rodriguez, M. G., Gummadi, K. P.,
+  and Weller, A. From Parity to Preference-based Notions
+  of Fairness in Classification. arXiv:1707.00010 [cs, stat],
+  Nov 2017. URL http://arxiv.org/abs/1707.
+  00010. arXiv: 1707.00010.
+Zech, J. R., Badgeley, M. A., Liu, M., Costa, A. B., Titano,
+  J. J., and Oermann, E. K. Variable generalization per-
+  formance of a deep learning model to detect pneumonia
+  in chest radiographs: A cross-sectional study. In PLOS
+  Medicine, 2018.
+Zhang, K., Schölkopf, B., Muandet, K., and Wang, Z. Do-
+  main adaptation under target and conditional shift. In
+  International Conference on Machine Learning (ICML),
+  pp. 819–827, 2013.
+Zhang, M., Marklund, H., Dhawan, N., Gupta, A., Levine,
+  S., and Finn, C. Adaptive risk minimization: A meta-
+  learning approach for tackling group shift. arXiv preprint
+  arXiv:2007.02931, 2020.
+Zhang, Y., Baldridge, J., and He, L. Paws: Paraphrase ad-
+  versaries from word scrambling. In North American As-
+  sociation for Computational Linguistics (NAACL), 2019.
+Zhao, J., Wang, T., Yatskar, M., Ordoñez, V., and Chang,
+  K. Gender bias in coreference resolution: Evaluation and
+  debiasing methods. In North American Association for
+  Computational Linguistics (NAACL), 2018.
+

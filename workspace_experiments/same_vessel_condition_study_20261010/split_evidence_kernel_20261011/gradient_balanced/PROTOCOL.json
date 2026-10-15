@@ -1,0 +1,25 @@
+{
+  "arms": [
+    "selected_directions"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "steps": 400,
+  "trainable_score_parameters": 16648,
+  "stability_weights": {
+    "31415": 0.027855956754536747,
+    "27182": 0.02592416119258816
+  },
+  "calibration": "Default.1; optional source-only INITIAL frame-gradient norm cap: .1/max(1, ratio_to_task_gradient). Same first8 old source episodes plus full source-fit/graph expectation; fixed after initialization, no target-selected coefficient.",
+  "hypothesis": "Preserve original task case-matching geometry and learn selectively stable prior evidence through that exact fixed support readout.",
+  "capacity": "One frozen R18; separate32D score and case projections. Score projection+8class head trainable16648, case projection frozen16384 parameters. Not two neuralbackbones. Additional source-trained casebranch shared by all newarms.",
+  "initialization": "Score uses identical OLD PCA32 state in all newarms, NOT target-chosen frozen swap or warm-started directional head. Case projection uses corresponding OLD source-selected task checkpoint. Two-stage sourcevalidated design; same old sourcevalidation reused, not independent confirmation.",
+  "fixed": "Exact old source1296/525ships,64support96query training episodes, teachergraph, sourcevalidation episodes and3portsx3drawsx64targetlabels. Scalar weights and400steps unchanged. Case features detached in both training and validation.",
+  "losses": "task: supervised+.5fullteachercenteredMSE+.5adaptedquerybalancedMSE. relation adds.25 oldgradientscaled reliableinterval. selected_directions adds initialvalue-normalized reliable directional stability with the recorded per-seed stability_weights. Same batches/episodes acrossarms.",
+  "differentiable": "Support residual solve remains differentiable through support priors and query priors. Case geometry fixed; this is joint evidence/readout optimization, NOT joint training of two feature branches.",
+  "selection": "Original earliestbest source adaptedBA every20steps including0; pooledsource episodes, not strictleaveportout. Last source snapshot diagnostic only, no target reselect.",
+  "evaluation": "Predictions exported before reading query metrics. Previous task/shared-directional/frozenprior-only swap references replayed exactly. Frozen swap included as diagnostic reference, not extra trained model.",
+  "boundary": "FrozenR18 sideprototype, reuseddevelopment targets, not full mainmodel or independent confirmation. Primary comparison within new three arms isolates reliable direction effect from adding fixed casebranch."
+}

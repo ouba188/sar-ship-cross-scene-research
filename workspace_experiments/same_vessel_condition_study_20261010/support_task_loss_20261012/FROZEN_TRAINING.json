@@ -1,0 +1,35 @@
+{
+  "seeds": [
+    31415,
+    27182
+  ],
+  "steps": 90,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0001,
+  "optimizer": "AdamW",
+  "doses": {
+    "16": 1.0,
+    "64": 0.5,
+    "128": 0.25
+  },
+  "label_budgets": [
+    16,
+    64,
+    128
+  ],
+  "initial": "previous class-common final_model",
+  "fitting_rows": 1296,
+  "fitting_labels_available_to_both_objectives": true,
+  "reconstruction_target": "Same-class OTHER-vessel mean from all1296 fitting rows; not same-vessel history",
+  "previous_initializer_fitting_rows": 1040,
+  "fitting_data_expansion_matched_between_objectives": true,
+  "objective": "Class-balanced CE of actual equal probability fusion versus normalized feature residual MSE",
+  "objective_scale": "Feature MSE divided by fixed source target energy; positive constant preserves its minimizer",
+  "port_reweighting_changed": false,
+  "checkpoint": "Final90 updates only; no held selection",
+  "frozen": "Backbones, base, source readers, query features, dose schedule, centroid/energy constraints",
+  "task_support_solver": "Recompute KSS/KQS and differentiate through solve, signed one-hot targets",
+  "target_labels_used": false,
+  "trainable_parameters": 332352,
+  "acceptance": "Repeatable task-scoped net benefit worth cost; not universal port/class/draw wins"
+}

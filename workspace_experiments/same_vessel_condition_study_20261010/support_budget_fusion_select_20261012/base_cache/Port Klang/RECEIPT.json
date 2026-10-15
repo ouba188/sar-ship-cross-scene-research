@@ -1,0 +1,173 @@
+{
+  "context": "Port Klang",
+  "observation_rows": 2119,
+  "fit_rows": 1296,
+  "held_rows": 823,
+  "order": "case_relation_headroom maps.npz obs_ids",
+  "shapes": {
+    "obs_ids": [
+      2119
+    ],
+    "phi": [
+      2119,
+      158
+    ],
+    "mean": [
+      2119,
+      128
+    ],
+    "conditions": [
+      2119,
+      2
+    ],
+    "embedding": [
+      2119,
+      256
+    ],
+    "prior_held": [
+      2119,
+      8
+    ],
+    "prior_oof": [
+      1296,
+      8
+    ],
+    "eta": []
+  },
+  "eta": 1.0,
+  "head_training": "Original unrotated source_bank + direct incidence; joint_base transform; balanced ridge1",
+  "prediction_features": "C4 replaced R50, exact protected drift/stable phi, normalized mean, incidence",
+  "conditions": "Within each actual port, complete SOURCE manifest population; average ranks, missing=.5; fixed across B/folds/draws",
+  "rank_reference_counts": {
+    "Antwerp-Bruges": 886,
+    "Busan": 871,
+    "Callao": 476,
+    "Fujairah": 1158,
+    "Hamburg": 1619,
+    "Houston": 804,
+    "Jebel Ali": 4602,
+    "Los Angeles": 583,
+    "Melbourne": 64,
+    "Mombasa": 149,
+    "New York": 470,
+    "Newcastle": 299,
+    "Ningbo-Zhoushan": 5756,
+    "Port Hedland": 859,
+    "Port Klang": 3425,
+    "Port Said": 1895,
+    "Qingdao": 1981,
+    "Richards Bay": 744,
+    "Rotterdam": 573,
+    "Santos": 1658,
+    "Shanghai": 2390,
+    "Singapore": 5259,
+    "Sydney Botany": 304,
+    "Tanger Med": 1266
+  },
+  "rank_reference_uses_labels": false,
+  "embedding_conditions_identical_to_kernel": true,
+  "frequency_checkpoint": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Port Klang\\selective.pt",
+  "geometry_runtime": "D:\\Program_documents\\Anaconda_envs\\envs\\ClearSAR\\python.exe",
+  "frequency_runtime": "E:\\Hermes\\paper_tracking\\envs\\msfa-openmmlab-py310-rtx50-cu132\\Scripts\\python.exe",
+  "frequency_input": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\maps\\self24ports\\maps.npy",
+  "source_neural_inference_rows": 2119,
+  "neural_fits": 0,
+  "source_head_fits": 4,
+  "deployment_replay_head_fits": 1,
+  "deployment_replay": {
+    "max_absolute_errors": {
+      "phi": 0.0,
+      "mean": 0.0,
+      "conditions": 0.0,
+      "prior": 0.0,
+      "embedding": 0.0,
+      "base_solver": 1.5543122344752192e-15
+    },
+    "component_rows": 3425,
+    "neural_inference_rows": 128,
+    "solver_draw": 0,
+    "support_labels_used": 64,
+    "target_query_labels_used": false,
+    "target_parameter_selection": false,
+    "independent_of_new_source_heads": true
+  },
+  "held_head_fit_rows": 31846,
+  "held_excluded_vessels": 302,
+  "held_head_class_counts": [
+    9035,
+    8400,
+    5011,
+    4565,
+    1334,
+    1332,
+    1163,
+    1006
+  ],
+  "folds": [
+    {
+      "fold": 0,
+      "fit_rows": 31360,
+      "excluded_fold_vessels": 174,
+      "score_rows": 439,
+      "held_vessel_overlap": 0,
+      "fold_vessel_overlap": 0,
+      "class_counts": [
+        8881,
+        8336,
+        4876,
+        4517,
+        1309,
+        1321,
+        1123,
+        997
+      ]
+    },
+    {
+      "fold": 1,
+      "fit_rows": 31353,
+      "excluded_fold_vessels": 177,
+      "score_rows": 436,
+      "held_vessel_overlap": 0,
+      "fold_vessel_overlap": 0,
+      "class_counts": [
+        8881,
+        8316,
+        4902,
+        4511,
+        1306,
+        1314,
+        1143,
+        980
+      ]
+    },
+    {
+      "fold": 2,
+      "fit_rows": 31380,
+      "excluded_fold_vessels": 174,
+      "score_rows": 421,
+      "held_vessel_overlap": 0,
+      "fold_vessel_overlap": 0,
+      "class_counts": [
+        8912,
+        8328,
+        4885,
+        4515,
+        1310,
+        1317,
+        1138,
+        975
+      ]
+    }
+  ],
+  "target_query_labels_used": false,
+  "cached_original_prior_used_for_source": false,
+  "source_neural_exposure": true,
+  "geometry_refit": false,
+  "limitations": [
+    "Historical neural weights and geometry exposed to source vessels; only linear heads are vessel-excluded.",
+    "Unlabelled full-port descriptor ranks include fit and held rows; ranks are not fold-refitted.",
+    "Reused source development cohorts are not independent confirmation.",
+    "Source episodes span actual ports; each row retains its fixed actual-port ranks."
+  ],
+  "seconds": 25.43326259998139
+}

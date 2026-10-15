@@ -1,0 +1,34 @@
+{
+  "origins": [
+    "split_task",
+    "split_relation"
+  ],
+  "methods": [
+    "paired",
+    "class_only",
+    "stable_only",
+    "pca",
+    "head"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "rank": 7,
+  "gains": [
+    0.0,
+    0.5,
+    1.0
+  ],
+  "scope": "New source-only linear factor extraction inside existing source-trained32D; no new neural encoder fits; reused development cohorts, not independent confirmation.",
+  "fit": "Original1296 chips/525ships; only source-fit labels/metadata estimate factors. Independent-identity heldsource823 diagnostic; historical sourcevalidation selects correction gain. Not strict heldout-port source training.",
+  "signal": "Equal classes; withinclass equal ships, withinship equal product/port acquisitions; covariance of eight classcentroids. Rankatmost7; only mean-visible linear class information.",
+  "drift": "Real same-vessel DIFFERENT-product DIFFERENT-port acquisition mean differences. Uncentered delta secondmoment, equal coveredclasses/ships/pairs. Missing crossport classes not claimed stable.",
+  "extraction": "Common sourceweighted whitening; generalized eig signal vs drift/(trace(drift)/32)+.1I. Top7 span QR; complement25 in WHITENED metric. No per-axis physical meaning/independence claim. Export complete mapping and both factors.",
+  "controls": "class_only top7signal, stable_only lowest7drift, PCA7 chosen PREwhitening, centered oldhead span7 transformed to common whitened space. Headkeep parity is algebraic, NOT evidence of causality.",
+  "readouts": "All extracted7D normalized bysqrt7; complement25 bysqrt25; common whitenedfull32 bysqrt32. Fixed classbalanced source ridge1; all pairwise7D comparisons equalcapacity/scale. Frozenhead keep/remove separately test dependence.",
+  "correction": "Same64parameter7+intercept x8 linear residual for eachmethod. Closedform ridge8 leastsquares over ALL400old64support96query sourceepisodes through fixedcasekernel, including supportprior subtraction and absentclassmask. Gain0/.5/1 selected only oldsourcevalidationadaptedBA. Equal BA ties choose lowergain.",
+  "interpretation": "Paired observational candidate, NOT proof of purecausal factor recovery. Stable vesselidentity can remain. Need held cross-vessel utility, conditionmatched identity controls, fullclass BA/OA and matched class_only increment.",
+  "target": "Old3portsx3draws64labels; predictions archived before querymetrics. Frozen oldcasekernel shared throughout. Primary correction choice uses source only; probes/ablations are diagnostics, not targetselected deployment.",
+  "no_search": "No dimension/penalty sweep, no backbone retraining, no target choice of arms or coefficients. Negative results retained."
+}

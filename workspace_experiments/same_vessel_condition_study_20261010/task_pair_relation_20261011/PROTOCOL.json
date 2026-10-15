@@ -1,0 +1,14 @@
+{
+  "question": "Does decision-supervised cross-vessel pair calibration exploit spatial evidence and real incidence better than matched image-only and within-ship angle-sham controls?",
+  "scope": "Source-side eight-class cached R18-derived32 prior/case experiment. No target ports, new datasets, backbone training, or main-paper changes. Historically reused development cohorts, NOT independent confirmation.",
+  "mechanism": "Original signed ridge support op and residual unchanged. score=base+(op*.25*tanh(standardized_pair_features@theta))@residual. This is bounded post-solve influence calibration, not probability attention, new PSD kernel, or causal factor separation.",
+  "arms": "constant1 parameter; evidence/condition/sham8 each. Shared squared differences of center-border ratio, total branch energy, middle share. Image adds means and ratio-distance interactions; condition/sham replaces four extra terms with mean angle/gap and interactions.",
+  "training": "180 fixed 64support/96query episodes within native excluded vessel fold, repeated twice. Each episode upstream trained without those vessels; normalization of new calibrator uses source-fit only. Fixed Adam .01, CE class-balanced within query episode, L2 .001, bound .25; no search.",
+  "selection": "Step0/60/120/180/240/300/360 by mean BA on original3new-ship validation episodes, earliest ties. Last checkpoint is diagnostic only. No held labels used until selection frozen.",
+  "matching": "Same platform/pass and both known source-range incidence for ALL arms; other edges exact multiplier1. Unlike old within-vessel volatility transfer, this relation is trained on DIFFERENT vessels including cross-port pairs; port is not an input. More coverage is a changed protocol, NOT attributed to the loss alone.",
+  "sham": "Existing within-MMSI/port/platform/pass source angle permutation; real angle at validation/held. Preserves identity-level angle confounding. It tests sample correspondence only, not all angle association.",
+  "boundaries": "CNN spatial energy proxies are not physical bands, ratio not vessel segmentation. Historical backbone exposure and reused upstream-selected validation persist. No causal identification claim.",
+  "fit_observations": 1296,
+  "held_observations": 823,
+  "shuffled_known_rows": 174
+}

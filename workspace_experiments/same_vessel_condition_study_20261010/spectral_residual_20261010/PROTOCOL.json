@@ -1,0 +1,15 @@
+{
+  "purpose": "Does frequency-selective residual correction reduce harm relative to full-band correction?",
+  "labels": "Same939 source labels and exact9x64 target supports; no new ship-type annotations",
+  "extra_information": "Guided mask uses repeated source observations and MMSI links of already-labeled source ships; this is extra source identity information, not equal-information proof against unguided arms",
+  "frequency": "2D orthonormal DCT-II on256x8x8 frozen layer3 maps; Gaussian low=.2, upper=.7, normalized radial corner radius1; low+middle+high=1",
+  "masks": "Full spectrum; fixed middle; source-only convex mix weighted by between-class centroid energy / same-vessel far-condition drift",
+  "guidance_limits": "Centroid separation can contain port shortcuts; same-vessel change is not all noise; fixed weights not dynamic attention or causal identification",
+  "residual": "h + gate[channel]*normalized_band(h); original path retained;256 parameters all arms; zero initialization; gate bounded[-.25,.25]",
+  "scale_control": "Match branch per-channel source RMS to original source RMS; full-band multiplier1; no target fitting of scales",
+  "training": "Same corrected masked-support LOO ridge8 +.25 source-score keep +.25 eight-class source supervision +.1 gate penalty;24 Adam steps lr.01; same32 source replay rows per step",
+  "scope": "Earlier insertion than old affine operator and fewer parameters; frequency claim uses within-this-round matched arms, not only comparison with historical operator",
+  "selection": "All3 arms fixed before target scoring; no cutoff sweep, target-best port policy, or extra iterations",
+  "boundaries": "Small R18 development pilot, not full dual or Causal-Tune reproduction; support/query may share scenes; inherited pretraining exposure",
+  "resources": "CPU1, approximately1.3GB new memory-mapped caches, no parent/GPU changes"
+}

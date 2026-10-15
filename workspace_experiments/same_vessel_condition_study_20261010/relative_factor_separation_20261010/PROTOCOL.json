@@ -1,0 +1,22 @@
+{
+  "arms": [
+    "relations",
+    "decoupled",
+    "delta",
+    "purified"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "factor_steps": 400,
+  "factor_fit_chips": 1296,
+  "factor_fit_ships": 525,
+  "source_only": true,
+  "target_labels": 64,
+  "query_selection": false,
+  "training": "Fresh identical FactorNet initialization per seed; no historical condition weights. Factor fit fold1 plus gate-fit subset of fold2; fixed400 steps, Adam.001. Gate same prior experiment fixed264params and source-only selection.",
+  "objectives": "relations: original; decoupled: stable-only CE and consistency, no corrected CE; delta: +.2 normalized same-ship signed feature-difference reconstruction; purified: +.1 within-scene class-uniform confusion against detached-trained nonlinear adversary. All retain .1reconstruction+.2same-ship+.2semantic+.2scene.",
+  "probes": "Fresh global class ridge; class-balanced scene-centered linear/nonlinear probes with class masks, diagnostic labels only; same-port class-matched scene triplets; source-fit delta ridge and incidence regression; mean-centered stability.",
+  "limitations": "Repeated-development source fold0/three targets, not independent confirmation; many train/test scenes shared; new-scene subset reported. Matching scene is only a proxy. Different encoder fit cohort from historical gates: paired new arms are primary. No main-model change."
+}

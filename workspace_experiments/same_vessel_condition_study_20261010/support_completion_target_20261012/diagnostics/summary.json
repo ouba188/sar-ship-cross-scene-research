@@ -1,0 +1,1122 @@
+{
+  "protocol": {
+    "ports": [
+      "Los Angeles",
+      "Port Klang",
+      "Santos"
+    ],
+    "draws_per_port": 5,
+    "contexts": 15,
+    "support_size": 64,
+    "fusion": "Frozen supplied 0.5 softmax fusion; not recomputed",
+    "evaluation": "Supplied eval_masks, manifest row positions, argmax readouts",
+    "aggregation": "Equal context means, not pooled rows; BA averages present classes",
+    "reference": "Corrected readout minus corresponding raw readout; base deltas separate",
+    "contribution": "Sum of signed row correctness changes * 100 / (present classes * class count * 15)",
+    "unique_counts": "Distinct global rows / known MMSIs across overlapping draws; missing identities counted separately, not treated as one vessel; categories overlap after deduplication",
+    "events": "All expert or fusion top-1 changes; unchanged_wrong includes wrong-to-different-wrong",
+    "limitations": "Descriptive numerical attribution, not causal identification or independent-draw uncertainty"
+  },
+  "metrics": [
+    {
+      "port": "Los Angeles",
+      "readout": "base",
+      "oa": 46.3198458574,
+      "ba": 39.6633849389,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": 0.0,
+      "delta_ba_vs_base": 0.0
+    },
+    {
+      "port": "Los Angeles",
+      "readout": "expert_corrected",
+      "oa": 50.2504816956,
+      "ba": 44.455654929,
+      "delta_oa": 0.5780346821,
+      "delta_ba": 0.4795270346,
+      "delta_oa_vs_base": 3.9306358382,
+      "delta_ba_vs_base": 4.7922699901
+    },
+    {
+      "port": "Los Angeles",
+      "readout": "expert_raw",
+      "oa": 49.6724470135,
+      "ba": 43.9761278943,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": 3.3526011561,
+      "delta_ba_vs_base": 4.3127429554
+    },
+    {
+      "port": "Los Angeles",
+      "readout": "fusion_corrected",
+      "oa": 49.4026974952,
+      "ba": 42.8704589949,
+      "delta_oa": -0.1541425819,
+      "delta_ba": -0.3904971924,
+      "delta_oa_vs_base": 3.0828516378,
+      "delta_ba_vs_base": 3.2070740559
+    },
+    {
+      "port": "Los Angeles",
+      "readout": "fusion_raw",
+      "oa": 49.5568400771,
+      "ba": 43.2609561873,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": 3.2369942197,
+      "delta_ba_vs_base": 3.5975712484
+    },
+    {
+      "port": "Port Klang",
+      "readout": "base",
+      "oa": 45.9922642071,
+      "ba": 38.0968778382,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": 0.0,
+      "delta_ba_vs_base": 0.0
+    },
+    {
+      "port": "Port Klang",
+      "readout": "expert_corrected",
+      "oa": 49.3008033323,
+      "ba": 38.5566672672,
+      "delta_oa": -1.7613805415,
+      "delta_ba": -0.7917879294,
+      "delta_oa_vs_base": 3.3085391253,
+      "delta_ba_vs_base": 0.459789429
+    },
+    {
+      "port": "Port Klang",
+      "readout": "expert_raw",
+      "oa": 51.0621838738,
+      "ba": 39.3484551966,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": 5.0699196668,
+      "delta_ba_vs_base": 1.2515773585
+    },
+    {
+      "port": "Port Klang",
+      "readout": "fusion_corrected",
+      "oa": 50.8063076465,
+      "ba": 40.5583487563,
+      "delta_oa": -1.237726867,
+      "delta_ba": -0.6763951425,
+      "delta_oa_vs_base": 4.8140434395,
+      "delta_ba_vs_base": 2.4614709181
+    },
+    {
+      "port": "Port Klang",
+      "readout": "fusion_raw",
+      "oa": 52.0440345135,
+      "ba": 41.2347438988,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": 6.0517703065,
+      "delta_ba_vs_base": 3.1378660606
+    },
+    {
+      "port": "Santos",
+      "readout": "base",
+      "oa": 42.4215809285,
+      "ba": 42.6598503501,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": 0.0,
+      "delta_ba_vs_base": 0.0
+    },
+    {
+      "port": "Santos",
+      "readout": "expert_corrected",
+      "oa": 44.391468005,
+      "ba": 46.0587750943,
+      "delta_oa": 2.4215809285,
+      "delta_ba": 1.03080505,
+      "delta_oa_vs_base": 1.9698870765,
+      "delta_ba_vs_base": 3.3989247442
+    },
+    {
+      "port": "Santos",
+      "readout": "expert_raw",
+      "oa": 41.9698870765,
+      "ba": 45.0279700443,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": -0.4516938519,
+      "delta_ba_vs_base": 2.3681196942
+    },
+    {
+      "port": "Santos",
+      "readout": "fusion_corrected",
+      "oa": 45.0690087829,
+      "ba": 46.532924325,
+      "delta_oa": 1.6060225847,
+      "delta_ba": 0.9986736399,
+      "delta_oa_vs_base": 2.6474278545,
+      "delta_ba_vs_base": 3.8730739749
+    },
+    {
+      "port": "Santos",
+      "readout": "fusion_raw",
+      "oa": 43.4629861982,
+      "ba": 45.5342506851,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": 1.0414052698,
+      "delta_ba_vs_base": 2.874400335
+    },
+    {
+      "port": "ALL",
+      "readout": "base",
+      "oa": 44.911230331,
+      "ba": 40.1400377091,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": 0.0,
+      "delta_ba_vs_base": 0.0
+    },
+    {
+      "port": "ALL",
+      "readout": "expert_corrected",
+      "oa": 47.9809176776,
+      "ba": 43.0236990968,
+      "delta_oa": 0.412745023,
+      "delta_ba": 0.2395147184,
+      "delta_oa_vs_base": 3.0696873466,
+      "delta_ba_vs_base": 2.8836613878
+    },
+    {
+      "port": "ALL",
+      "readout": "expert_raw",
+      "oa": 47.5681726546,
+      "ba": 42.7841843784,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": 2.6569423236,
+      "delta_ba_vs_base": 2.6441466693
+    },
+    {
+      "port": "ALL",
+      "readout": "fusion_corrected",
+      "oa": 48.4260046416,
+      "ba": 43.3205773587,
+      "delta_oa": 0.0713843786,
+      "delta_ba": -0.022739565,
+      "delta_oa_vs_base": 3.5147743106,
+      "delta_ba_vs_base": 3.1805396496
+    },
+    {
+      "port": "ALL",
+      "readout": "fusion_raw",
+      "oa": 48.354620263,
+      "ba": 43.3433169237,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0,
+      "delta_oa_vs_base": 3.443389932,
+      "delta_ba_vs_base": 3.2032792147
+    }
+  ],
+  "event_counts": [
+    {
+      "port": "Los Angeles",
+      "branch": "expert",
+      "event": "rescue",
+      "events": 172,
+      "unique_rows": 127,
+      "unique_ships": 100,
+      "missing_identity_events": 2,
+      "missing_identity_rows": 2
+    },
+    {
+      "port": "Los Angeles",
+      "branch": "expert",
+      "event": "harm",
+      "events": 157,
+      "unique_rows": 112,
+      "unique_ships": 89,
+      "missing_identity_events": 2,
+      "missing_identity_rows": 2
+    },
+    {
+      "port": "Los Angeles",
+      "branch": "fusion",
+      "event": "rescue",
+      "events": 106,
+      "unique_rows": 87,
+      "unique_ships": 71,
+      "missing_identity_events": 2,
+      "missing_identity_rows": 2
+    },
+    {
+      "port": "Los Angeles",
+      "branch": "fusion",
+      "event": "harm",
+      "events": 110,
+      "unique_rows": 89,
+      "unique_ships": 76,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "Port Klang",
+      "branch": "expert",
+      "event": "rescue",
+      "events": 1319,
+      "unique_rows": 898,
+      "unique_ships": 739,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "branch": "expert",
+      "event": "harm",
+      "events": 1615,
+      "unique_rows": 1048,
+      "unique_ships": 668,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "branch": "fusion",
+      "event": "rescue",
+      "events": 874,
+      "unique_rows": 662,
+      "unique_ships": 541,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "branch": "fusion",
+      "event": "harm",
+      "events": 1082,
+      "unique_rows": 797,
+      "unique_ships": 537,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "branch": "expert",
+      "event": "rescue",
+      "events": 672,
+      "unique_rows": 458,
+      "unique_ships": 385,
+      "missing_identity_events": 3,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "Santos",
+      "branch": "expert",
+      "event": "harm",
+      "events": 479,
+      "unique_rows": 366,
+      "unique_ships": 319,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "Santos",
+      "branch": "fusion",
+      "event": "rescue",
+      "events": 441,
+      "unique_rows": 355,
+      "unique_ships": 309,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "Santos",
+      "branch": "fusion",
+      "event": "harm",
+      "events": 313,
+      "unique_rows": 266,
+      "unique_ships": 245,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "ALL",
+      "branch": "expert",
+      "event": "rescue",
+      "events": 2163,
+      "unique_rows": 1483,
+      "unique_ships": 1215,
+      "missing_identity_events": 5,
+      "missing_identity_rows": 3
+    },
+    {
+      "port": "ALL",
+      "branch": "expert",
+      "event": "harm",
+      "events": 2251,
+      "unique_rows": 1526,
+      "unique_ships": 1072,
+      "missing_identity_events": 3,
+      "missing_identity_rows": 3
+    },
+    {
+      "port": "ALL",
+      "branch": "fusion",
+      "event": "rescue",
+      "events": 1421,
+      "unique_rows": 1104,
+      "unique_ships": 914,
+      "missing_identity_events": 3,
+      "missing_identity_rows": 3
+    },
+    {
+      "port": "ALL",
+      "branch": "fusion",
+      "event": "harm",
+      "events": 1505,
+      "unique_rows": 1152,
+      "unique_ships": 855,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    }
+  ],
+  "expert_event_categories": [
+    {
+      "port": "Los Angeles",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "improved",
+      "events": 35,
+      "unique_rows": 32,
+      "unique_ships": 28,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_correct",
+      "events": 3,
+      "unique_rows": 3,
+      "unique_ships": 3,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 59,
+      "unique_rows": 49,
+      "unique_ships": 44,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "harmed",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "improved",
+      "events": 23,
+      "unique_rows": 20,
+      "unique_ships": 18,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_correct",
+      "events": 52,
+      "unique_rows": 47,
+      "unique_ships": 43,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "harmed",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "improved",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_correct",
+      "events": 1,
+      "unique_rows": 1,
+      "unique_ships": 1,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 62,
+      "unique_rows": 52,
+      "unique_ships": 47,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "harmed",
+      "events": 38,
+      "unique_rows": 34,
+      "unique_ships": 31,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "improved",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_correct",
+      "events": 41,
+      "unique_rows": 35,
+      "unique_ships": 30,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Los Angeles",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "harmed",
+      "events": 15,
+      "unique_rows": 14,
+      "unique_ships": 14,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "improved",
+      "events": 327,
+      "unique_rows": 280,
+      "unique_ships": 257,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_correct",
+      "events": 43,
+      "unique_rows": 43,
+      "unique_ships": 42,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 339,
+      "unique_rows": 288,
+      "unique_ships": 269,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "harmed",
+      "events": 5,
+      "unique_rows": 5,
+      "unique_ships": 5,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "improved",
+      "events": 219,
+      "unique_rows": 200,
+      "unique_ships": 172,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_correct",
+      "events": 386,
+      "unique_rows": 319,
+      "unique_ships": 294,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "harmed",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "improved",
+      "events": 3,
+      "unique_rows": 3,
+      "unique_ships": 3,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_correct",
+      "events": 48,
+      "unique_rows": 46,
+      "unique_ships": 38,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 340,
+      "unique_rows": 291,
+      "unique_ships": 257,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "harmed",
+      "events": 480,
+      "unique_rows": 391,
+      "unique_ships": 271,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "improved",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_correct",
+      "events": 479,
+      "unique_rows": 393,
+      "unique_ships": 265,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Port Klang",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "harmed",
+      "events": 265,
+      "unique_rows": 237,
+      "unique_ships": 174,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "improved",
+      "events": 174,
+      "unique_rows": 150,
+      "unique_ships": 138,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_correct",
+      "events": 12,
+      "unique_rows": 12,
+      "unique_ships": 12,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 220,
+      "unique_rows": 169,
+      "unique_ships": 159,
+      "missing_identity_events": 3,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "Santos",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "harmed",
+      "events": 3,
+      "unique_rows": 3,
+      "unique_ships": 3,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "improved",
+      "events": 102,
+      "unique_rows": 99,
+      "unique_ships": 97,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_correct",
+      "events": 161,
+      "unique_rows": 135,
+      "unique_ships": 127,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "harmed",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "improved",
+      "events": 1,
+      "unique_rows": 1,
+      "unique_ships": 1,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_correct",
+      "events": 21,
+      "unique_rows": 20,
+      "unique_ships": 19,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "Santos",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 131,
+      "unique_rows": 119,
+      "unique_ships": 114,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "harmed",
+      "events": 104,
+      "unique_rows": 97,
+      "unique_ships": 93,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "improved",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_correct",
+      "events": 150,
+      "unique_rows": 124,
+      "unique_ships": 119,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "Santos",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "harmed",
+      "events": 72,
+      "unique_rows": 70,
+      "unique_ships": 68,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "ALL",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "improved",
+      "events": 536,
+      "unique_rows": 462,
+      "unique_ships": 422,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "ALL",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_correct",
+      "events": 58,
+      "unique_rows": 58,
+      "unique_ships": 57,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "ALL",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 618,
+      "unique_rows": 506,
+      "unique_ships": 471,
+      "missing_identity_events": 3,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "ALL",
+      "expert_event": "rescue",
+      "base_correct": false,
+      "fusion_outcome": "harmed",
+      "events": 8,
+      "unique_rows": 8,
+      "unique_ships": 8,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "ALL",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "improved",
+      "events": 344,
+      "unique_rows": 319,
+      "unique_ships": 286,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "ALL",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_correct",
+      "events": 599,
+      "unique_rows": 501,
+      "unique_ships": 464,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "ALL",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "ALL",
+      "expert_event": "rescue",
+      "base_correct": true,
+      "fusion_outcome": "harmed",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "ALL",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "improved",
+      "events": 4,
+      "unique_rows": 4,
+      "unique_ships": 4,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "ALL",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_correct",
+      "events": 70,
+      "unique_rows": 67,
+      "unique_ships": 58,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "ALL",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 533,
+      "unique_rows": 462,
+      "unique_ships": 417,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "ALL",
+      "expert_event": "harm",
+      "base_correct": false,
+      "fusion_outcome": "harmed",
+      "events": 622,
+      "unique_rows": 522,
+      "unique_ships": 395,
+      "missing_identity_events": 1,
+      "missing_identity_rows": 1
+    },
+    {
+      "port": "ALL",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "improved",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "ALL",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_correct",
+      "events": 670,
+      "unique_rows": 552,
+      "unique_ships": 414,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "ALL",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "unchanged_wrong",
+      "events": 0,
+      "unique_rows": 0,
+      "unique_ships": 0,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    },
+    {
+      "port": "ALL",
+      "expert_event": "harm",
+      "base_correct": true,
+      "fusion_outcome": "harmed",
+      "events": 352,
+      "unique_rows": 321,
+      "unique_ships": 256,
+      "missing_identity_events": 0,
+      "missing_identity_rows": 0
+    }
+  ],
+  "top_fusion_vessel": {
+    "port": "Los Angeles",
+    "mmsi": "477713800",
+    "ba_contribution_pp": 0.08435298479792361,
+    "selection": "Largest signed final-fusion port/vessel contribution; port then MMSI breaks ties",
+    "removal": "Only this vessel within its selected port; fixed supports and predictions"
+  },
+  "remove_top_vessel": [
+    {
+      "port": "Los Angeles",
+      "delta_oa": -0.2707909987,
+      "delta_ba": -0.640352063
+    },
+    {
+      "port": "Port Klang",
+      "delta_oa": -1.237726867,
+      "delta_ba": -0.6763951425
+    },
+    {
+      "port": "Santos",
+      "delta_oa": 1.6060225847,
+      "delta_ba": 0.9986736399
+    },
+    {
+      "port": "ALL",
+      "delta_oa": 0.032501573,
+      "delta_ba": -0.1060245219
+    }
+  ],
+  "removal_defined_contexts": 15,
+  "original_mean_fusion_delta_ba": -0.022739565029635856,
+  "fusion_contribution_sum_pp": -0.02273956502963781
+}

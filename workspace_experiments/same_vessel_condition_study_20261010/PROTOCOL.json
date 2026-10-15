@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-10",
+  "seed": 20261010,
+  "purpose": "Mechanism diagnostic, not replacement of the main model",
+  "groups": [
+    "SP_near",
+    "SP_far",
+    "DP_near",
+    "DP_far"
+  ],
+  "near": "Same satellite and pass; absolute incidence gap<=2 degrees; relative direction not required",
+  "far": "Known satellite/pass/incidence; platform or pass differs, or incidence gap>=5 degrees",
+  "direction_subset": "Additional available axial relative-direction gap<=10 degrees; no missing-value imputation",
+  "identity": "Valid consistent-label MMSI proxy; distinct acquisition times; no physical-identity guarantee",
+  "pairing": "All chronological within-MMSI pairs; group results average within ship then equally across ships within class, then classes",
+  "splits": "Three class-stratified MMSI folds, seed fixed; each pair uses one identical fold model and reference set",
+  "representation": "Existing global frozen paired ImageNet R50 and pre-episode SAR SSL R18 caches; no new image/network training",
+  "pca": "Source-only feature center/scale then randomized PCA128/64, divide each reduced block by sqrt(width)",
+  "probe": "R50, R18, or equal-weight feature concatenation; ridge1 with unpenalized intercept; equal class/identity training weights",
+  "reference": "Fixed64 source-identity reference observations,8 different ships per class,shared by both feature routes; used only for relationship diagnostics",
+  "budget": "Probe heads use all fold-training labels, NOT the main model64-target-label evaluation protocol",
+  "heldout": "No held-MMSI labels/features in fitted standardization,PCA,readout or reference selection; labels used for fold stratification and post-freeze analysis",
+  "exposure": "Frozen neural pretraining historical exposure not removed; no independent external confirmation",
+  "causal": "Observational associations; background,sea state,load,direction and time gaps not jointly controlled",
+  "primary_readout": "Equal-class/equal-ship paired change, errors, and dual rescue minus harm; consistency alone is not benefit",
+  "comparisons": "Raw groups plus common class/time-gap cells (>=5 ships/group) and common-MMSI contrasts; none identifies causality",
+  "resources": "CPU2; no GPU, no shared source/model edits, no subagents",
+  "evaluation": "All three folds saved before classification/evidence query metrics; no outcome-based parameter selection"
+}

@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-12",
+  "seeds": [
+    31415,
+    27182
+  ],
+  "ridge": 0.1,
+  "neural_fits": 0,
+  "motion": "Bounded u=SOG/(1+SOG), u^2*cos2(COG-ground_range_axis), u^2*sin2(...). Not measured radial velocity or angular motion.",
+  "zero": "Reported valid zero speed maps to zero vector even if COG/grid missing; moving rows require valid COG and exact cached native grid.",
+  "inputs": "Same-known-donor mask in every arm. No dimensions/heading requirement. Average valid observation features per vessel/product.",
+  "models": {
+    "confidence": [
+      0
+    ],
+    "speed": [
+      0,
+      1,
+      2
+    ],
+    "direction": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "capacity": [
+      0,
+      1,
+      2,
+      5,
+      6
+    ]
+  },
+  "response": "Within-vessel different-product true-class margin difference; class not a predictor. No centering/scaling or intercept; fixed ridge .1.",
+  "folds": "Existing source vessel3fold, response reader only. Upstream cached teacher not nested refit. All full readers frozen before held scoring.",
+  "weights": "Soft local1..2 minmax quality, equal if tied. Hard diagnostic. Known total mass preserved; unknown equal mass. Entire focal product excluded.",
+  "pools": "All other acquisitions primary; same-port/incidencegap<=2 donor reweighting diagnostic. Not conditional causal identification.",
+  "decision": "Check headroom and held-ship exploitability vs equal/confidence/speed/capacity. Do not promote held-best variant or start student automatically.",
+  "limits": "Repeated historical source development cohorts; metadata used only for teacher feasibility. No target evaluation, new independent confirmation, or student gain claim."
+}

@@ -1,0 +1,85 @@
+{
+  "seconds": 7.303232699981891,
+  "resources": "CPU1; torch/BLAS/HiGHS threads=1",
+  "source_only": true,
+  "training": false,
+  "target_metrics_accessed": false,
+  "historical_files_modified": false,
+  "test_observations": 823,
+  "test_ships": 302,
+  "factor_fit_observations": 1296,
+  "source_gate_fit_observations": 462,
+  "arms": [
+    "anchor",
+    "joint",
+    "self_aux",
+    "group_aux"
+  ],
+  "seeds": [
+    31415,
+    27182
+  ],
+  "decoder_rows": 8,
+  "auxiliary_rows": 4,
+  "capacity_rows": 928,
+  "files": [
+    "decoder.csv",
+    "summary.csv",
+    "capacity.csv",
+    "capacity_summary.csv"
+  ],
+  "decoder_protocol": "Every within-test same-vessel cross-product pair, both directions, equal vessel weights. Latent replacement means use factor_fit only. Summary is the arithmetic mean over two seeds per arm.",
+  "donor_protocol": "Same-class different-vessel test donors, fixed seed41033, uniform donor vessel then observation. Products unrestricted; coverage and matched-subset actual-pair references are reported.",
+  "auxiliary_protocol": "Frozen Ds/Dc checkpoints on test-only vessel_targets: equal-product shared mean and x-minus-mean. Only multi-product vessels, observations averaged within vessel then vessels equally. Zero-baseline skills in percent; sum reconstructed x is also reported. self_aux supervises only the sum, so separate components need not be identified. Shared targets include the focal acquisition and are empirical diagnostic proxies, not causal content.",
+  "capacity_protocol": "Fixed original classifier and basis; original 464 errors only. scale effects=(h@basis)*basis.T@weight; residual uses source gate-fit RMS(h@basis) instead. Independent per-image label-informed oracle_margin at fixed closed bounds [-0.1,0.1]. This is an optimistic outer bound of the tanh gate, ignoring context learnability. Only margins>1e-7 count as correctable; near-zero margins are recorded separately. Remaining error floor retains all original correct rows via feasible zero gain; no capacity LP is run on those rows. Capacity is independent of factor arm and seed. NOT DEPLOYABLE, not target support-adapted accuracy, no label-based hyperparameter selection.",
+  "capacity_bound": 0.1,
+  "margin_tolerance": 1e-07,
+  "residual_amplitude": [
+    0.04839330539107323,
+    0.0448923222720623,
+    0.05618036538362503,
+    0.06984493136405945,
+    0.11343755573034286,
+    0.0660807192325592,
+    0.1642252802848816,
+    0.03497491776943207
+  ],
+  "label_informed": true,
+  "notdeployable": true,
+  "capacity_summary": [
+    {
+      "operator": "scale",
+      "source_test_observations": 823,
+      "source_test_ships": 302,
+      "source_gate_fit_observations": 462,
+      "baseline_wrong": 464,
+      "baseline_error_percent": 56.37910085054678,
+      "correctable_wrong": 37,
+      "correctable_wrong_percent": 7.974137931034483,
+      "uncorrectable_wrong": 427,
+      "uncorrectable_wrong_percent": 92.02586206896552,
+      "remaining_error_floor_percent": 51.88335358444714,
+      "near_boundary": 0,
+      "bound": 0.1,
+      "label_informed": true,
+      "notdeployable": true
+    },
+    {
+      "operator": "residual",
+      "source_test_observations": 823,
+      "source_test_ships": 302,
+      "source_gate_fit_observations": 462,
+      "baseline_wrong": 464,
+      "baseline_error_percent": 56.37910085054678,
+      "correctable_wrong": 68,
+      "correctable_wrong_percent": 14.655172413793103,
+      "uncorrectable_wrong": 396,
+      "uncorrectable_wrong_percent": 85.34482758620689,
+      "remaining_error_floor_percent": 48.11664641555286,
+      "near_boundary": 0,
+      "bound": 0.1,
+      "label_informed": true,
+      "notdeployable": true
+    }
+  ]
+}

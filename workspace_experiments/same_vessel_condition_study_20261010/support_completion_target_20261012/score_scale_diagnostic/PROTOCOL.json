@@ -1,0 +1,9 @@
+{
+  "question": "Does changed expert score amplitude account for fusion degradation?",
+  "intervention": "Per-query centered logit L2 direction and norm exchanged between old and corrected expert",
+  "shape_only": "New direction with old norm; preserves corrected expert argmax",
+  "amplitude_only": "Old direction with new norm; preserves original expert argmax",
+  "use": "Post-result fixed diagnostic, not a source-selected deployable method or hyperparameter sweep",
+  "no_training": true,
+  "no_label_input_to_intervention": true
+}

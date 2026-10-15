@@ -1,0 +1,23 @@
+{
+  "status": "complete",
+  "new_neural_fits": 0,
+  "new_repair_fits": 0,
+  "base_reader_fits": 12,
+  "deployment_replay_reader_fits": 3,
+  "selection_objective": "Full fusion versus expert BA",
+  "budgets": [
+    16,
+    64,
+    128
+  ],
+  "source_held_episodes": 27,
+  "target_episodes": 45,
+  "tests": [
+    "ties_prefer_raw_then_least_intervention",
+    "family_selection_excludes_other_family",
+    "criterion_change_can_reverse_selection_with_identical_candidates"
+  ],
+  "learned_loss_unchanged": true,
+  "main_model_unchanged": true,
+  "target_selection": false
+}

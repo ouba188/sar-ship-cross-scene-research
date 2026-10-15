@@ -1,0 +1,15 @@
+{
+  "question": "Does frozen source-class support completion improve original target expert AND final fusion?",
+  "model": "Reuse existing other-vessel same-class residual predictor; no refits or hyperparameter changes",
+  "dose": 1.0,
+  "dose_selection": "Previous source-vessel-fold BA only, before this target evaluation",
+  "scope": "Los Angeles, Port Klang, Santos actual target ports, five original 64-label draws",
+  "baseline": "Original no-training full expert and unchanged base; not prior teacher/task continuation",
+  "fixed": "Queries, base, source prior, backbones, non-R18 coordinates, ridge8, support labels and evaluation masks",
+  "replay_reference": "frozen_comparison_20261010 policies ours_base/softmax_average_all; target.npz expected fields are older pipeline",
+  "operation": "Only support R18-dependent 576 coords corrected; original support centroid/energy restored; recompute both KSS and KQS",
+  "fusion": "Original equal softmax fusion; no temperature, ratio, adaptive routing or 5% budget selection",
+  "prediction_inputs": "Single SAR and existing acquisition fields only; no new AIS/MMSI/history or query labels",
+  "limitation": "Repeated historical target data and original row-level support exclusion; not fresh validation",
+  "phases": "Freeze all three ports before query-label evaluation; preserve old artifacts"
+}

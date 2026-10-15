@@ -1,0 +1,24 @@
+{
+  "seeds": [
+    31415,
+    27182
+  ],
+  "arms": [
+    "mean",
+    "same",
+    "joint"
+  ],
+  "steps": 400,
+  "full_weight": 0.5,
+  "interval_weight": 0.25,
+  "reference": "Reuse exact full_all checkpoint and original predictions; same original MSE, source1296,400steps, batches,33352params.",
+  "hypotheses": "Does recurrence-based reliability improve over positive mean teaching when full-score stability is retained? Does evidence from different same-class vessels further help?",
+  "eligibility": "Metadata-only common cohort: at least2 distinct same-vessel donor acquisitions and2 distinct other donor identities, excluding anchor vessel/product via previous repaired matcher. Never relax on target outcomes.",
+  "intervals": "mean: equal same/other scene-average margins as point target if positive. same: min/max positive margins across all same-vessel donors. joint: min/max across pooled same and other donors, all margins positive. Bounds clip[0,2], truth edge excluded. Different masks/widths intentionally tested together; not pure mask-only ablation.",
+  "objective": "Original supervised MSE +.5 original all-other-acquisition centered8score MSE +.25 scaled interval squared distance. Interval averages edges per image then common eligible images, zero-edge rows contribute zero. No auxiliary replacement.",
+  "scale": "Fixed source-only initial logit-gradient RMS of interval matched to fullMSE within eligible cohort; does not equalize later dynamics. No hyperparameter sweep.",
+  "validation": "Earliest best mean original source new-ship/new-time BA every20steps incl0. Held-source823 not for selection. All target predictions saved before readout.",
+  "deployment": "Single chip, no target identity or multi-view information. Original3ports x3draws x64labels, fixed feature kernel and ridge8.",
+  "diagnosis": "Held-source donor intervals use held labels only for posthoc conditional relation diagnostics, NOT model training, deployment or unbiased causal estimates.",
+  "boundary": "Previously reused development data; R18 frozen side prototype, not complete dual model. No causal identification or independent confirmation."
+}

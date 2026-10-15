@@ -1,0 +1,44 @@
+{
+  "source_fitting_rows": 1296,
+  "seeds": [
+    31415,
+    27182
+  ],
+  "contexts": [
+    "Los Angeles",
+    "Port Klang",
+    "Santos"
+  ],
+  "checkpoints": [
+    0,
+    30,
+    90
+  ],
+  "budgets": [
+    16,
+    64,
+    128
+  ],
+  "replay_steps": 90,
+  "probe_seed": 125012,
+  "probe_rounds": 1,
+  "optimizer": "AdamW",
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0001,
+  "model": "ResidualCorrector",
+  "objective": "original class-balanced fusion CE",
+  "original_doses": {
+    "16": 1.0,
+    "64": 0.5,
+    "128": 0.25
+  },
+  "branch_drivers": 9,
+  "probes_per_driver": 9,
+  "original_archive": "E:\\临时会话\\same_vessel_condition_study_20261010\\support_task_loss_20261012\\models",
+  "sourcefit_not_independent_heldout": true,
+  "state_isolation": "deepcopy model and optimizer state for each independent one-step branch",
+  "ce_sign": "before minus after: positive benefit, negative harm",
+  "context_role": "shared-source geometry contexts, not target evaluation",
+  "model_selection": false,
+  "universal_wins_required": false
+}

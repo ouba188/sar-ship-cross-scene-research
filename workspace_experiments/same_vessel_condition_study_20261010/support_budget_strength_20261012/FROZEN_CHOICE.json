@@ -1,0 +1,39 @@
+{
+  "choices": {
+    "16": {
+      "corrected": 1.0,
+      "simple": 0.5
+    },
+    "64": {
+      "corrected": 0.5,
+      "simple": 0.0
+    },
+    "128": {
+      "corrected": 0.25,
+      "simple": 0.0
+    }
+  },
+  "budgets": [
+    16,
+    64,
+    128
+  ],
+  "grid": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "parameterization": "corrected dose=t; simple residual multiplier=1-t; t=0 is unchanged",
+  "criterion": "Expert BA, equally averaged over source geometry/fold/draw, separately per budget",
+  "tie_break": "smallest intervention",
+  "source_folds": 3,
+  "draws_per_fold": 3,
+  "predictor": "existing fold-excluded class-common model; final source model on held/target only",
+  "selection_query_labels": "source only",
+  "target_selection": false,
+  "ridge_per_example": 0.125,
+  "probability_temperature": 1.0,
+  "history": "Follow-up hypothesis motivated by previously observed budget results, not independent confirmation"
+}

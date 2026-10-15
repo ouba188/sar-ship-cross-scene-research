@@ -1,0 +1,17 @@
+{
+  "held_chips": 823,
+  "held_ships": 302,
+  "common_anchors": 233,
+  "common_ships": 86,
+  "matched_pairs": 359,
+  "known_pairs": 165,
+  "unknown_pairs": 194,
+  "exports": 20,
+  "cohort": "Metadata-only held-source cohort, identical across models and spaces; no correctness filter.",
+  "matching": "Same MMSI, different port/product. Other MMSI, same class, donor port/product exact; known scene-mean angle gap <=2 degrees. No fallback.",
+  "distances": "Squared Euclidean distances in supplied z/sqrt(d); no additional division by dimension. Ratio is weighted same/other distance.",
+  "teachers": "Average chips per donor scene, then equal matched scenes. Reused other scenes retain pair weights. Multi-observation diagnostic, not deployment.",
+  "relations": "All seven true-vs-rival relations; margin>1e-8 is positive. Rescue: nonpositive to positive; harm: positive to nonpositive. Percentages use all seven relations.",
+  "aggregation": "Equal chips/acquisition, acquisitions/vessel, then either vessels or covered classes. Strata have separate cohorts; never compare strata as causal effects.",
+  "limitations": "Natural repeats, shared scenes and reused held development data; unknown angles retained separately; no causal identification or target evaluation."
+}

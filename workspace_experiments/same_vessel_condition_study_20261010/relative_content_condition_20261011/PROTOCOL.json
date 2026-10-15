@@ -1,0 +1,32 @@
+{
+  "seeds": [
+    31415,
+    27182
+  ],
+  "factor_arms": [
+    "self_aux",
+    "group_aux"
+  ],
+  "factor_steps": 200,
+  "initialization": "Both new arms resume the same historical B/anchor factor checkpoint with fresh identical auxiliary heads and Adam state.",
+  "factor_change": "Both use existing joint self/cross reconstruction and metadata anchor losses. New .1 auxiliary: self_aux reconstructs x using Ds(s)+Dc(c); group_aux separately predicts equal-acquisition same-vessel source mean with Ds and x-minus-mean with Dc. Heads match, only targets differ.",
+  "group_proxy": "Training-only per-vessel empirical mean, not true invariant/causal content. Only vessels with >=2 source acquisitions enter auxiliary batches. No target groups used in training or inference.",
+  "factor_selection": "Fixed200 continuation steps, no target or diagnostic checkpoint selection.",
+  "operators": "264params each: scale uses per-image projection; residual uses fixed source-fit RMS projection amplitude. Both bounded0.1*tanh, same Adam.01/400steps/MSE/.01gain regularization. Different feasible operators, not equal per-image perturbation norm.",
+  "contexts": "Historical B/anchor, new self_aux, new group_aux, and unsupervised source-only PCA32 ordinary features. Context normalization uses original gate-fit462 samples.",
+  "primary": "Full changed feature geometry and prior with unchanged64-label ridge8 support residual. Prior-only is fixed secondary computational-path diagnostic.",
+  "selection": "Source new-ship299/new-time149 mean BA, every20steps earliest max including0. Source identity holdout823 is diagnostic only.",
+  "scope": "Three ports x3 existing64 supports, two network seeds. Repeated development, not causal identification or full main model. Fixed all arms, no target selection.",
+  "evidence_file": "shared_content_probe.csv",
+  "metadata": {
+    "angle_center": 39.555784131950155,
+    "angle_scale": 4.285905050978179,
+    "angle_valid": 855,
+    "orbit_valid": 698,
+    "orbit_counts": [
+      457,
+      241
+    ],
+    "inference_metadata_required": false
+  }
+}

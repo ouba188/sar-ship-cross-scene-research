@@ -1,0 +1,46 @@
+{
+  "purpose": "Can64 target labels use internally scene-sensitive information; does source scene guidance improve over ordinary affine adaptation?",
+  "ports": [
+    "Santos",
+    "Port Klang",
+    "Los Angeles"
+  ],
+  "draws": 3,
+  "support_budget": 64,
+  "supports": "New fixed metadata-only sample of64 distinct MMSIs, one random observation each; same supports for every arm",
+  "exclusion": "All observations sharing a support MMSI excluded from query; source excludes all target identities",
+  "source_labels": 939,
+  "no_query_fitting": true,
+  "scene_overlap_boundary": "Support/query scenes may overlap; this tests unseen vessels, not unseen target acquisitions",
+  "arms": [
+    "source_only",
+    "head_only",
+    "ordinary_adapter",
+    "scene_guided_adapter"
+  ],
+  "adapter": "R18 before final residual block;1024 trainable log-gain/shift parameters; identity initialization; frozen backbone",
+  "source_guidance": "Same1024 parameters; source scene/semantic channel rank changes quadratic prior precision, normalized to mean1",
+  "target_head": "Source prior plus differentiable residual ridge8 fitted to the same64 labels; no new label budget",
+  "balanced_head": true,
+  "absent_support_classes": "Residual updates zero for absent classes; current-representation source prior retained",
+  "leave_one_out": "Analytic deletion with weights fixed from the full support set; training objective, not independent validation",
+  "objective": "Class-balanced support leave-one-out ridge MSE +0.25 source prior preservation +0.1 quadratic identity prior",
+  "optimization": {
+    "steps": 24,
+    "lr": 0.01,
+    "optimizer": "Adam",
+    "replay_per_step": 32,
+    "gain_bounds": [
+      0.5,
+      2.0
+    ],
+    "normalized_shift_bounds": [
+      -0.5,
+      0.5
+    ]
+  },
+  "model_selection": "All constants fixed before query results; final fixed step, no target tuning",
+  "limitations": "Small source R18 operator pilot, not full dual/main64 pipeline; repeated development datasets; inherited pretraining exposure",
+  "resources": "CPU1; no parent code modifications, no GPU",
+  "seed": 20261010
+}

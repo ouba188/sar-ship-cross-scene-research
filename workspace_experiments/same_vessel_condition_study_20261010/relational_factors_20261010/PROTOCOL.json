@@ -1,0 +1,36 @@
+{
+  "seed": 20261010,
+  "source_steps": 400,
+  "arms": [
+    "task_only",
+    "relations"
+  ],
+  "architecture": "Frozen R18 GAP512 -> stable128 / condition32; bounded .1*tanh condition-to-stable correction; source classifier plus reconstruction",
+  "losses": "CE stable/corrected mean +.1 reconstruction +.01 correction L2; relations adds .2 same-ship cosine +.2 semantic triplet +.2 scene triplet; cosine margin .2",
+  "sampling": "Class/vessel-balanced supervised batches; vessel-balanced same-ship pair draws; uniform eligible triplet anchors",
+  "source_split": {
+    "train": {
+      "chips": 1744,
+      "ships": 605,
+      "scenes": 446,
+      "same_ship_pairs": 4670,
+      "semantic_anchors": 1744,
+      "scene_anchors": 1416
+    },
+    "diagnostic": {
+      "chips": 823,
+      "ships": 302,
+      "scenes": 336,
+      "same_ship_pairs": 1492,
+      "semantic_anchors": 823,
+      "scene_anchors": 566
+    }
+  },
+  "heldout_scene_overlap": 290,
+  "relation_metadata": "Same MMSI different acquisitions; semantic positive same type/different ship/different scene; scene positive same scene/different type/different ship, negative same type/different scene/different ship",
+  "target": "Original9x64 supports. Source ridge refit on original939; fixed balanced residual ridge8; conditioned target adaptation only128 gains bounded +/-.25 with source replay and absent-class masking",
+  "no_target_selection": true,
+  "neural_seeds": 1,
+  "resources": "CPU1, no backbone updates, no parent changes",
+  "limitations": "Identity-heldout source diagnostic can share scenes; inherited pretraining exposure; candidate factors not established physical/causal factors"
+}

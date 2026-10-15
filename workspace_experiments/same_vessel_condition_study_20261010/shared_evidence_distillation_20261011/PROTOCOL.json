@@ -1,0 +1,21 @@
+{
+  "seeds": [
+    31415,
+    27182
+  ],
+  "arms": [
+    "supervised",
+    "self_teacher",
+    "other_acquisition_teacher"
+  ],
+  "steps": 400,
+  "training_rows": 1296,
+  "baseline": "Frozen historical B factor plus previously selected additive condition operator. Retain changed feature geometry and fixed source classifier.",
+  "intervention": "Single-image 512-64-8 GELU residual on class scores; zero output initialization, centered delta=0.5*source per-class centered-score RMS*tanh. No learned replacement of full512 features or stable128.",
+  "objectives": "All use same source class MSE. self_teacher adds0.5 centered score MSE to the same image frozen prior; other_acquisition_teacher uses equal-acquisition mean frozen prior from other products of the SAME source-fit ship. Both teacher arms use identical multi-acquisition rows. supervised has no teacher loss.",
+  "training": "All three arms same source1296, minibatches, seeds, Adam.001,400 steps. Larger supervised fitting set than historical gate462; supervised control is essential for attributing any benefit.",
+  "selection": "Earliest best mean source new-ship/new-time BA every20steps including0. Source test823 and target query labels never select.",
+  "deployment": "One image only. No vessel identity, target multi-view mean or target metadata. Same original64 support labels, ridge8, fixed baseline feature kernel. New module changes prior only.",
+  "limitations": "Empirical multi-view teacher may be wrong. Task evidence distillation, not causal feature identification. Repeated development3ports x3support draws x2network seeds, not independent validation/full main model.",
+  "hypothesis": "Class evidence from other acquisitions transfers better than same-image self-distillation, without destroying discriminability. Otherwise isolate teacher quality, fitting and transfer."
+}
