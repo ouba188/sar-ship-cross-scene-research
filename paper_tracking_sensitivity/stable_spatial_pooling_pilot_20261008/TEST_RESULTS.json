@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-08",
+  "python": "D:/Program_documents/Anaconda_envs/envs/ClearSAR/python.exe",
+  "command": "python -B -m unittest test_stable_guided_spatial_pooling -v",
+  "unit_tests_passed": 7,
+  "unit_tests_failed": 0,
+  "tested_behaviors": [
+    "historical row mapping and FP32 token mean reconstruction",
+    "uniform attention exact no-op",
+    "attention residual equals weighted pooling minus mean",
+    "inference has no truth argument and obeys predicted top-two pair",
+    "fixed source scaling is independent of target values",
+    "coordinated kernel correction agrees with explicit primal ridge",
+    "zero branch exactly preserves original expert"
+  ],
+  "historical_token_alignment_rows": 7,
+  "historical_token_mean_max_error": 0.0,
+  "source_episodes_replayed": 132,
+  "source_expert_replay_max_error": 0.0,
+  "target_draws_replayed": 30,
+  "target_expert_replay_max_error": 8.881784197001252e-16,
+  "all_six_targets_frozen_before_query_metrics": true,
+  "original_base_unchanged": true,
+  "encoder_retraining": false,
+  "cpu_threads": 2
+}

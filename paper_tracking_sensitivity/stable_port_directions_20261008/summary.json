@@ -1,0 +1,155 @@
+{
+  "status": "completed_not_promoted",
+  "model_classes": 8,
+  "target_ports": 23,
+  "draws": 5,
+  "arms": [
+    "joint_reference",
+    "kernel_shrink_control",
+    "pooled_direction",
+    "stable_direction"
+  ],
+  "aggregate_rule": "mean draws within port, then equal-port mean",
+  "mean_metrics": [
+    {
+      "arm": "joint_reference",
+      "acc": 0.5696120044326586,
+      "ba": 0.5077780047492084,
+      "expert_acc": 0.6099950235184574,
+      "expert_ba": 0.5448011069628993,
+      "selected": 79.0,
+      "evaluated": 1589.3478260869565,
+      "rescued": 43.52173913043478,
+      "harmed": 16.017391304347825
+    },
+    {
+      "arm": "kernel_shrink_control",
+      "acc": 0.5684644845993355,
+      "ba": 0.5078580905234782,
+      "expert_acc": 0.5990725020201486,
+      "expert_ba": 0.541024862760677,
+      "selected": 79.0,
+      "evaluated": 1589.3478260869565,
+      "rescued": 42.5304347826087,
+      "harmed": 16.495652173913044
+    },
+    {
+      "arm": "pooled_direction",
+      "acc": 0.5682311551049942,
+      "ba": 0.5070508355906679,
+      "expert_acc": 0.6010273842760147,
+      "expert_ba": 0.5410506527448687,
+      "selected": 79.0,
+      "evaluated": 1589.3478260869565,
+      "rescued": 42.608695652173914,
+      "harmed": 16.582608695652176
+    },
+    {
+      "arm": "stable_direction",
+      "acc": 0.5681295681267224,
+      "ba": 0.5068717899157398,
+      "expert_acc": 0.6010636724255345,
+      "expert_ba": 0.5410547577844413,
+      "selected": 79.0,
+      "evaluated": 1589.3478260869565,
+      "rescued": 42.53913043478261,
+      "harmed": 16.62608695652174
+    }
+  ],
+  "stable_comparisons": {
+    "joint_reference": {
+      "mean_delta_pp": {
+        "acc": -0.14824363059360757,
+        "ba": -0.0906214833468692,
+        "expert_acc": -0.8931351092922896,
+        "expert_ba": -0.3746349178457952
+      },
+      "positive_ports": {
+        "acc": 5,
+        "ba": 11,
+        "expert_acc": 2,
+        "expert_ba": 4
+      },
+      "negative_ports": {
+        "acc": 17,
+        "ba": 12,
+        "expert_acc": 21,
+        "expert_ba": 19
+      },
+      "zero_ports": {
+        "acc": 1,
+        "ba": 0,
+        "expert_acc": 0,
+        "expert_ba": 0
+      }
+    },
+    "kernel_shrink_control": {
+      "mean_delta_pp": {
+        "acc": -0.03349164726130975,
+        "ba": -0.09863006077384008,
+        "expert_acc": 0.19911704053857884,
+        "expert_ba": 0.0029895023764374114
+      },
+      "positive_ports": {
+        "acc": 9,
+        "ba": 9,
+        "expert_acc": 13,
+        "expert_ba": 14
+      },
+      "negative_ports": {
+        "acc": 11,
+        "ba": 13,
+        "expert_acc": 10,
+        "expert_ba": 9
+      },
+      "zero_ports": {
+        "acc": 3,
+        "ba": 1,
+        "expert_acc": 0,
+        "expert_ba": 0
+      }
+    },
+    "pooled_direction": {
+      "mean_delta_pp": {
+        "acc": -0.010158697827174996,
+        "ba": -0.017904567492802014,
+        "expert_acc": 0.0036288149519771223,
+        "expert_ba": 0.0004105039572676678
+      },
+      "positive_ports": {
+        "acc": 4,
+        "ba": 4,
+        "expert_acc": 8,
+        "expert_ba": 11
+      },
+      "negative_ports": {
+        "acc": 11,
+        "ba": 12,
+        "expert_acc": 7,
+        "expert_ba": 10
+      },
+      "zero_ports": {
+        "acc": 8,
+        "ba": 7,
+        "expert_acc": 8,
+        "expert_ba": 2
+      }
+    }
+  },
+  "pair_auc_scope": "fixed oriented class-pair scores on held-port queries; >=5 query rows per class; no adaptation or target fit",
+  "pair_auc_aggregation": "mean available draws per port/pair, then equal pairs within port, then equal ports",
+  "eligible_pair_draw_rows": 1807,
+  "eligible_port_pairs": 368,
+  "pooled_pair_auc": 0.7952045536509427,
+  "stable_pair_auc": 0.7971977624110518,
+  "stable_above_half_port_pairs": 355,
+  "pooled_above_half_port_pairs": 356,
+  "stable_beats_pooled_port_pairs": 234,
+  "stable_beats_pooled_ports": 21,
+  "source_only": true,
+  "encoder_training": false,
+  "causal_identification": false,
+  "main_model_changed": false,
+  "external_datasets_tested": false,
+  "decision": "Keep cross-port discriminative signal as diagnostic evidence; do not add this fixed25percent direction kernel to the main model."
+}

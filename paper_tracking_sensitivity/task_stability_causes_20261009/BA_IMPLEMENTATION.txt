@@ -1,0 +1,9 @@
+E:\Hermes\paper_tracking\sensitivity\oof_reliability_check\run_generic_transfer.py:64
+
+def metrics(labels, predictions, n_classes):
+    matrix = confusion_matrix(labels, predictions, labels=np.arange(n_classes))
+    count = matrix.sum(1)
+    present = count > 0
+    recall = np.divide(matrix.diagonal(), count, out=np.full(n_classes, np.nan), where=present)
+    return dict(acc=float(matrix.trace()/matrix.sum()), ba=float(recall[present].mean()),
+                class_recall=[float(x) if np.isfinite(x) else None for x in recall])

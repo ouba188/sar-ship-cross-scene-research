@@ -25,8 +25,16 @@ function Publish-Batch {
     if ($LASTEXITCODE -ne 0) { throw 'git add failed' }
     git -C $repo commit -m "Archive batch $($script:batch + 1): $FileCount files" --quiet
     if ($LASTEXITCODE -ne 0) { throw 'git commit failed' }
-    git -C $repo -c http.version=HTTP/1.1 -c http.postBuffer=524288000 push -u origin main
-    if ($LASTEXITCODE -ne 0) { throw 'git push failed; rerun this script to retry the committed batch' }
+    $pushed = $false
+    for ($attempt = 1; $attempt -le 3; $attempt++) {
+        git -C $repo -c http.version=HTTP/1.1 -c http.postBuffer=524288000 push -u origin main
+        if ($LASTEXITCODE -eq 0) { $pushed = $true; break }
+        if ($attempt -lt 3) {
+            Write-Host "Push attempt $attempt failed; retrying this batch"
+            Start-Sleep -Seconds 10
+        }
+    }
+    if (-not $pushed) { throw 'git push failed after three attempts; rerun to retry the committed batch' }
     $script:batch++
     Write-Host "Pushed batch ${script:batch}: $FileCount files, $([math]::Round($FileBytes/1MB,1)) MiB"
 }

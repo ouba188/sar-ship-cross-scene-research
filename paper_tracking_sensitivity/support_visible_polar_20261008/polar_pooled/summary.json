@@ -1,0 +1,103 @@
+{
+  "target": "F0921 paired expert information: polar_pooled",
+  "target_rows": 123489,
+  "evaluated_rows_per_draw": 123425,
+  "target_labels_per_draw": 64,
+  "draws": 5,
+  "means": [
+    {
+      "arm": "original_base",
+      "class_recall": [
+        0.7433587876492351,
+        0.1961352344036573,
+        0.2602127271175635,
+        0.014282636704606458,
+        0.07060844443443523,
+        0.0952223892309129,
+        0.1223089467408783,
+        0.12301016461235954
+      ],
+      "ba": 0.20314241636170602,
+      "acc": 0.24207575450678548,
+      "admission_fraction": 0.0
+    },
+    {
+      "arm": "base_visual64",
+      "class_recall": [
+        0.5238880686093765,
+        0.2855261907927835,
+        0.18370142575162632,
+        0.15119920244875545,
+        0.28321387341769566,
+        0.21196430213182688,
+        0.19968008069143747,
+        0.15296986811864063
+      ],
+      "ba": 0.2490178764952678,
+      "acc": 0.2893708729997974,
+      "admission_fraction": 0.0
+    },
+    {
+      "arm": "visual_handoff5",
+      "class_recall": [
+        0.5155671113546993,
+        0.2707813375592319,
+        0.18690321551196015,
+        0.1587281204727807,
+        0.30502303504632583,
+        0.20840678961074435,
+        0.20615361140421878,
+        0.15470778584607406
+      ],
+      "ba": 0.25078387585075446,
+      "acc": 0.29432124772128826,
+      "admission_fraction": 0.049997974478428193
+    }
+  ],
+  "comparisons": [
+    {
+      "candidate": "visual_handoff5",
+      "control": "base_visual64",
+      "mean_delta_ba_pp": 0.17659993554866082,
+      "draw_deltas_pp": [
+        0.36899435349835863,
+        0.2560405703296825,
+        0.003608761835346974,
+        0.30552517302336046,
+        -0.05116918094344447
+      ],
+      "positive_draws": 4
+    },
+    {
+      "candidate": "base_visual64",
+      "control": "original_base",
+      "mean_delta_ba_pp": 4.587546013356176,
+      "draw_deltas_pp": [
+        4.680585678924482,
+        3.360575861567963,
+        4.678383199508285,
+        3.8212196966866676,
+        6.396965630093487
+      ],
+      "positive_draws": 5
+    },
+    {
+      "candidate": "visual_handoff5",
+      "control": "original_base",
+      "mean_delta_ba_pp": 4.7641459489048374,
+      "draw_deltas_pp": [
+        5.04958003242284,
+        3.6166164318976457,
+        4.681991961343631,
+        4.126744869710028,
+        6.345796449150043
+      ],
+      "positive_draws": 5
+    }
+  ],
+  "statistical_unit": "one dataset, five overlapping support draws; not five independent datasets",
+  "independent_confirmation": false,
+  "interpretation": "Cross-dataset transfer under frozen parameters, not new blind data.",
+  "encoder_scope": "Source episodic layer4/paired residual training; retained source PCA/prior/gate. Both VV and VH enter expert. Historical F0921 SSL exposure; no encoder-OOF claim.",
+  "cost": "5% expert admission, not 5% feature inference cost or 5% changes relative to original base"
+}
