@@ -1,0 +1,103 @@
+{
+  "target": "F0921 aligned residual expert: residual_global",
+  "target_rows": 123489,
+  "evaluated_rows_per_draw": 123425,
+  "target_labels_per_draw": 64,
+  "draws": 5,
+  "means": [
+    {
+      "arm": "original_base",
+      "class_recall": [
+        0.7433587876492351,
+        0.1961352344036573,
+        0.2602127271175635,
+        0.014282636704606458,
+        0.07060844443443523,
+        0.0952223892309129,
+        0.1223089467408783,
+        0.12301016461235954
+      ],
+      "ba": 0.20314241636170602,
+      "acc": 0.24207575450678548,
+      "admission_fraction": 0.0
+    },
+    {
+      "arm": "base_visual64",
+      "class_recall": [
+        0.5238880686093765,
+        0.2855261907927835,
+        0.18370142575162632,
+        0.15119920244875545,
+        0.28321387341769566,
+        0.21196430213182688,
+        0.19968008069143747,
+        0.15296986811864063
+      ],
+      "ba": 0.2490178764952678,
+      "acc": 0.2893708729997974,
+      "admission_fraction": 0.0
+    },
+    {
+      "arm": "visual_handoff5",
+      "class_recall": [
+        0.51678635564456,
+        0.30200885600345895,
+        0.19185062751889062,
+        0.15451524580884302,
+        0.28755158619857657,
+        0.23447576505812173,
+        0.20394927803786142,
+        0.1437067171385011
+      ],
+      "ba": 0.25435555392610165,
+      "acc": 0.29326473566943484,
+      "admission_fraction": 0.049997974478428193
+    }
+  ],
+  "comparisons": [
+    {
+      "candidate": "visual_handoff5",
+      "control": "base_visual64",
+      "mean_delta_ba_pp": 0.5337677430833887,
+      "draw_deltas_pp": [
+        0.7200067927482123,
+        0.3203653840960802,
+        0.5726342260071182,
+        0.1891880109662264,
+        0.8666443015993064
+      ],
+      "positive_draws": 5
+    },
+    {
+      "candidate": "base_visual64",
+      "control": "original_base",
+      "mean_delta_ba_pp": 4.587546013356176,
+      "draw_deltas_pp": [
+        4.680585678924482,
+        3.360575861567963,
+        4.678383199508285,
+        3.8212196966866676,
+        6.396965630093487
+      ],
+      "positive_draws": 5
+    },
+    {
+      "candidate": "visual_handoff5",
+      "control": "original_base",
+      "mean_delta_ba_pp": 5.121313756439566,
+      "draw_deltas_pp": [
+        5.400592471672693,
+        3.6809412456640436,
+        5.251017425515403,
+        4.0104077076528934,
+        7.263609931692794
+      ],
+      "positive_draws": 5
+    }
+  ],
+  "statistical_unit": "one dataset, five overlapping support draws; not five independent datasets",
+  "independent_confirmation": false,
+  "interpretation": "Cross-dataset transfer under frozen parameters, not new blind data.",
+  "encoder_scope": "Source-only episodic layer4 training. Source PCA/prior/gate frozen before training and retained at deployment. No encoder-level OOF claim. Inherited F0921 SSL exposure.",
+  "cost": "5% expert admission, not 5% feature inference cost or 5% changes relative to original base"
+}
