@@ -1,0 +1,12 @@
+{
+  "status": "Frozen before this analysis",
+  "question": "Do learned class-pair weights reduce observed same-ship cross-acquisition variation relative to type separation, and does that explain full-system gains?",
+  "models": "Reused class_utility seeds3, fixed class pairs, free class metric seeds3, nonlinear class mean, PCA7 and original visual",
+  "source": "Existing validation_fit geometry/8825 source-ship class bank; no new fitting or target-label model selection",
+  "pair": "One pair between lexicographically first/last acquisition keys per consistent-label known ship; not assumed to be chronological. OSS2 retains product type; one observation per ship/acquisition",
+  "between": "28 source class-center pairs; secondary target within-acquisition class means from at least two distinct query ships per class, scene equal-weighted; target labels diagnostic only",
+  "ratio": "Mean same-ship squared distance divided by mean source-center between-class squared distance; lower is conditionally favorable, not a BA guarantee",
+  "outcome": "Existing cross-acquisition B64 ship BA contributions for F/OSS2 and B32 for ports; compare learned vs fixed pairs, with no new predictions",
+  "attribution": "Same-ship difference includes viewpoint/state/crop, not isolated causal acquisition drift; support/query and source-fit exposure retain previous bounds",
+  "main_model_changed": false
+}

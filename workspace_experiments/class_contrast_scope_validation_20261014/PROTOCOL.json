@@ -1,0 +1,36 @@
+{
+  "status": "Frozen before expanded outcomes",
+  "budgets": [
+    16,
+    32,
+    64
+  ],
+  "draws": 5,
+  "models": "All three already-frozen balanced class-pair models and all three matched free-class metrics; no new fits or selection",
+  "geometry": "Existing validation_fit geometry used identically for relation training and deployment; no source refit",
+  "scope": "All external scenes in prior metadata capacity inventory with B64 feasible; original five preserved; all48 held-port scenes",
+  "comparators": [
+    "original",
+    "class_mean",
+    "class_fixed",
+    "class_utility_0",
+    "class_utility_1",
+    "class_utility_2",
+    "class_metric_0",
+    "class_metric_1",
+    "class_metric_2"
+  ],
+  "fixed": {
+    "rho": 0.25,
+    "ridge": 8,
+    "fusion": 0.5
+  },
+  "sampling": "Same/other acquisition class quotas exactly matched; OSS2 additionally GRDH/SLC matched. Label-matched diagnostic, not label-blind labeling policy.",
+  "budgets_note": "Original16/64 supports unchanged, not nested. New32 subsampled within each64 with matched class/product quotas; no monotonicity claim.",
+  "selection": "No target-based checkpoint, amplitude, model or winning-scene selection",
+  "aggregation": "Scene means within each port, then equal ports. External datasets have one port placeholder; actual ports unknown.",
+  "uncertainty": "Training seeds and support draws separate; repeated ships/acquisitions not independent evidence",
+  "exposure": "Development coverage expansion, not new independent data. Historical backbone exposure unchanged.",
+  "timing": "Cached-feature relation mapping and adaptation only; not end-to-end image processing or measured labeling cost.",
+  "main_model_changed": false
+}

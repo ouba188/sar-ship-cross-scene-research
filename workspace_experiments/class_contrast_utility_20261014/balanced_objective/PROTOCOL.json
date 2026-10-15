@@ -1,0 +1,19 @@
+{
+  "status": "Fixed before training and new target outcomes",
+  "source": "Existing external validation geometry/source memory excluding Singapore/JebelAli/PortKlang and their identities/acquisitions",
+  "source_tasks": "At most2 evenly spaced eligible acquisition groups per training port; >=8ships/2classes; other-scene support64, prefix16;2draws;query<=48",
+  "target": "Previous440 acquisition support cells, no target gradients, stopping or version selection",
+  "method": "28 positive mean-one linear contrast weights; autograd through class-balanced support ridge; fixed .5 probability fusion",
+  "objective": "Global8class/eligible-port/task-balanced Brier + .001 centered-logit L2",
+  "optimizer": "Adam lr.03, batch8 tasks",
+  "epochs": 40,
+  "seeds": [
+    20261014,
+    20261015,
+    20261016
+  ],
+  "checkpoint": "Fixed final epoch, all seeds reported; mean performance is not a prediction ensemble",
+  "unchanged": "Frozen encoders, source priors, reference centers, source pair scales, ridge8,rho.25,fusion.5",
+  "limitations": "Source-training query labels previously fit source heads; training loss is not held-out utility; historical exposure/development reuse remains",
+  "scope": "Independent side experiment; no main-thread source/model/manuscript/memory edits"
+}
