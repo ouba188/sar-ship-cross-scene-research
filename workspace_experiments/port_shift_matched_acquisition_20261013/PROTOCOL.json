@@ -1,0 +1,38 @@
+{
+  "seed": 20261014,
+  "held_ports": [
+    "Newcastle",
+    "Ningbo-Zhoushan",
+    "Qingdao",
+    "Shanghai",
+    "Sydney Botany"
+  ],
+  "source_n": 23687,
+  "source": "Shared frozen original R50/C4/R18 caches, available rows only; exclude all five shared-acquisition ports AND their known vessels",
+  "reader": "Existing compact dual-prior expert + C4 base equal probability fusion; NOT legacy frequency/stable/incidence full model",
+  "fitting": "One new common source geometry and source heads; no encoder training; no target outcomes for hyperparameter selection",
+  "source_ridge": 1.0,
+  "support_ridge": 8.0,
+  "fusion": 0.5,
+  "budgets": [
+    16,
+    64
+  ],
+  "draws": 5,
+  "cells": {
+    "SS": "same port same acquisition",
+    "OS": "other port same acquisition",
+    "SO": "same port other acquisitions",
+    "OO": "other port other acquisitions"
+  },
+  "acquisition": "platform+absoluteorbit+datatake; product and incidence tracked separately",
+  "query": "One random observation per known vessel;30percent vessel holdout; all four cells use identical queries",
+  "support": "Exact B/perclasscounts across4cells; known unique ships; exclude all queryMMSIs; one random observation per support ship",
+  "selection": "At most3 eligible chronologically evenly spaced acquisitions per directed port pair/B; labels used only for matched diagnostic sampling",
+  "scene_filter": "Exclude vessels appearing in multiple ports within the same acquisition from same-acquisition query/support pools",
+  "required": "At least5query vessels,2queryclasses and2classes available in all4support pools",
+  "primary": "OS-SS; average draws then scenes within directedpair; show bothdirections and unorderedpairs",
+  "secondary": "SO-SS,OO-SO,OO-OS and interaction OO-OS-SO+SS; no additive causal attribution",
+  "scope": "Frozen pretrained exposure remains; same datatake is not equal incidence/background; three China ports expected, no broad population inference",
+  "main_model_changed": false
+}

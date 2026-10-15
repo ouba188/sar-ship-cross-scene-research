@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-12",
+  "datasets": [
+    "Los Angeles",
+    "Port Klang",
+    "Santos",
+    "oss1",
+    "oss2"
+  ],
+  "conditions": [
+    "original",
+    "display",
+    "crop75",
+    "crop75_display"
+  ],
+  "folds": [
+    2,
+    3
+  ],
+  "targets": {
+    "2": [
+      "Los Angeles",
+      "oss1",
+      "oss2",
+      "oss2_grdh"
+    ],
+    "3": [
+      "Port Klang",
+      "Santos",
+      "oss1",
+      "oss2",
+      "oss2_grdh"
+    ]
+  },
+  "selection": "Existing diagnostic trio LA/Klang/Santos, not all23ports; all public rows retained",
+  "inputs": "Identity, pooled-two-polarization q01/q99 shared affine display stretch, central75percent native crop, crop then display",
+  "crop": "floor(.75*width/height), centered with integer left/top; same fractional rule for each polarization",
+  "display": "Quantiles of pooled VV/VH bilinear128 L pixels; apply shared affine to native VV/VH and VH RGB; round,clip,uint8; flat pair unchanged",
+  "frozen": "Existing prior5fold source models2/3: encoders, source heads, mapper, PCA/scales, ridge8, temperature1; no source transforms/refits",
+  "adaptation": "Apply input intervention to BOTH support and query, re-solve the same five64 support systems",
+  "readouts": "Original seven cue arms, both linear/MLP, expert and compactC4; no learned-frequency/port-specific modules",
+  "baseline": "Reextract original native images with exact legacy encoder preprocessing; compare archived feature and prediction replay",
+  "outcomes": "Freeze predictions first; BA/OA, macro/microBrier, featureR2/shift, contrast/footprint and class cue ordering; paired input effects",
+  "limitations": [
+    "Target-input intervention under a fixed source model, NOT matched transformed-source retraining",
+    "Crop75 is framing perturbation, NOT physical occupancy harmonization; may truncate targets",
+    "Display mapping is not radiometric calibration; clipping and polarization contrast may change",
+    "Frozen pretrained exposure remains; three ports only; B64/one mapper seed; not independent confirmation",
+    "No target outcome tuning or automated selection among four inputs"
+  ]
+}
