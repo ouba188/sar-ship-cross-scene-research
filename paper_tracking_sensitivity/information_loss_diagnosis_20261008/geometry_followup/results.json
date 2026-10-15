@@ -1,0 +1,246 @@
+{
+  "purpose": "diagnostic decomposition, not a deployable method",
+  "caveat": "Complete geometry exists exclusively for classes 0/1/2; original nested4096 rows restricted without replenishment.",
+  "results": [
+    {
+      "task": "ports24_within",
+      "view": "r50_plus_missing_flags",
+      "fit_rows": 4096,
+      "query_rows": 9546,
+      "query_class_counts": [
+        2836,
+        2083,
+        1512,
+        1473,
+        552,
+        454,
+        344,
+        292
+      ],
+      "ba": 0.5585651274889528,
+      "acc": 0.6597527760318458,
+      "recover_ba": 0.5585651274889528,
+      "harm_ba": 0.0,
+      "class_recall": [
+        0.7767983074753173,
+        0.9020643302928468,
+        0.583994708994709,
+        0.36795655125594023,
+        0.5652173913043478,
+        0.5969162995594713,
+        0.2063953488372093,
+        0.4691780821917808
+      ]
+    },
+    {
+      "task": "ports24_within",
+      "view": "missing_flags_only",
+      "fit_rows": 4096,
+      "query_rows": 9546,
+      "query_class_counts": [
+        2836,
+        2083,
+        1512,
+        1473,
+        552,
+        454,
+        344,
+        292
+      ],
+      "ba": 0.25,
+      "acc": 0.2487953069348418,
+      "recover_ba": 0.25,
+      "harm_ba": 0.0,
+      "class_recall": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "task": "ports24_within",
+      "view": "complete3_r50",
+      "fit_rows": 2814,
+      "query_rows": 6431,
+      "query_class_counts": [
+        2836,
+        2083,
+        1512,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "ba": 0.7843742726539771,
+      "acc": 0.8043850101072928,
+      "recover_ba": 0.7843742726539771,
+      "harm_ba": 0.0,
+      "class_recall": [
+        0.8339210155148096,
+        0.8948631781084974,
+        0.6243386243386243,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "task": "ports24_within",
+      "view": "complete3_r50_plus_geometry",
+      "fit_rows": 2814,
+      "query_rows": 6431,
+      "query_class_counts": [
+        2836,
+        2083,
+        1512,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "ba": 0.7878366033300441,
+      "acc": 0.8092054112890685,
+      "recover_ba": 0.7878366033300441,
+      "harm_ba": 0.0,
+      "class_recall": [
+        0.844851904090268,
+        0.8963034085453673,
+        0.6223544973544973,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "task": "ports24_leaveport",
+      "view": "r50_plus_missing_flags",
+      "fit_rows": 4096,
+      "query_rows": 5179,
+      "query_class_counts": [
+        2163,
+        1108,
+        673,
+        430,
+        340,
+        132,
+        285,
+        48
+      ],
+      "ba": 0.5434563237914201,
+      "acc": 0.6725236532149064,
+      "recover_ba": 0.5434563237914201,
+      "harm_ba": 0.0,
+      "class_recall": [
+        0.7082755432269995,
+        0.9359205776173285,
+        0.586924219910847,
+        0.5558139534883721,
+        0.45294117647058824,
+        0.6590909090909091,
+        0.07368421052631578,
+        0.375
+      ]
+    },
+    {
+      "task": "ports24_leaveport",
+      "view": "missing_flags_only",
+      "fit_rows": 4096,
+      "query_rows": 5179,
+      "query_class_counts": [
+        2163,
+        1108,
+        673,
+        430,
+        340,
+        132,
+        285,
+        48
+      ],
+      "ba": 0.25,
+      "acc": 0.27959065456651866,
+      "recover_ba": 0.25,
+      "harm_ba": 0.0,
+      "class_recall": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "task": "ports24_leaveport",
+      "view": "complete3_r50",
+      "fit_rows": 2644,
+      "query_rows": 3944,
+      "query_class_counts": [
+        2163,
+        1108,
+        673,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "ba": 0.8190380057667683,
+      "acc": 0.859026369168357,
+      "recover_ba": 0.8190380057667683,
+      "harm_ba": 0.0,
+      "class_recall": [
+        0.8918169209431346,
+        0.9323104693140795,
+        0.6329866270430906,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "task": "ports24_leaveport",
+      "view": "complete3_r50_plus_geometry",
+      "fit_rows": 2644,
+      "query_rows": 3944,
+      "query_class_counts": [
+        2163,
+        1108,
+        673,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "ba": 0.8188879765280618,
+      "acc": 0.8635902636916836,
+      "recover_ba": 0.8188879765280618,
+      "harm_ba": 0.0,
+      "class_recall": [
+        0.903837263060564,
+        0.9332129963898917,
+        0.6196136701337296,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    }
+  ]
+}

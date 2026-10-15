@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-07",
+  "dataset": "F_0921 existing clean compatible cohort",
+  "arms": [
+    "original_base",
+    "base_visual64",
+    "visual_handoff5"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "labels_per_draw": 64,
+  "label_budget_scope": "global dataset, not per port",
+  "support_sampling": "uniform without replacement, no class quotas",
+  "base_pca": 128,
+  "ssl_pca": 64,
+  "source_ridge": 1.0,
+  "residual_ridge": 8.0,
+  "gate_lr_c": 1.0,
+  "budget": 0.05,
+  "gate_threshold": 0.0,
+  "target_split": "row-level, matching preceding current-method transfer studies",
+  "label_rule": "explicit fine-label mapping from class_raw, not historical broad class8",
+  "target_selection": "existing paired clean row intersection; no new quality or performance filtering",
+  "no_target_tuning": true,
+  "historical_development_dataset": true,
+  "encoder_scope": "Existing frozen paired VV/VH R50 and VH SSL R18. The e206 SSL encoder was pretrained on F0921; target-corpus encoder exposure is explicit. PCA, source heads and source OOF gate exclude target vessel/scene identities.",
+  "original_results_untouched": true
+}

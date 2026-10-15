@@ -1,0 +1,229 @@
+{
+  "protocol": {
+    "date": "2026-10-08",
+    "pair": [
+      0,
+      4
+    ],
+    "fixed_before_readout": true,
+    "coordinates": {
+      "S1": "Frozen conditional-penalty direction for class0 vs class4",
+      "D1": "First protected drift SVD direction; sign aligned to reference raw covector"
+    },
+    "reference": "Antwerp-Bruges",
+    "image_sample": "Seed20261008; max32 samples per class-port cell; no outcome selection",
+    "image_measurement": "Mean of resized VV/VH intensities; proxy statistics, no true ship masks",
+    "source_summary": "Equal class-port cells for image association, source-fit descriptive",
+    "heldout": "Each target port uses its original source-fitted directions; query draw0; >=20 samples each class for pair tests",
+    "all_class_concepts": true,
+    "main_model_unchanged": true,
+    "fits": 0,
+    "independent_confirmation": false,
+    "readout_removal": "Fixed historical source base prior only, one unit direction to source feature mean; not full adapted model",
+    "no_causal_claim": true
+  },
+  "image_sample_rows": 3718,
+  "image_cells": 143,
+  "reconstruction_max_error": 1.2383969909990356e-05,
+  "pair_ports": 10,
+  "metrics": [
+    {
+      "coordinate": "D1",
+      "source_auc": 0.6200344167030128,
+      "source_ba": 0.5966872742381091,
+      "target_auc": 0.5263769988151423,
+      "target_ba": 0.5324438084707784,
+      "normalized_w1": 0.41894576674140216
+    },
+    {
+      "coordinate": "S1",
+      "source_auc": 0.8326750560301074,
+      "source_ba": 0.7507658579827787,
+      "target_auc": 0.7941386099219512,
+      "target_ba": 0.7028937566760637,
+      "normalized_w1": 0.275390913489946
+    }
+  ],
+  "removal": [
+    {
+      "coordinate": "D1",
+      "base_prior_pair_ba": 0.7287555584862278,
+      "removed_pair_ba": 0.7269066497039249,
+      "delta_ba": -0.0018489087823028716,
+      "prediction_change": 0.028205627997966463,
+      "source_pair_margin_contribution_rms": 0.06146948888544466
+    },
+    {
+      "coordinate": "S1",
+      "base_prior_pair_ba": 0.7287555584862278,
+      "removed_pair_ba": 0.5794514461545381,
+      "delta_ba": -0.14930411233168955,
+      "prediction_change": 0.2786340965057247,
+      "source_pair_margin_contribution_rms": 0.6161694725520985
+    }
+  ],
+  "proxy_summary": [
+    {
+      "coordinate": "S1",
+      "attribute": "mean",
+      "source_mean": -0.06430655034406015,
+      "source_cells": 118,
+      "target_mean": -0.06668103221069564,
+      "target_cells": 116,
+      "target_positive_cells": 45,
+      "target_negative_cells": 71
+    },
+    {
+      "coordinate": "S1",
+      "attribute": "rim_mean",
+      "source_mean": -0.02874421394450327,
+      "source_cells": 118,
+      "target_mean": -0.03579809830289446,
+      "target_cells": 116,
+      "target_positive_cells": 53,
+      "target_negative_cells": 63
+    },
+    {
+      "coordinate": "S1",
+      "attribute": "center_excess",
+      "source_mean": -0.08587937023402614,
+      "source_cells": 118,
+      "target_mean": -0.07802749208831772,
+      "target_cells": 116,
+      "target_positive_cells": 39,
+      "target_negative_cells": 77
+    },
+    {
+      "coordinate": "S1",
+      "attribute": "contrast",
+      "source_mean": -0.18808121127320068,
+      "source_cells": 118,
+      "target_mean": -0.1791808266163683,
+      "target_cells": 116,
+      "target_positive_cells": 33,
+      "target_negative_cells": 83
+    },
+    {
+      "coordinate": "S1",
+      "attribute": "bright_fraction",
+      "source_mean": -0.22341384434134282,
+      "source_cells": 118,
+      "target_mean": -0.21186670242082084,
+      "target_cells": 116,
+      "target_positive_cells": 22,
+      "target_negative_cells": 94
+    },
+    {
+      "coordinate": "S1",
+      "attribute": "elongation",
+      "source_mean": 0.059165412922562326,
+      "source_cells": 118,
+      "target_mean": 0.0737697291574979,
+      "target_cells": 116,
+      "target_positive_cells": 80,
+      "target_negative_cells": 36
+    },
+    {
+      "coordinate": "S1",
+      "attribute": "top_energy",
+      "source_mean": -0.00023678454393948831,
+      "source_cells": 118,
+      "target_mean": 0.019111009172581617,
+      "target_cells": 116,
+      "target_positive_cells": 55,
+      "target_negative_cells": 61
+    },
+    {
+      "coordinate": "S1",
+      "attribute": "offset",
+      "source_mean": 0.018980085196282095,
+      "source_cells": 118,
+      "target_mean": 0.006302508284242866,
+      "target_cells": 116,
+      "target_positive_cells": 62,
+      "target_negative_cells": 54
+    },
+    {
+      "coordinate": "D1",
+      "attribute": "mean",
+      "source_mean": 0.5642047475965252,
+      "source_cells": 118,
+      "target_mean": 0.5670623334555644,
+      "target_cells": 116,
+      "target_positive_cells": 114,
+      "target_negative_cells": 2
+    },
+    {
+      "coordinate": "D1",
+      "attribute": "rim_mean",
+      "source_mean": 0.5740643350693224,
+      "source_cells": 118,
+      "target_mean": 0.5679861314645748,
+      "target_cells": 116,
+      "target_positive_cells": 114,
+      "target_negative_cells": 2
+    },
+    {
+      "coordinate": "D1",
+      "attribute": "center_excess",
+      "source_mean": -0.07156113269019737,
+      "source_cells": 118,
+      "target_mean": -0.036828528293551516,
+      "target_cells": 116,
+      "target_positive_cells": 55,
+      "target_negative_cells": 61
+    },
+    {
+      "coordinate": "D1",
+      "attribute": "contrast",
+      "source_mean": 0.22505651383144137,
+      "source_cells": 118,
+      "target_mean": 0.2774271207304331,
+      "target_cells": 116,
+      "target_positive_cells": 94,
+      "target_negative_cells": 22
+    },
+    {
+      "coordinate": "D1",
+      "attribute": "bright_fraction",
+      "source_mean": 0.2128170052794221,
+      "source_cells": 118,
+      "target_mean": 0.26301054598072865,
+      "target_cells": 116,
+      "target_positive_cells": 100,
+      "target_negative_cells": 16
+    },
+    {
+      "coordinate": "D1",
+      "attribute": "elongation",
+      "source_mean": -0.056201750427431946,
+      "source_cells": 118,
+      "target_mean": -0.06655493905647049,
+      "target_cells": 116,
+      "target_positive_cells": 47,
+      "target_negative_cells": 69
+    },
+    {
+      "coordinate": "D1",
+      "attribute": "top_energy",
+      "source_mean": -0.42971685955857136,
+      "source_cells": 118,
+      "target_mean": -0.41055965194257554,
+      "target_cells": 116,
+      "target_positive_cells": 12,
+      "target_negative_cells": 104
+    },
+    {
+      "coordinate": "D1",
+      "attribute": "offset",
+      "source_mean": 0.06807075367794294,
+      "source_cells": 118,
+      "target_mean": 0.07043329978201686,
+      "target_cells": 116,
+      "target_positive_cells": 77,
+      "target_negative_cells": 39
+    }
+  ],
+  "drift_axis_cosine_min": 0.5673411416898121,
+  "drift_axis_cosine_median": 0.9850963068115095
+}

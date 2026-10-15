@@ -1,0 +1,579 @@
+{
+  "status": "complete",
+  "date": "2026-10-08",
+  "outer_source_geometry": "E:\\Hermes\\paper_tracking\\sensitivity\\protected_drift_activation_20261008\\ports\\Antwerp-Bruges\\geometry.pkl",
+  "vector_archive": "E:\\Hermes\\paper_tracking\\sensitivity\\protected_drift_activation_20261008\\latent_interpretation\\latent_vectors_AntwerpBruges.npz",
+  "example_selection": "E:\\Hermes\\paper_tracking\\sensitivity\\protected_drift_activation_20261008\\latent_interpretation\\example_selection.csv",
+  "manifest": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\visual_reliable_baseline\\artifacts\\eight_class_adaptive_20260916\\manifest.csv",
+  "coordinate_formula": "((pooled_float32 - feature_center) / feature_scale) @ direction; no display standardization",
+  "directions": {
+    "S1": "illustrated_pair_direction exactly; candidate class0vs4",
+    "D1": "geometry qd[:,0] exactly"
+  },
+  "response_formula": "original rerun coordinate minus occluded coordinate in the SAME forward batch; never cached minus occluded",
+  "image_preprocessing": "PIL L, bilinear resize128 independently, VV then VH, (pixels/255-.5)/.25",
+  "encoder": "Frozen torchvision ImageNet ResNet50 V2; identical adapted two-channel kernels; 2x2 spatial pooling",
+  "precision": "CUDA BF16 autocast; float16 spatial storage rounding then float32 token mean; float64 coordinate projection",
+  "checkpoint": "C:\\Users\\25791\\.cache\\torch\\hub\\checkpoints\\resnet50-11ad3fa6.pth",
+  "seed": 20261008,
+  "batch_size": 24,
+  "batch_protocol": "slot0 original; up to batch_size-1 occlusions; final batch padded with original duplicates",
+  "fills": {
+    "globalmean": "Each image/channel global mean over resized128 pixels, float32, no uint8 rerounding",
+    "gaussian_sigma4": "Entire resized128 image blurred first: scipy gaussian_filter sigma=(0,4,4), reflect, truncate4; copy selected patch only"
+  },
+  "map_shape": [
+    8,
+    2,
+    2,
+    8,
+    8
+  ],
+  "map_axes": [
+    "example",
+    "fill",
+    "direction",
+    "grid_y",
+    "grid_x"
+  ],
+  "grid_patch_size": 16,
+  "center_periphery_patches_y0_y1_x0_x1": {
+    "center": [
+      48,
+      80,
+      48,
+      80
+    ],
+    "top_left": [
+      0,
+      32,
+      0,
+      32
+    ],
+    "top_right": [
+      0,
+      32,
+      96,
+      128
+    ],
+    "bottom_left": [
+      96,
+      128,
+      0,
+      32
+    ],
+    "bottom_right": [
+      96,
+      128,
+      96,
+      128
+    ]
+  },
+  "sample": {
+    "rows": 74,
+    "cells": 37,
+    "classes": [
+      0,
+      4
+    ],
+    "max_per_cell": 2,
+    "sampling": "numpy default_rng(seed), sorted class_id/port groups, without replacement",
+    "aggregation": "Mean absolute coordinate change per region per row; mean four individual corners; average rows within cell then cells equally"
+  },
+  "replay": {
+    "balanced": {
+      "rows": 74,
+      "feature_max_abs_error": 0.088134765625,
+      "feature_relative_l2_mean": 0.008076237093002812,
+      "feature_relative_l2_max": 0.01183059811592102,
+      "S1": {
+        "coordinate_max_abs_error": 0.22118897641305502,
+        "coordinate_mean_abs_error": 0.04284498865046473,
+        "baseline_batch_range_max": 0.0,
+        "identical_input_spread_max": 0.0
+      },
+      "D1": {
+        "coordinate_max_abs_error": 0.5528075957472574,
+        "coordinate_mean_abs_error": 0.0680816932613823,
+        "baseline_batch_range_max": 0.0,
+        "identical_input_spread_max": 0.0
+      }
+    },
+    "examples": {
+      "rows": 8,
+      "feature_max_abs_error": 0.0859375,
+      "feature_relative_l2_mean": 0.007895527756772935,
+      "feature_relative_l2_max": 0.009910393506288528,
+      "S1": {
+        "coordinate_max_abs_error": 0.1140509849625988,
+        "coordinate_mean_abs_error": 0.040907486108429834,
+        "baseline_batch_range_max": 0.0,
+        "identical_input_spread_max": 0.0
+      },
+      "D1": {
+        "coordinate_max_abs_error": 0.1360642947427504,
+        "coordinate_mean_abs_error": 0.050847945803066175,
+        "baseline_batch_range_max": 0.0,
+        "identical_input_spread_max": 0.0
+      }
+    }
+  },
+  "fill_pattern_sensitivity": [
+    {
+      "direction": "D1",
+      "examples": 8,
+      "mean_signed_pearson": 0.46537764050240354,
+      "mean_magnitude_pearson": 0.5810374851304883,
+      "mean_sign_agreement": 0.7734375,
+      "mean_gaussian_to_globalmean_magnitude": 0.90105192949972
+    },
+    {
+      "direction": "S1",
+      "examples": 8,
+      "mean_signed_pearson": 0.5210637053187288,
+      "mean_magnitude_pearson": 0.5441892555444412,
+      "mean_sign_agreement": 0.71875,
+      "mean_gaussian_to_globalmean_magnitude": 0.9441601916698523
+    }
+  ],
+  "center_periphery_equal_cell": [
+    {
+      "direction": "D1",
+      "fill": "gaussian_sigma4",
+      "cells": 37,
+      "rows": 74,
+      "mean_center_abs": 5.014468774913977,
+      "mean_corner_abs": 1.8471631337595558,
+      "mean_center_minus_corner_abs": 3.167305641154422,
+      "center_to_corner_ratio": 2.714686474230331,
+      "fraction_cells_center_greater": 0.8648648648648649
+    },
+    {
+      "direction": "D1",
+      "fill": "globalmean",
+      "cells": 37,
+      "rows": 74,
+      "mean_center_abs": 4.506805679718929,
+      "mean_corner_abs": 1.0705787333600345,
+      "mean_center_minus_corner_abs": 3.436226946358895,
+      "center_to_corner_ratio": 4.20969101971064,
+      "fraction_cells_center_greater": 0.918918918918919
+    },
+    {
+      "direction": "S1",
+      "fill": "gaussian_sigma4",
+      "cells": 37,
+      "rows": 74,
+      "mean_center_abs": 4.3684021738203,
+      "mean_corner_abs": 1.0359292744576691,
+      "mean_center_minus_corner_abs": 3.3324728993626307,
+      "center_to_corner_ratio": 4.216892293257424,
+      "fraction_cells_center_greater": 0.972972972972973
+    },
+    {
+      "direction": "S1",
+      "fill": "globalmean",
+      "cells": 37,
+      "rows": 74,
+      "mean_center_abs": 2.8099467900133592,
+      "mean_corner_abs": 0.639213223488371,
+      "mean_center_minus_corner_abs": 2.170733566524988,
+      "center_to_corner_ratio": 4.395945964131763,
+      "fraction_cells_center_greater": 0.9459459459459459
+    }
+  ],
+  "prior_four_image_replay": {
+    "rows": [
+      0,
+      21195,
+      25656,
+      38090
+    ],
+    "batch4_bf16_relative_l2": [
+      0.007342251,
+      0.011440727,
+      0.007661806,
+      0.007742808
+    ],
+    "batch4_max_abs": [
+      0.0732421875,
+      0.0625,
+      0.02734375,
+      0.0546875
+    ],
+    "batch64_bf16_relative_l2": [
+      0.00571411,
+      0.008887738,
+      0.004406986,
+      0.007278112
+    ],
+    "fp32_relative_l2_range": [
+      0.045284986,
+      0.059055179
+    ],
+    "cause": "Batch size explains part; remaining historical runtime/kernel discrepancy unconfirmed"
+  },
+  "limitations": [
+    "Center/periphery only: no ship/background masks or semantic naming conclusions",
+    "Shared first-layer VV/VH weights mix channels; no absolute-gradient polarization interpretation",
+    "Fill changes the intervention; sign and magnitude patterns need not agree",
+    "Eight examples are previous illustrative selections, not a representative sample",
+    "Bounded source sample is descriptive; no target evaluation or model updates",
+    "Current replay is not bit-exact to historical cached features; all intervention effects use same-batch rerun baselines",
+    "Center brightness/input-change magnitude can confound equal-area raw response comparisons; response/L2 does not establish causal attribution or ship selectivity"
+  ],
+  "pickle_warnings": [
+    "Trying to unpickle estimator PCA from version 1.8.0 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:\nhttps://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations",
+    "Trying to unpickle estimator LabelBinarizer from version 1.8.0 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:\nhttps://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations",
+    "Trying to unpickle estimator RidgeClassifier from version 1.8.0 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:\nhttps://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations"
+  ],
+  "environment": {
+    "python": "E:\\Hermes\\paper_tracking\\envs\\msfa-openmmlab-py310-rtx50-cu132\\Scripts\\python.exe",
+    "torch": "2.12.1+cu132",
+    "torchvision": "0.27.1+cu132",
+    "numpy": "1.26.4",
+    "matplotlib": "3.10.9",
+    "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU"
+  },
+  "forward_batches": 122,
+  "elapsed_seconds": 6.547000000020489,
+  "no_op_control": {
+    "method": "Unmodified padding inputs versus slot0 original within the same fixed-size forward batch",
+    "pair_count_basis": "Executed padding slots from 128 or 10 variants per image and batch_size-1 variant slots",
+    "total_duplicate_pairs": 1042,
+    "cohorts": [
+      {
+        "cohort": "balanced",
+        "images": 74,
+        "duplicate_pairs_per_image": 13,
+        "duplicate_pairs": 962,
+        "max_abs_coordinate_difference": {
+          "S1": 0.0,
+          "D1": 0.0
+        }
+      },
+      {
+        "cohort": "examples",
+        "images": 8,
+        "duplicate_pairs_per_image": 10,
+        "duplicate_pairs": 80,
+        "max_abs_coordinate_difference": {
+          "S1": 0.0,
+          "D1": 0.0
+        }
+      }
+    ],
+    "interpretation": "Observed numeric floor for these duplicate-input coordinate comparisons only; historical cache mismatch is not an occlusion-effect floor",
+    "extra_images": 0,
+    "extra_forward_batches": 0
+  },
+  "input_perturbation_normalization": {
+    "formula": "L2 norm across joint VV/VH of normalized replacement minus normalized original within the selected patch",
+    "normalized_input": "(float32 pixel / 255 - .5) / .25; 128x128 resized input",
+    "response_per_l2": "Signed original-minus-occluded response / L2; absolute response / L2 also exported",
+    "aggregation": "Compute each region ratio per row first; average the four corner absolute ratios; average rows within class-port cell, then cells equally",
+    "denominators": "Only nonzero L2; normalized regional aggregates require all five region denominators > 0",
+    "excluded_row_direction_fill_combinations": 0,
+    "zero_l2_grid_patches": 0,
+    "extra_gpu_forwards": 0,
+    "note": "Equal patch area does not mean equal perturbation magnitude. Raw center response is not evidence of dedicated ship selectivity. Response/L2 is descriptive, not causal attribution."
+  },
+  "center_periphery_equal_cell_response_per_input_l2": [
+    {
+      "direction": "D1",
+      "fill": "gaussian_sigma4",
+      "cells": 37,
+      "rows": 74,
+      "mean_center_abs": 0.21680230610350235,
+      "mean_corner_abs": 0.3034219877969687,
+      "mean_center_minus_corner_abs": -0.08661968169346637,
+      "center_to_corner_ratio": 0.7145240451347022,
+      "fraction_cells_center_greater": 0.32432432432432434,
+      "mean_center_input_l2": 23.677473973040154,
+      "mean_corner_input_l2": 6.552816254048471,
+      "center_to_corner_input_l2_ratio": 3.613327927272751,
+      "region_equal_cell": {
+        "center": {
+          "mean_input_l2": 23.677473973040154,
+          "mean_signed_response_per_l2": -0.0073614785728575854,
+          "mean_abs_response_per_l2": 0.21680230610350235
+        },
+        "top_left": {
+          "mean_input_l2": 6.71460623180075,
+          "mean_signed_response_per_l2": -0.22089235364892623,
+          "mean_abs_response_per_l2": 0.45555068646626196
+        },
+        "top_right": {
+          "mean_input_l2": 6.456717429030002,
+          "mean_signed_response_per_l2": -0.09566022592797137,
+          "mean_abs_response_per_l2": 0.30046860426034705
+        },
+        "bottom_left": {
+          "mean_input_l2": 6.525323983944646,
+          "mean_signed_response_per_l2": 0.07058548285565479,
+          "mean_abs_response_per_l2": 0.25739640241957656
+        },
+        "bottom_right": {
+          "mean_input_l2": 6.5146173714184865,
+          "mean_signed_response_per_l2": 0.1057346758771961,
+          "mean_abs_response_per_l2": 0.20027225804168908
+        }
+      }
+    },
+    {
+      "direction": "D1",
+      "fill": "globalmean",
+      "cells": 37,
+      "rows": 74,
+      "mean_center_abs": 0.05995481082974939,
+      "mean_corner_abs": 0.09661003992166961,
+      "mean_center_minus_corner_abs": -0.03665522909192022,
+      "center_to_corner_ratio": 0.6205857163330034,
+      "fraction_cells_center_greater": 0.21621621621621623,
+      "mean_center_input_l2": 79.6166732913006,
+      "mean_corner_input_l2": 11.74897175457665,
+      "center_to_corner_input_l2_ratio": 6.776480100080845,
+      "region_equal_cell": {
+        "center": {
+          "mean_input_l2": 79.6166732913006,
+          "mean_signed_response_per_l2": 0.0072484155342917,
+          "mean_abs_response_per_l2": 0.05995481082974939
+        },
+        "top_left": {
+          "mean_input_l2": 11.873772676817815,
+          "mean_signed_response_per_l2": 0.018040051646207304,
+          "mean_abs_response_per_l2": 0.0993412399900074
+        },
+        "top_right": {
+          "mean_input_l2": 11.707569962079681,
+          "mean_signed_response_per_l2": 0.06927287092164486,
+          "mean_abs_response_per_l2": 0.11091140911286575
+        },
+        "bottom_left": {
+          "mean_input_l2": 11.734310248076847,
+          "mean_signed_response_per_l2": 0.051431000829805,
+          "mean_abs_response_per_l2": 0.08614710365939078
+        },
+        "bottom_right": {
+          "mean_input_l2": 11.680234131332247,
+          "mean_signed_response_per_l2": 0.04541369080029674,
+          "mean_abs_response_per_l2": 0.09004040692441447
+        }
+      }
+    },
+    {
+      "direction": "S1",
+      "fill": "gaussian_sigma4",
+      "cells": 37,
+      "rows": 74,
+      "mean_center_abs": 0.18466209709509898,
+      "mean_corner_abs": 0.21280830051229302,
+      "mean_center_minus_corner_abs": -0.028146203417194038,
+      "center_to_corner_ratio": 0.8677391654863192,
+      "fraction_cells_center_greater": 0.43243243243243246,
+      "mean_center_input_l2": 23.677473973040154,
+      "mean_corner_input_l2": 6.552816254048471,
+      "center_to_corner_input_l2_ratio": 3.613327927272751,
+      "region_equal_cell": {
+        "center": {
+          "mean_input_l2": 23.677473973040154,
+          "mean_signed_response_per_l2": -0.13147078967820328,
+          "mean_abs_response_per_l2": 0.18466209709509898
+        },
+        "top_left": {
+          "mean_input_l2": 6.71460623180075,
+          "mean_signed_response_per_l2": 0.26439710346536704,
+          "mean_abs_response_per_l2": 0.2915803927896786
+        },
+        "top_right": {
+          "mean_input_l2": 6.456717429030002,
+          "mean_signed_response_per_l2": 0.16040832161678875,
+          "mean_abs_response_per_l2": 0.21024559682373775
+        },
+        "bottom_left": {
+          "mean_input_l2": 6.525323983944646,
+          "mean_signed_response_per_l2": 0.07295442169701341,
+          "mean_abs_response_per_l2": 0.18894932759124217
+        },
+        "bottom_right": {
+          "mean_input_l2": 6.5146173714184865,
+          "mean_signed_response_per_l2": 0.07440694281858595,
+          "mean_abs_response_per_l2": 0.1604578848445137
+        }
+      }
+    },
+    {
+      "direction": "S1",
+      "fill": "globalmean",
+      "cells": 37,
+      "rows": 74,
+      "mean_center_abs": 0.03608134119152031,
+      "mean_corner_abs": 0.06068604722088524,
+      "mean_center_minus_corner_abs": -0.02460470602936493,
+      "center_to_corner_ratio": 0.5945574451437139,
+      "fraction_cells_center_greater": 0.2972972972972973,
+      "mean_center_input_l2": 79.6166732913006,
+      "mean_corner_input_l2": 11.74897175457665,
+      "center_to_corner_input_l2_ratio": 6.776480100080845,
+      "region_equal_cell": {
+        "center": {
+          "mean_input_l2": 79.6166732913006,
+          "mean_signed_response_per_l2": -0.0038256510543100007,
+          "mean_abs_response_per_l2": 0.03608134119152031
+        },
+        "top_left": {
+          "mean_input_l2": 11.873772676817815,
+          "mean_signed_response_per_l2": 0.05582493327298831,
+          "mean_abs_response_per_l2": 0.076105031525795
+        },
+        "top_right": {
+          "mean_input_l2": 11.707569962079681,
+          "mean_signed_response_per_l2": 0.018985093744752587,
+          "mean_abs_response_per_l2": 0.06019505717128253
+        },
+        "bottom_left": {
+          "mean_input_l2": 11.734310248076847,
+          "mean_signed_response_per_l2": 0.0118034259314531,
+          "mean_abs_response_per_l2": 0.05275802240594196
+        },
+        "bottom_right": {
+          "mean_input_l2": 11.680234131332247,
+          "mean_signed_response_per_l2": 0.01153670097774701,
+          "mean_abs_response_per_l2": 0.05368607778052144
+        }
+      }
+    }
+  ],
+  "brightness_followup": {
+    "status": "complete",
+    "protocol": {
+      "date": "2026-10-08",
+      "status": "fixed_before_followup_execution",
+      "motivation": "Follow-up motivated by the observed brightness correlation; NOT preregistered before the entire study",
+      "selected_rows": "E:\\Hermes\\paper_tracking\\sensitivity\\latent_clue_cards_20261008\\image_probe\\balanced_selection.csv",
+      "rows": 74,
+      "cells": 37,
+      "offsets": [
+        8,
+        -8
+      ],
+      "operation": "Add fixed offset to both resized128 float32 pixel channels, then clip to [0,255]; retain the original preprocessing/encoder",
+      "response": "Altered coordinate minus original coordinate in the SAME forward batch; sign convention differs from occlusion original-minus-occluded",
+      "clipping_fraction": "Fraction of joint VV/VH pixels whose pre-clip value is <0 or >255; fractions per channel also saved",
+      "batch_size": 24,
+      "batch": "slot0 original, slot1 +8, slot2 -8, remaining slots unmodified duplicates",
+      "source_sd_reference": {
+        "rows": 36544,
+        "ddof": 0,
+        "population": "All fixed Antwerp outer-source rows; not only the class0/4 sample",
+        "S1": "source_stable_coordinates @ (qs.T @ illustrated_pair_direction)",
+        "D1": "source_drift_coordinates[:,0]",
+        "values": {
+          "S1": 4.359322913420284,
+          "D1": 6.9204548967909325
+        }
+      },
+      "aggregation": "Average signed/absolute changes and sign fractions within class-port cells, then give all 37 cells equal weight",
+      "tuning": false,
+      "model_updates": false,
+      "additional_sampling": false,
+      "interpretation": "Synthetic brightness response of this frozen pipeline; NOT real SAR incidence causality and NOT guaranteed label-preserving"
+    },
+    "equal_cell_results": [
+      {
+        "direction": "D1",
+        "offset": -8,
+        "cells": 37,
+        "rows": 74,
+        "positive_mean_change_cells": 19,
+        "negative_mean_change_cells": 18,
+        "zero_mean_change_cells": 0,
+        "mean_change": 0.06797054064633153,
+        "mean_absolute_change": 0.5979645026466454,
+        "mean_change_source_sd": 0.0098216868197277,
+        "mean_absolute_change_source_sd": 0.08640537530617043,
+        "positive_fraction": 0.44594594594594594,
+        "negative_fraction": 0.5540540540540541,
+        "zero_fraction": 0.0,
+        "mean_clipped_fraction": 0.0017729063291807433,
+        "mean_clipped_fraction_vv": 0.003066604201858108,
+        "mean_clipped_fraction_vh": 0.0004792084565033784,
+        "mean_actual_pixel_change": -7.997781701990076
+      },
+      {
+        "direction": "D1",
+        "offset": 8,
+        "cells": 37,
+        "rows": 74,
+        "positive_mean_change_cells": 31,
+        "negative_mean_change_cells": 6,
+        "zero_mean_change_cells": 0,
+        "mean_change": 0.6232628463601241,
+        "mean_absolute_change": 0.8337498185790696,
+        "mean_change_source_sd": 0.09006096501678464,
+        "mean_absolute_change_source_sd": 0.12047615814470312,
+        "positive_fraction": 0.8243243243243243,
+        "negative_fraction": 0.17567567567567569,
+        "zero_fraction": 0.0,
+        "mean_clipped_fraction": 0.020827422270903718,
+        "mean_clipped_fraction_vv": 0.02362967826224662,
+        "mean_clipped_fraction_vh": 0.01802516627956081,
+        "mean_actual_pixel_change": 7.845371143237965
+      },
+      {
+        "direction": "S1",
+        "offset": -8,
+        "cells": 37,
+        "rows": 74,
+        "positive_mean_change_cells": 13,
+        "negative_mean_change_cells": 24,
+        "zero_mean_change_cells": 0,
+        "mean_change": -0.1485532238039618,
+        "mean_absolute_change": 0.5638357403039268,
+        "mean_change_source_sd": -0.03407713233324309,
+        "mean_absolute_change_source_sd": 0.12934020982206765,
+        "positive_fraction": 0.44594594594594594,
+        "negative_fraction": 0.5540540540540541,
+        "zero_fraction": 0.0,
+        "mean_clipped_fraction": 0.0017729063291807433,
+        "mean_clipped_fraction_vv": 0.003066604201858108,
+        "mean_clipped_fraction_vh": 0.0004792084565033784,
+        "mean_actual_pixel_change": -7.997781701990076
+      },
+      {
+        "direction": "S1",
+        "offset": 8,
+        "cells": 37,
+        "rows": 74,
+        "positive_mean_change_cells": 8,
+        "negative_mean_change_cells": 29,
+        "zero_mean_change_cells": 0,
+        "mean_change": -0.29919132041629687,
+        "mean_absolute_change": 0.4412941579367542,
+        "mean_change_source_sd": -0.06863252077409292,
+        "mean_absolute_change_source_sd": 0.10122997692559528,
+        "positive_fraction": 0.24324324324324326,
+        "negative_fraction": 0.7567567567567568,
+        "zero_fraction": 0.0,
+        "mean_clipped_fraction": 0.020827422270903718,
+        "mean_clipped_fraction_vv": 0.02362967826224662,
+        "mean_clipped_fraction_vh": 0.01802516627956081,
+        "mean_actual_pixel_change": 7.845371143237965
+      }
+    ],
+    "no_op": {
+      "duplicate_pairs": 1554,
+      "max_abs_by_direction": {
+        "S1": 0.0,
+        "D1": 0.0
+      }
+    },
+    "max_original_replay_change": {
+      "S1": 4.263256414560601e-14,
+      "D1": 1.2789769243681803e-13
+    },
+    "forward_batches": 74,
+    "elapsed_seconds": 2.797000000020489,
+    "historical_cache_discrepancy": "Recorded separately in summary.json/replay_discrepancy.csv; not used as the brightness-effect baseline or numeric floor"
+  }
+}

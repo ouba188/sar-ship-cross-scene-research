@@ -1,0 +1,103 @@
+{
+  "target": "FUSARShip fine-label-compatible subset; original eight-output model",
+  "target_rows": 1158,
+  "evaluated_rows_per_draw": 1094,
+  "target_labels_per_draw": 64,
+  "draws": 5,
+  "means": [
+    {
+      "arm": "original_base",
+      "class_recall": [
+        0.8469141319144956,
+        0.4369733989953515,
+        0.06370967741935483,
+        0.0,
+        0.22486831477397518,
+        0.0,
+        0.0,
+        null
+      ],
+      "ba": 0.22463793187188244,
+      "acc": 0.46965265082266916,
+      "admission_fraction": 0.0
+    },
+    {
+      "arm": "base_visual64",
+      "class_recall": [
+        0.7094038305720854,
+        0.5335781491880665,
+        0.16673387096774192,
+        0.09088319088319088,
+        0.303085300443791,
+        0.06666666666666667,
+        0.12089894419306184,
+        null
+      ],
+      "ba": 0.2844642789878006,
+      "acc": 0.5160877513711152,
+      "admission_fraction": 0.0
+    },
+    {
+      "arm": "visual_handoff5",
+      "class_recall": [
+        0.7299798586515689,
+        0.5440012534007168,
+        0.17318548387096774,
+        0.10698625046451134,
+        0.2923710147295053,
+        0.06666666666666667,
+        0.10943589743589743,
+        null
+      ],
+      "ba": 0.28894663217426203,
+      "acc": 0.526508226691042,
+      "admission_fraction": 0.04936014625228519
+    }
+  ],
+  "comparisons": [
+    {
+      "candidate": "visual_handoff5",
+      "control": "base_visual64",
+      "mean_delta_ba_pp": 0.4482353186461429,
+      "draw_deltas_pp": [
+        0.07788023776395536,
+        1.6488839155313184,
+        -0.6858656715771405,
+        0.6511695587325894,
+        0.5491085527799922
+      ],
+      "positive_draws": 4
+    },
+    {
+      "candidate": "base_visual64",
+      "control": "original_base",
+      "mean_delta_ba_pp": 5.982634711591816,
+      "draw_deltas_pp": [
+        5.1105475192834255,
+        4.316933235836201,
+        10.65611625370559,
+        5.328830782883368,
+        4.500745766250497
+      ],
+      "positive_draws": 5
+    },
+    {
+      "candidate": "visual_handoff5",
+      "control": "original_base",
+      "mean_delta_ba_pp": 6.430870030237959,
+      "draw_deltas_pp": [
+        5.188427757047381,
+        5.96581715136752,
+        9.97025058212845,
+        5.980000341615957,
+        5.049854319030489
+      ],
+      "positive_draws": 5
+    }
+  ],
+  "statistical_unit": "one dataset, five overlapping support draws; not five independent datasets",
+  "independent_confirmation": false,
+  "interpretation": "Cross-dataset transfer under frozen parameters, not new blind data.",
+  "encoder_scope": "Frozen source paired R50 receives the same single FUSAR image in both input channels; SSL R18 receives that same image as RGB. No second polarization is invented. F0921 SSL pretraining is unchanged.",
+  "cost": "5% expert admission, not 5% feature inference cost or 5% changes relative to original base"
+}

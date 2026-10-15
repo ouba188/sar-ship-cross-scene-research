@@ -1,0 +1,132 @@
+{
+  "status": "complete",
+  "protocol": {
+    "date": "2026-10-08",
+    "status": "fixed_before_followup_execution",
+    "motivation": "Follow-up motivated by the observed brightness correlation; NOT preregistered before the entire study",
+    "selected_rows": "E:\\Hermes\\paper_tracking\\sensitivity\\latent_clue_cards_20261008\\image_probe\\balanced_selection.csv",
+    "rows": 74,
+    "cells": 37,
+    "offsets": [
+      8,
+      -8
+    ],
+    "operation": "Add fixed offset to both resized128 float32 pixel channels, then clip to [0,255]; retain the original preprocessing/encoder",
+    "response": "Altered coordinate minus original coordinate in the SAME forward batch; sign convention differs from occlusion original-minus-occluded",
+    "clipping_fraction": "Fraction of joint VV/VH pixels whose pre-clip value is <0 or >255; fractions per channel also saved",
+    "batch_size": 24,
+    "batch": "slot0 original, slot1 +8, slot2 -8, remaining slots unmodified duplicates",
+    "source_sd_reference": {
+      "rows": 36544,
+      "ddof": 0,
+      "population": "All fixed Antwerp outer-source rows; not only the class0/4 sample",
+      "S1": "source_stable_coordinates @ (qs.T @ illustrated_pair_direction)",
+      "D1": "source_drift_coordinates[:,0]",
+      "values": {
+        "S1": 4.359322913420284,
+        "D1": 6.9204548967909325
+      }
+    },
+    "aggregation": "Average signed/absolute changes and sign fractions within class-port cells, then give all 37 cells equal weight",
+    "tuning": false,
+    "model_updates": false,
+    "additional_sampling": false,
+    "interpretation": "Synthetic brightness response of this frozen pipeline; NOT real SAR incidence causality and NOT guaranteed label-preserving"
+  },
+  "equal_cell_results": [
+    {
+      "direction": "D1",
+      "offset": -8,
+      "cells": 37,
+      "rows": 74,
+      "positive_mean_change_cells": 19,
+      "negative_mean_change_cells": 18,
+      "zero_mean_change_cells": 0,
+      "mean_change": 0.06797054064633153,
+      "mean_absolute_change": 0.5979645026466454,
+      "mean_change_source_sd": 0.0098216868197277,
+      "mean_absolute_change_source_sd": 0.08640537530617043,
+      "positive_fraction": 0.44594594594594594,
+      "negative_fraction": 0.5540540540540541,
+      "zero_fraction": 0.0,
+      "mean_clipped_fraction": 0.0017729063291807433,
+      "mean_clipped_fraction_vv": 0.003066604201858108,
+      "mean_clipped_fraction_vh": 0.0004792084565033784,
+      "mean_actual_pixel_change": -7.997781701990076
+    },
+    {
+      "direction": "D1",
+      "offset": 8,
+      "cells": 37,
+      "rows": 74,
+      "positive_mean_change_cells": 31,
+      "negative_mean_change_cells": 6,
+      "zero_mean_change_cells": 0,
+      "mean_change": 0.6232628463601241,
+      "mean_absolute_change": 0.8337498185790696,
+      "mean_change_source_sd": 0.09006096501678464,
+      "mean_absolute_change_source_sd": 0.12047615814470312,
+      "positive_fraction": 0.8243243243243243,
+      "negative_fraction": 0.17567567567567569,
+      "zero_fraction": 0.0,
+      "mean_clipped_fraction": 0.020827422270903718,
+      "mean_clipped_fraction_vv": 0.02362967826224662,
+      "mean_clipped_fraction_vh": 0.01802516627956081,
+      "mean_actual_pixel_change": 7.845371143237965
+    },
+    {
+      "direction": "S1",
+      "offset": -8,
+      "cells": 37,
+      "rows": 74,
+      "positive_mean_change_cells": 13,
+      "negative_mean_change_cells": 24,
+      "zero_mean_change_cells": 0,
+      "mean_change": -0.1485532238039618,
+      "mean_absolute_change": 0.5638357403039268,
+      "mean_change_source_sd": -0.03407713233324309,
+      "mean_absolute_change_source_sd": 0.12934020982206765,
+      "positive_fraction": 0.44594594594594594,
+      "negative_fraction": 0.5540540540540541,
+      "zero_fraction": 0.0,
+      "mean_clipped_fraction": 0.0017729063291807433,
+      "mean_clipped_fraction_vv": 0.003066604201858108,
+      "mean_clipped_fraction_vh": 0.0004792084565033784,
+      "mean_actual_pixel_change": -7.997781701990076
+    },
+    {
+      "direction": "S1",
+      "offset": 8,
+      "cells": 37,
+      "rows": 74,
+      "positive_mean_change_cells": 8,
+      "negative_mean_change_cells": 29,
+      "zero_mean_change_cells": 0,
+      "mean_change": -0.29919132041629687,
+      "mean_absolute_change": 0.4412941579367542,
+      "mean_change_source_sd": -0.06863252077409292,
+      "mean_absolute_change_source_sd": 0.10122997692559528,
+      "positive_fraction": 0.24324324324324326,
+      "negative_fraction": 0.7567567567567568,
+      "zero_fraction": 0.0,
+      "mean_clipped_fraction": 0.020827422270903718,
+      "mean_clipped_fraction_vv": 0.02362967826224662,
+      "mean_clipped_fraction_vh": 0.01802516627956081,
+      "mean_actual_pixel_change": 7.845371143237965
+    }
+  ],
+  "no_op": {
+    "duplicate_pairs": 1554,
+    "max_abs_by_direction": {
+      "S1": 0.0,
+      "D1": 0.0
+    }
+  },
+  "max_original_replay_change": {
+    "S1": 4.263256414560601e-14,
+    "D1": 1.2789769243681803e-13
+  },
+  "forward_batches": 74,
+  "elapsed_seconds": 2.797000000020489,
+  "historical_cache_discrepancy": "Recorded separately in summary.json/replay_discrepancy.csv; not used as the brightness-effect baseline or numeric floor"
+}

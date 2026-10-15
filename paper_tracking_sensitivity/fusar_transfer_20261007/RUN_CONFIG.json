@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-07",
+  "dataset": "FUSARShip v1.0",
+  "cohort": "E:\\临时会话\\visual_reliable_baseline\\artifacts\\bdh_fusar_preparation_20261003\\experiment_cohort.csv",
+  "arms": [
+    "original_base",
+    "base_visual64",
+    "visual_handoff5"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "labels_per_draw": 64,
+  "support_sampling": "uniform without replacement, no class quotas",
+  "base_pca": 128,
+  "ssl_pca": 64,
+  "source_ridge": 1.0,
+  "residual_ridge": 8.0,
+  "gate_lr_c": 1.0,
+  "budget": 0.05,
+  "gate_threshold": 0.0,
+  "target_split": "row-level, matching current main experiment",
+  "source_label_space": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "label_rule": "eligible rows with explicit compatible fine labels; no coarse-to-fine invention; reject category/subcategory conflicts",
+  "no_target_tuning": true,
+  "input_adapter": "same single image copied to both base input channels; same image to SSL",
+  "encoder_scope": "Frozen source paired R50 receives the same single FUSAR image in both input channels; SSL R18 receives that same image as RGB. No second polarization is invented. F0921 SSL pretraining is unchanged.",
+  "historical_development_dataset": true,
+  "no_quality_filter_added": true,
+  "original_results_untouched": true
+}
