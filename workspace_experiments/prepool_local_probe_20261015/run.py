@@ -147,6 +147,11 @@ def representations(raw, gallery):
             local = results[stage + "_" + statistic + "_pca" + str(width)]
             results["fusion_" + stage + "_" + statistic] = np.concatenate(
                 (final, local), axis=1) / np.sqrt(2.)
+            if stage == "early_stem" and statistic == "peak":
+                for local_weight in (0.25, 0.75):
+                    results[f"fusion_early_stem_peak_w{local_weight:.2f}"] = np.concatenate(
+                        (np.sqrt(1. - local_weight) * final,
+                         np.sqrt(local_weight) * local), axis=1)
     return results
 
 
@@ -196,7 +201,7 @@ def evaluate(features, groups, all_rows, episode):
             s = np.searchsorted(all_rows, selected.row_index.to_numpy(int))
             draws.append(map_at_r(features[local("query")], features[s],
                                   qlabel, selected.class_id.to_numpy(int))[:2])
-        target_b16[origin] = np.mean(draws, axis=0)
+        target_b16[origin] = (np.mean(draws, axis=0), draws)
     return float(np.mean(source_scores, axis=0)[0]), target, target_b16
 
 
@@ -218,8 +223,9 @@ def run(fold):
             output.append(dict(fold=fold, representation=name, origin=origin,
                                source_port_map=source_map, target_map=micro,
                                target_macro_map=macro,
-                               target_b16_map=target_b16[origin][0],
-                               target_b16_macro_map=target_b16[origin][1],
+                               target_b16_map=target_b16[origin][0][0],
+                               target_b16_macro_map=target_b16[origin][0][1],
+                               target_b16_draws=json.dumps(target_b16[origin][1]),
                                target_by_class=json.dumps(by_class, sort_keys=True),
                                encoded_rows=len(rows),
                                pooled_cache_max_error=error,

@@ -8,6 +8,8 @@ The current strict protocol tests eight-class closed-set recognition across held
 
 The dual representation has scoped gains over the specified single-branch readout on OSS1, OSS2, and six held ports. This does not establish superiority over every strong single backbone. Fixed class relations and native crop/box geometry are conditional candidates; scene-mean subtraction did not transfer to the strict held-port probe. The 5% output handoff was retired from the active method. See `workspace_experiments/scene_cross_dataset_redesign_20261014/CURRENT_COMPONENTS_ZH.md` and the dated findings before citing any result.
 
+The October 15 body/context probe found a small, scoped gain from a ring-only supplement on the six evaluated held-acquisition tasks (cross-acquisition OA/BA 52.433/46.405% versus 52.204/46.037% for its paired baseline). Three folds improved and three declined; learned conditional weighting added no target OA/BA gain. This remains a candidate, not a replacement for the main model. See `workspace_experiments/prepool_local_probe_20261015/body_context/FINDINGS_ZH.md` for the exact protocol, per-fold results, and limitations.
+
 ## Contents
 
 - `workspace_experiments/`: experiment code, notes, plots, configs, and result tables from the dated October 3-15 workspace studies, including negative results.
