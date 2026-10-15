@@ -1,0 +1,17 @@
+{
+  "status": "Frozen before control outcomes",
+  "purpose": "Semantic class anchors vs density anchors; constrained graph metric vs general rank7 PSD",
+  "geometry": "Existing validation geometry frozen for training AND ALL evaluation data, avoiding cluster permutation/PCA frame refit confounds",
+  "comparability": "Same440 support/query cells; absolute scores and deltas are a NEW common-geometry table, not copied from previous deployment-geometry results",
+  "controls": {
+    "pca_metric": "Source-only unlabelled PCA7, standardized coordinates, general SPD metric",
+    "class_metric": "Exact rank7 factor of current equal class-contrast kernel, general SPD metric; shares class information but removes nonnegative-edge constraint",
+    "cluster_edge": "8 unlabelled KMeans anchors, 28 pair contrasts, same source calibration and positive weight learning"
+  },
+  "capacity": "28 trainable scalars each, one redundant scale removed/normalized; rank<=7 for learned contrast/PCA kernels. The unchanged nonlinear class-reference baseline has8features.",
+  "training": "Same116source tasks/global8class-port-task balanced Brier; same Adam.03/batch8/40epochs/three seeds; fixed final epoch",
+  "regularization": "Same .001 coefficient on centered log-edge parameters or trace-free symmetric log-metric parameters; different parameterizations are explicit",
+  "source_fit": "Same8825source ships; KMeans3predeclared seeds n_init5, seedpaired with optimizer seeds; no best-seed choice",
+  "fixed": "rho.25,ridge8,fusion.5, frozen backbones/source priors, no target gradients or target-based checkpoint choices",
+  "scope": "No main-thread modifications; reused development data, not independent confirmation"
+}

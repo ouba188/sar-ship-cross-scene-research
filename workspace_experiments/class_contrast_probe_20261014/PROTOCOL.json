@@ -1,0 +1,138 @@
+{
+  "status": "Frozen before target outcomes",
+  "scope": "Small cached-feature operator probe; no main-thread files changed",
+  "arms": [
+    "original",
+    "class_mean",
+    "contrast_linear",
+    "contrast_equal",
+    "contrast_weighted"
+  ],
+  "pairs": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      0,
+      5
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      1,
+      7
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      2,
+      7
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      3,
+      6
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      6,
+      7
+    ]
+  ],
+  "formula": "d_ab=(2z dot(mu_a-mu_b)-||mu_a||2+||mu_b||2)/tau2",
+  "scaling": "Per-pair source standard deviation; source centering and common energy match in every arm",
+  "weight": "gap_ab^2/(0.5*(within_a+within_b)+0.5*(acqmean_variance_a+acqmean_variance_b)+0.01*pair_variance); mean weight=1",
+  "drift": "Class-conditional acquisition mean scatter, >=2 ships per acquisition; fewer than2 eligible acquisitions use0 and report coverage. Not same-vessel causal drift.",
+  "fixed": {
+    "rho": 0.25,
+    "ridge": 8,
+    "expert_fusion": 0.5,
+    "expert_dimensions": 2752
+  },
+  "enrollment": "Existing acquisition_transfer cells only; all external5scenes B16/B64 same/other; all48 portscenes B64 other only; five fixed support draws",
+  "exclusion": "No global task, target tuning, neural training, dynamic attention, new source head, or episodic loss training",
+  "evidence": "Development data reused; five support draws are not five backbone trainings; no independent confirmation claim"
+}
