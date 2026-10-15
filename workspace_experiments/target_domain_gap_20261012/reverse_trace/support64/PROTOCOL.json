@@ -1,0 +1,19 @@
+{
+  "arms": [
+    "original_residual64",
+    "global64_only",
+    "global64_residual64"
+  ],
+  "baseline": "S prior, not S+U or S+T",
+  "source_rows": 2048,
+  "distinct_target_labels": 64,
+  "shared_source_geometry": true,
+  "supervised_query_access": false,
+  "new_prior": "Class-balanced ridge1 fit on S + the SAME64, total weight mass2048",
+  "residual": "Original residual ridge8 with same64; labels reused, not new labels",
+  "selection": "All three fixed arms reported; no hyperparameter search",
+  "teacher_weight_access": false,
+  "neural_fits": 0,
+  "new_source_head_fits": 16,
+  "confirmation": "Reused development queries, not independent confirmation"
+}
