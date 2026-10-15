@@ -11,11 +11,6 @@ foreach ($path in (git -C $repo -c core.quotepath=false ls-files)) {
     [void]$tracked.Add($path)
 }
 
-if ($tracked.Count -gt 0) {
-    git -C $repo -c http.version=HTTP/1.1 -c http.postBuffer=524288000 push -u origin main
-    if ($LASTEXITCODE -ne 0) { throw 'Cannot resume: existing local commit did not reach origin.' }
-}
-
 $files = @(Get-ChildItem -LiteralPath $Source -File -Recurse -Force | Where-Object {
     [System.IO.Path]::GetRelativePath($Source, $_.FullName) -notmatch '^\.git[\\/]'
 } | Sort-Object FullName)
@@ -33,7 +28,7 @@ function Publish-Batch {
     git -C $repo -c http.version=HTTP/1.1 -c http.postBuffer=524288000 push -u origin main
     if ($LASTEXITCODE -ne 0) { throw 'git push failed; rerun this script to retry the committed batch' }
     $script:batch++
-    Write-Host "Pushed batch $script:batch: $FileCount files, $([math]::Round($FileBytes/1MB,1)) MiB"
+    Write-Host "Pushed batch ${script:batch}: $FileCount files, $([math]::Round($FileBytes/1MB,1)) MiB"
 }
 
 foreach ($file in $files) {

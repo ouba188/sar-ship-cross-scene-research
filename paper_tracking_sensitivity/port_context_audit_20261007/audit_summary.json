@@ -1,0 +1,37 @@
+{
+  "rows": 38091,
+  "ports": 24,
+  "features": 60,
+  "historical_supported": 33082,
+  "bounded_supported": 18098,
+  "bounded_near_infra_3km": 3158,
+  "known_zero_cells": 498926,
+  "current_georef_center_rows": 35014,
+  "old_exact_matches": 3618,
+  "old_supported_matches": 156,
+  "naive_old_same_id_different_chip": 0,
+  "source_key_collisions": 0,
+  "raw_cache_mask_disagreement_rows": 0,
+  "raw_cache_value_disagreement_rows": 0,
+  "cached_osm_supported": 33082,
+  "active_outer_ports": 23,
+  "query_members_read": [
+    "skipped",
+    "qpos",
+    "spos",
+    "ports_all"
+  ],
+  "model_training": false,
+  "query_labels_read": false,
+  "downloads": false,
+  "mapping": "Existing source pointer plus ID/product; returned exact product/two source TIFFs/two object UIDs.",
+  "limits": [
+    "Support is observed map context, not field-surveyed completeness or demonstrated model benefit.",
+    "Historical support is retained separately; default known additionally requires documented 10.1 km footprint.",
+    "Missing/empty semantic layers remain unsupported; known zero applies only to supported queried layers.",
+    "Distances are capped at 10 km. Co-proximity is not berth occupancy, actual cargo or navigable topology.",
+    "Inherited sample centers and AIS position proxies retain their own coordinate_kind; they are not all exact crop centers.",
+    "2025 PBF snapshots and 2026 queries are mixed; current provider boundaries are not certified historical boundaries.",
+    "No port-centroid features, identity fields, ship-type fields, AIS classes or outcomes enter feature values."
+  ]
+}
