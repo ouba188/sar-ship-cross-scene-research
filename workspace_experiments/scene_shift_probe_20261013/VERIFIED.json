@@ -1,0 +1,65 @@
+{
+  "metric_rows_independently_recomputed": 1880,
+  "query_support_index_overlap": 0,
+  "query_unique_rows": {
+    "16": 1113,
+    "64": 1374
+  },
+  "query_unique_vessels": {
+    "16": 1096,
+    "64": 1328
+  },
+  "scene_budget_contexts": 94,
+  "readout": "frozen base + dual_refit expert, equal probability fusion",
+  "evaluation": "BA over query-present classes; paired identical queries; not legacy eight-class overall BA",
+  "no_shared_acquisition_port_sensitivity": [
+    {
+      "budget": 16,
+      "mode": "base",
+      "ports": 17,
+      "delta_oa": -4.883825692101619,
+      "delta_ba": -3.6529187308545694
+    },
+    {
+      "budget": 16,
+      "mode": "full",
+      "ports": 17,
+      "delta_oa": -4.478922878054419,
+      "delta_ba": -2.566480158586311
+    },
+    {
+      "budget": 64,
+      "mode": "base",
+      "ports": 8,
+      "delta_oa": -4.377175589311475,
+      "delta_ba": -4.275696686274523
+    },
+    {
+      "budget": 64,
+      "mode": "full",
+      "ports": 8,
+      "delta_oa": -5.454845524870208,
+      "delta_ba": -5.409001378671211
+    }
+  ],
+  "oss2_descriptive": [
+    {
+      "mode": "base",
+      "n": 1505,
+      "delta_oa": -0.1328903654485048,
+      "delta_ba": -0.9856467407843377
+    },
+    {
+      "mode": "dual_refit_late",
+      "n": 1505,
+      "delta_oa": 0.22148394241417527,
+      "delta_ba": -2.2023734677467157
+    },
+    {
+      "mode": "r50_late",
+      "n": 1505,
+      "delta_oa": -0.4761904761904761,
+      "delta_ba": -1.5713732007206016
+    }
+  ]
+}

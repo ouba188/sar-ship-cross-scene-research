@@ -1,0 +1,29 @@
+{
+  "seed": 20261013,
+  "reader": "Unchanged common compact reader from port_shift_matched_acquisition_20261013; NOT legacy full",
+  "source_fit_reused": "E:\\临时会话\\port_shift_matched_acquisition_20261013\\fits\\geometry.pkl",
+  "encoder_training": 0,
+  "new_source_fits": 0,
+  "source_n": 23687,
+  "source_exclusion": "Target ports, known target vessels and target acquisitions disjoint at PCA/statistics/linear-head fitting stages",
+  "encoder_scope": "Historical frozen encoder exposure is not reset; not an end-to-end unseen-acquisition training claim",
+  "budgets": [
+    16,
+    64
+  ],
+  "support_ridge": 8.0,
+  "draws": 5,
+  "fusion": 0.5,
+  "enrollment": "At most5 metadata-selected scenes per direction/policy/B; same B64-eligible queries also evaluated at B16; no target score selection",
+  "policies": {
+    "class_matched": "exact class counts across four cells",
+    "class_angle_matched": "exact class x floor(angle/2deg) counts across four cells"
+  },
+  "source_only": "Scores before support adaptation, same readers/queries, recorded once per query context",
+  "scene_held": "SO/OO use no query-acquisition support; SS/OS intentionally allow distinct labeled vessels from query acquisition as comparators",
+  "sampling": "Known vessels only; one seeded observation per vessel per pool; all original query vessels excluded; label-aware matching not label-blind acquisition",
+  "metrics": "Query-present-class BA and OA; draws then acquisitions then directions, no independence claim for reciprocal directions",
+  "target_history": "Development data including previously studied ports/acquisitions; not a new independent confirmation dataset",
+  "manuscript_changed": false,
+  "main_model_changed": false
+}

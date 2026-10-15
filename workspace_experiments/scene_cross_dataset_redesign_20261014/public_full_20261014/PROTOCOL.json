@@ -1,0 +1,20 @@
+{
+  "datasets": [
+    "oss1",
+    "oss2"
+  ],
+  "folds_per_dataset": 4,
+  "support_budget_labels": 16,
+  "support_draws": 5,
+  "source_only_ssl": true,
+  "source_only_relation": true,
+  "target_labels_for_model_selection": false,
+  "C4": "Four right-angle ImageNet R50 pooled views; source-fitted PCA128 and balanced ridge prior",
+  "expert": "Original-view ImageNet R50 plus source-only SAR SSL R18, source-fitted PCA128 per branch and balanced ridge prior",
+  "relation": "28 source-class pair coordinates; source-train acquisition-held risk learning, rho=.25, source-only calibration",
+  "handoff": "Source-validation logistic utility; adaptive p>=.5 and target-batch top 5% disagreements as capped alternative",
+  "source_head": "Same train plus validation source rows in final heads; inner relation/gate fits use source folds only",
+  "output": "C4 base/expert probability average versus source-gated base/fusion decision",
+  "boundaries": "New matched integration variant, not exact historical 24-port legacy frequency/PCA model; no target-side model selection; one SSL seed per fold; five support draws are not training replicates",
+  "aggregation": "Mean five support draws within fold, then equal four folds; per-fold BA uses query-present classes"
+}

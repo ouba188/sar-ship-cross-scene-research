@@ -1,0 +1,21 @@
+{
+  "episode": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_cross_dataset_redesign_20261014\\public_expansion\\oss2\\S1A_009518_00DD1D",
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "fractions": [
+    0.25,
+    0.5,
+    1.0
+  ],
+  "short_steps": 70,
+  "long_steps": 280,
+  "batch": 64,
+  "lr_schedule": "cosine T_max=280 for every run; no LR restart",
+  "half_long": true,
+  "subset_unit": "nested source MMSI within source class; all observations kept",
+  "source_fit": "same full 2252 train + 528 validation rows for every readout",
+  "selection": "fixed checkpoints 70/140/280; no target-label model selection"
+}

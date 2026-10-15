@@ -1,0 +1,26 @@
+{
+  "seed": 20261013,
+  "primary": "Within-port acquisition support transfer, frozen full model",
+  "grouping": "platform + absolute orbit + datatake; not tile/product filename",
+  "archival": "Original B64 predictions: same-acquisition support exposure, with support-vessel exclusion; observational only",
+  "matched": "Fixed query vessels; same-acquisition vs other-acquisition same-port supports, exact same class counts and B",
+  "budgets": [
+    16,
+    64
+  ],
+  "draws": 5,
+  "max_acquisitions_per_port_budget": 3,
+  "scene_selection": "Eligible scenes sorted by start; select at most3 evenly spaced, no prediction-based selection",
+  "query": "Seeded 30 percent known vessels per scene, minimum4; one random observation per vessel; fixed across arms and budgets",
+  "support": "One observation per known vessel, exclude all query vessels, exact matched class quota by shared pool capacity",
+  "eligibility": "At least2 support classes and2 query classes, >=5 query rows, sufficient matched capacity",
+  "label_usage": "Diagnostic label-matched support sampling; not a label-blind deployment acquisition policy",
+  "ridge": 8.0,
+  "fusion": 0.5,
+  "model_changes": false,
+  "neural_training": false,
+  "source_fits": false,
+  "scope": "Source models remain port-held legacy models, not acquisition-held or identity-held at all training stages",
+  "uncertainty": "Average5draws then scenes within port then ports; port bootstrap descriptive development CI",
+  "inference": "Other-scene minus same-scene; cannot identify pure imaging cause or decompose original cross-port gap"
+}

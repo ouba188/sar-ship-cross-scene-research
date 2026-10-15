@@ -1,0 +1,204 @@
+{
+  "protocol": "2026-10-14 metadata-frozen OSS pilot; no model outcomes used",
+  "inputs": {
+    "oss1": "E:\\Hermes\\paper_tracking\\sensitivity\\opensarship1_transfer_20261007\\target_manifest.csv",
+    "oss2": "E:\\Hermes\\paper_tracking\\sensitivity\\opensarship2_transfer_20261007\\target_manifest.csv"
+  },
+  "selection": "OSS1 largest query and next-largest cross acquisition by distinct MMSI; OSS2 largest and next-largest mixed GRDH/SLC acquisitions outside OSS1 held acquisitions; ties by acquisition key. Query ships are the odd positions of a fixed-seed shuffle of sorted MMSIs.",
+  "seed": 20261014,
+  "draw_count": 5,
+  "datasets": {
+    "oss1": {
+      "query_acquisition": "S1A_010568_00FB64",
+      "cross_support_acquisition": "S1A_009496_00DC88",
+      "source_validation_acquisition": "S1A_010685_00FED5",
+      "source_train": {
+        "rows": 927,
+        "mmsi": 761,
+        "acquisitions": 19,
+        "products": {
+          "GRDH": 927
+        }
+      },
+      "source_validation": {
+        "rows": 75,
+        "mmsi": 75,
+        "acquisitions": 1,
+        "products": {
+          "GRDH": 75
+        }
+      },
+      "query": {
+        "rows": 84,
+        "mmsi": 84,
+        "acquisitions": 1,
+        "products": {
+          "GRDH": 84
+        }
+      },
+      "same_support_candidates": {
+        "rows": 84,
+        "mmsi": 84,
+        "acquisitions": 1,
+        "products": {
+          "GRDH": 84
+        }
+      },
+      "cross_support_candidates": {
+        "rows": 88,
+        "mmsi": 88,
+        "acquisitions": 1,
+        "products": {
+          "GRDH": 88
+        }
+      },
+      "excluded_held_acquisitions_global": [
+        "S1A_009496_00DC88",
+        "S1A_010568_00FB64",
+        "S1A_011618_011C31",
+        "S1A_011990_012809"
+      ],
+      "excluded_held_mmsi_global": 777,
+      "budgets": {
+        "B0": {
+          "feasible": true,
+          "support_rows": 0
+        },
+        "B16": {
+          "feasible": true,
+          "raw_unique_mmsi_feasible": true,
+          "matched_unique_mmsi_capacity": 38,
+          "class_quota": {
+            "container_ship": 3,
+            "product_chemical_tanker": 3,
+            "offshore_supply": 1,
+            "bulk_carrier": 4,
+            "general_cargo": 4,
+            "tug_towing": 1
+          }
+        },
+        "B64": {
+          "feasible": false,
+          "raw_unique_mmsi_feasible": true,
+          "matched_unique_mmsi_capacity": 38,
+          "class_quota": {
+            "container_ship": 7,
+            "product_chemical_tanker": 4,
+            "offshore_supply": 1,
+            "bulk_carrier": 16,
+            "general_cargo": 9,
+            "tug_towing": 1
+          }
+        }
+      },
+      "product_feasibility": {
+        "GRDH": {
+          "query_rows": 84,
+          "same_unique_mmsi": 84,
+          "cross_unique_mmsi": 88,
+          "matched_class_capacity": 38
+        }
+      }
+    },
+    "oss2": {
+      "query_acquisition": "S1A_011990_012809",
+      "cross_support_acquisition": "S1A_011618_011C31",
+      "source_validation_acquisition": "S1A_011268_0110F6",
+      "source_train": {
+        "rows": 2411,
+        "mmsi": 1887,
+        "acquisitions": 27,
+        "products": {
+          "GRDH": 1914,
+          "SLC": 497
+        }
+      },
+      "source_validation": {
+        "rows": 132,
+        "mmsi": 132,
+        "acquisitions": 1,
+        "products": {
+          "GRDH": 132
+        }
+      },
+      "query": {
+        "rows": 144,
+        "mmsi": 88,
+        "acquisitions": 1,
+        "products": {
+          "GRDH": 75,
+          "SLC": 69
+        }
+      },
+      "same_support_candidates": {
+        "rows": 136,
+        "mmsi": 88,
+        "acquisitions": 1,
+        "products": {
+          "GRDH": 76,
+          "SLC": 60
+        }
+      },
+      "cross_support_candidates": {
+        "rows": 209,
+        "mmsi": 130,
+        "acquisitions": 1,
+        "products": {
+          "GRDH": 110,
+          "SLC": 99
+        }
+      },
+      "excluded_held_acquisitions_global": [
+        "S1A_009496_00DC88",
+        "S1A_010568_00FB64",
+        "S1A_011618_011C31",
+        "S1A_011990_012809"
+      ],
+      "excluded_held_mmsi_global": 777,
+      "budgets": {
+        "B0": {
+          "feasible": true,
+          "support_rows": 0
+        },
+        "B16": {
+          "feasible": true,
+          "raw_unique_mmsi_feasible": true,
+          "matched_unique_mmsi_capacity": 60,
+          "class_quota": {
+            "general_cargo": 4,
+            "bulk_carrier": 4,
+            "product_chemical_tanker": 3,
+            "container_ship": 3,
+            "tug_towing": 2
+          }
+        },
+        "B64": {
+          "feasible": false,
+          "raw_unique_mmsi_feasible": true,
+          "matched_unique_mmsi_capacity": 60,
+          "class_quota": {
+            "general_cargo": 6,
+            "bulk_carrier": 8,
+            "product_chemical_tanker": 32,
+            "container_ship": 12,
+            "tug_towing": 2
+          }
+        }
+      },
+      "product_feasibility": {
+        "GRDH": {
+          "query_rows": 75,
+          "same_unique_mmsi": 76,
+          "cross_unique_mmsi": 110,
+          "matched_class_capacity": 51
+        },
+        "SLC": {
+          "query_rows": 69,
+          "same_unique_mmsi": 60,
+          "cross_unique_mmsi": 99,
+          "matched_class_capacity": 45
+        }
+      }
+    }
+  }
+}

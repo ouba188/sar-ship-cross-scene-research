@@ -1,0 +1,47 @@
+{
+  "status": "complete",
+  "budget_root": "E:\\临时会话\\frozen_candidate_coverage_20261012\\budget",
+  "runtime": "D:\\Program_documents\\Anaconda_envs\\envs\\ClearSAR\\python.exe",
+  "cpu_threads": 2,
+  "gpu": false,
+  "training": false,
+  "id_semantics": "Positional target_manifest iloc, not target_manifest_row column",
+  "checks": {
+    "prediction_units": 30,
+    "class_recall_replays": 1440,
+    "metric_replays": 180,
+    "paired_replays": 120,
+    "manifest_support_matches": 30
+  },
+  "sources": [
+    {
+      "dataset": "f0921",
+      "receipt": "E:\\临时会话\\frozen_candidate_coverage_20261012\\budget\\strong_external\\f0921\\f0921\\PREDICTIONS_FROZEN.json",
+      "target_manifest": "E:\\Hermes\\paper_tracking\\sensitivity\\f0921_detector_recrop_20261007\\target_manifest.csv",
+      "baseline": "Current stronger matched post-tail dual_refit_late",
+      "query_n": 123170
+    },
+    {
+      "dataset": "oss2",
+      "receipt": "E:\\临时会话\\frozen_candidate_coverage_20261012\\budget\\strong_external\\oss2\\oss2\\PREDICTIONS_FROZEN.json",
+      "target_manifest": "E:\\Hermes\\paper_tracking\\sensitivity\\opensarship2_transfer_20261007\\target_manifest.csv",
+      "baseline": "Current stronger matched post-tail dual_refit_late",
+      "query_n": 3440
+    }
+  ],
+  "output_rows": {
+    "class_draw_attribution": 1440,
+    "draw_attribution": 180,
+    "class_summary": 288,
+    "summary": 36,
+    "support_draws": 30,
+    "support_associations": 324
+  },
+  "limitations": [
+    "Five reused support draws, not independent training seeds",
+    "Events can count the same query on multiple draws",
+    "Correlations are descriptive only; no CI, p-value or causal inference",
+    "Common query cohort and historical row-only exclusion preserved",
+    "Probability risks reused from existing matched CSV evaluations"
+  ]
+}
