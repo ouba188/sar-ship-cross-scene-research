@@ -1,0 +1,103 @@
+{
+  "target": "F0921 matched input-alignment development comparison",
+  "target_rows": 123489,
+  "evaluated_rows_per_draw": 123425,
+  "target_labels_per_draw": 64,
+  "draws": 5,
+  "means": [
+    {
+      "arm": "original_base",
+      "class_recall": [
+        0.7433587876492351,
+        0.1961352344036573,
+        0.2602127271175635,
+        0.014282636704606458,
+        0.07060844443443523,
+        0.0952223892309129,
+        0.1223089467408783,
+        0.12301016461235954
+      ],
+      "ba": 0.20314241636170602,
+      "acc": 0.24207575450678548,
+      "admission_fraction": 0.0
+    },
+    {
+      "arm": "base_visual64",
+      "class_recall": [
+        0.5238880686093765,
+        0.2855261907927835,
+        0.18370142575162632,
+        0.15119920244875545,
+        0.28321387341769566,
+        0.21196430213182688,
+        0.19968008069143747,
+        0.15296986811864063
+      ],
+      "ba": 0.2490178764952678,
+      "acc": 0.2893708729997974,
+      "admission_fraction": 0.0
+    },
+    {
+      "arm": "visual_handoff5",
+      "class_recall": [
+        0.5271656159298703,
+        0.26688413357771407,
+        0.1810025824642233,
+        0.15296513980739687,
+        0.30380705938798225,
+        0.2152501726946034,
+        0.21039230425454458,
+        0.15094493642708023
+      ],
+      "ba": 0.25105149306792685,
+      "acc": 0.2963354263722908,
+      "admission_fraction": 0.049997974478428193
+    }
+  ],
+  "comparisons": [
+    {
+      "candidate": "visual_handoff5",
+      "control": "base_visual64",
+      "mean_delta_ba_pp": 0.20336165726590805,
+      "draw_deltas_pp": [
+        -0.023229905432264886,
+        0.4442666164414716,
+        0.3446564997396151,
+        -0.21004250827079407,
+        0.4611575838515125
+      ],
+      "positive_draws": 3
+    },
+    {
+      "candidate": "base_visual64",
+      "control": "original_base",
+      "mean_delta_ba_pp": 4.587546013356176,
+      "draw_deltas_pp": [
+        4.680585678924482,
+        3.360575861567963,
+        4.678383199508285,
+        3.8212196966866676,
+        6.396965630093487
+      ],
+      "positive_draws": 5
+    },
+    {
+      "candidate": "visual_handoff5",
+      "control": "original_base",
+      "mean_delta_ba_pp": 4.790907670622085,
+      "draw_deltas_pp": [
+        4.657355773492217,
+        3.8048424780094345,
+        5.023039699247899,
+        3.611177188415873,
+        6.8581232139449995
+      ],
+      "positive_draws": 5
+    }
+  ],
+  "statistical_unit": "one dataset, five overlapping support draws; not five independent datasets",
+  "independent_confirmation": false,
+  "interpretation": "Cross-dataset transfer under frozen parameters, not new blind data.",
+  "encoder_scope": "Existing frozen paired VV/VH R50 and VH SSL R18. The e206 SSL encoder was pretrained on F0921; target-corpus encoder exposure is explicit. PCA, source heads and source OOF gate exclude target vessel/scene identities.",
+  "cost": "5% expert admission, not 5% feature inference cost or 5% changes relative to original base"
+}
