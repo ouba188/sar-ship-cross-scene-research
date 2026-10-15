@@ -1,0 +1,730 @@
+         Ranking Distance Calibration for Cross-Domain Few-Shot Learning
+
+                       Pan Li1 , Shaogang Gong1 , Chengjie Wang2 and Yanwei Fu3
+              1
+                Queen Mary University of London 2 Tencent Youtu Lab 3 Fudan University
+          {pan.li, s.gong}@qmul.ac.uk,             jasoncjwang@tencent.com,                             yanweifu@fudan.edu.cn
+
+
+
+                                                                       k-nearest neighbors: {2,4,6,8}                     Expanded k-nearest neighbors:{2,4,6,8,7}
+                        Abstract
+                                                                                          4                                                1
+                                                                                 1              Ranking for intra-task dicovery        7
+   Recent progress in few-shot learning promotes a more            8                                                                                           2
+                                                                                 1                                                 4                   4
+realistic cross-domain setting, where the source and tar-                                                                                                          6
+                                                                                           2                                                   1                       1
+get datasets are in different domains. Due to the domain                  6                                                        8
+gap and disjoint label spaces between source and target                                                                                        1
+                                                                              k-nearest neighbors set      distance calibration                        2           1
+datasets, their shared knowledge is extremely limited. This        a / b sample(a/b) of class 0/1 1 / 1 original/updated sample            6               4
+encourages us to explore more information in the target do-                                                                                    8
+                                                                            k-reciprocal nearest neighbor discovery                                1
+main rather than to overly elaborate training strategies on
+the source domain as in many existing methods. Hence, we          Figure 1. An illustration of ranking distance calibration pro-
+                                                                  cess in a FSL task. The idea is to first discover likely positive
+start from a generic representation pre-trained by a cross-
+                                                                  samples (e.g. sample 7) for each instance (e.g. sample 1) and then
+entropy loss and a conventional distance-based classifier,        to calibrate their pairwise distances. This is achieved by mining
+along with an image retrieval view, to employ a re-ranking        the reciprocal ranking relations for each instance retrieval task in
+process to calibrate a target distance matrix by discovering      the target domain so to expand the k-nearest neighbours set.
+the k-reciprocal neighbours within the task. Assuming the
+pre-trained representation is biased towards the source, we
+construct a non-linear subspace to minimise task-irrelevant          It is nontrivial to directly extend the general FSL ap-
+features therewithin while keep more transferrable discrim-       proach to address the CD-FSL challenges. In fact, many
+inative information by a hyperbolic tangent transformation.       promising FSL methods [8, 34, 36, 38] performed poorly in
+The calibrated distance in this target-aware non-linear sub-      CD-FSL [10, 41]. The central idea of these general FSL
+space is complementary to that in the pre-trained repre-          methods is to transfer and generalise the visual representa-
+sentation. To impose such distance calibration informa-           tions learned from source data to target data. However, the
+tion onto the pre-trained representation, a Kullback-Leibler      significant visual domain gap between the source and target
+divergence loss is employed to gradually guide the model          data in CD-FSL makes it fundamentally difficulty to learn a
+towards the calibrated distance-based distribution. Exten-        shared visual representation across different domains.
+sive evaluations on eight target domains show that this tar-         A few recent CD-FSL studies [20, 23, 41, 45] try to learn
+get ranking calibration process can improve conventional          a generalisable feature extractor to improve model transfer-
+distance-based classifiers in few-shot learning.                  ability, which is a popular idea in domain generalisation and
+                                                                  domain adaptation [18, 43, 46, 52, 54] where the source and
+                                                                  target domains share the same label space. Empirically, this
+1. Introduction                                                   approach shows some improvement on CD-FSL but it does
+                                                                  not model any visual and label characteristics of the target
+    Few-Shot Learning (FSL) promises to allow a machine           domain and more importantly their cross-domain impact on
+to learn novel concepts from limited experience, i.e. few         the pre-trained source domain representation. We argue this
+novel target data and data-rich source data. Typically, the       cross-domain mapping between the source domain repre-
+defaulted FSL assumes that the source and target data is          sentation and its interpretion in the context of the target do-
+in the same domain, but belong to different classes. In           main data characteristics is essential for effective CD-FSL.
+practice, FSL is required to generalise to different tar-         From a related perspective, other CD-FSL studies have con-
+get domains. Cross-Domain Few-Shot Learning (CD-FSL)              sidered fine-tuning the source domain feature representation
+[9, 10, 12, 20, 41] has been studied more recently. In CD-        from augmenting additional support data in the target do-
+FSL, the target data not only has a different label space but     main, e.g. either explicitly augmenting the support data by
+also are from a different domain to the source data.              adversarial training [45] and image transformations [10], or
+
+
+
+                                                                9099
+implicitly augmenting the support data by training an auto-        new non-linear subspace. The calibrated matrices are com-
+encoder [20]. However, these methods for CD-FSL are                bined to construct a single distance matrix for the target
+straightforward data-augmentation methods for increasing           domain in CD-FSL. We call this Ranking Distance Cali-
+training data in target domain model fine-tuning, without          bration (RDC). To impose the above distance calibration
+considering how to quantify cross-domain relevance of the          into the representational space transform, we approximate
+pre-trained source domain representation.                          the distance matrices by their corresponding distributions,
+    In this work, we consider an alternative approach with a       and then a Kullback-Leibler (KL) divergence loss func-
+new perspective to treat cross-domain few-shot learning as         tion is optimised for iteratively mapping the original dis-
+an image retrieval task. We wish to optimise model adapta-         tance distribution from the source domain towards the cali-
+tion by leveraging target domain retrieval task context, that      brated space. This provides an additional RDC Fine-Tuning
+is, not only the labelled support data but also the unlabelled     (RDC-FT) model optimisation.
+query data. To that end, we use a generic representation               Our contributions from this work are three-fold: (1)
+pre-trained by a cross entropy loss and a simple distance-         To transform the biased distance matrix in the source do-
+based classifier as a baseline, then employ a k-reciprocal         main representational space towards the target domain in
+neighbour discovery (as in Fig. 1) and encoding process to         CD-FSL, we use a re-ranking method to re-compute a Jac-
+calibrate pairwise distances between each unlabelled query         card distance for distance calibration by discovering the re-
+image and its likely matches. Our idea is both orthogonal          ciprocal nearest neighbours within the task. We call this
+and complementary to other generalisable model learning            Ranking Distance Calibration. (2) We propose a non-linear
+methods [10, 20, 21]. It can be flexibly used in either fine-      subspace to shadow the pre-trained source domain repre-
+tuning or without fine-tuning based model learning.                sentational space. This is designed to model any inherent
+                                                                   non-linear transform in CD-FSL and used to facilitate the
+    Generally, the distance matrix for CD-FSL task contains
+                                                                   distance calibration process between the source and target
+many incorrect results as this distance is built on a po-
+                                                                   domains. By modelling explicitly this nonlinearity, we for-
+tentially biased pre-trained source domain representational
+                                                                   mulate a more robust and generalisable Ranking Distance
+space. To calibrate this distance matrix towards the target
+                                                                   Calibration (RDC) model for CD-FSL. (3) We further im-
+domain so to reduce its bias to the source domain, we ex-
+                                                                   pose RDC as a constraint to the model optimisation process.
+plore the re-ranking concept in the target domain by con-
+                                                                   This is achieved by a RDC with Fine-Tuning (RDC-FT) for
+sidering CD-FSL optimisation as re-ranking in a retrieval
+                                                                   iteratively mapping the original source domain distance dis-
+task given few-shots as anchor points. As in Fig. 1, re-
+                                                                   tribution to a calibrated target domain distance distribution
+ranking first computes a k-nearest neighbour ranking list.
+                                                                   for a more stable and improved CD-FSL.
+This is further expanded by discovering the k-reciprocal
+nearest neighbours in the target domain. The expanded                  We evaluated the proposed RDC and RDC-FT methods
+ranking list is used for re-computing a Jaccard distance to        for CD-FSL on eight target domains. The results show that
+measure the difference between the original ranking list and       RDC can improve notably the conventional distance-based
+the expanded ranking list, achieving a more robust and ac-         classifier, and RDC-FT can improve the representation for
+curate distance matrix. Critically, a pre-trained represen-        target domain to achieve competitive or better performance
+tation from source domain is biased and poor for general-          than the state-of-the-art CD-FSL models.
+isation cross-domains in CD-FSL. The reason is that con-
+ventional FSL methods assume implicitly linear transfor-           2. Related Work
+mations mostly between the source and target data as they
+are sampled from the same domain. This becomes invalid             Few-shot learning. The approaches for general FSL can
+in CD-FSL with mostly nonlinear transformations across             be broadly divided into two categories: optimisation-based
+source and target domains. To address this problem, we pro-        methods [8, 28, 32] which learn a generalisable model ini-
+pose a task-adaptive subspace mapping to minimise trans-           tialisation and then adapt the model on a novel task with
+ferring task-irrelevant representational information from the      limited labelled data, and metric learning methods [19, 36,
+source domain. In particular, we explore a hyperbolic tan-         38, 51] that meta-learn a discriminative embedding space
+gent function to project the source domain representation          where the sample in novel task can be well-classified by a
+to a non-linear space. Compared to the linear Euclidean            common or learned distance metric. Recently, some stud-
+space, this non-linear space performs a dimensionality re-         ies [3, 16, 39] show that a simple pre-training method fol-
+duction to optimise the retention of transferrable informa-        lowed by a fine-tuning stage can achieve competitive or bet-
+tion from the source to the target domain. Moreover, we            ter performance than the metric learning methods. This ob-
+explore the idea of re-ranking to calibrate and align two          servation also seems to be true in CD-FSL [10].
+distance matrices in two representational spaces between           Cross-domain few-shot learning. The problem of CD-
+the original pre-trained source domain linear space and the        FSL was preliminarily studied in FSL [3, 17, 39], then [10,
+
+
+
+                                                                 9100
+                                                                                C×Q
+41] expanded this setup and proposed two benchmarks to              Tq = {Ij }j=1    , where the images in Ts and Tq are both
+train a model on a single source domain and then generalise         from the same C classes and K/Q denote the number of
+it to other domains. Some CD-FSL studies [20,41,45] focus           images per class in Ts /Tq . The goal of FSL is to recognise
+on learning a generalisable model from the source domain            the unlabelled query set Tq when K is small. In the CD-
+by explicit or implicit data augmentation. These approaches         FSL setup, Ds and Dt are from different domains, e.g. Ds
+improve the model generalisation ability but easily result in       contains many natural photos whilst the images in Dt are
+ambiguous optimisation result since they ignore the adap-           captured by remote sensing sensors.
+tion process for the target domain. To address the domain           Nearest prototype classifier. We firstly define the proto-
+shift problem in a feature representation, CHEF [1] uses            type classifier used in this work. Given a feature extractor
+a fusion strategy for feature ensemble whilst ConFeSS [5]           f , we can extract the embedding x = f (I) for image I
+learns a mask to select relevant features in the target do-         in a FSL task T . Nearest Prototype Classifier (NPC) first
+main. Another methods [6, 9, 30] target to the adaptation           computes the prototypes X̂ = {x̂0 , · · · , x̂C−1 } for the C
+on the target domain by leveraging additional unlabelled            classes, where the prototype for class c is:
+data [30], labelled data [9] or the base data [6]. In practice,
+the increased data can help model adaptation on the target                     \hat { {x}}_c=\frac {1}{K}\sum _{i=1}^{K} {x}_i,\quad \mathrm {where} \; {x}_i \in \mathcal {T}_s, y_i=c.        (1)
+domain but these information are not easy to obtain. In this
+work, we address the CD-FSL problem with an image re-
+                                                                     With the prototypes, the labels for xj in Tq is assigned by:
+trieval view and mine the intra-task information to guide a
+ranking distance calibration process.                                           y({ {x}}_j)=\mathrm {argmin}\,_{c\in \{0,\cdots ,C-1\}}\;d( {x}_j,\hat { {x}}_c), \label {eq:classification}    (2)
+Ranking in image retrieval. Image Retrieval (IR) is a clas-         where d(·) is a distance metric, e.g. Euclidean distance in
+sical computer vision task that aims to search in unlabelled        this work, and d(xj , x̂c ) is the distance between xj and x̂c .
+gallery data in order to find those images that are most simi-
+                                                                    Overview. The key insight of this paper is to formulate the
+lar to a probe image. In IR, a ranking method [11,13,22,26]
+                                                                    FSL as the Image Retrieval (IR) task by sharing the same
+computes a rank list by a distance metric. Moreover, differ-
+                                                                    angle with [40]. In [40], the authors propose to optimise
+ent re-ranking ideas [33, 44, 53] were proposed as a post-
+                                                                    the mean average precision for FSL. Furthermore, our view
+processing mechanism to improve the initial ranking result.
+                                                                    of “FSL as IR” also emphasises the importance of maxi-
+For instance, a model [53] uses the concept of k-reciprocal
+                                                                    mally leveraging all the available information in this low-
+nearest neighbours [31] to explore more hard positive sam-
+                                                                    data regime whilst concerns on the calibration of pairwise
+ples. The enlarged k-nearest neighbours are then used to re-
+                                                                    distances in FSL. In particular, this work follows this view
+compute a Jaccard distance as an auxiliary distance matrix.
+                                                                    for FSL and consider each sample in FSL as the probe data
+This idea was further adopted by others for IR [25, 33, 44].
+                                                                    in IR and treat the whole FSL data as the gallery data. To
+    In this work, we explore the concept of re-ranking in
+                                                                    this end, we propose a ranking distance calibration process
+few-shot learning. Although related to the work of [47], our
+                                                                    for CD-FSL, and our key methodology is to repurpose the
+approach differs. The idea of [47] is to improve subgraph
+                                                                    re-ranking to find the relevant images from the FSL task for
+similarity by a graph view solely in a pre-trained space.
+                                                                    a given image. We overview the proposed method in Fig. 2.
+In contrast, our idea is to calibrate a similarity distance
+both in a pre-trained space and a task-adaptive subspace.           3.1. Ranking Distance Calibration (RDC)
+To optimise a feature representation, we use this calibrated
+                                                                    Motivation. Previous works [31, 53] have suggested that
+distance to guide cross-domain knowledge transfer with a
+                                                                    discovering the k-reciprocal nearest neighbours within the
+Kullback-Leibler divergence loss. The model of [47] does
+                                                                    gallery data can benefit the re-ranking result for image re-
+not learn cross-domain knowledge in re-ranking. It uses a
+                                                                    trieval. This observation encourages us, when considering
+MLP to meta-learn a subgragh refiner in a single domain
+                                                                    few-shot as image retrieval, to reuse this k-reciprocal near-
+with a cross entropy loss.
+                                                                    est neighbour discovery process in [53] to calibrate the pair-
+3. Methodology                                                      wise distances within FSL task. Fig. 1 gives an illustration:
+                                                                    The k-reciprocal nearest neighbour discovery process finds
+Problem formulation. We start by defining a general FSL             more hard-positive samples for a given query sample. These
+problem: given a source dataset Ds and a target dataset             hard-positive samples are then used to update each pairwise
+Dt , where the classes in Ds and Dt are disjoint. FSL               distance by k-reciprocal encoding and to further estimate
+aims to address the C-way K-shot classification task T              a better distance by query expansion. These pairwise dis-
+in Dt by leveraging the limited data in T and the prior             tances in a FSL task are calibrated and represented in a new
+knowledge learned from Ds containing lots of labelled im-           distance matrix.
+ages. In specific, a FSL task T contains a labelled sup-                Let us now describe the re-ranking process in our rank-
+port set Ts = {Ii , yi }C×K
+                        i=1  and an unlabelled query set            ing distance calibration. We further describe in details the
+
+
+
+                                                                  9101
+                                                                                                                 Original Space                                                           Normalised space                                                         KL divergence loss                                                                                                                                                               Calibrated
+                         Support set                                                                                                                                                                                                                                                                                                                                                                                                             distance matrix
+                                                                                                                                                                   L2 norm.                                                                                                                       !!
+                                                                                                                                                                                                                                                                                                  𝐷                                                                                                                                             !!"# =
+                                                                                                                                                                                                                                                                                                                                                                                                                                                𝐷
+                                                                                     𝑓!                                                                                                                                                                                                                                                                                                                                                      1
+                                                                                                                                                                                                                                                                                                                                                                                                                                                ! +𝐷! )
+                                                                                                                                                                                                                                                                                                                                                                                                                                               (𝐷
+                                                                                                                                                                                                                                                                                                                                                                                                                                             2 " $%&
+                                                                                                                                                                                                                                                                                                                                           !"#$
+                                                                                                                                                                                                                                                                                                                                           𝐷
+                      Query set
+                                                                                                                                                                                                                                                 𝐷!
+                                                                                                                                                                                                                                                                                                                                                                   Nearest Prototype Classifier (NPC)
+                                                                                                                                                              Hyperbolic tangent                                                        Original distance matrix
+                                                                                                                                                                transformation                                                                  𝐷"#$                                                                                                                     a
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                Nearest                                                    Predicted
+                                                                                 Normalised                                                                                                                                                                                                                                                                                                                    prototype                                                     labels
+                                                                              non-linear subspace
+
+                                                         Support data                                                                                                     Query data                                                         Average functiton                                                                         Ranking distance calibration process
+
+Figure 2. An overview of the proposed ranking distance calibration pipeline. fΦ is the feature extractor pre-trained on the source
+dataset with a standard cross entropy loss. Our RDC method contains two parts: 1) a ranking process on the original space to calibrate the
+Do to D̂o , and 2) a ranking process on a non-linear subspace to calibrate the Dsub to D̂sub . The proposed RDC-FT method uses a KL loss
+between Do and D̂com to fine-tune fΦ . The NPC is used to classify the query data according to the pairwise distances, i.e. the calibrated
+distances D̂com by RDC and the Euclidean distances on the embeddings fine-tuned with RDC-FT, respectively.
+
+Jaccard distance computing process in the supplementary                                                                                                                                                                                         Vi = [Vi,g1 , Vi,g2 , ..., Vi,gn ], where Vi,gi is defined as the
+material. For a FSL task, we start by computing an original                                                                                                                                                                                     Gaussian kernel of the pairwise distance as:
+pairwise Euclidean distance matrix:
+                                                                                                                                                                                                                                                                    \mathcal {V}_{i,g_q}=\begin {cases} e^{-d_o(x_i,x_{g_q})}& \text { if } g_q\in \hat {\mathcal {R}}_i(k) \\ 0 & \text {otherwise.} \end {cases} \label {eq:re-weight}                                                      (5)
+  D_o= \begin {bmatrix} d_o(1,1)&\cdots &d_o(1,n) \\ \vdots &\ddots &\vdots \\ d_o(n,1)&\cdots &d_o(n,n) \end {bmatrix}, \; \mathrm {where} \; n=C\times (K+Q). \label {eq:matrix} 
+                                                                                                                                                                                                                                                After that, a query expansion strategy [4,31] is employed to
+                                                             (3)                                                                                                                                                                                integrate k2 most-likelyPsamples to update the feature of xi
+do (i, j) is the Euclidean distance between ∥xi ∥2 and                                                                                                                                                                                          by: Vi = (1/|R̂i (k2 )|) gq ∈R̂i (k2 ) Vgq , where k2 < k.
+∥xj ∥2 , and ∥·∥2 represents the l2 normalisation. Refer-                                                                                                                                                                                       Jaccard distance. Referring to [2, 53], the expanded
+ring to Do , we can obtain the k-nearest neighbours set                                                                                                                                                                                         ranked list R̂ is used as contextual knowledge to compute
+R = [R1 (k), R2 (k), ..., Rn (k)], and Ri (k) is the k-nearest                                                                                                                                                                                  a Jaccard distance matrix DJ = {dJ (i, gq )|q ∈ [1, n]} by:
+neighbours of xi . The re-ranking idea [53] is to expand the
+Ri (k) by discovering more hard-positive samples for xi .                                                                                                                                                                                                                      d_J(i,g_q)=1-\frac {|\hat {R}_i(k) \cap \hat {R}_{g_q}(k) |}{| \hat {R}_i(k) \cup \hat {R}_{g_q}(k)|}. \label {eq:jaccard}                                                                                     (6)
+The expand process for Ri (k) is guided by a k-reciprocal
+nearest neighbours algorithm [31] and the expanded ranking
+                                                                                                                                                                                                                                                Following the re-weighting method in [53], the number of
+list R̂i (k) is used to estimate a calibrated distance matrix.
+                                                                                                                                                                                                                                                candidates in the intersection and union set can be calcu-
+k-reciprocal discovery and encoding. The principle of                                                                                                                                                                                           lated as |R̂gq (k)∩R̂i (k)| = ||min(Vi , Vgq )||1 and |R̂gq (k)∪
+k-reciprocal nearest neighbour discovery is that if xg is in
+                                                                                                                                                                                                                                                R̂i (k)| = ||max(Vi , Vgq )||1 , where min and max operate
+Ri (k), then xi should also occur in Rg (k) [31]. Given this
+                                                                                                                                                                                                                                                the element-based minimisation and maximisation for two
+assumption, we adopt the method of [53] for computing the
+                                                                                                                                                                                                                                                input vectors, and || · ||1 is l1 norm. Then the Jaccard dis-
+expanded R̂i (k), defined as:
+                                                                                                                                                                                                                                                tance in Eq.(6) can be re-formulated as:
+            \begin {aligned} &\hat { {R}}_i(k) \leftarrow {R}_i(k) \cup \mathcal {R}_g((1/2)k) \\ & s.t. \left | {R}_i(k) \cap {R}_g((1/2)k) \right | \ge (2/3) \left | {R}_g((1/2)k) \right |, \end {aligned} \label {eq:distance} 
+                                                                                                                                                                                                                                       (4)
+                                                                                                                                                                                                                                                            d_J(i,g_q)=1-\frac { {\textstyle \sum _{j=1}^{n}}\mathrm {min}(\mathcal {V}_{i,g_j}, \mathcal {V}_{g_q,g_j}) }{{\textstyle \sum _{j=1}^{n}}\mathrm {max}(\mathcal {V}_{i,g_j}, \mathcal {V}_{g_q,g_j})}. \label {eq:jaccard_v}    (7)
+where xg is the sample in Ri (k) and | · | is the number
+of neighbours. In particular, to leverage effectively the la-                                                                                                                                                                                   Distance calibration. The Jaccard distance exploits the
+belled support data in FSL, we remove the labelled distrac-                                                                                                                                                                                     contextual information to compute a relative distance in
+tors from neighbours and further expand R̂i (k) by unit-                                                                                                                                                                                        context within k-reciprocal neighbours. The original dis-
+ing R̂s (k), where xs and xi are both in the support set                                                                                                                                                                                        tance is an absolute distance in pre-trained Euclidean space.
+as well as from the same class. Finally, the expanded k-                                                                                                                                                                                        Therefore, combing DJ and Do makes the distance more
+nearest neighbours set is R̂ = [R̂1 (k), · · · , R̂n (k)]. To                                                                                                                                                                                   discriminative among neighbours by a weighting strategy:
+assign larger weights to closer neighbours while smaller                                                                                                                                                                                                                                                  \hat {D}_o= \lambda D_o + (1-\lambda )D_{J}, \label {eq:calibrate}                                                                                                                  (8)
+weights to farther ones, the R̂i (k) is further used to en-
+code the do (i, :) = [do (i, g1 ), . . . , do (i, gn )] into a vector                                                                                                                                                                           where λ is a trade-off scalar to balance the two matrices.
+
+
+
+                                                                                                                                                                                                                                             9102
+3.2. RDC in Task-adaptive Non-linear Subspace                                                                                                 Algorithm 1: Ranking Distance Calibration with
+    To further bridge the domain gap, we propose further im-                                                                                  Fine-Tuning (RDC-FT)
+proving the RDC in a non-linear subspace. We particular                                                                                        Data: pre-trained feature extractor fΦ ; support set
+tailor a discriminative subspace to help calibrate the rank-                                                                                           Ts ; query set Tq ; RDC: k1 , k2 , λ; Fine-tune:
+ing in our CD-FSL task. The subspace is built upon the                                                                                                 epochs T , learning rate β, τ, α.
+Principal Component Analysis (PCA) to extract crucial fea-                                                                                     Result: Fine-tuned feature extractor fΦ̂ .
+tures from the original space. In specific, given the feature                                                                                  /* RDC-FT: optimise fΦ by RDC                         */
+representations X ∈ ℜn×m of a target FSL task, we have                                                                                       1 Initialise Φ̂ = Φ ;
+                                                                                                                                             2 for t in T do
+     {X}_{sub}= {X} {P}, \;\; \mathrm {where}\;\mathcal {P}\in \Re ^{m\times p}, {X}_{sub}\in \Re ^{n\times p}. \label {eq:sub}     (9)      3      Extract embeddings for Ts and Tq by fΦ̂ ;
+                                                                                                                                                    /* RDC: distance calibration */
+P is a transformation matrix mapping the feature with m                                                                                      4      Compute original distances Do by Eq.(3) ;
+dimensions to a reduced feature with p dimensions.                                                                                           5      Compute calibrated distances D̂o by Eq.(8) ;
+Hyperbolic tangent transformation. Generally, the PCA                                                                                        6      Construct a non-linear subspace by Eq.(9, 10) ;
+method can be directly used on the original embedding                                                                                        7      Calibrate distance in subspace D̂sub by Eq.(8) ;
+space. However, the original representation X is scattered
+                                                                                                                                             8      Compute D̂com = 0.5 ∗ (D̂o + D̂sub );
+due to the biased and less-discriminative embedding; thus
+the dimensional reduction easily causes the information loss                                                                                        /* FT: optimise fΦ̂ with D̂com                   */
+problem. To remit this issue, we consider to transform                                                                                       9      Get the softened distribution pDo (τ )/pD̂com (τ ) ;
+the original representations to a compact and representative                                                                                10      Compute KL loss by Eq.(12);
+non-linear space. By using the idea of kernels, we use a hy-                                                                                11      Φ̂ ← Φ̂ − β ▽Φ̂ LKL (pDo (τ ), pD̂com (τ )) ;
+perbolic tangent function to construct a task-adaptive non-                                                                                 12 end
+linear subspace. Our non-linear PCA method first computes
+a feature-toward kernel function by:
+
+                             \mathcal {K}=\mathrm {tanh}( {X}^T {X}), \;\mathcal {K}\in \Re ^{m\times m}. \label {eq:kernel}       (10)     3.3. Fine-tuning with RDC
+                                                                                                                                               As D̂com provides a more robust and discriminative dis-
+Then we use Singular Value Decomposition (SVD) to com-                                                                                      tance matrix, it is natural to ask whether this type of cali-
+pute the eigenvalues U of K and select the most p-relevant                                                                                  bration knowledge can be used to optimise the feature ex-
+eigenvalues U p , formulating the transformation matrix P =                                                                                 tractor. To achieve this, we fine-tune the feature extractor
+U p . To this end, a task-adaptive non-linear subspace Xsub                                                                                 by iteratively mapping the original distance distribution to
+is construct by Eq.(9) and Eq.(10).                                                                                                         the calibrated distance distribution, formulating a RDC with
+Complementary distance calibration. Our distance cali-                                                                                      Fine-Tuning (RDC-FT) method as in Alg. 1.
+bration process is space-agnostic and can be applied in the                                                                                 Expanded k-reciprocal list as attention. As in Eq. (6),
+original linear space (in Sec. 3.1) and a non-linear sub-                                                                                   the expanded ranking list R̂(k) is used to re-compute the
+space (in Sec. 3.2). The original space has higher dimen-                                                                                   pairwise distances. The calibrated pairwise distances in
+sions consist of full information but also disturbed by noisy                                                                               R̂(k) are more robust than these not in R̂(k). Thus the R̂(k)
+task-irrelevant features, while the non-linear subspace re-                                                                                 can naturally be used as an attention mask M. In particular,
+duce some task-irrelevant signal but loss some information.                                                                                 a M is computed by
+Our RDC method co-leverages the calibrated distances in
+the two spaces to capture a robust and complementary dis-
+tance matrix D̂com = 0.5(D̂o + D̂sub ). How to compute                                                                                                     \mathcal {M}_i^{g_q}=\begin {cases} 1+\alpha & \text { if } g_q\in \hat {\mathcal {R}}_i(k) \\ 1 & \text {otherwise,} \end {cases} \label {eq:attention}    (11)
+RDC in two spaces is described in lines 4-8 of Alg. 1.
+Remark. As the hyperbolic non-linear space has larger                                                                                       where α is an attention scalar. During the fine-tuning pro-
+capability than Euclidean space [7, 14, 48], it can allevi-                                                                                 cess, the M is used to re-weight the distance matrices Do
+ate the information loss caused by the dimensionality re-                                                                                   and D̂com as M · Do and M · D̂com , respectively.
+duction. Hence, we use a hyperbolic tangent transforma-                                                                                     Choices of loss functions. To achieve the distance dis-
+tion to map the source domain linear space to a non-linear                                                                                  tribution alignment, Mean Squared Error (MSE) loss and
+space. We note that the subspace learning has been prelimi-                                                                                 Kullback-Leibler (KL) divergence loss are alternatives. The
+nary explored in FSL work [35,50] to learn task-adaptive or                                                                                 MSE loss prefers to directly learn towards the target dis-
+class-adaptive subspace. Critically, our subspace construc-                                                                                 tance while KL divergence loss focuses on the distribution
+tion method differs from [35, 50] as our method does not                                                                                    matching [15]. As KL loss learns this mapping process in
+need the sophisticated episode training process.                                                                                            a softening way, it is a better way to embed the calibration
+
+
+
+                                                                                                                                          9103
+                                                                                                                                                                                                                                        5-way 1-shot
+                                             Method
+                                                                                                    CUB                                        Cars                                     Places                                  Plantae    CropDisease                EuroSAT       ISIC       ChestX     Ave.
+                                             ProtoNet [36]                                        38.66±0.4                                 31.34±0.3                                 47.89±0.5                                31.75±0.4 51.22±0.5                    52.93±0.5   29.20±0.3   21.57±0.2   38.07
+                                             NPC                                                  38.47±0.4                                 33.27±0.3                                 40.84±0.4                                36.77±0.4 64.76±0.5                    51.45±0.5   29.46±0.3   22.74±0.2   39.72
+                                             NPC+l2 norm                                          43.67±0.4                                 35.76±0.4                                 48.67±0.4                                39.15±0.5 66.62±0.5                    60.85±0.5   31.52±0.3   22.87±0.2   43.64
+                                             RDC (ours)                                           48.68±0.5                                 38.26±0.5                                 59.53±0.5                                42.29±0.5 79.72±0.5                    65.58±0.5   32.33±0.3   22.77±0.2   48.65
+                                                                                                                                                                                                                                        5-way 5-shot
+                                             Method
+                                                                                                    CUB                                        Cars                                     Places                                  Plantae    CropDisease                EuroSAT       ISIC       ChestX     Ave.
+                                             ProtoNet [36]                                        57.55±0.4                                 43.98±0.4                                 68.05±0.4                                46.18±0.4 79.98±0.3                    75.36±0.4   39.98±0.3   24.19±0.2   54.41
+                                             NPC                                                  60.48±0.4                                 51.16±0.4                                 67.74±0.4                                53.34±0.4 86.95±0.3                    74.27±0.4   39.26±0.3   26.17±0.2   57.42
+                                             NPC+l2 norm                                          63.23±0.4                                 51.92±0.4                                 69.95±0.4                                55.76±0.4 87.76±0.3                    76.29±0.4   41.08±0.3   26.31±0.2   59.03
+                                             RDC (ours)                                           64.36±0.4                                 52.15±0.4                                 73.24±0.4                                57.50±0.4 88.90±0.3                    77.15±0.4   41.28±0.3   25.91±0.2   60.06
+Table 1. Comparisons with the baselines using NPC classifier w/o fine-tuning. The classification accuracies on 8 datasets with
+ResNet10 as the backbone. RDC exploits the labelled support data and the unlabelled query data in a FSL task. Bold: The best scores.
+
+knowledge into the representations. Thus we use KL loss:                                                                                                                                                                                                  different domains to fairly validate the generalisation abil-
+                                                                                                                                                                                                                                                          ity. In specific, the feature extractor are pre-trained for 400
+                                                                                                                                                                                                                                                          epochs on the base classes of miniImageNet with an Adam
+  \mathcal {L}_{KL}(\mathbf {p}^{D_o}(\tau ),\mathbf {p}^{\hat {D}_{com}}(\tau ))=\tau ^2\sum _{j}\mathbf {p}_j^{\hat {D}_{com}}(\tau ) \mathrm {log}\frac {\mathbf {p}_j^{\hat {D}_{com}}(\tau )}{\mathbf {p}_j^{D_{o}}(\tau )}, \label {eq:klloss} 
+                                                                                                                                                                                                                                                          optimiser. We set the learning rate as 0.001 and the batch
+                                                             (12)                                                                                                                                                                                         size as 64. For our RDC method, we set k = 10, k2 = 8 and
+where τ is the temperature-scaling hyper-parameter,                                                                                                                                                                                                       λ = 0.5, and the reduced dimension p was set as 64 for the
+                                                                                                                                                                                                                                                          non-linear subspace. For the fine-tuning stage in RDC-FT,
+pDj (τ ) and pj
+   o            D̂com
+                      (τ ) are the softened distributions of the
+                                                                                                                                                                                                                                                          we set the attention scalar α = 0.5, temperature τ = 3 and
+re-weighted distances matrices M · Do and M · D̂com .                                                                                                                                                                                                     T = 20 epochs for model training using an Adam optimiser
+Given a vector d(i, :) in the distance matrix D, the soft-                                                                                                                                                                                                with learning rate β as 0.001.
+ened distribution pd(i,:) (τ ) is denoted by pd(i,l) (τ ) =
+Pnexp(d(i,l)/τ )                                                                                                                                                                                                                                          4.1. Comparison with baselines
+     exp(d(i,j)/τ ) , where d(i, l) is the l-th value of d(i, :).
+         j=1
+
+                                                                                                                                                                                                                                                              As our methods are based on a simple NPC classifier,
+4. Experiments                                                                                                                                                                                                                                            here we start by comparing our RDC method with some
+Dataset. Following the benchmarks in [20, 45], we used                                                                                                                                                                                                    baseline methods which also use a NPC classifier and do
+miniImageNet as the source domain and another eight                                                                                                                                                                                                       not need fine-tuning on a target domain. These baselines
+datasets , i.e. CUB, Cars, Places Plantae, CropDisease, Eu-                                                                                                                                                                                               are: NPC that uses a NPC classifier on the pre-trained em-
+roSAT, ISIC and ChestX, as target domains. In specific,                                                                                                                                                                                                   bedding, NPC+l2 norm which utilises a NPC classifier on a
+miniImageNet [42] is a subset of of ILSVRC-2012. CUB,                                                                                                                                                                                                     l2 normed feature embeddings, and ProtoNet [36] that meta-
+Cars, Places and Plantae are the target domains proposed                                                                                                                                                                                                  learns a task-agnostic NPC classifier on miniImageNet. The
+in [41] for the evaluation on natural image domains, while                                                                                                                                                                                                results in Tab. 1 show that RDC largely outperforms these
+CropDisease, EuroSAT, ISIC and ChestX are four domains                                                                                                                                                                                                    baselines, boosting the simple NPC classifier to a strong
+proposed in [10] for generalising the model to domains with                                                                                                                                                                                               one. In particular, the performance on 1-shot learning is
+different visual characteristics. For all experiments, we re-                                                                                                                                                                                             improved notably with 5 ∼ 10% increases on the Ave.
+sized all the images to 224×224 pixels and used data aug-                                                                                                                                                                                                 accuracy compared to the baselines. This observation in-
+mentations in [41, 45] as image transformation.                                                                                                                                                                                                           dicates that RDC is efficient to calibrate the distances by
+Evaluation protocol. We followed the evaluation protocols                                                                                                                                                                                                 fully-leveraging the task information, i.e. the labelled sup-
+in [45] to evaluate our method on CD-FSL. In specific, for                                                                                                                                                                                                port data and unlabelled query data. We also note that the
+each target domain, we randomly selected 2000 FSL tasks                                                                                                                                                                                                   improvement on 5-shot is not as large as that on 1-shot. The
+and each task contains 5 different classes. Each class has                                                                                                                                                                                                reason is that the prototypes for the NPC classifier is more
+1/5 support labelled data and additional 15 unlabelled data                                                                                                                                                                                               robust under many-shot setting, thus the original distances
+for evaluation the performance, formulating the 5-way 1/5-                                                                                                                                                                                                are less-biased and this calibration process improves less
+shot CD-FSL problem. In all experiments, we reported the                                                                                                                                                                                                  when the embedding is fixed. This limitation can be remit-
+mean classification accuracy as well as 95% confidence in-                                                                                                                                                                                                ted by using the fine-tuning stage of our RDC-FT method.
+terval on the query set of each domain. For comprehensive
+comparison, we listed the average accuracy (shown as Ave.
+                                                                                                                                                                                                                                                          4.2. Comparison with state-of-the-art methods
+in Tab. 1 2 and 5) of 8 domains.                                                                                                                                                                                                                             We further compared our RDC-FT method with State-of-
+Implementation details. Following previous works [10,                                                                                                                                                                                                     The-Art (SoTA) methods: 1) meta-learners: GNN-FT [41]
+41, 45], we used a ResNet10 as feature extractor. Further,                                                                                                                                                                                                that meta-trains a GNN [34] model with an additional Fea-
+we used the same hyper-parameters for the experiments on                                                                                                                                                                                                  ture Transformation layer, GNN-LRP which uses a Layer-
+
+
+
+                                                                                                                                                                                                                                                        9104
+                                                                             5-way 1-shot
+        Method
+                               CUB          Cars       Places     Plantae     CropDisease    EuroSAT            ISIC              ChestX     Ave.
+        GNN+FT† [41]         45.50±0.5   32.25±0.4   53.44±0.5   32.56±0.4    60.74±0.5     55.53±0.5        30.22±0.3          22.00±0.2    41.53
+        GNN+LRP† [37]        43.89±0.5   31.46±0.4   52.28±0.5   33.20±0.4    59.23±0.5     54.99±0.5        30.94±0.3          22.11±0.2    41.01
+        TPN+ATA∗ [45]        50.26±0.5   34.18±0.4   57.03±0.5   39.83±0.4    77.82±0.5     65.94±0.5        34.70±0.4          21.67±0.2    47.68
+        Fine-tuning† [10]    43.53±0.4   35.12±0.4   50.57±0.4   38.77±0.4    73.43±0.5     66.17±0.5        34.60±0.3          22.13±0.2    45.54
+        ConFT‡ [6]           45.57±0.8   39.11±0.7   49.97±0.8   43.09±0.8    69.71±0.91    64.79±0.81       34.47±0.61         23.31±0.41   46.25
+        RDC-FT∗‡ (ours)      51.20±0.5   39.13±0.5   61.50±0.6   44.33±0.6    86.33±0.5     71.57±0.5        35.84±0.4          22.27±0.2    51.53
+                                                                             5-way 5-shot
+        Method
+                               CUB          Cars       Places     Plantae     CropDisease    EuroSAT            ISIC              ChestX     Ave.
+        GNN+FT† [41]         64.97±0.5   46.19±0.4   70.70±0.5   49.66±0.4    87.07±0.4      78.02±0.4       40.87±0.4          24.28±0.2    57.72
+        GNN+LRP† [37]        62.86±0.5   46.07±0.4   71.38±0.5   50.31±0.4    86.15±0.4      77.14±0.4       44.14±0.4          24.53±0.3    57.82
+        TPN+ATA* [45]        65.31±0.4   46.95±0.4   72.12±0.4   55.08±0.4    88.15±0.5      79.47±0.3       45.83±0.3          23.60±0.2    59.57
+        Fine-tuning†‡ [10]   63.76±0.4   51.21±0.4   70.68±0.4   56.45±0.4    89.84±0.3      81.59±0.3       49.51±0.3          25.37±0.2    61.06
+        ConFT‡ [6]           70.53±0.7   61.53±0.7   72.09±0.7   62.54±0.7    90.90±0.61    81.52±0.6 1      50.79±0.61         27.50±0.51   64.68
+        NSAE(CE+CE)‡ [20]    68.51±0.8   54.91±0.7   71.02±0.7   59.55±0.8    93.14±0.5      83.96±0.6       54.05±0.6          27.10±0.4    64.03
+        RDC-FT∗‡ (ours)      67.77±0.4   53.75±0.5   74.65±0.4   60.63±0.4    93.55±0.3      84.67±0.3       49.06±0.3          25.48±0.2    63.70
+Table 2. Comparisons with SoTA methods. The 5-way 1/5-shot classification accuracies on 8 domains with ResNet10 as the backbone.
+†
+  indicates the result reported in [45]. ‡ denotes fine-tuning in the target domain. * denotes using both the labelled support data and the
+unlabelled query data. (·)1 denotes our reproduced results using the official released code from [6]. Bold denotes the best scores.
+
+                                                                                    Method                         5-way 1-shot      5-way 5-shot
+wise Relevance Propagation to guide the GNN model train-                            Baseline NPC                   39.72             57.42
+ing, and TPN+ATA [45] that meta-learns TPN [24] with                                +RDC w/o subspace              47.71(↑7.99%)     58.97(↑1.55%)
+Adversarial Task Augmentation; 2) fine-tuning methods: a                            +RDC                           48.65(↑8.93%)     60.06(↑2.64%)
+                                                                                    +RDC-FT w/o subspace           51.03(↑11.31%)    62.91(↑5.49%)
+general Fine-tuning [10] method, ConFT [6] that fine-tunes                          +RDC-FT                        51.53(↑11.81%)    63.70(↑6.28%)
+model reusing the base classes, and NSAE [20] which pre-                 Table 3. Component analysis of the proposed RDC-FT method.
+trains and fine-tunes model with an additional autoencoder               The results are the average accuracies of 8 target domains. (↑ γ
+task to improve the model generalisation. From Tab. 4.2, we              %) indicates γ% improvement compared to the NPC baseline.
+observe that our RDC-FT method is superior to the SoTA                                                                 5-way 1-shot
+                                                                                Method
+methods on the 1-shot learning and competitive to SoTAs                                         N/A       linear     Gaussian  Poly.   Sigmoid   Ours
+on the 5-shot learning. Also, we notice that the perfor-                        NPC+l2 norm    43.72      45.54       45.53   45.49     45.59    45.81
+                                                                                RDC            47.77      47.41       47.38   47.32     47.46    48.36
+mance is not superior to ConFT and NSAE methods for the                                                                5-way 5-shot
+                                                                                Method
+5-shot learning. The behind reasons are: 1) our method ex-                                      N/A       linear     Gaussian Poly.    Sigmoid   Ours
+plores the task information in an unsupervised way while                        NPC+l2 norm    59.03      58.50       58.52   58.43     58.56    59.72
+                                                                                RDC            59.09      58.83       58.82   58.75     58.86    59.83
+the others focus on fine-tuning with more labelled data;
+                                                                         Table 4. Comparisons of different subspaces. The average accu-
+thus these methods benefit a lot from the 5-shot setting. 2)
+                                                                         racies of 8 target domains by using NPC+l2 norm and RDC meth-
+ConFT reuses more data from base classes for model fine-                 ods on the subspaces constructed by KPCA with different kernels.
+tuning. Thus the similar classes between source and target               N/A represents the original representation without subspace.
+domain, e.g. birds, cars, help to build more robust decision
+boundaries when model learning on related target domains,                achieving 11.31% (5.49%) improvement on 1-shot (5-shot).
+e.g. CUB, Cars. But this approach requires more data and                 Interestingly, we observe that the contribution of subspace
+expensive computing resources. 3) NASE adopted an au-                    for RDC (↑0.94%) is larger than that for RDC-FT (↑0.50%)
+toencoder to implicitly augment data to pre-train a general-             on 1-shot. This indicates that fine-tuning process can grad-
+isable model, and our method is theoretically orthogonal to              ually alleviate the bias of pre-trained representations, thus
+this method for solving the CD-FSL problem.                              the benefit of subspace becomes less in RDC-FT.
+                                                                         Comparison of different PCA methods. We compared
+4.3. Ablation study
+                                                                         our non-linear subspace to the subspaces constructed by
+Component analysis. To investigate the efficacy of compo-                Kernel PCA (KPCA) methods with different kernel types
+nents in RDC-FT, we ablated the contribution of each ele-                (linear, Gaussian, Polynomial and Sigmoid). For fair com-
+ment in RDC-FT: RDC w/o subspace, RDC (in two spaces),                   parison, the dimensions of subspaces are set as 64 and we
+RDC-FT w/o subspace and RDC-FT (in two spaces). As in                    used the default parameters of KPCA methods in scikit-
+Tab. 3, a simple RDC process without subspace learning,                  learn [29]. Table 4 shows that our non-linear subspace
+which calibrates the distances only on the pre-trained rep-              performs better than others. In particular, without RDC
+resentation, largely boosts the baseline NPC classifier by               method, the KPCA methods can largely improve the per-
+7.99% (1.55%) improvement on 1-shot (5-shot). The fine-                  formance (compared to N/A) on 1-shot learning, but the re-
+tuning process, as in results of RDC-FT w/o subspace, can                sults of KPCA methods are just competitive to the original
+increase the improvement by an iterative mapping process,                space when applying RDC on different subspaces. How-
+
+
+
+                                                                      9105
+                                                                                                   Ground-truth labels                   Results of NPC classifier                        Results of RDC
+
+                                                                                                                                                                                                         M-R0
+
+
+
+
+                                                                    representation
+                                                                     Pre-trained
+                                                                                                                                                                                    M-R1
+
+                                                                                                                                                                                     M-R2
+
+
+
+                                                                                                                                                                                                    M-R4             M-R3
+                                                                                                                                                                                                M-R5
+                                                                                                                                  Acc: 61.33                                 Acc: 78.66
+                                                                                                            (I)                                  (II)                                           (III)
+                                                                                                                                                        M-RF0                                Distance calibration by RDC
+
+
+
+
+                                                                        Representation by RDC-FT
+                                                                                                                                                                                              Distance-based distribution
+                                                                                                                                                                                               calibration by RDC-FT
+
+
+
+
+                                                                              Task-adaptive
+                                                                                                                                 M-RF6
+                                                                                                                                                                             M-Rx             Failure cases of RDC
+                                                                                                                                         M-RF2
+                                                                                                                                                                         M-RFx                Failure cases of RDC-FT
+  (a) 5-way 1-shot evaluation.   (b) 5-way 5-shot evaluation.                                                                                                                                 Support data
+                                                                                                                                                                                              Query data
+                                                                                                                                  Acc: 88.00
+Figure 3. Results of RDC-FT with different loss functions. The                                              (IV)                                  (V)
+                                                                                                                                                                                              Misclassified data
+
+
+evaluation is conducted on 2000 tasks from 8 target domains.       Figure 4. T-SNE visualisation of 5-way 1-shot task from
+                                                                   CropDisease. We show the classification results with the NPC
+ever, our non-linear subspace achieves consistent and stable
+                                                                   classifier and our RDC method in different representations,
+improvement both with and w/o RDC method, verifying the
+                                                                   i.e. Pre-trained representations and task-adaptive representation by
+robustness and superiority of our non-linear subspace.             RDC-FT. The different colours of the points (round/cross/star) rep-
+Effect of loss choices.      We evaluated the performance          resent the ground-truth labels or the labels assigned by NPC/RDC.
+of RDC-FT with different loss functions. The results in                                                                                                 5-way 1-shot
+Fig. 3 show that these three losses achieve competitive per-        Method
+                                                                                                                   CUB    Cars         Places       Plantae          Crop.          Euro.          ISIC            ChestX
+                                                                                                        †
+formance on CUB, Cars, ISIC and chestX, while the KL                NPC+l2 +DA                                    40.49   34.53        45.86            36.78 71.94                 64.29         32.91              22.02
+                                                                    RDC+DA†                                       45.98   38.17        58.30            40.73 84.73                 71.59         34.44              22.03
+loss performs mostly better than MSE loss on Places, Plan-                                                                                               5-way 1-shot
+                                                                    Method
+tae, EuroSAT. These observations suggest the superiority                                                           CUB    Cars         Places       Plantae          Crop.          Euro.          ISIC            ChestX
+                                                                    NPC+l2 +DA†                                   65.23   53.61        68.91            57.72        91.66          83.09         50.63              26.03
+of mapping the distance matrix in softened distributions.           RDC+DA†                                       67.68   55.13        73.06            60.34        93.41          84.67         51.53              25.79
+We conjecture this should attribute to the softening process
+                                                                   Table 5. Incorporate RDC with others. † denotes using NPC w/
+which can alleviate the negative effect of the calibrated dis-     l2 norm on the model fine-tuned with data augmentation in [49].
+tances. Moreover, we note that the performance of KL loss
+can be further improved by an attention strategy on the dis-       RDC can achieve consistent improvement on other method,
+tance matrices, verifying the efficacy of employing the ex-        showing its generalisable ability. Currently we cannot eval-
+panded k-nearest neighbours list as an attention reference.        uate our method on [20, 21] until their code is released.
+Visualisation. To intuitively understand the advantages
+and limitations of the proposed RDC and RDC-FT meth-               5. Conclusions
+ods, we used t-SNE [27] to display the classification results
+of three different methods – a NPC classifier, RDC, and               In this paper, we proposed a Ranking Distance Calibra-
+RDC-FT, on a 5-way 1-shot FSL task from CropDisease.               tion (RDC) method to calibrate the biased distances in CD-
+The results in Fig. 4 show: 1) RDC can correct some mis-           FSL. The calibration process is achieved by a re-ranking
+classified samples that are near to the support exemplars,         method with a k-reciprocal discovery and encoding process.
+i.e. the samples in red solid rectangles in plots(II)&(III).       As the pre-trained linear embedding is biased for target do-
+However, RDC cannot address effectively the misclassified          main, we further proposed a non-linear subspace followed
+samples between different support exemplars, i.e. the fail-        by a calibration process on it. Our RDC method averages
+ure cases in plot(III). 2) From the samples in red dashed          the calibrated distances on the two spaces to a robust dis-
+rectangles of plots(I)&(IV), it is evident that RDC-FT can         tance matrix. Moreover, we introduced a RDC-FT method
+calibrate the distance-based distributions in the represen-        to fine-tune the embedding with the calibrated distances,
+tational space, encouraging the feature representations to         yielding a discriminative representation for CD-FSL task.
+have smaller intra-class variations and greater inter-class        Limitation. As the image retrieval perspective of our ap-
+margins, resulting in fine-tuned representations being more        proach is to discover the task information unsupervised, ex-
+discriminative for classification. 3) The failure cases of         ploring comprehensive leveraging of the label information
+RDC, i.e. M-R1, M-R3, M-R4, and M-R5 in plot(III), can             and the task information should be considered, especially in
+be correctly classified by RDC-FT with a simple NPC clas-          the many-shot cases, e.g. 5-shot.
+sifier, as shown in plot(V). This verifies the superiority of      Ackowledgements. This work was supported by Vi-
+RDC-FT that gradually embeds the calibration information           sion Semantics Limited, the Alan Turing Institute Fellow-
+to the representational space.                                     ship, the China Scholarship Council, NSFC under Grant
+Incorporate with other method. As RDC is a post-                   (No. 62076067), and SMSTM Projects (2018SHZDZX01
+processing method, it can flexibly combine with other meth-        and 2021SHZDZX0103). We shall also thank Jun Liu and
+ods. Here we employed RDC on a general data augmen-                Bin-Bin Gao of Tencent YouTu Lab for helpful discussions
+tation method [49]. The results in Tab. 5 indicate that            and GPU support.
+
+
+
+                                                                 9106
+References                                                              [17] Pan Li, Yanwei Fu, and Shaogang Gong. Regularising
+                                                                             knowledge transfer by meta functional learning. In IJCAI,
+ [1] Thomas Adler, Johannes Brandstetter, Michael Widrich, An-               2021. 2
+     dreas Mayr, David Kreil, Michael Kopp, Günter Klambauer,
+                                                                        [18] Pan Li, Da Li, Wei Li, Shaogang Gong, Yanwei Fu, and Tim-
+     and Sepp Hochreiter. Cross-domain few-shot learning by
+                                                                             othy M Hospedales. A simple feature augmentation for do-
+     representation fusion. arXiv preprint arXiv:2010.06498,
+                                                                             main generalization. In ICCV, pages 8886–8895, 2021. 1
+     2020. 3
+                                                                        [19] Pan Li, Guile Wu, Shaogang Gong, and Xu Lan. Semi-
+ [2] Song Bai and Xiang Bai. Sparse contextual activation for ef-
+                                                                             supervised few-shot learning with pseudo label refinement.
+     ficient visual re-ranking. IEEE TIP, 25(3):1056–1069, 2016.
+                                                                             In ICME, pages 1–6. IEEE, 2021. 2
+     4
+                                                                        [20] Hanwen Liang, Qiong Zhang, Peng Dai, and Juwei Lu.
+ [3] Wei-Yu Chen, Yen-Cheng Liu, Zsolt Kira, Yu-Chiang Frank
+                                                                             Boosting the generalization capability in cross-domain few-
+     Wang, and Jia-Bin Huang. A closer look at few-shot classi-
+                                                                             shot learning via noise-enhanced supervised autoencoder. In
+     fication. In ICLR, 2019. 2
+                                                                             ICCV, pages 9424–9434, October 2021. 1, 2, 3, 6, 7, 8
+ [4] Ondrej Chum, James Philbin, Josef Sivic, Michael Isard, and
+                                                                        [21] Bingyu Liu, Zhen Zhao, Zhenpeng Li, Jianan Jiang, Yuhong
+     Andrew Zisserman. Total recall: Automatic query expansion
+                                                                             Guo, and Jieping Ye. Feature transformation ensemble
+     with a generative feature model for object retrieval. In ICCV,
+                                                                             model with batch spectral regularization for cross-domain
+     pages 1–8. IEEE, 2007. 4
+                                                                             few-shot classification. arXiv preprint arXiv:2005.08463,
+ [5] Debasmit Das, Sungrack Yun, and Fatih Porikli. ConfeSS: A
+                                                                             2020. 2, 8
+     framework for single source cross-domain few-shot learning.
+     In ICLR, 2022. 3                                                   [22] Chunxiao Liu, Chen Change Loy, Shaogang Gong, and Gui-
+                                                                             jin Wang. Pop: Person re-identification post-rank optimisa-
+ [6] Rajshekhar Das, Yu-Xiong Wang, and Jose MF Moura. On
+                                                                             tion. In CVPR, pages 441–448, 2013. 3
+     the importance of distractors for few-shot classification. In
+     ICCV, pages 9030–9040, 2021. 3, 7                                  [23] Lu Liu, William L Hamilton, Guodong Long, Jing Jiang,
+                                                                             and Hugo Larochelle. A universal representation transformer
+ [7] Pengfei Fang, Mehrtash Harandi, and Lars Petersson. Kernel
+                                                                             layer for few-shot image classification. In ICLR, 2021. 1
+     methods in hyperbolic spaces. In ICCV, pages 10665–10674,
+     2021. 5                                                            [24] Yanbin Liu, Juho Lee, Minseop Park, Saehoon Kim, Eunho
+ [8] Chelsea Finn, Pieter Abbeel, and Sergey Levine. Model-                  Yang, Sungju Hwang, and Yi Yang. Learning to propagate
+     agnostic meta-learning for fast adaptation of deep networks.            labels: Transductive propagation network for few-shot learn-
+     In ICML, pages 1126–1135, 2017. 1, 2                                    ing. In ICLR, 2019. 7
+ [9] Yuqian Fu, Yanwei Fu, and Yu-Gang Jiang. Meta-fdmixup:             [25] Yong Liu, Lin Shang, and Andy Song. Adaptive re-ranking
+     Cross-domain few-shot learning guided by labeled target                 of deep feature for person re-identification. arXiv preprint
+     data. ACM MM, pages 5326–5334, 2021. 1, 3                               arXiv:1811.08561, 2018. 3
+[10] Yunhui Guo, Noel C Codella, Leonid Karlinsky, James V              [26] Chen Change Loy, Chunxiao Liu, and Shaogang Gong. Per-
+     Codella, John R Smith, Kate Saenko, Tajana Rosing, and                  son re-identification by manifold ranking. In ICIP, pages
+     Rogerio Feris. A broader study of cross-domain few-shot                 3567–3571. IEEE, 2013. 3
+     learning. In ECCV, pages 124–141. Springer, 2020. 1, 2, 6,         [27] Laurens van der Maaten and Geoffrey Hinton. Visualizing
+     7                                                                       data using t-sne. 9(Nov):2579–2605, 2008. 8
+[11] Jingrui He, Mingjing Li, Hong-Jiang Zhang, Hanghang                [28] Jaehoon Oh, Hyungjun Yoo, ChangHwan Kim, and Se-
+     Tong, and Changshui Zhang. Manifold-ranking based im-                   Young Yun. Boil: Towards representation change for few-
+     age retrieval. In ACM MM, pages 9–16, 2004. 3                           shot learning. In ICLR, 2021. 2
+[12] Zhengdong Hu, Yifan Sun, and Yi Yang. Switch to gen-               [29] Fabian Pedregosa, Gaël Varoquaux, Alexandre Gramfort,
+     eralize: Domain-switch learning for cross-domain few-shot               Vincent Michel, Bertrand Thirion, Olivier Grisel, Mathieu
+     classification. In International Conference on Learning Rep-            Blondel, Peter Prettenhofer, Ron Weiss, Vincent Dubourg,
+     resentations, 2022. 1                                                   et al. Scikit-learn: Machine learning in python. the Journal
+[13] Junshi Huang, Rogerio S Feris, Qiang Chen, and Shuicheng                of machine Learning research, 12:2825–2830, 2011. 7
+     Yan. Cross-domain image retrieval with a dual attribute-           [30] Cheng Perng Phoo and Bharath Hariharan. Self-training for
+     aware ranking network. In ICCV, pages 1062–1070, 2015.                  few-shot transfer across extreme task differences. In ICLR,
+     3                                                                       2021. 3
+[14] Valentin Khrulkov, Leyla Mirvakhabova, Evgeniya Usti-              [31] Danfeng Qin, Stephan Gammeter, Lukas Bossard, Till
+     nova, Ivan Oseledets, and Victor Lempitsky. Hyperbolic im-              Quack, and Luc Van Gool. Hello neighbor: Accurate ob-
+     age embeddings. In CVPR, pages 6418–6428, 2020. 5                       ject retrieval with k-reciprocal nearest neighbors. In CVPR,
+[15] Taehyeon Kim, Jaehoon Oh, NakYil Kim, Sangwook Cho,                     pages 777–784. IEEE, 2011. 3, 4
+     and Se-Young Yun. Comparing kullback-leibler divergence            [32] Sachin Ravi and Hugo Larochelle. Optimization as a model
+     and mean squared error loss in knowledge distillation. IJCAI,           for few-shot learning. In ICLR, 2017. 2
+     2021. 5                                                            [33] M Saquib Sarfraz, Arne Schumann, Andreas Eberle, and
+[16] Jianyi Li and Guizhong Liu. Few-shot image classifica-                  Rainer Stiefelhagen. A pose-sensitive embedding for per-
+     tion via contrastive self-supervised learning. arXiv preprint           son re-identification with expanded cross neighborhood re-
+     arXiv:2008.09942, 2020. 2                                               ranking. In CVPR, pages 420–429, 2018. 3
+
+
+
+
+                                                                      9107
+[34] Victor Garcia Satorras and Joan Bruna Estrach. Few-shot                few-shot learning. In ICML, pages 7115–7123. PMLR, 2019.
+     learning with graph neural networks. In ICLR, 2019. 1, 6               5
+[35] Christian Simon, Piotr Koniusz, Richard Nock, and                 [51] Chi Zhang, Yujun Cai, Guosheng Lin, and Chunhua Shen.
+     Mehrtash Harandi. Adaptive subspaces for few-shot learn-               Deepemd: Few-shot image classification with differentiable
+     ing. In CVPR, pages 4136–4145, 2020. 5                                 earth mover’s distance and structured classifiers. In CVPR,
+[36] Jake Snell, Kevin Swersky, and Richard Zemel. Prototypical             pages 12203–12213, 2020. 2
+     networks for few-shot learning. In NeurIPS, pages 4077–           [52] Long Zhao, Ting Liu, Xi Peng, and Dimitris Metaxas.
+     4087, 2017. 1, 2, 6                                                    Maximum-entropy adversarial data augmentation for im-
+[37] Jiamei Sun, Sebastian Lapuschkin, Wojciech Samek, Yun-                 proved generalization and robustness. In NeurIPS, vol-
+     qing Zhao, Ngai-Man Cheung, and Alexander Binder.                      ume 33, pages 14435–14447, 2020. 1
+     Explanation-guided training for cross-domain few-shot clas-       [53] Zhun Zhong, Liang Zheng, Donglin Cao, and Shaozi Li. Re-
+     sification. In ICIP, pages 7609–7616. IEEE, 2021. 7                    ranking person re-identification with k-reciprocal encoding.
+[38] Flood Sung, Yongxin Yang, Li Zhang, Tao Xiang, Philip HS               In CVPR, pages 1318–1327, 2017. 3, 4
+     Torr, and Timothy M Hospedales. Learning to compare: Re-          [54] Kaiyang Zhou, Yongxin Yang, Yu Qiao, and Tao Xiang. Do-
+     lation network for few-shot learning. In CVPR, pages 1199–             main generalization with mixstyle. In ICLR, 2021. 1
+     1208, 2018. 1, 2
+[39] Yonglong Tian, Yue Wang, Dilip Krishnan, Joshua B Tenen-
+     baum, and Phillip Isola. Rethinking few-shot image classifi-
+     cation: a good embedding is all you need? In ECCV, pages
+     266–282. Springer, 2020. 2
+[40] Eleni Triantafillou, Richard Zemel, and Raquel Urtasun.
+     Few-shot learning through an information retrieval lens. In
+     NeurIPS, pages 2252–2262, 2017. 3
+[41] Hung-Yu Tseng, Hsin-Ying Lee, Jia-Bin Huang, and Ming-
+     Hsuan Yang. Cross-domain few-shot classification via
+     learned feature-wise transformation. In ICLR, 2020. 1, 2,
+     3, 6, 7
+[42] Oriol Vinyals, Charles Blundell, Timothy Lillicrap, Daan
+     Wierstra, et al. Matching networks for one shot learning.
+     NeurIPS, 29:3630–3638, 2016. 6
+[43] Riccardo Volpi, Hongseok Namkoong, Ozan Sener, John
+     Duchi, Vittorio Murino, and Silvio Savarese. Generalizing to
+     unseen domains via adversarial data augmentation. NeurIPS,
+     2018. 1
+[44] Guan’an Wang, Shuo Yang, Huanyu Liu, Zhicheng Wang,
+     Yang Yang, Shuliang Wang, Gang Yu, Erjin Zhou, and Jian
+     Sun. High-order information matters: Learning relation and
+     topology for occluded person re-identification. In CVPR,
+     pages 6449–6458, 2020. 3
+[45] Haoqing Wang and Zhi-Hong Deng. Cross-domain few-
+     shot classification via adversarial task augmentation. IJCAI,
+     2021. 1, 3, 6, 7
+[46] Guile Wu and Shaogang Gong. Collaborative optimization
+     and aggregation for decentralized domain generalization and
+     adaptation. In ICCV, pages 6484–6493, October 2021. 1
+[47] Shell Xu Hu Othman Sbai Mathieu Aubry Xi Shen,
+     Yang Xiao. Re-ranking for image retrieval and transductive
+     few-shot classification. NeurIPS, 2021. 3
+[48] Jiexi Yan, Lei Luo, Cheng Deng, and Heng Huang. Unsu-
+     pervised hyperbolic metric learning. In CVPR, pages 12465–
+     12474, 2021. 5
+[49] Jia-Fong Yeh, Hsin-Ying Lee, Bing-Chen Tsai, Yi-Rong
+     Chen, Ping-Chia Huang, and Winston H Hsu. Large margin
+     mechanism and pseudo query set on cross-domain few-shot
+     learning. arXiv preprint arXiv:2005.09218, 2020. 8
+[50] Sung Whan Yoon, Jun Seo, and Jaekyun Moon. Tapnet:
+     Neural network augmented with task-adaptive projection for
+
+
+
+
+                                                                     9108
+

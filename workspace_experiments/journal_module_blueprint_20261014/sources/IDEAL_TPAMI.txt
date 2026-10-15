@@ -1,0 +1,1442 @@
+                                                                                                                                                   1
+
+
+
+
+     From Instance to Metric Calibration: A Unified
+    Framework for Open-World Few-Shot Learning
+                                       Yuexuan An, Hui Xue, Xingyu Zhao and Jing Wang
+
+     Abstract—Robust few-shot learning (RFSL), which aims to address noisy labels in few-shot learning, has recently gained considerable
+     attention. Existing RFSL methods are based on the assumption that the noise comes from known classes (in-domain), which is
+     inconsistent with many real-world scenarios where the noise does not belong to any known classes (out-of-domain). We refer to
+     this more complex scenario as open-world few-shot learning (OFSL), where in-domain and out-of-domain noise simultaneously exists
+     in few-shot datasets. To address the challenging problem, we propose a unified framework to implement comprehensive calibration
+     from instance to metric. Specifically, we design a dual-networks structure composed of a contrastive network and a meta network to
+     respectively extract feature-related intra-class information and enlarged inter-class variations. For instance-wise calibration, we present
+     a novel prototype modification strategy to aggregate prototypes with intra-class and inter-class instance reweighting. For metric-wise
+     calibration, we present a novel metric to implicitly scale the per-class prediction by fusing two spatial metrics respectively constructed
+     by the two networks. In this way, the impact of noise in OFSL can be effectively mitigated from both feature space and label space.
+     Extensive experiments on various OFSL settings demonstrate the robustness and superiority of our method. Our source codes is
+     available at https://github.com/anyuexuan/IDEAL.
+
+     Index Terms—Few-Shot Learning, Self-Supervised Learning, Open-World, Label Noise, Metric Learning.
+
+                                                                             F
+
+1    I NTRODUCTION
+
+
+F    EW -shot learning (FSL), which can mimic humans to rec-
+     ognize new classes with very few examples in a task, has
+drawn increasing attention due to the high cost and effort
+                                                                                                Clean Orange
+
+
+
+
+of collecting large amounts of data [1], [2]. Most existing
+FSL methods are based on the assumption that the label                                                                     Type Ⅰ
+
+information is fully clean and intact without considering
+the robustness of models faced with noisy labels. In fact,
+noisy labels are ubiquitous due to the existence of limited
+knowledge and unintentional impairments in real-world                                                                      Type Ⅱ
+environments.                                                                                Clean Golden Retriever       ID Noise     OOD Noise
+
+    Take medical image analysis for example, the training
+                                                                                      Fig. 1: An example of open-world few-shot learning.
+samples are tremendously difficult to acquire due to the
+prohibitive cost of data collection [3], [4]. In the meantime,
+the manual annotations may not be completely clean since
+the training set might involve annotation bias which could                       with the in-domain (ID) noise FSL problem, where noise
+come from ambiguous medical images that confuse clinical                         only comes from the known domain. The more common
+experts, images of unknown diseases that are beyond ex-                          out-of-domain (OOD) noise that comes from wider un-
+perts’ knowledge or unknown data corruption during trans-                        known domains and more often exists in the real world
+mission [5], [6]. As a result, even carefully annotated and                      has not been explored in FSL. Moreover, the existing few-
+curated datasets could contain mislabeled samples [7], [8],                      shot settings with label noise are of great inconsistency and
+[9]. Training on the biased dataset can adversely affect the                     confusion. RNNP [13] simply concentrates on the in-task ID
+learned representation and generalization ability of models                      noise problem that samples are mislabeled by other classes
+since it is far from mirroring the ground truth distribution                     in the same task and RapNets [12] only considers out-of-
+[10], [11].                                                                      task ID noise that samples are still from the same domain
+    Recently, robust few-shot learning (RFSL) is proposed                        but from other classes except for classes in the current task.
+to attempt to address the noisy label FSL problem [12],                              In this paper, we unify the setting of noisy label FSL
+[13]. However, these methods simply concentrate on dealing                       problems, which is composed of ID (both in-task ID and
+                                                                                 out-of-task ID) and OOD noise in FSL, and refer to the new
+                                                                                 and challenging scenario as open-world few-shot learning
+•   Yuexuan An, Hui Xue,Xingyu Zhao and Jing Wang are with the School            (OFSL). Fig. 1 provides an example of a 2-way 5-shot OFSL
+    of Computer Science and Engineering, Southeast University, Nanjing
+    210096, China, and the Key Laboratory of Computer Network and                task with multiple types of ID noise and OOD noise. The
+    Information Integration (Southeast University), Ministry of Education,       known domain is from miniImageNet. In the 2-way 5-shot
+    China. (Corresponding author: Hui Xue)                                       task, we have an image dataset with two classes, orange
+    E-mail: {yx an,hxue,xyzhao,wangjing91}@seu.edu.cn
+                                                                                 (on the top) and golden retriever (at the bottom). The in-
+                                                                                                                                               2
+
+                Support Set
+                                                             Pairwise Correlation Score
+
+                                                                                                           𝜙𝐿            Intra-Class
+                                             𝑔𝜉
+                                                                                                                          Weight 𝑣
+
+
+                                       Intra-Class Calibration
+                                                          k-Means Clustering                 Instance-Cluster
+                                                                                             Similarity Matrix
+
+                                              ℎ𝜑                                                                         Inter-Class
+                                                                                                                          Weight 𝑤
+
+
+                                       Inter-Class Calibration
+                                       (a) The generation of intra-class weight and inter-class weight
+
+                         Instance-Wise Calibration                Metric-Wise Calibration
+
+
+
+                      Support                                            Similarity
+                        Set                                  Prototype    Vector
+
+                                              ProtoMod
+                                               Strategy
+                          𝑔𝜉
+                                                                                             Prediction
+                                                                                                                         ⊕
+
+
+
+
+                                                                                                                             ⊗
+                                                                                                                  ⊗
+                     Query                                                         EC
+                     Sample                                                     Similarity
+                                                                         Similarity
+                     Support                                                                               Intra-Class        Inter-Class
+                                                             Prototype    Vector
+                       Set                                                                                  Weight 𝑣           Weight 𝑤
+                                              ProtoMod
+                                               Strategy
+                          ℎ𝜑
+
+
+                     Query
+                     Sample
+
+                                (b) Dual-networks structure for IDEAL                                        (c) ProtoMod strategy
+
+Fig. 2: Overview of the proposed IDEAL (a) The generation of intra-class weight and inter-class weight. (b) A brief illustration of
+the dual-networks structure for IDEAL. (c) The architecture of ProtoMod strategy.
+
+
+task (type I) ID noise represents that a golden retriever in                    dual-networks framework for calibration from instance to
+the current task disturbs oranges and the out-of-task (type                     metric perspectives. For the challenge of complexity, the
+II) ID noise represents that a lion from other classes in                       instance-wise calibration with dual-networks distinctively
+miniImageNet corrupts golden retriever. OOD noise rep-                          tackles these different types of noise by leveraging intra-
+resents that samples e.g., the cartoon character and the                        class information to discard dissimilar noise in each class,
+landscape from any unknown domains disturb the current                          and mining inter-class information to assign in-task ID
+distribution. Compared with RFSL, the OFSL problem con-                         noise to its potential correct class and filter out the out-of-
+tains more general FSL tasks in the real world, which is more                   task ID and OOD noise. For the challenge of uncertainty,
+challenging and meaningful.                                                     the instance-wise calibration leverages intra-class and inter-
+    The key challenges of open-world few-shot learning                          class information to respectively generate class centroids in
+come from two aspects: 1) complexity: due to unknown                            two embedding spaces constructed by dual networks, and
+sources of noise, distinctive characteristics are inherent in                   the metric-wise calibration fuses the two semantic spatial
+each kind of noise. Therefore, the model requires to adopt                      metrics to adaptively calibrates the metric scores. Specifi-
+appropriate strategies to respond to each noisy situation. 2)                   cally, as shown in Figure 2, our Instance-wise anD mEtric-
+uncertainty: due to the rarity of samples, each sample might                    wise cALibration (IDEAL) framework is composed of a
+contain important category information and potential noise                      contrastive network and a meta network. The contrastive
+is hard to detect. Therefore, the model should eliminate the                    network leverages the correlation of support samples from
+uncertainty and disturbance from noisy samples.                                 the same class (i.e., intra-class information) to set intra-class
+    To handle the above challenges, we propose a unified                        weights for support samples. The meta network leverages
+                                                                                                                                  3
+
+the correlation between support samples and all classes (i.e.,     to leverage similarity information between samples to clas-
+inter-class information) by dividing all support samples into      sify query samples to corresponding classes [19], [20], [21],
+different clusters and evaluating their contributions to each      [22]. Prototypical networks [20] aim to learn the prototypes
+cluster to set inter-class weights of support samples. Then,       as class centroids and classify samples by comparing the
+each network respectively constructs modified prototypes           distance to each prototype. Since the prototypical networks
+with intra-class and inter-class weighted samples in their         were proposed, many methods [23], [24] have been devoted
+corresponding embedding spaces. After that, for a query            to modifying the prototype to maintain the robustness of
+sample, each network measures the similarity between the           FSL. Recently, ReProto [24] attempts to restore prototypes in
+query sample and each prototype in corresponding em-               one-shot problems by learning a variance of the prototype of
+bedding spaces. Moreover, IDEAL constructs a novel uni-            one example and the prototype of all examples of the class.
+fied metric, i.e., Ensemble with Consistency (EC) similarity,      ProtoComNet [23] extracts features from WordNet to com-
+by fusing multiple semantic spatial metrics to adaptively          plement the semantic information of prototypes. However,
+calibrate the label confidences of the query samples. EC           due to the existence of unknown label noise, these methods
+similarity can implicitly scale the similarity score of each       might easily learn a biased distribution, which inevitably
+class with the consistency of similarity scores measured by        causes severe degradation of performances.
+both networks, so as to further mitigate the impact of noise.      Self-Supervised Learning. Self-supervised learning learns
+    Our main contributions can be summarized as follows:           a feature representation by constructing pseudo-labels for
+                                                                   annotation-free pretext tasks and learning to predict them
+    •   We identify open-world few-shot learning (OFSL) as
+                                                                   [25], [26]. One of the most general pretext tasks is designed
+        a new challenging topic and unify the setting of noisy
+                                                                   by contrastive loss, which aims to learn a feature represen-
+        label FSL problems.
+                                                                   tation by bringing the positive pairs closer, and spreading
+    •   We propose a unified framework with a dual-
+                                                                   negative pairs apart. Many studies dedicate to contrastive
+        networks structure to tackle the OFSL problem,
+                                                                   learning and achieve promising performances [27], [28],
+        which collaboratively performs instance-wise and
+                                                                   [29]. MoCo [27] trains a representation encoder by matching
+        metric-wise calibration.
+                                                                   an encoded query sample to an encoded key in a memory
+    •   For instance-wise calibration, we propose a proto-         bank. SimCLR [28] uses the normalized temperature-scaled
+        type modification strategy by aggregating prototypes       cross-entropy loss as contrast loss. SwAV [30] introduces a
+        with intra-class and inter-class information extracted     scalable online clustering loss without computing pairwise
+        by the dual networks to calibrate feature space.           comparisons. BYOL [31] abandons the negative pairs and
+    •   For metric-wise calibration, we propose a novel sim-       only relies on positive pairs to learn a feature representation.
+        ilarity metric by fusing multiple semantic spatial         SimSiam [29] removes the momentum encoder and designs
+        metrics to calibrate label space. The generalization       a simpler one based on BYOL.
+        and superiority of the proposed metric are verified            However, most existing contrastive learning methods are
+        by detailed theoretical analyses.                          dependent on the availability of large training samples and
+The rest of the paper is organized as follows. We review re-       unsuitable for few-shot scenarios. Therefore, some papers
+lated work in Section 2. The problem definition and related        leverage auxiliary information to improve the performance
+notation are presented in Section 3. The proposed IDEAL is         of self-supervised learning [32], [33], [34]. In this paper,
+detailed in Section 4. The experimental results are reported       inspired by our preliminary work CSS [32], we leverage
+in Section 5 and the conclusion is given in Section 6.             prior knowledge learned by the supervised network with-
+                                                                   out auxiliary data to reduce the representation bias of the
+                                                                   contrastive model for few-shot settings.
+2   R ELATED W ORK                                                 Label Noise. Label noise is ubiquitous and can not be
+Few-shot Learning. As a challenging machine learning               ignored in the real world [35]. To address this problem,
+problem, FSL has been explored with different ideas to alle-       different approaches have been proposed [36], [37]. One line
+viate the overfitting problems [1], [14]. In general, the preva-   of these approaches is instance reweighting, which usually
+lent methods can be divided into four types: data augmen-          selects a certain number of small-loss training samples as
+tation method, model-based method, optimization-based              true-labeled samples [38], [39], [40]. MentorNet [38] pre-
+method, and metric-based method. Data-augmentation                 trains a sample selecting network, and uses the network to
+methods aim to compensate for the insufficient number of           select clean samples for model training. Co-teaching trains
+available samples by generating some samples. Specifically,        two networks and each network selects clean samples for
+MetaGAN [15] synthesizes data by introducing generative            the other [39]. Meta-Weight-Net adaptively learns an explicit
+adversarial networks (GANs) and distribution calibration           weighting function from data [40]. The other line of ap-
+[11] synthesizes data by estimating the distribution of novel      proaches is label refurbishing, which obtains a refurbished
+classes with the statistics information from base classes. The     label to reduce the adverse effect of false labels [10], [41],
+optimization-based method is to find a set of model parame-        [42]. [43] fits a two-component beta mixture model to model
+ters that can be adapted with a few steps of gradient descent      clean and noisy samples. [10] and [42] update the target
+to individual tasks [16], [17], [18]. MAML [17] is a represen-     model with soft labels provided by a meta model with
+tative of the gradient-based model, which advocates learn-         bilevel learning optimization. However, in FSL scenarios,
+ing a suitable initialization of model parameters from base        the above methods are difficult to train with limited exam-
+classes, and transfers these parameters to novel classes in a      ples. Therefore, it is urgent to study a new method to deal
+few gradient steps. The idea of the metric-based method is         with label noise in FSL.
+                                                                                                                                       4
+
+    Compared to FSL and label noise, FSL with label noise          the introduction of unknown domains, semantic shift and
+has been hardly explored. [13] generates a new feature of          covariate shift [45] might both exist in OOD noise, which
+samples with features of other samples in the same class to        leads to unforeseen shift of feature and label distribution.
+eliminate the effect of In-task (type I) noise. [12] considers     Formally, we define the OFSL problem as follows.
+the attention module to reweight each sample from one
+                                                                   Problem 1 (OFSL). Consider a known domain Z = X × Y ,
+class according to its contribution to its corresponding class
+                                                                   where X is a d-dimensional feature space while Y is a label set.
+for out-of-task (type II) noise. However, their settings for
+                                                                   For an OFSL problem with N -way K -shot tasks, given a dataset
+noisy label few-shot problems are inconsistent and less com-
+                                                                   which contains a support set (training set) S = {(xi , yi )|yi ∈
+prehensive. Moreover, their methods only consider intra-                N ×K
+                                                                   Y 0 }i=1   and a query set (test set) Q = {(xi , yi )|yi ∈
+class information while ignoring the inter-class information         0 N K+M
+                                                                   Y }i=N K+1 , where Y 0 is a subset sampled from Y and contains
+which is more valuable for classifying the in-task ID noise to
+                                                                   N classes. For the OFSL dataset, S might not be from a clean
+its potential correct class and filtering out the isolated noise
+                                                                   distribution and there might be different rates of label noise in
+from unknown classes in both the known domain (out-of-
+                                                                   support samples. The undesirable label noise could be from ID
+task ID) or unknown domains (OOD).
+                                                                   noise and OOD noise. Each OFSL task estimates labels of query
+    In contrast to the aforementioned literature, we propose
+                                                                   samples with the support set.
+a more general topic, that is, open-world few-shot learning.
+To the best of our knowledge, it is the first work to consider        In OFSL, we consider three types of label noise:
+both ID noise and OOD noise in few-shot learning. To ad-
+                                                                   Definition 1 (Type I ID Noise). Given an OFSL task, for the
+dress the problem, we propose a unified IDEAL framework
+                                                                   specific class j , the type I ID noise is defined to be the noise
+by combining the advantages of the above two lines to clean
+                                                                   generated from the label subset Y 0 − {j}, i.e., the label set that
+the open-world noise, i.e., instance-wise and metric-wise
+                                                                   contains other N − 1 classes sampled in the current task.
+calibration.
+                                                                   Definition 2 (Type II ID Noise). Given an OFSL task, the type
+                                                                   II ID noise is defined to be the noise generated from the label subset
+3     P ROBLEM S ETTING                                            Y − Y 0 , i.e., the label set that contains other classes in the known
+3.1   Few-Shot Learning                                            domain except for the N classes sampled in the current task.
+For N -way K -shot problems, we are given two datasets:            Definition 3 (OOD Noise). Given an OFSL task, the OOD
+a training set with a few labeled samples which can be                                                                          ∗
+called support set S = {(xi , yi )}N   ×K
+                                          and a test set con-                                                           T set Y
+                                                                   noise is defined to be the noise generated from the label
+                                                                                                 ∗      ∗     ∗       ∗
+                                     i=1                           which is from other domain Z = X × Y and Z             Z=∅.
+sisting of unlabeled samples which can be called query set
+Q = {(xi , yi )}N K+M
+                i=N K+1 . xi denotes sample, yi ∈ Cnovel is its
+                                                                      In order to mimic the training process with noisy labeled
+corresponding label, N is the number of classes in S , K is        datasets, we also take the rehearsal strategy and deliberately
+the number of samples extracted for each class, and M is the       add label noise to the support set of Db to boost the
+number of samples in Q. Each FSL problem that estimates            robustness of our model.
+the class of samples in the query set with the support set can
+be regarded as a task. Meanwhile, an auxiliary dataset with        3.3 Compared with Traditional Open World Recogni-
+abundant labeled samples Db = {(xi , yi )}Ti=1 which is also       tion
+divided into support sets Sb and query sets  T Qb is used for
+meta-training, where yi ∈ Cbase and Cbase Cnovel =∅. This          Contrary to the closed world, the open world is posted to
+strategy can be regarded as a rehearsal to train a model on        port the learning system from controlled lab environments
+the data from the base classes Cbase so that the model can         to the real world. Therefore, the learning system should
+generalize well to the novel classes Cnovel .                      face unknown, uncontrolled environments, where unknown
+                                                                   classes or even unknown domains might exist in the training
+                                                                   set (support set) or test set (query set). The settings proposed
+3.2   Open-World Few-Shot Learning                                 in [46], [47] and [48] emphasize the discrimination ability
+In this paper, we consider an open-world few-shot learning         of the model for query samples (test samples) of unknown
+(OFSL) setting where labels of support sets are unreliable         classes, while our paper mainly focuses on the scenario
+and some samples are randomly polluted by noisy samples            that there are open-world samples, i.e. noisy samples from
+of other classes especially the classes that are unseen during     known classes, unknown classes in the known domain or
+the whole learning process. The existing noise conditions          unknown domains in the support set which could severely
+can be divided into three types: type I ID noise, type II ID       damage the robustness of models in the open world.
+noise and OOD noise. Type I ID noise is from other classes in          The detailed differences between the settings of open-
+the current task [36], which is an extreme situation. Due to       world few-shot learning and traditional open-world recog-
+sparse data and simultaneous confusion of two classes, type        nition are as follows: 1) open-world few-shot learning tries
+I ID noise severely disturbs both distributions of the two         to handle unknown classes in support samples, while tradi-
+classes and inevitably degrades the performance of learned         tional open-world recognition focuses on unknown classes
+models. Type II ID noise is from other classes in the known        in query samples; 2) open-world few-shot learning con-
+domain except for classes in the current task, which disturbs      siders noise from not only the known domain but also
+the distribution of the current corrupted class and causes         unknown domains, while traditional open-world recogni-
+semantic shift [44]. OOD noise is from wilder external             tion only considers query samples from unknown classes
+domains, which is more common in real world. Due to                regardless of domain variances; 3) open-world few-shot
+                                                                                                                               5
+
+learning aims to maintain the robustness of models in the        distinguish true-labeled samples from noise. For every two
+open world while traditional open-world recognition tries        same labeled support samples xa and xb , we calculate their
+to enhance the identification ability of models for unknown      pairwise correlation score to compare their similarity
+classes.
+                                                                             cor(xa , xb ) = cos (gξ (xa ) , gξ (xb )) .      (1)
+                                                                 For a N -way K -shot task, for each sample, we construct
+4     M ETHOD
+                                                                 an intra-class correlation vector composed of all correlation
+4.1   An Overview of the Proposed Framework                      scores between the sample and the K same labeled samples,
+To address the OFSL problem, we propose a dual-networks          which represents the feature correlation between the sample
+framework for instance-wise calibration and metric-wise          and its corresponding class. Then, for each class, the corre-
+calibration. Fig. 2(b) shows a brief illustration of the dual-   lation matrix Z n ∈ RK×K of class n can be obtained, which
+networks framework which is composed of the contrastive          reveals the whole correlation between samples labeled with
+network gξ and the meta network hϕ . First, the contrastive      class n and the class n. Our goal is to model the interconnec-
+network extracts intra-class weights of support samples and      tion between congener correlation features and the potential
+the meta network extracts inter-class weights of support         correlations between samples. Each correlation feature Z n
+                                                                                                                  (i)
+samples in Fig. 2(a). Then, each network respectively adopts     contains the relevant information between Z n        and other
+a novel prototype modification (ProtoMod) strategy with          K −1 congener support data, which simultaneously scatters
+intra-class and inter-class weighted samples to construct        across other K − 1 correlation features. The properties of the
+prototypes in Fig. 2(c). Finally, IDEAL uses the proposed        interconnection make it more reasonable to take into consid-
+EC similarity to adaptively calibrate the similarity score       eration the full context of the congener correlation features
+between a query and each prototype in the two semantic           to generate the intra-class weight. To model the relationship
+spaces for better prediction.                                    between samples, we adopt two types of encoders:
+                                                                     1) BiLSTM. Inspired by [19] and [12], we use BiLSTM
+                                                                 to encode the relationship between samples. The key com-
+4.2   Pre-Training
+                                                                 ponent which allowed for more expressive models is the
+In FSL, the samples used for training are limited and thus it    introduction of content-based attention in BiLSTM. Similar
+is necessary to find information irrelevant to the class from    to [19], we leverage the content-based attention capability
+limited samples to overcome the impact of noise. Therefore,      of BiLSTM to encode support samples in the same class.
+we first pre-train the contrastive network by contrastive        Specifically, we regard each correlation matrix as a sequence
+self-supervised learning and then train the meta network         and use the BiLSTM parameterized by φL to encode the
+and finetune the contrastive network. In our paper, inspired     correlation sequence. The forward pass can be given by
+by our preliminary work CSS [32], we leverage supervised
+information as prior knowledge to condition the feature                                      
+                                                                                                (i)
+                                                                                                                        
+manifold of the contrastive network so as to be resilient to           h(i)
+                                                                        n   , e(i)
+                                                                               n   = BiLST M  Z n   , h(i−1) (i−1)
+                                                                                                       n    , en   |φ L   ,   (2)
+few-shot settings and reduce representation bias. Therefore,
+                                                                 where h and e denote the hidden and cell state vectors inside
+the pre-training of the contrastive network uses the condi-                                   (i)
+                                                                 BiLSTM respectively and Z n      is the i-th feature vector in
+tional loss in CSS [32] and contrastive loss in SimSiam [29]                                                           (i)  (i)
+as the final pre-training loss (more detail can be found in      Z n . Similarly, we can attain the backward pass ln , on .
+Appendix A). The training of meta network is described in        We use a multi-layer neural network followed by a K -way
+detail in section 4.5.                                           softmax layer ρ to achieve the intra-class weight vector V n
+                                                                 for samples labeled with class n:
+
+4.3   Instance-Wise Calibration                                                                                  
+                                                                     V n = ρ C C h(1)
+                                                                                  n   , ln
+                                                                                          (1)
+                                                                                                , · · · , C  h(K) (K)
+                                                                                                              n  , ln     ,   (3)
+Inspired by [23] and [49], the feature extractor trained by
+a self-supervised method forms loose but feature-related         where C denotes the concatenation operation, n = 1, · · · , N .
+clusters and that trained by a supervised method can form                          (k)
+                                                                 We denote that vn is the k -element in V n , k = 1, · · · , K .
+sharp but isolated clusters. Therefore, we adopt two kinds           It is worth noting that BiLSTM is used to extract the
+of network, contrastive network and meta network, to re-         sequence information, which is not ordered agnostic. How-
+spectively extract information for prototype modification.       ever, the key module in BiLSTM which mainly affects the fi-
+The contrastive network extracts the feature-related intra-      nal performance is the content-based attention. The content-
+class information to discard dissimilar noise in each class.     based attention encodes the correlations of paired samples
+Meanwhile, the meta network extracts sharp and isolated          in the same class to extract the importance information of
+inter-class information to assign type I ID noise to its po-     each sample to its category. Besides, we propose an order-
+tential correct class and filter out type II ID and OOD noise.   agnostic encoder for intra-class calibration, the transformer
+Therefore, the combination of the disentangled information       layer to extract the similarity information of support sam-
+might collaboratively benefit each other.                        ples in the same class.
+                                                                     2) Transformer. The self-attention mechanism of trans-
+4.3.1 Intra-Class Calibration                                    former is an effective way to leverage the similarities be-
+We use the degree of correlation between samples and their       tween support samples and naturally weigh them when
+class extracted by the contrastive network to determine the      aggregating them into prototypes. Specifically, we use the
+intra-class confidence weight for each sample, so as to better   transformer layer proposed in [50]. Since shot and class
+                                                                                                                                                                  6
+
+
+                                      Space A              Space B                  Average                            Variance           Average Ensemble:
+                                                 𝒑1A              𝒑1B B                           𝒑1 B                         𝒑1
+                                                                     𝒙                              𝒙                                𝒙𝐵           𝑑A + 𝑑B
+                  Centroid 1
+                                                                 𝑑1B                       𝑑1ҧ                                             𝑑ҧ =
+                                        𝑑1A                               𝒙A                                𝒙𝐴        𝑑መ1                            2
+                           𝒙A
+                                                                                          𝑑1A + 𝑑1B                          𝑑1A − 𝑑1B     Variance:
+                                                                                  𝑑1ҧ =                             𝑑መ1 =
+                                                                                              2                                  2
+                                                                                                                                                    𝑑A − 𝑑B
+                                                                                                                                           𝑑መ = −
+                                                                                                                                                       2
+                                            𝒑A
+                                             2
+                                                              𝒑B
+                                                               2                           𝒑2                                𝒑2
+                                                                     𝒙B                                𝒙B                            𝒙B    Final Distance:
+                 Centroid 2       A                            𝑑2B                          𝑑ҧ2                 A
+                              𝒙       𝑑2A                                 𝒙   A                             𝒙                                𝑑1∗   −𝑑መ1 × 𝑑1ҧ
+                                                                                                                     𝑑መ 2
+                                                                                                                                             𝑑2∗     መ       ҧ
+                                                                                           𝑑2A + 𝑑2B                         𝑑2A − 𝑑2𝐵    D=     = −𝑑2 × 𝑑2
+                                                                                   𝑑ҧ2 =                            𝑑መ 2 =                    ⋮         ⋮
+                                                                                               2                                 2             ∗
+                                                                                                                                             𝑑𝑁    −𝑑መ 𝑁 × 𝑑ҧ𝑁
+
+
+
+                                            Fig. 3: Ideal illustration of Ensemble with Consistency principle.
+
+
+order are both typically arbitrary in FSL, we direct input the                            where S (t)
+                                                                                                  n is a similarity score representing the contribution
+correlation matrix Z n ∈ RK×K into the transformer layer                                  of sample xt to class n, and τ is a temperature parameter.
+without positional encoding:
+                                                                                          4.3.3 Prototype Modification
+               on = T ransf ormer (Z n |φT ) .                            (4)
+                                                                                          In IDEAL, the contrastive network and the meta network
+where φT is the parameters of the transformer layer. Then                                 respectively learn modified prototypes with intra-class and
+a multi-layer neural network followed by a K -way softmax                                 inter-class weighted support samples in their corresponding
+layer is used to achieve the intra-class weight vector V n for                            embedding spaces. The modified prototype of the class n in
+samples labeled with class n:                                                             the space constructed by the contrastive network is given
+                                                                                          by:
+                         V n = ρ (on ) .                                  (5)
+                                                                                                     XK                      XN ×K
+where ρ is the combination of the multi-layer neural net-                                    pn = α         vn(k) gξ (x(k)
+                                                                                                                       n )+β         wn(t) gξ (xt ) , (7)
+                                                                                                                      k=1                                   t=1
+works and the softmax layer.                                                                                  (k)                             (t)
+                                                                                          where α + β = 1, vn is intra-class weight and wn is inter-
+                                                                                                                               (k)
+4.3.2 Inter-Class Calibration                                                             class weight for class n. Note that xn is the k -th sample of
+                                                                                          the class n in a support set (k = 1, · · · , K) while xt is the t-
+The feature extractor trained by a meta network can form
+                                                                                          th sample in the support set (t = 1, · · · , N K). Similarly, the
+compact clusters that can attain enlarged inter-class variance
+                                                                                          modified prototype of the class n formed by meta network
+to identify type I ID noise to their potential correct class and
+                                                                                          is given by:
+filter out noise from unknown classes (type II ID noise or
+OOD noise). Therefore, we use meta network as a feature                                       0     XK                        XN ×K
+                                                                                            pn = α          vn(k) hϕ (x(k)
+                                                                                                                       n )+β              wn(t) hϕ (xt ) . (8)
+extractor in the inter-class calibration.                                                                            k=1                                    t=1
+     We infer that samples may be mislabeled by other classes
+in a task. Intuitively, a sample with low similarity to a class
+centroid should be given with a small weight for each class                               4.4         Metric-Wise Calibration
+and a sample with low similarity to all class centroids might                             Inspired by the communication theory that robustness is
+be noise. Therefore, the generation of reasonable prototypes                              gained by adding variety in different levels of the trans-
+should consider both the congeneric support samples and                                   mission encoding [51], [52], dual networks jointly predict
+latent congeneric samples while mislabeled by other classes.                              the similarity score between a query sample and each mod-
+In the inter-class calibration, we adopt k -Means clustering                              ified prototype. Moreover, to mitigate the impact of wrong
+and perform clustering on all support samples. For a N -                                  predictions of two networks, we introduce a metric-wise
+way K -shot problem, we set the number of clusters to N                                   calibration on top of the two networks and propose an
+and use the class prototypes of support samples as initial                                Ensemble with Consistency (EC) principle to adaptively cal-
+cluster centers. Then, k -Means clustering is used to update                              ibrate the prediction score. The basic idea is that, if similarity
+cluster centers until they are converged. We calculate the                                scores predicted by two networks are more consistent, the
+similarity matrix S ∈ RN ×N K between final cluster centers                               confidence of corresponding label prediction in the latent
+and all support samples with cosine similarity. After that,                               ensemble space should be magnified.
+a softmax operation with temperature scaling is applied to
+obtain the inter-class weight wnt of a support sample xt for                              4.4.1 Motivation of Ensemble with Consistency Principle
+the class n. For a support sample xt (t = 1, · · · , N K), its                            To visualize this idea, one sample and two class centroids
+inter-class weight for class n is:                                                        are mapped to two latent 2-dimensional embedding spaces
+                             (t)                                                          (spaces A and B) as illustrated in Fig. 3. In this paper, a
+                    (t)   eS n /τ                                                         prototype is noted as a representative of a class centroid in
+                   wn = PN ×K (j) ,                                       (6)
+                         j=1 e
+                                 S n /τ                                                   an embedding space. For a given sample x and prototype pn
+                                                                                                                                                       7
+
+                          Space A           Similarity A
+                                Centroids
+                                                                   Ensemble
+
+                  Query
+
+
+
+                   Computing
+                                                                                                               EC Similarity Score
+                                                                   Class 1   Class 2    Class 3
+                   Similarity
+
+                          Space B           Similarity B                                            ⊗
+                                Centroids
+                                                                   Consistency
+                                                                                                               Class 1   Class 2   Class 3
+                  Query
+
+
+
+                   Computing                                      Class 1    Class 2    Class 3
+                   Similarity
+
+
+                           Fig. 4: Visualization of computation of Ensemble with Consistency similarity score.
+
+
+of class n, xi and pin are their corresponding representations               is a similarity metric in the same space, C(·, ·) indicates the
+in space i, In the top line, dA         B
+                                1 and d1 are distances between               consistency of similarities measured in two spaces.
+the sample x and the prototype p1 in two spaces. Similarly,
+dA          B
+  2 and d2 are distances between x and p2 . From the third
+column pictures, the average distances in two representation                    Ê(xi , xj ) = E (d(φ1 (xi ), φ1 (xj )), d(φ2 (xi ), φ2 (xj ))) (11)
+spaces are the same d¯1 = d¯2 . However, from the fourth
+                                                                             is used to totally evaluate the similarity prediction for two in-
+column pictures, the variance (negative consistency) of dis-
+                                                                             stances, E(·, ·) indicates a unified ensemble evaluation between
+tances between x and p2 in two spaces is smaller than p1 ,
+                                                                             two representations in two spaces.
+dˆ1 > dˆ2 , indicating that its prediction of average distances
+might be more consistent and convincing. Therefore, the                      Theorem 1. The average cosine similarity can be induced as the
+consistency of distances in two spaces can be regarded as                    EC similarity if existing two spaces.
+confidence for the average ensemble distance to calibrate
+the label confidence prediction of two spaces.                               Proof. For a paired sample (xi , xj ), the cosine similarity
+                                                                             scores between the pair in two spaces are
+4.4.2 Ensemble with Consistency Simiarity
+                                                                                                                             φ1 (xi ) · φ1 (xj )
+The similarity score between a pair of instances can be set as                  cos α1 = cos (φ1 (xi ) , φ1 (xj )) =                               . (12)
+                                                                                                                           kφ1 (xi )k2 kφ1 (xj )k2
+the negative distance. We use the consistency of similarity
+scores in two spaces as a class scaling factor for the ensemble                                                              φ1 (xi ) · φ1 (xj )
+similarity results to achieve a more unbias metric as shown                     cos α2 = cos (φ2 (xi ) , φ2 (xj )) =                               . (13)
+                                                                                                                           kφ2 (xi )k2 kφ2 (xj )k2
+in Fig. 4. Our Ensemble with Consistency (EC) similarity
+score can be used to learn a joint similarity score from                         We define the similarity score d(·, ·) = arccos(·, ·).
+multiple metrics in different spaces considering both the                    Then, d (φ1 (xi ) , φ1 (xj )) = arccos (φ1 (xi ) , φ1 (xi )) = α1
+diversity and consistency of different metrics. The definition               , d(φ2 (xi ) , φ2 (xi )) = arccos(φ2 (xi ) , φ2 (xj )) = α2 and
+of EC similarity score is given as follows:                                  α1 , α2 ∈ (0, π). According to the definition of EC similarity
+Definition 4 (EC Similarity Score). Given a dataset containing               score, C : R × R → R and E : R × R → R. C(d1 , d2 ) is de-
+                                    N                                                        1                                     1
+N instances D = {z i = (xi , yi )}i=1 , where instance is sampled            noted as cos( (d1 − d2 )), E(d1 , d2 ) is set as cos( (d1 + d2 ))
+                                                                                             2                                     2
+from a d-dimensional feature space X while label value yi is                 where d1 and d2 are distances between two instances.
+generated from a scalar label space Y , and Z = X × Y . φ1 (·)
+and φ2 (·) are two different functions mapping from X to a high-                       cos α1 + cos α2
+                                                                                                                                     
+dimensional space. For two instances xi and xj , φ1 (xi ) and                                  1                         1
+                                                                             =         2 cos     (α1 − α2 ) × cos           (α1 + α2 )
+φ2 (xi ) are feature representations of xi in two spaces, φ1 (xj )                             2                         2
+and φ2 (xj ) are representations of xj in two different spaces,
+                                                                                                                                                    
+                                                                                               1
+the EC similarity can be defined according to Ensemble with                  =         2 cos     (d (φ1 (xi ) , φ1 (xj )) − d (φ2 (xi ) , φ2 (xj )))
+                                                                                               2
+Consistency of similarities in two spaces                                                     
+                                                                                                 1
+                                                                                                                                                      
+                                                                                       × cos       (d (φ1 (xi ) , φ1 (xj )) + d (φ2 (xi ) , φ2 (xj )))
+                             ˆ i , xj ) × Ê(xi , xj ).
+            SEC (xi , xj ) = C(x                                  (9)                            2
+                                                                             ∝         C (d (φ1 (xi ) , φ1 (xj )) , d (φ2 (xi ) , φ2 (xj )))
+Here,
+                                                                                       × E (d (φ1 (xi ) , φ1 (xj )) , d (φ2 (xi ) , φ2 (xj )))
+ Cˆ (xi , xj ) = C (d(φ1 (xi ), φ1 (xj )), d(φ2 (xi ), φ2 (xj ))) (10)       =         ˆ i , xj ) × Ê(xi , xj )
+                                                                                       C(x
+is used to evaluate the confidence of similarity predictions for             = SEC (xi , xj ).
+two instances and scale the similarity prediction score, d(·, ·)                                                                                    (14)
+                                                                                                                                        8
+
+where the first equation can be proved according to Sum-to-           The empirical objective function above constructs an
+product Identities [53].                                           unbiased estimation of the following expected risk
+                                                                                                                               
+                                                                                                                     2        2
+                                                                    min Ex1 ,x2 [` (q12 (Sξ,ϕ (xi , xj )))] + λ kM1 kF + kM2 kF
+    In our paper, by defining the instance x, we attain the          ξ,ϕ
+                                                                                                          
+corresponding representations gξ (x) and hϕ (x) of x in                                     2            2
+                                                                   =min R (Z) + λ kM1 kF + kM2 kF .
+embedding spaces constructed by contrastive network and              ξ,ϕ
+                                                                                                                           (18)
+meta network respectively. Assume existing prototypes pn ,
+  0                                                                    The empirical and expected risk R̂N (D) and R (Z)
+pn are corresponding class centriod cn of class n in spaces
+                                                                   are based on empirical dataset D and true distribution
+A and B. Then, according to Theorem 1, the average cosine                                                                 T
+                                                                   Z , respectively. Denote kAij k = (xi − xj ) (xi − xj ) as
+similarity can be induced as the EC similarity
+                                                                   the outer product of the difference between instances xi
+                                                     0
+   SEC (x, cn ) = cos (gξ (x) , pn ) + cos(hϕ (x) , pn ).   (15)      xj . Assume ` is bounded by `u , we have R̂N (D) +
+                                                                   and
+                                                                            2         2                                   2
+                                                                   λ kM1 kF + kM2 kF ≤ R̂N (0) ≤ `u . Thus, kM1 kF +
+                                                                           2
+                                                                   kM2 kF ≤ `λu .
+4.4.3   Analyses of EC Similarity                                    Then we have the following theorem.
+EC Similarity for IDEAL. Based on the EC Similarity,               Theorem 2. Given kAij kF ≤ α for all possible i and j , and loss
+IDEAL fuses multiple semantic spatial metrics to adaptively        ` (·) is L-Lipschitz, then with probability at least 1 − δ , we have
+calibrate the label confidences of the query samples. EC                                                          s         
+similarity can implicitly scale the similarity score of each                                       4L`u α            log 1δ
+                                                                             R (Z) ≤ R̂N (D) + √              1+             .     (19)
+class with the consistency of similarity scores measured                                            λ N                  2
+by both networks, so as to further mitigate the impact of
+noise. Specifically, in IDEAL, EC similarity integrates the
+consistency of the latent sample information in different          Proof. define the supreme of excess loss function U (D) =
+decision to enhance the robustness of the model. For the           supξ,ϕ R (Z) − R̂N (D). Replacing one example z o in D =
+                                                                                               0
+type I ID noise, EC similarity leverages the decision informa-     {z 1 , · · · , z N } with z o , then the upper bound of the differ-
+tion of different spaces to further confirm the corresponding      ence supD,z0 |U (D) − U (D0 )| is
+                                                                                     o
+relationship between the samples that may be mislabeled
+                                                                           sup |U (D) − U (D0 )|
+and the potential correct classes. For the type II ID noise and            D,z 0o
+OOD noise, EC similarity can leverage the consistency of
+different spaces to relieve the influence brought by possible          ≤ sup             R̂N (D) − R̂N (D0 )
+                                                                           D,z 0o ,ξ,ϕ
+semantic shift and covariate shift. The experimental validity
+                                                                                              N
+of metric-wise calibration is illustrated in Section Table 5.                         2       X
+                                                                       = sup |                       ` (qoi (Sξ,ϕ (xi , xo )))
+Theoretical Analysis. We also give a theoretical analysis of               D,z 0o N (N − 1) i=1,i6=o
+the EC similarity under the metric learning framework [54]
+below.                                                                   − ` (qoi (Sξ,ϕ (xi , xo0 ))) |
+                                                                                             N
+    Given a dataset containing N instances D =                                    4L        X                                        (20)
+                  N
+{z i = (xi , yi )}i=1 , where instance is sampled from a d-            ≤sup                        |qoi (Sξ,ϕ (xi , xo ))|
+                                                                         D N (N − 1) i=1,i6=o
+dimensional feature space X while label value yi is gener-
+                                                                                                N
+ated from a scalar label space Y , and Z = X ×Y . Denote M1                            4L       X
+and M2 as the similarity score matrices in different spaces
+                                                                       ≤sup                            |hAoi , M1 i + hAoi , M2 i|
+                                                                               D    N (N − 1) i=1,i6=o
+according to the mapping functions φξ and φϕ . Then the
+empirical objective of the multiple metrics is                                8L (N − 1)
+                                                                       ≤                   (α(kM1 kF + kM2 kF ))
+                                                                               N (N − 1)
+                   1
+                           N X                                                4L`u α
+       min
+                          X
+                                    ` (qij (Sξ,ϕ (xi , xj )))               ≤        .
+        ξ,ϕ N (N − 1)
+                                                                                λN
+                          i=1 j6=i                                         The first inequality comes from the basic property of
+                                                                (16) sup(·) operator. The second inequality comes from the Lip-
+                                   
+                     2            2
+        + λ kM1 kF + kM2 kF
+                                                                      schitz property of the loss function. The third inequality
+                                     2           2
+      =min R̂N (D) + λ kM1 kF + kM2 kF ,                                comes from [54]. Since α give upper bound for kAkF , we
+        ξ,ϕ
+                                                                        have the forth inequality. The fifth inequality comes from
+                                                                                                     2           2    `u
+where ` (·) is a non-increasing continuous convex loss func- kM1 kF + kM2 kF ≤ kM1 kF + kM2 kF ≤ λ . Given the
+tion, qij = Π [yi = yj ] ∈ {−1, 1} denotes whether two bounded difference condition, together with McDiarmid
+instances are similar or not and                                        Inequality [55], then with probability 1 − δ
+                                                                                                                   s
+                                                                                                          4L`u α log 1δ
+Sξ,ϕ (xi , xj ) = cos (φξ (xi ) , φξ (xj ))+cos (φϕ (xi ) , φϕ (xj )) ,            U (D) ≤ ED [U (D)] +                  .     (21)
+                                                                                                             λ       2N
+                                                                (17)
+where Sξ,ϕ are EC similarity score parametered by ξ and                    According to [54], ED [U (D)] is bounded by:
+ϕ and Sξ,ϕ (xi , xj ) > 0 when two instances are similar,                                                4L`u α
+otherwise not.                                                                              ED [U (D)] ≤ √ .                   (22)
+                                                                                                          λ N
+                                                                                                                                                  9
+
+Algorithm 1 Meta training of IDEAL                                       according to the theory analysis in section 4.4 and T is a
+Require: The series of support sets Sb and query sets Qb                 temperature scaling parameter. Then, the meta loss is given
+from base classes.                                                       by
+Require: The pre-trained contrastive network gξ .                                         1 XM
+                                                                                 Lme =             [− log Pϕ (y = yq |x̃q )] ,   (25)
+  1: Initialize the meta network hϕ and BiLSTM φL .                                      M     q=1
+  2: while not done do
+  3:   Sample a support set S = {(xi , yi )}N   ×K
+                                                   and a query           where M = |Qb | is the number of query samples in a task.
+                                              i=1
+                             M
+       set Q = {(x̃i , ỹi )}i=1 from Sb and Qb .                        Intra-Class Noise Loss. Similiar to [12], we consider the
+  4:   Compute the modified prototypes according to Eq.(7)               auxiliary set Db = {(xi , yi )}Ti=1 for meta-training to be an
+       and Eq.(8).                                                       offline data set containing sufficient clean supervised data.
+  5:   Compute the EC similarity scores between different                Even if Db might contain noise-polluted instances, we have
+       query samples and the modified prototypes according               enough time to sift the data in Db , or utilize the suitable data
+       to Eq.(15).                                                       cleansing methods [35], [58] to filter Db [12]. Therefore, Db
+  6:   Update hϕ and φL by forward computation and back-                 is regarded as a clean dataset. Since the mislabeled data in is
+       propagation according to Eq.(29).                                 artificially introduced, we know which one is noise during
+  7: end while                                                           the training process. The intra-class noise loss is acted upon
+                                                                         the intra-class weight of support samples in a task:
+Output: The meta network hϕ and BiLSTM φL .
+                                                                                             N    K
+                                                                                      1 X X                          
+                                                                              Lra =             −Π x(k)
+                                                                                                    n     log  1 − v (k)
+                                                                                                                     n      ,                  (26)
+  Plug (22) into (21), then Theorem 2 can be obtained                                 N n=1 k=1
+immediately.                                                                                                     
+                                                                                                              (k)               (k)
+                                                                         where the indicator function Π xn          is 1 when xn is an
+    Theorem 2 illustrates that the generalization error bound            artificially introduced mislabeled sample and 0 otherwise.
+of the EC similarity has a convergence rate of O( √1N ), which           Inter-Class Noise Loss. As we all know, a good feature
+is the same order as other metrics [54], [56], [57]. Although            extractor can benefit clustering and evaluation of the class.
+the proposed method is learning in different spaces, the                 We introduce inter-class noise loss to measure the inter-class
+generalization error bound can be bound uniformly. It is also            noise information. For all support samples in each task, we
+noteworthy that our method can promote the representation                construct similarity matrix M ∈ RN K×N K to measure the
+ability of the model by learning in different spaces without             similarity of each pair of samples. Then the loss of inter-class
+the raise of the generalization error.                                   noise is given by
+
+                                                                                                      1       XN K XN K
+                                                                                   Ler = −                2                 M i,j Ai,j ,       (27)
+4.5     Model Training and Inference                                                             (N K)          i=1   j=1
+
+In this section, we detail the meta-training and inference.
+                                                                         where
+In the meta-training stage, we train the hϕ (·) in meta net-
+work and finetune the feature extractor gξ (·) in contrastive                                      i 6= j and l(x(i) ) = l(x(j) )
+                                                                                        
+                                                                                        1,
+                                                                                        
+network. According to section 4.1, disentangled informa-
+                                                                                 Ai,j = − 1, i 6= j and l(x(i) ) 6= l(x(j) )       (28)
+tion learned by the two networks can remedy each other.                                 
+                                                                                        
+Therefore, contrastive network and meta network respec-                                    0,      i=j
+tively learns modified prototypes according to intra-class                        
+and intra-class weights of support samples in their corre-               and l x(i) denotes the groud-truth label of x(i) .
+sponding embedding spaces. Finally, the EC similarity score              Final Loss. Finally, the following objective function is used
+is used to measure the similarity to each class according to             to optimize the meta network
+prototypes information from different networks.
+                                                                                         Ltotal = Lme + ηLra + γLer ,                          (29)
+4.5.1     Meta-Training
+                                                                         where η and γ are positive constants trading off the im-
+In the meta-training, we train meta network hϕ (·) and fine-             portances of different losses. Algorithm 1 summarizes the
+tune the contrastive network gξ (·) with three loss functions.           algorithmic description of the training process the proposed
+Meta Loss. Given a query sample x̃q ∈ Qb in a task,                      IDEAL.
+the classifier outputs the normalized EC similarity score
+between the query sample x̃q and class centroid cn of class
+                                                                         4.5.2   Inference
+n
+                                                                         In the inference stage, we use the EC similarity to measure
+                           exp (simEC (x̃q , cn ) /T )
+      Pϕ (y = n |x̃q ) = P                                ,       (23)   the score for each class. For a query sample x̃q , the class with
+                          n0 exp (simEC (x̃q , cn0 ) /T )                the highest score is obtained as the final label prediction:
+where
+                                                                           ŷq = arg max simEC (x̃q , cn )
+                                                              0                  n=1,...,N
+  simEC (x̃q , cn ) = cos (gξ (x̃q ) , pn ) + cos(hϕ (x̃q ) , pn ),                                                                        0   (30)
+                                                                 (24)
+                                                                              = arg max (cos (gξ (x̃q ) , pn ) + cos(hϕ (x̃q ) , pn ).
+                                                                                 n=1,...,N
+                                                                                                                                                  10
+                                          TABLE 1: Comparisons on FSL tasks (5-way 5-shot, Acc.%).
+
+                   Methods                          Backbone        CIFAR-FS           FC100          miniImagenet        tieredImagenet
+                   Proto Nets [20]                  C64E           68.78±0.77        48.30±0.76        64.69±0.69           61.50±0.74
+                   Matching Nets [19]               C64E           68.93±0.74        48.28±0.73        62.75±0.75           60.74±0.81
+                   Relation Nets [21]               C64E           65.01±0.79        48.02±0.72        63.96±0.69           60.35±0.75
+                   MAML [17]                        C64E           70.30±0.77        46.75±0.72        63.37±0.70           62.31±0.78
+                   DKT [59]                         C64E           67.81±0.73        47.70±0.74        62.43±0.72           59.58±0.80
+                   FEAT [60]                        C64E           72.43±0.77        47.61±0.69        63.18±0.69           65.42±0.79
+                   S2M2 [61]                        C64E           71.01±0.74        47.90±0.72        64.70±0.66           63.53±0.76
+                   CSS [32]                         C64E           74.59±0.72        49.72±0.69        68.08±0.73           67.80±0.77
+                   Masked Soft k-Means [62]         C64E           67.46±0.78        49.06±0.75        62.68±0.72           60.77±0.79
+                   PRWN [63]                        C64E           70.16±0.75        49.50±0.73        64.83±0.71           63.58±0.75
+                   RNNP [13]                        C64E           68.69±0.74        45.91±0.74        63.88±0.79           63.73±0.87
+                   RapNet [12]                      C64E           67.84±0.76        47.86±0.75        63.53±0.68           61.56±0.79
+                   IDEAL-B (Ours)                   C64E           74.63±0.70        51.95±0.72        67.82±0.67           67.30±0.76
+                   IDEAL-T (Ours)                   C64E           74.64±0.71        51.76±0.69        68.10±0.62           67.93±0.72
+                   Masked Soft k-Means [62]         ResNet-12      75.33±0.71        50.53±0.71        69.50±0.73           66.12±0.78
+                   PRWN [63]                        ResNet-12      81.43±0.67        54.15±0.74        73.83±0.69           69.57±0.75
+                   RNNP [13]                        ResNet-12      75.56±0.77        49.12±0.77        65.88±0.78           69.10±0.86
+                   RapNet [12]                      ResNet-12      80.06±0.68        54.67±0.74        72.86±0.64           69.44±0.75
+                   IDEAL-B (Ours)                   ResNet-12      83.06±0.68        57.33±0.74        75.90±0.62           77.02±0.75
+                   IDEAL-T (Ours)                   ResNet-12      83.86±0.61        57.87±0.73        75.26±0.66           76.25±0.77
+
+              TABLE 2: Comparisons on OFSL tasks with varying noise rates of type I ID noise (5-way 5-shot, Acc.%).
+
+                                                         CIFAR-FS                 FC100                 miniImagenet           tieredImagenet
+                  Methods             Backbone
+                                                      20%        40%          20%        40%          20%         40%         20%         40%
+           Proto Nets [20]            C64E        63.61±0.82 49.66±0.84   43.79±0.72 36.83±0.69   58.40±0.76 47.07±0.75   55.80±0.84 44.57±0.84
+           Matching Nets [19]         C64E        59.75±0.78 48.77±0.77   43.15±0.70 36.32±0.61   56.55±0.71 44.78±0.72   54.48±0.74 45.19±0.75
+           Relation Nets [21]         C64E        63.98±0.80 51.30±0.85   41.54±0.74 34.54±0.67   57.06±0.70 45.87±0.77   56.19±0.81 45.01±0.82
+           MAML [17]                  C64E        61.96±0.84 48.58±0.80   40.50±0.69 33.75±0.63   55.77±0.70 45.00±0.71   54.19±0.79 41.90±0.77
+           DKT [59]                   C64E        61.13±0.81 49.64±0.80   44.38±0.73 36.95±0.68   56.68±0.72 46.13±0.73   56.63±0.77 46.14±0.75
+           FEAT [60]                  C64E        66.88±0.78 52.64±0.90   43.29±0.68 35.66±0.64   59.16±0.75 46.82±0.81   60.98±0.81 47.24±0.80
+           S2M2 [61]                  C64E        66.45±0.80 52.95±0.87   43.76±0.71 36.49±0.70   60.38±0.74 47.41±0.84   58.86±0.81 46.89±0.87
+           CSS [32]                   C64E        65.39±0.82 52.44±0.91   43.86±0.73 36.59±0.71   59.82±0.75 47.78±0.78   59.45±0.83 47.18±0.82
+           Masked Soft k-Means [62]   C64E        59.18±0.85 41.77±0.84   43.95±0.75 36.08±0.78   56.97±0.74 43.30±0.80   54.66±0.85 35.42±0.81
+           PRWN [63]                  C64E        62.36±0.83 45.88±0.83   45.39±0.73 36.67±0.72   57.97±0.72 44.09±0.77   56.10±0.76 42.32±0.83
+           RNNP [13]                  C64E        65.59±0.85 52.59±1.17   42.24±0.75 35.57±0.77   59.97±0.86 47.74±1.05   60.07±0.93 47.44±1.13
+           RapNet [12]                C64E        64.40±0.83 45.62±0.89   45.71±0.74 35.92±0.75   59.01±0.75 43.98±0.79   56.28±0.80 42.46±0.85
+           IDEAL-B (Ours)             C64E        69.03±0.77 55.17±0.95   47.10±0.76 37.60±0.77   61.54±0.79 49.87±0.83   61.10±0.81 48.16±0.88
+           IDEAL-T (Ours)             C64E        69.15±0.80 53.52±0.82   47.40±0.76 37.80±0.67   61.70±0.73 48.06±0.78   61.89±0.81 47.86±0.85
+           Masked Soft k-Means [62]   ResNet-12   72.97±0.83 43.40±0.93   45.53±0.73 36.19±0.75   67.07±0.72 47.32±0.88   62.65±0.83 41.95±0.85
+           PRWN [63]                  ResNet-12   75.28±0.75 53.00±0.93   48.45±0.73 38.14±0.69   67.91±0.72 49.89±0.84   63.41±0.85 46.55±0.83
+           RNNP [13]                  ResNet-12   73.01±0.81 59.07±1.25   46.29±0.74 37.02±0.77   64.78±0.81 50.62±1.06   65.36±0.89 51.84±1.22
+           RapNet [12]                ResNet-12   74.61±0.74 53.35±0.93   47.36±0.76 36.81±0.72   67.09±0.72 50.21±0.86   64.91±0.81 46.45±0.92
+           IDEAL-B (Ours)             ResNet-12   80.95±0.72 64.33±1.06   52.68±0.80 40.91±0.76   71.36±0.69 57.35±0.91   71.72±0.81 55.15±1.04
+           IDEAL-T (Ours)             ResNet-12   80.44±0.71 62.79±0.96   53.48±0.76 40.94±0.71   70.20±0.70 55.73±0.84   71.84±0.80 53.56±0.91
+
+
+
+5     E XPERIMENTS                                                              calibration encoder) and IDEAL-T (Transformer as intra-
+                                                                                class calibration) with state-of-the-art typical FSL methods
+In this section, we perform typical few-shot learning prob-
+                                                                                modified semi-supervised FSL methods and advanced RFSL
+lem (noise-free) and open-world few-shot learning problem
+                                                                                methods. The state-of-the-art FSL methods are including
+to verify the efficacy of our method in. Then, we perform
+                                                                                Proto Nets [20], Matching Nets [19], Relation Nets [21],
+ablation experiments to analyze the efficacy of different
+                                                                                MAML [17], Deep Kernel Transfer (DKT) [59], FEAT [60],
+modules and parameters. Moreover, we compare methods
+                                                                                S2M2 [61], CSS [32]. Two advanced robust FSL methods,
+on the union of base classes and novel classes to verify the
+                                                                                i.e., RNNP [13] and RapNet [12], are set as baselines. We
+plasticity and stability in the open world.
+                                                                                also modify two semi-supervised FSL i.e., Masked Soft k-
+                                                                                Means [62] and PRWN [63] for the setting of OFSL. In
+5.1     Experimental settings                                                   OFSL problem, since Masked Soft k-Means and PRWN are
+                                                                                originally proposed for semi-supervised few-shot learning,
+In experiments, we adopt four standard few-shot clas-                           we adjust them appropriately to adapt to the setting of
+sification datasets, including CIFAR-FS [64], FC-100 [65],                      OFSL. We use support samples and query samples instead
+miniImagenet [19] and tieredImagenet [62].                                      of the union of labeled samples and unlabeled samples as
+                                                                                the dataset for an episode, which is the same setting as other
+5.1.1    Compared Methods                                                       methods. At the same time, we take the rehearsal strategy
+To comprehensively verify the superiority of our method,                        and deliberately add label noise to the support set of Db to
+we compare our methods IDEAL-B (BiLSTM as intra-class                           boost the robustness of these methods, which is the same
+                                                                                                                                                    11
+            TABLE 3: Comparisons on OFSL tasks with varying noise rates of type II ID noise (5-way 5-shot, Acc.%).
+
+                                                         CIFAR-FS                 FC100                 miniImagenet           tieredImagenet
+                 Methods             Backbone
+                                                      20%        40%          20%        40%          20%         40%         20%         40%
+         Proto Nets [20]             C64E         64.26±0.81 58.17±0.84   45.12±0.72 40.32±0.72   59.50±0.73 54.10±0.78   57.72±0.80 51.03±0.84
+         Matching Nets [19]          C64E         63.65±0.78 57.33±0.78   44.76±0.69 40.20±0.67   58.16±0.71 52.54±0.75   57.61±0.80 51.99±0.80
+         Relation Nets [21]          C64E         65.02±0.78 58.12±0.86   42.94±0.72 39.06±0.75   57.38±0.73 51.46±0.79   56.94±0.81 50.31±0.83
+         MAML [17]                   C64E         65.03±0.81 58.80±0.83   41.99±0.72 37.25±0.71   58.57±0.74 51.11±0.79   57.02±0.82 50.58±0.86
+         DKT [59]                    C64E         62.36±0.83 56.30±0.85   44.91±0.75 39.95±0.69   58.04±0.72 52.53±0.73   57.99±0.80 51.10±0.78
+         FEAT [60]                   C64E         67.71±0.78 61.35±0.86   44.85±0.70 39.49±0.66   60.11±0.73 53.87±0.78   61.70±0.81 55.10±0.90
+         S2M2 [61]                   C64E         67.57±0.79 61.16±0.86   44.93±0.73 40.69±0.74   61.35±0.75 54.15±0.80   60.04±0.82 54.12±0.89
+         CSS [32]                    C64E         66.29±0.80 60.45±0.89   45.00±0.73 39.98±0.69   60.59±0.76 54.70±0.84   60.24±0.81 54.64±0.89
+         Masked Soft k-Means [62]    C64E         62.47±0.81 51.51±0.87   44.14±0.70 37.92±0.73   58.39±0.71 51.04±0.78   57.13±0.80 46.14±0.85
+         PRWN [63]                   C64E         65.59±0.83 55.22±0.87   43.72±0.73 38.24±0.74   59.61±0.76 51.69±0.79   58.12±0.78 49.54±0.81
+         RNNP [13]                   C64E         64.57±0.87 57.10±0.92   43.32±0.77 38.51±0.76   59.65±0.85 53.44±0.93   59.44±0.91 53.62±0.98
+         RapNet [12]                 C64E         64.94±0.83 56.24±0.82   45.37±0.74 39.97±0.73   62.02±0.85 52.31±0.76   57.43±0.84 49.90±0.81
+         IDEAL-B (Ours)              C64E         70.64±0.79 64.04±0.83   47.90±0.72 42.36±0.76   63.95±0.67 56.99±0.80   62.88±0.83 56.34±0.86
+         IDEAL-T (Ours)              C64E         70.90±0.76 63.13±0.85   48.19±0.78 41.98±0.76   63.27±0.71 55.60±0.79   62.97±0.84 56.11±0.78
+         Masked Soft k-Means [62]    ResNet-12    66.78±0.85 57.12±0.93   47.15±0.73 39.64±0.81   67.25±0.73 57.35±0.82   62.18±0.83 52.09±0.85
+         PRWN [63]                   ResNet-12    76.58±0.75 65.48±0.88   46.79±0.74 39.99±0.74   68.28±0.69 57.72±0.76   66.27±0.82 55.70±0.85
+         RNNP [13]                   ResNet-12    71.50±0.81 63.88±0.95   47.28±0.78 41.68±0.80   63.62±0.80 56.60±0.91   64.50±0.88 58.14±0.97
+         RapNet [12]                 ResNet-12    76.27±0.73 65.94±0.83   50.40±0.71 41.96±0.76   68.77±0.71 60.86±0.79   65.97±0.77 58.59±0.89
+         IDEAL-B (Ours)              ResNet-12    81.28±0.71 70.80±0.87   53.55±0.72 45.32±0.71   71.90±0.68 66.03±0.79   71.99±0.82 67.46±0.91
+         IDEAL-T (Ours)              ResNet-12    81.79±0.68 69.60±0.94   53.67±0.74 47.42±0.82   72.61±0.69 64.32±0.77   72.42±0.80 65.01±0.87
+
+               TABLE 4: Comparisons on OFSL tasks with varying noise rates of OOD noise (5-way 5-shot, Acc.%).
+
+                                                 CIFAR-FS+miniImagenet     FC100+miniImagenet     miniImagenet+CIFAR-FS   tieredImagenet+CIFAR-FS
+               Methods              Backbone
+                                                     20%        40%           20%        40%          20%        40%          20%         40%
+        Proto Nets [20]             C64E         64.48±0.79 58.62±0.83    44.88±0.73 40.03±0.69   61.51±0.68 55.53±0.70   57.58±0.82 53.14±0.84
+        Matching Nets [19]          C64E         63.64±0.80 58.17±0.81    45.35±0.72 41.62±0.69   59.53±0.73 55.94±0.77   58.48±0.81 54.62±0.82
+        Relation Nets [21]          C64E         65.02±0.82 58.69±0.88    41.45±0.72 36.92±0.71   58.90±0.73 53.90±0.72   57.68±0.75 53.72±0.78
+        MAML [17]                   C64E         65.01±0.83 57.99±0.84    42.52±0.71 37.76±0.69   59.08±0.74 52.75±0.75   57.41±0.80 51.21±0.80
+        DKT [59]                    C64E         63.33±0.81 56.86±0.87    45.35±0.74 40.95±0.71   58.24±0.68 53.96±0.73   58.54±0.74 54.96±0.80
+        FEAT [60]                   C64E         67.72±0.78 60.82±0.87    43.26±0.69 37.63±0.70   61.43±0.70 56.16±0.74   61.39±0.78 56.63±0.81
+        S2M2 [61]                   C64E         66.83±0.79 59.74±0.84    43.96±0.72 39.58±0.74   62.69±0.70 57.07±0.72   61.53±0.78 57.10±0.84
+        CSS [32]                    C64E         66.37±0.79 60.74±0.90    44.18±0.72 39.14±0.72   61.90±0.71 56.85±0.73   61.65±0.81 56.99±0.82
+        Masked Soft k-Means [62]    C64E         62.70±0.82 52.24±0.86    44.70±0.72 38.90±0.74   58.87±0.68 49.96±0.74   57.88±0.81 46.61±0.84
+        PRWN [63]                   C64E         65.61±0.80 55.13±0.92    44.56±0.74 39.31±0.74   60.06±0.68 52.59±0.73   58.54±0.79 51.21±0.81
+        RNNP [13]                   C64E         63.76±0.90 55.99±0.95    40.83±0.73 34.56±0.74   60.19±0.81 56.71±0.81   60.26±0.90 56.49±0.89
+        RapNet [12]                 C64E         65.56±0.82 55.68±0.85    45.33±0.72 40.50±0.71   56.28±0.80 52.54±0.71   57.92±0.85 49.72±0.83
+        IDEAL-B (Ours)              C64E         71.22±0.74 64.92±0.85    47.43±0.74 42.35±0.76   64.37±0.72 57.36±0.78   62.97±0.80 57.97±0.85
+        IDEAL-T (Ours)              C64E         71.39±0.75 64.30±0.82    47.50±0.72 42.02±0.69   63.83±0.70 57.97±0.74   63.52±0.80 57.67±0.79
+        Masked Soft k-Means [62]    ResNet-12    68.15±0.89 58.25±0.91    47.85±0.72 40.51±0.79   68.05±0.71 56.88±0.81   63.18±0.84 53.98±0.82
+        PRWN [63]                   ResNet-12    77.09±0.74 67.70±0.86    48.51±0.72 42.37±0.72   68.92±0.70 61.01±0.74   66.51±0.84 58.16±0.88
+        RNNP [13]                   ResNet-12    70.30±0.90 60.10±0.97    45.33±0.78 37.92±0.77   64.18±0.79 59.44±0.81   63.70±0.86 58.24±0.88
+        RapNet [12]                 ResNet-12    74.38±0.77 66.26±0.87    50.05±0.72 41.62±0.74   68.98±0.71 61.04±0.75   66.45±0.78 58.96±0.86
+        IDEAL-B (Ours)              ResNet-12    81.81±0.69 74.71±0.80    53.20±0.72 44.22±0.73   73.04±0.66 65.59±0.78   73.60±0.78 68.93±0.87
+        IDEAL-T (Ours)              ResNet-12    81.83±0.67 72.28±0.86    52.90±0.74 47.35±0.73   73.80±0.66 67.77±0.76   73.21±0.83 67.31±0.85
+
+
+
+setting as IDEAL and RapNet.                                                    experimental results are averaged accuracy of 600 randomly
+                                                                                generated test episodes with 95% confidence intervals.
+5.1.2   Implementation Details
+For a fair comparison, we implement all methods by Py-                          5.1.3    Datasets
+Torch and the code framework proposed in [2]. We adopt                          CIFAR-FS [64] is a few-shot dataset created by dividing the
+two backbones in the experiments, including the four-block-                     100 classes of CIFAR-100 into 64 base classes, 16 validation
+based ConvNet model (C64E) [2] and ResNet-12 [66]. In                           classes, and 20 novel test classes.
+C64E, each block is comprised of 64-channel 3 × 3 convolu-                          FC100 [65] is built based on CIFAR100. It contains 100
+tion, batch normalization, ReLU [67] nonlinearity, and 2 × 2                    object classes which have been grouped into 20 superclasses.
+max-pooling. The feature embedding dimension is set to                          It uses 60 classes belonging to 12 superclasses for training,
+1600. The Adam optimizer [68] is used by all methods to                         20 classes belonging to four superclasses for validation, and
+optimize parameters. The learning rate is set to 10−3 for all                   20 classes belonging to the rest four superclasses for the test.
+methods. In IDEAL, gξ and hϕ are implemented by C64E                                miniImageNet [19] is commonly used in evaluating few-
+backbone. τ in Eq.(6) is set to 0.1 and T in Eq.(23) is set                     shot classification algorithms for object recognition. It con-
+to 0.1. In Eq.(7) and Eq.(8), α is set to 0.9 and β is set to                   sists of a subset of 100 classes taken from the ImageNet
+0.1. In Eq.(29), η is set to 0.1 and γ is set to 0.1. For all                   dataset and contains 600 images for each class.
+methods, in the meta-training stage, the maximum number                             tieredImageNet [62] is a larger few-shot dataset and its
+of training episodes is set to 40000. In the inference stage, all               categories are selected with hierarchical structure to split
+                                                                                                                                                                                                                                                                                                                               12
+
+
+
+    Class A:                                                                                                                                                          Class A:
+   scoreboard                                                                                                                                                        mixing bowl
+                  Intra-class weight: 0.276      Intra-class weight: 0.254   Intra-class weight: 0.307   Intra-class weight: 0.158    Intra-class weight: 0.005                        Intra-class weight: 0.258   Intra-class weight: 0.217   Intra-class weight: 0.241   Intra-class weight: 0.158   Intra-class weight: 0.126
+                    Maximum inter-class            Maximum inter-class         Maximum inter-class         Maximum inter-class          Maximum inter-class                              Maximum inter-class         Maximum inter-class         Maximum inter-class         Maximum inter-class         Maximum inter-class
+                   weight: 0.275 (Class A)        weight: 0.245 (Class A)     weight: 0.226 (Class A)     weight: 0.160 (Class A)      weight: 0.065 (Class B)                          weight: 0.404 (Class A)     weight: 0.312 (Class A)     weight: 0.116 (Class A)     weight: 0.111 (Class A)     weight: 0.011 (Class A)
+
+
+
+
+    Class B:
+                                                                                                                                                                       Class B:
+  lion, king of
+                                                                                                                                                                    theater curtain,
+     beasts,
+                                                                                                                                                                    theatre curtain
+  Panthera leo
+                    Intra-class weight: 0.113    Intra-class weight: 0.315   Intra-class weight: 0.273   Intra-class weight: 0.290    Intra-class weight: 0.009                        Intra-class weight: 0.276   Intra-class weight: 0.213   Intra-class weight: 0.202   Intra-class weight: 0.292   Intra-class weight: 0.017
+                      Maximum inter-class          Maximum inter-class         Maximum inter-class         Maximum inter-class          Maximum inter-class                              Maximum inter-class         Maximum inter-class         Maximum inter-class         Maximum inter-class         Maximum inter-class
+                     weight: 0.281 (Class B)      weight: 0.266 (Class B)     weight: 0.262 (Class B)     weight: 0.101 (Class B)      weight: 0.218 (Class C)                          weight: 0.386 (Class B)     weight: 0.316 (Class B)     weight: 0.187 (Class B)     weight: 0.083 (Class B)     weight: 0.010 (Class A)
+
+
+
+
+    Class C:                                                                                                                                                           Class C:
+ theater curtain,                                                                                                                                                     dalmatian,
+ theatre curtain                                                                                                                                                      coach dog,
+                                                                                                                                                                     carriage dog
+                    Intra-class weight: 0.289    Intra-class weight: 0.243   Intra-class weight: 0.181   Intra-class weight: 0.091    Intra-class weight: 0.196                        Intra-class weight: 0.350   Intra-class weight: 0.171   Intra-class weight: 0.311   Intra-class weight: 0.107   Intra-class weight: 0.061
+                      Maximum inter-class          Maximum inter-class         Maximum inter-class         Maximum inter-class          Maximum inter-class                              Maximum inter-class         Maximum inter-class         Maximum inter-class         Maximum inter-class         Maximum inter-class
+                     weight: 0.292 (Class C)      weight: 0.190 (Class C)     weight: 0.144 (Class C)     weight: 0.074 (Class C)      weight: 0.031 (Class A)                          weight: 0.372 (Class C)     weight: 0.351 (Class C)     weight: 0.116 (Class C)     weight: 0.107 (Class C)     weight: 0.018 (Class C)
+
+
+
+
+Fig. 5: Intra-class weight and maximum inter-class weight of                                                                                                       Fig. 7: Intra-class weight and maximum inter-class weight of
+each sample in the studied OFSL task with type I ID noise. For                                                                                                     each sample in the studied OFSL task with OOD noise. For
+each support sample, the class with the maximum inter-class                                                                                                        each support sample, the class with the maximum inter-class
+weight and its corresponding value are given. The last column                                                                                                      weight and its corresponding value are given. The last column
+denotes the type I ID noise.                                                                                                                                       denotes the OOD noise from CIFAR-FS dataset.
+
+
+     Class A:                                                                                                                                                      FSL problem more difficult. In this section, we compare our
+  theater curtain,
+  theatre curtain                                                                                                                                                  methods in OFSL settings.
+                    Intra-class weight: 0.318    Intra-class weight: 0.184   Intra-class weight: 0.278   Intra-class weight: 0.190    Intra-class weight: 0.030
+                      Maximum inter-class          Maximum inter-class         Maximum inter-class         Maximum inter-class          Maximum inter-class
+                     weight: 0.411 (Class A)      weight: 0.231 (Class A)     weight: 0.216 (Class A)     weight: 0.094 (Class A)      weight: 0.015 (Class A)
+
+                                                                                                                                                                   5.3.1            Noise Settings
+    Class B:
+     African
+                                                                                                                                                                   In the experiments, we set open-world noisy few-shot sce-
+   hunting dog
+                     Intra-class weight: 0.336   Intra-class weight: 0.178   Intra-class weight: 0.301   Intra-class weight: 0.142    Intra-class weight: 0.043
+                                                                                                                                                                   narios built by replacing some images with type I, type II
+                       Maximum inter-class
+                      weight: 0.273 (Class B)
+                                                   Maximum inter-class
+                                                  weight: 0.259 (Class B)
+                                                                               Maximum inter-class
+                                                                              weight: 0.231 (Class B)
+                                                                                                           Maximum inter-class
+                                                                                                          weight: 0.159 (Class B)
+                                                                                                                                        Maximum inter-class
+                                                                                                                                       weight: 0.020 (Class B)     and OOD noise while keeping the labels and the number of
+                                                                                                                                                                   images per class unchanged. Type I ID noise is produced via
+      Class C:
+                                                                                                                                                                   replacing the raw sample with a sample from other classes
+       crate
+                                                                                                                                                                   in the current task, which severely disturbs both distribu-
+                     Intra-class weight: 0.168   Intra-class weight: 0.213   Intra-class weight: 0.243    Intra-class weight: 0.204    Intra-class weight: 0.172
+                       Maximum inter-class
+                      weight: 0.325 (Class C)
+                                                   Maximum inter-class
+                                                  weight: 0.248 (Class C)
+                                                                               Maximum inter-class
+                                                                              weight: 0.201 (Class C)
+                                                                                                            Maximum inter-class
+                                                                                                           weight: 0.109 (Class C)
+                                                                                                                                         Maximum inter-class
+                                                                                                                                        weight: 0.023 (Class C)
+                                                                                                                                                                   tions of the two classes. Type II ID noise is produced by
+                                                                                                                                                                   replacing the raw sample with a sample from other classes
+Fig. 6: Intra-class weight and maximum inter-class weight of                                                                                                       in known datasets except for classes in the current task,
+each sample in the studied OFSL task with type II ID noise. For
+                                                                                                                                                                   which disturbs the distribution of the current corrupted
+each support sample, the class with the maximum inter-class
+weight and its corresponding value are given. The last column                                                                                                      class. OOD noise is built by replacing some training samples
+denotes the type II ID noise.                                                                                                                                      with an external dataset which leads to unforeseen shift of
+                                                                                                                                                                   feature and label distribution.
+
+base and novel datasets semantically. We follow the split                                                                                                          5.3.2            Experimental Analysis
+introduced in [62] with base set of 20 superclasses (351
+                                                                                                                                                                   For the 5-way 5-shot problem, Table 2, 3 and Table 4 respec-
+classes), validation set of 6 superclasses (97 classes) and
+                                                                                                                                                                   tively demonstrate the performance of compared methods
+novel set of 8 superclasses (160 classes). Each class contains
+                                                                                                                                                                   faced with various noise rates of type I ID noise, type
+1281 images on average.
+                                                                                                                                                                   II ID noise and OOD noise. The second row of tables
+                                                                                                                                                                   represents the noise rate. Since the data from unknown do-
+5.2        Typical Few-Shot Learning Problems
+                                                                                                                                                                   mains might not be clearly defined, in this paper, we adopt
+We conduct typical FSL experiments to demonstrate the                                                                                                              external datasets to imitate unknown domains. CIFAR-
+universality of IDEAL in clean datasets. Average accuracies                                                                                                        FS+miniImagenet in the second column represents that OOD
+and standard deviations of different algorithms for 5-way                                                                                                          noise is a sample from miniImageNet while replacing the
+5-shot FSL tasks are given in Table 1.                                                                                                                             sample in CIFAR-FS. For each comparison, the best result
+   In Table 1, for each comparison on each backbone, the                                                                                                           is underlined, and the best result among IDEAL, Masked
+best result among IDEAL, Masked Soft k-Means, PRWN,                                                                                                                Soft k-Means, PRWN, RNNP and RapNet is highlighted in
+RNNP and RapNet is highlighted in bold, and the best                                                                                                               bold. From Tables 2 and 3, we can find that models are
+result among all algorithms is underlined. From Table 1,                                                                                                           more susceptible to type I ID noise than type II noise, which
+we can find that in all typical FSL tasks, IDEAL can achieve                                                                                                       may be because type I noise destroys the decision boundary
+the best classification performance. The results indicate that                                                                                                     between the two classes. At the same time, with the increase
+our IDEAL can significantly outperform the compared FSL                                                                                                            of the number of noise, the performances of the existing
+methods in typical few-shot learning problems.                                                                                                                     methods become significantly worse in the face of type I
+                                                                                                                                                                   noise. However, our IDEAL considering global correlations
+5.3        Open-World Few-Shot Learning Problems                                                                                                                   among all support samples still maintains superior and
+In the open-world, due to unknown sources of data, dif-                                                                                                            stable performance faced with two kinds of ID noise and
+ferent types of noise might exist in data which make the                                                                                                           gets rid of the interference of confused representations.
+                                                                                                                                                      13
+         TABLE 5: Ablation results on OFSL tasks under different cases on miniImageNet dataset (5-way 5-shot, Acc.%).
+
+                                                                     Type I ID                       Type II ID                  OOD
+                               Method
+                                                               20%               40%           20%                40%      20%          40%
+              (a) w/o instance-wise calibration
+              • case a1 : without intra-class calibration   49.71±0.80     34.34±0.85       48.74±0.80     42.42±0.79   48.86±0.81   42.86±0.79
+              • case a2 : without inter-class calibration   60.54±0.70     49.13±0.87       63.80±0.72     55.46±0.81   62.36±0.71   56.56±0.76
+              (b) w/o metric-wise calibration
+              • case b1 : without cos(gξ (x))               57.36±0.70     45.10±0.77       61.70±0.73     54.09±0.80   62.03±0.74   55.56±0.81
+              • case b2 : without cos(hϕ (x))               59.29±0.71     49.53±0.88       61.40±0.74     55.37±0.78   62.10±0.72   55.82±0.77
+              • case b3 : using Euclidean distance          61.29±0.66     48.92±0.79       63.21±0.70     56.90±0.76   64.23±0.71   56.91±0.77
+              (c) w/o different losses
+              • case c1 : without both losses               61.41±0.75     48.68±0.85       62.72±0.74     55.84±0.79   63.71±0.69   56.60±0.75
+              • case c1 : without intra-class noise loss    61.43±0.75     49.15±0.84       63.58±0.73     56.80±0.80   64.03±0.70   56.64±0.80
+              • case c1 : without inter-class noise loss    61.42±0.75     49.49±0.89       63.16±0.75     56.88±0.82   64.25±0.72   56.81±0.80
+              our model                                     61.54±0.79     49.87±0.83       63.95±0.67     56.99±0.80   64.37±0.72   57.36±0.78
+
+
+
+Table 4 displays the experimental result with OOD noise                                fluctuate frequently, which will introduce the uncertainty of
+which is more consistent with the real-world environment.                              optimization and influence the final performance. 2) Since
+IDEAL outperforms prior methods with a large margin in                                 samples are rare, the process of clustering may bring some
+all cases. Therefore, our method is more robust to noise in                            uncertainty and affect the model performance.
+the open world.                                                                            However, although the phenomenon might happen, it
+                                                                                       does not mean that the intra-class calibration is trivial. In
+5.4   Ablation Study and Model Analysis                                                fact, inter-class calibration considers the global correlation
+                                                                                       among all support samples in a whole task and distinctively
+In this section, we take IDEAL-B for example to perform                                tackles these different types of noise, which is ignored by
+ablation experiments to analyze the efficacy of different                              intra-class calibration. To better illustrate the effect of inter-
+modules and parameters.                                                                class calibration in dealing with different types of noise, we
+                                                                                       conduct three kinds of case studies which are shown in Fig-
+5.4.1 Effectiveness of Instance-Wise Calibration and                                   ures 5, 6 and 7. The known domain is from miniImageNet.
+Metric-Wise Calibration                                                                The last column in each Figure denotes noise. For each
+For a comprehensive understanding of our model, we fur-                                sample, the top line represents the intra-class weight of
+ther design five cases to evaluate each module in 5-way                                annotated class while the bottom two lines represent the
+5-shot open-world settings. We also evaluate each module                               maximum inter-class weight in all classes and the class with
+with three kinds of noise, i.e., type I ID, type II ID and                             the maximum inter-class weight. As displayed in Figure
+OOD noise. For each noise situation, we also add 2 degrees                             5, when handling type I ID noise, inter-class calibration
+of noise, i.e, 20% and 40% noise rate. The five cases are 1)                           can not only correctly refer to the potential correct class
+case a1 , remove the intra-class calibration term in Eq.(7) and                        according to the class with the maximum inter-class weight,
+Eq.(8), 2) case a2 , remove the inter-class calibration term in                        but also ameliorate the class prototype with the corrected
+Eq.(7) and Eq.(8), 3) case b1 , remove the first-term in the                           noise. From Figures 6 and 7, when handling type II ID
+EC similarity of Eq.(24), 4) case b2 , remove the second-term                          noise and OOD noise, the maximum inter-class weights for
+in the EC similarity of Eq.(24) and 5) case b3 , use negative                          all noise are smaller than 0.025. At the same time, each
+average Euclidean distance to replace the average cosine                               correct support samples have a much higher weight, which
+similarity induced as EC similarity. For all cases, C64E is                            demonstrates that inter-class calibration can effectively eval-
+adopted as the backbone.                                                               uate the inter-class weights of support samples according to
+     Performance drops are observed in Table 5 when any                                their contributions to each cluster to filter out isolated noise.
+of the instance-wise and metric-wise calibration modules                               Therefore, inter-class calibration and intra-class calibration
+are removed or replaced. These experimental results verify                             can supplement each other to further promote the robust-
+that each module in IDEAL is essential. In cases a1 and a2 ,                           ness of the model.
+the combination of intra-class and inter-class calibration can
+improve the robustness of the model. In cases b1 ,b2 and
+                                                                                       5.4.2 Effectiveness of Intra-Class Noise Loss and Inter-
+b3 , the proposed EC similarity is effective to calibrate la-
+                                                                                       Class Noise Loss
+bel confidences. Simply replacing average Cosine similarity
+with negative average Euclidean distance seriously reduces                             In order to better demonstrate the importance of intra-class
+the model performance due to the lack of properties in EC                              noise loss and inter-class noise loss, we conduct further
+similarity. In the meantime, we find the performance of the                            ablation studies to compare the proposed IDEAL with three
+model only using intra-class calibration might be higher                               versions: without intra-class noise loss, without inter-class
+than that of the model only using inter-class calibration.                             noise loss and without both losses. The evaluations are
+This is caused by two reasons: 1) Intra-class calibration is ex-                       conducted on 5-way 5-shot open-world settings on the
+ecuted by the pre-trained contrastive network, while inter-                            CIFAR-FS dataset. Table 5 tabulates the experimental results
+class calibration is executed by the meta network, which                               of different versions of IDEAL, and the best performance on
+requires being trained from scratch in the meta-training                               each comparison is highlighted in bold. From Table 5, we
+process. Therefore, the parameters of the meta network may                             can find that both intra-class noise loss and inter-class noise
+                                                                                                                                    14
+
+
+
+
+               (a) Type I ID noise, 20% noise rate    (b) Type I ID noise, 40% noise rate   (c) Type II ID noise, 20% noise rate
+
+
+
+
+               (d) Type II ID noise, 40% noise rate     (e) OOD noise, 20% noise rate         (f) OOD noise, 40% noise rate
+
+                                Fig. 8: Comparisons between different values of η in different cases.
+
+
+loss are beneficial to improving the performance, which                  IDEAL is superior to the compared few-shot classification
+proves the validity of the proposed two losses.                          methods and achieves plasticity and stability in the open
+                                                                         world.
+5.4.3   Effectiveness of η and γ
+In this part, we explore the effectiveness of the hyper-                 6    C ONCLUSION
+parameters η and γ . We compare the performance of IDEAL
+with different values of η and γ on the four datasets when               In this paper, we propose a novel instance-wise and metric-
+facing type I ID, type II ID and OOD noise. The backbone                 wise calibration framework (IDEAL) to address the new
+C64E is adopted in the experiments. Fig. 8 illustrates the               open-world few-shot learning problem. IDEAL is based
+experimental results of IDEAL with different values of η ,               on a dual-networks structure. Each network can remedy
+and Fig. 9 demonstrates the experimental results of IDEAL                each other to boost both the feature and label representa-
+with different values of γ .                                             tion capability of the model. In instance-wise calibration,
+    From Figures 8 and 9, we can find that: 1) IDEAL has                 IDEAL leverages intra-class and inter-class sample weights
+stable performances with a wide range of hyperparameter                  extracted by both networks to obtain rectified prototypes. In
+values on all four datasets. 2) The performance of the model             metric-wise calibration, we use the proposed EC similarity
+is hardly influenced by the changes of η . 3) In general, when           with fused prototype information to better evaluate the
+the value of γ is between 0.1 and 0.3, the model can achieve             label confidences of query samples. Various experiments
+better performance. These findings further demonstrate the               demonstrate that our method performs robustly in systemic
+robustness of the proposed IDEAL in practical application.               label-noise few-shot scenarios.
+
+
+5.5 Test on the Union of Base Classes and Novel                          ACKNOWLEDGMENTS
+Classes                                                                  This work was supported by National Natural Science
+We also take 20% noise rate for example to test the perfor-              Foundation of China (Grant No. 62076062), Social Develop-
+mance of our proposed IDEAL against compared method                      ment Science and Technology Project of Jiangsu Province
+on the union of base classes and novel classes. Average ac-              (Grant No. BE2022811) and China Postdoctoral Science
+curacies and standard deviations of different algorithms for             Foundation (Grant No. 2022M720028). Furthermore, the
+OFSL tasks with type I ID noise, type II ID noise and OOD                work was also supported by Collaborative Innovation Cen-
+noise are given in Table 6. In Table 6, for each comparison on           ter of Wireless Communications Technology.
+each backbone, the best result among IDEAL, Masked Soft
+k-Means, PRWN, RNNP and RapNet is highlighted in bold,
+                                                                         A PPENDIX A
+and the best result among all algorithms is underlined. From
+Table 6, we can find that in all cases, both IDEAL-B and                 T HE P RE -T RAINING OF C ONTRASTIVE N ETWORK
+IDEAL-T can achieve the best classification performance                  The contrastive network gξ can be trained with conditional
+compared with other methods. The results indicate that our               loss and contrastive loss. The contrastive loss in SimSiam
+                                                                                                                                                     15
+
+
+
+
+                (a) Type I ID noise, 20% noise rate        (b) Type I ID noise, 40% noise rate   (c) Type II ID noise, 20% noise rate
+
+
+
+
+               (d) Type II ID noise, 40% noise rate          (e) OOD noise, 20% noise rate          (f) OOD noise, 40% noise rate
+
+                                 Fig. 9: Comparisons between different values of γ in different cases.
+
+
+[29] is introduced and other contrastive loss is equally                      A PPENDIX B
+acceptable. Given an input image x, two augmented views                       L IMITATIONS OF THE P ROPOSED M ETHOD
+x0 and x00 are generated according to random augmentation                     The open-world learning is a tremendously difficult open
+methods. The two views are processed by an encoder net-
+                                                                              problem, and essential work needs to be done in this
+work consisting of the contrastive feature extractor gξ and
+                                                                              direction. In this paper, we mainly focus on the scenario
+a projection MLP head σ . A prediction MLP head, denoted
+                                                                              that there are noisy samples from known classes, unknown
+as δ , transforms the output of one view and matches it to
+                                                                              classes in the known domain, and unknown domains in
+the other view. Then, the negative cosine similarity of two
+                                                                              the support set, which is indeed an open-world scenario.
+embedding vectors is obtained:
+                                                                              Then, we propose an efficient method with instance-wise
+                                                            !                 calibration and metric-wise calibration to identify the noise
+             δ (σ (gξ (x0 )))                σ (gξ (x00 ))                    from support samples and enhance the robustness of models
+Lc (x) = −                     · stopgrad
+           kδ (σ (gξ (x0 )))k2             kσ (gξ (x00 ))k2                   in the open world. However, when there exists an unknown
+                                                                              class in the query set or in both the query set and support
+              δ (σ(gξ (x00 )))                 σ(gξ (x0 ))
+                                                             
+          −                     · stopgrad                      ,             set, our method might not be able to operate effectively. Our
+            kδ (σ(gξ (x00 )))k2              ||σ(gξ (x0 ))||2                 method could not be updated flexibly when new classes are
+                                                            (31)
+                                                                              assumed to appear incremental. Moreover, when there exists
+where k·k2 is l2 -norm and stopgrad is the stop-gradient                      a domain shift between support samples and query samples,
+operation [29].                                                               the proposed method cannot effectively align two spaces
+    In the meantime, a conditional loss is utilized to guide                  and classify query samples. In future work, we will further
+the learning of contrastive network, which is guided by the                   delve into the robustness, generalization and discrimination
+feature extractor fθ [32]:                                                    ability of the model in various open-world scenarios. We
+                                                                              will also explore the dynamic update of the model with the
+                                             
+                        fθ (x)                         gξ (x)                 incremental addition of unknown classes for wider open-
+    Lo (x) = −stopgrad                            ·             .     (32)    world applications.
+                       kfθ (x)k2                      kgξ (x)k2
+
+   Combining contrastive loss with conditional loss, the                      R EFERENCES
+objective function to optimize the contrastive network can                    [1]   Y. Wang, Q. Yao, J. T. Kwok, and L. M. Ni, “Generalizing from
+be obtained by:                                                                     a few examples: A survey on few-shot learning,” ACM Comput.
+                                                                                    Surv., vol. 53, no. 3, pp. 63:1–63:34, 2020.
+                                                                              [2]   W. Chen, Y. Liu, Z. Kira, Y. F. Wang, and J. Huang, “A closer look
+     Lpretrain (x) =        E         [Lc (xi ) + γLo (xi )].         (33)          at few-shot classification,” in Proceedings of the 7th International
+                       (xi ,yi )∈Db                                                 Conference on Learning Representations, 2019.
+                                                                              [3]   C. Ouyang, C. Biffi, C. Chen, T. Kart, H. Qiu, and D. Rueckert,
+                                                                                    “Self-supervised learning for few-shot medical image segmenta-
+where γ is a positive constant trading off the importance of                        tion,” IEEE Trans. Medical Imaging, vol. 41, no. 7, pp. 1837–1848,
+contrastive loss and the conditional loss.                                          2022.
+                                                                                                                                                       16
+                                                                                                                  S
+                          TABLE 6: Comparisons on OFSL tasks (5-way 5-shot, Acc.%, test on Cbase                      Cnovel ).
+
+                                                                      CIFAR-FS                                         FC100
+                   Methods              Backbone
+                                                       Type I ID     Type II ID        OOD           Type I ID       Type II ID       OOD
+           Proto Nets [20]             C64E           64.79±0.82     66.13±0.83     66.82±0.84      67.60±0.88      67.56±0.85     67.94±0.87
+           Matching Nets [19]          C64E           62.46±0.80     67.10±0.84     67.02±0.77      62.67±0.82      66.73±0.82     68.13±0.81
+           Relation Nets [21]          C64E           68.32±0.80     68.70±0.79     69.15±0.81      66.02±0.88      66.62±0.87     66.58±0.87
+           MAML [17]                   C64E           65.23±0.77     67.41±0.82     66.87±0.82      64.28±0.94      66.70±0.89     67.16±0.94
+           DKT [59]                    C64E           62.13±0.86     63.80±0.86     64.31±0.82      63.38±0.85      65.16±0.85     65.82±0.81
+           FEAT [60]                   C64E           72.00±0.85     73.67±0.81     72.74±0.79      72.37±0.86      73.02±0.85     74.08±0.88
+           S2M2 [61]                   C64E           70.07±0.84     70.82±0.80     69.58±0.81      69.18±0.84      70.71±0.86     71.48±0.90
+           CSS [32]                    C64E           69.76±0.84     70.25±0.86     70.38±0.84      69.28±0.92      70.09±0.89     70.34±0.91
+           Masked Soft k-Means [62]    C64E           60.51±0.92     63.69±0.84     63.89±0.85      64.96±0.90      67.13±0.87     67.53±0.86
+           PRWN [63]                   C64E           63.65±0.89     67.13±0.81     67.62±0.83      66.20±0.88      67.37±0.82     68.46±0.83
+           RNNP [13]                   C64E           73.47±0.87     71.96±0.89     70.87±0.91      71.64±0.94      69.71±0.94     69.36±0.95
+           RapNet [12]                 C64E           64.56±0.88     65.73±0.80     66.10±0.83      65.26±0.88      69.12±0.87     68.72±0.88
+           IDEAL-B (Ours)              C64E           73.53±0.79     75.47±0.80     75.46±0.79      72.82±0.88      73.36±0.81     74.54±0.83
+           IDEAL-T (Ours)              C64E           73.64±0.84     74.91±0.81     75.47±0.75      73.78±0.85      73.64±0.85     74.26±0.86
+           Masked Soft k-Means [62]    ResNet-12      79.25±0.79     72.02±0.83     72.16±0.87      77.41±0.87      79.63±0.81     79.66±0.79
+           PRWN [63]                   ResNet-12      82.66±0.70     84.27±0.68     84.92±0.68      80.36±0.87      82.80±0.87     83.11±0.87
+           RNNP [13]                   ResNet-12      84.23±0.74     81.95±0.79     83.19±0.73      79.75±0.92      77.83±0.96     78.17±0.93
+           RapNet [12]                 ResNet-12      81.57±0.75     83.42±0.71     83.46±0.70      82.33±0.82      83.22±0.76     83.30±0.79
+           IDEAL-B (Ours)              ResNet-12      92.91±0.49     93.67±0.47     93.73±0.46      85.02±0.90      86.62±0.84     86.70±0.82
+           IDEAL-T (Ours)              ResNet-12      93.11±0.52     93.54±0.49     93.77±0.46      85.44±0.80      84.95±0.87     86.27±0.78
+                                                                    miniImagenet                                  tieredImagenet
+                   Methods              Backbone
+                                                       Type I ID     Type II ID        OOD           Type I ID       Type II ID       OOD
+           Proto Nets [20]             C64E           66.34±0.79     67.58±0.80     68.66±0.81      58.07±0.76      59.22±0.79     60.05±0.82
+           Matching Nets [19]          C64E           61.67±0.80     66.74±0.81     68.52±0.83      56.71±0.78      58.49±0.75     59.25±0.82
+           Relation Nets [21]          C64E           64.95±0.83     65.15±0.85     66.11±0.86      59.77±0.81      60.96±0.79     62.05±0.79
+           MAML [17]                   C64E           65.32±0.80     66.85±0.83     68.52±0.82      57.87±0.84      59.62±0.82     60.23±0.81
+           DKT [59]                    C64E           62.25±0.81     63.12±0.79     63.66±0.83      57.88±0.75      59.84±0.81     59.91±0.79
+           FEAT [60]                   C64E           68.25±0.82     68.60±0.86     69.71±0.77      63.30±0.79      64.26±0.76     65.42±0.80
+           S2M2 [61]                   C64E           68.92±0.85     69.35±0.82     70.03±0.86      61.42±0.80      62.52±0.83     63.81±0.79
+           CSS [32]                    C64E           68.98±0.83     70.42±0.75     70.97±0.84      62.38±0.85      62.75±0.81     64.03±0.80
+           Masked Soft k-Means [62]    C64E           63.20±0.88     65.06±0.81     65.67±0.80      56.87±0.81      58.80±0.78     59.32±0.82
+           PRWN [63]                   C64E           64.20±0.84     66.86±0.80     67.81±0.81      57.38±0.78      59.45±0.79     60.29±0.79
+           RNNP [13]                   C64E           72.18±0.87     71.30±0.88     70.68±0.83      64.39±0.91      63.94±0.88     65.18±0.85
+           RapNet [12]                 C64E           65.76±0.85     66.06±0.85     66.63±0.83      57.57±0.85      59.00±0.80     59.48±0.81
+           IDEAL-B (Ours)              C64E           73.55±0.80     75.20±0.81     75.60±0.80      64.64±0.81      66.17±0.79     66.96±0.79
+           IDEAL-T (Ours)              C64E           72.51±0.80     75.54±0.77     76.29±0.73      64.87±0.75      66.47±0.79     67.12±0.77
+           Masked Soft k-Means [62]    ResNet-12      78.21±0.75     78.28±0.78     78.84±0.72      66.76±0.80      66.50±0.82     67.08±0.81
+           PRWN [63]                   ResNet-12      80.73±0.75     81.24±0.72     82.25±0.69      69.06±0.83      71.67±0.80     72.37±0.78
+           RNNP [13]                   ResNet-12      80.33±0.79     78.20±0.82     78.27±0.75      74.63±0.85      72.82±0.88     72.48±0.80
+           RapNet [12]                 ResNet-12      79.30±0.76     82.72±0.67     82.82±0.67      70.28±0.79      70.46±0.80     70.48±0.77
+           IDEAL-B (Ours)              ResNet-12      91.38±0.54     91.55±0.55     91.67±0.53      80.66±0.73      82.83±0.68     82.95±0.69
+           IDEAL-T (Ours)              ResNet-12      90.51±0.59     91.12±0.51     91.87±0.53      81.37±0.74      82.03±0.73     83.00±0.72
+
+
+
+[4]  Y. Wang, S. Wang, Y. Li, and D. Dou, “Recognizing medical                    Distribution calibration,” in Proceedings of the 9th International
+     search query intent by few-shot learning,” in Proceedings of the 45th        Conference on Learning Representations, 2021.
+     International ACM SIGIR Conference on Research and Development in       [12] J. Lu, S. Jin, J. Liang, and C. Zhang, “Robust few-shot learning
+     Information Retrieval, pp. 502–512, 2022.                                    for user-provided data,” IEEE Trans. Neural Networks Learn. Syst.,
+[5] C. Xue, Q. Dou, X. Shi, H. Chen, and P. Heng, “Robust learning                vol. 32, no. 4, pp. 1433–1447, 2021.
+     at noisy labeled medical images: Applied to skin lesion classi-         [13] P. Mazumder, P. Singh, and V. P. Namboodiri, “RNNP: A robust
+     fication,” in Proceedings of the IEEE International Symposium on             few-shot learning approach,” in Proceedings of the IEEE Winter
+     Biomedical Imaging, pp. 1280–1283, 2019.                                     Conference on Applications of Computer Vision, pp. 2663–2672, 2021.
+[6] C. Xue, L. Yu, P. Chen, Q. Dou, and P. Heng, “Robust medical             [14] F. Li, R. Fergus, and P. Perona, “A bayesian approach to unsu-
+     image classification from noisy labeled data with global and local           pervised one-shot learning of object categories,” in Proceedings of
+     representation guided co-training,” IEEE Trans. Medical Imaging,             the IEEE International Conference on Computer Vision, pp. 1134–1141,
+     vol. 41, no. 6, pp. 1371–1382, 2022.                                         2003.
+[7] I. Masi, A. T. Tran, T. Hassner, G. Sahin, and G. G. Medioni, “Face-     [15] R. Zhang, T. Che, Z. Ghahramani, Y. Bengio, and Y. Song, “Meta-
+     specific data augmentation for unconstrained face recognition,”              gan: An adversarial approach to few-shot learning,” in Advances
+     Int. J. Comput. Vis., vol. 127, no. 6-7, pp. 642–667, 2019.                  in Neural Information Processing Systems 31, pp. 2371–2380, 2018.
+[8] D. Tsipras, S. Santurkar, L. Engstrom, A. Ilyas, and A. Madry,           [16] S. Ravi and H. Larochelle, “Optimization as a model for few-
+     “From imagenet to image classification: Contextualizing progress             shot learning,” in Proceedings of the 5th International Conference on
+     on benchmarks,” in Proceedings of the 37th International Conference          Learning Representations, 2017.
+     on Machine Learning, vol. 119, pp. 9625–9635, 2020.                     [17] C. Finn, P. Abbeel, and S. Levine, “Model-agnostic meta-learning
+[9] K. J. Liang, S. B. Rangrej, V. Petrovic, and T. Hassner, “Few-shot            for fast adaptation of deep networks,” in Proceedings of the 34th
+     learning with noisy labels,” in Proceedings of the IEEE Conference on        International Conference on Machine Learning, pp. 1126–1135, 2017.
+     Computer Vision and Pattern Recognition, pp. 9089–9098, 2022.           [18] H. Ye and W. Chao, “How to train your MAML to excel in few-
+[10] J. Li, C. Xiong, and S. C. Hoi, “Learning from noisy data with               shot classification,” in Proceedings of the 9th International Conference
+     robust representation learning,” in Proceedings of the IEEE Interna-         on Learning Representations, 2021.
+     tional Conference on Computer Vision, pp. 9485–9494, 2021.              [19] O. Vinyals, C. Blundell, T. Lillicrap, K. Kavukcuoglu, and D. Wier-
+[11] S. Yang, L. Liu, and M. Xu, “Free lunch for few-shot learning:               stra, “Matching networks for one shot learning,” in Advances in
+                                                                                                                                                         17
+
+     Neural Information Processing Systems 29, pp. 3630–3638, 2016.            [41] S. E. Reed, H. Lee, D. Anguelov, C. Szegedy, D. Erhan, and
+[20] J. Snell, K. Swersky, and R. S. Zemel, “Prototypical networks for              A. Rabinovich, “Training deep neural networks on noisy labels
+     few-shot learning,” in Advances in Neural Information Processing               with bootstrapping,” in Workshop Track Proceedings of the 3rd Inter-
+     Systems 30, pp. 4077–4087, 2017.                                               national Conference on Learning Representations, 2015.
+[21] F. Sung, Y. Yang, L. Zhang, T. Xiang, P. H. S. Torr, and T. M.            [42] G. Zheng, A. H. Awadallah, and S. T. Dumais, “Meta label cor-
+     Hospedales, “Learning to compare: Relation network for few-shot                rection for noisy label learning,” in Proceedings of the 35th AAAI
+     learning,” in Proceedings of the IEEE Conference on Computer Vision            Conference on Artificial Intelligence, pp. 11053–11061, 2021.
+     and Pattern Recognition, pp. 1199–1208, 2018.                             [43] E. Arazo, D. Ortego, P. Albert, N. E. O’Connor, and K. McGuin-
+[22] V. G. Satorras and J. B. Estrach, “Few-shot learning with graph                ness, “Unsupervised label noise modeling and loss correction,” in
+     neural networks,” in Proceedings of the 6th International Conference           Proceedings of the 36th International Conference on Machine Learning,
+     on Learning Representations, 2018.                                             pp. 312–321, 2019.
+[23] B. Zhang, X. Li, Y. Ye, Z. Huang, and L. Zhang, “Prototype                [44] Y. Hsu, Y. Shen, H. Jin, and Z. Kira, “Generalized ODIN: de-
+     completion with primitive knowledge for few-shot learning,” in                 tecting out-of-distribution image without learning from out-of-
+     Proceedings of the IEEE Conference on Computer Vision and Pattern              distribution data,” in Proceedings of the IEEE Conference on Computer
+     Recognition, pp. 3754–3762, 2021.                                              Vision and Pattern Recognition, pp. 10948–10957, 2020.
+[24] W. Xue and W. Wang, “One-shot image classification by learning            [45] D. Krueger, E. Caballero, J. Jacobsen, A. Zhang, J. Binas, D. Zhang,
+     to restore prototypes,” in Proceedings of the 34th AAAI Conference             R. L. Priol, and A. C. Courville, “Out-of-distribution general-
+     on Artificial Intelligence, pp. 6558–6565, 2020.                               ization via risk extrapolation (rex),” in Proceedings of the 38th
+[25] S. Chen, J. Xue, J. Chang, J. Zhang, J. Yang, and Q. Tian, “SSL++:             International Conference on Machine Learning, vol. 139, pp. 5815–
+     improving self-supervised learning by mitigating the proxy task-               5826, 2021.
+     specificity problem,” IEEE Trans. Image Process., vol. 31, pp. 1134–      [46] A. Bendale and T. E. Boult, “Towards open world recognition,” in
+     1148, 2022.                                                                    Proceedings of the IEEE International Conference on Computer Vision,
+[26] K. He, X. Chen, S. Xie, Y. Li, P. Dollár, and R. B. Gir-                      pp. 1893–1902, 2015.
+     shick, “Masked autoencoders are scalable vision learners,” CoRR,          [47] K. J. Joseph, S. H. Khan, F. S. Khan, and V. N. Balasubramanian,
+     vol. abs/2111.06377, 2021.                                                     “Towards open world object detection,” in Proceedings of the IEEE
+                                                                                    International Conference on Computer Vision, pp. 5830–5840, 2021.
+[27] K. He, H. Fan, Y. Wu, S. Xie, and R. B. Girshick, “Momentum
+     contrast for unsupervised visual representation learning,” in Pro-        [48] Z. Liu, Z. Miao, X. Zhan, J. Wang, B. Gong, and S. X. Yu, “Large-
+     ceedings of the IEEE Conference on Computer Vision and Pattern                 scale long-tailed recognition in an open world,” in Proceedings
+     Recognition, pp. 9726–9735, 2020.                                              of the IEEE Conference on Computer Vision and Pattern Recognition,
+                                                                                    pp. 2537–2546, 2019.
+[28] T. Chen, S. Kornblith, M. Norouzi, and G. E. Hinton, “A simple
+                                                                               [49] T. Wang and P. Isola, “Understanding contrastive representation
+     framework for contrastive learning of visual representations,” in
+                                                                                    learning through alignment and uniformity on the hypersphere,”
+     Proceedings of the 37th International Conference on Machine Learning,
+                                                                                    in Proceedings of the 37th International Conference on Machine Learn-
+     pp. 1597–1607, 2020.
+                                                                                    ing, pp. 9929–9939, 2020.
+[29] X. Chen and K. He, “Exploring simple siamese representation
+                                                                               [50] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N.
+     learning,” in Proceedings of the IEEE Conference on Computer Vision
+                                                                                    Gomez, L. Kaiser, and I. Polosukhin, “Attention is all you need,”
+     and Pattern Recognition, pp. 15750–15758, 2021.
+                                                                                    in Advances in Neural Information Processing Systems 30, pp. 5998–
+[30] M. Caron, I. Misra, J. Mairal, P. Goyal, P. Bojanowski, and A. Joulin,         6008, 2017.
+     “Unsupervised learning of visual features by contrasting cluster          [51] A. Lapidoth, A foundation in digital communication. Cambridge
+     assignments,” in Advances in Neural Information Processing Systems             University Press, 2017.
+     33, 2020.
+                                                                               [52] G. Shalev, Y. Adi, and J. Keshet, “Out-of-distribution detection
+[31] J. Grill, F. Strub, F. Altché, C. Tallec, P. H. Richemond,                    using multiple semantic label representations,” in Advances in
+     E. Buchatskaya, C. Doersch, B. Á. Pires, Z. Guo, M. G. Azar, B. Piot,         Neural Information Processing Systems 31, pp. 7386–7396, 2018.
+     K. Kavukcuoglu, R. Munos, and M. Valko, “Bootstrap your own               [53] M. Abramowitz and I. A. Stegun, Handbook of mathematical func-
+     latent - A new approach to self-supervised learning,” in Advances              tions with formulas, graphs, and mathematical tables. US Government
+     in Neural Information Processing Systems 33, 2020.                             printing office, 1964.
+[32] Y. An, H. Xue, X. Zhao, and L. Zhang, “Conditional self-                  [54] H. Ye, D. Zhan, Y. Jiang, and Z. Zhou, “What makes objects similar:
+     supervised learning for few-shot classification,” in Proceedings               A unified multi-metric learning approach,” IEEE Trans. Pattern
+     of the 30th International Joint Conference on Artificial Intelligence,         Anal. Mach. Intell., vol. 41, no. 5, pp. 1257–1270, 2019.
+     pp. 2140–2146, 2021.                                                      [55] C. McDiarmid et al., “On the method of bounded differences,”
+[33] K. Lee, “Prototypical contrastive predictive coding,” in Proceedings           Surveys in combinatorics, vol. 141, no. 1, pp. 148–188, 1989.
+     of the 10th International Conference on Learning Representations, 2022.   [56] A. Bellet, A. Habrard, and M. Sebban, “Metric learning,” Synthesis
+[34] Y.-H. H. Tsai, T. Li, M. Q. Ma, H. Zhao, K. Zhang, L.-P. Morency,              lectures on artificial intelligence and machine learning, vol. 9, no. 1,
+     and R. Salakhutdinov, “Conditional contrastive learning with ker-              pp. 1–151, 2015.
+     nel,” in Proceedings of the 10th International Conference on Learning     [57] Q. Cao, Z. Guo, and Y. Ying, “Generalization bounds for metric
+     Representations, 2022.                                                         and similarity learning,” Mach. Learn., vol. 102, no. 1, pp. 115–132,
+[35] B. Frénay and M. Verleysen, “Classification in the presence of label          2016.
+     noise: A survey,” IEEE Trans. Neural Networks Learn. Syst., vol. 25,      [58] Y. Xia, X. Cao, F. Wen, G. Hua, and J. Sun, “Learning discriminative
+     no. 5, pp. 845–869, 2014.                                                      reconstructions for unsupervised outlier removal,” in Proceedings
+[36] H. Song, M. Kim, D. Park, Y. Shin, and J. Lee, “Learning from noisy            of the IEEE International Conference on Computer Vision, pp. 1511–
+     labels with deep neural networks: A survey,” IEEE Trans. Neural                1519, 2015.
+     Networks Learn. Syst., vol. 34, no. 11, pp. 8135–8153, 2023.              [59] M. Patacchiola, J. Turner, E. J. Crowley, M. F. P. O’Boyle, and A. J.
+[37] B. Han, Q. Yao, T. Liu, G. Niu, I. W. Tsang, J. T. Kwok, and                   Storkey, “Bayesian meta-learning for the few-shot setting via deep
+     M. Sugiyama, “A survey of label-noise representation learning:                 kernels,” in Advances in Neural Information Processing Systems 33,
+     Past, present and future,” CoRR, vol. abs/2011.04406, 2020.                    2020.
+[38] L. Jiang, Z. Zhou, T. Leung, L. Li, and L. Fei-Fei, “Mentornet:           [60] H. Ye, H. Hu, D. Zhan, and F. Sha, “Few-shot learning via
+     Learning data-driven curriculum for very deep neural networks                  embedding adaptation with set-to-set functions,” in Proceedings
+     on corrupted labels,” in Proceedings of the 35th International Confer-         of the IEEE Conference on Computer Vision and Pattern Recognition,
+     ence on Machine Learning, pp. 2309–2318, 2018.                                 pp. 8805–8814, 2020.
+[39] B. Han, Q. Yao, X. Yu, G. Niu, M. Xu, W. Hu, I. W. Tsang,                 [61] P. Mangla, M. Singh, A. Sinha, N. Kumari, V. N. Balasubramanian,
+     and M. Sugiyama, “Co-teaching: Robust training of deep neural                  and B. Krishnamurthy, “Charting the right manifold: Manifold
+     networks with extremely noisy labels,” in Advances in Neural                   mixup for few-shot learning,” in Proceedings of the IEEE Winter
+     Information Processing Systems 31, pp. 8536–8546, 2018.                        Conference on Applications of Computer Vision, pp. 2207–2216, 2020.
+[40] J. Shu, Q. Xie, L. Yi, Q. Zhao, S. Zhou, Z. Xu, and D. Meng, “Meta-       [62] M. Ren, E. Triantafillou, S. Ravi, J. Snell, K. Swersky, J. B. Tenen-
+     weight-net: Learning an explicit mapping for sample weighting,”                baum, H. Larochelle, and R. S. Zemel, “Meta-learning for semi-
+     in Advances in Neural Information Processing Systems 32, pp. 1917–             supervised few-shot classification,” in Proceedings of the 6th Inter-
+     1928, 2019.                                                                    national Conference on Learning Representations, 2018.
+                                                                                                                           18
+
+[63] A. Ayyad, Y. Li, R. Muaz, S. Albarqouni, and M. Elhoseiny, “Semi-       Jing Wang Jing Wang received the B.Sc. de-
+     supervised few-shot learning with prototypical random walks,” in        gree in computer science from the Suzhou Uni-
+     AAAI Workshop on Meta-Learning and MetaDL Challenge, vol. 140 of        versity of Science and Technology, China, in
+     Proceedings of Machine Learning Research, pp. 45–57, 2021.              2013 and the M.Sc. degree in computer science
+[64] L. Bertinetto, J. F. Henriques, P. H. S. Torr, and A. Vedaldi, “Meta-   from Northeastern University, China, in 2015 and
+     learning with differentiable closed-form solvers,” in Proceedings of    the Ph.D. degree in software engineering from
+     the 7th International Conference on Learning Representations, 2019.     Southeast University, China, in 2021. He is cur-
+[65] B. N. Oreshkin, P. R. López, and A. Lacoste, “TADAM: task              rently an assistant professor at the School of
+     dependent adaptive metric for improved few-shot learning,” in           Computer Science and Engineering, Southeast
+     Advances in Neural Information Processing Systems 31, pp. 719–729,      University, China. His research interests include
+     2018.                                                                   pattern recognition and machine learning.
+[66] K. He, X. Zhang, S. Ren, and J. Sun, “Deep residual learning
+     for image recognition,” in Proceedings of the IEEE Conference on
+     Computer Vision and Pattern Recognition, pp. 770–778, 2016.
+[67] X. Glorot, A. Bordes, and Y. Bengio, “Deep sparse rectifier neural
+     networks,” in Proceedings of the 14th International Conference on
+     Artificial Intelligence and Statistics, pp. 315–323, 2011.
+[68] D. P. Kingma and J. Ba, “Adam: A method for stochastic optimiza-
+     tion,” in Proceedings of the 3rd International Conference on Learning
+     Representations, 2015.
+
+
+
+
+                        Yuexuan An Yuexuan An is currently pursuing
+                        the Ph.D. degree in the School of computer
+                        science and engineering, Southeast University.
+                        She received the B.Sc. in computer science and
+                        technology from Jiangsu Normal University in
+                        2015 and M.Sc. degree in computer application
+                        technology from China University of Mining and
+                        Technology in 2019. Her research interest in-
+                        cludes pattern recognition and machine learn-
+                        ing.
+
+
+
+
+                        Hui Xue Hui Xue is currently a professor of
+                        School of Computer Science and Engineering
+                        at Southeast University, China. She received the
+                        B.Sc. degree in Mathematics from Nanjing Norm
+                        University in 2002. In 2005, she received the
+                        M.Sc. degree in Mathematics from Nanjing Uni-
+                        versity of Aeronautics & Astronautics (NUAA).
+                        And she also received the Ph.D. degree in Com-
+                        puter Application Technology at NUAA in 2008.
+                        Her research interests include pattern recogni-
+                        tion and machine learning.
+
+
+
+
+                        Xingyu Zhao Xingyu Zhao is currently pursuing
+                        the Ph.D. degree in the School of Computer
+                        Science and Engineering, Southeast University.
+                        He received the B.Sc. and M.Sc. degrees in
+                        School of Computer Science and Technology,
+                        China University of Mining and Technology in
+                        2016 and 2019, respectively. His research in-
+                        terests mainly include pattern recognition and
+                        machine learning.
+

@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-14",
+  "status": "Grid and aggregation fixed before outcomes",
+  "purpose": "Oracle headroom only, labels select alpha on these same queries; not deployable test accuracy",
+  "alphas": [
+    0.0,
+    0.05,
+    0.1,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "path": "M_alpha=(1-alpha)I+alpha*M_learned; re-solve weighted residual ridge",
+  "candidates": "class_mean/task only, both completed training samplers, all3 training seeds",
+  "frozen": "source geometry2752/prior/reference centers/rho.25/ridge8/full probability fusion.5; no new fits",
+  "evaluation": "All48 existing scenes,5draws,64supports; same/other acquisition separated",
+  "alpha_zero": "Fixed class-reference model, not original visual-kernel model",
+  "oracle_rules": "Global shared alpha and one shared alpha per port; average3seeds5draws, never choose a seed. BA maximization and NLL minimization separately; exact ties choose smaller alpha.",
+  "primary": "Other acquisition, equal scene/draw means within port then equal3ports, mean3seeds",
+  "secondary": "Same-acquisition and per-port curves, seed/draw variation, rescues/harms",
+  "outside_scope": "No selector training, no external data, no main-model promotion, no finer followup grid"
+}

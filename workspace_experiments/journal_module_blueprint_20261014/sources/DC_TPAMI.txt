@@ -1,0 +1,1048 @@
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                                             1
+
+
+
+
+      Bridging the Gap between Few-Shot and
+    Many-Shot Learning via Distribution Calibration
+              Shuo Yang, Songhua Wu, Tongliang Liu Senior Member, IEEE, Min Xu Member, IEEE
+
+      Abstract—A major gap between few-shot and many-shot learning is the data distribution empirically observed by the model during training.
+      In few-shot learning, the learned model can easily become over-fitted based on the biased distribution formed by only a few training
+      examples, while the ground-truth data distribution is more accurately uncovered in many-shot learning to learn a well-generalized model.
+      In this paper, we propose to calibrate the distribution of these few-sample classes to be more unbiased to alleviate such an over-fitting
+      problem. The distribution calibration is achieved by transferring statistics from the classes with sufficient examples to those few-sample
+      classes. After calibration, an adequate number of examples can be sampled from the calibrated distribution to expand the inputs to the
+      classifier. Specifically, we assume every dimension in the feature representation from the same class follows a Gaussian distribution so
+      that the mean and the variance of the distribution can borrow from that of similar classes whose statistics are better estimated with an
+      adequate number of samples. Extensive experiments on three datasets, miniImageNet, tieredImageNet, and CUB, show that a simple
+      linear classifier trained using the features sampled from our calibrated distribution can outperform the state-of-the-art accuracy by a
+      large margin. Besides the favorable performance, the proposed method also exhibits high flexibility by showing consistent accuracy
+      improvement when it is built on top of any off-the-shelf pretrained feature extractors and classification models without extra learnable
+      parameters. The visualization of these generated features demonstrates that our calibrated distribution is an accurate estimation thus the
+      generalization ability gain is convincing. We also establish a generalization error bound for the proposed distribution-calibration-based
+      few-shot learning, which consists of the distribution assumption error, the distribution approximation error, and the estimation error. This
+      generalization error bound theoretically justifies the effectiveness of the proposed method.
+
+      Index Terms—few-shot learning, image classification, transfer learning, generalization error
+
+                                                                                 F
+
+
+
+1    I NTRODUCTION                                                                                                           Arctic fox
+
+L    Earning from a limited number of training samples has drawn
+      increasing attention due to the high cost of collecting and
+annotating a large amount of data. Researchers have developed
+                                                                                                     white wolf
+                                                                                                     malamute
+                                                                                                                         mean sim var sim
+                                                                                                                           97%
+                                                                                                                           85%
+                                                                                                                                      97%
+                                                                                                                                      78%
+algorithms to improve the performance of models that have been                                          lion               81%        70%
+trained with very few data. [1], [2] train models in a meta-learning                                  meerkat              78%        70%
+fashion so that the model can adapt quickly to tasks with only a few                             black footed ferret       77%        73%
+training samples available. [3], [4] try to synthesize data or features                           golden retriever         74%        64%
+by learning a generative model to alleviate the data insufficiency                                    jellyfish            46%        26%
+problem. [5] propose to leverage unlabeled data and predict pseudo                                     orange              40%        19%
+labels to improve the performance of few-shot learning.                                              beer bottle           34%        11%
+    While most previous works focus on developing stronger
+models, scant attention has been paid to the property of the                         TABLE 1: The class mean similarity (“mean sim”) and class variance
+                                                                                     similarity (“var sim”) between Arctic fox and different classes.
+data itself. It is natural that when the number of data grows,
+the ground-truth distribution can be more accurately uncovered.
+                                                                                          Here, we consider calibrating this biased distribution into a
+Models trained with a wide coverage of data can generalize well
+                                                                                     more accurate approximation of the ground-truth distribution. In
+during evaluation. On the other hand, when training a model with
+                                                                                     this way, a model trained with inputs sampled from the calibrated
+only a few training data, the model tends to overfit on these few
+                                                                                     distribution can generalize over a broader range of data from a
+samples by minimizing the training loss over these samples. These
+                                                                                     more accurate distribution rather than only fitting itself to those
+phenomena are illustrated in Figure 1. This biased distribution
+                                                                                     few samples.
+based on a few examples greatly limits the generalization ability of
+the model since it is far from mirroring the ground-truth distribution                    Instead of calibrating the distribution of the original data space,
+from which test cases are sampled during evaluation.                                 we try to calibrate the distribution in the feature space, which has
+                                                                                     much lower dimensions and is easier to calibrate [6]. We assume
+‚   S. Yang and M. Xu are with the School of Electrical and Data Engi-               every dimension in the feature vectors from the same class follows a
+    neering, Faculty of Engineering and Information Technology, University           Gaussian distribution and observe that similar classes usually have
+    of Technology Sydney, 15 Broadway, Ultimo, NSW 2007, Australia;                  similar mean and variance of the feature representations, as shown
+    shuo.yang@student.uts.edu.au, min.xu@uts.edu.au
+‚   S. Wu and T. Liu are with the Trustworthy Machine Learning Lab, School           in Table 1. Thus, the mean and variance of the Gaussian distribution
+    of Computer Science, the University of Sydney, 1 Cleveland St, Darlington,       can be transferred across similar classes [7]. Meanwhile, the
+    NSW 2008, Australia; songhua.wu, tongliang.liu@sydney.edu.au                     statistics can be estimated more accurately when there are adequate
+Corresponding author: Min Xu                                                         samples in the source domain. Based on these observations, we
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                                      2
+
+
+
+                                                                                                     ground truth distribution
+
+                                                                                                       calibrated distribution
+
+                                                                                                         few-shot features
+                                                                                                      features sampled from
+                                                                                                       calibrated distribution
+
+                                                                                                           class boundary
+       Classifier trained with                    Classifier trained with features
+         few-shot features                      sampled from calibrated distribution
+
+
+Fig. 1: Training a classifier from few-shot features makes the classifier overfit to the few examples (Left). Classifier trained with features sampled
+from calibrated distribution has better generalization ability (Right).
+
+
+reuse the statistics from many-shot classes and transfer them to            meta-learning is the optimization-based algorithm. MAML [1] and
+better estimate the distribution of the few-shot classes according to       Meta-SGD [9] proposed to learn how to optimize the gradient
+their class similarity. More samples can be generated according to          descent procedure so that the learner can have a good initialization,
+the estimated distribution which provides sufficient supervision for        update direction, and learning rate. For the classification problem,
+training the classification model.                                          researchers proposed simple but effective algorithms based on
+    We analyze the generalization error for the proposed                    metric learning. MatchingNet [17] and ProtoNet [2] learned to
+distribution-calibration-based few-shot learning. The error is              classify samples by comparing the distance to the representatives
+bounded by the distribution assumption error: the gap between the           of each class. Our distribution calibration and feature sampling
+ground-truth feature representation distribution and the assumed            procedure does not include any learnable parameters and the
+Gaussian distribution; the distribution approximation error: the gap        classifier is trained in a traditional supervised learning way.
+between the assumed Gaussian distribution and the approximated                  Another line of algorithms is to compensate for the insufficient
+calibrated Gaussian distribution; and the estimation error induced          number of available samples by generation. Most methods use
+by the deviation of the obtained network parameters to the optimal          the idea of Generative Adversarial Networks (GANs) [18] or
+ones because of finite samples, that theoretically justify the              autoencoder [19] to generate samples [20], [21], [22], [23] or
+effectiveness of the proposed method.                                       features [6], [24], [25] to augment the training set. Specifically, [20]
+    In the experiments, we show that a simple logistic regression           and [6] proposed to synthesize data by introducing an adversarial
+classifier trained with our strategy can achieve state-of-the-art           generator conditioned on tasks. [24] tried to learn a variational
+accuracy on three datasets. Our distribution calibration strategy can       autoencoder to approximate the distribution and predict labels
+be paired with any classifier and feature extractor with no extra           based on the estimated statistics. The autoencoder can also augment
+learnable parameters. Training with samples selected from the               samples by projecting between the visual space and the semantic
+calibrated distribution can achieve a 12% accuracy gain compared            space [21] or encoding the intra-class deformations [22]. While
+to the baseline which is only trained with the few samples given in         these methods can generate extra samples or features for training,
+a 5way1shot task. We also visualize the calibrated distribution and         they require the design of a complex model and loss function
+show that it is an accurate approximation of the ground-truth that          to learn how to generate. However, our distribution calibration
+can better cover the test cases.                                            strategy is simple and does not need extra learnable parameters.
+    This work is an extension of an ICLR 2021 oral presentation [8].            Data augmentation is a traditional and effective way of
+Compared to the preliminary version, a theoretical framework that           increasing the number of training samples. Qin et al. [26] and
+bounds the generalization error of the proposed method is newly             Antoniou et al. [27] proposed the use of the traditional data
+established in Section 4. The proof of the established generalization       augmentation technique to construct pretext tasks for unsupervised
+error bound is provided in Section 7. Additional discussions and            few-shot learning. [4] and [3] leveraged the general idea of data
+empirical results that verify the established theoretical framework         augmentation, they designed a hallucination model to generate
+are also included in Section 5.5.1 and Section 5.5.2, respectively.         the augmented version of the image with different choices for the
+Our code is open-sourced at: https://github.com/ShuoYang-1998/              model’s input, i.e., an image and a noise [4] or the concatenation
+Few_Shot_Distribution_Calibration.                                          of multiple features [3], [28]. [29] tried to augment feature
+                                                                            representations by sampling from an estimated variance. These
+2    R ELATED WORK                                                          methods learn to augment from the original samples or their feature
+                                                                            representation while we try to estimate the class-level distribution
+Few-shot classification is a challenging machine learning problem
+                                                                            and thus can eliminate the inductive bias from a single sample and
+in weakly-supervised learning [1], [9], [10], [11], [12], [13], [14],
+                                                                            provide more diverse generations from the calibrated distribution.
+[15], [16], which usually requires a pretrained classifier or learning
+algorithm can quickly adapt to new tasks with very limited training
+examples. Researchers have explored the idea of learning to learn           3    M AIN A PPROACH
+or meta-learning to improve the quick adaptation ability to alleviate       In this section, we introduce the few-shot classification problem
+the few-shot challenge. One of the most general algorithms for              definition in Section 3.1 and details of our proposed approach in
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                                 3
+
+Section 3.2.                                                                Algorithm 1: Training procedure for an N-way-K-shot
+                                                                            task
+3.1   Problem Definition                                                      Require: Support set features S “ pxi , yqN     ˆK
+                                                                                                                            i“1
+                                                                                                                      |Cb |      |Cb |
+We follow a typical few-shot classification setting. Given a dataset          Require: Base classes’ statistics tµi ui“1 , tΣi ui“1
+                                                                                                N ˆK
+with data-label pairs D “ tpxi , yi qu where xi P Rd is the feature         1 Transform pxi qi“1     with Tukey’s Ladder of Powers as
+vector of a sample and yi P C is the class label of xi , where                 Equation 3;
+C denotes the set of classes. This set of classes is divided into           2 for pxi , yi q P S do
+base classes Cb and novel classes Cn , where Cb X Cn “ H and                3     Calibrate the mean µ1 and the covariance Σ1 for class
+Cb YCn “ C . The goal is to train a model on the data from the base                yi using xi with Equation 6;
+classes so that the model can generalize well on tasks sampled from         4     Sample features for class yi from the calibrated
+the novel classes. In order to evaluate the fast adaptation ability                distribution as Equation 7;
+or the generalization ability of the model, there are only a few            5 end
+available labeled samples for each task T . The most common way             6 Train a classifier using both support set features and all
+to build a task is called an N-way-K-shot task [17], where N classes           sampled features as Equation 8;
+are sampled from the novel set and only K (e.g., 1 or 5) labeled
+samples are provided for each class. The few available labeled
+data are called support set S “ tpxi , yi quN  ˆK
+                                             i“1    and the model is       in the feature vector. The covariance matrix Σi for the features
+                                                  N ˆK`N ˆq
+evaluated on another query set Q “ tpxi , yi qui“N ˆK`1 , where            from class i is calculated as:
+every class in the task has q test cases. Thus, the performance of a                                  ni
+model is evaluated as the averaged accuracy on (the query set of)                                1   ÿ                        T
+                                                                                       Σi “              pxj ´ µi q pxj ´ µi q .             (2)
+multiple tasks sampled from the novel classes.                                                ni ´ 1 j“1
+
+3.2   Distribution Calibration                                             3.2.2   Calibrating statistics of the novel classes
+As introduced in Section 3.1, the base classes have a sufficient           Here, we consider an N-way-K-shot task sampled from the novel
+amount of data while the evaluation tasks sampled from the                 classes.
+novel classes only have a limited number of labeled samples.                   Tukey’s Ladder of Powers Transformation
+The statistics of the distribution for the base class can be estimated         To make the feature distribution more Gaussian-like, we first
+more accurately compared to the estimation based on few-shot               transform the features of the support set and query set in the
+samples, which is an ill-posed problem. As shown in Table 1, we            target task using Tukey’s Ladder of Powers transformation [31].
+observe that if we assume the feature distribution is Gaussian, the        Tukey’s Ladder of Powers transformation is a family of power
+mean and variance with respect to each class are correlated to the         transformations which can reduce the skewness of distributions and
+semantic similarity of each class. With this in mind, the statistics       make distributions more Gaussian-like. Tukey’s Ladder of Powers
+can be transferred from the base classes to the novel classes if we        transformation is formulated as:
+learn how similar the two classes are. In the following sections,                                  " λ
+we discuss how we calibrate the distribution estimation of the                                       x          if λ ‰ 0
+                                                                                              x̃ “                                         (3)
+classes with only a few samples (Section 3.2.2) with the help of the                                 logpxq if λ “ 0
+statistics of the base classes (Section 3.2.1). We will also elaborate     where λ is a hyper-parameter to adjust how to correct the
+on how do we leverage the calibrated distribution to improve the           distribution. The original feature can be recovered by setting λ as
+performance of few-shot learning (Section 3.2.3).                          1. Decreasing λ makes the distribution less positively skewed and
+    Note that our distribution calibration strategy is over the feature-   vice versa.
+level and is agnostic to any feature extractor. Thus, it can be built on       Calibration through statistics transfer
+top of any pretrained feature extractors without further costly fine-          Using the statistics from the base classes introduced in Sec-
+tuning. In our experiments, we use the pretrained WideResNet               tion 3.2.1, we transfer the statistics from the base classes which are
+following previous work [30]. The WideResNet is trained to                 estimated more accurately on sufficient data to the novel classes.
+classify the base classes, along with a self-supervised pretext            The transfer is based on the Euclidean distance between the feature
+task to learn the general-purpose representations suitable for image       space of the novel classes and the mean of the features from the
+understanding tasks. Please refer to their paper for more details on       base classes µi as computed in Equation 1. Specifically, we select
+training the feature extractor.                                            the top k base classes with the closest distance to the feature of a
+                                                                           sample x̃ from the support set:
+3.2.1 Statistics of the base classes
+We assume the feature distribution of base classes is Gaussian. The                              Sd “ t´}µi ´ x̃}2 | i P Cb u,               (4)
+mean of the feature vector from a base class i is calculated as the                                               2
+                                                                                         SN “ ti | ´ }µi ´ x̃} P topkpSd qu,                 (5)
+mean of every single dimension in the vector:
+                              řni                                          where topkp¨q is an operator to select the top elements from the
+                                 j“1 pxj q                                 input distance set Sd . SN stores the k nearest base classes with
+                       µi “                ,                     (1)
+                                   ni                                      respect to a feature vector x̃. Then, the mean and covariance of
+where xj is a feature vector of the j -th sample from the base             the distribution is calibrated by the statistics from the nearest base
+class i and ni is the total number of samples in class i. As the           classes:
+feature vector xj is multi-dimensional, we use covariance for a                               ΣiPSN µi ` x̃ 1   ΣiPSN Σi
+better representation of the variance between any pair of elements                    µ1 “                 ,Σ “          ` α,                (6)
+                                                                                                 k`1               k
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                                      4
+
+where α is a dispersion hyper-parameter that helps to reduce the            Thus the generalization error is defined as
+distribution approximation error, since base class features usually
+have a relatively smaller intra-class variance because of sufficient                        Rq pfˆq “ EpX,Y q„Dq r`pfˆpXq, Y qs.                 (12)
+training examples.                                                          Then we have,
+    For few-shot learning with more than one shot, the afore-
+mentioned procedure of the distribution calibration should be                    Rq pfˆq´R̂s`g pfˆq
+undertaken multiple times with each time using one feature                                “ Rq pfˆq ´ Rs pfˆq ` Rs pfˆq ´ R̂s`g pfˆq,            (13)
+vector from the support set. This avoids the bias provided by
+one specific sample and potentially achieves a more diverse and             where R# and R̂# are the expected and empirical risks on the
+accurate distribution estimation. Thus, for simplicity, we denote           distribution D# .
+the calibrated distribution as a set of statistics. For a class y P Cn ,        In this paper, we bound the generalization error by employing
+                                              1     1         1    1
+we denote the set of statistics as Sy “ tpµ1 , Σ1 q, ..., pµK , ΣK qu,      Rademacher Complexity, which is one of the most frequently used
+         1    1
+where µi , Σi are the calibrated mean and covariance, respectively,         complexity measures of function classes. It can be used to derive
+computed based on the i-th feature in the support set of class y .          data-dependent upper-bounds on the learnability of function classes.
+Here, the size of the set is the value of K for an N-way-K-shot             Intuitively, a function class with smaller Rademacher complexity
+task.                                                                       is easier to learn. The following is the definition of the empirical
+                                                                            Rademacher complexity.
+3.2.3   How to leverage the calibrated distribution?                        Definition 4.1 ( [33]). Let F be a function class and tzn uN
+                                                                                                                                       n“1
+With a set of calibrated statistics Sy for class y in a target task, we     be a sample drawn from Z . Denote tσn uNn“1 be a set of random
+generate a set of feature vectors with label y by sampling from the         variables independently taking either value from t´1, 1u with
+calibrated Gaussian distributions:                                          equal probability. Then, the Rademacher complexity of F with
+                                                                            respect to the sample is defined as
+          Dy “ tpx, yq|x „ N pµ, Σq, @pµ, Σq P Sy u.                 (7)                                    «                ff
+                                                                                                                 N
+                                                                                                               1 ÿ
+Here, the total number of generated features per class is set as a                        R̂pFq :“ Eσ sup          σn f pzn q .        (14)
+                                                                                                        f PF N n“1
+hyperparameter and they are equally distributed for every calibrated
+distribution in Sy . The generated features along with the original             For the first two terms in the right part of Equation 13, since
+support set features for a few-shot task are then served as the             query and support set are both sampled from the novel set, the
+training data for a task-specific classifier. We train the classifier for   distributions and thereby the expected risks are the same, i.e.,
+a task by minimizing the cross-entropy loss over both the features          Rq pfˆq ´ Rs pfˆq “ 0.
+of its support set S and the generated features Dy :                            For the next two terms in the right part of Equation 13, the gap,
+                                                                            Rs pfˆq ´ R̂ps`gq pfˆq, is caused by distribution shift. We leverage
+                           ÿ                                                a calibrated Gaussian distribution to approximate the assumed
+              `“                       ´ log Prpy|x; θq,             (8)
+                                                                            Gaussian distribution, and thereby the ground-truth distribution of
+                   px,yq„S̃YDy,yPY T
+                                                                            the support (novel) set, and thus there exists a distribution shift
+                                                                            error, consisting of a distribution assumption error and a distribution
+where Y T is the set of classes for the task T . S̃ denotes the
+                                                                            approximation error.
+support set with features transformed by Turkey’s Ladder of Powers
+                                                                                Empirically, for R̂ps`gq , given a τ P r0, 1q, we consider the
+transformation and the classifier model is parameterized by θ.
+                                                                            convex combination of the support risk and the generated risk:
+                                                                                          R̂s`g pfˆq “ τ R̂s pfˆq ` p1 ´ τ qR̂g pfˆq.            (15)
+4     G ENERALIZATION E RROR B OUND
+We formulate the above problem in the traditional risk minimization         As discussed before [34], [35], setting τ introduces a trade-off
+framework [32]. The expected and empirical risks of a classifier f          between the support set that is reliable but not sufficient and the
+can be defined as                                                           generated set that is sufficient but not reliable. Setting τ “ 0.5
+                                                                            means that we treat the generated set equally as the support set.
+                 Rpf q “ EpX,Y q„D r`pf pXq, Y qs,                   (9)        Then, based on [36], assuming that the neural network
+                                                                            has d layers with parameter matrices W1 , . . . , Wd , and
+and                                                                         the activation functions σ1 , . . . , σd´1 are Lipschitz continu-
+                              1 ÿ
+                                  N                                         ous, satisfying σj p0q “ 0. We denote by h : X ÞÑ
+                   R̂pf q “         `pf pXi q, Yi q,                (10)    Wd σd´1 pWd´1 σd´2 p. . . σ1 pW1 Xqqq P R the standard form
+                              N i“1
+                                                                            of the neural network. H “ arg maxiPt1,...,cu hi . Then
+where N is size of training sample drawn from D.                            the output of řthe softmax function is defined as fi pXq “
+                                                                                              c
+    In our case, for a specific few-shot classification task, the           exp phi pXqq{ j“1 exp phj pXqq, i “ 1, . . . , c, Rs pfˆq ´
+distributions of the generated set, support set, and query set are          R̂ps`gq pfˆq can be bounded as follows:
+denoted by Dg , Ds and Dq , respectively.
+                                                                            Theorem 4.1. Assume that F is a function class consisting
+    The classifier fˆ is learned from the support set S and the                                                                          psq
+                                                                            of functions with the range ra, bs. Let ZN        1
+                                                                                                                                s
+                                                                                                                                  “ tzn uN     s
+                                                                                                                                             n“1 and
+generated set G ,                                                             Ng          pgq Ng
+                                                                            Z1 “ tzn un“1 be two sets of i.i.d. samples drawn from the
+                                                                            support (novel) domain Z psq and the generated calibrated domain
+                      fˆ “ arg min R̂ps`gq pf q,                    (11)    Z pgq , respectively; the Frobenius norm of the weight matrices
+                              f PF                                          W1 , . . . , Wd are at most M1 , . . . , Md . Let the activation functions
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                             5
+
+be 1-Lipschitz, positive-homogeneous, and applied element-wise          5.1   Experimental Setup
+(such as the ReLU). Let z is upper bounded by B , i.e., for any         5.1.1 Datasets
+z, }z} ď B . Then, given τ P r0, 1q and for any δ ą 0, with
+                                                                        We evaluate our distribution calibration strategy on
+probability at least 1 ´ δ ,
+                                                                        miniImageNet [37], tieredImageNet [5], and CUB [55].
+                                                                        miniImageNet and tieredImageNet have a brand range of classes
+        Rq pf q ´ R̂s`g pf q                                            including various animals and objects while CUB is a more
+                                      d                                 fine-grained dataset that includes various species of birds. Datasets
+                                          pb ´ aq lnp4{δq               with different levels of granularity may have different distributions
+    ď p1 ´ τ qDF pS, Gq ` 3p1 ´ τ q
+                                               2Ng                      for their feature space. We want to show the effectiveness and
+                                                                        generality of our strategy on all three datasets.
+                                 d
+                                   pb ´ aq lnp4{δq                          miniImageNet is derived from ILSVRC-12 dataset [56]. It
+        ` 2p1 ´ τ qR̂g pFq ` 3τ
+                                        2Ns                             contains 100 diverse classes with 600 samples per class. The image
+                        d                   ˆ
+                          pb ´ aq2 lnp4{δq τ 2     p1 ´ τ q2
+                                                             ˙          size is 84ˆ84ˆ3. We follow the splits used in previous works [37],
+        ` 2τ R̂s pFq `                           `                      which split the dataset into 64 base classes, 16 validation classes,
+                                 2            Ns      Ng                and 20 novel classes.
+    ď p1 ´ τ qDF pS, N q ` p1 ´ τ qDF pN , Gq                               tieredImageNet is a larger subset of ILSVRC-12 dataset [56],
+                      ?                                                 which contains 608 classes sampled from hierarchical category
+                  cBp 2d log 2 ` 1qΠdi“1 Mi
+      ` 2p1 ´ τ q           a                                           structure. Each class belongs to one of 34 higher-level categories
+                               Ng
+           d                             d                              sampled from the high-level nodes in the ImageNet. The average
+              pb ´ aq lnp4{δq               pb ´ aq lnp4{δq             number of images in each class is 1281. We use 351, 97, and 160
+      ` 3τ                    ` 3p1 ´ τ q                               classes for training, validation, and test, respectively.
+                    2Ns                            2Ng
+                ?               d
+                                                                            CUB is a fine-grained few-shot classification benchmark. It
+           cBp 2d log 2 ` 1qΠi“1 Mi                                     contains 200 different classes of birds with a total of 11,788 images
+      ` 2τ             ?
+                         Ns                                             of size 84 ˆ 84 ˆ 3. Following previous works [57], we split the
+         d
+                   2
+                            ˆ
+           pb ´ aq lnp4{δq τ 2       p1 ´ τ q2
+                                               ˙                        dataset into 100 base classes, 50 validation classes, and 50 novel
+      `                            `             .         (16)         classes.
+                   2          Ns        Ng
+where DF p∆, ♦q fi supf PF |R∆ pf q ´ R♦ pf q|, and N is the            5.1.2 Evaluation Metric
+calibrated Gaussian distribution.                                       We use the top-1 accuracy as the evaluation metric to measure the
+                                                                        performance of our method. We report the accuracy on 5way1shot
+     Proof is provided in Section 7.1.
+                                                                        and 5way5shot settings for miniImageNet, tieredImageNet, and
+     Theorem 4.1 shows that the generalization error is bounded
+                                                                        CUB. The reported results are the averaged classification accuracy
+by the empirical training risk, the distribution assumption error,
+                                                                        over 10,000 tasks.
+the distribution approximation error, and the estimation error. The
+empirical training risk can be minimized to an arbitrary small value.   5.1.3 Implementation Details
+The distribution assumption error DF pS, N q is the gap between
+                                                                        For feature extractor, we use the WideResNet trained following
+the ground-truth feature representation distribution and the assumed
+                                                                        previous work [30]. For each dataset, we train the feature extractor
+Gaussian distribution. If the ground-truth feature representation
+                                                                        with base classes and test the performance using novel classes. Note
+distribution is Gaussian, this term will be 0, which motivates us to
+                                                                        that the feature representation is extracted from the penultimate
+do the Tukey’s Ladder of Powers transformation to make it more
+                                                                        layer (with a ReLU activation function) from the feature extractor,
+Gaussian-like. The distribution approximation error DF pN , Gq
+                                                                        thus the values are all non-negative so that the inputs to Tukey’s
+is the gap between the assumed Gaussian distribution and the
+                                                                        Ladder of Powers transformation in Equation 3 are valid. At the
+approximated (calibrated) Gaussian distribution. If the statistics,
+                                                                        distribution calibration stage, we compute the base class statistics
+i.e., the mean and variance, of the approximated calibrated Gaussian
+                                                                        and transfer them to calibrate novel class distribution for each
+are the same as that of the assumed Gaussian, this term will be
+                                                                        dataset. We use the LR and SVM [58] implementation of scikit-
+0, which motivates us to select the statistics of the most k similar
+                                                                        learn [59] with the default settings. We use the same hyperparameter
+classes from the rich base classes. The estimation error (the rest
+                                                                        value for all datasets except for α. Specifically, the number of
+terms in Equation 16) is caused by the finite samples, which
+                                                                        generated features is 750; the number of retrieved base classes
+asymptotically tends to 0 as the sample size tends to infinity. We
+                                                                        k is 2, and the power of Tukey’s transformation λ is 0.5 for all
+empirically verify the theoretical analysis in Section 5.5.2.
+                                                                        experiments. We set the dispersion parameter α as 0.21, 0.21 and
+                                                                        0.3 for miniImageNet, tieredImageNet, and CUB, respectively.
+5    E XPERIMENTS
+In this section, we answer the following questions:                     5.2   Comparison to State-of-the-art
+    ‚     How does our distribution calibration strategy perform        Table 2, Table 3 and Table 4 present the 5way1shot and 5way5shot
+          compared to the state-of-the-art methods?                     classification results of our method on miniImageNet, CUB and
+    ‚     What does the calibrated distribution look like? Is it an     tieredImageNet. We compare our method distribution calibration
+          accurate approximation for this class?                        (DC) with the three groups of the few-shot learning method,
+    ‚     How does Tukey’s Ladder of Power transformation interact      optimization-based, metric-based, and generation-based. Our
+          with the feature generations? How important is each in        method can be built on top of any classifier, and we use three
+          relation to performance?                                      popular and simple classifiers, namely Maximum Likelihood,
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                          6
+
+                                                                                             miniImageNet
+                                    Few-shot Learning Method
+                                                                                         1-shot            5-shot
+                                           MAML [1]                                  48.70 ˘ 1.75      63.11 ˘ 0.92
+                                           Meta-SGD [9]                              50.47 ˘ 1.87      64.03 ˘ 0.94
+                                           Meta-LSTM [37]                            43.56 ˘ 0.84      60.60 ˘ 0.71
+                                           Hierarchical Bayes [38]                   49.40 ˘ 1.83            –
+                                           Bilevel Programming [39]                  50.54 ˘ 0.85      64.53 ˘ 0.68
+                    Optimization-based
+                                           adaResNet [40]                            56.88 ˘ 0.62      71.94 ˘ 0.57
+                                           MetaOptNet [41]                           62.64 ˘ 0.35      78.63 ˘ 0.68
+                                           LEO [42]                                  61.67 ˘ 0.08      77.59 ˘ 0.12
+                                           Meta Transfer Learning [43]                64.3 ˘ 1.7        80.9 ˘ 0.8
+                                           CTM [44]                                  64.12 ˘ 0.82      80.51 ˘ 0.13
+                                           E3BM [45]                                 63.80 ˘ 0.40      80.29 ˘ 0.25
+                                           MatchingNets [17]                         43.44 ˘ 0.77      55.31 ˘ 0.73
+                                           ProtoNets [2]                             49.42 ˘ 0.78      68.20 ˘ 0.66
+                                           RelationNets [46]                         50.44 ˘ 0.82      65.32 ˘ 0.70
+                    Metric-based
+                                           Graph neural network [47]                 50.33 ˘ 0.36      66.41 ˘ 0.63
+                                           EGNN [48]                                 59.63 ˘ 0.52      76.34 ˘ 0.48
+                                           Ridge regression [49]                      51.9 ˘ 0.2        68.7˘ 0.2
+                                           TransductiveProp [50]                         55.51             69.86
+                                           Variational Few-shot [24]                 61.23 ˘ 0.26      77.69 ˘ 0.17
+                                           Negative-Cosine [51]                      62.33 ˘ 0.82      80.94 ˘ 0.59
+                                           MetaGAN [20]                              52.71 ˘ 0.64      68.63 ˘ 0.67
+                    Generation-based       Delta-Encoder [22]                            59.9              69.7
+                                           TriNet [21]                               58.12 ˘ 1.37      76.92 ˘ 0.69
+                                           Meta Variance Transfer [29]                     -           67.67 ˘ 0.70
+                                           Maximum Likelihood with DC (Ours)         66.91 ˘ 0.17      80.74 ˘ 0.48
+                    Ours                   SVM with DC (Ours)                        67.31 ˘ 0.83      82.30 ˘ 0.34
+                                           Logistic Regression with DC (Ours)        68.57 ˘ 0.55      82.88 ˘ 0.42
+TABLE 2: 5way1shot and 5way5shot classification accuracy (%) on miniImageNet with 95% confidence intervals. The numbers in bold have
+intersecting confidence intervals with the most accurate method.
+
+
+                                                                                                  CUB
+                                    Few-shot Learning Method
+                                                                                         1-shot            5-shot
+                                           MAML [1]                                  50.45 ˘ 0.97      59.60 ˘ 0.84
+                    Optimization-based
+                                           Meta-SGD [9]                              53.34 ˘ 0.97      67.59 ˘ 0.82
+                                           MatchingNets [17]                         56.53 ˘ 0.99      63.54 ˘ 0.85
+                    Metric-based           ProtoNets [2]                             72.99 ˘ 0.88      86.64 ˘ 0.51
+                                           Negative-Cosine [51]                      72.66 ˘ 0.85      89.40 ˘ 0.43
+                                           Delta-Encoder [22]                            69.8              82.6
+                    Generation-based       TriNet [21]                               69.61 ˘ 0.46      84.10 ˘ 0.35
+                                           Meta Variance Transfer [29]                     -           80.33 ˘ 0.61
+                                           Maximum Likelihood with DC (Ours)         77.22 ˘ 0.14      89.58 ˘ 0.27
+                    Ours                   SVM with DC (Ours)                        79.49 ˘ 0.33      90.26 ˘ 0.98
+                                           Logistic Regression with DC (Ours)        79.56 ˘ 0.87      90.67 ˘ 0.35
+TABLE 3: 5way1shot and 5way5shot classification accuracy (%) on CUB with 95% confidence intervals. The numbers in bold have intersecting
+confidence intervals with the most accurate method.
+
+SVM, and LR to prove the effectiveness of our method. Simple          can handle extremely low-shot classification tasks better. Compared
+linear classifiers equipped with our method perform better than       to other generation-based methods, which require the design of
+the state-of-the-art few-shot classification method and achieve the   a generative model with extra training costs on the learnable
+best performance on 1-shot and 5-shot settings of miniImageNet,       parameters, a simple machine learning classifier with DC is much
+tieredImageNet, and CUB. The performance of our distribution          more simple, effective, and flexible and can be equipped with any
+calibration surpasses the state-of-the-art generation-based method    feature extractors and classifier model structures. Specifically, we
+by 10% for the 5way1shot setting, which proves that our method        show three variants, i.e, Maximum likelihood with DC, SVM with
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                                     7
+
+                 support set                               generated features by DC                   query set (ground-truth distribution)
+
+
+
+
+                      (a)                                               (b)                                              (c)
+
+
+Fig. 2: t-SNE visualization of our distribution estimation. Different colors represent different classes. ‘‹’ represents support set features, ‘x’ in
+figure (c) represents query set features, ‘N’ in figure (b) represents generated features.
+
+                                                                                                    tieredImagenet
+                                       Few-shot Learning Method
+                                                                                                1-shot             5-shot
+                                              MAML [1] (by [50])                            51.67 ˘ 1.81       70.30 ˘ 1.75
+                                              LEO [42]                                      66.33 ˘ 0.05       81.44 ˘ 0.09
+                     Optimization-based       CTM [52]                                      68.41 ˘ 0.39       84.28 ˘ 1.73
+                                              Meta Transfer Learning [53]                   72.00 ˘ 1.80       85.10 ˘ 0.80
+                                              E3BM, [45]                                    71.20 ˘ 0.40       85.30 ˘ 0.30
+                                              ProtoNets [2] (by [5])                        53.31 ˘ 0.89       72.69 ˘ 0.74
+                                              RelationNets [46] (by [50])                   54.48 ˘ 0.93       71.32 ˘ 0.78
+                     Metric-based
+                                              TransductiveProp [50]                         57.41 ˘ 0.94       71.55 ˘ 0.74
+                                              DeepEMD [54]                                  71.16 ˘ 0.87       86.03 ˘ 0.58
+                                              Maximum Likelihood with DC (Ours)             75.92 ˘ 0.60       87.84 ˘ 0.65
+                     Ours                     SVM with DC (Ours)                            77.93 ˘ 0.12       89.72 ˘ 0.37
+                                              Logistic Regression with DC (Ours)            78.19 ˘ 0.25       89.90 ˘ 0.41
+
+TABLE 4: 5way1shot and 5way5shot classification accuracy (%) on tieredImagenet with 95% confidence intervals. The numbers in bold have
+intersecting confidence intervals with the most accurate method.
+
+
+DC, Logistic Regression with DC in Table 2, Table 3 and Table 4.            the mismatch between the distribution estimated only from the
+A simple maximum likelihood classifier based on the calibrated              few-shot samples and the ground-truth distribution.
+distribution can outperform previous baselines and training an SVM
+classifier or Logistic Regression classifier using the samples from         5.4   Applicability of distribution calibration
+the calibrated distribution can further improve the performance.            Our distribution calibration strategy is agnostic to backbones /
+                                                                            classifiers. Table 6 shows the consistent performance boost when
+                                                                            applying distribution calibration on different backbones, i.e, four
+5.3   Visualization of Generated Samples                                    convolutional layers (Conv4), six convolutional layers (Conv6),
+We show what the calibrated distribution looks like by visualizing          ResNet10 [61], ResNet18 [61], WRN28 [62] and WRN28 trained
+the generated features sampled from the distribution. In Figure 2,          with rotation loss [30] and on different classifiers, i.e, logistic
+we show the t-SNE representation [60] of the original support               regression and support vector machine [58]. Distribution calibration
+set (a), the generated features (b) as well as the query set (c).           achieves around 10% accuracy improvement compared to the
+Based on the calibrated distribution, the sampled features form a           backbones trained with different baselines.
+Gaussian distribution. Due to the limited number of examples in
+the support set, only 1 in this case, the samples from the query set        5.5 Ablation Study and Theoretical Analysis Verifica-
+usually cover a greater area and are a mismatch with the support            tion
+set. This mismatch can be fixed to some extent by the generated             5.5.1 Ablation Study
+features, i.e., the generated features in (b) can overlap areas of the      Table 5 shows the effect of distribution assumption, the performance
+query set. Thus, training with these generated features can alleviate       when our model is trained without Tukey’s Ladder of Powers
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                                                               8
+
+                                            miniImageNet                                                                                         miniImageNet
+Test Accuracy (5way-1shot)
+
+
+
+
+                                                                                               Test Accuracy (5way-1shot)
+                             Values of power     in Tukey transformation                                                            Number of generated features per class
+
+
+Fig. 3: Left: Accuracy when increasing the power in Tukey’s transformation when training with (red) or without (blue) the generated features.
+Right: Accuracy when increasing the number of generated features with the features are transformed by Tukey’s transformation (red) and without
+Tukey’s transformation (blue).
+
+                                                                                                                                                   miniImageNet
+                             Distribution assumption   Tukey transformation     Training with generated features
+                                                                                                                                             5way1shot      5way5shot
+                                     None                        7                                  7                                       56.37 ˘ 0.68 79.03 ˘ 0.51
+                                    Gaussian                     7                                  3                                       63.70 ˘ 0.38 82.26 ˘ 0.73
+                                   Laplacian                     7                                  3                                       62.39 ˘ 0.17 81.96 ˘ 0.22
+                                   Multimodal                    7                                  3                                       61.45 ˘ 0.33 80.73 ˘ 0.49
+                                    Gaussian                     3                                  7                                       64.30 ˘ 0.53 81.33 ˘ 0.35
+                                    Gaussian                     3                                  3                                       68.57 ˘ 0.55   82.88 ˘ 0.42
+                             TABLE 5: Ablation study on miniImageNet 5way1shot and 5way5shot showing accuracy (%) with 95% confidence intervals.
+
+                                     Backbones                              Classifiers                                      without DC           with DC
+                                     Conv4                              Logistic Regression                                 42.11 ˘ 0.71   54.62 ˘ 0.64 (Ò 12.51)
+                                     Conv4                            Support Vector Machine                                41.24 ˘ 0.75   54.24 ˘ 0.37 (Ò 13.00)
+                                     Conv6                              Logistic Regression                                 46.07 ˘ 0.26   57.14 ˘ 0.45 (Ò 11.07)
+                                     Conv6                            Support Vector Machine                                46.03 ˘ 0.17   57.33 ˘ 0.54 (Ò 11.30)
+                                     ResNet10 [61]                      Logistic Regression                                 53.17 ˘ 0.31   64.41 ˘ 0.33 (Ò 11.24)
+                                     ResNet10 [61]                    Support Vector Machine                                54.01 ˘ 0.71   64.03 ˘ 0.11 (Ò 10.02)
+                                     ResNet18 [61]                      Logistic Regression                                 52.32 ˘ 0.82   61.50 ˘ 0.47 (Ò 9.180)
+                                     ResNet18 [61]                    Support Vector Machine                                51.41 ˘ 0.27   60.03 ˘ 0.19 (Ò 8.620)
+                                     WRN28 [62]                         Logistic Regression                                 54.53 ˘ 0.56   64.38 ˘ 0.63 (Ò 9.850)
+                                     WRN28 [62]                       Support Vector Machine                                53.27 ˘ 0.55   63.38 ˘ 0.10 (Ò 10.11)
+                                     WRN28 + Rotation Loss [30]       Support Vector Machine                                54.27 ˘ 0.68   67.31 ˘ 0.83 (Ò 13.04)
+                                     WRN28 + Rotation Loss [30]         Logistic Regression                                 56.37 ˘ 0.68   68.57 ˘ 0.55 (Ò 12.20)
+                                    TABLE 6: 5way1shot classification accuracy (%) on miniImageNet with different backbones and classifiers.
+
+
+
+transformation for the features as in Equation 3, and when it is                         5.5.2                       Theoretical Analysis Verification
+trained without the generated features as in Equation 7. A better
+distribution assumption helps to reduce the generalization error                         As discussed in Theorem 4.1, the generalization error of the pro-
+bound. Empirically, Gaussian assumption performs slightly better                         posed distribution-calibration-based few-shot learning is bounded
+than Laplacian assumption and Multimodal assumption.                                     by the distribution assumption error DF pS, N q, the distribution
+                                                                                         approximation error DF pN , Gq and the estimation error. We em-
+    Figure 4 shows how Tukey’s transformation helps improve                              pirically verify the theoretical analysis in the following paragraphs.
+the classifier. The extracted base class features are ideally from                           The distribution assumption error. The distribution assump-
+Gaussian distributions since the backbone network was trained                            tion error DF pS, N q measures the discrepancy between the
+over the base classes. However, the unseen (novel) class feature                         ground-truth feature representation distribution and the assumed
+distributions are relatively skewer. We apply Tukey’s transformation                     Gaussian distribution. A better distribution assumption leads to
+to calibrate the novel class feature distributions to be more Gaussian,                  better generalization ability. Based on the fact that the CNN
+which is aligned with our Gaussian assumption.                                           extracted image features from the same class are often clus-
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                                               9
+
+
+
+
+                              Base classes                                Novel classes                             Novel classes after Tukey’s Transformation
+
+
+Fig. 4: The left shows t-SNE [60] visualization of feature distributions of 5 randomly selected base classes. The middle and the right show the
+feature distributions of 5 randomly selected novel classes before Tukey’s transformation and after Tukey’s transformation, respectively.
+Accuracy (5way-1shot)
+
+
+
+
+                                                                                        Accuracy (5way-1shot)
+
+
+
+
+                        Number of retrieved base class statistics k                                             Values of α added to covariance matrix
+
+                                                        Fig. 5: The effect of different values of k and α.
+
+
+tered well, as visualized in Figure 4, we choose the Gaussian                     proximation error DF pN , Gq comes from the inaccurate distri-
+distribution as our assumed distribution. To verify the rationality               bution approximation (calibration in our case) of the assumed
+of the Gaussian assumption, we also conduct experiments on                        distribution. In our distribution calibration, we utilize k base class
+Laplacian and Multimodal distribution. As shown in Table 5, the                   statistics to calibrate the novel class distribution in Equation 5.
+Gaussian distribution assumption brings better performance than                   The α in Equation 6 is a constant added on each element of the
+others. To further close the gap between the ground-truth feature                 estimated covariance matrix, which can determine the degree of
+representation distribution and the assumed Gaussian distribution,                dispersion of features sampled from the calibrated distributions.
+we then apply Tukey’s transformation on the ground-truth feature                  Both k and α affect the distribution approximation error. Figure 5
+representation distribution to make it more Gaussian-like.                        shows the effect of different values of k and α. We observe that in
+    The left side of Figure 3 shows the 5way1shot accuracy                        each dataset, the performance of the validation set and the novel
+when choosing different powers for the Tukey’s transformation in                  (testing) set generally has the same tendency, which indicates that
+Equation 3 when training the classifier with the generated features               the choice of hyper-parameters is dataset-dependent and is not
+(red) and without (blue). Note that when the power λ equals 1, the                overfitting to a specific set.
+transformation keeps the original feature representations. There                      The estimation error. The right side of Figure 3 analyzes
+is a consistent general tendency for training with and without the                whether more generated features results in consistent improvement
+generated features and in both cases, we found λ “ 0.5 is the                     in both cases, namely when the features of support and query
+optimum choice. With Tukey’s transformation, the distribution                     set are transformed by Tukey’s transformation (red) and when
+of features in target tasks becomes more aligned to the assumed                   they are not (blue). We found that when the number of generated
+Gaussian distribution, and thus the distribution assumption error                 features is below 500, both cases can benefit from more generated
+becomes smaller, benefiting the classifier which is trained on                    features, which corresponds to the estimation error asymptotically
+features sampled from the calibrated distribution.                                tending to 0 as the sample size tends to infinity. However, when
+    The distribution approximation error. The distribution ap-                    more features are sampled, the performance of the classifier
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                                         10
+
+tested on untransformed features begins to decline. This is caused                     Let
+by the inconsistency of the ground-truth distribution and the                                           N
+assumed distribution. Besides, the performances of 5shot are                                 HpZN     g
+                                                                                                1 , Z1 q “ sup | R̂ps`gq pf q ´ Rs pf q | .
+                                                                                                  s
+                                                                                                                                                    (21)
+                                                                                                                   f PF
+consistently better than that of 1shot in Table 2, Table 3 and
+Table 4, corresponding that larger Ns leads to smaller estimation                   Then by Equation 15, we have
+error.                                                                                         Ng
+                                                                                                           ˇ                                     ˇ
+                                                                                      HpZN1 , Z1 q “ sup ˇτ R̂s pf q ` p1 ´ τ qR̂g pf q ´ Rs pf qˇ .
+                                                                                            s              ˇ                                     ˇ
+                                                                                                         f PF
+6      C ONCLUSION                                                                                                                                  (22)
+In this paper, a simple but effective distribution calibration                                                                 N
+strategy for few-shot learning is proposed. Compared to other                       It is obvious that such HpZN     g
+                                                                                                               1 , Z1 q satisfies the condition of
+                                                                                                                 s
+
+
+generative-based methods, the proposed strategy doesn’t involve                     bounded difference with
+any complex generative models and extra learnable parameters.                                           pb ´ aqτ pgq   pb ´ aqp1 ´ τ q
+                                                                                                cpsq
+                                                                                                 n “            , cn “
+A simple linear classifier trained with features generated by our                                          Ns                Ng
+strategy outperforms the current state-of-the-art methods by „ 5%
+on miniImageNet. The calibrated distribution is visualized and                      According to Lemma 7.2, we have for any ξ ą 0,
+                                                                                        ! ´                       ¯     ! ´                     ¯)     )
+demonstrates an accurate estimation of the feature distribution.                                               Ng                            Ng
+                                                                                     Pr H ZN    1
+                                                                                                  s
+                                                                                                    , ¨ ¨ ¨ , Z1    ´ E  H   ZNs
+                                                                                                                              1  , ¨ ¨ ¨ , Z 1     ě ξ
+The established generalization error bound also identifies that the                         $                               ,
+proposed method is promising to bridge the gap between few-shot                             &                 ´2ξ 2         .
+learning and many-shot learning as it eliminates the distribution                    ď exp                   ´           2
+                                                                                                                           ¯ .                       (23)
+                                                                                            % pb ´ aq2 τ 2 ` p1´τ q -
+assumption error and the distribution approximation error. The                                                Ns          Ng
+theoretical framework also provides an insight to guide the future
+few-shot learning method.                                                           Equivalently, with probability at least 1 ´ pδ{4q,
+                                                                                                  N
+                                                                                      HpZN    s
+                                                                                                , Z1 g q
+7      P ROOFS                                                                          ! 1                    )
+                                                                                                          Ng
+7.1     Proof of Theorem 4.1                                                        ď E HpZN      1
+                                                                                                    s
+                                                                                                      , Z 1  q
+                                                                                         d
+First we introduce the basic generalization error bound (see [63]
+                                                                                                                 ˆ                ˙
+                                                                                             pb ´ aq2 lnp4{δq τ 2       p1 ´ τ q2
+Theorem 5) with Rademacher complexity:                                                `                               `
+                                                                                                        2          Ns      Ng
+Lemma 7.1. Let F Ď ra, bs. For any δ ą 0, with probability at                                ˇ                   ˇ          "      ˇ                ˇ*
+                                                                                    ď τ sup ˇR̂s pf q ´ Rs pf qˇ ` p1 ´ τ qE sup ˇR̂g pf q ´ Rs pf qˇ
+                                                                                             ˇ                   ˇ                 ˇ                ˇ
+least 1 ´ δ , there holds that for any f P F
+                                       c                                                f PF                                  f PF
+                                          pb ´ aq lnp1{δq
+                                                                                         d                       ˆ                ˙
+         Rpf q ď R̂pf q ` 2RpFq `                          (17)                              pb ´ aq2 lnp4{δq τ 2       p1 ´ τ q2
+                                                2N                                    `                               `
+                                        c                                                               2          Ns      Ng
+                                           pb ´ aq lnp2{δq                                   ˇ                   ˇ
+                ď R̂pf q ` 2R̂pFq ` 3                      (18)                     “ τ sup ˇR̂s pf q ´ Rs pf qˇ
+                                                                                             ˇ                   ˇ
+                                                 2N
+                                                                                        f PF
+    Then we introduce the extended McDiamid’s Inequality (see                                           "      ˇ                              ˇ*
+[36] Theorem C.2):                                                                    ` p1 ´ τ qE sup ˇR̂g pf q ´ Rg pf q ` Rg pf q ´ Rs pf qˇ
+                                                                                                               ˇ                              ˇ
+                                                                                                          f PF
+Lemma 7.2. Given independent domains Z pSk q p1 ď k ď Kq,                                d                       ˆ                ˙
+                            !
+                              pSk q
+                                    )Nk                                                                 2
+                                                                                             pb ´ aq lnp4{δq τ 2        p1 ´ τ q2
+for any 1 ď k ď K, let ZN
+                        1 :“ zn
+                          k
+                                        be Nk independent                             `                               `
+                                                      n“1                                               2          Ns      Ng
+random variables taking values from the domain Z pSk q . Assume                              ˇ                   ˇ
+                                ˘N1                    ˘NK
+                                                                                    ď τ sup ˇR̂s pf q ´ Rs pf qˇ
+                         `                    `                                              ˇ                   ˇ
+that the function H : Z pS1 q       ˆ ¨ ¨ ¨ ˆ Z pSK q       Ñ R
+                                                                                        f PF
+satisfies the condition of bounded difference: for all 1 ď k ď K                                        "      ˇ            ˇ*
+and 1 ď n ď Nk ,                                                                      ` p1 ´ τ qE sup ˇR̂g pf q ´ Rg pf qqˇ
+                                                                                                               ˇ            ˇ
+                                                                                                       f PF
+                          sup              | H ´ H1 |ď cpkq
+                                                        n ,                  (19)
+                   N          N     pS q                                                 ` p1 ´ τ q sup |Rg pf q ´ Rs pf q|
+                  Z1 1 ,¨¨¨ ,Z1 K ,zn k                                                             f PF
+                                                                                           d
+where                                                                                                            ˆ
+                                                                                              pb ´ aq2 lnp4{δq τ 2        p1 ´ τ q2
+                                                                                                                                    ˙
+                             N         pS q                                              `                             `                         (24)
+    H “ HpZN
+           1 , ¨ ¨ ¨ , Z1
+            1             k´1
+                              , z1 k , ¨ ¨ ¨ , zpS
+                                                n
+                                                  kq
+                                                     ,¨¨¨                                              2           Ns        Ng
+                                                  pS q       N
+                                           ¨ ¨ ¨ , zNkk , Z1 k`1 , ¨ ¨ ¨ , ZNK
+                                                                            1 q,
+                                                                                                            ˇ                ˇ
+                                                                                    The quantity supf PF ˇR̂s pf q ´ Rs pf qˇ is termed as DF pS, Gq
+                                                                                                            ˇ                ˇ
+                              N            pS q          1
+    H1 “ HpZN
+            1 , ¨ ¨ ¨ , Z1
+             1             k´1
+                               , z1 k , ¨ ¨ ¨ , znpSk q , ¨ ¨ ¨                     [36], which measures the difference of two domains. Note that
+                                                  pS q       N                      DF pS, Gq ď DF pS, N q ` DF pN , Gq due to the triangle
+                                           ¨ ¨ ¨ , zNkk , Z1 k`1 , ¨ ¨ ¨ , ZNK
+                                                                            1 q.
+                                                                                    inequality, where N is the calibrated Gaussian distribution.
+Then, for any ξ ą 0                                                                      According to Lemma 7.1, with probability 1´δ{2 the following
+    ! ´                         ¯       ! ´                    ¯)      )
+ Pr H ZN      1
+                , ¨ ¨ ¨ , Z NK
+                                  ´  E    H ZN1
+                                                , ¨ ¨ ¨ , Z NK
+                                                                  ě  ξ              holds:
+            1               1                1              1                                                                  d
+                                                                                                                                 pb ´ aq lnp4{δq
+         #                                +
+                           N
+                       K      k
+                                                                                           ˇ                  ˇ
+                                ´      ¯2
+                                                                                      sup ˇR̂s pf q ´ Rs pf qˇ ď 2R̂s pFq ` 3                    (25)
+                      ÿ ÿ                                                                  ˇ                  ˇ
+ ď exp ´2ξ 2 {                    cpkq
+                                   n                                (20)              f PF                                            2Ns
+                      k“1 n“1
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                                    11
+
+Then, according to Definition 4.1, we have                                 Lemma 7.4. Assume the Frobenius norm of the weight matrices
+          "      ˇ                    ˇ*                                   W1 , . . . , Wd are at most M1 , . . . , Md . Let the activation functions
+        E sup ˇR̂g pf q ´ Rg pf qqˇ
+                 ˇ                    ˇ
+                                                                           be 1-Lipschitz, positive-homogeneous, and applied element-wise
+            f PF                                                           (such as the ReLU). Let X is upper bounded by B, i.e., for any X ,
+               ˇ                        ˇ
+      “ E sup ˇR̂g pf q ´ E1 R̂g1 pf qqˇ
+               ˇ                        ˇ                                  }X} ď B . Then,
+          f PF                                                                 «                        ff          ?
+                                                                                           N
+                   ˇ                    ˇ                                                1 ÿ                   Bp 2d log 2 ` 1qΠdi“1 Mi
+      ď EE1 sup ˇR̂g pf q ´ R̂g1 pf qqˇ                                      E sup             σi hpXi q ď                   ?                 . (32)
+                   ˇ                    ˇ
+               f PF                                                              hPH N i“1                                     N
+                    ˇ     Ng ´ ´
+                                                      ˇ
+                    ˇ 1 ÿ             ¯       ´
+                                                pgq
+                                                    ¯¯ˇ                          Thus,                  ?
+       “ EE1 sup ˇ             f zpgq   ´ f z1 n
+                    ˇ                                 ˇ
+                      N             n                 ˇ                                            cBp 2d log 2 ` 1qΠdi“1 Mi
+             f PF   ˇ   g n“1                         ˇ                                   R̂pFq ď            ?               . (33)
+                        ˇ    Ng
+                                                              ˇ                                                N
+                        ˇ 1 ÿ       ´ ´       ¯     ´       ¯¯ˇ
+           1
+       “ EE Eσ sup ˇ
+                        ˇ                 pgq
+                                 σ n f zn ´ f z n     1 pgq   ˇ
+                                                              ˇ            Overall, combining Equation 24, 25 and 27, we have with
+                  f PF ˇ Ng n“1                               ˇ            probability at least 1 ´ δ ,
+                      ˇ     Ng
+                                           ˇ
+                      ˇ 1 ÿ         ´     ¯ˇ                                      Rq pf q ´ R̂s`g pf q
+       ď 2EEσ sup ˇ             σn f zpgq
+                      ˇ                    ˇ                                                                         d
+                                      n    ˇ
+                f PF Ng n“1
+                      ˇ                    ˇ                                                                             pb ´ aq lnp4{δq
+                                                                              ď p1 ´ τ qDF pS, Gq ` 3p1 ´ τ q
+       “ 2Rg pFq                                                    (26)                                                      2Ng
+                                                                                                               d
+Then, using again McDiarmid’s inequality, with at least probability                                            pb ´ aq lnp4{δq
+1 ´ δ{3 the following holds:                                                        ` 2p1 ´ τ qR̂g pFq ` 3τ
+                                                                                                                    2Ns
+  "                                          d                                                      d
+                          ˇ*                     pb ´ aq lnp4{δq
+                                                                                                                        ˆ                ˙
+                                                                                                      pb ´ aq2 lnp4{δq τ 2     p1 ´ τ q2
+         ˇ
+E sup ˇR̂g pf q ´ Rg pf qqˇ ď 2R̂g pFq ` 3
+         ˇ                ˇ
+                                                                                    ` 2τ R̂s pFq `                           `
+    f PF                                                2Ng                                                  2            Ns      Ng
+                                                              (27)            ď p1 ´ τ qDF pS, N q ` p1 ´ τ qDF pN , Gq
+                                                                                               ?
+    Before further bounding the Rademacher complexity R̂pFq, we                             cBp 2d log 2 ` 1qΠdi“1 Mi
+discuss the Lipschitz continuity of the loss function (cross-entropy            ` 2p1 ´ τ q           a
+                                                                                                         Ng
+loss) w.r.t hk pXq , k “ t1, . . . , cu.                                                 ?
+                                                                                     cBp 2d log 2 ` 1qΠdi“1 Mi
+    Recall that                                                                 ` 2τ            ?
+                             ÿ c                                                                   Ns
+                                                                                   d
+           `pf pXq, Y q “ ´        1tY “iu logpfi pXqq                                                ˆ
+                                                                                     pb ´ aq lnp4{δq τ 2
+                                                                                             2                 p1 ´ τ q2
+                                                                                                                         ˙
+                               i“1                                              `                            `             .                    (34)
+                                     ˆ                      ˙                                2          Ns        Ng
+                                          expphY pXqq
+                         “ ´ log         řc                     .   (28)         This completes the proof.
+                                          i“1 expphi pXqq
+
+Taking the derivative of `pf pXq, Y q w.r.t. hi pXq, if i ‰ Y , we         7.2     Proof of Lemma 7.3
+have
+                                                                           Proof.
+             B`pf pXq, Y q         expphi pXqq                                             «                                ff
+                             “ řc                   ;         (29)                                 1 ÿ
+                                                                                                      N
+                Bhi pXq           i“1 expphi pXqq                                       E sup            σi `pf pXi q, Yi q
+                                                                                            f PF N i“1
+if i “ Y , we have                                                                         «                                               ff
+                                                                                                                     N
+            B`pf pXq, Y q          expphi pXqq                                                                   1 ÿ
+                          “ ´1 ` řc               .                 (30)              “E            sup                  σi `pf pXi q, Yi q
+              Bhi pXq             i“1 expphi pXqq                                           arg maxth1 ,...,hc u N i“1
+                                                                                           «                                           ff
+                                                                                                                 N
+    According to Equation 29 and 30, it is clear that ´1 ď                                                   1 ÿ
+B`pf pXq,Ȳ q
+              ď 1, indicating the loss function is 1-Lipschitz with                   “E          sup                σi `pf pXi q, Yi q
+  Bhi pXq                                                                                   maxth1 ,...,hc u N i“1
+respect to hi pXq, @i P t1, . . . , cu.                                                    «
+                                                                                              c              N
+                                                                                                                                   ff
+                                                                                             ÿ           1 ÿ
+Lemma 7.3. Assume that loss function `pf pXi q, Y qq is 1-                            ďE           sup           σi `pf pXi q, Yi q
+                                                                                            k“1 hk PH
+                                                                                                        N i“1
+Lipschitz with respect to hk pXi q, k “ t1, . . . , cu, we have                                 «                                  ff
+                                                                                         c                   N
+                         «
+                                    N
+                                                         ff                             ÿ                1 ÿ
+                               1 ÿ                                                    “      E sup               σi `pf pXi q, Yi q
+            R̂pFq “ E sup              σi `pf pXi q, Yi q                               k“1       hk PH N i“1
+                          f PF N i“1                                                        «                            ff
+                                                                                                         N
+                          «
+                                     N
+                                                    ff                                                1 ÿ
+                                 1 ÿ                                                  ď cE sup               σi hk pXi q
+                   ď cE sup             σi hpXi q ,             (31)                          hk PH N i“1
+                            hPH N i“1                                                       «                         ff
+                                                                                                        N
+                                                                                                     1 ÿ
+where H is the function class induced by the deep neural network.                     “ cE sup              σi hpXi q .                         (35)
+                                                                                              hPH N i“1
+    Proof is provided in Section 7.2.
+    Based on Lemma 7.3, we can bound the Rademacher complex-               The first two equations hold because f , arg maxth1 , . . . , hc u, and
+ity R̂pFq with the following lemma (see [64] Theorem 1):                   maxth1 , . . . , hc u give the same constraint on hi pXq. The fifth
+                                                                           inequality holds due to Talagrand Contraction Lemma [65].
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                                                    12
+
+R EFERENCES                                                                        [31] J. W. Tukey, Exploratory data analysis, ser. Addison-Wesley Series in
+                                                                                        Behavioral Science. Reading, MA: Addison-Wesley, 1977. [Online].
+[1]  C. Finn, P. Abbeel, and S. Levine, “Model-agnostic meta-learning for fast          Available: https://cds.cern.ch/record/107005 3
+     adaptation of deep networks,” in ICML, 2017. 1, 2, 6, 7                       [32] M. Mohri, A. Rostamizadeh, and A. Talwalkar, Foundations of Machine
+[2] J. Snell, K. Swersky, and R. S. Zemel, “Prototypical networks for few-shot          Learning. MIT Press, 2018. 4
+     learning,” in NeurIPS, 2017. 1, 2, 6, 7                                       [33] P. L. Bartlett and S. Mendelson, “Rademacher and gaussian complexities:
+[3] B. Hariharan and R. Girshick, “Low-shot visual recognition by shrinking             Risk bounds and structural results,” JMLR, vol. 3, no. Nov, pp. 463–482,
+     and hallucinating features,” in ICCV, 2017. 1, 2                                   2002. 4
+[4] Y.-X. Wang, R. Girshick, M. Hebert, and B. Hariharan, “Low-shot learning       [34] S. Ben-David, J. Blitzer, K. Crammer, A. Kulesza, F. Pereira, and J. W.
+     from imaginary data,” in CVPR, 2018. 1, 2                                          Vaughan, “A theory of learning from different domains,” Machine learning,
+[5] M. Ren, E. Triantafillou, S. Ravi, J. Snell, K. Swersky, J. B. Tenenbaum,           vol. 79, no. 1, pp. 151–175, 2010. 4
+     H. Larochelle, and R. S. Zemel, “Meta-learning for semi-supervised            [35] J. Blitzer, K. Crammer, A. Kulesza, F. Pereira, and J. Wortman, “Learning
+     few-shot classification,” in ICLR, 2018. 1, 5, 7                                   bounds for domain adaptation,” NeurIPS, 2008. 4
+[6] Y. Xian, T. Lorenz, B. Schiele, and Z. Akata, “Feature generating networks     [36] C. Zhang, L. Zhang, and J. Ye, “Generalization bounds for domain
+     for zero-shot learning,” in CVPR, 2018. 1, 2                                       adaptation,” NeurIPS, 2012. 4, 10
+[7] R. Salakhutdinov, J. Tenenbaum, and A. Torralba, “One-shot learning            [37] S. Ravi and H. Larochelle, “Optimization as a model for few-shot learning,”
+     with a hierarchical nonparametric bayesian model,” in ICML workshop,               in ICLR, 2017. 5, 6
+     2012. 1
+                                                                                   [38] E. Grant, C. Finn, S. Levine, T. Darrell, and T. L. Griffiths, “Recasting
+[8] S. Yang, L. Liu, and M. Xu, “Free lunch for few-shot learning: Distribution
+                                                                                        gradient-based meta-learning as hierarchical bayes,” in ICLR, 2018. 6
+     calibration,” in ICLR, 2021. 2
+                                                                                   [39] L. Franceschi, P. Frasconi, S. Salzo, R. Grazzi, and M. Pontil, “Bilevel
+[9] Z. Li, F. Zhou, F. Chen, and H. Li, “Meta-sgd: Learning to learn quickly
+                                                                                        programming for hyperparameter optimization and meta-learning,” in
+     for few shot learning,” in arxiv, 2017. 2, 6
+                                                                                        ICML, 2018. 6
+[10] X. Xia, T. Liu, N. Wang, B. Han, C. Gong, G. Niu, and M. Sugiyama, “Are
+                                                                                   [40] T. Munkhdalai, X. Yuan, S. Mehri, and A. Trischler, “Rapid adaptation
+     anchor points really indispensable in label-noise learning?” in NeurIPS,
+                                                                                        with conditionally shifted neurons,” in ICML, 2018. 6
+     2019. 2
+                                                                                   [41] K. Lee, S. Maji, A. Ravichandran, and S. Soatto, “Meta-learning with
+[11] X. Xia, T. Liu, B. Han, N. Wang, M. Gong, H. Liu, G. Niu, D. Tao, and
+                                                                                        differentiable convex optimization,” in CVPR, 2019. 6
+     M. Sugiyama, “Part-dependent label noise: Towards instance-dependent
+                                                                                   [42] A. A. Rusu, D. Rao, J. Sygnowski, O. Vinyals, R. Pascanu, S. Osindero,
+     label noise,” in NeurIPS, 2020. 2
+                                                                                        and R. Hadsell, “Meta-learning with latent embedding optimization,” in
+[12] X. Xia, T. Liu, B. Han, M. Gong, J. Yu, G. Niu, and M. Sugiyama,
+                                                                                        ICLR, 2019. 6, 7
+     “Instance correction for learning with open-set noisy labels,” arXiv, 2021.
+     2                                                                             [43] Q. Sun, Y. Liu, T.-S. Chua, and B. Schiele, “Meta-transfer learning for
+[13] X. Xia, T. Liu, B. Han, N. Wang, J. Deng, J. Li, and Y. Mao, “Extended t:          few-shot learning,” in CVPR, 2019. 6
+     Learning with mixed closed-set and open-set noisy labels,” arXiv, 2020. 2     [44] H. Li, D. Eigen, S. Dodge, M. Zeiler, and X. Wang, “Finding task-relevant
+[14] S. Wu, X. Xia, T. Liu, B. Han, M. Gong, N. Wang, H. Liu, and G. Niu,               features for few-shot learning by category traversal,” in CVPR, 2019. 6
+     “Class2simi: A noise reduction perspective on learning with noisy labels,”    [45] Y. Liu, B. Schiele, and Q. Sun, “An ensemble of epoch-wise empirical
+     in ICML, 2021. 2                                                                   bayes for few-shot learning,” in ECCV, 2020. 6, 7
+[15] S. Yang, E. Yang, B. Han, Y. Liu, M. Xu, G. Niu, and T. Liu, “Estimating      [46] F. Sung, Y. Yang, L. Zhang, T. Xiang, P. H. Torr, and T. M. Hospedales,
+     instance-dependent label-noise transition matrix using dnns,” arXiv, 2021.         “Learning to compare: Relation network for few-shot learning,” in CVPR,
+     2                                                                                  2018. 6, 7
+[16] S. Yang, P. Sun, Y. Jiang, X. Xia, R. Zhang, Z. Yuan, C. Wang, P. Luo,        [47] V. G. Satorras and J. B. Estrach, “Few-shot learning with graph neural
+     and M. Xu, “Objects in semantic topology,” arXiv, 2021. 2                          networks,” in ICLR, 2018. 6
+[17] O. Vinyals, C. Blundell, T. Lillicrap, K. Kavukcuoglu, and D. Wierstra,       [48] J. Kim, T. Kim, S. Kim, and C. D. Yoo, “Edge-labeling graph neural
+     “Matching networks for one shot learning,” in NeurIPS, 2016. 2, 3, 6               network for few-shot learning,” in CVPR, 2019. 6
+[18] I. Goodfellow, J. Pouget-Abadie, M. Mirza, B. Xu, D. Warde-Farley,            [49] L. Bertinetto, J. F. Henriques, P. H. S. Torr, and A. Vedaldi, “Meta-learning
+     S. Ozair, A. Courville, and Y. Bengio, “Generative adversarial nets,” in           with differentiable closed-form solvers,” in ICLR, 2019. 6
+     NeurIPS, 2014. 2                                                              [50] Y. Liu, J. Lee, M. Park, S. Kim, E. Yang, S. Hwang, and Y. Yang,
+[19] D. E. Rumelhart, G. E. Hinton, and R. J. Williams, “Learning Representa-           “Learning to propagate labels: transductive propagation network for few-
+     tions by Back-propagating Errors,” Nature, vol. 323, pp. 533–536, 1986.            shot learning,” in ICLR, 2019. 6, 7
+     2                                                                             [51] B. Liu, Y. Cao, Y. Lin, Q. Li, Z. Zhang, M. Long, and H. Hu, “Negative
+[20] R. Zhang, T. Che, Z. Ghahramani, Y. Bengio, and Y. Song, “Metagan: An              margin matters: Understanding margin in few-shot classification,” in
+     adversarial approach to few-shot learning,” in NeurIPS, 2018. 2, 6                 ECCV, 2020. 6
+[21] Z. Chen, Y. Fu, Y. Zhang, Y. Jiang, X. Xue, and L. Sigal, “Multi-level        [52] H. Li, D. Eigen, S. Dodge, M. Zeiler, and X. Wang, “Finding task-relevant
+     semantic feature augmentation for one-shot learning,” TIP, vol. 28, no. 9,         features for few-shot learning by category traversal,” in CVPR, 2019. 7
+     pp. 4594–4605, 2019. 2, 6                                                     [53] Q. Sun, Y. Liu, T.-S. Chua, and B. Schiele, “Meta-transfer learning for
+[22] E. Schwartz, L. Karlinsky, J. Shtok, S. Harary, M. Marder, A. Kumar,               few-shot learning,” in CVPR, 2019. 7
+     R. Feris, R. Giryes, and A. Bronstein, “Delta-encoder: an effective sample    [54] C. Zhang, Y. Cai, G. Lin, and C. Shen, “Deepemd: Few-shot image
+     synthesis method for few-shot object recognition,” in NeurIPS, 2018. 2, 6          classification with differentiable earth mover’s distance and structured
+[23] H. Gao, Z. Shou, A. Zareian, H. Zhang, and S.-F. Chang, “Low-shot                  classifiers,” in CVPR, 2020. 7
+     learning via covariance-preserving adversarial augmentation networks,”        [55] P. Welinder, S. Branson, T. Mita, C. Wah, F. Schroff, S. Belongie, and
+     in NeurIPS, 2018. 2                                                                P. Perona, “Caltech-UCSD Birds 200,” California Institute of Technology,
+[24] J. Zhang, C. Zhao, B. Ni, M. Xu, and X. Yang, “Variational few-shot                Tech. Rep. CNS-TR-2010-001, 2010. 5
+     learning,” in ICCV, 2019. 2, 6                                                [56] O. Russakovsky, J. Deng, H. Su, J. Krause, S. Satheesh, S. Ma, Z. Huang,
+[25] S. Yang, W. Yu, Y. Zheng, H. Yao, and T. Mei, “Adaptive semantic-visual            A. Karpathy, A. Khosla, M. S. Bernstein, A. C. Berg, and L. Fei-Fei,
+     tree for hierarchical embeddings,” in ACM MM, 2019. 2                              “Imagenet large scale visual recognition challenge,” Int. J. Comput. Vis.,
+[26] Y. S. Tiexin Qin, Wenbin Li and G. Yang, “Unsupervised few-shot learning           vol. 115, no. 3, pp. 211–252, 2015. 5
+     via distribution shift-based augmentation,” in arxiv, 2020. 2                 [57] W.-Y. Chen, Y.-C. Liu, Z. Kira, Y.-C. F. Wang, and J.-B. Huang, “A closer
+[27] A. Antoniou and A. J. Storkey, “Assume, augment and learn: Unsupervised            look at few-shot classification,” in ICLR, 2019. 5
+     few-shot meta-learning via random labels and data augmentation,” arXiv,       [58] C. Cortes and V. Vapnik, “Support-vector networks,” Mach. Learn., 1995.
+     2019. 2                                                                            5, 7
+[28] S. Yang, M. Xu, H. Xie, S. Perry, and J. Xia, “Single-view 3d object          [59] F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O. Grisel,
+     reconstruction from shape priors in memory,” in CVPR, June 2021, pp.               M. Blondel, P. Prettenhofer, R. Weiss, V. Dubourg, J. Vanderplas,
+     3152–3161. 2                                                                       A. Passos, D. Cournapeau, M. Brucher, M. Perrot, and E. Duchesnay,
+[29] S.-J. Park, S. Han, J.-w. Baek, I. Kim, J. Song, H. B. Lee, J.-J. Han,             “Scikit-learn: Machine learning in Python,” Journal of Machine Learning
+     and S. J. Hwang, “Meta variance transfer: Learning to augment from the             Research, vol. 12, pp. 2825–2830, 2011. 5
+     others,” in ICML, 2020. 2, 6                                                  [60] L. van der Maaten and G. Hinton, “Visualizing data using t-SNE,” Journal
+[30] P. Mangla, N. Kumari, A. Sinha, M. Singh, B. Krishnamurthy, and V. N.              of Machine Learning Research, 2008. 7, 9
+     Balasubramanian, “Charting the right manifold: Manifold mixup for             [61] K. He, X. Zhang, S. Ren, and J. Sun, “Deep residual learning for image
+     few-shot learning,” in WACV, 2020. 3, 5, 7, 8                                      recognition,” in CVPR, 2016. 7, 8
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE                                                                                           13
+
+[62] S. Zagoruyko and N. Komodakis, “Wide residual networks,” in BMVC,                                   Min Xu is currently an Associate Professor at
+     2016. 7, 8                                                                                          University of Technology Sydney. She received
+[63] O. Bousquet, S. Boucheron, and G. Lugosi, “Introduction to statistical                              the B.E. degree from the University of Science
+     learning theory,” in Summer School on Machine Learning. Springer,                                   and Technology of China, Hefei, China, in 2000,
+     2003, pp. 169–207. 10                                                                               the M.S. degree from National University of Singa-
+[64] N. Golowich, A. Rakhlin, and O. Shamir, “Size-independent sample                                    pore, Singapore, in 2004, and the Ph.D. degree
+     complexity of neural networks,” in COLT, 2018. 11                                                   from University of Newcastle, Callaghan NSW,
+[65] E. F. Beckenbach and R. Bellman, Inequalities. Springer Science &                                   Australia, in 2010. Her research interests include
+     Business Media, 2012, vol. 30. 11                                                                   multimedia data analytics, computer vision and
+                                                                                                         machine learning. She has published over 100
+                                                                                                         research papers in high quality international jour-
+                                                                                nals and conferences. She has been invited to be a member of the
+                                                                                program committee for many international top conferences, including
+                                                                                ACM Multimedia Conference and reviewers for various highlyrated
+                                                                                international journals, such as IEEE Transactions on Multimedia, IEEE
+                                                                                Transactions on Circuits and Systems for Video Technology and much
+                                                                                more. She is an Associate Editor of Journal of Neurocomputing.
+                         Shuo Yang received the B.E. degree in computer
+                         science and technology from the Harbin Institute
+                         of Technology, Harbin, China, in 2020. He is
+                         currently pursuing a Ph.D. degree in the School
+                         of Electrical and Data Engineering, Faculty of En-
+                         gineering and Information Technology, University
+                         of Technology Sydney, advised by Prof.Min Xu.
+                         His research lies in computer vision and machine
+                         learning.
+
+
+
+
+                        Songhua Wu received the B.E. degree in elec-
+                        tronic science and technology from the University
+                        of Science and Technology of China, in 2019. He
+                        is currently pursuing a Ph.D. degree in the Trust-
+                        worthy Machine Learning Lab with the School of
+                        Computer Science at the University of Sydney.
+                        His research interests include statistical learning
+                        theory, weakly supervised learning, and causal
+                        representation learning.
+
+
+
+
+                        Tongliang Liu is currently a Senior Lecturer with
+                        School of Computer Science at the University of
+                        Sydney. He is heading the Trustworthy Machine
+                        Learning Laboratory and is also a Visiting Sci-
+                        entist at RIKEN AIP. He is broadly interested in
+                        the fields of trustworthy machine learning and
+                        its interdisciplinary applications, with a particular
+                        emphasis on learning with noisy labels, adver-
+                        sarial learning, transfer learning, unsupervised
+                        learning, and statistical deep learning theory. He
+                        has authored and co-authored more than 100
+research articles including ICML, NeurIPS, ICLR, CVPR, ICCV, ECCV,
+AAAI, IJCAI, KDD, ICME, IEEE T-PAMI, T-NNLS, and T-IP, with best paper
+awards, e.g., the 2019 ICME Best Paper Award and the PacificVis 2021
+Best VisNotes Paper Award. He is/was Area Chair for many conferences,
+such as NeurIPS, ICLR, UAI, AAAI, and IJCAI. He is a recipient of
+Discovery Early Career Researcher Award (DECRA) from Australian
+Research Council (ARC); the Cardiovascular Initiative Catalyst Award
+by the Cardiovascular Initiative; and was named in the Early Achievers
+Leaderboard of Engineering and Computer Science by The Australian in
+2020.
+

@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-14",
+  "purpose": "One bounded support-only selection test after held-label oracle exploration",
+  "alphas": [
+    0.0,
+    0.25,
+    0.5
+  ],
+  "primary": "Pooled support OOF BA, exact ties choose smaller alpha",
+  "secondary": "Pooled support OOF macro NLL, exact ties choose smaller alpha; no winner selection across policies",
+  "folds": "4 folds grouped by acquisition, descending group size balanced by support count; single-acquisition cells use deterministic class-stratified unique-ship folds",
+  "refits": "Refit BOTH base and expert on each fold training subset with lambda8; class weights from that subset only",
+  "final": "Use all original64 supports for final prediction; frozen previous probability cache is exact full-support refit",
+  "stages": [
+    "initial",
+    "matched"
+  ],
+  "seeds": [
+    20261014,
+    20261015,
+    20261016
+  ],
+  "scope": "Existing48 scenes/3ports/5draws, same and other acquisition separately",
+  "freeze": "All choices persisted before query probability caches or query outcome metrics are loaded",
+  "cost": "No new metric/source/backbone fits; support-fold ridge fits only",
+  "caveats": "Recipe/grid informed by prior query exploration; support selection itself uses no query labels. Not independent confirmation. Existing support quotas originated from original tasks. Fold train size differs from64. Missing support classes cannot contribute to CV BA.",
+  "prohibited": "No finer grid, new gates, query-selected sampler/policy, external run or main model replacement"
+}

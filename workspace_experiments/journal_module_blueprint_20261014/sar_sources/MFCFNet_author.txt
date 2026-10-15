@@ -1,0 +1,936 @@
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                             1
+
+
+
+
+    Multi-Feature Collaborative Fusion Network with
+     Deep Supervision for SAR Ship Classification
+                             Hao Zheng, Student Member, IEEE, Zhigang Hu, Liu Yang, Aikun Xu,
+                                        Meiguang Zheng, and Keqin Li, Fellow, IEEE
+
+   Abstract—Multi-feature SAR ship classification aims to build                with increasing radar distance, and its amplitude value fluc-
+models that can process, correlate, and fuse information from                  tuates randomly with the change of target observation angle,
+both handcrafted and deep features. Although handcrafted fea-                  which makes SAR target identification far more complex than
+tures provide rich expert knowledge, current fusion methods
+inadequately explore the relatively significant role of handcrafted            optical images. Ships are the main means of transportation
+features in conjunction with deep features, the imbalances in                  for maritime trade, and SAR is the main means of marine
+feature contributions, and the cooperative ways in which fea-                  detection. It is important to develop SAR ship classification for
+tures learn. In this paper, we propose a novel multi-feature                   marine fisheries management, maritime traffic management,
+collaborative fusion network with deep supervision (MFCFNet)                   combating illegal activities at sea, maritime search and rescue,
+to effectively fuse handcrafted features and deep features for
+SAR ship classification tasks. Specifically, our framework mainly              and so on. Therefore, SAR image interpretation and ship target
+includes two types of feature extraction branches, a knowledge                 information extraction are the critical issues for SAR ship
+supervision and collaboration module, and a feature fusion and                 classification.
+contribution assignment module. The former module improves
+                                                                                  Features are the keys to SAR ship classification, since the
+the quality of the feature maps learned by each branch through
+auxiliary feature supervision and introduces a synergy loss to                 goodness of features largely determines the accuracy of clas-
+facilitate the interaction of information between deep features                sification. These features can be divided into two categories:
+and handcrafted features. The latter module utilizes an attention              traditional handcrafted features and deep features based on
+mechanism to adaptively balance the importance among various                   modern convolutional neural networks (CNN) according to
+features and assign the corresponding feature contributions to
+                                                                               the differences in feature extraction. The handcrafted feature
+the total loss function based on the generated feature weights.
+We conducted extensive experimental and ablation studies on                    often needs to describe images from different perspectives
+two public datasets, OpenSARShip-1.0 and FUSAR-Ship, and                       using mature and explicable mathematical theories, such as
+the results show that MFCFNet is effective and outperforms                     grayscale, texture, edge, or shape [1–3]. Specifically, they are
+single deep feature and multi-feature models based on previous                 only applicable to a specific environment, so generalization
+internal FC layer and terminal FC layer fusion. Furthermore,
+                                                                               in unknown environments is not sufficient. However, multi-
+our proposed MFCFNet exhibits better performance than the
+current state-of-the-art methods.                                              sensor and multi-scene variations require ship images to be
+                                                                               highly descriptive and distinguishable, so it is not possible
+   Index Terms—Multi-Feature fusion, handcrafted feature, deep
+supervision, synthetic aperture radar (SAR), SAR ship classifi-
+                                                                               with handcrafted features alone.
+cation.                                                                           Different from shallow learning methods that rely on hand-
+                                                                               crafted features, deep learning methods, supported by powerful
+                                                                               computing platforms and big data, can extract features directly
+                          I. I NTRODUCTION
+                                                                               from raw data through self-driven learning. Deep features
+     YNTHETIC Aperture Radar (SAR) is a high-resolution
+S    radar system that can operate from either spaceborne or
+airborne platforms, providing a variety of features such as all-
+                                                                               can be seen as multi-level representations of the essence of
+                                                                               objects, so they are more descriptive than handcrafted features.
+                                                                               However, they have low interpretability. Existing CNN-based
+day, all-weather, and cloud-penetrating capabilities. Unlike op-               SAR ship models rely excessively on abstract deep networks,
+toelectronic sensors, SAR image mainly reflects the backscat-                  leading to a single cycle of network structure modification,
+tered information of the target, and the image signal-to-noise                 training skill optimization, and loss function improvement.
+ratio is low. Moreover, the signal-to-noise ratio decreases
+                                                                                  As most CNN networks have a black-box behavior, im-
+   Manuscript received December 15, 2022; revised March 7, 2023; accepted      proving model performance through optimizing CNN net-
+xxxx xx, xxxx. This work was supported in part by the Natural Science          work architecture has become more challenging. Some SAR
+Foundation of China under Grant 62172442 and Youth Science Foundation of       experts have therefore begun to study explainable artificial
+Natural Science Foundation of Hunan Province 2020JJ5775. (Corresponding
+author: Liu Yang.)                                                             intelligence, exploring the importance of features or neurons
+   Hao Zheng, Zhigang Hu, Liu Yang, Aikun Xu and Meiguang Zheng                in image analysis[4]. Other experts have incorporated prior
+are with the School of Computer Science and Engineering, Central South         knowledge of handcrafted features, exploring efficient ways to
+University, Changsha 410083, China. E-mail:{ zhenghao, zghu, yangliu,
+aikunxu, zhengmeiguang}@csu.edu.cn                                             combine them with deep features. Extensive experiments have
+   Keqin Li is with the Department of Computer Science, State University of    shown that handcrafted features can provide supplementary
+New York, New Paltz, NY 12561 USA. E-mail: lik@newpaltz.edu.                   information to deep features, thereby enhancing the classifi-
+   Color versions of one or more of the figures in this letter are available
+online at https://ieeexplore.ieee.org.                                         cation performance of CNN models[5, 6]. However, existing
+   Digital Object Identifier xxxxxxx                                           feature fusion methods simply concatenate deep features with
+                      1545–598X © 2022 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
+                           See http://www.ieee.org/publications standards/publications/rights/index.html for more information.
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                   2
+
+
+
+handcrafted features and directly input the high-dimensional                             II. R ELATED W ORK
+fused feature vector to the fully connected (FC) layer, leading        In this section, we review previous research works about
+to a very complex optimization plane. This direct concatena-        three main types: traditional handcrafted feature methods,
+tion causes the computation of FC layer to grow exponentially       modern deep feature methods, and feature fusion methods.
+and contains a lot of noise, which ultimately fails to provide
+satisfactory results. Alternatively, this concatenation considers   A. Traditional Handcrafted Feature Methods
+all features to be equally important, ignoring different contri-
+butions of each feature. It results in the negative impact among       Traditional handcrafted visual features are used to express
+different features, and causes the ultimate decision ability to     low-level information, which amplify some visual features of
+be diminished.                                                      an image, such as color, texture, shape, etc. These features are
+                                                                    often accompanied by some interpretable theories.
+   To solve above issues, a multi-feature collaborative fusion
+                                                                       Karvonen [7] pointed out that in addition to the areal
+network (MFCFNet) with deep supervision is proposed to
+                                                                    backscattering, the information in SAR images was also in
+achieve SAR ship classification. In MFCFNet, inspired by
+                                                                    the edges. The canny edge detection algorithm can effectively
+supervised learning, handcrafted feature auxiliary branches are
+                                                                    improve the SAR image classification task. Similarly, some
+added to the deep backbone network for the first time to
+                                                                    local features such as the mast position, were found to have
+improve the accuracy of the model through feature fusion. The
+                                                                    more substantial discriminatory power in ship classification
+relative importance of deep and handcrafted features is also
+                                                                    [8]. In addition, various feature frameworks have shown better
+considered, and an attention mechanism is used to adaptively
+                                                                    performance. In [9], Li viewed the Gabor filter as a global
+balance the contribution of different features to the model per-
+                                                                    operator to capture global texture features (e.g., orientation and
+formance. We introduce a new synergy loss to achieve knowl-
+                                                                    scale) and the local binary pattern (LBP) as a local operator
+edge interaction between all supervised branches. It normalizes
+                                                                    to characterize local spatial textures (e.g., edges, corners, and
+the network training based on knowledge dynamically learned
+                                                                    nodes). The classification was improved by combining Gabor
+by all classifiers to achieve dynamic knowledge extraction
+                                                                    features and LBP features from different perspectives. Wu et
+and fusion. We perform a comprehensive evaluation on two
+                                                                    al. [10] analyzed the reflectivity histogram and estimated the
+public datasets (OpenSARShip and FUSAR-Ship) and care-
+                                                                    values of some macroscopic features such as length, width and
+fully studied the performance of each module in MFCFNet.
+                                                                    radar cross-sectional profile of the ship, which were evaluated
+The experimental results demonstrate the effectiveness and
+                                                                    using the fuzzy logic module. Lin et al. [11] designed an
+robustness of MFCFNet with advanced SAR ship classification
+                                                                    MSHOG feature describing the ship structure and used a
+accuracy compared to modern CNN-based methods and other
+                                                                    task-driven dictionary learning algorithm to increase the ship
+handcrafted feature fusion methods.
+                                                                    separability. Although they achieved excellent performance in
+   The main contributions of this article are specified as          some specific settings, these methods were highly dependent
+follows.                                                            on handcrafted features. These features were time-consuming
+ 1) A novel feature fusion network, MFCFNet, is proposed            and labor-intensive to extract manually, and they did not de-
+    to fuse traditional handcrafted features with deep features     scribe the image content in a comprehensive manner, limiting
+    by adding an auxiliary branch for the first time to achieve     the classification accuracy in complex tasks.
+    better SAR ship classification.
+ 2) In MFCFNet, the attention-guided feature fusion and             B. Modern Deep Feature Methods
+    contribution assignment module address the importance              Compared with traditional handcrafted features, modern
+    differences between deep and handcrafted features as well       deep feature methods can automatically extract robust and
+    as the contribution imbalance.                                  adaptive deep features from labeled data. These methods have
+ 3) In MFCFNet, branch loss in the knowledge supervision            been widely used in SAR ship classification tasks and have
+    and collaboration module plays a role in judging the qual-      achieved excellent performance due to the powerful multi-level
+    ity of the corresponding feature maps, and synergy loss         characterization capability of deep features. For example, Shi
+    can facilitate deep knowledge and handcrafted knowledge         et al. [12] applied 2D discrete fractional Fourier transform
+    to learn from each other.                                       (2D-DFrFT) and two-branch CNN to obtain features. Wang
+ 4) MFCFNet can enhance the classification performance of           et al. [13] developed a semi-supervised learning framework
+    CNN networks by incorporating handcrafted features,             based on ResNet50, in which self-consistent augmentation
+    and has demonstrated superior classification accuracy           rule enables the network to efficiently utilize unlabeled data.
+    compared to modern handcrafted feature fusion methods           Dong et al. [14] designed a deeper SAR ship classification
+    on the OpenSARShip and FUSAR-Ship datasets.                     model by introducing a residual module. Zheng [15] proposed
+   The remainder of the article is organized as follows. Section    an ensemble network to improve the robustness and accu-
+II describes the related works about SAR ship classification        racy of classification by fusing multiple heterogeneous deep
+based on handcrafted and deep features. Section III presents        convolutional neural networks. Huang et al. [16] presented a
+a detailed introduction of the proposed MFCFNet. Section            novel method for CNNs, called Group Squeeze Stimulated
+IV shows experimental settings and comparative analysis of          Sparsely Connected Convolutional Networks (GSESCNNs),
+results. The ablation studies are introduced in Section V.          which made the concatenation of feature maps from different
+Finally, Section VI provides the limitation and conclusion.         layers more efficient through sparse connection operations.
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                 3
+
+
+
+
+Fig. 1: The overall architecture of our MFCFNet. KSCM: Knowledge Supervision and Collaboration Module. FFCA: Feature
+Fusion and Contribution Assignment Module.
+
+
+   With the rise of artificial intelligence, the fact that deep    Similarly, Li [20] adopted feature alignment and adaptive
+feature-based SAR ship classifiers have achieved higher ac-        weights to achieve multi-scale feature fusion. The low-scale
+curacy than traditional handcrafted feature classifiers, leading   images contained precise locations and contours, while the
+these models to uncritically discard handcrafted features. To      high-scale images provided complete contextual and structural
+further improve the characterization of deep features, the         information. In [21], the authors used multi-head encoders to
+CNN network structure becomes increasingly complex, deeper,        extract complementary features of optical, SAR, and terrain
+and uninterpretable. This cramming enhancement will soon           modalities separately, and implemented multimodal knowledge
+face a bottleneck. In addition, in the modern information          fusion using an indicator-guided decoder.
+military, uninterpretable abstract features pose great risks in       In conclusion, the above methods simply concatenate hand-
+applications such as precision strikes.                            crafted features with deep features and feed them into the
+                                                                   FC layer, treating handcrafted features and deep features
+C. Feature Fusion Methods                                          equally, without digging deeper into the relationship between
+   In order to enhance model interpretability and further          2D handcrafted features and deep features. At the same time,
+improve CNN classification performance, some researchers           sending many numerical features directly to the FC layer will
+in recent studies combined handcrafted features with deep          result in a very complex optimization hyperplane, causing the
+features to achieve complementary effects.                         overfitting phenomenon often mentioned in the above article.
+   Zhang [17] thoroughly investigated the effect of fusing         Finally, the fused features may contain a lot of noise, making
+handcrafted features with deep features at the internal FC         the network unable to converge.
+layer and the terminal FC layer. The results showed that
+the best classification accuracy can be achieved by injecting                           III. M ETHODOLOGY
+handcrafted ones into the terminal FC layer, due to the hand-         We propose a novel multi-feature collaborative fusion net-
+crafted features had rich expert experience. He also pointed       work framework with deep supervision, as shown in Fig.
+out that different CNN models differ in their sensitivity to       1, containing two branches (DEEP Branch, HAND Branch)
+handcrafted features. The worse the performance, the more          and two modules (KSCM, FFCA). In the HAND branch, we
+significant accuracy improvement of the CNN model. In [18],        design a new location for feature injection. Specifically, the
+Zhang et al. integrated handcrafted features into CNN models,      handcrafted feature map is treated as input, and the backbone
+demonstrating that mature handcrafted features can play an         network is used to deeply explore the contained expert knowl-
+important role. They studied the fusion of 2D handcrafted          edge. In this way, it can solve the optimization hyperplane
+features with deep features by first flattening 2D handcrafted     problem caused by traditional feature fusion directly in front of
+features to one dimension, then using PCA to reduce the            the FC layer. At the same time, we design the KSCM module
+dimensionality of handcrafted features, and finally combining      to improve the quality of feature maps by auxiliary supervision
+them in the FC layer. The article [19] proposed a HOG-             units and adopt synergy loss to promote dynamic information
+ShipCLSNet network that combined HOG feature with multi-           interaction between DEEP knowledge and HAND knowledge.
+scale CNN-based features at the FC layer to improve the clas-      Secondly, in order to reduce the overfitting problem caused
+sification accuracy. The HOG-ShipCLSNet used a multiscale          by channel feature redundancy, we use the Spatial Dropout
+mechanism to enrich the deep features, and then flattened          mechanism [22] to randomly zero out 50% of the feature
+the multiscale ones with HOG into 1D and fused them in             maps in channel units. Finally, the feature map is input to
+the terminal FC layer to enhance the global representation.        the FFCA module, and the difference in importance between
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                 4
+
+
+
+
+Fig. 2: (a)-(g) Columns are seven categories of SAR ship images in the FUSAR-Ship dataset, (a) Container, (b) General cargo,
+(c) Fishing, (d) Tanker, (e) Bulk, (f) Other cargo, and (g) Others. The first row is the original image, and the other rows are
+corresponding handcrafted feature visualizations.
+
+
+deep and handcrafted features is weighed by the channel           Similar to the traditional edge detection step, the original
+attention mechanism, and the total weights of deep and            image f (x, y) is firstly smoothed and denoised by using the
+handcrafted features are output separately to solve the feature   following Gaussian filter G(x, y):
+contribution imbalance problem. To our knowledge, this is the                                 1
+                                                                                                      2
+                                                                                                        x + y2
+                                                                                                                
+first work to achieve multi-feature collaborative fusion using                 G(x, y) =          exp −                    (1)
+                                                                                            2πσ 2         2σ 2
+handcrafted feature maps as input, and the experimental results
+demonstrate the effectiveness of MFCFNet. The modules are                          H(x, y) = f (x, y) ∗ G(x, y)                 (2)
+described in detail in the following sections.
+                                                                  where H(x, y) is the smoothed image and ∗ is the representa-
+                                                                  tion of the convolution operator. σ is the standard deviation of
+A. Handcrafted Feature Extraction
+                                                                  G(x, y), which affects the Gaussian filtering quality. Then, the
+   Traditional handcrafted features enhance some of the visual    gradient amplitude and direction of the pixel are calculated by
+information of an image, such as edges, corners and textures,     computing the first-order partial derivatives in both directions
+which are often accompanied by some interpretable theories.       for each pixel and transforming the coordinate system.
+According to the effect of previous use in the field of SAR          Harris corner feature is used to characterize the ship’s corner
+ship classification and the requirement that the dimension of     information [24], which is more effective for ship positioning
+handcrafted features is 2-dimensional, we selected handcrafted    recognition. The Harris feature is defined by:
+features of each type, such as Canny edge, Harris corner, Ga-                   X
+bor filter, and LBP histogram, respectively. As shown in Fig.        E(u, v) =       w(x, y) × [f (x + u, y + v) − f (x, y)]2 (3)
+                                                                               (x,y)
+2, these handcrafted features all have the same dimensional
+as the original image. All methods are well known and each        where w(x, y) is a window function, which can also be a
+method is briefly explained below.                                Gaussian function G(x, y). When the w is shifted in both x
+   Canny edge feature is used to extract the edge information     and y directions, the E(u, v) is calculated.
+of SAR ships [23], which has the advantages of high localiza-        Gabor filter [25, 26] feature is also widely used for ship
+tion accuracy and effective suppression of false edge points.     classification because it can represent the spatial structure at
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                   5
+
+
+
+different scales and orientations, enhancing the global rotation
+invariance. The mathematical expression of the 2D Gabor
+function takes the following form:
+                           2
+                              x0 + γ 2 y02
+                                                   x        
+                                                         0
+g(x, y; λ, θ, σ, γ) = exp −                  ·exp  i 2π    + ψ
+                                 2σ 2                   λ
+                                                            (4)
+                      x0 = x cos θ + y sin θ
+                                                             (5)
+                      y0 = −x sin θ + y cos θ
+where (x, y) is the spatial domain coordinate, λ is the wave-
+length, θ is the directional separation angle of the Gabor core,
+γ is the spatial aspect ratio, ψ is the phase shift.
+   LBP descriptor is a simple and effective pixel-based texture
+descriptor for extracting spatial texture features of ship images
+                                                                    Fig. 3: Knowledge Supervision and Collaboration Module
+[27]. The descriptor computes each neighborhood pixel using
+                                                                    (KSCM). Lk denotes synergy loss, Ld denotes DEEP branch
+the centroid pixel gray value as a threshold, which can be
+                                                                    loss, Lh denotes HAND branch loss.
+expressed as:
+                                  p
+                                  X
+               LBP (xc , yc ) =       2p s (ip − ic )        (6)    where L is calculated with the cross-entropy cost function, Lg
+                                  0                                 is the default loss, the auxiliary loss Ld and Lh are the cor-
+                              
+                                  1, x > 0                          responding DEEP and HAND auxiliary classifiers evaluated
+                     s(x) =                                  (7)    on the training set, making the learned deep and handcrafted
+                                  0, x < 0
+                                                                    features more discriminative and robust.
+where (xc , yc ) is the pixel coordinate, p is the pth pixel in        In deep supervised networks, Sun [28] states that setting a
+the domain, c is the pixel in the neighbor center, ip is the pth    fixed value of 1.0 for α and β gives the same performance as
+pixel value, ic is the pixel value in the neighbor center. Then,    the best CNN model trained by the ZERO-ing strategy [29].
+the whole LBP feature map is counted using the histogram to         However, we found in our experiments that when deep features
+obtain the final LBP feature vector histogram.                      are added, the two branches contribute differently to the final
+                                                                    classification, and if the same weights are used it will lead to
+B. Knowledge Supervision and Collaboration Module                   poor fusion. Therefore how to set the weights of α and β, we
+                                                                    will introduce in section III-C.
+   Knowledge supervision and collaboration module (KSCM)               In the knowledge collaboration learning unit, the knowl-
+consists of an auxiliary feature supervision unit and a knowl-      edge synergy strategy can facilitate the aggregation of deep
+edge collaboration learning unit, as shown in Fig. 3. Briefly,      features and handcrafted ones to improve the information con-
+The auxiliary feature supervision unit is responsible for pro-      sistency among them. Specifically, the class probability outputs
+viding supervision on the output features of each branch and        of the two auxiliary classifiers on the training data are utilized
+introducing accompanied objective functions Ld and Lh to            as learned knowledge to regularize the network’s training. The
+improve the convergence rate of the model. The knowledge            knowledge matching between the DEEP auxiliary classifier
+collaboration learning unit uses a knowledge synergy strategy       and the HAND auxiliary classifier is a KL divergence
+Lk to facilitate the information interaction between deep
+features and handcrafted features.                                                     N                                
+   In the auxiliary feature supervision unit, we add auxil-                         1 X               fd              fh
+                                                                           Lk = −          µdh fd log    + µhd fh log             (9)
+iary classifiers after two feature extraction branches. HAND                        N i=1             fh              fd
+branch is used for low-level visual features and the other
+DEEP branch is used for high-level semantic features. Let           where fd and fh are the class probability outputs of DEEP and
+D = {(x1 , y1 ), . . . , (xn , yn )} be an annotated SAR dataset    HAND classifiers using the softmax function, and µ weights
+having N training samples collected from K ship classes,            the information loss of knowledge matching among them. In
+where each member (xi , yi ) contains xi ∈ Rd and yi is the         this study, to make the knowledge learned by the classifiers
+corresponding ship category. Let W = {Wd , Wh , Wg } be             transferable to each other, we set µ = 1 and keep them fixed
+the weights of the DEEP branch, HAND branch and global              like in [28].
+network that needs to be learned. Hence, f (W, xi ) is the k-
+dimensional output vector of the W branch for a training            C. Feature Fusion and Contribution Assignment Module
+sample xi . According to the deeply supervised network fusing          Traditional multi-feature fusion methods usually use a sim-
+the losses of each branch, the global optimization objective can    ple concatenated feature map, and this concatenation defaults
+be expressed by the following equation:                             the deep and handcrafted features to have the same important
+                                                                    information. In order to more clearly characterize the features
+ argmin Lg (Wg , D)+αLd (Wd , Wg , D)+βLh (Wh , Wg , D)
+Wg ,Wd ,Wh                                                          of different channels after concatenation, as shown in Fig.
+                                                             (8)    4, we designed a feature fusion and contribution assignment
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                   6
+
+
+
+                                                                        TABLE I: Distribution of the SAR ship datasets.
+
+                                                                         Dataset           Category         Training   Test   All
+                                                                                             Bulk              338     328    666
+                                                                    OpenSARShip-1.0        Container           338     808    1146
+                                                                                            Tanker             338     146    484
+                                                                                           Container          1219     523    1742
+                                                                                         General cargo        1205     517    1722
+                                                                                            Fishing           1101     473    1574
+Fig. 4: Feature fusion and contribution assignment module             FUSAR-Ship            Tanker            1215     521    1763
+(FFCA), which outputs refined features and feature contribu-                                 Bulk             1150     494    1644
+tions α, β                                                                                Other cargo         1214     520    1734
+                                                                                            Others            1211     521    1732
+
+module(FFCA). Similar to the widely applied attention mech-
+anism [30, 31], FFCA module uses global average pooling to
+aggregate the spatial dimensional information of the multi-
+channel feature maps F ∈ R2C×H×W , compressed into a
+1 × 1 × 2C sequence of real numbers. Then, the feature
+sequence is fed into a shared multilayer perceptron(MLP)              (a) Bulk      (b) Container        (c) Tanker
+to learn the relationship between each channel and gener-
+ate a more representative feature vector. After that, using       Fig. 5: Three-category of SAR ship images in the
+the sigmoid function obtains the feature channel weights. It      OpenSARShip-1.0 dataset.
+outputs the two types of feature weights according to the
+summation operation of the deep feature channel and the
+handcrafted feature channel, respectively. Finally, we use the    methods partially derived from the skimage library. The model
+feature channel weights multiplied by the input feature map       inference is accelerated using CUDA11.6 platform calling
+to obtain the final channel attention map. The equation of        GPU.
+the channel attention mechanism is shown in the following
+equation:
+                                                                  A. Data Description
+           W (F ) = sigmoid(MLP(AvgPool(F )))             (10)       To evaluate the feasibility and effectiveness of MFCFNet to
+where F represents the concatenated feature map and W (F )        fuse handcrafted features, we perform extensive experimental
+represents the feature weights of each channel. Thus the deep     analysis on two popular SAR ship datasets like other schol-
+feature weights α and handcrafted feature weights β are:          ars [32–34]. The distribution ratio and preprocessing of the
+                                                                  datasets are the same as our previous work [15]. Table I lists
+                  C
+                  X                     2C
+                                        X                         the distribution of two datasets, such as categories, totals, and
+             α=         Wc (F ), β =           Wc (F )    (11)    allocations. The validation set is randomly divided from the
+                  c=1                  c=C+1                      training set by using the three-fold cross validation method,
+   We use the deep feature weights α and the handcrafted          which is used to verify a variety of hyperparameters. On
+feature weights β to measure the corresponding supervised         the basis of the minimum average error hyperparameters, the
+loss functions, thus balancing the contribution of different      training set and the validation set are combined to retrain the
+features to the model classification. As a result, combining      final model, and then its generalization ability is tested through
+the loss function of the previous section with the contribution   the test set.
+weights of this section, the total loss function of the whole        (1) OpenSARShip Dataset: The OpenSARShip images were
+framework is:                                                     derived from the dual-polarization SAR detected by the Eu-
+                                                                  ropean Space Agency’s Sentinel 1 satellite, including both
+              Ltotal = Lg + αLd + βLh + Lk                (12)    VH and VV polarization channels. Combining the coordinates
+                                                                  and categories provided by Huang and the experimental setup
+where Lg is the default loss, Ld and Lh can play the role of      of earlier research [13, 19], three main types of ships are
+judging the good or bad quality of the corresponding feature      extracted and the same training-test ratio is set to solve the
+maps, and Lk can promote the auxiliary classifiers to learn       sample imbalance problem. Additionally, the resolution of this
+from each other.                                                  dataset was decreased compared to FUSAR-Ship. As shown
+                                                                  in fig. 5, there are three types of ships: bulk, container and
+        IV. E XPERIMENT A ND R ESULT A NALYSIS                    tanker.
+   All programs are implemented in Python language, and              (2) FUSAR-Ship Dataset: The FUSAR-Ship dataset was
+the CNN network is implemented using the open source              extracted from 126 hyperfine images acquired on the quad-
+PyTorch framework, with the handcrafted feature extraction        polarization Gaofen-3 satellite, and had a greater variety of
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                                 7
+
+
+
+TABLE II: SAR ship classification results with and without handcrafted features on OpenSARShip and FUSAR-Ship. For
+each network, we run each method 5 times and report the “mean±std” accuracy. () indicates the performance improvement for
+Baseline. ABG refers to the average backbone gain. AFG refers to the average feature gain. The best gain for BackBone and
+Handcrafted features are highlighted in Red and Blue respectively.
+
+     Dataset           Backbone          Baseline       + Canny               + Harris            + Gabor               + LBP           ABG(%)
+                     AlexNet [35]      70.47±1.45    77.70±0.36(+7.23)    74.56±0.94(+4.09)    75.93±0.67(+5.46)    77.25±0.44(+6.78)    5.89
+                     VGG-11 [36]       69.90±0.96    76.66±0.48(+6.76)    76.13±0.52(+6.23)    76.85±0.61(+6.95)    76.72±0.46(+6.82)    6.69
+  OpenSARShip        VGG-16 [36]       70.62±1.18    75.93±0.94(+5.31)    74.43±0.36(+3.81)    77.97±0.94(+7.35)    77.05±0.59(+6.43)    5.73
+                    ResNet-18 [37]     72.66±0.87    74.49±0.56(+1.83)    74.19±0.91(+1.53)    74.62±0.85(+1.96)    72.79±0.36(+0.13)    1.36
+                   DenseNet-121 [38]   73.59±1.44    76.07±0.93(+2.48)    78.60±0.21(+5.01)    78.36±0.30(+4.77)    77.18±0.33(+3.59)    3.96
+                AFG(%)                     —               4.72                 4.13                 5.30                 4.75            —
+                     AlexNet [35]      77.64±0.83    79.70±0.56(+2.06)     79.54±0.31(+1.9)    79.91±0.49(+2.27)    79.15±0.22(+1.51)    1.94
+                     VGG-16 [36]       80.30±0.19    84.50±0.22(+4.2)     82.07±0.31(+1.77)    85.13±0.13(+4.83)    82.51±0.19(+2.21)    3.25
+                    ResNet-18 [37]     78.94±0.56    83.04±0.24(+4.1)     82.39±0.19(+3.45)    82.48±0.26(+3.54)    81.66±0.17(+2.72)    3.45
+   FUSAR-Ship
+                    ResNet-152 [37]    80.48±0.33    80.79±0.20(+0.31)    82.21±0.17(+1.73)    82.76±0.21(+2.28)    80.56±0.22(+0.08)     1.1
+                   DenseNet-121 [38]   82.18±0.59    84.86±0.43(+2.68)    83.53±0.14(+1.35)    85.79±0.10(+3.61)    83.82±0.25(+1.64)    2.32
+                   DenseNet-201 [38]   83.35±0.47    85.21±0.13(+1.86)    85.29±0.21(+1.94)    87.23±0.26(+3.88)    83.77±0.18(+0.42)    2.01
+                AFG(%)                     —               2.54                 2.02                 3.40                 1.43            —
+
+
+
+ships compared to the OpenSARShip dataset. As shown in the               C. Metric index
+first row of Fig. 2, seven types of ships from are used in the             For the SAR ship classification task, we use the Accuracy,
+experiment, i.e., bulk, container, fishing, tanker, general cargo,       F1, Precision, and Recall metric to measure the classification
+other cargo, and others. We use the same data pre-processing             performance and compare with the state of the arts.
+method and training–testing ratio as in [15]. Specifically, the
+image is first padded by 5 pixels to both sides, and then                                                   TP + TN
+                                                                                       Accuracy =                                               (13)
+224×224 crops are randomly sampled from the padded image                                               TP + TN + FP + FN
+or its horizontal flips.                                                                                   2 × TP
+                                                                                              F1 =                                              (14)
+                                                                                                     2 × TP + FN + FP
+
+B. Experiment settings                                                                                               TP
+                                                                                               P recision =                                     (15)
+                                                                                                                   TP + FP
+   (1) Backbone and implementation details on OpenSAR-
+Ship. We use the four most representative CNN architectures                                                  TP
+for evaluation, namely AlexNet [35], VGG-16[36], ResNet-                                         Recall =                           (16)
+                                                                                                         TP + FN
+18[37], and DenseNet-121[38]. We employ the open-source
+                                                                         where TP, TN, FP, and FN denotes the number of cor-
+model code in Pytorch and train each backbone network
+                                                                         rectly classified ships, number of correctly classified opposite
+following the standard settings. For ResNet-18, we use an
+                                                                         classes, number of incorrectly classified ships, and number of
+SGD optimizer with the momentum of 0.9 and the learning
+                                                                         the misclassified ships, respectively.
+rate as 0.001. The rest of the models use Adam optimizer with
+a learning rate as 0.0001 and the weight decay as 5 × 10−4 .
+All models are trained with 100 epochs and the batchsize is              D. SAR Ship Classification Results
+set to 16.                                                                  Table II shows the SAR ship classification results of
+   (2) Backbone and implementation details on FUSAR-                     MFCFNet on OpenSARShip and FUSAR-Ship with and with-
+Ship. Due to the larger FUSAR-Ship dataset, we add two                   out handcrafted features. In the table, the Backbone refers to
+deeper models to test the validity of MFCFNet, namely                    the deep features, the Baseline denotes the standard training
+ResNet101[37] and DenseNet201[38]. For ResNet-18 and                     scheme, and Canny, Harris, Gabor, and LBP indicate the cor-
+ResNet-101, we use an SGD optimizer with the momentum of                 responding handcrafted feature fusion schemes. We run each
+0.9 and the learning rate set to 0.01. The rest of the models use        combination 5 times and report the “mean±std” accuracy. For
+Adam optimizer with a learning rate as 0.001 and the weight              better comparison, we also present the average gain ABG and
+decay as 5 × 10−4 . All models are trained for 100 epochs, and           AFG. ABG refers to the average gain of the identical backbone
+the learning rate is decayed by 10% at the 60th epoch, and               combined with different handcrafted features. Similarly, AFG
+the batchsize is set to 32.                                              refers to the average gain of the same handcrafted feature
+   (3) Auxiliary classifier implementation details. The auxiliary        combined with different backbones.
+classifiers on both branches have the same structure as the                 Results on the OpenSARShip are summarized in Ta-
+classifiers in the original backbone network.                            ble II where our method MFCFNet consistently improves
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                                                                                                                                                                                                                                  8
+
+
+
+                    100                                                                                                        100                                                                                                           100
+                                                                                     Legend                                                                                                     Legend                                                                                                                      Legend
+                    90                                                              AlexNet                                    90                                                               VGG16                                        90                                                                            ResNet18
+                                                                                    AlexNet+Canny                                                                                               VGG16+Canny                                                                                                                ResNet18+Canny
+                                                                                    AlexNet+Harris                                                                                              VGG16+Harris                                                                                                               ResNet18+Harris
+                    80                                                              AlexNet+Gabor                              80                                                               VGG16+Gabor                                  80                                                                            ResNet18+Gabor
+                                                                                    AlexNet+LBP                                                                                                 VGG16+LBP                                                                                                                  ResNet18+LBP
+                    70                                                                                                         70                                                                                                            70
+Val error rate(%)
+
+
+
+
+                                                                                                           Val error rate(%)
+
+
+
+
+                                                                                                                                                                                                                         Val error rate(%)
+                                                                                                                                                               26
+                                                    28                                                                                                                                                                                                                                   28
+                                                                                                                                                               24
+                    60                              26                                                                         60                                                                                                            60                                          26
+                                                                                                                                                               22
+                                                                                                                                                                                                                                                                                         24
+                                                    24
+                                                                                                                                                               20                                                                                                                        22
+                    50                              22                                                                         50                              18                                                                            50                                          20
+                                                    20                                                                                                         16                                                                                                                        18
+
+                    40                              18
+                                                         60   65   70        75      80   85    90
+                                                                                                                               40                              14
+                                                                                                                                                                    60    65     70        75    80   85    90
+                                                                                                                                                                                                                                             40                                          16
+                                                                                                                                                                                                                                                                                               60     65    70        75     80    85    90
+
+
+                    30                                                                                                         30                                                                                                            30
+
+                    20                                                                                                         20                                                                                                            20
+
+                    10                                                                                                         10                                                                                                            10
+                          0   10   20   30     40   50        60        70          80     90        100                             0   10   20   30     40   50         60          70        80    90         100                               0    10       20     30     40         50          60         70         80      90        100
+
+
+                                             (a) AlexNet                                                                                                (b) VGG-16                                                                                                       (c) ResNet-18
+                    100                                                                                                        100                                                                                                           100
+                                                                                    Legend                                                                                                    Legend                                                                                                                     Legend
+                    90                                                            ResNet152                                    90                                                          DenseNet121                                       90                                                                       DenseNet201
+                                                                                  ResNet152+Canny                                                                                          DenseNet121+Canny                                                                                                          DenseNet201+Canny
+                                                                                  ResNet152+Harris                                                                                         DenseNet121+Harris                                                                                                         DenseNet201+Harris
+                    80                                                            ResNet152+Gabor                              80                                                          DenseNet121+Gabor                                 80                                                                       DenseNet201+Gabor
+                                                                                  ResNet152+LBP                                                                                            DenseNet121+LBP                                                                                                            DenseNet201+LBP
+                    70                                                                                                         70                                                                                                            70
+Val error rate(%)
+
+
+
+
+                                                                                                           Val error rate(%)
+
+
+
+
+                                                                                                                                                                                                                         Val error rate(%)
+                                                                                                                                                               30                                                                                                                        30
+                                                    30
+                    60                                                                                                         60                              25                                                                            60                                          25
+                                                    25
+                                                                                                                                                               20                                                                                                                        20
+                    50                                                                                                         50                                                                                                            50
+                                                    20
+                                                                                                                                                               15                                                                                                                        15
+
+                    40                                   60   65   70        75      80   85    90
+                                                                                                                               40                                   60    65     70        75    80   85    90
+                                                                                                                                                                                                                                             40                                                60     65    70        75     80    85    90
+
+
+                    30                                                                                                         30                                                                                                            30
+
+                    20                                                                                                         20                                                                                                            20
+
+                    10                                                                                                         10                                                                                                            10
+                          0   10   20   30     40   50        60        70          80     90        100                             0   10   20   30     40   50         60          70        80    90         100                               0    10       20     30     40         50          60         70         80      90        100
+
+
+                                         (d) ResNet152                                                                                             (e) DenseNet-121                                                                                                    (f) DenseNet-201
+
+Fig. 6: The training performance of AlexNet, VGG-16, ResNet-18, ResNet-152, DenseNet-121, DenseNet-201 with and without
+handcrafted features on FUSAR-Ship.
+
+
+the performance of all backbones. Among them, Densenet-                                                                                                             TABLE III: Confusion Matrix Of MFCFNet Classification
+121+Harris achieved the highest accuracy of 78.60%. From                                                                                                            Results on OpenSARShip.
+the perspective of average backbone gain, we find that the                                                                                                                                  Predicted
+accuracy improvement is more significant for the original                                                                                                                                                              Bulk                            Container             Tanker                          Recall(%)
+                                                                                                                                                                          True
+model with poorer performance. For example, the original                                                                                                                       Bulk                                     251                               65                    12                                    76.52
+VGG-11 model has 69.90% classification accuracy, and the                                                                                                                     Container                                  126                              636                    46                                    78.71
+average gain after adding handcrafted features is 6.69%. How-                                                                                                                 Tanker                                     9                               16                    121                                    82.88
+ever, the original DenseNet-121 model has 73.59% accuracy,                                                                                                                 Precision(%)                                65.03                            88.70                 67.60
+and the average gain after adding features is 3.96%. The                                                                                                                                                                                                                                             Accuracy=78.62%
+                                                                                                                                                                              F1(%)                                    70.31                            83.41                 74.46
+average gain of the ResNet-18 model is only 1.36%, partly
+because of the high accuracy of the original network, but
+                                                                                                                                                                    TABLE IV: Confusion Matrix Of MFCFNet Classification
+mainly because the sparse residual summation operation in
+                                                                                                                                                                    Results on FUSAR-Ship.
+the network disrupts the feature information flow to some
+extent. Meanwhile, the same model has sensitivity differences                                                                                                                    Predicted                              General
+                                                                                                                                                                                                                                                       Fishing        Tanker
+                                                                                                                                                                                                                                                                                                    Other
+                                                                                                                                                                                                                                                                                                             Others               Recall(%)
+                                                                                                                                                                                                      Container                                                                 Bulk
+to different handcrafted features. For example, the accuracy                                                                                                             True                                             cargo                                                                     cargo
+                                                                                                                                                                           Container                       509                               0           14             0            0               0                0             97.32
+improvement of the VGG-16 model is 7.35% after fusing
+                                                                                                                                                                         General cargo                      0                      511                       0          0           6                0                0             98.84
+Gabor features and only 3.81% after fusing Harris. Therefore,                                                                                                                  Fishing                      12                               0           321           14           13               4            109               67.86
+we need to further consider the intrinsic relationship between                                                                                                                  Tanker                      1                                0               5         499          0                7                9             95.78
+deep and handcrafted features. From the average feature gain                                                                                                                    Bulk                        4                            16              24             3           427              8                12            86.44
+
+perspective, the textures features are described by the Gabor                                                                                                             Other cargo                       2                                0           15            28           17              426               32            81.92
+                                                                                                                                                                                Others                      2                                5           78             2           10               15           409               78.50
+and LBP for the Top-2 gains, which are 5.30% and 4.75%,                                                                                                                  Precision(%)                      96.04          96.05                         70.24         91.39     90.27               92.61        71.63            Accuracy
+respectively. It shows that texture features have a substantial                                                                                                            F1(%) )                         96.68          97.43                         69.03         93.53     88.31               86.94        74.91            86.92%
+gain for deep features on OpenSARShip. The experimental
+results powerfully illustrate the effectiveness of MFCFNet for
+the fusion of handcrafted features with deep features.                                                                                                              with that reported in the literature [19]. Benefiting from
+  Results on the FUSARShip are similar to those on                                                                                                                  the proposed handcrafted feature fusion, MFCFNet improves
+OpenSARShip, and MFCFNet achieves an effective accuracy                                                                                                             1.94%, 3.25%, 3.45%, 1.1%, 2.32%, and 1.73% in average
+improvement even on larger datasets and deeper networks.                                                                                                            accuracy gain for AlexNet, VGG-16, ResNet-18, ResNet-152,
+The accuracy results of all backbone networks are consistent                                                                                                        DenseNet-121 and DenseNet-201, respectively. The accuracy
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                                               9
+
+
+
+TABLE V: Comparison of MFCFNet with handcrafted feature-based, deep feature-based and state-of-the-art feature fusion
+methods on two datasets.
+                                                                       OpenSARShip                                           FUSAR-Ship
+       Feature                 Method
+                                                 Accuracy(%)     Recall(%)    Precision(%)     F1(%)      Accuracy(%)   Recall(%)    Precision(%)     F1(%)
+                              SVM [39]               55.74         56.77         49.51         52.91         67.74        68.13         67.51         67.82
+                          Decision Tree [40]         57.38         60.09         54.85         57.32         65.57        65.79         65.30         65.54
+ Handcrafted Feature
+                         Random Forest [41]          57.05         59.56         52.94         56.04         67.05        67.33         67.65         67.49
+                              MLP [42]               59.67         60.70         53.44         56.84         72.35        72.25         72.98         72.61
+                        Wide-ResNet-101 [43]      73.04±0.73     72.12±2.77   67.37±1.46     69.62±1.27   80.98±0.53    81.02±0.54   81.10±0.51     81.06±0.52
+                          MobileNet-v1 [44]       69.91±1.08     66.30±2.87   63.49±2.40     64.83±2.03   77.61±0.54    77.79±0.56   77.92±0.59     77.86±0.56
+                        SqueezeNet-v1.0 [45]      72.15±1.25     71.47±1.31   66.73±1.70     69.01±1.28   78.76±0.38    78.87±0.40   79.07±0.52     78.97±0.44
+    Deep Feature
+                          Inception-v4 [46]       72.44±0.70     69.26±3.16   67.43±2.39     68.28±1.97   80.50±0.37    80.55±0.40   80.89±0.55     80.72±0.45
+                            Xception [47]         73.74±0.86     71.56±3.00   68.60±1.67     70.00±1.29   77.29±0.38    77.42±0.39   77.39±0.36     77.41±0.37
+                          GSESCNNs [16]           74.98±1.46     74.74±1.60   69.56±2.38     72.04±1.60   83.19±0.31    83.19±0.41   83.34±0.31     83.27±0.35
+                          DUW-Cat-FN [17]             78           78.65         72.99         75.21         86.86        85.49         85.28         85.22
+                       HOG-ShipCLSNet [19]        78.15±0.57     77.87±1.14   72.42±1.06     75.04±0.68   86.69±0.47    86.62±0.51   86.54±0.50     86.58±0.50
+   Feature Fusion         Internal FC layer       74.75±1.21     73.57±2.11   71.64±2.52     73.31±1.98   84.25±0.42    84.16±0.52   84.29±0.43     84.29±0.42
+                          Terminal FC layer       74.10±1.42     73.22±1.89   70.21±2.21     72.29±2.19   83.17±0.51    83.22±0.54   83.08±0.48     83.16±0.54
+                             MFCFNet              78.60±0.21     79.37±0.58   73.78±0.62     76.06±0.93   87.23±0.26    86.67±0.43   86.89±0.45     86.69±0.41
+   The standard deviation of DUW-Cat-FN are not given in the source.
+
+
+
+improvement of ResNet-152 and DenseNet-201 with deeper                               as container, general cargo, tankers, and bulk achieved better
+layers is lower than that of the corresponding shallow net-                          classification performance.
+works, indicating that the deeper networks contain richer
+semantic information. ResNet-18 achieves the best average                            E. Comparison Results
+backbone gain of 3.45% on a larger dataset in contrast to
+                                                                                        In the comparison experiments, the best feature combina-
+OpenSARShip. So the performance of residual blocks can be
+                                                                                     tions DenseNet121+Harris on OpenSARShip and DenseNet-
+exploited when the dataset is sufficiently complex and diverse.
+                                                                                     201+Gabor on FUSARShip are used as benchmarks, and then
+The Gabor feature also achieves the best average feature gain
+                                                                                     compared them with handcrafted feature-based, deep feature-
+of 3.40% on FUSAR-Ship. The training performance of all
+                                                                                     based, and state-of-the-art feature fusion methods, respectively.
+backbones with and without handcrafted features is shown
+                                                                                     The Harris feature is used in OpenSARShip and the Gabor
+in Fig. 6. From the Fig. 6, we can find that the backbone
+                                                                                     feature is used in FUSARShip.
+network combined with handcrafted features can accelerate the
+                                                                                        Comparison with handcrafted feature-based methods. In
+convergence speed and improve the accuracy, but each network
+                                                                                     the first item of Table V, four methods based on handcrafted
+has sensitivity differences to various handcrafted features.
+                                                                                     features are listed, SVM, Decisoin Tree, Random Forest and
+For example, the DenseNet-121 network, after combining
+                                                                                     Multilayer Perceptron (MLP). From the table V, the best
+Canny and Gabor features, obviously converges faster than the
+                                                                                     accurate MLP combined with handcrafted features can reach
+original network. However, the combination of Gabor causes
+                                                                                     59.67% and 72.35%, both much lower than our MFCFNet. But
+oscillations in training process. The internal mechanism of this
+                                                                                     thinking differently, these methods demonstrate the validity of
+phenomenon needs to be further investigated in the future. In
+                                                                                     handcrafted features Harris and Gabor that can be used for
+conclusion, as the backbones become deeper (e.g., ResNet-152
+                                                                                     SAR ship classification. In addition, all handcrafted feature
+and DensenNet-201)/the datasets become larger (e.g., FUSAR-
+                                                                                     methods are inferior to the deep feature-based methods. This
+Ship), our method MFCFNet has the same significant accuracy
+                                                                                     is the reason we use handcrafted features to provide comple-
+improvement for all backbones.
+                                                                                     mentary information to the deep features.
+   Table III and Table IV show the top-1 accuracy                                       Comparison with deep feature-based methods. Combin-
+DenseNet121+Harris and DenseNet201+Gabor on both                                     ing the backbone network in Table II and the deep feature-
+datasets, and illustrate the classification performance for each                     based method in Table V, the improved CNN network GSESC-
+ship category in the form of confusion matrices. The tables                          NNs proposed by Huang [16] achieve the best accuracy of
+also have many misclassifications due to the significant inter-                      74.98% and 83.19%, respectively, which is 5% lower than our
+ference of background noise in the images of the two datasets.                       MFCFNet approach. The result demonstrates the effectiveness
+However, Table IV performs better than Table III because                             of combining handcrafted features with deep features. It fur-
+the FUSAR-Ship dataset has a higher resolution, can learn                            ther illustrates that SAR classification should not be caught in
+more ship features, and has an accuracy of 86.92%, higher                            a single cycle of network structure modification, training tech-
+than the 78.62% of OpenSARShip. Clearly, the confusion                               nique optimization, etc. Instead, combining deep features with
+in category prediction on the FUSAR-Ship dataset mainly                              handcrafted features can solve the aforementioned limitations.
+occurs in Fishing and Others, as these two ship types have                              Comparison with feature fusion methods. Among the
+similar geometric shapes. The various types of cargo such                            feature fusion methods for SAR ship classification in Table V,
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                       10
+
+
+
+TABLE VI: Ablation experiments of feature fusion unit. Baseline refers to not using handcrafted features, Attention Removed
+refers to not using the attention mechanism, () indicates the performance gain for Attention Removed.
+
+              Dataset         Networks        Baseline   Attention Removed     SAM [48]            CBAM [49]              Ours
+                            VGG16+Gabor     70.62±1.18      74.75±1.26       75.74±0.61(+0.99)   76.99±0.59(+2.24)   77.97±0.94(+3.22)
+          OpenSARShip
+                            AlexNet+Canny   70.47±1.45      76.07±0.52       76.72±0.43(+0.65)   77.38±0.75(+1.31)   77.70±0.36(+1.63)
+                            VGG16+Gabor     80.30±0.19      84.73±0.21       78.11±0.17(-6.62)   83.83±0.22(-0.90)   85.13±0.13(+0.40)
+           FUSAR-Ship
+                            VGG16+Canny     80.30±0.19      83.08±0.26       83.18±0.49(+0.10)   84.04±0.24(+0.96)   84.50±0.22(+1.42)
+
+
+
+                                                                      the core of the KSCM module, and both modules contain
+                                                                      an auxiliary feature supervision unit with feature contribution
+                                                                      weight. Therefore, we have divided the ablation experiments
+                                                                      according to these units. We perform ablation experiments
+                                                                      with the top-2 gain combinations on both datasets to allow
+                                                                      a more pronounced study of each unit’s effectiveness. The
+                                                                      top-2 gain on OpenSARShip are VGG16+Gabor(+7.35) and
+                                                                      AlexNet+Canny(+7.23). The top-2 gain on FUSAR-Ship are
+        (a) OpenSARShip                     (b) FUSARShip             VGG16+Gabor(+4.83) and VGG16+Canny(+4.2). All ablation
+                                                                      experiments were also run 5 times to report the “mean±std”
+Fig. 7: The comparison results of “mean±std” accuracy be-             accuracy.
+tween the proposed MFCFNet and state-of-the-art.
+                                                                      A. Ablation Study on Feature Fusion Unit
+the state-of-the-art methods are DUW-Cat-FN [17] and HOG-                We conduct several ablation studies to investigate the ef-
+ShipCLSNet [19] proposed by Zhang. Since we study two-                fectiveness of attentional mechanisms in feature fusion units
+dimensional manual features, the dimensionality difference            and the effect of different attentional mechanisms on clas-
+between deep features and manual features that are flattened          sification accuracy, including the commonly used types of
+to one-dimensional is large, and direct concatenation to the FC       attention: the spatial attention module (SAM) [48] and the
+layer will lead to feature confusion and overfitting. Both of the     convolutional block attention module (CBAM) [49]. From
+above methods fuse handcrafted features in the terminal FC            Table VI, the performance of the network can be improved
+layer and achieve the best classification accuracy of 78.15%          by using any attention mechanism on OpenSARShip, and the
+and 86.86% on both datasets. Therefore, for better comparison,        lower the Attention Removed value, the more significant the
+we use the regular internal FC layer and terminal FC layer            improvement. However, due to the more diverse and complex
+as well to fuse handcrafted features separately, which have           ship categories in FUSAR-Ship, and the handcrafted features
+significantly lower performance than our MFCFNet. Since we            and deep features characterizing ship information from two
+are study 2D handcrafted features, the dimension difference           different perspectives, the SAM focusing more on spatial pixel
+between the deep feature and handcrafted feature which is             relationships can cause feature representation confusion, re-
+flattened to 1D is large, and the direct concatenation to the FC      sulting in a negative impact. The CBAM performs a little better
+layer leads to feature confusion and overfitting. From Table V,       as it is a mixed spatial and channel attention mechanism. Our
+MFCFNet can achieve a state-of-the-art classification accuracy        method based on the channel attention mechanism performs
+of 78.60% and 87.23%. We find that for all experimental               a little better, coming from paying more attention to the
+results on the OpenSAR dataset, the precision value is signif-        relationship between deep features and handcrafted features
+icantly lower than the other three metrics, which is due to the       of each channel to eliminate the effect of feature confusion.
+unbalanced test samples in this dataset. Precision can prevent
+the problem of indicator failure caused by unbalanced posi-           B. Ablation Study on Auxiliary Feature Supervision Unit
+tive and negative samples. Similarly, MFCFNet achieves the               We conduct some ablation experiments to verify the ef-
+highest performance in Precision on both datasets. Combined           fectiveness of auxiliary feature supervision loss and feature
+with Fig. 7, the standard deviation produced by MFCFNet               contribution weights. Here, we set the loss weight values to
+is much lower than the deep feature methods and feature               0, 0.2, 0.8 and 1 for the experiments. α represents the DEEP
+fusion methods, which is 0.21 and 0.26 on the two datasets,           branch loss weight and β represents the HAND branch loss
+respectively. The results show that in each random experiment,        weight. When α, β = 0, it means no auxiliary loss is used.
+KSCM and FFCA modules make the fusion features play a                 The model gain at this time is attributed to the attention
+maximum and stable role.                                              mechanism and knowledge synergy loss. From Table VII, we
+                                                                      can make the following observations: (1) When using the
+                        V. A BLATION S TUDY                           weaker handcrafted feature Canny, if β is set greater than
+  In MFCFNet, the feature fusion unit is the core of the              or equal to α, it makes the model pay more attention to the
+FFCA module, the knowledge collaborative learning unit is             HAND branch in the backpropagation process, resulting in the
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                                                 11
+
+
+
+TABLE VII: Ablation experiments of auxiliary feature supervision unit. α, β = 0 means remove the auxiliary supervision loss,
+() indicates the performance gain for α, β = 0.
+
+       Dataset              Networks          Baseline       α, β = 0              α, β = 1        α = 0.2, β = 0.8       α = 0.8, β = 0.2          Ours
+                      VGG16+Gabor            70.62±1.18      71.82±1.03       74.11±0.53(+2.29)     71.16±0.60(-0.66)      74.21±0.82(+2.39)   77.97±0.94(+6.15)
+   OpenSARShip
+                      AlexNet+Canny          70.47±1.45      74.43±0.59       73.77±0.67(-0.66)     73.11±0.43(-1.32)      75.74±0.60(+1.31)   77.70±0.36(+3.27)
+                      VGG16+Gabor            80.30±0.19      82.86±0.17       84.89±0.10(+2.03)     83.61±0.16(+0.75)      84.39±0.22(+1.53)   85.13±0.13(+2.27)
+    FUSAR-Ship
+                      VGG16+Canny            80.30±0.19      83.78±0.54       70.54±0.62(-13.24)   69.69±0.83(-14.09)      82.10±0.55(-1.68)   84.50±0.22(+0.72)
+
+
+
+TABLE VIII: Ablation experiments of knowledge collabora-                              fusion and contribution assignment module based on the
+tion learning unit. () indicates the performance gain for Loss                        channel attention mechanism is designed, which can solve
+Removed.                                                                              the problem of importance difference between deep features
+                                                                                      and handcrafted features and the unbalanced contribution of
+  Dataset        Networks        Baseline     Loss Removed          Ours
+                                                                                      different features. Extensive experiments have shown that our
+             VGG16+Gabor        70.62±1.18      77.05±0.46     77.97±0.94(+0.92)
+ OpenSAR                                                                              proposed MFCFNet outperforms single deep features and
+            AlexNet+Canny       70.47±1.45      74.10±0.43     77.70±0.36(+3.60)      multi-feature models based on Internal FC Layer and Terminal
+  FUSAR
+             VGG16+Gabor        80.30±0.19      84.97±0.31     85.13±0.13(+0.16)      FC Layer fusion, and exhibited better performance than the
+             VGG16+Canny        80.30±0.19      82.90±0.44     84.50±0.22(+1.60)      current state-of-the-art related methods. Therefore, MFCFNet
+                                                                                      is indeed able to achieve better SAR ship classification reliably
+                                                                                      and realistically.
+model shaking violently and difficult to converge during the                             Our current study has some limitations. First, the model
+training process, which eventually leads to lower performance                         performance is improved when fusing one handcrafted feature
+than Baseline; (2) When using stronger Gabor features, a                              with a deep feature, but sustained performance improvement
+larger gain can be produced for the deep features. The model                          cannot be achieved when more than two handcrafted features
+performance gets better as α keeps increasing. (3) Our method                         are fused with a deep feature at the same time. The main
+uses feature contribution degree to set α and β, which can                            reason for our analysis of this phenomenon is the feature
+adaptively measure the relative importance of different deep                          redundancy problem. Second, we observe that the size of
+features with handcrafted features, and finally achieve the                           MFCFNet is twice that of backbone, which is mainly related
+maximum accuracy gain. In conclusion, the results in Table                            to the number and complexity of features auxiliary branches.
+VII strongly prove that the auxiliary features supervision                            Therefore, weighing the model size and the expected increase
+loss and feature contribution degree, which can balance the                           in accuracy, we believe that the current increase in model
+importance between features, make the handcrafted features                            size is justified. More importantly, all auxiliary classifiers are
+and deep features complement each other.                                              discarded in the inference process, so there is no additional
+                                                                                      computational overhead.
+C. Ablation Study on Knowledge Collaboration Learning Unit                               Our future work is as follows:
+   We conduct some ablation experiments to verify the effec-                            1) Study the intrinsic relationship between deep and hand-
+tiveness of synergy loss in the knowledge collaborative learn-                             crafted features to implement recommending the best
+ing unit. Here, we remove the knowledge synergy loss and                                   handcrafted features to different CNN networks.
+keep the rest of MFCFNet in table VIII. Specifically, the best                          2) Solve the feature redundancy problem and extract com-
+accuracy gain of 3.6% was achieved on OpenSARShip using                                    mon features in deep and handcrafted features, thus
+AlexNet+Canny, and effective results were also achieved on                                 improving model robustness and extending the MFCFNet
+FUSAR-Ship. These results demonstrate the significance of the                              framework to any number of feature fusions.
+knowledge synergy loss and the effectiveness of our approach,                           3) Study and evaluate various representational capabilities
+which leads deep knowledge and handcrafted knowledge to                                    of deep and handcrafted features and build a feature
+learn from each other, achieving a dynamic collaborative                                   capability matrix.
+process for the same task.                                                              4) The existing feature fusion methods all use classic models
+                                                                                           as the backbone. In our future work, we will demonstrate
+             VI. L IMITATION AND C ONCLUSION                                               the feasibility of our method on the latest models.
+   In this paper, we proposed a novel collaborative multi-
+feature fusion network with deep supervision to better achieve                                                          R EFERENCES
+handcrafted features to provide complementary information
+to deep features. An auxiliary feature supervision unit and                             [1] H. Zhu, N. Lin, H. Leung, R. Leung, and S. Theodoidis,
+a knowledge collaborative learning unit are designed, the                                   “Target classification from sar imagery based on the
+former realized high quality extraction of feature maps for                                 pixel grayscale decline by graph convolutional neural
+each branch, and the latter achieved collaborative learning                                 network,” IEEE Sensors Letters, vol. 4, no. 6, pp. 1–4,
+of deep and handcrafted knowledge. In addition, a feature                                   2020.
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                                 12
+
+
+
+ [2] A. Masjedi, M. J. V. Zoej, and Y. Maghsoudi, “Classi-          [16] G. Huang, X. Liu, J. Hui, Z. Wang, and Z. Zhang,
+     fication of polarimetric sar images based on modeling               “A novel group squeeze excitation sparsely connected
+     contextual information and using texture features,” IEEE            convolutional networks for sar target classification,” In-
+     Transactions on Geoscience and Remote Sensing, vol. 54,             ternational Journal of Remote Sensing, vol. 40, no. 11,
+     no. 2, pp. 932–943, 2015.                                           pp. 4346–4360, 2019.
+ [3] R. Shang, M. Liu, L. Jiao, J. Feng, Y. Li, and R. Stolkin,     [17] T. Zhang and X. Zhang, “Injection of traditional hand-
+     “Region-level sar image segmentation based on edge                  crafted features into modern cnn-based models for sar
+     feature and label assistance,” IEEE Transactions on Geo-            ship classification: What, why, where, and how,” Remote
+     science and Remote Sensing, vol. 60, pp. 1–16, 2022.                Sensing, vol. 13, no. 11, p. 2091, 2021.
+ [4] R. Luo, J. Xing, L. Chen, Z. Pan, X. Cai, Z. Li, J. Wang,      [18] Zhang, Tianwen and Zhang, Xiaoling, “Integrate tradi-
+     and A. Ford, “Glassboxing deep learning to enhance                  tional hand-crafted features into modern cnn-based mod-
+     aircraft detection from sar imagery,” Remote Sensing,               els to further improve sar ship classification accuracy,” in
+     vol. 13, no. 18, p. 3650, 2021.                                     2021 7th Asia-Pacific Conference on Synthetic Aperture
+ [5] L. Yun, Z. Lifeng, and Z. Shujun, “A hand gesture                   Radar (APSAR). IEEE, 2021, pp. 1–6.
+     recognition method based on multi-feature fusion and           [19] T. Zhang, X. Zhang, X. Ke, C. Liu, X. Xu, X. Zhan,
+     template matching,” Procedia Engineering, vol. 29, pp.              C. Wang, I. Ahmad, Y. Zhou, D. Pan et al., “Hog-
+     1678–1684, 2012.                                                    shipclsnet: A novel deep learning network with hog fea-
+ [6] S. F. Chevtchenko, R. F. Vale, V. Macario, and F. R.                ture fusion for sar ship classification,” IEEE Transactions
+     Cordeiro, “A convolutional neural network with feature              on Geoscience and Remote Sensing, 2021.
+     fusion for real-time hand posture recognition,” Applied        [20] Y. Li, W. Chen, X. Huang, Z. Gao, S. Li, T. He,
+     Soft Computing, vol. 73, pp. 748–766, 2018.                         and Y. Zhang, “Mfvnet: Deep adaptive fusion network
+ [7] J. Karvonen and M. Hallikainen, “Sea ice sar classifica-            with multiple field-of-views for remote sensing image
+     tion based on edge features,” in 2009 IEEE International            semantic segmentation,” Sci. China Inf. Sci, 2022.
+     Geoscience and Remote Sensing Symposium, vol. 3.               [21] Y. Li, Y. Zhou, Y. Zhang, L. Zhong, J. Wang, and
+     IEEE, 2009, pp. III–129.                                            J. Chen, “Dkdfn: Domain knowledge-guided deep col-
+ [8] M. Wang, J. Luo, and D. Ming, “Extract ship targets                 laborative fusion network for multimodal unitemporal
+     from high spatial resolution remote sensed imagery with             remote sensing land cover classification,” ISPRS Journal
+     shape feature,” Geomatics Inf Sci Wuhan Univ, vol. 30,              of Photogrammetry and Remote Sensing, vol. 186, pp.
+     no. 8, pp. 685–688, 2005.                                           170–189, 2022.
+ [9] W. Li, C. Chen, H. Su, and Q. Du, “Local binary patterns       [22] J. Tompson, R. Goroshin, A. Jain, Y. LeCun, and C. Bre-
+     and extreme learning machine for hyperspectral imagery              gler, “Efficient object localization using convolutional
+     classification,” IEEE Transactions on Geoscience and                networks,” in Proceedings of the IEEE Conference on
+     Remote Sensing, vol. 53, no. 7, pp. 3681–3693, 2015.                Computer Vision and Pattern Recognition, 2015, pp.
+[10] F. Wu, C. Wang, S. Jiang, H. Zhang, and B. Zhang,                   648–656.
+     “Classification of vessels in single-pol cosmo-skymed          [23] J. Canny, “A computational approach to edge detection,”
+     images based on statistical and structural features,” Re-           IEEE Transactions on Pattern Analysis and Machine
+     mote Sensing, vol. 7, no. 5, pp. 5511–5533, 2015.                   Intelligence, no. 6, pp. 679–698, 1986.
+[11] H. Lin, S. Song, and J. Yang, “Ship classification based       [24] E. Rosten, R. Porter, and T. Drummond, “Faster and
+     on mshog feature and task-driven dictionary learning                better: A machine learning approach to corner detection,”
+     with structured incoherent constraints in sar images,”              IEEE Transactions on Pattern Analysis and Machine
+     Remote Sensing, vol. 10, no. 2, p. 190, 2018.                       Intelligence, vol. 32, no. 1, pp. 105–119, 2008.
+[12] Q. Shi, W. Li, R. Tao, X. Sun, and L. Gao, “Ship classifi-     [25] J. G. Daugman, “Uncertainty relation for resolution in
+     cation based on multifeature ensemble with convolutional            space, spatial frequency, and orientation optimized by
+     neural network,” Remote Sensing, vol. 11, no. 4, p. 419,            two-dimensional visual cortical filters,” JOSA A, vol. 2,
+     2019.                                                               no. 7, pp. 1160–1169, 1985.
+[13] C. Wang, J. Shi, Y. Zhou, X. Yang, Z. Zhou, S. Wei,            [26] D. A. Clausi and M. E. Jernigan, “Designing gabor filters
+     and X. Zhang, “Semisupervised learning-based sar atr                for optimal texture separability,” Pattern Recognition,
+     via self-consistent augmentation,” IEEE Transactions on             vol. 33, no. 11, pp. 1835–1849, 2000.
+     Geoscience and Remote Sensing, vol. 59, no. 6, pp.             [27] T. Ojala, M. Pietikainen, and T. Maenpaa, “Multireso-
+     4862–4873, 2020.                                                    lution gray-scale and rotation invariant texture classifi-
+[14] Y. Dong, H. Zhang, C. Wang, and Y. Wang, “Fine-                     cation with local binary patterns,” IEEE Transactions on
+     grained ship classification based on deep residual learn-           Pattern Analysis and Machine Intelligence, vol. 24, no. 7,
+     ing for high-resolution sar images,” Remote Sensing                 pp. 971–987, 2002.
+     Letters, vol. 10, no. 11, pp. 1095–1104, 2019.                 [28] D. Sun, A. Yao, A. Zhou, and H. Zhao, “Deeply-
+[15] H. Zheng, Z. Hu, J. Liu, Y. Huang, and M. Zheng,                    supervised knowledge synergy,” in Proceedings of the
+     “Metaboost: A novel heterogeneous dcnns ensemble net-               IEEE/CVF Conference on Computer Vision and Pattern
+     work with two-stage filtration for sar ship classification,”        Recognition, 2019, pp. 6997–7006.
+     IEEE Geoscience and Remote Sensing Letters, 2022.              [29] C.-Y. Lee, S. Xie, P. Gallagher, Z. Zhang, and Z. Tu,
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING                                                                               13
+
+
+
+     “Deeply-supervised nets,” in Artificial intelligence and          arXiv:1704.04861, 2017.
+     statistics. PMLR, 2015, pp. 562–570.                         [45] W. Zhang, J. Li, and X. Qiu, “Sar image super-resolution
+[30] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit,                  using deep residual squeezenet,” in Proceedings of the
+     L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polosukhin,              International Conference on Artificial Intelligence, Infor-
+     “Attention is all you need,” Advances in Neural Infor-            mation Processing and Cloud Computing, 2019, pp. 1–5.
+     mation Processing Systems, vol. 30, 2017.                    [46] Z. Ying, C. Xuan, Y. Zhai, B. Sun, J. Li, W. Deng,
+[31] K. Xu, J. Ba, R. Kiros, K. Cho, A. Courville,                     C. Mai, F. Wang, R. D. Labati, V. Piuri et al., “Tai-sarnet:
+     R. Salakhudinov, R. Zemel, and Y. Bengio, “Show,                  Deep transferred atrous-inception cnn for small samples
+     attend and tell: Neural image caption generation with             sar atr,” Sensors, vol. 20, no. 6, p. 1724, 2020.
+     visual attention,” in International Conference on Machine    [47] F. Chollet, “Xception: Deep learning with depthwise
+     Learning. PMLR, 2015, pp. 2048–2057.                              separable convolutions,” in Proceedings of the IEEE
+[32] J. Li, C. Qu, and S. Peng, “Ship classification for               Conference on Computer Vision and Pattern Recognition,
+     unbalanced sar dataset based on convolutional neural              2017, pp. 1251–1258.
+     network,” Journal of Applied Remote Sensing, vol. 12,        [48] J. Wang, H. Xiao, L. Chen, J. Xing, Z. Pan, R. Luo, and
+     no. 3, p. 035010, 2018.                                           X. Cai, “Integrating weighted feature fusion and the spa-
+[33] Z. Huang, Z. Pan, and B. Lei, “What, where, and how               tial attention module with convolutional neural networks
+     to transfer in sar target recognition based on deep cnns,”        for automatic aircraft detection from sar images,” Remote
+     IEEE Transactions on Geoscience and Remote Sensing,               Sensing, vol. 13, no. 5, p. 910, 2021.
+     vol. 58, no. 4, pp. 2324–2336, 2019.                         [49] S. Woo, J. Park, J.-Y. Lee, and I. S. Kweon, “Cbam:
+[34] Z. Huang, M. Datcu, Z. Pan, and B. Lei, “Deep sar-                Convolutional block attention module,” in Proceedings
+     net: Learning objects from signals,” ISPRS Journal of             of the European conference on computer vision (ECCV),
+     Photogrammetry and Remote Sensing, vol. 161, pp. 179–             2018, pp. 3–19.
+     193, 2020.
+[35] A. Krizhevsky, I. Sutskever, and G. E. Hinton, “Imagenet
+     classification with deep convolutional neural networks,”
+     Advances in Neural Information Processing Systems,
+     vol. 25, pp. 1097–1105, 2012.
+[36] K. Simonyan and A. Zisserman, “Very deep convolu-
+     tional networks for large-scale image recognition,” arXiv
+     preprint arXiv:1409.1556, 2014.
+[37] K. He, X. Zhang, S. Ren, and J. Sun, “Deep resid-
+     ual learning for image recognition,” in Proceedings of
+     the IEEE Conference on Computer Vision and Pattern
+     Recognition, 2016, pp. 770–778.
+[38] G. Huang, Z. Liu, L. Van Der Maaten, and K. Q. Wein-
+     berger, “Densely connected convolutional networks,” in
+     Proceedings of the IEEE Conference on Computer Vision
+     and Pattern Recognition, 2017, pp. 4700–4708.
+[39] C. Cortes and V. Vapnik, “Support-vector networks,”
+     Machine learning, vol. 20, no. 3, pp. 273–297, 1995.
+[40] J. R. Quinlan, “Induction of decision trees,” Machine
+     learning, vol. 1, no. 1, pp. 81–106, 1986.
+[41] T. K. Ho, “The random subspace method for constructing
+     decision forests,” IEEE Transactions on Pattern Analysis
+     and Machine Intelligence, vol. 20, no. 8, pp. 832–844,
+     1998.
+[42] M. W. Gardner and S. Dorling, “Artificial neural net-
+     works (the multilayer perceptron)—a review of applica-
+     tions in the atmospheric sciences,” Atmospheric environ-
+     ment, vol. 32, no. 14-15, pp. 2627–2636, 1998.
+[43] S. Xie, R. Girshick, P. Dollár, Z. Tu, and K. He, “Aggre-
+     gated residual transformations for deep neural networks,”
+     in Proceedings of the IEEE Conference on Computer
+     Vision and Pattern Recognition, 2017, pp. 1492–1500.
+[44] A. G. Howard, M. Zhu, B. Chen, D. Kalenichenko,
+     W. Wang, T. Weyand, M. Andreetto, and H. Adam,
+     “Mobilenets: Efficient convolutional neural networks
+     for mobile vision applications,” arXiv preprint
+

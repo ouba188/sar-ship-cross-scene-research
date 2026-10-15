@@ -1,0 +1,1261 @@
+                                             Bridging Few-Shot Learning and Adaptation:
+                                               New Challenges of Support-Query Shift
+
+                                            Etienne Bennequin?1,2 ( ), Victor Bouvier?1,3 ( ), Myriam Tami1 , Antoine
+                                                                Toubhans2 , and Céline Hudelot1
+                                         1
+                                           Université Paris-Saclay, CentraleSupélec, Mathématiques et Informatique pour la
+arXiv:2105.11804v2 [cs.LG] 5 Aug 2021
+
+
+
+
+                                                      Complexité et les Systèmes, 91190, Gif-sur-Yvette, France
+                                                                firstname.name@centralesupelec.fr
+                                         2
+                                           Sicara, 48 boulevard des Batignolles, 75017, Paris, France, etienneb@sicara.com
+                                                 3
+                                                   Sidetrade, 114 Rue Gallieni, 92100, Boulogne-Billancourt, France,
+                                                                       vbouvier@sidetrade.com
+
+
+                                                 Abstract. Few-Shot Learning (FSL) algorithms have made substantial
+                                                 progress in learning novel concepts with just a handful of labelled data.
+                                                 To classify query instances from novel classes encountered at test-time,
+                                                 they only require a support set composed of a few labelled samples. FSL
+                                                 benchmarks commonly assume that those queries come from the same
+                                                 distribution as instances in the support set. However, in a realistic set-
+                                                 ting, data distribution is plausibly subject to change, a situation referred
+                                                 to as Distribution Shift (DS). The present work addresses the new and
+                                                 challenging problem of Few-Shot Learning under Support/Query Shift
+                                                 (FSQS) i.e., when support and query instances are sampled from related
+                                                 but different distributions. Our contributions are the following. First, we
+                                                 release a testbed for FSQS, including datasets, relevant baselines and a
+                                                 protocol for a rigorous and reproducible evaluation. Second, we observe
+                                                 that well-established FSL algorithms unsurprisingly suffer from a con-
+                                                 siderable drop in accuracy when facing FSQS, stressing the significance
+                                                 of our study. Finally, we show that transductive algorithms can limit
+                                                 the inopportune effect of DS. In particular, we study both the role of
+                                                 Batch-Normalization and Optimal Transport (OT) in aligning distribu-
+                                                 tions, bridging Unsupervised Domain Adaptation with FSL. This results
+                                                 in a new method that efficiently combines OT with the celebrated Pro-
+                                                 totypical Networks. We bring compelling experiments demonstrating the
+                                                 advantage of our method. Our work opens an exciting line of research
+                                                 by providing a testbed and strong baselines. Our code is available at
+                                                 https://github.com/ebennequin/meta-domain-shift.
+
+                                                 Keywords: Few-Shot Learning · Distribution Shift · Adaptation · Op-
+                                                 timal Transport.
+
+
+                                        1      Introduction
+                                        In the last few years, we have witnessed outstanding progress in supervised
+                                        deep learning [15]. As the abundance of labelled data during training is rarely
+                                        ?
+                                             Equal contribution
+2             E. Bennequin et al.
+
+
+                                          Overlap                                            Shift
+
+
+
+
+                                                       Support
+    Support
+    Query
+
+
+
+
+                                                       Query
+                                     Support   Query                            Support   Query
+
+
+
+
+                  (a) Standard FSL                     (b) FSL under Support / Query Shift
+
+Fig. 1. Illustration of the FSQS problem with a 5-way 1-shot classification task sampled
+from the miniImageNet dataset [31]. In (a), a standard FSL setting where support and
+query sets are sampled from the same distribution. In (b), the same task but with
+shot-noise and contrast perturbations from [16] applied on support and query sets
+(respectively) that results in a support-query shift. In the latter case, a similarity
+measure based on the Euclidean metric [28] may become inadequate.
+
+
+encountered in practice, ground-breaking works in Few-Shot Learning (FSL)
+have emerged [31, 28, 12], particularly for image classification. This paradigm
+relies on a straightforward setting. At test-time, given a set of not seen during
+training and few (typically 1 to 5) labelled examples for each of those classes, the
+task is to classify query samples among them. We usually call the set of labelled
+samples the support set, and the set of query samples the query set. Well-adopted
+FSL benchmarks [31, 25, 30] commonly sample the support and query sets from
+the same distribution. We stress that this assumption does not hold in most
+use cases. When deployed in the real-world, we expect an algorithm to infer on
+data that may shift, resulting in an acquisition system that deteriorates, lighting
+conditions that vary, or real world objects evolving [1].
+    The situation of Distribution Shift (DS) i.e., when training and testing dis-
+tributions differ, is ubiquitous and has dramatic effects on deep models [16], mo-
+tivating works in Unsupervised Domain Adaptation [22], Domain Generalization
+[14] or Test-Time Adaptation [32]. However, the state of the art brings insuffi-
+cient knowledge on few-shot learners’ behaviours when facing distribution shift.
+Some pioneering works demonstrate that advanced FSL algorithms do not han-
+dle cross-domain generalization better than more naive approaches [5]. Despite
+its great practical interest, FSL under distribution shift between the support and
+query sets is an under-investigated problem and attracts a very recent attention
+[11]. We refer to it as Few-Shot Learning under Support/Query Shift (FSQS)
+and provide an illustration in Figure 1. It reflects a more realistic situation where
+the algorithm is fed with a support set at the time of deployment and infers con-
+tinuously on data subject to shift. The first solution is to re-acquire a support
+set that follows the data’s evolution. Nevertheless, it implies human intervention
+to select and annotate data to update an already deployed model, reacting to
+a potential drop in performances. The second solution consists in designing an
+algorithm that is robust to the distribution shift encountered during inference.
+This is the subject of the present work. Our contributions are:
+
+ 1. FewShiftBed: a testbed for FSQS available at https://github.com/ebennequin/
+    meta-domain-shift. The testbed includes 3 challenging benchmarks along
+                                Bridging Few-Shot Learning and Adaptation           3
+
+    with a protocol for fair and rigorous comparison across methods as well as
+    an implementation of relevant baselines, and an interface to facilitate the
+    implementation of new methods.
+ 2. We conduct extensive experimentation of a representative set of few-shot
+    algorithms. We empirically show that Transductive Batch-Normalization [3]
+    mitigates an important part of the inopportune effect of FSQS.
+ 3. We bridge Unsupervised Domain Adaptation (UDA) with FSL to address
+    FSQS. We introduce Transported Prototypes, an efficient transductive algo-
+    rithm that couples Optimal Transport (OT) [23] with the celebrated Proto-
+    typical Networks [28]. The use of OT follows a long-standing history in UDA
+    for aligning representations between distributions [2, 13]. Our experiments
+    demonstrate that OT shows a remarkable ability to perform this alignment
+    even with only a few samples to compare distributions and provide a simple
+    but strong baseline.
+In Section 2 we provide a formal statement of FSQS, and we position this new
+problem among existing learning paradigms. In Section 3, we present FewShiftBed.
+We detail the datasets, the chosen baselines, and a protocol that guarantees a
+rigorous and reproducible evaluation. In Section 4, we present a method that
+couples Optimal Transport with Prototypical Networks [28]. Finally, in Section
+5, we conduct an extensive evaluation of baselines and our proposed method
+using the testbed.
+
+
+2     The Support-Query Shift problem
+2.1   Statement
+Notations. We consider an input space X , a representation space Z ⊂ Rd (d > 0)
+and a set of classes C. A representation is a learnable function from X to Z
+and is noted ϕ(·; θ) with θ ∈ Θ for Θ a set of parameters. A dataset is a set
+∆(C, D) defined by a set of classes C and a set of domains D i.e., a domain
+D ∈ D is a set of IID realizations from a distribution noted pD . For two domains
+D, D0 ∈ D, the distribution shift is characterized by pD 6= pD0 . For instance, if
+the data consists of images of letters handwritten by several users, D can consist
+of samples from a specific user. Referring to the well known UDA terminology
+of source / target [22], we define a couple of source-target domains as a couple
+(Ds , Dt ) with pDs 6= pDt , thus presenting a distribution shift. Additionally, given
+C ⊂ C and D ∈ D, the restriction of a domain D to images with a label that
+belongs to C is noted DC .
+
+Dataset splits. We build a split of ∆(C, D), by splitting D (respectively C) into
+Dtrain and Dtest (respectively Ctrain and Ctest ) such that Dtrain ∩ Dtest = ∅ and
+Dtrain ∪ Dtest = D (respectively Ctrain ∩ Ctest = ∅ and Ctrain ∪ Ctest = C).
+This gives us a train/test split with the datasets ∆train = ∆(Ctrain , Dtrain ) and
+∆test = ∆(Ctest , Dtest ). By extension, we build a validation set following the
+same protocol.
+4         E. Bennequin et al.
+
+                 Train-Time                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Test-Time                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Support / Query shift
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   pDs 6= pDt
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <latexit sha1_base64="PTXsOWpEiAVlEkplhOpXWnxP9mk=">AAAC63icjVHLSgMxFD0d3/VVdekmWBRXZSqKLkVduFSwKrRSMmnaDs7LTEaQ0j9w507c+gNu9T/EP9C/8CZOwQeiGWbm5Nx7TnLv9ZLAT7XrvhScoeGR0bHxieLk1PTMbGlu/jiNMyVkTcRBrE49nsrAj2RN+zqQp4mSPPQCeeKd75r4yaVUqR9HR/oqkWch70R+2xdcE9UsrSTNXiPkuit4wPaaaZ81InnBvrK63yyV3YprF/sJqjkoI18HcekZDbQQQyBDCIkImnAAjpSeOqpwkRB3hh5xipBv4xJ9FEmbUZakDE7sOX07tKvnbER745lataBTAnoVKRmWSRNTniJsTmM2nllnw/7m3bOe5m5X9Pdyr5BYjS6xf+kGmf/VmVo02tiyNfhUU2IZU53IXTLbFXNz9qkqTQ4JcQa3KK4IC6sc9JlZTWprN73lNv5qMw1r9iLPzfBmbkkDrn4f509wvFapblTcw/Xy9k4+6nEsYgmrNM9NbGMfB6iR9zUe8IgnJ3RunFvn7iPVKeSaBXxZzv07U9ie8w==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Support
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Support
+
+         Query
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    New classes
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Episode
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Ctrain \ Ctest = ;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <latexit sha1_base64="C/4j3c4MUp1OnWRmj1uT1s8mqI0=">AAAC33icjVHLSsNAFD3GV31X3ekmWARXIRVL2l2xG5cVbCuolEmc6mBeTCaClII7d+LWH3CrfyP+gf6Fd8YUdCE6IcmZc+85M/dePw1Fplz3bcKanJqemS3NzS8sLi2vlFfXulmSy4B3giRM5LHPMh6KmHeUUCE/TiVnkR/ynn/V0vHeNZeZSOIjdZPys4hdxGIgAqaI6pc3TiOmLrOB3eoPDZTRUEkm4tGoX664juvV6p5nu06tVt3z6gQajYZHoOq4ZlVQrHZSfsUpzpEgQI4IHDEU4RAMGT0nqMJFStwZhsRJQsLEOUaYJ21OWZwyGLFX9L2g3UnBxrTXnplRB3RKSK8kpY1t0iSUJwnr02wTz42zZn/zHhpPfbcb+vuFV0SswiWxf+nGmf/V6VoUBqibGgTVlBpGVxcULrnpir65/a0qRQ4pcRqfU1wSDoxy3GfbaDJTu+4tM/F3k6lZvQ+K3Bwf+pY04PEU7d9Bd9ep1hz3cK/S3C9GXcImtrBD8/TQxAHa6JD3LZ7wjBeLWXfWvfXwlWpNFJp1/FjW4yc5SJs5</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <latexit sha1_base64="PqVKGSdyRHktVi6rAif2mIg5ITU=">AAAC3nicjVHLSsNAFD3G9zvqStwEi+AqTLTFdie6calgVbClJnGqwbyYmQhSijt34tYfcKufI/6B/oV3xhR0ITohyZlz7zkz994gjyOpGHsbsoZHRsfGJyanpmdm5+bthcUjmRUi5M0wizNxEviSx1HKmypSMT/JBfeTIObHwdWujh9fcyGjLD1UNzlvJ/5FGnWj0FdEdezlVuKrS9l1djs9A0XSU1yqfr9jV5jbYKxaZw5zmedVG5sa1GpeY8PxXGZWBeXaz+xXtHCODCEKJOBIoQjH8CHpOYUHhpy4NnrECUKRiXP0MUXagrI4ZfjEXtH3gnanJZvSXntKow7plJheQUoHa6TJKE8Q1qc5Jl4YZ83+5t0znvpuN/QPSq+EWIVLYv/SDTL/q9O1KHRRNzVEVFNuGF1dWLoUpiv65s63qhQ55MRpfE5xQTg0ykGfHaORpnbdW9/E302mZvU+LHMLfOhb0oAHU3R+B0cbrldz2UG1sr1TjnoCK1jFOs1zC9vYwz6a5H2LJzzjxTqz7qx76+Er1RoqNUv4sazHT7J6mp0=</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <latexit sha1_base64="NyYAm6GEX+gEbZUBg5UxyIW8lHc=">AAACzHicjVHLSsNAFD2Nr1pfVZdugkVwVRJRdFl040oq2Ie0RZLptA7mxWQilNKtP+BWv0v8A/0L74wpqEV0QpIz595zZu69fhKIVDnOa8Gam19YXCoul1ZW19Y3yptbzTTOJOMNFgexbPteygMR8YYSKuDtRHIv9APe8u/OdLx1z2Uq4uhKjRLeC71hJAaCeYqo6y4PEzVKubopV5yqY5Y9C9wcVJCvelx+QRd9xGDIEIIjgiIcwENKTwcuHCTE9TAmThISJs4xQYm0GWVxyvCIvaPvkHadnI1orz1To2Z0SkCvJKWNPdLElCcJ69NsE8+Ms2Z/8x4bT323Ef393CskVuGW2L9008z/6nQtCgOcmBoE1ZQYRlfHcpfMdEXf3P5SlSKHhDiN+xSXhJlRTvtsG01qate99Uz8zWRqVu9ZnpvhXd+SBuz+HOcsaB5U3aOqc3lYqZ3moy5iB7vYp3keo4Zz1NEg7xCPeMKzdWEpa2xNPlOtQq7ZxrdlPXwAq7STMA==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <latexit sha1_base64="Gv070P71pHCrXnsNbsxzqqKK7Uw=">AAACx3icjVHLSsNAFD2Nr1pfVZdugkVwVRJRdFl0o7sK9gFtkcl02oamSUgmxVJc+ANu9c/EP9C/8M44BbWITkhy5tx7zsy914sDP5WO85qzFhaXllfyq4W19Y3NreL2Tj2NsoSLGo+CKGl6LBWBH4qa9GUgmnEi2MgLRMMbXqh4YyyS1I/CGzmJRWfE+qHf8zmTimpzFt8WS07Z0cueB64BJZhVjYovaKOLCBwZRhAIIQkHYEjpacGFg5i4DqbEJYR8HRe4R4G0GWUJymDEDunbp13LsCHtlWeq1ZxOCehNSGnjgDQR5SWE1Wm2jmfaWbG/eU+1p7rbhP6e8RoRKzEg9i/dLPO/OlWLRA9nugafaoo1o6rjxiXTXVE3t79UJckhJk7hLsUTwlwrZ322tSbVtaveMh1/05mKVXtucjO8q1vSgN2f45wH9aOye1J2ro9LlXMz6jz2sI9DmucpKrhEFTXyHuART3i2rqzIGlt3n6lWzmh28W1ZDx95HJC3</latexit>
+
+
+
+
+                  (Ds , Dt ) 2 Dtrain
+                  <latexit sha1_base64="AaKgcGD6DfUIejiuyG/vl0GwtRM=">AAADAHicjVHLThsxFD1MX0BfoSzZWI0qUakaOSEJjdiglgVLKjWARFDkMQ5YzEu2pxKKsumfdMcOseUHum1XFX9A/6LXZiLRBWo9mplzz73n2Nc3KVNtHefXc9GDh48eP5lfWHz67PmLl42lV7u2qIxUA1mkhdlPhFWpztXAaZeq/dIokSWp2ktOP/r83hdlrC7yz+6sVIeZOM71WEvhiBo1NlaHmXAnUqRsa2TfsTuRe8uGOr9l7JiISYAmmzgjdD6djhpNHvNeb63PGY+73TZvdwj0+51ur81aMQ+riXrtFI1fGOIIBSQqZFDI4QinELD0HKAFjpK4Q0yIM4R0yCtMsUjaiqoUVQhiT+l7TNFBzeYUe08b1JJ2Sek1pGR4Q5qC6gxhvxsL+So4e/Y+70nw9Gc7o39Se2XEOpwQ+y/drPJ/db4XhzHehx409VQGxncna5cq3Io/ObvTlSOHkjiPjyhvCMugnN0zCxobevd3K0L+JlR61seyrq3w25+SBjybIrsf7LbjVjfmnzrNzQ/1qOexgtdYpXmuYxPb2MGAvL/hO37gZ/Q1Oo8uosvb0miu1izjrxVd/QGP7qdJ</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Query                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <latexit sha1_base64="qW1758+Pcdw+iL5vfOYr3T7g1JY=">AAACxHicjVHLSsNAFD2Nr1pfVZdugkVwVRJRdCMUBXHZgn1ALZJMpzV08iAzEUrRH3Cr3yb+gf6Fd8YU1CI6IcmZc+85M/dePxGBVI7zWrDm5hcWl4rLpZXVtfWN8uZWS8ZZyniTxSJOO74nuQgi3lSBEryTpNwLfcHb/uhcx9t3PJVBHF2pccJ7oTeMgkHAPEVU4/SmXHGqjln2LHBzUEG+6nH5BdfoIwZDhhAcERRhAQ+Sni5cOEiI62FCXEooMHGOe5RIm1EWpwyP2BF9h7Tr5mxEe+0pjZrRKYLelJQ29kgTU15KWJ9mm3hmnDX7m/fEeOq7jenv514hsQq3xP6lm2b+V6drURjgxNQQUE2JYXR1LHfJTFf0ze0vVSlySIjTuE/xlDAzymmfbaORpnbdW8/E30ymZvWe5bkZ3vUtacDuz3HOgtZB1T2qOo3DSu0sH3URO9jFPs3zGDVcoo6m8X7EE56tC0tY0so+U61CrtnGt2U9fADgP49G</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Support
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   (Ds , Dt ) 2 Dtest                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               New shifts
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <latexit sha1_base64="Akm8IrBLhE9t9YcRRO8xCpSPxRA=">AAAC/3icjVHLSiQxFD3WPHzMqx2XbsI0Aw4MTXq08LESdeFSwVbBliYV0xqsF0lKkKYX/ok7d8Ns/QG3uhvmD/QvvInV4CxkJkVVnXvuPSe5uUmZaus4/zMWvXr95u34xOTUu/cfPn5qTH/etUVlpOrIIi3MfiKsSnWuOk67VO2XRoksSdVecrru83tnylhd5DvuvFSHmTjOdV9L4YjqNVbmuplwJ1KkbKNnv7NnkfvGujp/YmyfiEGAJhs4Zd1w2Gs0eWuZx0vxPOMtHpYHcdzm86xdM03Ua6to/EYXRyggUSGDQg5HOIWApecAbXCUxB1iQJwhpENeYYgp0lZUpahCEHtK32OKDmo2p9h72qCWtEtKryElw1fSFFRnCPvdWMhXwdmzL3kPgqc/2zn9k9orI9bhhNh/6UaV/6vzvTj0sRR60NRTGRjfnaxdqnAr/uTsWVeOHEriPD6ivCEsg3J0zyxobOjd360I+ftQ6Vkfy7q2woM/JQ14NEX2Mtj90WrHLb690Fxdq0c9gVl8wRzNcxGr2MQWOuR9iRvc4i66iK6in9Gvp9JorNbM4K8VXT8CKjamwA==</latexit>
+
+
+
+
+         Query
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Dtrain \ Dtest = ;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <latexit sha1_base64="QbWdeZuasIQpW7vYojh64yT7f9Y=">AAAC3nicjVHLSsNAFD2Nr/quuhI3wSK4KlM1qLuiLlxWsCrYUpN0qsG8mJkIUoo7d+LWH3CrnyP+gf6Fd8YUdFF0QpIz595zZu69XhoGUjH2XrBGRsfGJ4qTU9Mzs3PzpYXFE5lkwucNPwkTcea5kodBzBsqUCE/SwV3Iy/kp971vo6f3nAhgyQ+Vrcpb0XuZRx0A99VRLVLy83IVVeyax+0ewaKqKe4VP1+u1RmlV3m7DibNqswszRwnCrbtKs5U0a+6knpDU10kMBHhggcMRThEC4kPeeogiElroUecYJQYOIcfUyRNqMsThkusdf0vaTdec7GtNee0qh9OiWkV5DSxhppEsoThPVptolnxlmzw7x7xlPf7Zb+Xu4VEatwRexfukHmf3W6FoUudkwNAdWUGkZX5+cumemKvrn9oypFDilxGncoLgj7Rjnos2000tSue+ua+IfJ1Kze+3luhk99SxrwYIr2cHCyUak6FXa0Va7t5aMuYgWrWKd5bqOGQ9TRIO87POMFr9aFdW89WI/fqVYh1yzh17KevgCOapqN</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <latexit sha1_base64="NyYAm6GEX+gEbZUBg5UxyIW8lHc=">AAACzHicjVHLSsNAFD2Nr1pfVZdugkVwVRJRdFl040oq2Ie0RZLptA7mxWQilNKtP+BWv0v8A/0L74wpqEV0QpIz595zZu69fhKIVDnOa8Gam19YXCoul1ZW19Y3yptbzTTOJOMNFgexbPteygMR8YYSKuDtRHIv9APe8u/OdLx1z2Uq4uhKjRLeC71hJAaCeYqo6y4PEzVKubopV5yqY5Y9C9wcVJCvelx+QRd9xGDIEIIjgiIcwENKTwcuHCTE9TAmThISJs4xQYm0GWVxyvCIvaPvkHadnI1orz1To2Z0SkCvJKWNPdLElCcJ69NsE8+Ms2Z/8x4bT323Ef393CskVuGW2L9008z/6nQtCgOcmBoE1ZQYRlfHcpfMdEXf3P5SlSKHhDiN+xSXhJlRTvtsG01qate99Uz8zWRqVu9ZnpvhXd+SBuz+HOcsaB5U3aOqc3lYqZ3moy5iB7vYp3keo4Zz1NEg7xCPeMKzdWEpa2xNPlOtQq7ZxrdlPXwAq7STMA==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <latexit sha1_base64="k7BOdCYdZUf57ft0OmUH7REjK8Q=">AAAC33icjVHLSsNAFD3G97vqTjfBIrgK09JquxN14VLBqqBSJnGqg3kxmQilFNy5E7f+gFv9G/EP9C+8M6agC9EJSc6ce8+Zuff6aSgzzdjbkDM8Mjo2PjE5NT0zOzdfWlg8ypJcBaIVJGGiTnyeiVDGoqWlDsVJqgSP/FAc+9c7Jn58I1Qmk/hQd1NxHvHLWHZkwDVR7dLyWcT1VdZxd9s9C1XU04rLuN9vl8rMYxvVaoW5zKvXN2rNTQLNZrPeYG7FY3aVUaz9pPSKM1wgQYAcEQRiaMIhODJ6TlEBQ0rcOXrEKULSxgX6mCJtTlmCMjix1/S9pN1pwca0N56ZVQd0SkivIqWLNdIklKcIm9NcG8+ts2F/8+5ZT3O3Lv39wisiVuOK2L90g8z/6kwtGh00bA2SakotY6oLCpfcdsXc3P1WlSaHlDiDLyiuCAdWOeizazWZrd30ltv4u800rNkHRW6OD3NLGvBgiu7v4KjqVeoeO6iVt7aLUU9gBatYp3luYgt72EeLvG/xhGe8ONy5c+6dh69UZ6jQLOHHch4/Af9jmyA=</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <latexit sha1_base64="Gv070P71pHCrXnsNbsxzqqKK7Uw=">AAACx3icjVHLSsNAFD2Nr1pfVZdugkVwVRJRdFl0o7sK9gFtkcl02oamSUgmxVJc+ANu9c/EP9C/8M44BbWITkhy5tx7zsy914sDP5WO85qzFhaXllfyq4W19Y3NreL2Tj2NsoSLGo+CKGl6LBWBH4qa9GUgmnEi2MgLRMMbXqh4YyyS1I/CGzmJRWfE+qHf8zmTimpzFt8WS07Z0cueB64BJZhVjYovaKOLCBwZRhAIIQkHYEjpacGFg5i4DqbEJYR8HRe4R4G0GWUJymDEDunbp13LsCHtlWeq1ZxOCehNSGnjgDQR5SWE1Wm2jmfaWbG/eU+1p7rbhP6e8RoRKzEg9i/dLPO/OlWLRA9nugafaoo1o6rjxiXTXVE3t79UJckhJk7hLsUTwlwrZ322tSbVtaveMh1/05mKVXtucjO8q1vSgN2f45wH9aOye1J2ro9LlXMz6jz2sI9DmucpKrhEFTXyHuART3i2rqzIGlt3n6lWzmh28W1ZDx95HJC3</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <latexit sha1_base64="qW1758+Pcdw+iL5vfOYr3T7g1JY=">AAACxHicjVHLSsNAFD2Nr1pfVZdugkVwVRJRdCMUBXHZgn1ALZJMpzV08iAzEUrRH3Cr3yb+gf6Fd8YU1CI6IcmZc+85M/dePxGBVI7zWrDm5hcWl4rLpZXVtfWN8uZWS8ZZyniTxSJOO74nuQgi3lSBEryTpNwLfcHb/uhcx9t3PJVBHF2pccJ7oTeMgkHAPEVU4/SmXHGqjln2LHBzUEG+6nH5BdfoIwZDhhAcERRhAQ+Sni5cOEiI62FCXEooMHGOe5RIm1EWpwyP2BF9h7Tr5mxEe+0pjZrRKYLelJQ29kgTU15KWJ9mm3hmnDX7m/fEeOq7jenv514hsQq3xP6lm2b+V6drURjgxNQQUE2JYXR1LHfJTFf0ze0vVSlySIjTuE/xlDAzymmfbaORpnbdW8/E30ymZvWe5bkZ3vUtacDuz3HOgtZB1T2qOo3DSu0sH3URO9jFPs3zGDVcoo6m8X7EE56tC0tY0so+U61CrtnGt2U9fADgP49G</latexit>
+
+
+
+
+Fig. 2. During meta-learning (Train-Time), each episode contains a support and a
+query set sampled from different distributions (for instance, illustrated by noise and
+contrasts as in Figure 1(b)) from a set of training domains (Dtrain ), reflecting a situation
+that may potentially occurs at test-time. When deployed, the FSL algorithm using a
+trained backbone is fed with a support set sampled from new classes. As the algorithm
+is subject to infer continuously on data subject to shift (Test-Time), we evaluate the
+algorithm on data with an unknown shift (Dtest ). Importantly, both classes (Ctrain ∩
+Ctest = ∅) and shifts (Dtrain ∩ Dtest = ∅) are not seen during training, making the FSQS
+a challenging problem of generalization.
+
+
+Few-Shot Learning under Support-Query Shift (FSQS). Given:
+
+    – D0 ∈ {Dtrain , Dtest } and C0 ∈ {Ctrain , Ctest },
+    – a couple of source-target domains (Ds , Dt ) from D0 ,
+    – a set of classes C ⊂ C0 ;
+    – a small labelled support set S = (xi , yi )i=1,...,|S| (named source support set)
+      such that for all i, yi ∈ C and xi ∈ Ds i.e., S ⊂ DsC ;
+    – an unlabelled query set Q = (xi )i=1,...,|Q| (named target query set) such that
+      for all i, yi ∈ C and xi ∈ Dt i.e., Q ⊂ DtC .
+
+    The task is to predict the labels of query set instances in C. When |C| = n
+and the support set contains k labelled instances for each class, this is called
+an n-way k-shot FSQS classification task. Note that this paradigm provides an
+additional challenge compared to classical Few-shot classification tasks, since
+at test time, the model is expected to generalize to both new classes and new
+domains while support set and query set are sampled from different distributions.
+This paradigm is illustrated in Figure 2.
+
+Episodic training. We build an episode by sampling some classes C ⊂ Ctrain ,
+and a source and target domain Ds , Dt from Dtrain . We build a support set
+S = (xi , yi )i=1...|S| of instances from source domain DsC , and a query set Q =
+(xi , yi )i=|S|+1,...,|S|+|Q| of instances from target domain DtC , such that ∀i ∈
+[1, |S| + |Q|], yi ∈ C. Using the labelled examples from S and unlabelled in-
+stances from Q, the model is expected to predict the labels of Q. The parameters
+of the model are then trained using a cross-entropy loss between the predicted
+labels and ground truth labels of the query set.
+                               Bridging Few-Shot Learning and Adaptation         5
+
+2.2    Positioning and Related Works
+To highlight FSQS’s novelty, our discussion revolves around the problem of in-
+ferring on a given Query Set provided with the knowledge of a Support Set. We
+refer to this class of problems as SQ problems. Intrinsically, FSL falls into the
+category of SQ problems. Interestingly, Unsupervised Domain Adaptation [22]
+(UDA), defined as labelling a dataset sampled from a target domain based on
+labelled data sampled from a source domain, is also a SQ problem. Indeed, in
+this case, the source domain plays the role of support, while the target domain
+plays the query’s role. Notably, an essential line of study in UDA leverages the
+target data distribution for aligning source and target domains, reflecting the
+importance of transduction in a context of adaptation [2, 13] i.e., performing
+prediction by considering all target samples together. Transductive algorithms
+also have a special place in FSL [10, 21, 25] and show that leveraging a query
+set as a whole brings a significant boost in performances. Nevertheless, UDA
+and FSL exhibit fundamental differences. UDA addresses the problem of distri-
+bution shift using important source data and target data (typically thousands
+of instances) to align distributions. In contrast, FSL focuses on the difficulty of
+learning from few samples. To this purpose, we frame UDA as both SQ problem
+with large transductivity and Support / Query Shift, while Few-Shot Learning is
+a SQ problem, eventually with small transductivity for transductive FSL. Thus,
+FSQS combines both challenges: distribution shift and small transductivity. This
+new perspective allows us to establish fruitful connections with related learning
+paradigms, presented in Table 1, that we review in the following. A thorough
+review is available in Appendix A1 .
+
+Adaptation. Unsupervised Domain Adaptation (UDA) requires a whole target
+dataset for inference, limiting its applications. Recent pioneering works, referred
+to as Test-Time Adaptation (TTA), adapt at test-time a model provided with a
+batch of samples from the target distribution. The proposed methodologies are
+test-time training by self-supervision [29], updating batch-normalization statis-
+tics [27] or parameters [32], or meta-learning to condition predictions on the
+whole batch of test samples for an Adaptative Risk Minimization (ARM) [33].
+Inspired from the principle of invariant representations [2, 13], the seminal work
+[7] brings Optimal Transport (OT) [23] as an efficient framework for aligning
+data distributions. OT has been recently applied in a context of transductive
+FSL [17] and our proposal (TP) is to provide a simple and strong baseline fol-
+lowing the principle of OT as it is applied in UDA. In this work, following [3],
+we also study the role of Batch-Normalization for SQS, that points out the role
+of transductivity. Our conviction was that the batch-normalization is the first
+lever for aligning distributions [27, 32].
+
+Few-Shot Classification. We usually frame Few-Shot Classification methods [5]
+as either metric-based methods [31, 28], or optimization-based methods that
+learn to fine-tune by adapting with few gradient steps [12]. A promising line of
+1
+    https://arxiv.org/abs/2105.11804
+6               E. Bennequin et al.
+
+                                   Train-Time                         Test-Time
+             SQ problems
+                                 Support   Query        Support       Query        New      New
+    No SQS                     Size Labels Size Labels Size Labels Transductivity classes domains
+             FSL [28, 12]      Few    X Few X Few X                  Point-wise      X       7
+             TransFSL [25, 21] Few X Few X Few X                       Small         X       7
+             CDFSL [5]         Few    X Few X Few X                  Point-wise      X       X
+             UDA [24, 22]                             Large X          Large
+             TTA [29, 27, 32] Large X                                  Small                 X
+    SQS
+
+
+
+
+             ARM [33]         Large X Few X                            Small                 X
+             Ind FSQS          Few    X Few X Few X                 Point-wise       X       X
+             Trans FSQS        Few    X Few X Few X                    Small         X       X
+
+Table 1. An overview of SQ problems. We divide SQ problems into two categories,
+presence or not of Support-Query shift; No SQS vs SQS. We consider three classes of
+transductivity: point-wise transductivity that is equivalent to inductive inference, small
+transductivity when inference is performed at batch level (typically in [32, 33]), and
+large transductivity when inference is performed at dataset level (typically in UDA).
+New classes (resp. new domains) describe if the model is evaluated at test-time on novel
+classes (resp. novel domains). Note that we frame UDA as a fully test-time algorithm.
+Notably, Cross-Domain FSL (CDFSL) [5] assumes that the support set and query set
+are drawn from the same distribution, thus No SQS.
+
+
+
+study leverages transductivity (using the query set as unlabelled data while in-
+ductive methods predict individually on each query sample). Transductive Prop-
+agation Network [21] meta-learns label propagation from the support to query
+set concurrently with the feature extractor. Transductive Fine-Tuning [10] mini-
+mizes the prediction entropy of all query instances during fine-tuning. Evaluating
+cross-domain generalization of FSL (FSCD), i.e., a distributional shift between
+meta-training and meta-testing, attracts the attention of a few recent works [5].
+Zhao et al. propose a Domain-Adversarial Prototypical Network [34] in order
+to both align source and target domains in the feature space while maintaining
+discriminativeness between classes. Sahoo et al. combine Prototypical Networks
+with adversarial domain adaptation at the task level [26]. Notably, Cross-Domain
+Few-Shot Learning [5] (CDFSL) addresses the distributional shift between meta-
+training and meta-testing assuming that the support set and query set are drawn
+from the same distribution, not making it a SQ problem with support-query shift.
+Concerning the novelty of FSQS, we acknowledge the very recent contribution of
+Du et al. [11] which studies the role of learnable normalization for domain gener-
+alization, in particular when support and query sets are sampled from different
+domains. Note that our statement is more ambitious: we evaluate algorithms on
+both source and target domains that were unseen during training, while in their
+setting the source domain has already been seen during training.
+
+Benchmarks in Machine Learning Releasing benchmark has always been an
+important factor for progress in the Machine Learning field, the most outstand-
+ing example being ImageNet [9] for the Computer Vision community. Recently,
+                                 Bridging Few-Shot Learning and Adaptation           7
+
+DomainBed [14] aims to settle Domain Generalization research into a more rig-
+orous process, where FewShiftBed takes inspiration from it. Meta-Dataset [30]
+is an other example, this time specific to FSL.
+
+3     FewShiftBed: A Pytorch testbed for FSQS
+3.1   Datasets
+We designed three new image classification datasets adapted to the FSQS prob-
+lem. These datasets have two specificities.
+ 1. They are dividable into groups of images, assuming that each group corre-
+    sponds to a distinct domain. A key challenge is that each group must contain
+    enough images with a sufficient variety of class labels, so that it is possible
+    to sample FSQS episodes.
+ 2. They are delivered with a train/val/test split (∆train , ∆val , ∆test ), along both
+    the class and the domain axis. This split is performed following the principles
+    detailed in Section 2. Therefore, these datasets provide true few-shot tasks
+    at test time, in the sense that the model will not have seen any instances
+    of test classes and domains during training. Note that since we split along
+    two axes, some data may be discarded (for instance images from a domain
+    in Dtrain with a label in Ctest ). Therefore it is crucial to find a split that
+    minimizes this loss of data.
+
+Meta-CIFAR100-Corrupted (MC100-C). CIFAR-100 [19] is a dataset of 60k
+three-channel square images of size 32 × 32, evenly distributed in 100 classes.
+Classes are evenly distributed in 20 superclasses. We use the same method used
+to build CIFAR-10-C [16], which makes use of 19 image perturbations, each one
+being applied with 5 different levels of intensity, to evaluate the robustness of a
+model to domain shift. We modify their protocol to adapt it to the FSQS prob-
+lem: (i) we split the classes with respect to the superclass structure, and assign
+13 superclasses (65 classes) to the training set, 2 superclasses (10 classes) to the
+validation set, and 5 superclasses (25 classes) to the testing set; (ii) we also split
+image perturbations (acting as domains), following the split of [33]. We obtain
+2,184k transformed images for training, 114k for validation and 330k for testing.
+The detailed split is available in the documentation of our code repository.
+
+miniImageNet-Corrupted (mIN-C). mini ImageNet [31] is a popular benchmark
+for few-shot image classification. It contains 60k images from 100 classes from
+the ImageNet dataset. 64 classes are assigned to the training set, 16 to the
+validation set and 20 to the test set. Like MC100-C, we build mIN-C using the
+image perturbations proposed by [16] to simulate different domains. We use the
+original split from [31] for classes, and use the same domain split as for MC100-
+C. Although the original mini ImageNet uses 84 × 84 images, we use 224 × 224
+images. This allows us to re-use the perturbation parameters calibrated in [16]
+for ImageNet. Finally, we discard the 5 most time-consuming perturbations. We
+obtain a total of 1.2M transformed images for training, 182k for validation and
+228k for testing. The detailed split in the documentation of our code repository.
+8         E. Bennequin et al.
+
+FEMNIST-FewShot (FEMNIST-FS). EMNIST [6] is a dataset of images of
+handwritten digits and uppercase and lowercase characters. Federated-EMNIST
+[4] is a version of EMNIST where images are sorted by writer (or user). FEMNIST-
+FS consists in a split of the FEMNIST dataset adapted to few-shot classification.
+We separate both users and classes between training, validation and test sets.
+We build each group as the set of images written by one user. The detailed split
+is available in the code. Note that in FEMNIST, many users provide several
+instances for each digits, but less than two instance for most letters. Therefore
+it is hard to find enough samples from a user to build a support set or a query
+set. As a result, our experiments are limited to classification tasks with only one
+sample per class in both the support and query sets.
+
+3.2      Algorithms
+We implement in FewShiftBed two representative methods of the vast litera-
+ture of FSL, that are commonly considered as strong baselines: Prototypical
+Networks (ProtoNet) [28] and Matching Networks (MatchingNet) [31]. Be-
+sides, for transductive FSL, we also implement with Transductive Propagation
+Network (TransPropNet) [21] and Transductive Fine-Tuning (FTNet) [10].
+We also implement our novel algorithm Transported Prototypes (TP) which is
+detailed in Section 4. FewShiftBed is designed for favoring a straightforward
+implementation of a new algorithm for FSQS. To add a new algorithm, we only
+need to implement the set forward method of the class AbstractMetaLearner.
+We provide an example with our implementation of the Prototypical Network
+[28] that only requires few line of codes:
+      class ProtoNet(AbstractMetaLearner):
+          def set_forward(self, support_images, support_labels, query_images):
+              z_support, z_query = self.extract_features(support_images, query_images)
+              z_proto = self.get_prototypes(z_support, support_labels)
+              return - euclidean_dist(z_query, z_proto)
+
+
+3.3      Protocol
+To prevent the pitfall of misinterpreting a performance boost, we draw three
+recommendations to isolate the causes of improvement rigorously.
+    – How important is episodic training? Despite its wide adoption in meta-
+      learning for FSL, in some situation episodic training does not perform better
+      than more naive approaches [5]. Therefore we recommend to report both the
+      result obtained using episodic training and standard ERM (see the docu-
+      mentation of our code repository).
+    – How does the algorithm behave in the absence of Support-Query
+      Shift? In order to assess that an algorithm designed for distribution shift
+      does not provide degraded performance in an ordinary concept, and to pro-
+      vide a top-performing baseline, we recommend reporting the model’s perfor-
+      mance when we do not observe, at test-time, a support-query shift. Note that
+      it is equivalent to evaluate the performance in cross-domain generalization,
+      as firstly described in [5].
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Bridging Few-Shot Learning and Adaptation                                   9
+
+                  Image space                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Forward pass                      Features space
+
+                                  Backbone
+
+
+
+
+       Supports
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Non-overlapping supports and queries
+
+
+
+
+       Queries
+                                  '<latexit sha1_base64="amt2+RXy0ZvcTil5J+18ih1Cj2Q=">AAACynicjVHLSsNAFD2Nr/quunQTLIKrkoiiy6IbFy4q2Ae0RZLptB2aF5NJoRR3/oBb/TDxD/QvvDOmoBbRCUnOnHvOnbn3+kkgUuU4rwVrYXFpeaW4ura+sbm1XdrZbaRxJhmvsziIZcv3Uh6IiNeVUAFvJZJ7oR/wpj+61PHmmMtUxNGtmiS8G3qDSPQF8xRRzc7Yk8lQ3JXKTsUxy54Hbg7KyFctLr2ggx5iMGQIwRFBEQ7gIaWnDRcOEuK6mBInCQkT57jHGnkzUnFSeMSO6DugXTtnI9rrnKlxMzoloFeS08YheWLSScL6NNvEM5NZs7/lnpqc+m4T+vt5rpBYhSGxf/lmyv/6dC0KfZybGgTVlBhGV8fyLJnpir65/aUqRRkS4jTuUVwSZsY567NtPKmpXffWM/E3o9Ss3rNcm+Fd35IG7P4c5zxoHFfc04pzc1KuXuSjLmIfBziieZ6hiivUUDdVPuIJz9a1Ja2JNf2UWoXcs4dvy3r4AB1Nkis=</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Support          Query
+
+
+                            (1)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     (2)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Features space                         Forward pass                    Output space
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Optimal Transport                    Prototypical Network
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Transported    Transported
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Transport                                         Query
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Support        Support
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   (3)                                         (4)
+
+Fig. 3. Overview of Transported Prototypes. (1) A support set and a query set are fed
+to a trained backbone that embeds images into a feature space. (2) Due to the shift
+between distributions, support and query instances are embedded in non-overlapping
+areas. (3) We compute the Optimal Transport from support instances to query in-
+stances to build the transported support set. Note that we represent the transport
+plan only for one instance per class to preserve clarity in the schema. (4) Provided
+with the transported support, we apply the Prototypical Network [28] i.e., L2 similar-
+ity between transported support and query instances.
+
+
+ – Is the algorithm transductive? The assumption of transductivity has
+   been responsible of several improvements in FSL [25, 3] while it has been
+   demonstrated in [3] that MAML [12] benefits strongly from the Transductive
+   Batch-Normalization (TBN). Thus, we recommend specifying if the method
+   is transductive and adapting the choice of the batch-normalization accord-
+   ingly (Conventional Batch Normalization [18] and Transductive Batch Nor-
+   malization for inductive and transductive methods, respectively) since trans-
+   ductive batch normalization brings a significant boost in performance [3].
+
+
+4     Transported Prototypes: A baseline for FSQS
+
+4.1   Overall idea
+
+We present a novel method that brings UDA to FSQS. As aforementioned, FSQS
+presents new challenges since we no longer assume that we sample the support
+set and the query set from the same distribution. As a result, it is unlikely that
+the support set and query sets share the same representation space region (non-
+overlap). In particular, the L2 distance, adopted in the celebrated Prototypical
+Network [28], may not be relevant for measuring similarity between query and
+support instances, as presented in Figure 1. To overcome this issue, we develop
+a two-phase approach that combines Optimal Transport (Transportation Phase)
+10       E. Bennequin et al.
+
+and the celebrated Prototypical Network (Prototype Phase). We give some back-
+ground about Optimal Transport (OT) in Section 4.2 and the whole procedure
+is presented in Algorithm 1.
+
+
+4.2    Background
+
+Definition. We provide some basics about Optimal Transport (OT). A thorough
+presentation of OT is available at [23]. Let ps and pt be two distributions on X ,
+we note Π(ps , pt ) the set of joint probability with marginal ps and pt i.e., ∀π ∈
+Π(ps , pt ), ∀x ∈ X , π(·, x) = ps , π(x, ·) = pt . The Optimal Transport, associated
+to cost c, between ps and pt is defined as:
+
+                     Wc (ps , pt ) :=      min         E(xs ,xt )∼π [c(xs , xt )]          (1)
+                                        π∈Π(ps ,pt )
+
+
+with c(·, ·) any metric. We note π ? (ps , pt ) the joint distribution that achieves
+the minimum in equation 1. It is named the transportation plan from ps to pt .
+When there is no confusion, we simply note π ? . For our applications, we will
+use as metric the euclidean distance in the representation space obtained from
+a representation ϕ(·; θ) i.e., cθ (xs , xt ) := ||ϕ(xs ; θ) − ϕ(xt ; θ)||2 .
+
+Discrete OT. When ps and pt are only accessible through a finite set of samples,
+respectively (xPs,1 , ..., xs,ns ) and (xt,1P
+                                            , ..., xt,nt ) we introduce the empirical distri-
+                  ns                           nt
+butions p̂s := i=1       ws,i δxs,i , p̂t := j=1     w δxt,j , where ws,i (wt,j ) is the mass
+                                                    Pt,j
+                                                       ns              Pnt
+probability put in sample xs,i (xt,j ) i.e., i=1           ws,i = 1 ( j=1    wt,j = 1) and δx
+is the Dirac distribution in x. The discrete          version  of the OT  is derived by intro-
+ducing the set of couplings Π(ps , pt ) := π ∈ Rns ×nt , π1ns = ps , π > 1nt = pt
+                                                   
+
+where ps := (ws,1 , · · · , ws,ns ), pt := (wt,1 , · · · , w1,nt ), and 1ns (respectively 1nt )
+is the unit vector with dim ns (respectively nt ). The discrete transportation plan
+πθ? is then defined as:
+                                   πθ? := argmin hπ, Cθ iF                                 (2)
+                                          π∈Π(ps ,pt )
+
+where Cθ (i, j) := cθ (xs,i , xt,j ) and h·, ·iF is the Frobenius dot product. Note
+that πθ? depends on both ps and pt , and θ since Cθ depends on θ. In practice,
+we use Entropic regularization [8] that makes OT easier to solve by promoting
+smoother transportation plan with a computationally efficient algorithm, based
+on Sinkhorn-Knopp’s scaling matrix approach (see the Appendix C).
+
+
+4.3    Method
+
+Transportation Phase. At each episode, we are provided with a source support
+set S and a target query set Q. We note respectively S and Q their represen-
+tations from a deep network ϕ(·; θ) i.e., zs ∈ S is defined as zs := ϕ(xs ; θ) for
+xs ∈ S, respectively zq ∈ Q is defined as zq := ϕ(xq ; θ) for xq ∈ Q. As these two
+sets are sampled from different distributions, S and Q are likely to lie in different
+regions of the representation space. In order to adapt the source support set S
+                                    Bridging Few-Shot Learning and Adaptation               11
+
+Algorithm 1 Transported Prototypes. Blue lines highlight the OT’s contri-
+bution in the computational graph of an episode compared to the standard
+Prototypical Network [28].
+Input: Support set S := (xs,i , ys,i )1≤i≤ns , query set Q := (xq,j , yq,j )1≤j≤nq , classes C,
+backbone ϕθ .
+Output: Loss L(θ) for a randomly sampled episode.
+ 1: zs,i , zq,j ← ϕ(xs,i ; θ), ϕ(xq,j ; θ), for i, j                  . Get representations.
+ 2: Cθ (i, j) ← ||zs,i − zq,j ||2 , for i, j                                   . Cost-matrix.
+ 3: πθ? ← Solve Equation         2                                    . Transportation plan.
+ 4: π̂θ? (i, j) ← πθ? (i, j)/ j πθ? (i, j), for i, j
+                             P
+                                                                             . Normalization.
+                  ← Given by Equation 3
+ 5: Ŝ = (ẑs,i )iP                                           . Get transported support set.
+ 6: ĉk ← |Ŝ1 | ẑs ∈Ŝk ẑs , for k ∈ C.                     . Get transported prototypes.
+                k
+ 7: pθ (y|xq,j ) ← From Equation
+                               Pnq       4, for j
+ 8: Return: L(θ) := n1q j=1           − log pθ (yq,j |xq,j ).
+
+
+
+to the target domain, which is only represented by the target query set Q, we
+follow [7] to compute Ŝ the barycenter mapping of S, that we refer to as the
+transported support set, defined as follows:
+                                         Ŝ := π̂θ? Q                                      (3)
+                                                                               Pnt
+where πθ? is the transportation plan from S to Q and π̂θ? := πθ? (i, j)/ j=1 πθ? (i, j).
+The transported support set Ŝ is an estimation of labelled examples in the target
+domain using labelled examples in the source domain. The success relies on the
+fact that transportation conserves labels, i.e., a query instance close to zˆs ∈ Ŝ
+should share the same label with xs , where zˆs is the barycenter mapping of
+zs ∈ S. See step (3) of Figure 3 for a visualization of the transportation phase.
+
+Prototype P  Phase. For each class k ∈ C, we compute the transported prototypes
+ĉk := |Ŝ1 | ẑs ∈Ŝk ẑs (where Ŝk is the transported support set with class k and
+         k
+C are classes of current episode). We classify each query xq with representation
+zq = ϕ(xq ; θ) using its euclidean distance to each transported prototypes;
+                                         exp −||zq − ĉk ||2
+                                                             
+                    pθ (y = k|xq ) := P                                      (4)
+                                                              0 2
+                                        k0 ∈C exp (−||zq − ĉk || )
+
+Crucially, the standard Prototypical Networks [28] computes euclidean distance
+to each prototypes while we compute the euclidean to each transported proto-
+types, as presented in step (4) of Figure 3. Note that our formulation involves
+the query set in the computation of (ĉk )k∈C .
+
+Genericity of OT. FewShiftBed implements OT as a stand-alone module that
+can be easily plugged into any FSL algorithm. We report additional baselines in
+Appendix B where other FSL algorithms are equipped with OT. This technical
+choice reflects our insight that OT may be ubiquitous for addressing FSQS and
+makes its usage in the testbed straightforward.
+12      E. Bennequin et al.
+
+                        Meta-CIFAR100-C            miniImageNet-C       FEMNIST-FS
+                        1-shot       5-shot       1-shot       5-shot       1-shot
+ ProtoNet [28]       30.02 ± 0.40 42.77 ± 0.47 36.37 ± 0.50 47.58 ± 0.57 84.31 ± 0.73
+ MatchingNet [31]    30.71 ± 0.38 41.15 ± 0.45 35.26 ± 0.50 44.75 ± 0.55 84.25 ± 0.71
+ TransPropNet† [21] 34.15 ± 0.39 47.39 ± 0.42 24.10 ± 0.27 27.24 ± 0.33 86.42 ± 0.76
+ FTNet† [10]         28.91 ± 0.37 37.28 ± 0.40 39.02 ± 0.46 51.27 ± 0.45 86.13 ± 0.71
+ TP† (ours)         34.00 ± 0.46 49.71 ± 0.47 40.49 ± 0.54 59.85 ± 0.49 93.63 ± 0.63
+ TP w/o OT †         32.47 ± 0.41 48.00 ± 0.44 40.43 ± 0.49 53.71 ± 0.50 90.36 ± 0.58
+ TP w/o TBN †        33.74 ± 0.46 49.18 ± 0.49 37.32 ± 0.55 55.16 ± 0.54 92.31 ± 0.73
+ TP w. OT-TT †       32.81 ± 0.46 48.62 ± 0.48 44.77 ± 0.57 60.46 ± 0.49 94.92 ± 0.55
+ TP w/o ET †        35.94 ± 0.45 48.66 ± 0.46 42.46 ± 0.53 54.67 ± 0.48   94.22± 0.70
+ TP w/o SQS †       85.67 ± 0.26 88.52 ± 0.17 64.27 ± 0.39 75.22 ± 0.30 99.72 ± 0.07
+Table 2. Top-1 accuracy of few-shot learning models in various datasets and numbers
+of shots with 8 instances per class in the query set (except for FEMNIST-FS: 1 instance
+per class in the query set), with 95% confidence intervals. The top half of the table is
+a comparison between existing few-shot learning methods and Transported Prototypes
+(TP). The bottom half is an ablation study of TP. OT denotes Optimal Transport,
+TBN is Transductive Batch-Normalization, OT-TT refers to the setting where Optimal
+Transport is applied at test time but not during episodic training, and ET means
+episodic training i.e., w/o ET refers to the setting where training is performed through
+standard Empirical Risk Minimization. TP w/o SQS reports model’s performance in
+the absence of support-query shift. † flags if the method is transductive. For each
+setting, the best accuracy among existing methods is shown in bold, as well as the
+accuracy of an ablation if it improves TP.
+
+
+
+
+5    Experiments
+
+We compare the performance of baseline algorithms with Transported Prototypes
+on various datasets and settings. We also offer an ablation study in order to
+isolate the source to the success of Transported Prototypes. Extensive results are
+detailed in Appendix B. Instructions to reproduce these results can be found in
+the code’s documentation.
+
+Setting and details. We conduct experiments on all methods and datasets im-
+plemented in FewShiftBed. We use a standard 4-layer convolutional network for
+our experiments on Meta-CIFAR100-C and FEMNIST-FewShot, and a ResNet18
+for our experiments on miniImageNet. Transductive methods are equipped with
+a Transductive Batch-Normalization. All episodic training runs contain 40k
+episodes, after which we retrieve model state with best validation accuracy. We
+run each individual experiment on three different random seeds. All results pre-
+sented in this paper are the average accuracies obtained with these random
+seeds.
+
+Analysis. The top half of Table 2 reveals that Transported Prototypes (TP)
+outperform all baselines by a strong margin on all datasets and settings. Impor-
+tantly, baselines perform poorly on FSQS, demonstrating they are not equipped
+to address this challenging problem, stressing our study’s significance. It is also
+                                Bridging Few-Shot Learning and Adaptation    13
+
+interesting to note that the performance of transductive approaches, which is
+significantly better in a standard FSL setting [21, 10], is here similar to in-
+ductive methods (notably, TransPropNet [21] fails loudly without Transductive
+Batch-Normalization showing that propagating label with non-overlapping sup-
+port/query can have a dramatic impact, see Appendix B). Thus, FSQS deserves
+a fresher look to be solved. Transported Prototypes mitigate a significant part
+of the performance drop caused by support-query shift while benefiting from the
+simplicity of combining a popular FSL method with a time-tested UDA method.
+This gives us strong hopes for future works in this direction.
+
+Ablation study. Transported Prototypes (TP) combines three components: Op-
+timal Transport (OT), Transductive Batch-Normalization (TBN) and episode
+training (ET). Which of these components are responsible for the observed gain?
+Following recommendations from Section 3.3, we ablate those components in the
+bottom half of Table 2. We observe that both OT and TBN individually improve
+the performance of ProtoNet for FSQS, and that the best results are obtained
+when the two of them are combined. Importantly, OT without TBN performs
+better than TBN without OT (except for 1-shot mIN-C), demonstrating the su-
+periority of OT compared to TBN for aligning distributions in the few samples
+regime. Note that the use of TaskNorm [3] is beyond the scope of the paper2 ;
+we encourage future work to dig into that direction and we refer the reader to
+the very recent work [11]. We observe that there is no clear evidence that using
+OT at train-time is better than simply applying it at test-time on a ProtoNet
+trained without OT. Additionally, the value of Episodic Training (ET) compared
+to standard Empirical Risk Minimization (ERM) is not obvious. For instance,
+simply training with ERM and applying TP at test-time is better than adding
+ET on 1-shot MC100-C, 1-shot mIN-C and FEMNIST-FS, making it an another
+element to add to the study [20] who put into question the value of ET. Under-
+standing why and when we should use ET or only OT at test-time is interesting
+for future works. Additionally, we compare TP with MAP [17] which imple-
+ments an OT-based approach for transductive FSL. Their approach includes a
+power transform to reduce the skew in the distribution, so for fair comparison
+we also implemented it into Transported Prototypes for these experiments3 . We
+also used the OT module only at test-time and compared with two backbones,
+respectively trained with ET and ERM. Interestingly, our experiments in Table
+3 show that MAP is able to handle SQS. Finally, in order to evaluate the perfor-
+mance drop related to Support-Query Shift compared to a setting with support
+and query instances sampled from the same distribution, we test Transported
+Prototypes on few-shot classification tasks without SQS (TP w/o SQS in Table
+2), making a setup equivalent to CDFSL. Note that in both cases, the model is
+trained in an episodic fashion on tasks presenting a Support-Query Shift. These
+results show that SQS presents a significantly harder challenge than CDFSL,
+while there is considerable room for improvements.
+2
+    These normalizations are implemented in FewShiftBed for future works.
+3
+    Therefore results in Table 3 differ from results in Table 2.
+14     E. Bennequin et al.
+
+        Meta-CIFAR100-C            miniImageNet-C        FEMNIST-FS
+         1-shot       5-shot       1-shot       5-shot       1-shot
+ TP? 36.17 ± 0.47 50.45 ± 0.47 45.41 ± 0.54 57.82 ± 0.48 93.60 ± 0.68
+ MAP? 35.96 ± 0.44 49.55 ± 0.45 43.51 ± 0.47 56.10 ± 0.43 92.86 ± 0.67
+ TP† 32.13 ± 0.45 46.19 ± 0.47 45.77 ± 0.58 59.91 ± 0.48 94.92 ± 0.56
+ MAP† 32.38 ± 0.41 45.96 ± 0.43 43.81 ± 0.47 57.70 ± 0.43 87.15 ± 0.66
+Table 3. Top-1 accuracy with 8 instances per class in the query set when applying
+Transported Prototypes and MAP on two different backbones: ? is standard ERM (i.e.,
+without Episodic Training) and † is ProtoNet [28]. Transported Prototypes performs
+equally or better than MAP [17]. Here TP includes power transform in the feature
+space.
+
+
+
+6    Conclusion
+We release FewShiftBed, a testbed for the under-investigated and crucial prob-
+lem of Few-Shot Learning when the support and query sets are sampled from
+related but different distributions, named FSQS. FewShiftBed includes three
+datasets, relevant baselines and a protocol for reproducible research. Inspired
+from recent progress of Optimal Transport (OT) to address Unsupervised Do-
+main Adaptation, we propose a method that efficiently combines OT with the
+celebrated Prototypical Network [28]. Following the protocol of FewShiftBed,
+we bring compelling experiments demonstrating the advantage of our proposal
+compared to transductive counterparts. We also isolate factors responsible for
+improvements. Our findings suggest that Batch-Normalization is ubiquitous, as
+described in related works [3, 11], while episodic training, even if promising on
+paper, is questionable. As a lead for future works, FewShiftBed could be im-
+proved by using different datasets to model different domains, instead of using
+artificial transformations. Since we are talking about domain adaptation, we also
+encourage the study of accuracy as a function of the size of the target domain,
+i.e., the size of the query set. Moving beyond the transductive algorithm, as
+well as understanding when meta-learning brings a clear advantage to address
+FSQS remains an open and exciting problem. FewShiftBed brings the first step
+towards its progress.
+
+
+Acknowledgements
+Etienne Bennequin is funded by Sicara and ANRT (France), and Victor Bouvier
+is funded by Sidetrade and ANRT (France), both through a CIFRE collabo-
+ration with CentraleSupélec. This work was performed using HPC resources
+from the “Mésocentre” computing center of CentraleSupélec and École Nor-
+male Supérieure Paris-Saclay supported by CNRS and Région Île-de-France
+(http://mesocentre.centralesupelec.fr/).
+                               Bridging Few-Shot Learning and Adaptation       15
+
+References
+ [1]   Dario Amodei et al. “Concrete problems in AI safety”. In: arXiv preprint
+       arXiv:1606.06565 (2016).
+ [2]   Shai Ben-David et al. “Analysis of representations for domain adaptation”.
+       In: Advances in neural information processing systems. 2007, pp. 137–144.
+ [3]   John Bronskill et al. “Tasknorm: Rethinking batch normalization for meta-
+       learning”. In: ICML. PMLR. 2020, pp. 1153–1164.
+ [4]   Sebastian Caldas et al. “Leaf: A benchmark for federated settings”. In:
+       arXiv preprint arXiv:1812.01097 (2018).
+ [5]   Wei-Yu Chen et al. “A Closer Look at Few-shot Classification”. In: Inter-
+       national Conference on Learning Representations. 2019.
+ [6]   Gregory Cohen et al. “EMNIST: Extending MNIST to handwritten let-
+       ters”. In: IJCNN. IEEE. 2017.
+ [7]   Nicolas Courty et al. “Optimal transport for domain adaptation”. In: IEEE
+       transactions on pattern analysis and machine intelligence 39.9 (2016),
+       pp. 1853–1865.
+ [8]   Marco Cuturi. “Sinkhorn distances: Lightspeed computation of optimal
+       transport”. In: Advances in neural information processing systems 26 (2013),
+       pp. 2292–2300.
+ [9]   Jia Deng et al. “Imagenet: A large-scale hierarchical image database”. In:
+       2009 IEEE conference on computer vision and pattern recognition. Ieee.
+       2009, pp. 248–255.
+[10]   Guneet Singh Dhillon et al. “A Baseline for Few-Shot Image Classifica-
+       tion”. In: ICLR. 2020.
+[11]   Yingjun Du et al. “MetaNorm: Learning to Normalize Few-Shot Batches
+       Across Domains”. In: International Conference on Learning Representa-
+       tions. 2021. url: https://openreview.net/forum?id=9z_dNsC4B5t.
+[12]   Chelsea Finn et al. “Model-agnostic meta-learning for fast adaptation of
+       deep networks”. In: ICML. JMLR. 2017.
+[13]   Yaroslav Ganin and Victor Lempitsky. “Unsupervised Domain Adaptation
+       by Backpropagation”. In: International Conference on Machine Learning.
+       2015, pp. 1180–1189.
+[14]   Ishaan Gulrajani and David Lopez-Paz. “In Search of Lost Domain Gen-
+       eralization”. In: International Conference on Learning Representations.
+       2021.
+[15]   Kaiming He et al. “Deep residual learning for image recognition”. In: Pro-
+       ceedings of the IEEE conference on computer vision and pattern recogni-
+       tion. 2016, pp. 770–778.
+[16]   Dan Hendrycks and Thomas Dietterich. “Benchmarking Neural Network
+       Robustness to Common Corruptions and Perturbations”. In: ICLR. 2019.
+[17]   Yuqing Hu et al. “Leveraging the feature distribution in transfer-based
+       few-shot learning”. In: arXiv preprint arXiv:2006.03806 (2020).
+[18]   Sergey Ioffe and Christian Szegedy. “Batch normalization: Accelerating
+       deep network training by reducing internal covariate shift”. In: ICML.
+       PMLR. 2015.
+16      E. Bennequin et al.
+
+[19]   Alex Krizhevsky et al. “Learning multiple layers of features from tiny
+       images”. In: Citeseer (2009).
+[20]   Steinar Laenen and Luca Bertinetto. “On Episodes, Prototypical Net-
+       works, and Few-shot Learning”. In: arXiv preprint arXiv:2012.09831 (2020).
+[21]   Yanbin Liu et al. “Learning to propagate labels: Transductive propagation
+       network for few-shot learning”. In: ICLR (2019).
+[22]   Sinno Jialin Pan and Qiang Yang. “A survey on transfer learning”. In:
+       IEEE Transactions on knowledge and data engineering 22.10 (2009), pp. 1345–
+       1359.
+[23]   Gabriel Peyré et al. “Computational Optimal Transport: With Applica-
+       tions to Data Science”. In: Foundations and Trends® in Machine Learning
+       11.5-6 (2019), pp. 355–607.
+[24]   Joaquin Quionero-Candela et al. Dataset shift in machine learning. The
+       MIT Press, 2009.
+[25]   Mengye Ren et al. “Meta-learning for semi-supervised few-shot classifica-
+       tion”. In: ICLR (2019).
+[26]   Doyen Sahoo et al. Meta-Learning with Domain Adaptation for Few-Shot
+       Learning under Domain Shift. 2019.
+[27]   Steffen Schneider et al. “Improving robustness against common corrup-
+       tions by covariate shift adaptation”. In: Advances in Neural Information
+       Processing Systems 33 (2020).
+[28]   Jake Snell et al. “Prototypical networks for few-shot learning”. In: Ad-
+       vances in Neural Information Processing Systems. 2017, pp. 4077–4087.
+[29]   Yu Sun et al. “Test-time training with self-supervision for generalization
+       under distribution shifts”. In: ICML. 2020.
+[30]   Eleni Triantafillou et al. “Meta-dataset: A dataset of datasets for learning
+       to learn from few examples”. In: ICLR (2020).
+[31]   Oriol Vinyals et al. “Matching networks for one shot learning”. In: NIPS.
+       2016.
+[32]   Dequan Wang et al. “Fully test-time adaptation by entropy minimization”.
+       In: ICLR (2021).
+[33]   Marvin Zhang et al. “Adaptive Risk Minimization: A Meta-Learning Ap-
+       proach for Tackling Group Shift”. In: ICLR (2021).
+[34]   An Zhao et al. “Domain-Adaptive Few-Shot Learning”. In: arXiv preprint
+       arXiv:2003.08626 (2020).
+
+
+A      Extended positioning
+Few-Shot Classification. Methods to solve the Few-Shot Classification prob-
+lem [23] are usually put into one of these three categories [8]: metric-based,
+optimization-based, and hallucination-based. Most metric-learning methods are
+built on the principle of Siamese Networks [22], while also exploiting the meta-
+learning paradigm: they learn a feature extractor across training tasks [42]. Pro-
+totypical Networks [39] classify queries from their euclidean distances to one pro-
+totype embedding per class. Relation Networks [41] add an other deep network
+                                Bridging Few-Shot Learning and Adaptation        17
+
+on top of Prototype Networks to replace the euclidean distance. Optimization-
+based methods use an other approach: learning to fine-tune. MAML [15] and
+Reptile [31] learn a good model initialization, i.e. model parameters that can
+adapt to a new task (with novel classes) in a small number of gradient steps.
+Other methods such as Meta-LSTM [35] and Meta-Networks [29] replace stan-
+dard gradient descent by a meta-learned optimizer. Hallucination-based methods
+aim at augmenting the scarce labeled data, by hallucinating feature vectors [19],
+using Generative Adversarial Networks [1], or meta-learning [44]. Recent works
+also suggest that competitive results in Few-Shot Classification can be achieved
+with more simple methods based on fine-tuning [8, 17].
+
+Transductive Few-Shot Classification. Some methods aim at solving few-shot
+classification tasks by using the query set as unlabeled data. Transductive Prop-
+agation Network [26] meta-learns label propagation from the support to query
+set concurrently with the feature extractor. Antoniou & Storkey [2] proposed to
+use a meta-learned critic network to further adapt a classifier on the query set in
+an unsupervised setting. Ren et al. [36] extend Prototypical Networks in order to
+use the query set in the prototype computation. Transductive Information Max-
+imization [5] aims at maximizing the mutual information between the features
+extracted from the query set and their predicted labels. Finally, Transductive
+Fine-Tuning [14] augments standard fine-tuning using the classification entropy
+of all query instances.
+
+Unsupervised Domain Adaptation. UDA has a long standing story [33, 34]. The
+analysis of the role of representations from [3] has led to wide literature based
+on domain invariant representations [16, 28]. Outstanding progress have been
+towards learning more domain transferable representations by looking for do-
+main invariance. The tensorial product between representations and prediction
+promotes conditional domain invariance [27], the use of weights [7, 47, 6, 10]
+has dramatically improved the problem of label shift theoretically described in
+[49], hallucinating consistent target samples [25], penalizing high singular values
+of batch of representations [9] or by enforcing the favorable inductive bias of
+consistence through various data augmentation in the target domain [32]. Re-
+cent works address the problem of adaptation without source data [24, 46]. The
+seminal work [12], followed by [11, 4], brings Optimal Transport (OT) to UDA
+by transporting source samples in the target domain.
+
+Test-Time Adaptation. Test-time Adaptation (TTA) is the subject of recent pio-
+neering works. In [40], adaptation is performed by test-time training of represen-
+tations through a self-supervision task which consists in predicting the rotation of
+an image. This leads to a successful adaptation when the gradient of fine-tuning
+procedure is correlated with the gradient of the cross-entropy between the pre-
+diction and the label of the target sample, which is not available. Inspired from
+UDA methods based on domain invariance of representations, a line of works [30,
+38] aims to align the mean and the variance of train and test distribution of repre-
+sentations. This is simply done by updating statistics of the batch-normalization
+18     E. Bennequin et al.
+
+layer. In a similar spirit of leveraging the batch-normalization layer for adapta-
+tion, [43] suggests to minimize prediction entropy on a batch of test samples, as
+suggested in semi-supervised learning [18]. As pointed by authors of [43], updat-
+ing the whole network is inefficient and exposes to a risk of test batch overfit.
+To adress this problem, authors suggest to only update batch-normalization pa-
+rameters for minimizing prediction’s entropy. The paradigm of Adaptative Risk
+Minimization (ARM) is introduced in [48]. ARM aims to adapt a classifier at
+test-time by conditioning its prediction on the whole batch of test samples (not
+only one sample). Authors demonstrate that such classifier is meta-trainable as
+long as the training data exposes a structure of group. Consequently, [48] is
+closer work to ours, while we have more ambitious perspectives as we address
+the problem of few-shot learning i.e., few-shot are available per class while new
+classes are discovered at test-time.
+
+Few-Shot Classification under Distributional Shift. Recent works on few-shot
+classification tackle the problem of distributional shift between the meta-training
+set and the meta-testing set. Chen et al. [8] compare the performance of state-
+of-the-art solutions to few-shot classification on a cross-domain setting (meta-
+training on mini ImageNet [42] and meta-testing on Caltech-UCSD Birds 200
+[45]). Zhao et al. propose a Domain-Adversarial Prototypical Network [50] in
+order to both align source and target domains in the feature space and maintain
+discriminativeness between classes. Considering the problem as a shift in the
+distribution of tasks (i.e. training and testing tasks are drawn from two distinct
+distributions), Sahoo et al. combine Prototypical Networks with adversarial do-
+main adaptation at task level [37]. While these works address the key issue of
+distributional shift between meta-training and meta-testing, they assume that
+for each task, the support set and query set are always drawn from the same
+distribution. We find that this assumption rarely holds in practice. In this work
+we consider a distributional shift both between meta-training and meta-testing
+and between support and query set.
+
+
+B    All experimental results
+In this section we present the extended results of our experiments. Prototypi-
+cal Networks, Matching Networks and Transductive Propagation Networks have
+been declined in 10 distinct versions:
+ – Original algorithms: episodic training, with Conventional Batch-Normalization
+   (CBN) and not Optimal Transport (Vanilla);
+ – Episodic training and CBN, with Optimal Transport applied at test time
+   (OT-TT);
+ – Episodic training and CBN, with Optimal Transport integrated into the
+   algorithm both during training and testing (OT);
+ – Episodic training, with Transductive Batch-Normalization (TBN) and
+   not Optimal Transport (Vanilla);
+ – Episodic training and TBN, with OT-TT;
+                                Bridging Few-Shot Learning and Adaptation         19
+
+ – Episodic training and TBN, with OT;
+ – Standard Empirical Risk Minimization (ERM) instead of episodic training,
+   with CBN and not Optimal Transport (Vanilla);
+ – ERM with CBN and OT;
+ – ERM with TBN and no Optimal Transport (Vanilla);
+ – ERM with TBN and OT.
+    Transductive Fine-Tuning (FTNet) is not compatible with episodic training.
+Also the integration of Optimal Transport into this algorithm is non trivial.
+Therefore we only applied FTNet with ERM and without OT.
+    Every result presented in the following tables is the average over three runs
+with three random seeds (1, 2 and 3). For clarity, we do not report the 95%
+confidence interval for each result. Keep in mind that this interval is different
+for each result, but we found that it is always greater than ± 0.2% and smaller
+than ± 0.8%.
+    Details of the experiments and instructions to reproduce them are available
+in the code.
+
+                               Meta-CIFAR100-C 1-shot 8-target
+                            Episodic training                     Standard ERM
+                     CBN                      TBN               CBN           TBN
+           Vanilla w. OT-TT w. OT Vanilla w. OT-TT w. OT Vanilla w. OT Vanilla w. OT
+ProtoNet    30.02     32.11   33.74 32.47     32.81 34.00 29.10 35.48 29.79 35.4
+MatchingNet 30.71     32.85   34.48 32.97     32.78 35.11 33.50 36.13 33.67 35.87
+PropNet     30.26     28.70   26.87 34.15     29.48 27.68 23.33 31.08 22.55 31.20
+FTNet                                                       28.91         28.75
+           Table 4. Ablation for Meta-CIFAR100-C 1-shot 8-target.
+
+
+
+
+                               Meta-CIFAR100-C 1-shot 16-target
+                            Episodic training                      Standard ERM
+                     CBN                      TBN               CBN            TBN
+           Vanilla w. OT-TT w. OT Vanilla w. OT-TT w. OT Vanilla w. OT Vanilla w. OT
+ProtoNet    29.98     32.24   35.63 32.52     31.72 36.20 29.02 35.89 29.61 35.94
+MatchingNet 31.1      30.94   35.53 33.08     33.28 36.36 33.49 36.61 33.64 36.54
+PropNet     30.82     32.39   31.15 34.83     33.53  31.33 26.81 33.9 27.92 34.10
+FTNet                                                       29.01          28.86
+           Table 5. Ablation for Meta-CIFAR100-C 1-shot 16-target.
+
+
+
+
+C    Training details
+Entropic regularization for Optimal Transport was proposed in [13] and makes
+OT easier to solve. It is defined as πθ? (p̂s , p̂t ) := arg minπ∈Π hπ, Cθ iF + εΩ(π)
+20    E. Bennequin et al.
+
+
+
+
+                               Meta-CIFAR100-C 5-shot 8-target
+                            Episodic training                     Standard ERM
+                     CBN                      TBN               CBN           TBN
+           Vanilla w. OT-TT w. OT Vanilla w. OT-TT w. OT Vanilla w. OT Vanilla w. OT
+ProtoNet    42.77     47.54   48.37 48.00     48.62 49.71 44.89 48.61 46.59 48.66
+MatchingNet 41.15     43.90   44.55 45.05     44.86  45.78 43.00 45.35 43.51 45.10
+PropNet     39.13     40.60   25.68 47.39     40.47  27.29 29.32 39.82 29.50 29.82
+FTNet                                                       37.28         37.40
+            Table 6. Ablation of Meta-CIFAR100-C 5-shot 8-target.
+
+
+
+
+                              Meta-CIFAR100-C 5-shot 16-target
+                            Episodic training                     Standard ERM
+                     CBN                      TBN               CBN           TBN
+           Vanilla w. OT-TT w. OT Vanilla w. OT-TT w. OT Vanilla w. OT Vanilla w. OT
+ProtoNet    42.07     48.26   48.25 46.49     48.71 49.94 44.67 48.61 46.48 48.89
+MatchingNet 41.74     44.51   45.71 44.91     44.71 47.37 42.97 46.06 46.22 46.37
+PropNet     38.73     39.25   37.22 43.91     40.62 40.02 33.06 40.03 33.93 40.03
+FTNet                                                       37.51         37.66
+           Table 7. Ablation of Meta-CIFAR100-C 5-shot 16-target.
+
+
+
+
+                               FEMNIST-FewShot 1-shot 1-target
+                            Episodic training                    Standard ERM
+                     CBN                      TBN              CBN           TBN
+           Vanilla w. OT-TT w. OT Vanilla w. OT-TT w. OT Vanilla w. OT Vanilla w. OT
+ProtoNet    84.31     94.00   92.31 90.36     94.92 93.63 80.20 94.30 86.22 94.22
+MatchingNet 84.25     93.66   92.73 91.05     95.37 93.62 85.04 94.34 87.19 94.26
+PropNet     31.30     40.60   79.30 86.42     93.08 87.52 45.36 73.64 47.34 79.50
+FTNet                                                      86.13         85.92
+           Table 8. Ablation of FEMNIST-FewShot 1-shot 1-target.
+                                Bridging Few-Shot Learning and Adaptation         21
+
+                       Meta-CIFAR100-C miniImageNet-C FEMNIST-FS
+                       1-shot  5-shot  1-shot 5-shot    1-shot
+              MAP       36.58   49.37   43.38  56.25     92.94
+              TP (ours) 36.51   50.60   45.38  61.46     93.63
+Table 9. Top-1 accuracy of MAP [20] compared to Transported Prototypes (ours).
+Both methods incorporate Optimal Transport into Few-Shot Learning. MAP [20] is
+originally designed for standard transductive FSL. Interestingly, MAP and TP per-
+form quite similarly demonstrating that OT is a powerful tool for addressing FSQS.
+Note that MAP leverages a Power-Transform that we also plug in TP for comparison,
+resulting in a boost of performance. Understanding which learners operate best with
+Optimal Transport is an exciting question. In particular, by proposing TP, we have
+shown that we result in a strong, interpretable and theoretically motivated method by
+following principles when applying OT in UDA.
+
+
+
+                         Pns ,nt
+with ε > 0 and Ω(π) = i,j=1      π(i, j) log π(i, j) is the negative entropy. It pro-
+motes smoother transportation plan while allowing to derive a computationally
+efficient algorithm, based on Sinkhorn-Knopp’s scaling matrix approach [21]. In
+our experiment, we set ε = 0.05, but it is possible to tune it, eventually meta-
+learning it.
+
+
+References
+
+ [1]   Antreas Antoniou, Amos Storkey, and Harrison Edwards. “Data augmen-
+       tation generative adversarial networks”. In: arXiv preprint arXiv:1711.04340
+       (2017).
+ [2]   Antreas Antoniou and Amos J Storkey. “Learning to learn by self-critique”.
+       In: Advances in Neural Information Processing Systems. 2019, pp. 9940–
+       9950.
+ [3]   Shai Ben-David et al. “Analysis of representations for domain adaptation”.
+       In: Advances in neural information processing systems. 2007, pp. 137–144.
+ [4]   Bharath Bhushan Damodaran et al. “Deepjdot: Deep joint distribution
+       optimal transport for unsupervised domain adaptation”. In: Proceedings
+       of the European Conference on Computer Vision (ECCV). 2018, pp. 447–
+       463.
+ [5]   Malik Boudiaf et al. “Transductive information maximization for few-shot
+       learning”. In: arXiv preprint arXiv:2008.11297 (2020).
+ [6]   Victor Bouvier et al. “Robust Domain Adaptation: Representations, Weights
+       and Inductive Bias”. In: arXiv preprint arXiv:2006.13629 (2020).
+ [7]   Zhangjie Cao et al. “Partial adversarial domain adaptation”. In: Pro-
+       ceedings of the European Conference on Computer Vision (ECCV). 2018,
+       pp. 135–150.
+ [8]   Wei-Yu Chen et al. “A Closer Look at Few-shot Classification”. In: Inter-
+       national Conference on Learning Representations. 2019.
+22      E. Bennequin et al.
+
+ [9]   Xinyang Chen et al. “Transferability vs. discriminability: Batch spectral
+       penalization for adversarial domain adaptation”. In: International Confer-
+       ence on Machine Learning. 2019, pp. 1081–1090.
+[10]   Remi Tachet des Combes et al. “Domain Adaptation with Conditional
+       Distribution Matching and Generalized Label Shift”. In: arXiv preprint
+       arXiv:2003.04475 (2020).
+[11]   Nicolas Courty et al. “Joint distribution optimal transportation for do-
+       main adaptation”. In: Advances in Neural Information Processing Systems.
+       2017, pp. 3730–3739.
+[12]   Nicolas Courty et al. “Optimal transport for domain adaptation”. In: IEEE
+       transactions on pattern analysis and machine intelligence 39.9 (2016),
+       pp. 1853–1865.
+[13]   Marco Cuturi. “Sinkhorn distances: Lightspeed computation of optimal
+       transport”. In: Advances in neural information processing systems 26 (2013),
+       pp. 2292–2300.
+[14]   Guneet Singh Dhillon et al. “A Baseline for Few-Shot Image Classifica-
+       tion”. In: ICLR. 2020.
+[15]   Chelsea Finn et al. “Model-agnostic meta-learning for fast adaptation of
+       deep networks”. In: ICML. JMLR. 2017.
+[16]   Yaroslav Ganin and Victor Lempitsky. “Unsupervised Domain Adaptation
+       by Backpropagation”. In: International Conference on Machine Learning.
+       2015, pp. 1180–1189.
+[17]   Micah Goldblum et al. “Unraveling meta-learning: Understanding feature
+       representations for few-shot tasks”. In: International Conference on Ma-
+       chine Learning. PMLR. 2020, pp. 3607–3616.
+[18]   Yves Grandvalet and Yoshua Bengio. “Semi-supervised learning by en-
+       tropy minimization”. In: Advances in neural information processing sys-
+       tems. 2005, pp. 529–536.
+[19]   Bharath Hariharan and Ross Girshick. “Low-shot visual recognition by
+       shrinking and hallucinating features”. In: Proceedings of the IEEE Inter-
+       national Conference on Computer Vision. 2017, pp. 3018–3027.
+[20]   Yuqing Hu et al. “Leveraging the feature distribution in transfer-based
+       few-shot learning”. In: arXiv preprint arXiv:2006.03806 (2020).
+[21]   Philip A Knight. “The Sinkhorn–Knopp algorithm: convergence and ap-
+       plications”. In: SIAM Journal on Matrix Analysis and Applications 30.1
+       (2008), pp. 261–275.
+[22]   Gregory Koch, Richard Zemel, and Ruslan Salakhutdinov. “Siamese neural
+       networks for one-shot image recognition”. In: ICML deep learning work-
+       shop. Vol. 2. 2015.
+[23]   Brenden Lake et al. “One shot learning of simple visual concepts”. In:
+       Proceedings of the annual meeting of the cognitive science society. Vol. 33.
+       2011.
+[24]   Jian Liang, Dapeng Hu, and Jiashi Feng. “Do We Really Need to Access
+       the Source Data? Source Hypothesis Transfer for Unsupervised Domain
+       Adaptation”. In: arXiv preprint arXiv:2002.08546 (2020).
+                              Bridging Few-Shot Learning and Adaptation     23
+
+[25]   Hong Liu et al. “Transferable Adversarial Training: A General Approach
+       to Adapting Deep Classifiers”. In: International Conference on Machine
+       Learning. 2019, pp. 4013–4022.
+[26]   Yanbin Liu et al. “Learning to propagate labels: Transductive propagation
+       network for few-shot learning”. In: ICLR (2019).
+[27]   Mingsheng Long et al. “Conditional adversarial domain adaptation”. In:
+       Advances in Neural Information Processing Systems. 2018, pp. 1640–1650.
+[28]   Mingsheng Long et al. “Learning transferable features with deep adapta-
+       tion networks”. In: Proceedings of the 32nd International Conference on
+       International Conference on Machine Learning-Volume 37. JMLR. org.
+       2015, pp. 97–105.
+[29]   Tsendsuren Munkhdalai and Hong Yu. “Meta networks”. In: Proceedings
+       of the 34th International Conference on Machine Learning-Volume 70.
+       JMLR. org. 2017, pp. 2554–2563.
+[30]   Zachary Nado et al. “Evaluating prediction-time batch normalization for
+       robustness under covariate shift”. In: arXiv preprint arXiv:2006.10963
+       (2020).
+[31]   Alex Nichol, Joshua Achiam, and John Schulman. On First-Order Meta-
+       Learning Algorithms. 2018. arXiv: 1803.02999 [cs.LG].
+[32]   Yassine Ouali et al. “Target Consistency for Domain Adaptation: when
+       Robustness meets Transferability”. In: arXiv preprint arXiv:2006.14263
+       (2020).
+[33]   Sinno Jialin Pan and Qiang Yang. “A survey on transfer learning”. In:
+       IEEE Transactions on knowledge and data engineering 22.10 (2009), pp. 1345–
+       1359.
+[34]   Joaquin Quionero-Candela et al. Dataset shift in machine learning. The
+       MIT Press, 2009.
+[35]   Sachin Ravi and Hugo Larochelle. “Optimization as a Model for Few-Shot
+       Learning”. In: 5th International Conference on Learning Representations.
+       2017.
+[36]   Mengye Ren et al. “Meta-learning for semi-supervised few-shot classifica-
+       tion”. In: ICLR (2019).
+[37]   Doyen Sahoo et al. Meta-Learning with Domain Adaptation for Few-Shot
+       Learning under Domain Shift. 2019.
+[38]   Steffen Schneider et al. “Improving robustness against common corrup-
+       tions by covariate shift adaptation”. In: Advances in Neural Information
+       Processing Systems 33 (2020).
+[39]   Jake Snell et al. “Prototypical networks for few-shot learning”. In: Ad-
+       vances in Neural Information Processing Systems. 2017, pp. 4077–4087.
+[40]   Yu Sun et al. “Test-time training with self-supervision for generalization
+       under distribution shifts”. In: ICML. 2020.
+[41]   Flood Sung et al. “Learning to Compare: Relation Network for Few-Shot
+       Learning”. In: The IEEE Conference on Computer Vision and Pattern
+       Recognition (CVPR). June 2018.
+24      E. Bennequin et al.
+
+[42]   Oriol Vinyals et al. “Matching networks for one shot learning”. In: NIPS.
+       2016.
+[43]   Dequan Wang et al. “Fully test-time adaptation by entropy minimization”.
+       In: ICLR (2021).
+[44]   Yu-Xiong Wang et al. “Low-shot learning from imaginary data”. In: Pro-
+       ceedings of the IEEE Conference on Computer Vision and Pattern Recog-
+       nition. 2018, pp. 7278–7286.
+[45]   P. Welinder et al. Caltech-UCSD Birds 200. Tech. rep. CNS-TR-2010-001.
+       California Institute of Technology, 2010.
+[46]   Hao-Wei Yeh et al. “SoFA: Source-Data-Free Feature Alignment for Unsu-
+       pervised Domain Adaptation”. In: Proceedings of the IEEE/CVF Winter
+       Conference on Applications of Computer Vision. 2021, pp. 474–483.
+[47]   Kaichao You et al. “Universal domain adaptation”. In: Proceedings of
+       the IEEE Conference on Computer Vision and Pattern Recognition. 2019,
+       pp. 2720–2729.
+[48]   Marvin Zhang et al. “Adaptive Risk Minimization: A Meta-Learning Ap-
+       proach for Tackling Group Shift”. In: ICLR (2021).
+[49]   Yuchen Zhang et al. “Bridging Theory and Algorithm for Domain Adap-
+       tation”. In: arXiv preprint arXiv:1904.05801 (2019).
+[50]   An Zhao et al. “Domain-Adaptive Few-Shot Learning”. In: arXiv preprint
+       arXiv:2003.08626 (2020).
+

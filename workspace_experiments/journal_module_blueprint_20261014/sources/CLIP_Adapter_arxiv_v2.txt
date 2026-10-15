@@ -1,0 +1,1409 @@
+                                               Springer Nature 2021 LATEX template
+
+
+
+
+                                             CLIP-Adapter: Better Vision-Language Models with Feature
+                                                                     Adapters
+arXiv:2110.04544v2 [cs.CV] 25 Mar 2025
+
+
+
+
+                                             Peng Gao1† , Shijie Geng3† , Renrui Zhang1,2† , Teli Ma1 , Rongyao Fang2 , Yongfeng
+                                                                  Zhang3 , Hongsheng Li2,4* and Yu Qiao1*
+                                                                        1 Shanghai AI Laboratory, Shanghai, China.
+                                                                         2 CUHK MMLab, Hong Kong SAR, China.
+                                                                             3 Rutgers University, New Jersey, US.
+                                               4 Centre for Perceptual and Interactive Intelligence (CPII), Hong Kong SAR, China.
+
+
+
+
+                                                  *Corresponding author(s). E-mail(s): hsli@ee.cuhk.edu.hk; qiaoyu@pjlab.org.cn;
+                                                        Contributing authors: gaopeng@pjlab.org.cn; sg1309@rutgers.edu;
+                                                                            zhangrenrui@pjlab.org.cn;
+                                                                † These authors contributed equally to this work.
+
+
+
+                                                                                              Abstract
+                                               Large-scale contrastive vision-language pretraining has shown significant progress in visual representa-
+                                               tion learning. Unlike traditional visual systems trained by a fixed set of discrete labels, a new paradigm
+                                               was introduced in [50] to directly learn to align images with raw texts in an open-vocabulary setting.
+                                               On downstream tasks, a carefully chosen text prompt is employed to make zero-shot predictions. To
+                                               avoid non-trivial prompt engineering, context optimization [75] has been proposed to learn continuous
+                                               vectors as task-specific prompts with few-shot training examples. In this paper, we show that there is
+                                               an alternative path to achieve better vision-language models other than prompt tuning. While prompt
+                                               tuning is for the textual inputs, we propose CLIP-Adapter to conduct fine-tuning with feature adapters
+                                               on either visual or language branch. Specifically, CLIP-Adapter adopts an additional bottleneck layer to
+                                               learn new features and performs residual-style feature blending with the original pretrained features. As
+                                               a consequence, CLIP-Adapter is able to outperform context optimization while maintaining a simple
+                                               design. Experiments and extensive ablation studies on various visual classification tasks demonstrate
+                                               the effectiveness of our approach. Code is available at https://github.com/gaopengcuhk/CLIP-Adapter.
+
+                                               Keywords: Feature Adapter, Vision-Language Model, Few-shot learning, Open-Vocabulary
+
+
+
+
+                                         1 Introduction                                                datasets for every visual task is labor-intensive and
+                                                                                                       too expensive to scale. To solve the problem, the
+                                         Visual understanding tasks, such as classifica-              “pretraining-finetuning” paradigm, namely pretrain-
+                                         tion [12, 15, 20, 25, 32, 46, 60], object detection [5,       ing on large-scale datasets like ImageNet [32] and
+                                         16, 52], and semantic segmentation [42], have been            then fine-tuning on a variety of downstream tasks,
+                                         improved significantly based on the better architec-          has been widely adopted in vision domain. How-
+                                         ture designs and large-scale high-quality datasets.           ever, such approaches still need a huge amount of
+                                         Unfortunately, collecting large-scale high-quality            annotations for fine-tuning on many downstream
+
+
+                                                                    1
+       Springer Nature 2021 LATEX template
+
+
+
+
+                                  Text                   a photo of a dog
+                                                                                  Text       Text
+     [𝑉! ] [𝑉" ] [𝑉# ] … dog
+                                Encoder                                         Encoder     Adapter
+                                             Gradient                                                             Gradient
+
+                                          Prediction                                                          Prediction
+
+                                 Visual                                          Visual      Visual
+                                Encoder                                         Encoder     Adapter
+
+
+
+
+              GPU Memory: 7193 MiB                                   GPU Memory: 2227 MiB
+                                                                                                           Fore-propagate
+               Train Time: 14h 40min                                    Train Time: 50min
+                                                                                                          Back-propagate
+                                                                                                      Learnable    Frozen
+                         CoOp                                         CLIP-Adapter
+Fig. 1 Comparison of CoOp and our CLIP-Adapter. Instead of using learnable prompts, CLIP-Adapter adopts lightweight
+residual-style adapters after CLIP’s text and visual encoders. During training, CLIP-Adapter does not require to calculate
+and propagate the gradients through CLIP’s encoder, which thus consumes less computational cost.
+
+
+tasks. Recently, Contrastive Language-Image Pre-                      Motivated by the adapter modules in
+training (CLIP) [50] was proposed for solving                     parameter-efficient transfer learning [24], we pro-
+vision tasks by exploiting contrastive learning                   pose CLIP-Adapter, which only finetunes a small
+with large-scale noisy image-text pairs. It achieves              number of additional weights instead of optimiz-
+inspirational performances on various visual clas-                ing all parameters of CLIP, as shown in Figure 1.
+sification tasks without any annotations (i.e.,                   CLIP-Adapter adopts a lightweight bottleneck
+zero-shot transfer) by putting visual categories into             architecture to prevent the potential overfitting
+suitable hand-crafted template as prompts.                        problem of few-shot learning by reducing the
+     Although prompt-based zero-shot transfer                     number of parameters. Meanwhile, CLIP-Adapter
+learning showed promising performances, design-                   is different from [24] in two important aspects:
+ing good prompts remains an engineering problem                   CLIP-Adapter only adds two additional linear
+that demands substantial time and domain knowl-                   layers following the last layer of vision or lan-
+edge. To address the issue, Context Optimization                  guage backbone. This is because the original
+(CoOp) [75] further proposed to learn continuous                  pretrained encoder of CLIP has already been
+soft prompts with few-shot examples for replacing                 equipped with strong representation capabilities,
+the carefully-chosen hard prompts. CoOp brings                    so it only requires a lightweight adaption in the
+about significant improvement on few-shot clas-                   form of residuals. In contrast, the original adapter
+sification over both zero-shot CLIP and linear                    modules are inserted into all layers of the lan-
+probe CLIP settings, exhibiting the potential of                  guage backbone; In addition, CLIP-Adapter mixes
+prompt tuning on large-scale pretrained vision-                   the original zero-shot visual or language embed-
+language models. In this paper, we propose a                      ding with the corresponding finetuning feature
+different approach for better adapting vision-                    via residual connection. Through such a “residual-
+language models with feature adapters instead                     style blending”, CLIP-Adapter can simultaneously
+of prompt tuning. Different from CoOp that per-                   exploit the knowledge stored in the original CLIP
+forms soft prompt optimization, we simply conduct                 and the freshly learned knowledge originated from
+fine-tuning on the light-weight additional feature                the few-shot training examples. Figure 2 gives an
+adapters. Because of the over-parameterization                    intuitive illustration of the differences between
+of CLIP and lack of enough training examples,                     our CLIP-Adapter and other visual classification
+naive finetuning would lead to overfitting on spe-                architectures. Overall, our contributions can be
+cific datasets and the training process would be                  summarized as follows:
+very slow owing to the forward and backward                       • We propose CLIP-Adapter that conducts
+propagations across all CLIP layers.                                 residual-style feature blending to achieve efficient
+                                                                     few-shot transfer learning via fine-tuning.
+          Springer Nature 2021 LATEX template
+
+
+3
+
+    • Compared with CoOp, CLIP-Adapter achieves            NLP tasks in a zero-shot or few-shot style with-
+      better few-shot classification performance while     out finetuning the base architecture. Following
+      having a much simpler design, demonstrating          the brand new “pretrain, prompt, and predict”
+      that CLIP-Adapter is a promising alternative to      paradigm [40], various prompt design approaches
+      prompt tuning.                                       are proposed recently. As the earliest attempt, one
+    • We perform extensive ablation studies of CLIP-       type of them focus on tuning pretrained language
+      Adapter on eleven classification datasets to         or vision-language models with natural language
+      analyze its characteristics.                         discrete prompts [1, 17, 61, 65, 68, 69] or prompt
+                                                           engineering by mining or generating proper natural
+    2 Related Work                                         language discrete prompts [17, 29, 53]. In contrast,
+                                                           continuous prompts circumvent the restriction
+    Model Fine-Tuning. Deep neural network is              from pretrained language models and are adopted
+    data-hungry. However, collecting and annotating        by various approaches such as [18, 33, 37, 41] on
+    large amount of high-quality data is costly and        NLP tasks. Recently, they have also been intro-
+    even impossible for some special domains. The          duced to vision tasks [28]. Motivated by GPT-3,
+    “pretraining-finetuning paradigm” offers a good        CLIP trains a large contrastive learning model over
+    solution to different computer vision [20, 32, 54]     400 million image-text pairs and demonstrates the
+    and natural language processing [8, 10, 11] tasks      potential for prompt-based zero-shot visual classi-
+    and has been widely adopted for many years. For        fication. With CLIP as the backbone, CoOp [75]
+    data-efficient finetuning over downstream tasks,       further shows that optimizing continuous prompts
+    adapter modules [24] is proposed to freeze the         can largely surpass manually-designed discrete
+    weight of backbones and insert learnable linear lay-   prompts on vision tasks. In this paper, we demon-
+    ers to each Transformer layer. Subsequent work         strate that prompt tuning is not the only path to
+    such as Parallel Adapter [19] and VL-Adapter           better vision-language models. Fine-tuning with a
+    [58] further extend [24]’s ability to language and     small portion of parameters can also achieve com-
+    multimodal tasks. Some other methods, e.g., black-     parable or even better performance on vision tasks
+    box tuning [56], ladder side-tuning [57], sparse       yet with much simpler design.
+    structure search[26], and Scaling&Shifting [38] also   Vision-Language Models. Exploring the inter-
+    introduce different techniques for adapting large      action between vision and language is a core
+    language and vision models in a parameter-efficient    research topic in artificial intelligence. Previously,
+    manner. Different from existing approaches, the        attention-based approaches such as bottom-up
+    proposed CLIP-Adapter applies a simple residual        top-down attention [2], BAN [30], Intra-Inter [14],
+    transformation layer over the feature embedding        and MCAN [70] had dominated visual-language
+    or classifier weight generated by CLIP. Thanks         tasks. Inspired by the success of BERT [10], ViL-
+    to the residual connection and bottleneck linear       BERT [43], LXMERT [59], UNITER [6], Oscar [36],
+    layer, CLIP-Adapter can improve the performance        ALBEF [35], and BEiT [64] further push the bound-
+    of CLIP on few-shot learning setting and achieve       ary of multimodal reasoning. Recently, CLIP [50]
+    superior performance than the recently proposed        and ALIGN [27] demonstrates the power of visual-
+    CoOp. To alleviate the performance gap under           language contrastive representation learning. They
+    distribution shifting, WiSE-FT [66] proposes a         achieve astonishing results on a wide spectrum of
+    post-ensemble method for improving CLIP’s out-of-      vision tasks, including 3D [74, 76], video [39], and
+    distribution robustness. While our CLIP-Adapter        depth [71] understanding. To further close the gap
+    adopts a learnable gating ratio to dynamically         between CLIP and supervised training, CoOp pro-
+    balance and mix the knowledge from the original        poses a continuous prompt optimization method
+    features and CLIP-Adapter’s outputs throughout         for improving the performance on visual classifica-
+    the training stage.                                    tion tasks. While CoOp improves vision-language
+    Prompt Design. Prompt design [40] are popu-            models from the perspective of prompt design,
+    larized by the success of GPT series [4, 49]. GPT-3    our CLIP-Adapter explores simple finetuning with
+    showed that a huge autoregressive language model       lightweight feature adapters.
+    trained on a large-scale dataset can perform any
+       Springer Nature 2021 LATEX template
+
+
+
+
+                                                                                     Visual Embedding   Classifier Weight                    Naive Classification
+
+
+
+
+                                                      N
+                                                                                                                                           car
+
+
+
+
+                                                               er
+                                                    N
+
+                                                            rm
+                                                   C
+                                                                                                                                      plane
+
+
+
+
+                                                           fo
+                                                         ns
+                                                                                                                                           dog
+
+
+
+
+                                                       a
+                                                    Tr
+                                                                                                                                     flower
+                                                                                                           MatMul
+
+
+
+                              car     plane         dog flower                                                 car   plane          dog flower
+                                                                                    CLIP                                                                                 CoOp
+                     [CLS]     a    photo     of     a     dog       Text-Encoder                             [CLS] [V]1     [V]2   [V]n         dog      Text-Encoder
+
+
+
+
+                                                               car                                                                                          car
+                                                            plane                                                                                         plane
+
+
+                                                              dog                                                                                          dog
+                                                            flower                                                                                     flower
+
+
+
+
+                                                   Visual Adapter
+
+
+                                                                                                                                                    car
+                                                                                                                                                 plane
+
+
+                                                                                                                                                   dog
+                        car    plane           dog flower                                                                                        flower
+
+
+             [CLS]     a      photo     of     a     dog    Text-Encoder
+
+
+
+
+                                                                                                                                                       CLIP-Adapter
+                                                    Text Adapter
+
+
+
+
+Fig. 2 Comparison of different visual classification architectures. The image in the top row with a green region shows the
+naive pipeline for image classification [32], where f and W represents the visual feature and classifier weight respectively.
+The following pink, yellow and blue regions represent the pipeline of CLIP [50], CoOp [75], and our proposed CLIP-Adapter
+respectively.
+
+
+3 Our Approach                                                                                    a feature manifold f ∈ RD , where D represents
+                                                                                                  the feature dimensionality. To perform classifica-
+In this section, we introduce the proposed CLIP-                                                  tion, the image feature vector f is then multiplied
+Adapter. In Section 3.1, we first revisit CLIP and                                                with a classifier weight matrix W ∈ RD×K , where
+CoOp from the perspective of classifier weight gen-                                               K represents the number of classes to be classi-
+eration. In Section 3.2, we elaborate the details                                                 fied. After matrix multiplication, we can obtain a
+of the proposed CLIP-Adapter. In Section 3.3, we                                                  K-dimensional logit. A Softmax function is used to
+provide several variants of CLIP-Adapter.                                                         convert the logit into a probability vector p ∈ RK
+                                                                                                  over the K classes. The whole process can be
+3.1 Classifier Weight Generation for                                                              written as the following equations:
+    Few-Shot Learning
+                                                                                                                            exp(WiT f )/τ
+Let us first review the basic framework for image                                                   f = Backbone(I), pi = PK                , (1)
+                                                                                                                                      T
+classification using deep neural networks: Given an                                                                        j=1 exp(Wj f )/τ
+image I ∈ RH×W ×3 , where H and W stands for
+the height and width of the image respectively, a                                                 where τ stands for the temperature of Softmax,
+neural network backbone that consists of cascade of                                               Wi represents the prototype weight vector for class
+basic components (e.g., CNN, Transformer [62] or                                                  i, and pi denotes the probability of category i.
+the mixture of both) takes I and transforms it into
+          Springer Nature 2021 LATEX template
+
+
+5
+
+         Different from supervised training, in the paper,   claim that the previous widely-adopted “pretrain-
+    we are interested in image classification with few-      finetuning” paradigm would fail in finetuning the
+    shot examples. Training the backbone and classifier      whole CLIP backbone under the few-shot setting
+    together from scratch with a small number of sam-        due to the enormous amount of parameters and the
+    ples is prone to overfit certain datasets and might      shortage of training examples. Hence, we propose
+    suffer from severe performance drop on the test          CLIP-Adapter, which only appends a small number
+    split. Typically, the representative paradigm on         of additional learnable bottleneck linear layers to
+    few-shot learning is to first pretrain the backbone      CLIP’s language and image branches while keeping
+    on a large-scale dataset, and then transfer the          the original CLIP backbone frozen during few-shot
+    learned knowledge to downstream tasks by either          fine-tuning. However, naive fine-tuning with addi-
+    conducting zero-shot prediction directly or further      tional layer may still fall into overfitting on the
+    fine-tuning on few-shot examples.                        few-shot examples. To deal with overfitting and
+         CLIP adheres to the zero-shot transfer style –      improve the robustness of CLIP-Adapter, we fur-
+    it first pretrains the visual backbone and textual       ther adopt residual connections to dynamically
+    encoder through contrastive learning on large-scale      blend the fine-tuned knowledge with the original
+    noisy image-text pairs, and then after pretraining,      knowledge from CLIP’s backbone.
+    CLIP directly performs image classification with-            Specifically, given the input image I and a
+    out any finetuning. Given an image classification        set of categories’ natural language names {Ci }Ki=1 ,
+    downstream dataset that contains K categories            the image feature f and classifier weight W from
+    with their natural language name {C1 , . . . , Ck },     the original CLIP backbone are computed with
+    CLIP constructs to place each category name Ci           Equations (1) and (2). Afterwards, two learnable
+    into the pre-defined hard prompt template H. Then        feature adapters, Av (·) and At (·), each of which
+    the language feature extractor encodes the result-       contains two layers of linear transformations, are
+    ing prompt as a classifier weight Wi . We denote         integrated to transform f and W, respectively. We
+    the classifier weight generation process as below:       adopt a residual connection for the feature adapter
+                                                             to avoid forgetting the original knowledge encoded
+       Wi = Text-Encoder(Tokenizer([H; Ci ])).        (2)    by the pretrained CLIP. Two constant values α and
+                                                             β are employed as “residual ratio” to help adjust
+        Alternatively, CoOp adopts continuous                the degree of maintaining the original knowledge
+    prompts instead of hand-crafted hard prompts.            for better performance. In summary, the feature
+    CoOp creates a list of random-initialized learnable      adapters can be written as
+    soft tokens S ∈ RL×D , where L stands for the
+    length of the soft token sequence. The soft token                   Av (f ) = ReLU(f T W1v )W2v ,         (4)
+    sequence S is then concatenated to each class                      At (W) = ReLU(W      T
+                                                                                                W1t )W2t ,    (5)
+    name Ci and thus form a prompt. We represent
+    the whole process as                                     where W1v , W2v and W1t , W2t are the weights of
+                                                             bottleneck linear layers for visual branch and text
+      Wi = Text-Encoder([S; Tokenizer(Ci )]).         (3)    branch, respectively. The new knowledge captured
+                                                             via finetuning is added with the original features
+        For both CLIP and CoOp, with the generated           via residual connections:
+    classifier weight Wi , where i ∈ {1, · · · , K}, we
+    can thus calculate the prediction probability pi for                f ⋆ = αAv (f )T + (1 − α)f,           (6)
+    class i by the previously mentioned Eq. (1).                          ⋆            T
+                                                                       W = βAt (W) + (1 − β)W.                (7)
+    3.2 CLIP-Adapter
+                                                             After obtaining new image feature f ⋆ and classifier
+    Unlike CoOp’s prompt tuning, we present an               weight W⋆ , we also adopt Equation (1) to calculate
+    alternative framework for achieving better vision-       the category probability vector P = {pi }K  i=1 and
+    language models on few-shot image classification         predict the image category by selecting the class î
+    by fine-tuning additional feature adapters. We           that has the highest probability: î = arg maxi pi .
+      Springer Nature 2021 LATEX template
+
+
+
+
+    During the few-shot training, the weights of        the classifier weight. In other words, it only imple-
+Av (·) and At (·) are optimized with the contrastive    ments CLIP-Adapter for the visual adapter. The
+loss following original CLIP [50] as below:             results of other variants that activate text adapter
+                                                        are presented in Section 4.2.5. We use the same
+              N                                         training hyperparameters as CoOp, including a
+                      exp Wi⊤ fi /τ
+                                    
+            1 X
+     Lθ = −     log PN                ,                batch size of 32 and a learning rate of 1 × 10−5
+            N i                 ⊤
+                     j=1 exp Wj fi /τ                   for all datasets except for the residual ratio α. We
+                                                        perform hyperparameter searching over different
+where N is the total number of training examples;
+                                                        value selections of α for each dataset and report
+θ = {W1v , W2v , W1t , W2t } represents all learnable
+                                                        the best performance among all searching spaces.
+parameters of CLIP-Adapter.
+                                                        We use ResNet-50 [20] as the visual backbone
+                                                        (visual encoder) and 12-layer Transformer as classi-
+3.3 Variants of CLIP-Adapter                            fier weight generator (textual encoder). The hidden
+Our CLIP-Adapter has three structural variants: 1)      embedding dimensionality of both visual and text
+only fine-tuning the feature adapter for the image      bottleneck layers is set to 256, which is a quarter of
+branch while keeping the text branch frozen; 2)         the original embedding dimensionality. In contrast
+only fine-tuning the feature adapter for the text       to the learnable continuous prompts in CoOp, sim-
+branch while keeping the image branch frozen; 3)        ple hand-crafted hard prompts are utilized as the
+fine-tuning both the image and text branches of         text inputs of CLIP-Adapter, which is the same as
+CLIP backbone. In terms of the hyperparameters          CLIP. For generic-category image datasets, such
+α and β, we observe that different datasets have        as ImageNet, we adopt “a photo of a {class}” as
+different optimal α and β values. Choosing the          the hard prompt template. For fine-grained clas-
+hyperparameters manually is time-consuming and          sification datasets, we specify its corresponding
+laborious. Thus we also explore learning α and          domain keyword in the template for a better per-
+β in a differentiable manner by setting them as         formance, for instance, “a centered satellite photo
+learnable parameters. In this way, α and β can be       of {class}” for EuroSAT, and similarly for other
+dynamically predicted from either visual feature        fine-grained datasets.
+or classifier weight via a hypernetwork Q: α, β =       Notes on Image Pre-processing. There are two
+Q(f, W).                                                image pre-processing methods adopted by existing
+                                                        methods. The first one is adopted by CLIP and
+4 Experiments                                           the second one is reported in CoOp. We denote
+                                                        them as CLIP-style and CoOp-style preprocess-
+4.1 Experimental Setups                                 ings, respectively. They are both composed of
+                                                        random cropping, resizing, and random horizon-
+Datasets.        Following CLIP and CoOp, we            tal flip transformations. Their differences lie in the
+select 11 image classification datasets to vali-        resizing. The CLIP-style pre-processing resizes the
+date CLIP-Adapter’s effectiveness, namely Ima-          cropped image’s short side to 224 while keeping its
+geNet [9], StanfordCars [31], UCF101 [55], Cal-         original aspect ratio. In contrast, the CoOp-style
+tech101 [13], Flowers102 [47], SUN397 [67],             resizes an image’s both sides to 224. By default,
+DTD [7], EuroSAT [21], FGVCAircraft [45],               we follow CoOp-style preprocessing. In Section A
+OxfordPets [48], and Food101 [3]. Specifically, we      of the Appendix, we present the result compar-
+train our CLIP-Adapter under the few-shot setups        ison under the CLIP-style preprocessing which
+of 1, 2, 4, 8, 16 shots and then test the tuned mod-    preserves the original aspect ratios of the cropped
+els on full test splits. Considering the randomness     images.
+of few-shot training, we run every setting three
+times and report the average accuracy. We conduct
+all experiments on a single NVIDIA A100 GPU.
+Implementation Details. The first variant of
+CLIP-Adapter is adopted by default if not specified,
+which finetunes the image feature while freezing
+                    Springer Nature 2021 LATEX template
+
+
+7
+                                     Average over 11 datasets                                                  ImageNet                                                            Caltech101
+                    75
+                                                                                        60
+                    70                                                                                                                                      90
+                                                                                        55 Zero-shot
+                    65
+                                                                                        50 CLIP
+                    60                                                                                                                                      85
+                                                                                        45
+
+
+
+
+                                                                            Score (%)
+        Score (%)
+
+
+
+
+                                                                                                                                                Score (%)
+                    55                                                                                                                                           Zero-shot
+                         Zero-shot
+                         CLIP
+                                                                                        40                                                                  80 CLIP
+                    50                                                                  35
+                    45
+                                                      CLIP-Adapter                                                        CLIP-Adapter                                                       CLIP-Adapter
+                                                      CoOp                              30                                CoOp                              75                               CoOp
+                    40                                Linear probe CLIP                 25                                Linear probe CLIP                                                  Linear probe CLIP
+                    35                                Zero-shot CLIP                                                      Zero-shot CLIP                    70                               Zero-shot CLIP
+                                                                                        20
+                          0      2     4   6      8   10   12    14    16                     0      2   4     6      8   10   12    14    16                     0      2   4     6     8      10   12   14   16
+                           Number of labeled training examples per class                       Number of labeled training examples per class                       Number of labeled training examples per class
+
+                                           OxfordPets                                                         StanfordCars                                                        Flowers102
+                                                                                                                                                            95
+                    80 Zero-shot                                                        70
+                                                                                                                                                            90
+                         CLIP
+                    70                                                                  60                                                                  85
+                                                                                                                                                            80
+        Score (%)
+
+
+
+
+                                                                            Score (%)
+
+
+
+
+                                                                                                                                                Score (%)
+                    60                                                                  50
+                                                                                             Zero-shot                                                      75
+                    50                                                                       CLIP
+                                                                                        40                                                                  70
+                                                      CLIP-Adapter                                                        CLIP-Adapter                                                       CLIP-Adapter
+                    40                                CoOp                                                                CoOp                              65                               CoOp
+                                                      Linear probe CLIP                 30                                Linear probe CLIP                                                  Linear probe CLIP
+                    30                                Zero-shot CLIP                                                      Zero-shot CLIP                    60 Zero-shot                     Zero-shot CLIP
+                                                                                                                                                                 CLIP
+                          0      2     4   6      8   10   12    14    16                     0      2   4     6      8   10   12    14    16                     0      2   4     6     8      10   12   14   16
+                           Number of labeled training examples per class                       Number of labeled training examples per class                       Number of labeled training examples per class
+
+                                               Food101                                  40
+                                                                                                              FGVCAircraft                                                             SUN397
+                                                                                                                                                            70
+                       Zero-shot                                                                                                                            65
+                    70 CLIP                                                             35
+
+                                                                                        30                                                                  60
+                    60                                                                                                                                      55 Zero-shot
+        Score (%)
+
+
+
+
+                                                                            Score (%)
+
+
+
+
+                                                                                                                                                Score (%)
+                                                                                        25                                                                       CLIP
+                                                                                                                                                            50
+                    50
+                                                                                        20
+                                                                                                                                                            45
+                                                      CLIP-Adapter                                                        CLIP-Adapter                                                       CLIP-Adapter
+                    40                                CoOp                              15 Zero-shot                      CoOp                              40                               CoOp
+                                                                                             CLIP
+                                                      Linear probe CLIP                                                   Linear probe CLIP                 35
+                                                                                                                                                                                             Linear probe CLIP
+                                                      Zero-shot CLIP                    10                                Zero-shot CLIP                                                     Zero-shot CLIP
+                    30
+                          0      2     4   6      8   10   12    14    16                     0      2   4     6      8   10   12    14    16                     0      2   4     6     8      10   12   14   16
+                           Number of labeled training examples per class                       Number of labeled training examples per class                       Number of labeled training examples per class
+
+                                                DTD                                                                EuroSAT                                                             UCF101
+                    65                                                                  80                                                                  75
+                    60
+                                                                                        70                                                                  70
+                    55
+                                                                                        60                                                                  65
+                    50
+        Score (%)
+
+
+
+
+                                                                            Score (%)
+
+
+
+
+                                                                                                                                                Score (%)
+
+
+
+
+                                                                                                                                                            60 Zero-shot
+                    45                                                                  50                                                                       CLIP
+                                                                                                                                                            55
+                    40
+                       Zero-shot                      CLIP-Adapter                      40                                CLIP-Adapter                      50
+                                                                                                                                                                                             CLIP-Adapter
+                    35 CLIP                           CoOp                                                                CoOp                                                               CoOp
+                                                      Linear probe CLIP                 30 Zero-shot                      Linear probe CLIP                                                  Linear probe CLIP
+                    30                                                                       CLIP                                                           45
+                                                      Zero-shot CLIP                    20
+                                                                                                                          Zero-shot CLIP                                                     Zero-shot CLIP
+                    25                                                                                                                                      40
+                          0      2     4   6      8   10   12    14    16                     0      2   4     6      8   10   12    14    16                     0      2   4     6     8      10   12   14   16
+                           Number of labeled training examples per class                       Number of labeled training examples per class                       Number of labeled training examples per class
+
+    Fig. 3 Main results of few-shot learning on 11 datasets. CLIP-Adapter consistently shows better performance over previous
+    baselines across different training shots.
+
+
+    4.2 Comparison on Few-Shot                                                                                            the prompt template, namely at the front, in the
+        Learning                                                                                                          middle, or at the end. Here, we choose CoOp’s best-
+                                                                                                                          performance variant – placing the class token at the
+    4.2.1 Baseline Models                                                                                                 end of the 16-token soft prompt and shares such
+    We compare our CLIP-Adapter with three baseline                                                                       a context among different classes. Linear probe
+    models – the Zero-shot CLIP [50], Linear probe                                                                        CLIP [50] trains an additional linear classifier on
+    CLIP [50], and CoOp [75]. In our implementation,                                                                      top of its visual encoder and follows a few-shot
+    CLIP-Adapter shares the same hand-crafted hard                                                                        training manner. It is different from our bottleneck
+    prompts with Zero-shot CLIP [50] for fair compar-                                                                     adapter that finetunes both the image feature and
+    isons. CoOp [75] substitutes discrete tokens with                                                                     classifier weight in a dynamic and residual fashion.
+    learnable continuous vectors. Thus there are multi-
+    ple candidate positions to place the class token in
+      Springer Nature 2021 LATEX template
+
+
+
+
+Table 1 Comparison of training time, parameters and classification accuracy of 16-shot learning on ImageNet [9] dataset.
+CLIP-Adapter shows the best cost-accuracy trade-off. We test Linear Probe CLIP with Scikit-learn on CPU following CoOp,
+and implement other methods with batch size 32 and adopt ResNet-50 as the image backbone on a single NVIDIA A100 GPU.
+
+
+             Models                 Train Time     Parameters     GPU Mem.                                         Infer Speed                     Accuracy
+
+             Zero-shot CLIP             0               0           2227 MiB                                          10.2ms                           55.41%
+             Linear Probe CLIP        13min          1.02M              -                                                 -                            53.44%
+             CoOp                   14h 40min        0.02M          7193 MiB                                          299.6ms                          60.46%
+             CLIP-Adapter             50min          0.52M          2227 MiB                                           10.6ms                          61.33%
+
+
+4.2.2 Performance Comparison &
+                                                                                                                   CLIP-Adapter vs. Zero-shot CLIP
+      Analysis                                                                               60
+                                                                                                  51.32
+                                                                                             50
+The main results are presented in Figure 3. From
+
+
+
+
+                                                                  Absolute Improvement (%)
+the average accuracy over the 11 datasets shown                                              40
+at the top-left corner, CLIP-Adapter clearly out-                                                         31.89
+                                                                                             30
+performs the other three baseline models on all                                                                   25.43 24.89
+                                                                                                                                21.96
+different shot setups, demonstrating its supe-                                               20
+                                                                                                                                        15.45
+rior few-shot learning capacity. It is especially                                                                                               11.9
+                                                                                             10                                                        9.01
+                                                                                                                                                              5.83 4.19
+worth noticing that, under extreme conditions                                                                                                                             2.02
+such as 1-shot or 2-shot training setup, CLIP-                                               0
+
+
+
+                                                                                                   Flo SAT
+
+
+
+
+                                                                                                                  1
+                                                                                                              DT 2
+                                                                                                                 D
+
+                                                                                                     VC rs
+                                                                                                         UC raft
+                                                                                                        SU 1
+                                                                                                   Ca 97
+
+                                                                                                     Im 101
+                                                                                                    Ox Net
+
+                                                                                                       Fo ets
+                                                                                                              10
+                                                                                                                0
+
+
+
+
+                                                                                                                0
+                                                                                                  FG Ca
+                                                                                                            rs1
+
+
+
+
+                                                                                                             F1
+                                                                                                            N3
+Adapter achieves larger performance improvements
+
+
+
+
+                                                                                                            dP
+                                                                                                             c
+
+
+
+
+                                                                                                             e
+                                                                                                           ro
+
+
+
+
+                                                                                                          od
+                                                                                                           ch
+                                                                                                           d
+                                                                                                         Air
+
+
+
+
+                                                                                                         ag
+                                                                                                        for
+                                                                                                       we
+                                                                                                        Eu
+
+
+
+
+                                                                                                          r
+
+
+
+
+                                                                                                       lte
+                                                                                                      nfo
+                                                                                                  Sta
+against the baselines, which indicates a better
+generalization ability in data-deficient training             Fig. 4 Absolute performance gain of CLIP-Adapter against
+circumstances.                                                hand-crafted prompts on different datasets.
+    Compared with Zero-shot CLIP [50], our
+CLIP-Adapter achieves significant performance                     Compared with CoOp [75], although it has
+gains over all 11 datasets. The ranked absolute               already gained huge improvements over Zero-shot
+performance improvements for all 11 datasets                  CLIP, CLIP-Adapter still outperforms CoOp on
+under the 16-shot training setup are shown in                 all datasets and different shot settings. Note that
+Figure 4. For the first five fine-grained datasets,           CLIP-Adapter handles few-shot learning from
+from EuroSAT to FGVCAircraft, CLIP-Adapter                    a totally different perspective (i.e., fine-tuning)
+achieves huge performance boosts ranging from                 instead of CoOp’s prompt tuning. This sug-
+20% to 50%. The improvements become smaller                   gests finetuning lightweight adapters with residual
+on more challenging and generic datasets, such                connections for prompt-fixed pretrained vision-
+as Caltech101 and ImageNet. As for OxfordPets                 language models can achieve better performance
+and Food101, CLIP-Adapter shows relatively lim-               than prompt engineering [40].
+ited improvements, since the original results of
+Zero-shot CLIP are already quite decent.                      4.2.3 Efficiency Comparison & Analysis
+    Compared with Linear probe CLIP [50],
+which follows a similar style to finetune the pre-            In Table 1, we provide the comparison of param-
+trained vision-language models, CLIP-Adapter                  eters, training budget, and inference speed for
+also shows comprehensive performance advantages.              different methods. Compared to the baselines,
+Under 1-shot and 2-shot training setups, Linear               CLIP-Adapter achieves the best accuracy while
+probe CLIP barely reaches the performance of Zero-            maintaining the best trade-off between parame-
+shot CLIP, but CLIP-Adapter can always surpass                ters and efficiency. Specifically, CLIP-Adapter uses
+Zero-shot CLIP and exceed Linear probe CLIP by                only half amount of parameters as Linear probe
+a large margin. For instance, the absolute margin             CLIP does. Although CLIP-Adapter costs 37 more
+of 1-shot and 2-shot training setups are 53.6% and            minutes than Linear probe CLIP, CLIP-Adapter
+42.16% for OxfordPets, and 37.17% and 27.58%                  achieves a large 7.89% accuracy boost. Moreover,
+for ImageNet, respectively.                                   CLIP-Adpater takes 16× less training time and
+           Springer Nature 2021 LATEX template
+
+
+9
+
+                                Variants of CLIP-Adapter                            4.2.5 Variants with Text Adapter
+                             66.06                       visual adapter
+              DTD         63.63                          text adapter
+                           64.78                         visual + text adapter      Here, we investigate the other two variants of
+                                                                                    CLIP-Adapter mentioned in Section 3.3 – fine-
+                                                       82.85                        tuning the text adapter while keeping the visual
+          EuroSAT                                     81.85
+                                                       82.74                        adapter frozen and finetuning both the text and
+                                                                      93.43         visual adapters. Rather than manually selecting
+        Caltech101                                                   92.78
+                                                                     93.1           the residual ratios for each dataset, we utilize learn-
+                                                                                    able parameters α and β since it is time-efficient
+                        61.33
+         ImageNet     60.06                                                         and can also achieve satisfactory performance. We
+                       60.7
+                                                                                    compare their performances on four datasets that
+                     60            70            80            90             100
+                                        Score (%)                                   can be divided into two categories – fine-grained
+                                                                                    datasets (EuroSAT & DTD) and generic datasets
+    Fig. 5 Comparison among different variants of CLIP-
+    Adapter.                                                                        (Caltech101 & ImageNet). As shown in Figure 5,
+                                                                                    we can conclude that the text adapter and visual
+                                                                                    adapter perform comparably and both improve the
+    29× faster inference speed than CoOp. Although
+                                                                                    classification accuracy greatly over Zero-shot CLIP.
+    CoOp only uses a small number of parameters,
+                                                                                    In addition, adopting visual adapter only is better
+    its learnable prompts are equipped in front of the
+                                                                                    than text adapter only. This indicates that it is
+    text encoder and require both the forward and
+                                                                                    more important to conduct image feature adaption
+    backward propagation, as shown by green dotted
+                                                                                    than text feature adaption for few-shot image clas-
+    lines in Figure 1. Calculating the weights and gra-
+                                                                                    sification, since the semantic gap between visual
+    dients for the large-scale text encoder cost much
+                                                                                    features in pretrained and finetuning datasets is
+    more GPU memory and training time. In con-
+                                                                                    larger than that of text features. Surprisingly, com-
+    trast, our CLIP-Adapter utilizes the hand-crafted
+                                                                                    bining both adapters together does not observe a
+    prompts and only back-propagates the gradi-
+                                                                                    better performance than visual adapter only. This
+    ents through the lightweight adapters, achieving
+                                                                                    demonstrates that the text and visual adapters
+    superior computational efficiency.
+                                                                                    might capture redundant information or even
+                                                                                    conflict with each other.
+    4.2.4 Observation on Optimal Residual
+          Ratio                                                                     4.2.6 Where to Insert CLIP-Adapter?
+    Interestingly, we observe the best residual ratio
+                                                                                    By default, we insert our residual-style adapters
+    α, to some extent, reflects the characteristics of
+                                                                                    at the end of CLIP’s encoder. We also investigate
+    different datasets under the “pretrain-finetuning”
+                                                                                    other positions in the visual backbone to equip our
+    paradigm. A larger semantic gap between pre-
+                                                                                    adapter. In Table 2, we adopt ViT-B/16 as the
+    trained and finetuning datasets requires CLIP-
+                                                                                    visual backbone and respectively add the visual
+    Adapter to learn a higher portion of knowledge
+                                                                                    adapter after its 2nd, 4th, 6th, 8th, 10th, and 12th
+    from the newly adapted feature compared to
+                                                                                    layers, where the 12th-layer variant denotes our
+    the original CLIP’s output, thus resulting in a
+                                                                                    final solution. As shown, our approach achieves
+    larger optimal residual ratio, and vice versa. For
+                                                                                    superior performance with minimal computational
+    fine-grained datasets on specialized domains, like
+                                                                                    cost when inserted at the end. Inserting at ear-
+    EuroSAT of satellite images and DTD of detailed
+                                                                                    lier layers requires more computation resources
+    textures, the optimal residual ratio α is usu-
+                                                                                    for back-propagating the gradients and, to some
+    ally located within the range from 0.6 to 0.8.
+                                                                                    degree, harms the pretrained knowledge in CLIP.
+    By contrast, the best α value of comprehensive
+                                                                                    Inserting adapters in all layers yields a total of
+    and generic image datasets (e.g., Caltech-101 and
+                                                                                    5.20M parameters, which is much heavier-weight
+    ImageNet) is often around 0.2.
+                                                                                    than inserting only at the 12th layer (0.52M). The
+                                                                                    latter can well alleviate the over-fitting issue on
+                                                                                    few-shot training data, and largely preserve the
+                                                                                    pre-trained knowledge of CLIP by inserting the
+                                                                                    adapter at the end.
+      Springer Nature 2021 LATEX template
+
+
+
+
+Table 2 Comparison of adapters inserted into different layers of CLIP. We adopt ViT-B/16 as the image backbone for the
+visual adapter,
+
+                                    and report the 16-shot ImageNet performance.
+                    Insert Layers                All       12        10        8      6       4       2       0
+
+                    Accuracy (%)                67.67    70.88      71.85    70.55   70.03   70.14   69.43   69.05
+                    GPU Memory (GiB)             5.98    2.22        2.65     2.89    3.23    4.46    4.88    5.14
+                    Parameters (M)               5.20    0.52        0.78     0.78    0.78    0.78    0.78    0.78
+
+
+Table 3 Comparison of CLIP-Adapter and existing
+                                                                            in the table, compared to training additional pro-
+adapter-based methods on ImageNet with the 16-shot setup.
+We adopt ViT-B/16 as the backbone with visual adapters.                     jection layers initialized by randomness on the text
+                                                                            encoder, our CLIP-Adapter achieves higher clas-
+ Method                 CLIP-Adapter    Houlsby [24]      He [19]
+                                                                            sification accuracy, since the residual design can
+                                                                            largely preserve the pretrained knowledge in CLIP.
+ Accuracy (%)              70.88           70.16           70.84
+ GPU Memory (GiB)           2.22           6.74             6.06
+ Parameters (M)             0.52           12.84            9.62            4.3 Visualization of Learned
+                                                                                Manifold
+Table 4 Comparison of CLIP-Adapter and ELEVATER
+benchmark approaches on ImageNet with the 16-shot setup.
+                                                                            We use t-SNE [44] to visualize the manifold
+We adopt ViT-B/16 as the backbone with visual adapters.                     of CLIP, CoOp, CLIP-Adapter without residual
+                                                                            connections, and CLIP-Adapter with residual con-
+                  ELEVATER [34]
+                                                                            nections after training them on the EuroSAT
+ Method                                 CoOp      CLIP-Adapter              dataset. The t-SNE visualization results are pre-
+                R-2P    L-2P    L-1P
+                                                                            sented in Figure 6, where the numbers 0 to 9
+ Accuracy (%)   68.94   69.77   70.38   70.16           70.88               stand for the categories of AnnualCrop, Forest,
+                                                                            Herbaceous Vegetation Land, Highway or Road,
+4.2.7 Comparison with other Adapter                                         Industrial Buildings, Pasture Land, Permanent
+                                                                            Crop Land, Residential Buildings, River, Sea or
+      Methods
+                                                                            Lake, respectively. It is clearly illustrated that in
+In Table 3, we equip CLIP with other existing                               high-dimensional classification space, the CLIP-
+adapter-based methods [19, 24] and compare with                             Adapter with residual connections in sub-figure
+our CLIP-Adapter. As shown, our approach out-                               (d) shows much more obvious separation of image
+performs them in terms of both performance and                              features belong to different categories. As for the
+efficiency. This is because we largely preserve the                         confusing categories such as Highway or Road (red
+knowledge obtained from CLIP pretraining by                                 points), Permanent Crop Land (pink points), and
+inserting adapters at the end with residual con-                            Pasture Land (brown points), compared with
+nections, while others adopt non-residual forms                             other methods, our CLIP-Adapter is more effec-
+and insert them densely in the middle of the back-                          tive in detecting the similarities among the image
+bone, which adversely influences CLIP’s pretrained                          manifolds from the same class. In summary, the
+knowledge and results in overfitting.                                       visualization results prove that CLIP-Adapter is
+                                                                            good at learning better feature manifolds under
+4.2.8 Comparison with ELEVATER                                              few-shot setups.
+      Benchmark Baselines
+In Table 4, we compare CLIP-Adapter with the
+                                                                            4.4 Ablation Studies
+newly proposed ELEVATER benchmark [34] for                                  In this section, we perform several ablation
+pretrained vision-language models. ELEVATER                                 studies for CLIP-Adapter. We choose the best-
+includes three baselines: Random-Init with Two-                             performance variant which only activates the visual
+Projection, Language-Init with Two-Projection,                              adapter, and select two datasets – DTD & Ima-
+and Language-Init with One-Projection. As shown                             geNet, serving as the representatives of fine-grained
+           Springer Nature 2021 LATEX template
+
+
+11
+
+     Table 5 Ablations on varying the hidden dimension of bottleneck layers.
+
+
+                              Dimension            D           D/2   D/4      D/8     D/16    D/32
+
+                              DTD (%)             65.03    65.62     66.06    64.93   63.75   63.50
+                              ImageNet (%)        59.78    60.03     61.33    60.06   60.02   59.45
+
+
+     Table 6 Ablations on varying the residual ratio α.
+
+
+                              Ratio α              0           0.2    0.4      0.6     0.8     1.0
+
+                              DTD (%)             40.72    54.59     64.84    66.06   65.96   63.79
+                              ImageNet (%)        60.46    61.33     61.17    60.77   59.79   59.05
+
+
+
+
+     Fig. 6 Visualization of different learned feature manifolds via t-SNE.
+
+
+     and generic datasets, to perform the ablation                    Dimension of Bottleneck Layer. We first
+     studies.                                                         conduct ablations by varying the hidden dimen-
+                                                                      sion of bottleneck layers. The results are shown
+     Table 7 Few-shot performance on ImageNet using                   in Table 5, where D represents the dimension of
+     different prompt styles.                                         the original image feature. By reducing the hidden
+                                                                      dimension from D to D/32, we observe that either
+      Prompt Style        Hard    Hard Ensemble    Hard + Soft        too small or too large intermediate dimensionality
+      CLIP-Adapter (%)    61.33      61.68             59.69          will deteriorate the performance significantly and
+                                                                      the best bottleneck dimension is D/4, which is able
+                                                                      to preserve enough semantics without redundancy.
+      Springer Nature 2021 LATEX template
+
+
+
+
+Table 8 Ablations of different visual backbones.
+
+
+                     Dataset               Method           RN50     RN101      ViT-B/32      ViT-B/16
+
+                                         CoOp               62.55     65.37       65.43           67.67
+                     DTD(%)
+                                      CLIP-Adapter          66.06     67.02       66.37           70.86
+
+                                         CoOp               60.46     64.39       64.92           70.13
+                     ImageNet(%)
+                                      CLIP-Adapter          61.33     64.77       64.99           70.88
+
+
+Table 9 Evaluation on robustness to distribution shift.
+
+
+                                   Source                                      Target
+          Datasets
+                                ImageNet      ImageNetV2        ImageNet-Sketch         ImageNet-A    ImageNet-R
+
+          Zero-Shot CLIP           55.41            48.08              31.67              18.63           53.45
+          Linear Probe CLIP        53.44            43.40              17.63              11.66           32.63
+
+          CoOp                     60.46           52.17               31.14              19.62           53.31
+          CLIP-Adapter             61.33           52.67               32.04              20.12           54.75
+
+
+Table 10 Comparison of finetuning different components of CLIP-Adapter.
+
+
+                     Visual Encoder     Textual Encoder         Adapter        Accuracy     Train Time
+
+                           -                    -                    !         61.33%         50min
+                           !                    -                    !         60.07%        1h 20min
+                           -                    !                    !         57.88%          3h+
+                           !                    !                    !         52.78%          3h+
+
+
+Residual Ratio α. Moreover, we perform abla-                        image feature or classifier weight through few-shot
+tion study of the residual ratio α. From Table 6,                   fine-tuning.
+we can see that the best residual ratio of fine-                    Influence of Prompt Styles. In this section,
+grained dataset DTD is 0.6, and that of generic                     we investigate the influence of different prompt
+dataset ImageNet is 0.2. This verifies our obser-                   styles on few-shot performance. For ImageNet
+vation in Section 4.2.4 that adapting fine-grained                  dataset, the default hard prompt used as text
+dataset requires more new knowledge than old                        inputs of CLIP-Adapter is simply “a photo of
+knowledge, and the case is opposite to the generic                  a {class}”. Besides, we also try prompt ensem-
+dataset. Note that when α equals to 0, it is equiva-                bling [75] of 7 hard prompts. The 7 hard prompt
+lent to Zero-shot CLIP since no new knowledge is                    templates are: “itap of a {class}”, “a bad photo
+learned. When α is set to 1.0, the classification is                of the {class}”, “a origami {class}”, “a photo
+fully rely on the adapted feature (CLIP-Adapter                     of the large {class}”, “a {class} in a video
+w/o Res). However, this is not optimal because                      game”, “art of the {class}” and “a photo of
+CLIP-Adapter tends to overfit in such condi-                        the small {class}”. Another candidate prompt
+tion. Combining Table 6 and Figure 6, we can also                   style is the mixture of hard prompt and learn-
+conclude the advantages of residual connections in                  able soft prompt [75]. As shown in Table 7, the
+CLIP-Adapter: 1) avoids overfitting on few-shot                     prompt ensembling strategy slightly outperforms
+examples and improves the generalization ability                    hard prompt and achieves the best performance
+of CLIP-Adapter with the help of zero-shot knowl-                   among all three prompt styles. The experimental
+edge; 2) preserves the freedom for learning better                  results prove that raw text descriptions contain
+           Springer Nature 2021 LATEX template
+
+
+13
+
+     helpful knowledge which is effective and robust         experimental results, CLIP-Adapter outperforms
+     under different situations. In contrast, soft prompts   competitive baselines on eleven image classification
+     don’t have clear meaning and are not a ideal source     datasets under different few-shot setups. Exten-
+     for zero-shot knowledge.                                sive ablation studies confirm our design and prove
+     Ablation of Visual Backbones. We also study             CLIP-Adapter’s ability in learning better feature
+     the influence of visual backbones on few-shot           manifolds. In the future, we plan to extend CLIP-
+     learning performance (16 shots). There are four         Adapter to more vision-language applications and
+     candidate visual backbones including ResNet-50,         tasks. We will also combine CLIP-Adapter with
+     ResNet-101, ViT-B/32, and ViT-B/16. As reported         cache models [72, 77] and enhanced prompts [73]
+     in Table 8, CLIP-Adapter consistently outperforms       to further unleash the power of CLIP backbone.
+     CoOp when we vary the visual backbones on both
+     DTD and ImageNet datasets.                              Data Availability Statement
+     Robustness under Distribution Shift. To fur-
+                                                             No new data were created during the study. All
+     ther validate the robustness of CLIP-Adpater, we
+                                                             experiments of this manuscript were conducted
+     also perform experiments to observe performance
+                                                             (training and evaluation) on 11 publicly available
+     variation by shifting the distribution. We train
+                                                             image classification datasets [3, 7, 9, 13, 21, 31, 45,
+     our CLIP-Adapter on ImageNet [9] and respec-
+                                                             47, 48, 55, 67].
+     tively evaluate on four out-of-distribution datasets:
+     ImageNetV2 [51], ImageNet-Sketch [23], ImageNet-
+     A [63], and ImageNet-R [22]. As shown in Table 9,       Acknowledgement
+     CLIP-Adapter consistently outperforms other base-
+     lines and demonstrates enough robustness against        This project is funded in part by the National Natu-
+     distribution shift.                                     ral Science Foundation of China (No.62206272), by
+                                                             the National Key R&D Program of China Project
+     Finetuning Whole CLIP vs. CLIP-
+                                                             (No.2022ZD0161100), by the Centre for Perceptual
+     Adapter. To verify the claim that finetuning the
+                                                             and Interactive Intelligence (CPII) Ltd under the
+     whole CLIP would lead to overfitting. We perform
+                                                             Innovation and Technology Commission (ITC)’s
+     ablation experiments on finetuning different com-
+                                                             InnoHK, and by the General Research Fund of
+     ponents of CLIP-Adapter (✓ denotes unfrozen
+                                                             Hong Kong RGC Project 14204021. Hongsheng Li
+     for training). For finetuning CLIP’s encoders,
+                                                             is a PI of CPII under the InnoHK.
+     we adopt early stopping as suggested to obtain
+     the highest accuracy. From the results presented
+     in Table 10, we observe that finetuning either
+     CLIP’s visual or textual encoder would hurt the
+     performance and take more training time. This
+     indicates the overfitting of the huge-parameter
+     CLIP on the few-shot dataset and the effectiveness
+     of the proposed adapter.
+
+     5 Conclusions and Future
+       Work
+     We present CLIP-Adapter as an alternative of
+     prompt-based approaches for few-shot image classi-
+     fication. The CLIP-Adapter revives the “pretrain-
+     finetuning” paradigm by only fine-tuning a small
+     number of additional bottleneck layers. To fur-
+     ther improve the generalization ability, we adopt
+     residual connections parameterized by a residual
+     ratio to dynamically blend zero-shot knowledge
+     with new adapted features. According to the
+                 Springer Nature 2021 LATEX template
+
+
+
+
+                                   Average over 11 datasets                                                            ImageNet                                                               Caltech101
+                 75
+                                                                                           60 Zero-shot                                                             90
+                 70
+                                                                                                CLIP
+                 65
+                                                                                           50                                                                       85 Zero-shot
+                 60                                                                                                                                                       CLIP
+     Score (%)
+
+
+
+
+                                                                               Score (%)
+
+
+
+
+                                                                                                                                                        Score (%)
+                       Zero-shot
+                 55 CLIP                                                                                                                                            80
+                                                                                           40
+                 50
+                                                      CLIP-Adapter                                                               CLIP-Adapter                                                             CLIP-Adapter
+                 45                                   CoOp                                 30                                    CoOp                               75                                    CoOp
+                 40                                   Linear probe CLIP                                                          Linear probe CLIP                                                        Linear probe CLIP
+                 35
+                                                      Zero-shot CLIP                                                             Zero-shot CLIP                     70                                    Zero-shot CLIP
+                                                                                           20
+                        0      2     4     6      8    10   12   14     16                       0      2     4     6     8      10   12   14    16                        0      2     4     6     8      10   12   14    16
+                           Number of labeled training examples per class                            Number of labeled training examples per class                             Number of labeled training examples per class
+
+
+                 90
+                                           OxfordPets                                                              StanfordCars                                                              Flowers102
+                                                                                                                                                                    95
+                    Zero-shot                                                              70
+                 80 CLIP                                                                                                                                            90
+
+                                                                                           60                                                                       85
+                 70
+                                                                                              Zero-shot                                                             80
+     Score (%)
+
+
+
+
+                                                                               Score (%)
+
+
+
+
+                                                                                                                                                        Score (%)
+                 60                                                                        50 CLIP
+                                                                                                                                                                    75
+                 50                                                                                                                                                 70
+                                                      CLIP-Adapter                         40                                    CLIP-Adapter                                                             CLIP-Adapter
+                 40                                   CoOp                                                                       CoOp                               65 Zero-shot                          CoOp
+                                                      Linear probe CLIP                    30                                    Linear probe CLIP                        CLIP                            Linear probe CLIP
+                                                      Zero-shot CLIP                                                             Zero-shot CLIP                     60                                    Zero-shot CLIP
+                 30
+                        0      2     4     6      8    10   12   14     16                       0      2     4     6     8      10   12   14    16                        0      2     4     6     8      10   12   14    16
+                           Number of labeled training examples per class                            Number of labeled training examples per class                             Number of labeled training examples per class
+
+                                               Food101                                     40
+                                                                                                                   FGVCAircraft                                                                   SUN397
+                 80                                                                                                                                                 70
+                       Zero-shot
+                       CLIP                                                                35                                                                       65
+                 70
+                                                                                                                                                                    60
+                                                                                           30
+                 60                                                                                                                                                 55 Zero-shot
+     Score (%)
+
+
+
+
+                                                                               Score (%)
+
+
+
+
+                                                                                                                                                        Score (%)
+
+
+                                                                                                                                                                       CLIP
+                                                                                           25                                                                       50
+                 50
+                                                                                                                                                                    45
+                                                      CLIP-Adapter                         20                                    CLIP-Adapter                                                             CLIP-Adapter
+                 40                                   CoOp                                                                       CoOp                               40                                    CoOp
+                                                      Linear probe CLIP                    15 Zero-shot
+                                                                                                                                 Linear probe CLIP                                                        Linear probe CLIP
+                                                      Zero-shot CLIP                                                             Zero-shot CLIP                     35                                    Zero-shot CLIP
+                 30                                                                             CLIP
+                        0      2     4     6      8    10   12   14     16                       0      2     4     6     8      10   12   14    16                        0      2     4     6     8      10   12   14    16
+                           Number of labeled training examples per class                            Number of labeled training examples per class                             Number of labeled training examples per class
+
+                                                DTD                                                                    EuroSAT                                                                   UCF101
+               65                                                                                                                                                 75
+                                                                                         80
+               60                                                                                                                                                 70
+               55                                                                        70                                                                       65
+               50
+   Score (%)
+
+
+
+
+                                                                             Score (%)
+
+
+
+
+                                                                                                                                                      Score (%)
+
+
+
+
+                                                                                                                                                                  60 Zero-shot
+               45                                                                        60                                                                              CLIP
+                                                                                                                                                                  55
+               40 Zero-shot                           CLIP-Adapter                                                            CLIP-Adapter                                                              CLIP-Adapter
+                      CLIP                                                               50                                                                       50
+               35                                     CoOp                                                                    CoOp                                                                      CoOp
+                                                      Linear probe CLIP                                                       Linear probe CLIP                   45                                    Linear probe CLIP
+               30
+                                                      Zero-shot CLIP                     40 Zero-shot
+                                                                                            CLIP                              Zero-shot CLIP                                                            Zero-shot CLIP
+               25                                                                                                                                                 40
+                       0       2    4     6      8    10    12   14   16                        0       2    4     6      8   10      12   14   16                        0       2    4     6      8     10    12   14   16
+                        Number of labeled training examples per class                            Number of labeled training examples per class                             Number of labeled training examples per class
+
+Fig. 7 Results under CLIP-style preprocessing of few-shot learning on 11 datasets. Compared to CoOp-style preprocessing
+in Figure 3 of the main body, all results are boosted and CLIP-Adapter still shows leading performance over previous
+baselines across different training shots.
+           Springer Nature 2021 LATEX template
+
+
+15
+
+     A Appendix                                            References
+     Result Comparison under CLIP-Style                     [1] Alayrac JB, Donahue J, Luc P, et al (2022)
+     Preprocessing.                                             Flamingo: a visual language model for few-
+     In Figure 7, we present the result comparison under        shot learning. In: Oh AH, Agarwal A, Belgrave
+     CLIP-style preprocessing of few-shot learning on           D, et al (eds) Advances in Neural Information
+     11 datasets. Compared to CoOp-style preprocess-            Processing Systems
+     ing, the performances of all methods are improved
+                                                            [2] Anderson P, He X, Buehler C, et al (2018)
+     under CLIP-style preprocessing. Similar to Figure
+                                                                Bottom-up and top-down attention for image
+     3 of the main body, CLIP-Adapter still outperforms
+                                                                captioning and visual question answering. In:
+     other baselines across different shot settings.
+                                                                CVPR
+
+                                                            [3] Bossard L, Guillaumin M, Van Gool L (2014)
+                                                                Food-101–mining discriminative components
+                                                                with random forests. In: European conference
+                                                                on computer vision, Springer, pp 446–461
+
+                                                            [4] Brown T, Mann B, Ryder N, et al (2020)
+                                                                Language models are few-shot learners. In:
+                                                                NeurIPS
+
+                                                            [5] Carion N, Massa F, Synnaeve G, et al (2020)
+                                                                End-to-end object detection with transform-
+                                                                ers. In: ECCV
+
+                                                            [6] Chen YC, Li L, Yu L, et al (2020) Uniter:
+                                                                Learning universal image-text representations.
+                                                                In: ECCV
+
+                                                            [7] Cimpoi M, Maji S, Kokkinos I, et al (2014)
+                                                                Describing textures in the wild. In: Proceed-
+                                                                ings of the IEEE Conference on Computer
+                                                                Vision and Pattern Recognition, pp 3606–3613
+
+                                                            [8] Conneau A, Khandelwal K, Goyal N, et al
+                                                                (2020) Unsupervised cross-lingual representa-
+                                                                tion learning at scale. In: ACL
+
+                                                            [9] Deng J, Dong W, Socher R, et al (2009)
+                                                                Imagenet: A large-scale hierarchical image
+                                                                database. In: CVPR
+
+                                                           [10] Devlin J, Chang MW, Lee K, et al (2019) Bert:
+                                                                Pre-training of deep bidirectional transformers
+                                                                for language understanding. In: NAACL-HLT
+
+                                                           [11] Dong L, Yang N, Wang W, et al (2019) Uni-
+                                                                fied language model pre-training for natural
+                                                                language understanding and generation. In:
+                                                                NeurIPS
+      Springer Nature 2021 LATEX template
+
+
+
+
+[12] Dosovitskiy A, Beyer L, Kolesnikov A, et al      [22] Hendrycks D, Basart S, Mu N, et al (2021)
+     (2021) An image is worth 16x16 words: Trans-          The many faces of robustness: A critical
+     formers for image recognition at scale. In:           analysis of out-of-distribution generalization.
+     ICLR                                                  In: Proceedings of the IEEE/CVF Interna-
+                                                           tional Conference on Computer Vision, pp
+[13] Fei-Fei L, Fergus R, Perona P (2004) Learn-           8340–8349
+     ing generative visual models from few training
+     examples: An incremental bayesian approach       [23] Hendrycks D, Zhao K, Basart S, et al (2021)
+     tested on 101 object categories. In: 2004             Natural adversarial examples. In: Proceedings
+     conference on computer vision and pattern             of the IEEE/CVF Conference on Computer
+     recognition workshop, IEEE, pp 178–178                Vision and Pattern Recognition, pp 15,262–
+                                                           15,271
+[14] Gao P, Jiang Z, You H, et al (2019) Dynamic
+     fusion with intra-and inter-modality attention   [24] Houlsby N, Giurgiu A, Jastrzebski S, et al
+     flow for visual question answering. In: CVPR          (2019) Parameter-efficient transfer learning for
+                                                           nlp. In: International Conference on Machine
+[15] Gao P, Lu J, Li H, et al (2021) Container:            Learning, PMLR, pp 2790–2799
+     Context aggregation network. In: NeurIPS
+                                                      [25] Howard AG, Zhu M, Chen B, et al (2017)
+[16] Gao P, Zheng M, Wang X, et al (2021)                  Mobilenets: Efficient convolutional neural net-
+     Fast convergence of detr with spatially mod-          works for mobile vision applications. arXiv
+     ulated co-attention. In: Proceedings of the           preprint arXiv:170404861
+     IEEE/CVF international conference on com-
+     puter vision, pp 3621–3630                       [26] Hu S, Zhang Z, Ding N, et al (2022) Sparse
+                                                           structure search for parameter-efficient tuning.
+[17] Gao T, Fisch A, Chen D (2021) Making                  arXiv preprint arXiv:220607382
+     pre-trained language models better few-shot
+     learners. In: ACL-IJCNLP                         [27] Jia C, Yang Y, Xia Y, et al (2021) Scaling
+                                                           up visual and vision-language representation
+[18] Gu Y, Han X, Liu Z, et al (2022) Ppt: Pre-            learning with noisy text supervision. In: ICML
+     trained prompt tuning for few-shot learning.
+     In: Proceedings of the 60th Annual Meeting of    [28] Jia M, Tang L, Chen BC, et al (2022) Visual
+     the Association for Computational Linguistics         prompt tuning. In: ECCV, pp 709–727
+     (Volume 1: Long Papers), pp 8410–8423
+                                                      [29] Jiang Z, Xu FF, Araki J, et al (2020) How can
+[19] He J, Zhou C, Ma X, et al (2022) Towards              we know what language models know? Trans-
+     a unified view of parameter-efficient trans-          actions of the Association for Computational
+     fer learning. In: International Conference on         Linguistics 8:423–438
+     Learning Representations
+                                                      [30] Kim JH, Jun J, Zhang BT (2018) Bilinear
+[20] He K, Zhang X, Ren S, et al (2016) Deep               attention networks. In: NIPS
+     residual learning for image recognition. In:
+     CVPR                                             [31] Krause J, Stark M, Deng J, et al (2013) 3d
+                                                           object representations for fine-grained cat-
+[21] Helber P, Bischke B, Dengel A, et al (2019)           egorization. In: Proceedings of the IEEE
+     Eurosat: A novel dataset and deep learning            international conference on computer vision
+     benchmark for land use and land cover clas-           workshops, pp 554–561
+     sification. IEEE Journal of Selected Topics
+     in Applied Earth Observations and Remote         [32] Krizhevsky A, Sutskever I, Hinton GE (2012)
+     Sensing 12(7):2217–2226                               Imagenet classification with deep convolu-
+                                                           tional neural networks. In: NIPS
+           Springer Nature 2021 LATEX template
+
+
+17
+
+     [33] Lester B, Al-Rfou R, Constant N (2021) The        [44] Van der Maaten L, Hinton G (2008) Visu-
+          power of scale for parameter-efficient prompt          alizing data using t-sne. Journal of machine
+          tuning. In: EMNLP                                      learning research 9(11)
+
+     [34] Li C, Liu H, Li LH, et al (2022) ELEVATER:        [45] Maji S, Rahtu E, Kannala J, et al (2013) Fine-
+          A benchmark and toolkit for evaluating                 grained visual classification of aircraft. arXiv
+          language-augmented visual models. In: Thirty-          preprint arXiv:13065151
+          sixth Conference on Neural Information Pro-
+          cessing Systems Datasets and Benchmarks           [46] Mao M, Zhang R, Zheng H, et al (2021)
+          Track                                                  Dual-stream network for visual recognition.
+                                                                 Advances in Neural Information Processing
+     [35] Li J, Selvaraju R, Gotmare A, et al (2021)             Systems 34:25,346–25,358
+          Align before fuse: Vision and language rep-
+          resentation learning with momentum dis-           [47] Nilsback ME, Zisserman A (2008) Automated
+          tillation. Advances in neural information              flower classification over a large number of
+          processing systems 34:9694–9705                        classes. In: 2008 Sixth Indian Conference on
+                                                                 Computer Vision, Graphics & Image Process-
+     [36] Li X, Yin X, Li C, et al (2020) Oscar:                 ing, IEEE, pp 722–729
+          Object-semantics aligned pre-training for
+          vision-language tasks. In: ECCV                   [48] Parkhi OM, Vedaldi A, Zisserman A, et al
+                                                                 (2012) Cats and dogs. In: 2012 IEEE confer-
+     [37] Li XL, Liang P (2021) Prefix-tuning: Opti-             ence on computer vision and pattern recogni-
+          mizing continuous prompts for generation. In:          tion, IEEE, pp 3498–3505
+          ACL
+                                                            [49] Radford A, Wu J, Child R, et al (2019)
+     [38] Lian D, Zhou D, Feng J, et al (2022) Scaling           Language models are unsupervised multitask
+          & shifting your features: A new baseline for           learners. OpenAI blog
+          efficient model tuning. Advances in Neural
+          Information Processing Systems 35:109–123         [50] Radford A, Kim JW, Hallacy C, et al (2021)
+                                                                 Learning transferable visual models from nat-
+     [39] Lin Z, Geng S, Zhang R, et al (2022) Frozen            ural language supervision. In: International
+          clip models are efficient video learners. ECCV         Conference on Machine Learning, PMLR, pp
+          2022                                                   8748–8763
+
+     [40] Liu P, Yuan W, Fu J, et al (2023) Pre-            [51] Recht B, Roelofs R, Schmidt L, et al (2019) Do
+          train, prompt, and predict: A systematic               imagenet classifiers generalize to imagenet? In:
+          survey of prompting methods in natural lan-            International Conference on Machine Learn-
+          guage processing. ACM Computing Surveys                ing, PMLR, pp 5389–5400
+          55(9):1–35
+                                                            [52] Ren S, He K, Girshick R, et al (2015) Faster r-
+     [41] Liu X, Zheng Y, Du Z, et al (2021) Gpt under-          cnn: Towards real-time object detection with
+          stands, too. arXiv preprint arXiv:210310385            region proposal networks. In: NIPS
+
+     [42] Long J, Shelhamer E, Darrell T (2015) Fully       [53] Shin T, Razeghi Y, Logan IV RL, et al (2020)
+          convolutional networks for semantic segmen-            Autoprompt: Eliciting knowledge from lan-
+          tation. In: CVPR                                       guage models with automatically generated
+                                                                 prompts. In: EMNLP
+     [43] Lu J, Batra D, Parikh D, et al (2019) Vilbert:
+          Pretraining task-agnostic visiolinguistic rep-    [54] Simonyan K, Zisserman A (2015) Very deep
+          resentations for vision-and-language tasks. In:        convolutional networks for large-scale image
+          NeurIPS                                                recognition. In: ICLR
+      Springer Nature 2021 LATEX template
+
+
+
+
+[55] Soomro K, Zamir AR, Shah M (2012) Ucf101:           [66] Wortsman M, Ilharco G, Kim JW, et al (2022)
+     A dataset of 101 human actions classes                   Robust fine-tuning of zero-shot models. In:
+     from videos in the wild. arXiv preprint                  Proceedings of the IEEE/CVF Conference on
+     arXiv:12120402                                           Computer Vision and Pattern Recognition, pp
+                                                              7959–7971
+[56] Sun T, Shao Y, Qian H, et al (2022) Black-box
+     tuning for language-model-as-a-service. In:         [67] Xiao J, Hays J, Ehinger KA, et al (2010) Sun
+     International Conference on Machine Learn-               database: Large-scale scene recognition from
+     ing, PMLR, pp 20,841–20,855                              abbey to zoo. In: 2010 IEEE computer society
+                                                              conference on computer vision and pattern
+[57] Sung YL, Cho J, Bansal M (2022) Lst: Lad-                recognition, IEEE, pp 3485–3492
+     der side-tuning for parameter and memory
+     efficient transfer learning. Advances in Neural     [68] Yao Y, Zhang A, Zhang Z, et al (2021)
+     Information Processing Systems 35:12,991–                Cpt: Colorful prompt tuning for pre-trained
+     13,005                                                   vision-language models. arXiv preprint
+                                                              arXiv:210911797
+[58] Sung YL, Cho J, Bansal M (2022) Vl-adapter:
+     Parameter-efficient transfer learning for vision-   [69] Yao Y, Chen Q, Zhang A, et al (2022) PEVL:
+     and-language tasks. In: Proceedings of the               Position-enhanced pre-training and prompt
+     IEEE/CVF Conference on Computer Vision                   tuning for vision-language models. In: Pro-
+     and Pattern Recognition, pp 5227–5237                    ceedings of the 2022 Conference on Empirical
+                                                              Methods in Natural Language Processing, pp
+[59] Tan H, Bansal M (2019) Lxmert: Learning                  11,104–11,117
+     cross-modality encoder representations from
+     transformers. In: EMNLP-IJCNLP                      [70] Yu Z, Yu J, Cui Y, et al (2019) Deep modu-
+                                                              lar co-attention networks for visual question
+[60] Touvron H, Cord M, Douze M, et al (2021)                 answering. In: CVPR
+     Training data-efficient image transformers &
+     distillation through attention. In: ICML            [71] Zhang R, Zeng Z, Guo Z (2022) Can language
+                                                              understand depth? ACM MM 2022
+[61] Tsimpoukelli M, Menick JL, Cabi S, et al
+     (2021) Multimodal few-shot learning with            [72] Zhang R, Zhang W, Fang R, et al (2022) Tip-
+     frozen language models. Advances in Neural               adapter: Training-free adaption of clip for few-
+     Information Processing Systems 34:200–212                shot classification. In: ECCV 2022. Springer
+                                                              Nature Switzerland
+[62] Vaswani A, Shazeer N, Parmar N, et al (2017)
+     Attention is all you need. In: NIPS                 [73] Zhang R, Hu X, Li B, et al (2023) Prompt,
+                                                              generate, then cache: Cascade of foundation
+[63] Wang H, Ge S, Lipton Z, et al (2019) Learning            models makes strong few-shot learners. CVPR
+     robust global representations by penalizing              2023
+     local predictive power. Advances in Neural
+     Information Processing Systems 32                   [74] Zhang R, Wang L, Qiao Y, et al (2023)
+                                                              Learning 3d representations from 2d pre-
+[64] Wang W, Bao H, Dong L, et al (2022) Image                trained models via image-to-point masked
+     as a foreign language: Beit pretraining for              autoencoders. CVPR 2023
+     all vision and vision-language tasks. arXiv
+     preprint arXiv:220810442                            [75] Zhou K, Yang J, Loy CC, et al (2022) Learn-
+                                                              ing to prompt for vision-language models.
+[65] Wang Z, Yu J, Yu AW, et al (2022) SimVLM:                International Journal of Computer Vision pp
+     Simple visual language model pretraining with            1–12
+     weak supervision. In: International Conference
+     on Learning Representations
+          Springer Nature 2021 LATEX template
+
+
+19
+
+     [76] Zhu X, Zhang R, He B, et al (2022) Pointclip
+          v2: Adapting clip for powerful 3d open-world
+          learning. ICCV 2023
+
+     [77] Zhu X, Zhang R, He B, et al (2023) Not all
+          features matter: Enhancing few-shot clip with
+          adaptive prior refinement. ICCV 2023
+

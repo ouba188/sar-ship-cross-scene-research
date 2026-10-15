@@ -1,0 +1,1373 @@
+                                                                                                                                                                                             1
+
+
+
+
+                                             Calibrating Biased Distribution in VFM-derived
+                                              Latent Space via Cross-Domain Geometric
+                                                              Consistency
+                                                   Yanbiao Ma , Wei Dai , Bowei Liu , Jiayi Chen , Wenke Huang , Guancheng Wan                                                      ,
+                                                            Zhiwu Lu , Senior Member, IEEE, Junchi Yan , Senior Member, IEEE
+
+                                              Abstract—Despite the fast progress of deep learning, one standing challenge is the gap of the observed training samples and the
+                                              underlying true distribution. There are multiple reasons for the causing of this gap e.g. sampling bias, noise etc. In the era of foundation
+                                              models, we show that when leveraging the off-the-shelf (vision) foundation models (e.g., CLIP, DINOv2) for feature extraction, the
+arXiv:2508.13518v1 [cs.CV] 19 Aug 2025
+
+
+
+
+                                              geometric shapes of the resulting feature distributions exhibit remarkable transferability across domains and datasets. To verify its
+                                              practical usefulness, we embody our geometric knowledge-guided distribution calibration framework in two popular and challenging
+                                              settings: federated learning and long-tailed recognition. In the federated setting, we devise a technique of acquiring the global
+                                              geometric shape under privacy constraints, then leverage this knowledge to generate new samples for clients, in the aim of bridging the
+                                              gap between local and global observations. In long-tailed learning, it utilizes the geometric knowledge transferred from sample-rich
+                                              categories to recover the true distribution for sample-scarce tail classes. Comprehensive experiments show that our proposed
+                                              geometric knowledge-guided distribution calibration effectively overcomes information deficits caused by data heterogeneity and
+                                              sample imbalance, with boosted performance across benchmarks. Code published at:
+                                              https://github.com/WeiDai-David/2025CVPR GGEUR.
+
+                                              Index Terms—Data Heterogeneity, Long-Tailed Distribution, Distribution Alignment, Federated Learning, Geometric Knowledge.
+
+                                                                                                                      ✦
+
+
+
+                                         1    I NTRODUCTION                                                               These methods attempt to indirectly offset the impact of
+                                                                                                                          data bias by adjusting the learning process, but they struggle
+                                         D      ESPITE the fast progress of modern deep neural net-
+                                                works including the recent development of vision and
+                                         multi-modality foundation models [1], [2], [3], there still
+                                                                                                                          to fundamentally bridge the gap between local observa-
+                                                                                                                          tions and the ideal distribution [10], [23]. Another approach
+                                         exists a fundamental challenge in the scenarios with limited                     is data augmentation [24], [25], [26], which expands the
+                                         samples [4], [5]. It is often the case that the training data                    dataset by generating new samples. However, most aug-
+                                         relied upon by models is often only a local [6], sparse [7],                     mentation methods (e.g., geometric transformations [27],
+                                         and biased observation [8] of the underlying ideal global                        Mixup [28]) focus on the local neighborhood characteristics
+                                         data distribution. This distribution missing phenomenon                          of samples or the combination of existing features, lacking
+                                         manifests in various forms: in federated learning, it appears                    the capability to model and recover the global structural
+                                         as label skew and domain skew due to data silos among                            properties of the entire class distribution [15], [23], [29].
+                                         clients [9], [10], [11], causing a severe misalignment between                   Consequently, when the observed distribution is not rep-
+                                         local data distributions and the global ideal distribution,                      resentative, these methods may generate spurious samples
+                                         thereby leading to divergent or even conflicting local opti-                     that deviate from the ideal distribution, potentially even
+                                         mization directions [12], [13], [14]. In long-tailed recognition,                degrading model performance [29], [30], [31].
+                                         it is characterized by the extreme scarcity of samples in tail                       Recovering the missing distribution from a limited num-
+                                         classes, preventing the model from capturing the true and                        ber of available samples is a challenging task [15], [30]. As
+                                         complete shape of their distributions [15], [16]. Despite the                    illustrated by the red distribution in Fig. 1A, generating new
+                                         differing scenarios, the essence is highly unified—models                        samples along the red arrow direction is more likely to sim-
+                                         learn from incomplete information, lacking a comprehen-                          ulate the ideal distribution than along the blue arrow, given
+                                         sive understanding of the overall structure of the real world.                   the existing observed distribution. Therefore, we identify
+                                              Conventional solutions, such as weighting loss functions                    determining a reasonable direction and scope for augmen-
+                                         [7], [17], [18], designing complex regularization terms [9],                     tation as the key objective for overcoming this challenge.
+                                         [14], [19], or aggregation strategies [20], [21], [22], primarily                Recently, Vision Foundation Models (VFM), such as CLIP [1]
+                                         focus on post-hoc compensation at the optimization level.                        and DINOv2 [32], have demonstrated remarkable capabili-
+                                                                                                                          ties in zero-shot recognition and cross-domain transfer tasks
+                                         Yanbiao Ma and Zhiwu Lu are with the Gaoling School of Artificial Intelli-       [33], [34], [35], suggesting that their embedding spaces con-
+                                         gence, Renmin University of China. Bowen Liu is with Tsinghua University.        tain deep semantic knowledge about visual concepts that
+                                         Wei Dai and Jiayi Chen are with Xidian University. Wenke Huang is with           transcends specific datasets. We propose a core insight: the
+                                         Wuhan University. Junchi Yan is with Shanghai Jiao Tong University.
+                                         Correspondence author: Zhiwu Lu, Junchi Yan                                      semantics of a class are not only defined by its prototype but
+                                         E-mail: luzhiwu(@)ruc.edu.cn, yanjunchi@sjtu.edu.cn                              are also characterized by its geometric morphology in the
+                                                                                                                                                                                      2
+
+        A                                                                                                                                 CIFAR-10 & ImageNet-1K (DINOv2)
+
+
+
+
+          Number of images
+
+
+
+
+                                                                                                       The ratio of the ranges of
+                             Head
+
+
+
+
+                                                                                                          two distributions
+                                                Observed domain
+                                      Tail
+
+
+
+                                      Classes                                   Ideal distribution
+
+
+        B
+                                                                                     …                                              Sort in descending order by class similarity
+
+                                                           Class 1         Class 2        Class 1000                                                    …                    …
+        ImageNet-1k                 CLIP/DINOv2
+                                                                  Calculate class similarity                                                Class 2             Class 1
+                                    (Image Encoder)
+
+                                                                                      …                                                                 …                     …
+                                                          airplane      automobile             truck             automobile                   Calculate the similarity between the
+         CIFAR-10                                                                                                                           geometry of the embedding distributions
+
+                                                                     CIFAR-10 & ImageNet-1K (DINOv2)
+
+
+
+
+Fig. 1. A. Samples at different positions within an embedding distribution possess distinct physical characteristics. B. Utilizing the foundation model
+to represent all classes across different datasets, we calculate the similarity between classes from different datasets and the similarity of geometric
+shapes and sizes between embedding distributions.
+
+
+embedding space. As shown in Fig. 1A, samples at different                             scenario, for sample-scarce tail classes, the model can match
+positions within the same embedding distribution possess                               semantically similar head classes from an external large-
+different physical characteristics. Through empirical studies,                         scale dataset (e.g., ImageNet) via the foundation model
+we discover that for semantically similar classes, even if                             and transfer their complete geometric knowledge, thereby
+they originate from completely different data domains, the                             imagining and recovering the complete distribution that the
+distributions they form in the embedding space of foun-                                tail classes should ideally possess (Section 4.3).
+dation models (e.g., CLIP, DINOv2) exhibit highly similar                                  This paper shifts the focus of solving the distribution
+geometric shapes (Fig. 1B). We term this phenomenon Cross-                             missing problem from optimization compensation and local
+Domain Geometric Consistency (Section 3.2). This finding                               enhancement to a new paradigm of knowledge transfer
+opens up a new possibility for addressing the distribution                             and distribution reconstruction. Our main contributions are
+missing problem: we may leverage the foundation model as                               summarized as follows1 :
+a geometric knowledge extractor, to extract the geometric                                 • We systematically discover and validate the existence
+prior of the ideal distribution and transfer it to data-scarce                               of Cross-Domain Geometric Consistency in the embedding
+scenarios for distribution calibration.
+                                                                                          1. This work extends our preliminary conference paper presented
+    Inspired by this, we propose a unified geometric                                   at CVPR (Oral) [23] in the following aspects: (1) The significance of
+knowledge-guided framework to address various distribu-                                this study lies in elevating the focus of solving the distribution missing
+tion missing challenges (Section 4). In the federated learning                         problem from the traditional levels of optimization compensation and
+scenario, privacy-preserving constraints prevent the central-                          local enhancement to a new paradigm of knowledge transfer and distri-
+                                                                                       bution reconstruction. We unify the data silos in federated learning and
+ization of all client samples to quantify the geometric shape                          the sample scarcity in long-tailed learning as specific manifestations
+of the global distribution. To this end, we propose a se-                              of distribution missing, thereby transforming the research motivation
+cure aggregation mechanism: each client computes its local                             from a single-task driver into an exploration of a universal challenge.
+                                                                                       (2) This paper presents a core insight with greater theoretical depth—
+covariance matrix and uploads it; the server then approxi-
+                                                                                       cross-domain geometric consistency in the embedding space of vision
+mates the global covariance matrix by weighted aggregation                             foundation models—through extensive new experiments. This discov-
+of these local statistics, thereby constructing a geometric                            ery serves as the theoretical cornerstone for the method’s simultaneous
+knowledge base that represents the ideal global distribution.                          application to both federated learning and long-tailed recognition, a
+                                                                                       deep mechanism not addressed in the original work. (3) The original
+This knowledge base is disseminated to the clients to guide                            work primarily focused on distribution alignment within the federated
+the generation of virtual samples that conform to the global                           learning. This study proposes a general knowledge transfer and distri-
+geometric shape, simulating a data distribution on the client                          bution calibration paradigm, and successfully extends it to the domain
+that is closer to the ideal global distribution, and fundamen-                         of long-tailed recognition. (4) This paper conducts experiments on a
+                                                                                       broader range of benchmarks, encompassing not only the federated
+tally alleviating the optimization conflicts caused by data                            learning datasets from the original paper but also adding multiple long-
+heterogeneity (Section 4.2). In the long-tailed recognition                            tailed recognition benchmarks.
+                                                                                                                                   3
+
+      space of vision foundation models, providing a solid          2.2   Data Augmentation: Expansion at the Data Level
+      empirical foundation for using foundation models for          Another class of methods aims to directly expand the
+      distribution calibration.                                     dataset to compensate for insufficient observations. How-
+    • We propose a geometric knowledge-guided distribu-             ever, these methods often lack explicit guidance on the ideal
+      tion calibration method, treating distribution shape as       global distribution structure when generating new data.
+      a transferable prior, which unifies the solution to the           Transformation-based Augmentation: Methods like Mixup
+      distribution missing problem in both federated learning       [28] and CutMix [54] generate new training samples by lin-
+      and long-tailed recognition.                                  early interpolating or stitching existing samples. While they
+    • In the federated learning scenario, we propose a secure       increase data diversity, their generation process is limited
+      aggregation method based on local covariance matrices,        to linear combinations of existing samples, unable to create
+      enabling the efficient construction of global geometric       novel patterns beyond the current observation. UniMix [55]
+      knowledge while strictly preserving client data privacy.      and OFA [30] extend Mixup to feature space, but still relies
+    • In the long-tailed recognition scenario, to address the is-   on linear interpolation.
+      sue of generated samples interrupting the training pro-           Generation-based Augmentation: Leveraging generative
+      cess, we innovatively propose a geometric knowledge-          models like GANs or Diffusion Models to generate new
+      guided embedding uncertainty representation layer             samples. While more powerful, issues like training insta-
+      (GGEUR-Layer), achieving end-to-end joint optimiza-           bility and mode collapse make them difficult to apply in
+      tion of distribution calibration and classifier training.     data-constrained scenarios. More importantly, these models
+    • We conducted extensive experiments on multiple chal-          themselves require large amounts of data for training, and
+      lenging benchmark datasets (Section5), demonstrat-            the generation process lacks explicit constraints on the ’ideal
+      ing the effectiveness and generality of geometric             distribution’ shape, easily producing spurious samples that
+      knowledge-guided distribution calibration.                    do not align with the true distribution. In federated learning,
+                                                                    FedGen [56] and FedGAN [57] attempt to train a generator
+2    R ELATED W ORK                                                 on the server, but this introduces additional communication
+This section reviews existing research from the unified per-        overhead and privacy risks.
+spective of learning under data-constrained scenarios.
+
+2.1 Training-Stage Adaption                                         2.3   External Knowledge Transfer
+When models face data-constrained challenges (e.g., sample          Knowledge transfer aims to leverage external information
+scarcity, distribution skew), a direct approach is to compen-       to compensate for insufficient local data, representing one of
+sate at the optimization level. These methods do not alter          the most promising directions for solving data-constrained
+the data itself but adjust the learning process to mitigate the     problems. Existing work primarily focuses on two levels:
+impact of data bias.                                                    Semantic Knowledge Transfer: Leveraging the strong rep-
+    Loss Re-weighting and Re-sampling: In long-tailed learn-        resentational capabilities of pre-trained models (e.g., Im-
+ing, methods like Focal Loss [36] and Class-Balanced Loss           ageNet pre-trained ResNet) or vision foundation models
+[17] assign higher loss weights to tail classes to balance          through fine-tuning or prompt learning [34], [35], [58] to
+optimization [7], [18], [37], [38], [39]. In federated learning,    transfer general knowledge to the target task. These meth-
+FedProx [40] and SCAFFOLD [41] introduce regularization             ods enhance the initial representation quality but do not
+terms into the local objective to constrain local updates from      directly address the mismatch at the distribution level.
+deviating too far from the global model [9], [42], [43], [44],          Statistical Knowledge Transfer: Some works attempt to
+alleviating data heterogeneity. These methods are simple            transfer statistical information of the data [15], [26], [29],
+and effective but are essentially a post-hoc compensation for       [30], [31], [47]. For instance, in long-tailed learning, FTL
+imbalanced data, failing to address the fundamental issue of        [59] and FDC [15] assume that the feature distributions of
+the model’s incomplete cognition of the ideal distribution.         the common and UR classes (i.e., rare classes) have the
+    Decoupled Training: Methods like Decoupling [45] and            same variance, so the variance from the head classes is
+BBN [46] propose to decouple representation learning from           used to guide the feature enhancement of the tail classes.
+classifier learning. They first learn a general representation      H2T [26] proposes using head class features to construct
+on imbalanced data, then train the classifier on a re-sampled       tail class features. OFA [30] decomposes the features of each
+or re-weighted balanced set [15], [31], [47]. This partially        class into class-generic features and class-specific features.
+decouples the sensitivity of representation learning to data        During training, the tail class-specific features are fused with
+distribution, but the representation learning phase is still        the head class-generic features to generate new features to
+constrained by the incomplete observed data. Recent works           augment the tail classes.
+like RIDE [48] and ResLT [49] further improve tail-class                Our Position: Unlike the aforementioned works, we
+performance by training multiple expert classifiers or lever-       propose a novel knowledge transfer paradigm—geometric
+aging self-supervised learning.                                     knowledge transfer. We do not transfer model parameters,
+    Aggregation Strategy Optimization: In federated learning,       raw samples, or simple statistics, but rather the geomet-
+FedNova [50] and FedOpt [51] normalize the magnitude                ric shape of the class distribution—a deep prior knowl-
+or direction of local updates to mitigate aggregation bias          edge encoded by vision foundation models. Compared to
+caused by heterogeneity [20], [52], [53]. These methods             the Gaussian assumption, the geometric shapes provide
+perform finer adjustments at the optimization level but still       a more accurate description of embedding distributions.
+fail to address the core issue of data distribution mismatch.       This knowledge is cross-domain robust and can provide
+                                                                                                                                                                                4
+
+                  CIFAR-10 (ResNet-34)                                CIFAR-100 (ResNet-34)                                    CIFAR-100 & ImageNet-1k (ResNet-34)
+
+
+
+
+                                                       A: Exploring phenomena between classes within a dataset         B: Exploring phenomena between classes across datasets
+
+Fig. 2. The horizontal coordinate is the index of classes, indicating from left to right the classes that are most similar to the class in the vertical
+coordinate to the least similar, respectively. Each element represents the similarity between the geometric shapes of the embedding distributions.
+
+
+powerful, structured guidance for calibrating distributions                        3.1 Geometric Shape, Size, and Similarity of Embed-
+in data-constrained scenarios, thereby elevating knowledge                         ding Distributions
+transfer from the representation level and statistical level to                    To formally characterize the structural properties of data
+the distribution structure level.                                                  distributions in the embedding space, we define their ge-
+                                                                                   ometric shape and size based on the eigendecomposition of
+3  F OUNDATION M ODEL AS B RIDGES FOR T RANS -                                     the covariance matrix.
+FERRING G EOMETRIC K NOWLEDGE
+                                                                                   Definition 1 (Geometric Shape). Let X = [x1 , ..., xn ] ∈
+To effectively leverage the geometric shape of a distribution                      RP ×n be a set of n samples from a specific class in a P -
+to assist in recovering the ideal distribution of rare classes,                    dimensional embedding space. The covariance matrix ΣX of this
+we must carefully consider three core questions:                                   distribution is estimated as:
+ (1) Similarity: Is the geometric shape being transferred                                             
+                                                                                                        1 Pn
+                                                                                                                         
+                                                                                                                            1
+     highly similar to the ideal distribution’s geometric                                   ΣX = E          i=1  x i x T
+                                                                                                                       i   = XX T ∈ RP ×P .  (1)
+     shape of the target category?
+                                                                                                        n                   n
+ (2) Size Consistency: Is the size (Scale) of the transferred                      Performing eigendecomposition on ΣX yields P non-negative
+     distribution close to that of the target’s ideal distribu-                    eigenvalues λ1 ≥ λ2 ≥ ... ≥ λP and their corresponding
+     tion? Because a discrepancy in size will directly impact                      orthogonal eigenvectors ξ1 , ξ2 , ..., ξP . These eigenvectors define
+     whether the reconstructed distribution can adequately                         the principal axes of the data distribution. Therefore, we define
+     cover its true counterpart.                                                   the geometric shape GDX of data X as the set of the first m
+ (3) Matching Stability: For the same class, when its sam-                         eigenvectors corresponding to the m largest eigenvalues:
+     ples transition from being scarce to sufficient, does the
+                                                                                                                 GDX = {ξ1 , ξ2 , ..., ξm }.                                (2)
+     most similar external class it matches remain consis-
+     tent? This relates to the reliability of the transferred                      In this work, we set m = 5 by default.
+     knowledge.
+                                                                                   Definition 2 (Size). The eigenvalue λi represents the variance
+    To systematically investigate the above questions, we
+                                                                                   of the data along the direction of its corresponding eigenvector ξi .
+employ the following experimental design: For the first
+                                                                                   The overall size S(X) of the distribution is thus measured by the
+two questions (Section 3.2), we use the complete, balanced
+                                                                                   sum of all eigenvalues, which is the trace of the covariance matrix:
+versions of CIFAR-10-LT and CIFAR-100-LT (i.e., CIFAR-10
+and CIFAR-100) to obtain the ideal distributions of the rare                                                              P
+                                                                                                                          X
+classes as a baseline. For the third question (Section 3.3), we                                                  S(X) =         λi = tr(ΣX ).                               (3)
+will conduct a comparative analysis of the consistency of                                                                 i=1
+
+category matching results between the long-tailed datasets                         S(X) reflects the overall ”scale” or ”spread” of the embedding
+(CIFAR-10-LT/CIFAR-100-LT) and their complete versions.                            distribution.
+    In this section, we first define the geometric shape, size,
+and similarity measures of embedding distributions. Subse-                         Definition 3 (Geometric Shape Similarity). Given two
+quently, through empirical studies on multiple benchmark                           distributions X1 and X2 with geometric shapes GDX1 =
+                                                                                      1           m                 1           m
+datasets, we reveal a key phenomenon: Vision Foundation                            {ξX  1
+                                                                                          , ..., ξX1
+                                                                                                     } and GDX2 = {ξX 2
+                                                                                                                        , ..., ξX2
+                                                                                                                                   }, their geometric
+Models (VFM) can represent semantically similar categories                         shape similarity Sim(GDX1 , GDX2 ) is defined as the normal-
+from different data domains as embedding distributions                             ized sum of the absolute values of the dot products between
+with similar geometric shapes and sizes. We term this phe-                         corresponding eigenvectors:
+nomenon Cross-Domain Geometric Consistency. This discov-                                                                              m
+                                                                                                                                      X
+                                                                                                                                               i      i
+ery constitutes the cornerstone of our geometric knowledge-                                        Sim(GDX1 , GDX2 ) =                      |⟨ξX 1
+                                                                                                                                                   , ξX 2
+                                                                                                                                                          ⟩|.               (4)
+guided distribution reconstruction paradigm, providing a solid                                                                        i=1
+
+empirical foundation for solving the distribution missing                          This similarity metric ranges from 0 to m, with a value closer to
+problem through external knowledge transfer.                                       m indicating a higher degree of geometric shape alignment.
+                                                                                                                                                 5
+
+    In the embedding space induced by VFM, the principal                          CIFAR-100 (CLIP)                  Caltech-101 (CLIP)
+
+directions of class distributions are not only ordered by
+variance but also tend to exhibit semantic hierarchy and
+cross-class alignment. Prior studies [1], [60] have shown that
+the first few principal directions often capture high-level
+semantic structures, such as global shape and texture pat-
+terns, while subsequent components encode finer-grained
+or less dominant variations. This structured representation
+suggests that, for semantically similar classes, the ordering
+and semantic meaning of principal directions may remain                        CIFAR-100 (DINOv2)                  Caltech-101 (DINOv2)
+
+consistent: the first principal direction corresponds to the
+most prominent semantic variation, the second to secondary
+structures, and so on. Therefore, aligning principal direc-
+tions by index for similarity measurement is not merely
+a computational simplification but also possesses inherent
+semantic plausibility.
+
+
+3.2   Cross-Domain Geometric Consistency
+                                                                    Fig. 3. Calculate the similarity between classes within the dataset and
+3.2.1 Small Models Cannot Associate Geometric Shapes                the similarity of geometric shapes between corresponding embedding
+Across Data Domains                                                 distributions.
+We train a standard ResNet-34 [61] on CIFAR-10 [62] and                    CIFAR-100 & ImageNet-1k (CLIP)     Caltech-101 & ImageNet-1k (CLIP)
+
+extract p-dimensional image embeddings from its last hid-
+den layer for each class. Let Zi = [zi1 , . . . , zin ] ∈ Rp×n be
+the embedding      set for class i, with its distribution center
+Ci = n1 nk=1 zik ∈ Rp×1 . Given the embedding set Zj for
+           P
+class j , the similarity between class i and j is computed as
+   Ci⊤ Cj
+∥Ci ∥·∥Cj ∥ , where a higher value indicates greater similarity.
+We first calculate the similarity between each class and
+all others, then sort the classes in descending order of
+their similarity to a reference class. Next, we compute the              CIFAR-100 & ImageNet-1k (DINOv2)   Caltech-101 & ImageNet-1k (DINOv2)
+
+similarity of the geometric shapes (as defined in Section 3.1)
+between the reference class and each other class in this
+sorted order. The results, plotted in Fig. 2A, show that as the
+class similarity increases, the similarity of their embedding
+distribution geometries also tends to increase. We verify
+this phenomenon on the CIFAR-100 dataset with the same
+experimental setup.
+    However, we find that this phenomenon does not hold
+when matching similar classes across different datasets. We
+train ResNet-34 models on CIFAR-100 and ImageNet-1k [63]            Fig. 4. Compute the similarity between classes belonging to different
+separately and extract their image embeddings. We then cal-         datasets and the similarity of geometric shapes between corresponding
+culate the class similarity between each class in CIFAR-100         embedding distributions.
+and all classes in ImageNet, sorting the ImageNet classes in
+descending order of similarity. According to this order, we         (1) Within a single dataset, do VFM exhibit the same phe-
+compute the geometric shape similarity between the CIFAR-               nomenon as small models, where more similar classes
+100 class and each ImageNet class. The experimental results             have more similar geometric shapes?
+in Fig. 2B do not exhibit the same increasing trend observed        (2) Can VFM demonstrate a phenomenon where, for two
+in Fig. 2A. These results collectively confirm that conven-             classes from different datasets, the more similar they
+tional small models cannot associate geometric knowledge                are, the more similar their embedding distribution geo-
+across different datasets.                                              metric shapes tend to be?
+                                                                        We selected CLIP [1] and DINOv2 (ViT-B/16) [32] as
+3.2.2 Vision Foundation Models: Bridging Geometric                  the two Vision Foundation Models to investigate the trans-
+Knowledge Across Data Domains                                       ferability of geometric shapes. Firstly, we extracted image
+The preceding experiments have demonstrated that small              embeddings from CIFAR-100 [62] and Caltech-101 [64] us-
+models cannot associate geometric knowledge across data             ing CLIP and DINOv2 separately. Subsequently, we con-
+domains. Given the powerful representational capabilities of        ducted experiments similar to those in Fig. 2, wherein we
+Vision Foundation Models (VFM), we aim to leverage them             matched similar classes within each dataset and computed
+for cross-dataset geometric knowledge transfer. Below, we           the similarity of geometric shapes between the embedding
+primarily focus on two aspects:                                     distributions of corresponding classes. The experimental re-
+                                                                                                                                                                      6
+
+             CIFAR-100 & ImageNet-1k (CLIP)       Caltech-101 & ImageNet-1k (CLIP)            CIFAR-100 & ImageNet-1k (DINOv2)   Caltech-101 & ImageNet-1k (DINOv2)
+
+
+
+
+Fig. 5. For two classes from different datasets with high similarity, the ratio of their embedding distributions sizes approaches 1.
+
+
+
+
+Fig. 6. Match the most similar classes in ImageNet-1k for the 40 tail classes of CIFAR-100-LT as well as their full versions, and calculate the
+proportion of tail classes that agree with the most similar class matched to their full versions.
+
+
+sults are depicted in Fig. 3, showing that Vision Foundation                         3.3 Matching Consistency of Similar Classes with Suf-
+Models also exhibit the phenomenon of geometric shapes of                            ficient vs. Insufficient Samples
+embedding distributions becoming more similar as classes
+become more similar within datasets. It is noteworthy that                           The study above was conducted under the assumption of
+compared to CLIP, DINOv2 shows a more pronounced phe-                                sufficient samples, focusing on the geometric similarity be-
+nomenon. This may be attributed to DINOv2 being trained                              tween ideal true distributions. Suppose we wish to recover
+through multi-level masked self-supervised learning from                             the ideal distribution of rare classes in CIFAR-100-LT; an
+pure visual data. It pays attention to finer details of visual                       ideal approach would be to match each rare class with its
+information, enabling a more refined representation of the                           most similar class in ImageNet-1k and then transfer the ge-
+geometric shapes of embedding distributions for each class,                          ometric shape and size of the embedding distribution from
+thus making the phenomenon more evident.                                             the matched ImageNet class to the rare class (the transfer
+                                                                                     mechanism will be detailed in Section 4). However, a crucial
+    Further, we selected ImageNet-1k [63] as an external                             prerequisite for the feasibility of this approach is that the
+knowledge base. We calculated the semantic similarity be-                            highly similar class matched for a rare class in ImageNet-
+tween each class in CIFAR-100 and Caltech-101 and all                                1k remains consistent with the class matched when the rare
+classes in ImageNet-1k, as well as the geometric shape                               class has sufficient samples.
+similarity between their corresponding embedding distribu-                               We continue to use CLIP [1] and DINOv2 [32] to extract
+tions. Following the same procedure as in Fig. 3, we plotted                         the embedding distributions of the classes. We match the
+the results in Fig. 4. To our surprise, we found that as the                         most similar classes C11 , . . . , C401
+                                                                                                                                 in ImageNet-1k for the
+class similarity increases, the similarity of the geometric                          40 rare classes C1 , . . . , C40 (with the fewest samples) in
+shapes between the corresponding embedding distributions                             CIFAR-100-LT, respectively. Concurrently, we identify the
+also tends to increase. This suggests that Vision Foundation                         complete versions T1 , . . . , T40 of these 40 rare classes in
+Models can serve as a bridge for associating geometric                               the balanced CIFAR-100 dataset, and then match them with
+knowledge across different datasets. Particularly, the phe-                          their first, second, and third most similar classes Ti1 , Ti2 , Ti3
+nomenon observed with DINOv2 is more pronounced, lead-                               (i = 1, . . . , 40) in ImageNet-1k. We check whether Ci1
+ing us to speculate that the geometric shapes represented                            matches Ti1 for i = 1, . . . , 40, and calculate the proportion of
+by DINOv2 could more effectively and accurately guide the                            exact matches out of the 40 classes. The experimental results
+recovery of the ideal distribution of rare classes.                                  are plotted in Fig. 6. The ideal scenario is a 100% consistency
+    When assisting rare classes, it is also important to con-                        rate between the sets {C11 , . . . , C40
+                                                                                                                            1
+                                                                                                                                } and {T11 , . . . , T40
+                                                                                                                                                      1
+                                                                                                                                                         }.
+sider the size of the distribution being transferred. We                                 However, this is a stringent requirement. For a given
+matched each class from CIFAR-10, CIFAR-100, and Caltech-                            class, the geometric shapes of its second and third most
+101 with its most similar class from ImageNet-1k, and                                similar classes are also highly similar to its own. Therefore,
+then computed the ratio of the sizes (S(·), as defined in                            we relax the criterion. We calculate the proportion of cases
+Section 3.1) between their corresponding embedding distri-                           where Ci1 is contained within the top-2 matches {Ti1 , Ti2 },
+butions. The experimental results, as shown in Fig. 5, reveal                        and the proportion where Ci1 is contained within the top-3
+that the distributions represented by both CLIP and DI-                              matches {Ti1 , Ti2 , Ti3 } for i = 1, . . . , 40. The results in Fig. 6
+NOv2 exhibit similar sizes for the embedding distributions                           show that the most similar classes matched for rare classes
+of highly similar classes. These findings collectively provide                       from the external dataset (ImageNet-1k) are highly consis-
+a strong foundation for our proposed method of rare classes                          tent with the top similar classes matched when the rare
+distribution recovery.                                                               classes have sufficient samples. This ensures the feasibility
+                                                                                                                                                             7
+
+and reliability of our method for finding and transferring               by aggregating the local samples from all K clients. As es-
+geometric knowledge based on class similarity.                           tablished in Section 3.1, the geometric shape of a distribution
+                                                                         is derived from its covariance matrix. Our goal is therefore
+                                                                         to approximate the global covariance matrix Σi for each
+4     G EOMETRIC K NOWLEDGE -G UIDED D ISTRIBU -                         class i using only locally computed statistics.
+TION C ALIBRATION
+                                                                             We propose to estimate Σi by leveraging the local covari-
+We have empirically demonstrated the existence of cross-                 ance matrices and means from all clients. For class i, each
+domain geometric consistency in the embedding space of                   client k first computes its local mean µik and local covariance
+Vision Foundation Models. Building upon this foundation,                 matrix Σik (k = 1, . . . , K):
+this section proposes a unified framework for geometric                                  ni                                 ni
+                                                                                    k                              k
+knowledge-guided distribution calibration. The framework                        1 X                            1 X
+                                                                          µik = i     xi,j ,             Σik = i     (xi,j −µik )(xi,j i ⊤
+                                                                                                                                   k −µk ) . (5)
+aims to fundamentally calibrate the observed distributions                     nk j=1 k                       nk j=1 k
+in data-constrained scenarios by securely constructing and               The global covariance matrix Σi is the covariance of the
+transferring geometric knowledge, thereby enabling them to               combined data from all clients, defined as:
+approximate the ideal distribution.                                                                                  i
+                                                                                                       K nk             K
+                                                                                                   1 XX             1 X i i
+                                                                                              µi =           xi,j =       n µ ,
+4.1   Framework Overview                                                                           Ni k=1 j=1 k     Ni k=1 k k
+                                                                                                                 i
+                                                                                                                                                            (6)
+Our framework consists of two core stages:                                                             K nk
+                                                                                                     1 XX
+ (1) Construction of the Global Geometric Knowledge Base.                             Σi =                    (xi,j − µi )(xi,j     T
+                                                                                                                            k − µi ) ,
+                                                                                                    Ni k=1 j=1 k
+ (2) Geometric Knowledge-Guided Distribution Calibration.
+                                                                                         PK
+The generality of this framework lies in its core idea—                  where Ni = k=1 nik represents the total number of sam-
+                                                                                                                                i,j
+”transferring geometric knowledge as a prior”—which can                  ples in class i across all clients. We can decompose (xk −µi )
+                                                                               i,j
+be seamlessly applied to diverse scenarios such as federated             as (xk − µik ) + (µik − µi ), so the global covariance matrix
+learning and long-tailed recognition.                                    Σi can be rewritten as:
+    In federated learning (Section 4.2), the first stage occurs                       K       nik
+                                                                              1 X X i,j
+at the server. The server constructs a geometric knowledge               Σi =         [(xk − µik + µik − µi )(xi,j  i    i       T
+                                                                                                               k − µk + µk − µi ) ].
+                                                                              Ni  j=1
+base representing the ideal global distribution by securely                          k=1
+                                                                                                                                                            (7)
+aggregating local geometric statistics from all clients. In the
+                                                                         Expanding the above equation yields:
+second stage, this knowledge base is disseminated to the
+                                                                                     K     nik
+clients to guide local distribution alignment. In long-tailed                 1 X X i,j
+recognition (Section 4.3), the knowledge base for the first              Σi =         [(xk − µik )(xi,j  i T     i,j  i    i
+                                                                                                    k − µk ) + (xk − µk )(µk − µi )
+                                                                                                                                    T
+                                                                              Ni  j=1k=1
+stage is directly served by an external large-scale dataset
+(e.g., ImageNet). In the second stage, through cross-domain                                         +(µik − µi )(xi,j  i T     i         i       T
+                                                                                                                  k − µk ) + (µk − µi )(µk − µi ) ].
+                                                                                                                                                (8)
+matching, the geometric knowledge of similar classes from
+the external knowledge base is transferred to the rare classes            By the properties of covariance matrices, the first term is
+                                                                         the local covariance matrix Σik , and the expected values of
+to simulate their ideal distribution.
+                                                                         the second and third terms are zero. The fourth term can be
+                                                                         computed as:
+4.2 Local Distribution Calibration in Federated Data                           nk
+                                                                               X
+                                                                                 i
+
+Heterogeneity Scenarios                                                           (µik − µi )(µik − µi )T = nik (µik − µi )(µik − µi )T .                   (9)
+                                                                               j=1
+In this section, we address a critical issue: how to approx-
+imate the geometric shape of the global data distribution                 Thus, the global covariance matrix can be obtained by
+                                                                         combining the local covariance matrices and local means
+using local client data while preserving privacy (Section                as:
+4.2.1). We then detail how to simulate the ideal global                                       K                  K
+                                                                                                                        !
+                                                                                     1        X                  X
+distribution locally in both single-domain (Section 4.2.2)                  Σi =                     nik Σik +           nik (µik − µi )(µik − µi )T   .   (10)
+                                                                                     Ni
+and multi-domain scenarios (Section 4.2.2) by leveraging the                                  k=1                k=1
+geometric shape of the global distribution.                               This formulation allows the server to compute the global
+                                                                         covariance matrix Σi by collecting only the local means
+4.2.1 Computation of Global Geometric Shapes under Pri-                  µik and local covariance matrices Σik from the clients. The
+vacy Constraints                                                         geometric shape of the global distribution for class i is
+In federated learning, privacy-preserving constraints pro-               then obtained via eigendecomposition of Σi , all without any
+hibit the centralization of clients’ raw data, making it impos-          client sharing its raw data.
+sible to directly compute the geometric shape of the global                  We now discuss the privacy guarantees of this aggrega-
+distribution. To address this challenge, we design a secure              tion mechanism. The server disseminates only the eigenvec-
+and efficient aggregation mechanism to approximate the                   tors and eigenvalues of Σi back to the clients, which is not
+global geometric shape without compromising data privacy.                enough information to reconstruct any client’s original data
+    Consider a classification task with K clients and C                  for the following reasons:
+classes. Let nik denote the number of samples belonging                      (1) Eigenvectors and Eigenvalues Do Not Contain Raw
+to class i on client k , with the sample set represented as              Data. The eigendecomposition reveals only the geometric
+              i,nik
+{xi,1
+  k , . . . , xk      }. The global distribution for class i is formed   structure (principal axes and variances) of the data distri-
+                                                                                                                                                         8
+
+bution, not the individual data points. Reconstructing the
+original dataset from its covariance matrix is an ill-posed
+problem with infinitely many solutions.
+    (2) Low-Rank Property Prevents Data Reconstruction.
+The covariance matrix Σi is typically low-rank (rank(Σi ) ≪
+d, where d is the embedding dimension). This means that
+even with full knowledge of the eigenvectors and eigen-
+values, one can only recover the data’s projection onto a
+low-dimensional subspace, not its full details.
+    (3) Aggregation Prevents Isolation of Individual Client
+Contributions. The global covariance matrix is a weighted
+sum of contributions from all clients. Because these contri-
+butions are mixed through aggregation:
+   • No single client can isolate another client’s contribution
+     from the shared geometric knowledge.
+   • The removal of a single client’s data affects the global Σi
+     in a distributed manner across all eigenvectors, making
+     the individual influence indistinguishable.
+    (4) Existing Literature Supports the Privacy of Covari-
+                                                                                 Fig. 7. In a single-domain scenario, each class’s global geometric shape
+ance Matrices. Prior works have confirmed that sharing                           is used to guide sample augmentation on each client. The example
+higher-order statistics like covariance matrices poses sig-                      shows how new samples are generated for Client 2.
+nificantly lower privacy risks compared to sharing model
+gradients [25].                                                                  Algorithm 1 Global Geometry-Guided Embedding Uncer-
+    We describe below how geometric knowledge can be                             tainty Representation (GGEUR)
+used to simulate the ideal global data distribution locally                                           (i,1)         (i,ni )           i
+
+in both single-domain and multi-domain scenarios.                                Input: Xki = [Xk , . . . , Xk k ] ∈ Rp×nk : Sample set of
+                                                                                                                             p                  p
+                                                                                 class i at client k , GDi = {ξi1 , . . . , ξi , λ1i , . . . , λi }: Global
+4.2.2 Single-Domain Federated Learning                                           geometric shape (eigenvectors and eigenvalues) of class i,
+When the data originates from a single domain, we primar-                        N : Number of new samples to generate per original sample.
+ily address the issue of label skew. Before federated learning                   Output: New samples of class i.
+begins, each client uses CLIP to extract p-dimensional em-                        1: Xgen ← ∅ # Initialize generated samples
+beddings of its local data. Each client then locally computes                     2: for h = 1 to N do
+                                                                                        β h ← pm=1 ϵm λm       m
+                                                                                               P
+the per-class local covariance matrices and local sample                          3:                        i ξi , ϵm ∼ N (0, 1)
+means, which are subsequently uploaded to the server. For                         4:    # Generate new vector
+each class, the server generates a global covariance ma-                          5:    Xgen ← Xgen ∪ {X + β h }
+trix, Σ1 , Σ2 , . . . , ΣC , using Equation (10). Next, each class’s              6:    # Generate and add new sample, Equation (5)
+global geometric shape is quantified based on Definition                          7: end for
+(1), and these global geometric shapes (i.e., eigenvalues and                     8: return Xgen
+                                                                                       i
+eigenvectors) are sent to each client.                                            9: Xnew    ← ∅ # Initialize augmented sample set
+    We propose a Global Geometry-Guided Embedding Un-                            10: for j = 1 to nik do
+                                                                                           i        i                  (i,j)
+certainty Representation (GGEUR) for locally augmenting                          11:    Xnew  ← Xnew    ∪ GGEUR(Xk , GDi , N )
+samples (i.e., embeddings) to simulate the global distribu-                      12: end for
+                                                                                               i
+tion. Specifically, for class i, its global geometric shape can                  13: return Xnew
+                                           p               p
+be represented as GDi = {ξi1 , . . . , ξi , λ1i , . . . , λi }. Suppose
+client k has only a limited number of class i embeddings,
+                               (i,1)          (i,ni )                i
+denoted as Xki = [Xk , . . . , Xk k ] ∈ Rp×nk , where                            the total number of new and existing samples reaches 2000.
+nik represents the sample count. As shown in Fig. 7, we                          Fig. 7 and Algorithm 1 illustrate this process in detail. After
+first perform nik × N random linear combinations of the                          embedding space augmentation, each client trains an MLP
+eigenvectors
+       Pp    ξi1 , . . . , ξip to produce nik × N different vectors              as the local model.
+                    m m
+β =      m=1 ϵm λi ξi         ∈ Rp , where ϵj follows a standard
+Gaussian distribution N (0, 1) and is scaled by the eigenval-                    4.2.3 Multi-Domain Federated Learning
+      j
+ues λi to control the magnitude. These vectors provide the                       When data originates from multiple domains, we encounter
+direction and range for simulating the global distribution.                      a complex scenario where both label skew and domain
+                                            (i,1)          (i,ni )               skew exist, as illustrated in Fig. 8. In this case, different
+Next, for each existing sample Xk , . . . , Xk k , we apply
+N of these vectors to generate nik × N new samples as                            clients possess data from different domains. For clarity,
+follows:                                                                         we introduce two new concepts: the single-domain global
+                                                                                 distribution and the multi-domain global distribution.
+      (i,j)      (i,j)
+   X(k,h) = Xk           + βjh , j = 1, . . . , nik , h = 1, . . . , N.   (11)
+                                                                                 Definition 4 (Single-Domain Global Distribution). Within
+The total number of new samples can be set based on task                         a particular data domain, when a category’s sample count is
+requirements; in this study, for each local class, we ensure                     sufficient and diverse enough to fully represent the category,
+                                                                                                                                       9
+
+                                                                         data domain. For example, in Fig 8, client 1 lacks suffi-
+                                                                         cient green samples to represent the single-domain global
+                                                                         distribution and thus requires sample augmentation. (2)
+                                                                         Generation of new samples on each client to simulate the
+                                                                         single-domain global distributions of other data domains.
+                                                                             As depicted in Fig. 9, Step 1 addresses the label skew on
+                                                                         each client, while Step 2 addresses domain skew. In sum-
+                                                                         mary, our objective is to simulate the ideal multi-domain
+                                                                         global distribution for each category locally on each client.
+                                                                         Unlike single-domain federated learning, completing Step 1
+                                                                         in this context poses the challenge of obtaining the geomet-
+                                                                         ric shape of the single-domain global distribution. For in-
+                                                                         stance, in Figure 9, client 1 has only a small number of green
+                                                                         samples, making it difficult to access the single-domain
+Fig. 8. Federated scenario with both label skew and domain skew.
+                                                                         global distribution for the green category. Fortunately, when
+Different textures represent data from distinct domains.                 embeddings are extracted using CLIP, the geometric shapes
+                                                                         of multiple single-domain global distributions correspond-
+                                                                         ing to the same category across different domains are similar
+                                                                         (Fig. 10). This implies that we can identify a cross-domain
+                                                                         shared geometric shape for each category, representing its
+                                                                         global geometric shape.
+                                                                             Specifically, we investigate this using the Digits dataset,
+                                                                         which includes four digit-recognition datasets (i.e., MNIST
+                                                                         [65], USPS [66], SVHN [67], and SYN [68]), each represent-
+                                                                         ing a different domain. First, we use CLIP (ViT-B/16) [1]
+                                                                         to extract image embeddings for all categories across the
+                                                                         four datasets. Then, we compute the similarity between the
+                                                                         geometric shapes of the embedding distributions for each
+                                                                         category in MNIST and the corresponding categories in
+                                                                         USPS, SVHN, and SYN, as shown in Fig.10. The significantly
+                                                                         higher values in the diagonal of each heatmap indicate that,
+                                                                         across domains, the geometric shapes of embeddings for
+                                                                         the same category exhibit a consistent pattern, rather than
+Fig. 9. Example with 3 clients: Step 1 generates samples for each        being randomly distributed. This allows us to simplify the
+client from its own domain, while Step 2 simulates samples from other    multi-domain label skew problem in Step 1 to a label skew
+domains for each client.
+                                                                         problem in the single-domain scenario.
+                                                                             In detail, we first extract embeddings using CLIP and
+this distribution of samples is termed the single-domain global          then locally calculate the covariance matrix and mean of
+distribution for that category. For example, in Fig. 8, client           local samples, which are uploaded to the server. Given
+2’s green samples are numerous and adequately cover the global           CLIP’s cross-domain consistency in representing the same
+distribution of the green category within domain 2.                      class, we continue to use Equation (10) on the server to
+Definition 5 (Multi-Domain Global Distribution). For a                   produce a shared global covariance matrix Σ1 , Σ2 , . . . , ΣC
+given category, the combined single-domain global distributions          for each class. We further obtain the shared global geometric
+from all data domains constitute the multi-domain global                 shapes, which are then sent to clients. Each client then
+distribution of that category. As shown in Fig. 8, the green             applies GGEUR to augment samples, thereby simulating the
+distributions across all domains together form the multi-domain          single-domain global distribution locally. Following this,
+global distribution for the green category.                              clients also need to generate new samples to simulate the
+                                                                         single-domain global distribution from other data domains.
+   Clearly, addressing both label skew and domain skew re-               Although the geometric shapes of embedding distributions
+quires two steps: (1) Local sample augmentation to simulate              across different domains are similar, the positions of these
+the single-domain global distribution within each client’s               distributions differ. We propose transferring the class pro-
+
+
+
+
+Fig. 10. Geometric shape similarity between classes across domains on the Digits dataset.
+                                                                                                                                                                                                                10
+
+                    𝑵𝟏                           𝑵𝑪                                                                                                                     Batch Embeddings
+                                                                                                     𝒘𝒊
+
+
+
+
+                                                       sampling probability
+ Number of images                                                                          𝑷𝒊 =
+                                                                                                  σ𝑪𝒋=𝟏 𝒘𝒋                                                       Class 1        Class j               Class C
+
+                                                                                                  𝑵𝒎𝒂𝒙
+                          Head                                                             𝒘𝒊 =                              Vision Foundation Model
+
+                                          Tail                                      Head
+                                                                                                   𝑵𝒊            Tail
+                                                                                                                                 (Image Encoder)                    …      …         …     …             …
+
+
+                                                                                    𝑷𝟏                             𝑷𝑪
+                             Classes                                                       Reversed Sampler                                                                                    Tail
+
+                                                                                                                                                𝑷                                        𝒁𝟏𝑪
+                         True Embedding Distribution
+                                                                                                                                   𝒁𝟐𝑪 = 𝒁𝟐𝑪 + ෍ 𝝐𝒌 𝝀𝒌 𝝃𝒌
+                         Embedding                                                                    𝒁𝟐𝑪                                      𝒌=𝟏
+                                                                                                                                                                               𝒁𝟐𝑪
+                                                                                                               …
+                                                                              MLP
+                                                                                                                                        𝝐𝒌 ~𝑵(𝟎, 𝟏)                                  𝒁𝟑𝑪
+                         New Embedding
+                         Direction of uncertainty                                                             New Batch        Geometric knowledge-guided                                Embedding
+                             representation                                                                  Embeddings       uncertainty representation layer                           Distribution
+
+
+Fig. 11. Complete Training Procedure Using GGEUR-Layer. At each iteration, inverse frequency sampling is conducted first, followed by passing
+the embeddings extracted by the foundation model to GGEUR-Layer, and finally, classification is performed by MLP.
+
+
+totypes (local sample means) from other domains to the                                                              Performing eigenvalue decomposition on the matrix ΣINj
+local client, and applying GGEUR to these prototypes to                                                             yields p eigenvalues λ1 ≥ · · · ≥ λP and their correspond-
+generate new samples, thus simulating the multi-domain                                                              ing p-dimensional eigenvectors ξ1 , . . . , ξp . The eigenvectors
+global distribution. For each client, in Step 1, we ensure that                                                     and eigenvalues provide the direction and magnitude for
+the total number of new and existing samples for each class                                                         augmenting and recovering the tail class distribution, re-
+is 500. Step 2 generates 500 new samples based on each                                                              spectively, which is guaranteed by cross-domain geometric
+prototype separately.                                                                                               consistency (Section 3.2).
+                                                                                                                        Specifically, we aim to restore the ideal distribution of tail
+4.3 Tail Class Distribution Calibration in Long-Tailed                                                              classes as much as possible by generating new samples for
+Image Recognition                                                                                                   them in the embedding space. Firstly, we conduct N random
+In this section, we first introduce how to adapt the GGEUR                                                          linear combinations of P the eigenvectors ξ1 , . . . , ξP to obtain
+to calibrate the embedding distributions of tail classes (Sec-                                                      N distinct vectors β = pk=1 ϵk λk ξk ∈ Rp , where ϵk follows
+tion 4.3.1). Building upon this, we then propose a more                                                             the standard Gaussian distribution N (0, 1). Next, using the
+concise geometric knowledge-based uncertainty represen-                                                             existing samples Zi1 of tail class Ci as the center, we obtain
+tation layer for end-to-end training of long-tailed classifiers                                                     N new samples by Zi1 + β . The same operation is applied to
+(Section 4.3.2). It is worth noting that our approach does                                                          the remaining m − 1 samples of tail class Ci , resulting in a
+not involve fine-tuning vision foundation models; it only                                                           total of N × m new samples to restore the ideal distribution
+requires calibration of embedding distributions to train a                                                          of tail class Ci as much as possible. In this work, we ensure
+better long-tail classifier. Therefore, our method can also                                                         that the number of samples for the augmented tail class is
+directly utilize pre-trained CLIP models to generate image                                                          consistent with the number of samples for the most frequent
+embeddings of long-tailed distributions.                                                                            class. For example, in CIFAR-10-LT, the number of samples
+                                                                                                                    for the augmented tail class is set to 5000.
+4.3.1 Calibrating the Embedding Distribution of Tail Class
+Assuming ImageNet-1k is used as an external knowledge                                                               4.3.2 A GGEUR-Based Layer for End-to-End Training
+base, denoted by IN1 , . . . , IN1000 representing 1000 cate-                                                       Generating new samples is a direct way to help the tail class
+gories. Given a tail class Ci in the long-tail dataset, the p-                                                      recover its ideal distribution, but it may not be very practical
+dimensional image embeddings of this class are extracted                                                            in engineering applications. This is because training the
+using a vision foundation model (CLIP/DINOv2) as Zi =                                                               classifier end-to-end becomes impossible until calibration is
+[Zi1 , . . . , Zim ] ∈ Rp×m , where m represents the number of                                                      performed on the tail class. Therefore, in the following, we
+samples. The prototype of tail class Ci is computed as the                                                          propose a GGEUR-based Network layer (GGEUR-Layer),
+mean of each dimension of the image embeddings:                                                                     which not only achieves tail class calibration but also en-
+                                      j                                                                             sures that the model can be trained end-to-end.
+                         µi = ( m
+                               P
+                                 j=1 Zi )/m,              (12)
+                                                                                                                        Before training the long-tailed classifier using GGEUR-
+and similarly for each category in ImageNet-1k.                                                                     Layer, we pre-extracted the geometric shapes (including
+    Using cosine distance to measure inter-class similarity,                                                        eigenvectors and eigenvalues) of each category in the ex-
+let’s assume that the class most similar to tail class Ci                                                           ternal knowledge base using a vision foundation model
+in ImageNet-1k is INj . We extract the image embeddings                                                             and computed the embedding prototypes for each category.
+corresponding to INj using a vision foundation model as                                                             Similarly, we used the vision foundation model to extract
+           1              n
+ZINj = [ZIN  j
+               , . . . , ZIN j
+                               ] ∈ Rp×n . The covariance matrix of                                                  feature embeddings for the tail classes in the long-tail
+the embedding distribution for class INj is estimated as:                                                           dataset and calculated the embedding prototypes. We then
+                             1            T                                                                        matched each tail class to the most similar category in the
+                ΣINj = ZINj ZINj ∈ Rp×p .                     (13)                                                  knowledge base based on the cosine distance between the
+                             n
+                                                                                                                                      11
+
+prototypes. This entire process is performed before using
+GGEUR-Layer, allowing us to select the already matched
+category’s eigenvectors/eigenvalues for each tail class dur-
+ing the training of the long-tailed classifier.
+    Hereafter, we no longer generate additional samples for
+tail classes but instead learn the classifier directly from the
+long-tailed data. Therefore, to maintain a balanced opti-
+mization, we employ a mechanism of inverse sampling at
+each iteration [46]. That is, if a class has more samples, its
+                                                                   Fig. 12. Number of samples per class across four clients when β equals
+probability of being sampled is lower. Assuming there are          0.1 and 0.5, with each client holding data from a different domain.
+C classes, each with a sample count of Ni , the sampling
+probability for class i can be calculated as                       Domain Skew Datasets. We evaluated our method on the
+                       wi                   Nmax                   multi-domain image classification dataset Digits and con-
+              Pi = PC        , where wi =         ,
+                      j=1 wj
+                                              Ni           (14)    ducted analyses on Office-Caltech and PACS.
+                       Nmax = max{N1 , . . . , NC }.                  • Digits [65], [66], [67], [68] includes four domains:
+
+Fig. 11 clearly illustrates the training process. A balanced            MNIST, USPS, SVHN and SYN, each with 10 categories.
+                                                                      • Office-Caltech [70] includes four domains: Caltech,
+mini-batch of training data is obtained through the re-
+verse sampling process. However, in this batch, samples                 Amazon, Webcam, and DSLR, each with 10 categories.
+                                                                      • PACS [71] includes four domains: Photo (P) with 1, 670
+belonging to tail classes may be repeatedly sampled, lacking
+diversity. Therefore, we characterize each tail class sample            images, Art Painting (AP) with 2, 048 images, Cartoon
+in a batch with uncertainty representation to enhance in-               (Ct) with 2, 344 images and Sketch (Sk) with 3, 929
+formation and calibrate tail classes. Specifically, given a tail        images. Each domain holds seven categories.
+class sample ZC i
+                   , after passing through the GGEUR-Layer,        Dataset with Coexisting Label Skew and Domain Skew.
+ZCi
+    is represented as a new embedding:                             Office-Home [72] includes 4 domains: Art (A), Clipart (C),
+                        P                                          Product (P), and Real World (R), each containing 65 classes.
+                       X
+          i
+         ZC = ZC i
+                     +     ϵk λk ξk , where ϵk ∼ N (0, 1). (15)    To increase the challenge, we designed a new partitioning
+                     k=1                                           method for the multi-domain dataset Office-Home to cre-
+Finally, we employ a simple one-layer MLP to classify              ate a scenario where label skew and domain skew coex-
+the long-tailed data, resulting in a very small number of          ist. We name the newly constructed dataset Office-Home-
+learnable parameters. Since our method only calibrates the         LDS (Label and Domain Skew). Figure 9 shows the data
+embedding distribution, it can be easily combined with             distribution of Office-Home-LDS with different β values.
+other foundation models for long-tail recognition.                 Dataset and Constructor published at: https://huggingface.
+                                                                   co/datasets/WeiDai-David/Office-Home-LDS.
+
+5     E MPIRICAL S TUDY                                            5.1.2 Long-Tailed Recognition Datasets
+                                                                   We evaluate our proposed method on four widely-adopted
+This section aims to comprehensively evaluate the effective-
+                                                                   long-tailed benchmark datasets: CIFAR-10-LT, CIFAR-100-
+ness, generality, and robustness of our proposed geometric
+                                                                   LT [17], ImageNet-LT [6], and Places-LT [6]. The imbalance
+knowledge-guided distribution calibration method. We de-
+                                                                   factor (IF) is defined as maxk {nk }/ mink {nk }, where nk is
+sign experiments covering two major scenarios: federated
+                                                                   the number of samples in the k -th class.
+learning and long-tailed recognition, to demonstrate that the
+                                                                      • CIFAR-10-LT / CIFAR-100-LT: These are long-tailed
+proposed method can effectively bridge the gap between
+local observations and the ideal global distribution.                   versions of the CIFAR datasets [62], created by applying
+                                                                        an exponential sampling scheme to the original bal-
+                                                                        anced datasets. We conduct experiments with imbal-
+5.1     Datasets and Evaluation Metrics                                 ance factors of 10, 50, 100, and 200.
+                                                                      • ImageNet-LT: This is a long-tailed subset of the
+We conduct experiments using datasets for both federated
+learning and long-tailed recognition. The federated learning            ILSVRC 2012 dataset [6]. It contains 115.8K images
+datasets are further categorized into three types: label skew,          from 1, 000 categories, with an imbalance factor of
+domain skew, and a combination of both.                                 256. The number of images per class ranges from a
+                                                                        maximum of 1, 280 to a minimum of 5.
+                                                                      • Places-LT: This is a long-tailed version of the Places-365
+5.1.1    Federated Data Heterogeneity Scenarios
+                                                                        dataset [6], containing 62.5K images from 365 classes.
+Label Skew Datasets. We evaluate our method on three                    The number of images per class varies from 4, 980 to 5,
+single-domain image classification tasks.                               resulting in an imbalance factor of 100.
+    • Cifar-10 [62] contains 10 classes, with 50, 000 images
+      for training and 10, 000 images for validation.              5.1.3 Evaluation Metrics
+    • Cifar-100 [62] covers 100 classes, with 50, 000 training     Federated Learning: Following [73], we use the Top-1 Ac-
+      images and 10, 000 validation images.                        curacy (%) as the primary metric to evaluate the overall
+    • Tiny-ImageNet [69] is the subset of ImageNet with            performance of the global model. To assess the fairness
+      100K images of size 64 × 64 with 200 classes scale.          and stability of the model across different domains, we also
+                                                                                                                                            12
+
+                               TABLE 1                                                                    TABLE 3
+ Comparison results on CIFAR-100 and Tiny-ImageNet datasets with         Evaluation results of GGEUR on Tiny-ImageNet with more severe label
+different degrees of label skew (β values). The best results are shown                         skew (i.e., smaller β values).
+in underlined bold. FedAvg (CLIP+MLP) indicates that the backbone
+    network uses CLIP and MLP, and the federated learning method                                              Tiny-ImageNet
+                                                                                         Methods
+                            employs FedAvg.                                                            0.01 0.03 0.05 0.07 0.09
+                                                                           FedAvg (CLIP+MLP)          53.03 54.57 58.91 58.77 59.13
+                                CIFAR-100         Tiny-ImageNet
+                Methods                                                             + GGEUR           64.27 65.79 66.49 66.34 66.85
+                             0.5   0.3  0.1       0.5   0.3  0.1
+         Zero-Shot CLIP      64.87             63.67                                                    TABLE 4
+                FedTPG 71.40 70.95 68.63 67.63 66.72 64.71                Evaluation results on the Digits dataset. GGEUR by default includes
+               FedCLIP 72.03 71.20 70.64 70.41 70.37 69.50                                       both Step 1 and Step 2.
+   FedMix (CLIP+MLP)        81.31 79.62 73.85 70.89 68.57 63.43                                                Digits
+                                                                                          Methods
+  FEDGEN (CLIP+MLP)         81.24 78.97 73.15 72.37 70.35 64.16                                 MNISTUSPSSVHN SYN AVG ↑ STD ↓
+    FedFA (CLIP+MLP)        81.98 79.31 74.68 70.41 70.68 64.62              FedMix (CLIP+MLP) 95.03 90.25 57.50 72.60 78.85 14.89
+   FedAvg (CLIP+MLP)        81.41 77.68 68.22 70.08 67.65 60.10            FEDGEN (CLIP+MLP) 95.85 92.52 58.77 73.62 80.19 14.99
+            + GGEUR         83.31 81.65 77.70 73.89 72.19 66.86               FedFA (CLIP+MLP) 96.68 92.97 57.87 75.53 80.76 15.44
+                                                                                     FedAvg [74] 90.40 60.30 34.68 46.99 58.09 20.74
+                              TABLE 2
+                                                                             FedAvg (CLIP+MLP) 95.12 89.74 56.36 65.17 76.60 16.25
+Evaluation results of GGEUR on CIFAR-10 and CIFAR-100 with more
+                                                                               + GGEUR (Step 1) 96.02 93.02 58.55 73.13 80.18 15.28
+              severe label skew (i.e., smaller β values).
+                                                                          + GGEUR (Step 1 & 2) 97.05 94.12 63.54 74.73 82.36 13.84
+                                        CIFAR-10                                 SCAFFOLD [41] 97.79 94.45 26.64 90.69 77.39 29.41
+                Methods
+                              0.01 0.03 0.05 0.07             0.09       SCAFFOLD (CLIP+MLP) 94.62 90.08 54.33 68.71 76.93 16.31
+  FedAvg (CLIP+MLP)          90.87 90.13 91.96 92.05         91.82                     + GGEUR 95.91 92.08 63.25 71.54 80.70 13.69
+                                                                                     MOON [42] 92.78 68.11 33.36 39.28 58.36 23.82
+           + GGEUR           94.39 94.25 95.07 95.21         95.38
+                                                                             MOON (CLIP+MLP) 75.64 73.09 38.83 52.74 60.07 15.14
+                                       CIFAR-100                               + GGEUR (Step 1) 84.64 81.96 43.04 60.35 67.50 16.97
+                Methods
+                              0.01 0.03 0.05 0.07             0.09        + GGEUR (Step 1 & 2) 95.16 91.13 55.23 71.00 78.13 16.08
+  FedAvg (CLIP+MLP)          58.71 60.77 62.32 61.69         66.51                   FedDyn [78] 88.91 60.34 34.57 50.72 58.65 19.76
+           + GGEUR           75.72 75.40 75.96 76.72         78.00           FedDyn (CLIP+MLP) 95.46 92.13 58.89 70.30 79.19 15.19
+                                                                                       + GGEUR 97.07 94.02 63.34 74.83 82.31 13.88
+                                                                                    FedOPT [51] 92.71 87.62 31.32 87.92 74.89 25.38
+report the Standard Deviation (STD) of the accuracy across                  FedOPT (CLIP+MLP) 94.57 88.79 58.65 66.47 77.12 14.96
+all domains. A smaller standard deviation indicates better                             + GGEUR 96.43 93.47 62.35 70.75 80.75 14.54
+performance fairness and robustness to data heterogeneity.                         FedProto [79] 90.54 89.54 34.61 58.00 68.18 23.38
+                                                                           FedProto (CLIP+MLP) 94.86 92.63 54.29 65.52 76.83 17.40
+The final performance is reported as the average of the
+                                                                                       + GGEUR 97.19 94.12 63.70 73.83 82.21 13.96
+results from the last five communication rounds.                                    FedNTD [19] 52.31 58.07 18.03 97.29 56.43 28.12
+Long-Tailed Recognition: The Top-1 Accuracy (%) on the                      FedNTD (CLIP+MLP) 95.82 91.43 58.26 69.95 78.86 15.41
+test set is used as the primary performance metric. For                                + GGEUR 97.08 94.32 63.57 73.53 82.13 14.06
+ImageNet-LT and iNaturalist 2018, we also report the perfor-
+mance on the Head (classes with more than 100 samples),
+                                                                         single-layer MLP classifier. We use the SGD optimizer with
+Middle (classes with 20 to 100 samples), and Tail (classes
+                                                                         a learning rate of 0.001. The batch size is set to 64 for CIFAR-
+with fewer than 20 samples) subsets to provide a more
+                                                                         10/100-LT (trained for 30 epochs) and 1024 for ImageNet-
+comprehensive analysis.
+                                                                         LT and Places-LT (trained for 10 epochs). The geometric
+                                                                         knowledge for tail class calibration is transferred from head
+5.2   Implementation Details and Comparison Methods                      classes within the same dataset (for ImageNet-LT) or from
+Federated Learning: On the label skew dataset, we applied                the ImageNet dataset as an external knowledge base (for
+GGEUR to FedAvg [74] using CLIP (ViT-B/16) [1] as the                    other datasets). We particularly focus on comparing knowl-
+backbone network and compared it with state-of-the-art                   edge transfer-based methods in the long-tailed recognition
+federated data augmentation methods in heterogeneous                     domain, including OFA [30], GistNet [27], CMO [47], FDC
+federated learning, including FedMix [75], FEDGEN [56],                  [15], H2T [26], and FUR [31]. Additionally, we also compare
+and FedFA [25]. Additionally, we compared it with other ad-              with other state-of-the-art methods, including MiSLAS [81],
+vanced methods that use CLIP (ViT-B/16) as the backbone,                 ResLT [49], and RIDE+CR [38], as well as foundation model
+such as FedTPG [76] and FedCLIP [77]. On the domain skew                 fine-tuning methods CoOp [35], CLIP-Adapter [82], Tip-
+and Office-Home-LDS datasets, we focused on exploring                    Adapter-F [34], LPT [58], Decoder and LIFT [83].
+the enhancement effect of GGEUR across various federated
+architectures. Therefore, we applied GGEUR to FedAvg,                    5.3     Evaluation on Federated Learning Datasets
+SCAFFOLD [41], MOON [42], FedDyn [78], FedOPT [51],
+FedProto [79], and FedNTD [19], all of which use CLIP for                5.3.1    Evaluation Results on Label Skew Dataset
+image feature extraction and a single-layer MLP as the                   Main Results. Tables 1, 2, and 3 show the performance
+local model. All experimental settings for FL methods are                improvement of GGEUR over FedAvg (CLIP+MLP) [74] un-
+consistent with the latest benchmark [10].                               der different β values, along with comparison results with
+Long-Tailed Recognition: We calibrate the embedding dis-                 other methods. Under all label distribution skew settings,
+tributions extracted from various models (e.g., CLIP, BAL-               GGEUR significantly outperforms other methods, demon-
+LAD [80], DINOv2) using our GGEUR-Layer and train a                      strating superior classification accuracy and adaptability to
+                                                                                                                                      13
+
+                               TABLE 5                                                           TABLE 7
+  Evaluation results on Office-Caltech using the CLIP+MLP model.            Evaluation results on Office-Home-LDS (β = 0.1).
+                                    Office-Caltech                                                       Office-Home-LDS
+                 Methods                                                               Methods
+                          Am Ca       D     W AVG ↑ STD ↓                                          A    C    P    R AVG ↑ STD ↓
+             FedAvg [74] 81.99 73.21 79.37 67.93 75.62 6.31            FedAvg (CLIP+MLP) [74] 65.29 58.17 80.56 76.53 70.14    8.89
+    FedAvg (CLIP+MLP) 98.26 96.74 100 100 98.75 1.57                                 + GGEUR 78.33 79.01 90.17 88.46 83.99     5.36
+        SCAFFOLD [41] 39.77 42.50 78.02 70.69 57.75 19.44           SCAFFOLD (CLIP+MLP) [41] 68.72 66.79 83.63 80.12 74.82     7.20
+ SCAFFOLD (CLIP+MLP) 96.18 92.88 95.83 93.26 94.54 1.70                              + GGEUR 78.60 78.32 89.86 89.07 83.96     5.51
+             MOON [42] 84.42 75.98 84.67 68.97 78.51 7.53               MOON (CLIP+MLP) [42] 69.27 68.63 86.56 82.87 76.83     7.99
+     MOON (CLIP+MLP) 98.61 97.33 100 98.88 98.70 1.09                                + GGEUR 72.02 70.31 86.11 83.87 78.08     6.98
+             FedDyn [78] 84.02 72.59 77.34 68.97 75.72 6.50            FedDyn (CLIP+MLP) [78] 58.30 55.19 77.63 72.86 65.99    9.47
+    FedDyn (CLIP+MLP) 98.61 96.74 100 100 98.84 1.54                                 + GGEUR 78.88 78.55 90.47 88.46 84.09     5.42
+            FedOPT [51] 79.05 71.96 89.34 74.48 78.71 7.67             FedOPT (CLIP+MLP) [51] 58.44 54.89 76.80 72.25 65.59    9.16
+    FedOPT (CLIP+MLP) 98.26 97.33 100 100 98.90 1.33
+                                                                                     + GGEUR 79.01 78.32 90.84 88.61 84.20     5.59
+           FedProto [79] 87.79 75.98 90.00 79.31 83.27 6.70
+                                                                      FedProto (CLIP+MLP) [79] 65.84 56.49 80.41 74.85 69.40   9.09
+   FedProto (CLIP+MLP) 98.26 96.74 100 100 98.75 1.57
+                                                                                     + GGEUR 78.05 77.71 89.79 87.84 83.35     5.51
+            FedNTD [19] 10.95 10.89 14.67 10.34 11.71 1.99
+   FedNTD (CLIP+MLP) 97.92 96.14 100 100 98.51 1.86                   FedNTD (CLIP+MLP) [19] 69.68 66.64 84.53 80.96 75.46     7.48
+                                                                                     + GGEUR 78.19 74.66 90.24 86.77 82.46     6.29
+                              TABLE 6
+      Evaluation results on PACS using the CLIP+MLP model.
+                                         PACS
+                 Methods
+                           P    AP Ct Sk AVG ↑ STD ↓
+             FedAvg [74] 76.09 64.19 83.50 89.40 78.30 9.41
+    FedAvg (CLIP+MLP) 99.40 98.37 99.01 93.64 97.60 2.32
+        SCAFFOLD [41] 61.95 45.44 58.87 54.64 55.25 6.22
+ SCAFFOLD (CLIP+MLP) 92.42 81.63 80.68 87.28 85.50 4.72
+             MOON [42] 74.44 64.19 83.92 89.17 77.93 9.53
+     MOON (CLIP+MLP) 99.60 99.02 99.43 93.89 97.99 2.37            Fig. 13. Comparison of convergence in average accuracy with and
+             FedDyn [78] 78.17 63.29 82.27 89.93 78.66 9.70        without integrating GGEUR in the selected FL methods.
+    FedDyn (CLIP+MLP) 99.40 98.37 99.01 93.55 97.58 2.36
+            FedOPT [51] 78.66 67.66 82.41 83.68 78.12 6.31         simply using CLIP [1] for image representation, combined
+    FedOPT (CLIP+MLP) 99.40 98.37 99.01 93.64 97.60 2.32
+           FedProto [79] 85.63 73.69 83.57 91.14 83.51 6.31
+                                                                   with a single-layer MLP for federated learning, already
+   FedProto (CLIP+MLP) 99.40 98.21 99.01 94.23 97.71 2.06          surpasses existing methods. This improvement is attributed
+            FedNTD [19] 16.77 18.23 28.47 93.18 39.16 31.51        to the advancements in the foundation model, and GGEUR
+   FedNTD (CLIP+MLP) 99.40 98.54 99.29 92.28 97.38 2.96            can further significantly enhance the performance of the
+                                                                   global model. For instance, on the Digits dataset, GGEUR
+imbalanced label distributions. Particularly at lower β val-       improves the average performance of FedAvg [74], MOON
+ues (i.e., with more severe label skew), GGEUR notably en-         [42], and FedProto [79] by 5.76%, 18.06%, and 5.38%, respec-
+hances the performance of FedAvg (CLIP+MLP) on CIFAR-              tively. Additionally, compared to other methods, GGEUR
+100, validating its effectiveness in handling extreme label        significantly reduces the accuracy variance across differ-
+skew scenarios. For example, when β is 0.01, 0.03, and 0.05,       ent domains. This demonstrates that GGEUR effectively
+GGEUR achieves performance gains of 17.01%, 14.63%, and            adapts to features from different domains when handling
+13.64%, respectively. These results indicate that GGEUR not        cross-domain data distribution disparities, providing more
+only exhibits good generalization ability in standard settings     robust and fair performance. On the Office-Caltech and
+but also maintains robust performance in cases of significant      PACS datasets, since the use of CLIP+MLP as the backbone
+label skew.                                                        network already achieves very high performance across all
+Comparison with Peer Methods. We implemented FedMix,               methods, these datasets are less challenging. However, our
+FEDGEN, and FedFA for comparison in Table 1, and in all            evaluation results can serve as a reference for other research.
+cases, our method outperformed these three approaches.             Comparison with Peer Methods. We implemented Fed-
+This demonstrates the superiority of geometric shapes as           Mix (CLIP+MLP), FEDGEN (CLIP+MLP), and FedFA
+knowledge over the Gaussian assumption and traditional             (CLIP+MLP) for comparison in Table 4. When GGEUR is
+data augmentation methods.                                         applied to FedAvg (CLIP+MLP), it outperforms these three
+                                                                   methods by 3.51%, 2.17%, and 1.60%, respectively.
+5.3.2 Evaluation Results on Domain Skew Dataset
+Ablation Study. As shown in Fig. 9, simulating the multi-          5.3.3   Evaluation Results on Office-Home-LDS
+domain global distribution requires two steps. We selected         To fully demonstrate the potential of GGEUR, we con-
+the classic FedAvg (CLIP+MLP) and MOON (CLIP+MLP)                  structed a more challenging dataset, Office-Home-LDS,
+for an ablation study on the Digits dataset. The experimental      which incorporates both label skew and domain skew.
+results, highlighted in yellow in Table 4, show that each          Office-Home-LDS simulates a more realistic and complex
+step incrementally improves the original methods, and their        scenario of distributional imbalance, encompassing cross-
+combination achieves the best results.                             domain data distribution differences and label imbalance.
+Main Results. Tables 4, 5, and 6 present the experimental re-      In Table 7, we show the remarkable performance gains
+sults on datasets with domain skews. It can be observed that       of GGEUR over existing methods on this dataset, along
+                                                                                                                                       14
+
+                             TABLE 8                                   performance of our proposed method under larger-scale
+            Number of Clients K Impact on Performance.                 federated learning scenarios, we conducted additional ex-
+                           CIFAR-10 (β = 0.1)                          periments with an increased number of clients. Specifically,
+              Methods
+                   K = 100       K = 300       K = 500                 we conducted experiments on the label-skewed dataset
+FedAvg (CLIP+MLP)    87.89         84.69         82.05                 CIFAR-10 with 100, 300, and 500 clients. As shown in Table
+         + GGEUR 93.55 (+5.66) 92.17 (+7.84) 90.43 (+8.38)             8, the results demonstrate that GGEUR remains robust and
+                                                                       continues to enhance the performance of FedAvg.
+                             TABLE 9
+                                                                           We conducted experiments on the domain-skewed
+              The average training time (s) per round.
+                                                                       dataset Digits, comparing the training time required to com-
+                                       Digits                          plete the full model for FedAvg, SCAFFOLD, and MOON
+        Methods
+                     FedAvg         SCAFFOLD              MOON
+                                                                       before and after applying GGEUR. The results (Table 9)
+   CLIP+MLP            28.2             54.5                32.3       show that GGEUR introduces almost no additional train-
+    + GGEUR         31.7 (+3.5)      59.1 (+4.6)         35.6 (+3.3)
+                                                                       ing time overhead. Specifically, after applying GGEUR, the
+                                                                       training time for the three methods increased by only 3.5s,
+                                                                       4.6s, and 3.3s, respectively.
+with significant reductions in accuracy variance across dif-
+ferent domains, highlighting its effectiveness in handling
+highly heterogeneous data scenarios. Specifically, GGEUR               5.4     Evaluation on Long-Tailed Datasets
+improved the average performance of FedAvg [74], SCAF-                 5.4.1    Results on CIFAR-10-LT and CIFAR-100-LT
+FOLD [41], FedDyn [78], FedOPT [51], FedProto [79], and
+FedNTD [19] by 13.85%, 9.14%, 18.1%, 18.61%, 13.95%, and               The experimental results are summarized in Table 10. Our
+7.0%, respectively. These results demonstrate that GGEUR               method has leaped forward on CIFAR-10-LT and CIFAR-
+can achieve robust performance on complex multi-domain,                100-LT. Particularly in CIFAR-10-LT, the performance of DI-
+multi-class datasets, making it an effective approach for              NOv2+MLP+GUR surpasses existing state-of-the-art meth-
+addressing both label and domain skew.                                 ods at different IF settings: by 17.1% over FUR at IF
+                                                                       200, 13.6% over FUR at IF 100, and 11% over FDC at IF
+5.3.4    GGEUR Accelerates Convergence                                 50. Similarly, in CIFAR-100-LT, at IF of 200, 100, and 50,
+                                                                       DINOv2+MLP+GUR outperforms the leading long-tailed
+In Figure 13, we plot the average accuracy per epoch for               recognition method CLIP-Adapter by 21%, 21.8%, and
+various FL methods with and without using GGEUR. It                    24.2%, respectively. This significant performance enhance-
+can be observed that our method enhances the convergence               ment stems not only from the exceptional performance of
+speed of the FL methods, resulting in smoother curves.                 the foundation models themselves but also from the out-
+                                                                       standing enhancing effect of GGEUR-Layer in long-tailed
+5.3.5    Large-Scale Client and Computational Cost                     scenarios, which makes our approach markedly superior
+In practical federated learning settings, the number of par-           to base model fine-tuning methods. For instance, GGEUR-
+ticipating clients can significantly affect model performance          Layer enables CLIP+MLP to achieve performances of 27%,
+due to increased data heterogeneity. To further evaluate the           29.3%, and 30.2% on CIFAR-100-LT at different IF settings.
+
+
+                                                            TABLE 10
+    Comparison on CIFAR-10-LT and CIFAR-100-LT. The accuracy (%) of Top-1 is reported. The best and second-best results are shown in
+                                              underlined bold and bold, respectively.
+
+    Dataset                       Backbone             Pub.                    CIFAR-10-LT                     CIFAR-100-LT
+    Imbalance Factor (IF)             -                 -              200         100        50        200        100          50
+    Cross Entropy                 ResNet-32             -              65.6        70.3      74.8       34.8       38.2        43.8
+    State-of-the-art long-tail knowledge transfer methods
+    OFA [30]                      ResNet-32        ECCV 2020           75.5        82.0      84.4       41.4        48.5       52.1
+    CMO [47]                      ResNet-32        CVPR 2022            -           -         -          -          50.0       53.0
+    FDC [15]                      ResNet-32        TMM 2024            79.7        83.4      86.5       45.8        50.6       54.1
+    GCL+H2T [26]                  ResNet-32        AAAI 2025           79.4        82.4      85.4       45.2        48.9       53.8
+    FUR [31]                      ResNet-32         IJCV 2025          79.8        83.7      86.2       46.2        50.9       54.1
+    Other state-of-the-art methods
+    MiSLAS [81]                   ResNet-32        CVPR 2021            -          82.1      85.7        -          47.0       52.3
+    RIDE (4*) + CR [38]           ResNet-32        CVPR 2023            -           -         -          -          49.8       59.8
+    RIDE + H2T [26]               ResNet-32        AAAI 2025            -           -         -         46.6        51.4       55.5
+    Fine-tuning foundation model
+    BALLAD [80]                   ViT-B/16              -               -           -         -          -          77.8        -
+    CLIP (Zero-Shot) [1]          ViT-B/16         ICML 2022           73.8        73.8      73.8       52.2        52.2       52.2
+    CoOp [35]                     ViT-B/16          IJCV 2022          74.4        76.1      78.6       54.3        54.6       57.8
+    CLIP-Adapter [82]             ViT-B/16          IJCV 2024          72.4        75.6      79.7       58.9        61.7       62.5
+    LIFT [83]                     ViT-B/16         ICML 2024            -           -         -          -          80.3       82.0
+    Calibrating embedding distributions (Ours)
+    CLIP + MLP [1]                ViT-B/16         ICML 2023           82.4        84.7      88.5       47.5        49.6       51.4
+    + GGEUR-Layer                 ViT-B/16              -              94.4        94.6      94.8       74.5        78.9       81.6
+    DINOv2 + MLP [32]             ViT-B/16         TMLR 2024           90.3        92.1      93.4       70.7        76.2       79.2
+    + GGEUR-Layer                 ViT-B/16              -              96.9        97.3      97.5       79.9        83.5       86.7
+                                                                                                                                         15
+
+                                                                 TABLE 11
+Comparisons (Top-1 accuracy (%)) with state-of-the-art methods on ImageNet-LT and Places-LT. The best and the second-best results are shown
+                                                  in underline bold and bold, respectively.
+
+                                                                 ImageNet-LT                                  Places-LT
+     Methods                        Pub.
+                                                 Head      Middle     Tail         Overall     Head      Middle       Tail    Overall
+     State-of-the-art long-tail knowledge transfer methods
+                                                              ResNext-50                                     ResNet-152
+     OFA [30]                    ECCV 2020        47.3      31.6      14.7           35.2       42.8       37.5      22.7       36.4
+     GistNet [27]                 ICCV 2021       52.8      39.8      21.7           42.2       42.5       40.8      32.1       39.6
+     RIDE + CMO* [47]            CVPR 2022        66.4      53.9      35.6           56.2        -          -          -         -
+     RIDE + H2T [26]             AAAI 2025        67.6      54.9      37.1           56.9       43.0       42.6      36.3       41.4
+     FUR [31]                      IJCV 2025      65.4      52.2      37.8           55.5        -          -          -         -
+     Other state-of-the-art methods
+     MiSLAS [81]                 CVPR 2021        62.5      49.8      34.7           52.3       39.6       43.3      36.1       40.4
+     DSB + RIDE [7]               ICLR 2023       68.6      54.5      38.5           58.2        -          -         -          -
+     ResLT [49]                  TPAMI 2023       59.4      51.0      41.3           52.7       40.3       44.4      34.7       41.0
+     RIDE (4*) + CR [38]         CVPR 2023        68.5      54.2      38.8           57.8        -          -         -          -
+     Fine-tuning foundation model
+                                                               ViT-B/16                                       ViT-B/16
+     CLIP (Zero-Shot) [1]        ICML 2022        67.7      66.5      66.4           67.0       34.7       37.9      44.7       39.2
+     CoOp [35]                     IJCV 2022      74.6      68.4      65.6           70.4       41.8       38.5      44.3       40.9
+     Tip-Adapter-F [34]          ECCV 2022        74.2      73.2      61.1           71.8       38.3       45.1      33.4       40.2
+     LPT [58]                     ICLR 2023        -         -          -             -         49.3       52.3      46.9       50.1
+     Decoder [84]                  IJCV 2024       -         -          -            73.2        -          -          -        46.8
+     LIFT [83]                   ICML 2024        80.2      76.1      71.5           77.0       51.3       52.2      50.5       51.5
+     Calibrating embedding distributions (Ours)
+     CLIP + MLP [1]              ICML 2023        84.5      56.8      35.7           64.6       51.4       31.6      21.3       36.5
+     + GUR                             -          80.6      71.9      60.4           73.5       42.9       40.6      44.5       42.1
+     DINOv2 + MLP [32]           TMLR 2024        80.2      68.4      52.6           70.3       40.6       41.0      33.4       39.3
+     + GGEUR-Layer                     -          80.3      75.2      69.1           76.5       45.2       43.8      42.5       44.3
+     BALLAD [80]                       -          79.1      74.5      69.8           75.7       49.3       50.2      48.4       49.5
+     + GGEUR-Layer                     -          80.5      77.8      74.6           78.5       51.0       52.6      51.2       51.9
+
+
+
+
+Fig. 14. The Calibration Effectiveness of Tail Class Embedding Distributions.
+
+
+5.4.2   Results on ImageNet-LT and Places-LT                               of CLIP+MLP on head classes comes at the cost of severely
+Table 11 demonstrates the significant enhancement effect of                impairing the performance of middle and tail classes. For ex-
+GGEUR-Layer on CLIP and BALLAD. On the Tail subsets of                     ample, CLIP+MLP achieves 51.4% accuracy on head classes
+ImageNet-LT and Places-LT, GGEUR-Layer enables CLIP to                     in Places-LT but only 21.3% accuracy on tail classes. The
+achieve performance gains of 24.7% and 23.2% respectively.                 success of GGEUR-Layer is attributed to both the strong
+Even though BALLAD is specifically designed for long-                      capability of the foundation model and several phenomena
+tailed scenarios, GGEUR-Layer still improves the overall                   discovered exclusively on the base model. The collision and
+performance of BALLAD by 2.8% and 2.4% on these two                        fusion of the foundation model with prior knowledge make
+datasets. We observe that GGEUR-Layer sometimes reduces                    our method significantly superior to existing methods.
+the performance of the Head subset, but its ability to
+significantly improve the performance of the Middle and
+                                                                           5.5   More Advantages and Analysis
+Tail subsets leads to a smaller bias while enhancing the
+overall performance of the model. We would like to explain                 Visualization Examples of Tail Class Calibration. We uti-
+this from the perspective of IGAM [39]. Since the MLP                      lize our method to generate new samples for the tail classes
+in CLIP+MLP is trained directly on long-tailed data, the                   on CIFAR-100 with an IF of 100 and visualize the results.
+resulting decision space is pathological. Specifically, IGAM               As shown in Fig. 14, the green samples generated from a
+visualized the weight norms of each class in classifiers                   small number of blue samples cover the real distribution
+trained on long-tail data and observed that the weight                     (i.e., orange samples) well. It is particularly noteworthy that
+norms were highly imbalanced, leading to a pathological                    the geometric shape of the new distribution is very close
+decision boundary where the decision space for tail classes                to that of the real distribution, which strongly validates the
+is severely compressed. In summary, the good performance                   rationality of our motivation.
+                                                                                                                                                   16
+
+
+A                                  B                                       [3]  Z. Yang, X. Jia, Q. Li, X. Yang, M. Yao, and J. Yan, “Raw2drive:
+                                        GGEUR-Layer (Ours)
+                                                                                Reinforcement learning with aligned world models for end-to-end
+              MLP
+                                                                                autonomous driving (in carla v2),” arXiv preprint arXiv:2505.16394,
+              MLP + Ours                       BALLAD                           2025.
+                                          Decoder
+                                                                           [4] Y. Zhang, B. Kang, B. Hooi, S. Yan, and J. Feng, “Deep long-
+                                                                                tailed learning: A survey,” IEEE Transactions on Pattern Analysis
+                                                                                and Machine Intelligence, 2023.
+                                                                           [5] Y. Ma, L. Jiao, F. Liu, L. Li, W. Ma, S. Yang, X. Liu, and P. Chen,
+                                                                                “Unveiling and mitigating generalized biases of dnns through the
+                                                LiVT                            intrinsic dimensions of perceptual manifolds,” IEEE Transactions
+                                                          PaCo
+                                                                                on Pattern Analysis and Machine Intelligence, 2024.
+                                                    H2T
+                                                   FUR                     [6] Z. Liu, Z. Miao, X. Zhan, J. Wang, B. Gong, and S. X. Yu, “Large-
+                                          CMO                                   scale long-tailed recognition in an open world,” in Proceedings of
+                                                   MiSLAS
+                                                                                the IEEE/CVF conference on computer vision and pattern recognition,
+                                                                                2019, pp. 2537–2546.
+                                                                           [7] Y. Ma, L. Jiao, F. Liu, Y. Li, S. Yang, and X. Liu, “Delving into
+Fig. 15. A. Performance of GGEUR-Layer in extreme scenarios. B.                 semantic scale imbalance,” in The Eleventh International Conference
+Number of Learnable Parameters and Training Speed.                              on Learning Representations, 2023.
+                                                                           [8] H. Lu, Y. Xie, M. Ding, W. Zhan, X. Yang, M. Tomizuka, and
+                                                                                J. Yan, “Sel4ft: Annotation selection for pretraining-finetuning
+    An extreme example. Randomly select one image from                          with distribution shift,” IEEE Transactions on Pattern Analysis and
+each class of CIFAR-100, totaling 100 images. Extract em-                       Machine Intelligence, 2025.
+beddings for the 100 images using CLIP and DINOv2, then                    [9] W. Huang, M. Ye, Z. Shi, H. Li, and B. Du, “Rethinking federated
+compare the performance of the MLP trained before and                           learning with domain shift: A prototype view,” in 2023 IEEE/CVF
+                                                                                Conference on Computer Vision and Pattern Recognition (CVPR).
+after using GGEUR-Layer on the test set. Fig. 15A illustrates                   IEEE, 2023, pp. 16 312–16 322.
+that GGEUR-Layer still plays a significant role.                           [10] W. Huang, M. Ye, Z. Shi, G. Wan, H. Li, B. Du, and Q. Yang,
+    Fewer Learnable Parameters (M) and Faster Train-                            “Federated learning for generalization, robustness, fairness: A
+ing Speed. We compared our method with traditional ap-                          survey and benchmark,” IEEE Transactions on Pattern Analysis and
+                                                                                Machine Intelligence, 2024.
+proaches and fine-tuning methods based on the foundation                   [11] S. P. Karimireddy, S. Kale, M. Mohri, S. Reddi, S. Stich, and A. T.
+model. As depicted in Fig. 15B, our approach demonstrates                       Suresh, “Scaffold: Stochastic controlled averaging for federated
+superior performance while requiring fewer learnable pa-                        learning,” in International conference on machine learning. PMLR,
+rameters and converging faster.                                                 2020, pp. 5132–5143.
+                                                                           [12] Y. Chen, W. Huang, and M. Ye, “Fair federated learning under
+                                                                                domain skew with local consistency and domain diversity,” in
+6     C ONCLUSION                                                               Proceedings of the IEEE/CVF Conference on Computer Vision and
+                                                                                Pattern Recognition, 2024, pp. 12 077–12 086.
+This work proposes a novel paradigm for geometric knowl-                   [13] Z. Li, X. Shang, R. He, T. Lin, and C. Wu, “No fear of classifier
+edge guided distribution calibration to address the funda-                      biases: Neural collapse inspired federated learning with synthetic
+mental challenge of distribution missing under data scarcity.                   and fixed classifier,” in Proceedings of the IEEE/CVF International
+                                                                                Conference on Computer Vision, 2023, pp. 5319–5329.
+We reveal that the geometric structure of class distributions              [14] X. Mu, Y. Shen, K. Cheng, X. Geng, J. Fu, T. Zhang, and Z. Zhang,
+in vision foundation models exhibits strong cross-domain                        “Fedproc: Prototypical contrastive federated learning on non-iid
+consistency, serving as a transferable deep prior. Leveraging                   data,” Future Generation Computer Systems, vol. 143, pp. 93–104,
+this insight, we unify distribution calibration in federated                    2023.
+                                                                           [15] Y. Ma, L. Jiao, F. Liu, S. Yang, X. Liu, and P. Chen, “Feature
+learning and long-tailed recognition by treating geometry                       distribution representation learning based on knowledge transfer
+as guiding knowledge. Our approach shifts the focus from                        for long-tailed classification,” IEEE Transactions on Multimedia,
+conventional optimization compensation and data augmen-                         vol. 26, pp. 2772–2784, 2024.
+tation to knowledge transfer and distribution reconstruc-                  [16] Y. Ma, L. Jiao, F. Liu, M. Wen, L. Li, W. Ma, S. Yang, X. Liu, and
+                                                                                P. Chen, “Predicting and enhancing the fairness of dnns with the
+tion, enabling models to effectively ”imagine” and calibrate                    curvature of perceptual manifolds,” IEEE Transactions on Pattern
+unobserved distributions. The framework not only offers a                       Analysis and Machine Intelligence, 2025.
+new technical pathway for data-constrained scenarios but                   [17] Y. Cui, M. Jia, T.-Y. Lin, Y. Song, and S. Belongie, “Class-balanced
+also provides insights for broader applications such as few-                    loss based on effective number of samples,” in Proceedings of the
+                                                                                IEEE/CVF conference on computer vision and pattern recognition, 2019,
+shot learning and domain generalization.                                        pp. 9268–9277.
+                                                                           [18] S. Alshammari, Y.-X. Wang, D. Ramanan, and S. Kong, “Long-
+                                                                                tailed recognition via weight balancing,” in Proceedings of the
+ACKNOWLEDGMENTS                                                                 IEEE/CVF Conference on Computer Vision and Pattern Recognition,
+This work was in part supported by National Natural                             2022, pp. 6897–6907.
+Science Foundation of China (Grant Nos. 92370201 and                       [19] G. Lee, M. Jeong, Y. Shin, S. Bae, and S.-Y. Yun, “Preservation of the
+                                                                                global knowledge by not-true distillation in federated learning,”
+62222607).                                                                      Advances in Neural Information Processing Systems, vol. 35, pp.
+                                                                                38 461–38 474, 2022.
+                                                                           [20] D. Chen, J. Hu, V. J. Tan, X. Wei, and E. Wu, “Elastic aggregation
+R EFERENCES                                                                     for federated optimization,” in Proceedings of the IEEE/CVF Confer-
+[1]   A. Radford, J. W. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agar-            ence on Computer Vision and Pattern Recognition, 2023, pp. 12 187–
+      wal, G. Sastry, A. Askell, P. Mishkin, J. Clark et al., “Learning         12 197.
+      transferable visual models from natural language supervision,”       [21] Z. Li, T. Lin, X. Shang, and C. Wu, “Revisiting weighted aggrega-
+      in International conference on machine learning. PMLR, 2021, pp.          tion in federated learning with neural networks,” in International
+      8748–8763.                                                                Conference on Machine Learning. PMLR, 2023, pp. 19 767–19 788.
+[2]   J. Zhang, J. Huang, S. Jin, and S. Lu, “Vision-language models for   [22] C. Palihawadana, N. Wiratunga, A. Wijekoon, and H. Kalutarage,
+      vision tasks: A survey,” IEEE transactions on pattern analysis and        “Fedsim: Similarity guided model aggregation for federated learn-
+      machine intelligence, vol. 46, no. 8, pp. 5625–5644, 2024.                ing,” Neurocomputing, vol. 483, pp. 432–445, 2022.
+                                                                                                                                                          17
+
+[23] Y. Ma, W. Dai, W. Huang, and J. Chen, “Geometric knowledge-                [45] B. Kang, S. Xie, M. Rohrbach, Z. Yan, A. Gordo, J. Feng, and
+     guided localized global distribution alignment for federated learn-             Y. Kalantidis, “Decoupling representation and classifier for long-
+     ing,” in Proceedings of the Computer Vision and Pattern Recognition             tailed recognition,” arXiv preprint arXiv:1910.09217, 2019.
+     Conference, 2025, pp. 20 958–20 968.                                       [46] B. Zhou, Q. Cui, X.-S. Wei, and Z.-M. Chen, “Bbn: Bilateral-
+[24] S. Li, K. Gong, C. H. Liu, Y. Wang, F. Qiao, and X. Cheng,                      branch network with cumulative learning for long-tailed visual
+     “Metasaug: Meta semantic augmentation for long-tailed visual                    recognition,” in Proceedings of the IEEE/CVF conference on computer
+     recognition,” in Proceedings of the IEEE/CVF conference on computer             vision and pattern recognition, 2020, pp. 9719–9728.
+     vision and pattern recognition, 2021, pp. 5212–5221.                       [47] S. Park, Y. Hong, B. Heo, S. Yun, and J. Y. Choi, “The majority can
+[25] T. Zhou and E. Konukoglu, “FedFA: Federated feature augmenta-                   help the minority: Context-rich minority oversampling for long-
+     tion,” in The Eleventh International Conference on Learning Represen-           tailed classification,” in Proceedings of the IEEE/CVF Conference on
+     tations (ICLR), 2023.                                                           Computer Vision and Pattern Recognition, 2022, pp. 6887–6896.
+[26] M. Li, H. Zhikai, Y. Lu, W. Lan, Y.-m. Cheung, and H. Huang,               [48] X. Wang, L. Lian, Z. Miao, Z. Liu, and S. X. Yu, “Long-tailed
+     “Feature fusion from head to tail for long-tailed visual recogni-               recognition by routing diverse distribution-aware experts,” arXiv
+     tion,” in Proceedings of the AAAI Conference on Artificial Intelligence,        preprint arXiv:2010.01809, 2020.
+     vol. 38, no. 12, 2024, pp. 13 581–13 589.                                  [49] J. Cui, S. Liu, Z. Tian, Z. Zhong, and J. Jia, “Reslt: Residual learning
+[27] B. Liu, H. Li, H. Kang, G. Hua, and N. Vasconcelos, “Gistnet: a                 for long-tailed recognition,” IEEE transactions on pattern analysis
+     geometric structure transfer network for long-tailed recognition,”              and machine intelligence, vol. 45, no. 3, pp. 3695–3706, 2022.
+     in Proceedings of the IEEE/CVF International Conference on Computer        [50] J. Wang, Q. Liu, H. Liang, G. Joshi, and H. V. Poor, “Tackling
+     Vision, 2021, pp. 8209–8218.                                                    the objective inconsistency problem in heterogeneous federated
+[28] H. Zhang, M. Cisse, Y. N. Dauphin, and D. Lopez-Paz,                            optimization,” Advances in neural information processing systems,
+     “mixup: Beyond empirical risk minimization,” arXiv preprint                     vol. 33, pp. 7611–7623, 2020.
+     arXiv:1710.09412, 2017.                                                    [51] S. J. Reddi, Z. Charles, M. Zaheer, Z. Garrett, K. Rush, J. Konečný,
+[29] M. Li, Y.-m. Cheung, and Y. Lu, “Long-tailed visual recognition via             S. Kumar, and H. B. McMahan, “Adaptive federated optimiza-
+     gaussian clouded logit adjustment,” in Proceedings of the IEEE/CVF              tion,” in International Conference on Learning Representations, 2021.
+     Conference on Computer Vision and Pattern Recognition, 2022, pp.           [52] M. Al-Shedivat, J. Gillenwater, E. Xing, and A. Rostamizadeh,
+     6929–6938.                                                                      “Federated learning via posterior averaging: A new perspective
+[30] P. Chu, X. Bian, S. Liu, and H. Ling, “Feature space augmentation               and practical algorithms,” arXiv preprint arXiv:2010.05273, 2020.
+     for long-tailed data,” in Computer Vision–ECCV 2020: 16th European         [53] W. Huang, M. Ye, and B. Du, “Learn from others and be yourself in
+     Conference, Glasgow, UK, August 23–28, 2020, Proceedings, Part XXIX             heterogeneous federated learning,” in Proceedings of the IEEE/CVF
+     16. Springer, 2020, pp. 694–710.                                                Conference on Computer Vision and Pattern Recognition, 2022, pp.
+[31] Y. Ma, L. Jiao, F. Liu, S. Yang, X. Liu, and P. Chen, “Geometric                10 143–10 153.
+     prior guided feature representation learning for long-tailed classi-       [54] S. Yun, D. Han, S. J. Oh, S. Chun, J. Choe, and Y. Yoo, “Cutmix:
+     fication,” International Journal of Computer Vision, pp. 1–18, 2024.            Regularization strategy to train strong classifiers with localizable
+[32] M. Oquab, T. Darcet, T. Moutakanni, H. Vo, M. Szafraniec, V. Khali-             features,” in Proceedings of the IEEE/CVF international conference on
+     dov, P. Fernandez, D. Haziza, F. Massa, A. El-Nouby et al., “Di-                computer vision, 2019, pp. 6023–6032.
+     nov2: Learning robust visual features without supervision,” arXiv          [55] H. Zhao, J. Zhang, Z. Chen, S. Zhao, and D. Tao, “Unimix: Towards
+     preprint arXiv:2304.07193, 2023.                                                domain adaptive and generalizable lidar semantic segmentation
+[33] H. Yao, R. Zhang, H. Lyu, Y. Zhang, and C. Xu, “Bi-modality                     in adverse weather,” in Proceedings of the IEEE/CVF Conference on
+     individual-aware prompt tuning for visual-language model,”                      Computer Vision and Pattern Recognition, 2024, pp. 14 781–14 791.
+     IEEE Transactions on Pattern Analysis and Machine Intelligence, 2025.      [56] Z. Zhu, J. Hong, and J. Zhou, “Data-free knowledge distillation
+[34] R. Zhang, W. Zhang, R. Fang, P. Gao, K. Li, J. Dai, Y. Qiao, and                for heterogeneous federated learning,” in International conference
+     H. Li, “Tip-adapter: Training-free adaption of clip for few-shot                on machine learning. PMLR, 2021, pp. 12 878–12 889.
+     classification,” in European conference on computer vision. Springer,      [57] M. Rasouli, T. Sun, and R. Rajagopal, “Fedgan: Federated gen-
+     2022, pp. 493–510.                                                              erative adversarial networks for distributed data,” arXiv preprint
+[35] K. Zhou, J. Yang, C. C. Loy, and Z. Liu, “Learning to prompt for                arXiv:2006.07228, 2020.
+     vision-language models,” International Journal of Computer Vision,         [58] B. Dong, P. Zhou, S. Yan, and W. Zuo, “Lpt: long-tailed prompt
+     vol. 130, no. 9, pp. 2337–2348, 2022.                                           tuning for image classification,” in The Eleventh International Con-
+[36] T.-Y. Lin, P. Goyal, R. Girshick, K. He, and P. Dollár, “Focal loss            ference on Learning Representations, 2022.
+     for dense object detection,” in Proceedings of the IEEE international      [59] X. Yin, X. Yu, K. Sohn, X. Liu, and M. Chandraker, “Feature trans-
+     conference on computer vision, 2017, pp. 2980–2988.                             fer learning for face recognition with under-represented data,” in
+[37] H. Lu, S. Sun, Y. Xie, L. Zhang, X. Yang, and J. Yan, “Rethinking               Proceedings of the IEEE/CVF conference on computer vision and pattern
+     classifier re-training in long-tailed recognition: A simple logits              recognition, 2019, pp. 5704–5713.
+     retargeting approach,” arXiv preprint arXiv:2403.00250, 2024.              [60] A. Ramesh, P. Dhariwal, A. Nichol, C. Chu, and M. Chen, “Hier-
+[38] Y. Ma, L. Jiao, F. Liu, S. Yang, X. Liu, and L. Li, “Curvature-                 archical text-conditional image generation with clip latents,” arXiv
+     balanced feature manifold learning for long-tailed classification,”             preprint arXiv:2204.06125, vol. 1, no. 2, p. 3, 2022.
+     in Proceedings of the IEEE/CVF Conference on Computer Vision and           [61] K. He, X. Zhang, S. Ren, and J. Sun, “Deep residual learning for
+     Pattern Recognition, 2023, pp. 15 824–15 835.                                   image recognition,” in Proceedings of the IEEE conference on computer
+[39] Y. Ma, W. Dai, and J. Chen, “Pursuing better decision boundaries                vision and pattern recognition, 2016, pp. 770–778.
+     for long-tailed object detection via category information amount,”         [62] A. Krizhevsky, G. Hinton et al., “Learning multiple layers of
+     arXiv preprint arXiv:2502.03852, 2025.                                          features from tiny images,” 2009.
+[40] T. Li, A. K. Sahu, M. Zaheer, M. Sanjabi, A. Talwalkar, and V. Smith,      [63] O. Russakovsky, J. Deng, H. Su, J. Krause, S. Satheesh, S. Ma,
+     “Federated optimization in heterogeneous networks,” Proceedings                 Z. Huang, A. Karpathy, A. Khosla, M. Bernstein et al., “Imagenet
+     of Machine learning and systems, vol. 2, pp. 429–450, 2020.                     large scale visual recognition challenge,” International journal of
+[41] S. P. Karimireddy, S. Kale, M. Mohri, S. J. Reddi, S. U. Stich, and             computer vision, vol. 115, pp. 211–252, 2015.
+     A. T. Suresh, “Scaffold: Stochastic controlled averaging for on-           [64] L. Fei-Fei, R. Fergus, and P. Perona, “Learning generative visual
+     device federated learning,” arXiv preprint arXiv:1910.06378, vol. 2,            models from few training examples: An incremental bayesian
+     no. 6, 2019.                                                                    approach tested on 101 object categories,” in 2004 conference on
+[42] Q. Li, B. He, and D. Song, “Model-contrastive federated learning,”              computer vision and pattern recognition workshop. IEEE, 2004, pp.
+     in Proceedings of the IEEE/CVF conference on computer vision and                178–178.
+     pattern recognition, 2021, pp. 10 713–10 722.                              [65] Y. LeCun, L. Bottou, Y. Bengio, and P. Haffner, “Gradient-based
+[43] J. Zhang, Z. Li, B. Li, J. Xu, S. Wu, S. Ding, and C. Wu, “Federated            learning applied to document recognition,” Proceedings of the IEEE,
+     learning with label distribution skew via logits calibration,” in               pp. 2278–2324, 1998.
+     International Conference on Machine Learning. PMLR, 2022, pp.              [66] J. J. Hull, “A database for handwritten text recognition research,”
+     26 311–26 329.                                                                  IEEE TPAMI, pp. 550–554, 1994.
+[44] Y. Shi, J. Liang, W. Zhang, V. Y. Tan, and S. Bai, “Towards under-         [67] Y. Netzer, T. Wang, A. Coates, A. Bissacco, B. Wu, and A. Y.
+     standing and mitigating dimensional collapse in heterogeneous                   Ng, “Reading digits in natural images with unsupervised feature
+     federated learning,” arXiv preprint arXiv:2210.00226, 2022.                     learning,” 2011.
+                                                                                                                                                    18
+
+[68] P. Roy, S. Ghosh, S. Bhattacharya, and U. Pal, “Effects of degra-                              Wei Dai He is a third-year undergraduate stu-
+     dations on deep neural network architectures,” arXiv preprint                                  dent at the School of Communication Engineer-
+     arXiv:1807.10108, 2018.                                                                        ing, Xidian University. He is currently a visiting
+[69] J. Deng, W. Dong, R. Socher, L.-J. Li, K. Li, and L. Fei-Fei, “Im-                             student at the Institute of Data and Informa-
+     agenet: A large-scale hierarchical image database,” in 2009 IEEE                               tion, Tsinghua Shenzhen International Graduate
+     conference on computer vision and pattern recognition. Ieee, 2009, pp.                         School. His research interests include federated
+     248–255.                                                                                       learning and transfer learning.
+[70] B. Gong, Y. Shi, F. Sha, and K. Grauman, “Geodesic flow kernel
+     for unsupervised domain adaptation,” in 2012 IEEE conference on
+     computer vision and pattern recognition. IEEE, 2012, pp. 2066–2073.
+[71] D. Li, Y. Yang, Y.-Z. Song, and T. M. Hospedales, “Deeper, broader
+     and artier domain generalization,” in Proceedings of the IEEE inter-                           Bowei Liu is an undergraduate student ma-
+     national conference on computer vision, 2017, pp. 5542–5550.                                   joring in Artificial Intelligence at Xidian Univer-
+[72] H. Venkateswara, J. Eusebio, S. Chakraborty, and S. Panchanathan,                              sity, enrolled in 2021. His research interests
+     “Deep hashing network for unsupervised domain adaptation,” in                                  include long-tailed learning, federated learning,
+     Proceedings of the IEEE Conference on Computer Vision and Pattern                              and prompt learning.
+     Recognition, 2017, pp. 5018–5027.
+[73] T. Li, M. Sanjabi, A. Beirami, and V. Smith, “Fair resource alloca-
+     tion in federated learning,” arXiv preprint arXiv:1905.10497, 2019.
+[74] B. McMahan, E. Moore, D. Ramage, S. Hampson, and B. A. y Ar-
+     cas, “Communication-efficient learning of deep networks from
+     decentralized data,” in Artificial intelligence and statistics. PMLR,                          Jiayi Chen is currently a third-year undergrad-
+     2017, pp. 1273–1282.                                                                           uate student in Communication Engineering at
+[75] T. Yoon, S. Shin, S. J. Hwang, and E. Yang, “Fedmix: Approxima-                                Xidian University. She is also pursuing a dual
+     tion of mixup under mean augmented federated learning,” arXiv                                  degree in Telecommunications Engineering at
+     preprint arXiv:2107.00233, 2021.                                                               Heriot-Watt University.Her research interests in-
+[76] C. Qiu, X. Li, C. K. Mummadi, M. R. Ganesh, Z. Li, L. Peng, and                                clude long-tailed learning and semi-supervised
+     W.-Y. Lin, “Federated text-driven prompt generation for vision-                                learning.
+     language models,” in The Twelfth International Conference on Learn-
+     ing Representations, 2024.
+[77] W. Lu, X. Hu, J. Wang, and X. Xie, “Fedclip: Fast generalization
+     and personalization for clip in federated learning,” arXiv preprint
+     arXiv:2302.13485, 2023.                                                                        Wenke Huang received the B.E. degree at the
+[78] D. A. E. Acar, Y. Zhao, R. M. Navarro, M. Mattina, P. N. What-                                 School of Computer Science, Wuhan University,
+     mough, and V. Saligrama, “Federated learning based on dynamic                                  Wuhan, China, in 2021. He is currently a Ph.D.
+     regularization,” arXiv preprint arXiv:2111.04263, 2021.                                        student at the School of Computer Science,
+[79] Y. Tan, G. Long, L. Liu, T. Zhou, Q. Lu, J. Jiang, and C. Zhang,                               Wuhan University, Wuhan, China. His research
+     “Fedproto: Federated prototype learning across heterogeneous                                   interests focus on Federated Learning.
+     clients,” in Proceedings of the AAAI Conference on Artificial Intelli-
+     gence, vol. 36, no. 8, 2022, pp. 8432–8440.
+[80] T. Ma, S. Geng, M. Wang, J. Shao, J. Lu, H. Li, P. Gao, and Y. Qiao,
+     “A simple long-tailed recognition baseline via vision-language
+     model,” arXiv preprint arXiv:2111.14745, 2021.
+[81] Z. Zhong, J. Cui, S. Liu, and J. Jia, “Improving calibration for long-                         Guancheng Wan is currently pursuing the Ph.D.
+     tailed recognition,” in Proceedings of the IEEE/CVF conference on                              degree at the Department of Computer Science,
+     computer vision and pattern recognition, 2021, pp. 16 489–16 498.                              University of California, Los Angeles. His re-
+[82] P. Gao, S. Geng, R. Zhang, T. Ma, R. Fang, Y. Zhang, H. Li, and                                search interests are MLLM and federated learn-
+     Y. Qiao, “Clip-adapter: Better vision-language models with feature                             ing.
+     adapters,” International Journal of Computer Vision, vol. 132, no. 2,
+     pp. 581–595, 2024.
+[83] J.-X. Shi, T. Wei, Z. Zhou, X.-Y. Han, J.-J. Shao, and Y.-F.
+     Li, “Parameter-efficient long-tailed recognition,” arXiv preprint
+     arXiv:2309.10019, 2023.
+[84] Y. Wang, Z. Yu, J. Wang, Q. Heng, H. Chen, W. Ye, R. Xie, X. Xie,                              Zhiwu Lu is a professor and doctoral supervisor
+     and S. Zhang, “Exploring vision-language models for imbalanced                                 at the Gaoling School of Artificial Intelligence,
+     learning,” International Journal of Computer Vision, vol. 132, no. 1,                          Renmin University of China. He received his
+     pp. 224–237, 2024.                                                                             Master of Science degree from the Department
+                                                                                                    of Information Science, School of Mathematical
+                                                                                                    Sciences, Peking University in 2005, and earned
+                                                                                                    his PhD in Computer Science from City Univer-
+                                                                                                    sity of Hong Kong in 2011. His primary research
+                                                                                                    interests include machine learning, computer vi-
+                                                                                                    sion, and related areas.
+
+                                                                                                   Junchi Yan is a Professor and Deputy Director
+                        Yanbiao Ma received his B.Eng. in Intelligent                              with School of Artificial Intelligence, Shanghai
+                        Science and Technology from Xidian University                              Jiao Tong University, Shanghai, China. Before
+                        in 2020 and his Ph.D. in Computer Science and                              that, he was a full-time Senior Research Staff
+                        Technology from Xidian University in 2025. He is                           Member with IBM Research and later an affil-
+                        currently an Assistant Professor at the Gaoling                            iated consultant Senior Researcher with AWS
+                        School of Artificial Intelligence, Renmin Univer-                          AI Lab. His research interests include machine
+                        sity of China. His research focuses on imbal-                              learning. He is the Associate Editor for IEEE
+                        anced learning and fairness in deep neural net-                            TPAMI, Pattern Recognition etc. He is a Fellow
+                        works.                                                                     of IAPR, AAIA and IET. He received the IEEE
+                                                                                                   CS AI’10 to Watch Award 2024, IEEE CIS Early
+                                                                              Career Award 2025, and CVPR 2024 Best Paper Candidate.
+
