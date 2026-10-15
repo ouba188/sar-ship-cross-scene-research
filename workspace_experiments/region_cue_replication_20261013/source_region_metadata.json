@@ -1,0 +1,848 @@
+{
+  "status": "complete",
+  "rows": 38091,
+  "ports": 24,
+  "source_manifest": "E:\\临时会话\\visual_reliable_baseline\\artifacts\\eight_class_adaptive_20260916\\manifest.csv",
+  "source_columns_preserved": [
+    "instance_id",
+    "port",
+    "class_name",
+    "class_id",
+    "mmsi",
+    "product",
+    "tile_base",
+    "target_center_x_vh",
+    "target_center_x_vv",
+    "target_center_y_vh",
+    "target_center_y_vv",
+    "crop_left_vh",
+    "crop_left_vv",
+    "crop_top_vh",
+    "crop_top_vv",
+    "image_relpath_vh",
+    "image_relpath_vv",
+    "width_vh",
+    "width_vv",
+    "height_vh",
+    "height_vv",
+    "crop_side_vh",
+    "crop_side_vv",
+    "confidence_tier_vh",
+    "confidence_tier_vv",
+    "redetect_model_conf_vh",
+    "redetect_model_conf_vv",
+    "target_chip_center_x_vv",
+    "target_chip_center_y_vv",
+    "target_chip_center_x_vh",
+    "target_chip_center_y_vh",
+    "center_distance_px",
+    "target_long_side_vv",
+    "target_long_side_vh",
+    "target_occupancy_vv",
+    "target_occupancy_vh",
+    "source_class_name",
+    "image_exists",
+    "data_origin",
+    "return_server_vv",
+    "return_server_vh",
+    "obj_uid_vv",
+    "obj_uid_vh",
+    "source_object_index_vv",
+    "source_object_index_vh",
+    "source_tiff_vv",
+    "source_tiff_vh",
+    "source_json_vv",
+    "source_json_vh",
+    "return_pair_key",
+    "old_cache_index",
+    "server"
+  ],
+  "headtail_valid": 0,
+  "bbox_pair_valid": 38091,
+  "native_shape_mismatch_pairs": 6871,
+  "original_missing_crop_rows": 12435,
+  "joins": {
+    "legacy": "instance_id plus port/product/class/MMSI/path checks",
+    "returned": "(computer,obj_uid,polarization) plus port/product/class/MMSI/path checks",
+    "native_headers": "all 76182 PNG headers read; cached dimensions joined by sample_id",
+    "tasks": "archive row indices AND sample IDs agree for all 23 tasks"
+  },
+  "geometry": {
+    "vv": {
+      "non_chip_center_rows": 28592,
+      "maximum_center_offset": 28.5,
+      "native_size_differs_from_requested_side": 0,
+      "bbox_valid": 38091,
+      "sham_valid": 6700,
+      "wide_sham_valid": 1533,
+      "native_shape_counts": {
+        "64x64": 27784,
+        "72x72": 4403,
+        "80x80": 2393,
+        "88x88": 1791,
+        "96x96": 1133,
+        "104x104": 325,
+        "112x112": 156,
+        "120x120": 57,
+        "128x128": 46,
+        "136x136": 1,
+        "152x152": 1,
+        "184x184": 1
+      }
+    },
+    "vh": {
+      "non_chip_center_rows": 28676,
+      "maximum_center_offset": 28.50438562747845,
+      "native_size_differs_from_requested_side": 0,
+      "bbox_valid": 38091,
+      "sham_valid": 6441,
+      "wide_sham_valid": 1324,
+      "native_shape_counts": {
+        "64x64": 27248,
+        "72x72": 4246,
+        "80x80": 2378,
+        "88x88": 1942,
+        "96x96": 1216,
+        "104x104": 453,
+        "112x112": 282,
+        "120x120": 123,
+        "128x128": 203
+      }
+    }
+  },
+  "b64_tasks": [
+    {
+      "port": "Antwerp-Bruges",
+      "rows": 886,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Antwerp-Bruges\\target.npz",
+      "query_rows": [
+        822,
+        822,
+        822,
+        822,
+        822
+      ]
+    },
+    {
+      "port": "Busan",
+      "rows": 871,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Busan\\target.npz",
+      "query_rows": [
+        807,
+        807,
+        807,
+        807,
+        807
+      ]
+    },
+    {
+      "port": "Callao",
+      "rows": 476,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Callao\\target.npz",
+      "query_rows": [
+        412,
+        412,
+        412,
+        412,
+        412
+      ]
+    },
+    {
+      "port": "Fujairah",
+      "rows": 1158,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Fujairah\\target.npz",
+      "query_rows": [
+        1094,
+        1094,
+        1094,
+        1094,
+        1094
+      ]
+    },
+    {
+      "port": "Hamburg",
+      "rows": 1619,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Hamburg\\target.npz",
+      "query_rows": [
+        1555,
+        1555,
+        1555,
+        1555,
+        1555
+      ]
+    },
+    {
+      "port": "Houston",
+      "rows": 804,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Houston\\target.npz",
+      "query_rows": [
+        740,
+        740,
+        740,
+        740,
+        740
+      ]
+    },
+    {
+      "port": "Jebel Ali",
+      "rows": 4602,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Jebel Ali\\target.npz",
+      "query_rows": [
+        4538,
+        4538,
+        4538,
+        4538,
+        4538
+      ]
+    },
+    {
+      "port": "Los Angeles",
+      "rows": 583,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Los Angeles\\target.npz",
+      "query_rows": [
+        519,
+        519,
+        519,
+        519,
+        519
+      ]
+    },
+    {
+      "port": "Mombasa",
+      "rows": 149,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Mombasa\\target.npz",
+      "query_rows": [
+        85,
+        85,
+        85,
+        85,
+        85
+      ]
+    },
+    {
+      "port": "New York",
+      "rows": 470,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\New York\\target.npz",
+      "query_rows": [
+        406,
+        406,
+        406,
+        406,
+        406
+      ]
+    },
+    {
+      "port": "Newcastle",
+      "rows": 299,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Newcastle\\target.npz",
+      "query_rows": [
+        235,
+        235,
+        235,
+        235,
+        235
+      ]
+    },
+    {
+      "port": "Ningbo-Zhoushan",
+      "rows": 5756,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Ningbo-Zhoushan\\target.npz",
+      "query_rows": [
+        5692,
+        5692,
+        5692,
+        5692,
+        5692
+      ]
+    },
+    {
+      "port": "Port Hedland",
+      "rows": 859,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Port Hedland\\target.npz",
+      "query_rows": [
+        795,
+        795,
+        795,
+        795,
+        795
+      ]
+    },
+    {
+      "port": "Port Klang",
+      "rows": 3425,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Port Klang\\target.npz",
+      "query_rows": [
+        3361,
+        3361,
+        3361,
+        3361,
+        3361
+      ]
+    },
+    {
+      "port": "Port Said",
+      "rows": 1895,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Port Said\\target.npz",
+      "query_rows": [
+        1831,
+        1831,
+        1831,
+        1831,
+        1831
+      ]
+    },
+    {
+      "port": "Qingdao",
+      "rows": 1981,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Qingdao\\target.npz",
+      "query_rows": [
+        1917,
+        1917,
+        1917,
+        1917,
+        1917
+      ]
+    },
+    {
+      "port": "Richards Bay",
+      "rows": 744,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Richards Bay\\target.npz",
+      "query_rows": [
+        680,
+        680,
+        680,
+        680,
+        680
+      ]
+    },
+    {
+      "port": "Rotterdam",
+      "rows": 573,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Rotterdam\\target.npz",
+      "query_rows": [
+        509,
+        509,
+        509,
+        509,
+        509
+      ]
+    },
+    {
+      "port": "Santos",
+      "rows": 1658,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Santos\\target.npz",
+      "query_rows": [
+        1594,
+        1594,
+        1594,
+        1594,
+        1594
+      ]
+    },
+    {
+      "port": "Shanghai",
+      "rows": 2390,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Shanghai\\target.npz",
+      "query_rows": [
+        2326,
+        2326,
+        2326,
+        2326,
+        2326
+      ]
+    },
+    {
+      "port": "Singapore",
+      "rows": 5259,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Singapore\\target.npz",
+      "query_rows": [
+        5195,
+        5195,
+        5195,
+        5195,
+        5195
+      ]
+    },
+    {
+      "port": "Sydney Botany",
+      "rows": 304,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Sydney Botany\\target.npz",
+      "query_rows": [
+        240,
+        240,
+        240,
+        240,
+        240
+      ]
+    },
+    {
+      "port": "Tanger Med",
+      "rows": 1266,
+      "archive": "E:\\Hermes\\paper_tracking\\sensitivity\\learned_frequency_residual_20261009\\tasks\\self24ports\\Tanger Med\\target.npz",
+      "query_rows": [
+        1202,
+        1202,
+        1202,
+        1202,
+        1202
+      ]
+    }
+  ],
+  "excluded_b64_samples": [
+    {
+      "sample_id": "pair_0030905",
+      "manifest_row": 18570,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "241195000"
+    },
+    {
+      "sample_id": "pair_0030906",
+      "manifest_row": 18571,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "311000510"
+    },
+    {
+      "sample_id": "pair_0030907",
+      "manifest_row": 18572,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "352003817"
+    },
+    {
+      "sample_id": "pair_0030908",
+      "manifest_row": 18573,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "352383000"
+    },
+    {
+      "sample_id": "pair_0030909",
+      "manifest_row": 18574,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "352573000"
+    },
+    {
+      "sample_id": "pair_0030910",
+      "manifest_row": 18575,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "352978260"
+    },
+    {
+      "sample_id": "pair_0030911",
+      "manifest_row": 18576,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "370865000"
+    },
+    {
+      "sample_id": "pair_0030912",
+      "manifest_row": 18577,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "371061000"
+    },
+    {
+      "sample_id": "pair_0030913",
+      "manifest_row": 18578,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "371323000"
+    },
+    {
+      "sample_id": "pair_0030914",
+      "manifest_row": 18579,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "373383000"
+    },
+    {
+      "sample_id": "pair_0030915",
+      "manifest_row": 18580,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "374171000"
+    },
+    {
+      "sample_id": "pair_0030916",
+      "manifest_row": 18581,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "477234900"
+    },
+    {
+      "sample_id": "pair_0030917",
+      "manifest_row": 18582,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "477334100"
+    },
+    {
+      "sample_id": "pair_0030918",
+      "manifest_row": 18583,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "477637500"
+    },
+    {
+      "sample_id": "pair_0030919",
+      "manifest_row": 18584,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "477967400"
+    },
+    {
+      "sample_id": "pair_0030920",
+      "manifest_row": 18585,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538007025"
+    },
+    {
+      "sample_id": "pair_0030921",
+      "manifest_row": 18586,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538007475"
+    },
+    {
+      "sample_id": "pair_0030922",
+      "manifest_row": 18587,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538008184"
+    },
+    {
+      "sample_id": "pair_0030923",
+      "manifest_row": 18588,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538009583"
+    },
+    {
+      "sample_id": "pair_0030924",
+      "manifest_row": 18589,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538009597"
+    },
+    {
+      "sample_id": "pair_0030925",
+      "manifest_row": 18590,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538010107"
+    },
+    {
+      "sample_id": "pair_0030926",
+      "manifest_row": 18591,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538010694"
+    },
+    {
+      "sample_id": "pair_0030927",
+      "manifest_row": 18592,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538010749"
+    },
+    {
+      "sample_id": "pair_0030928",
+      "manifest_row": 18593,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538010961"
+    },
+    {
+      "sample_id": "pair_0030929",
+      "manifest_row": 18594,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538011003"
+    },
+    {
+      "sample_id": "pair_0030930",
+      "manifest_row": 18595,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538011110"
+    },
+    {
+      "sample_id": "pair_0030931",
+      "manifest_row": 18596,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538011259"
+    },
+    {
+      "sample_id": "pair_0030932",
+      "manifest_row": 18597,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "538011278"
+    },
+    {
+      "sample_id": "pair_0030933",
+      "manifest_row": 18598,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "548929000"
+    },
+    {
+      "sample_id": "pair_0030934",
+      "manifest_row": 18599,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "548954000"
+    },
+    {
+      "sample_id": "pair_0030935",
+      "manifest_row": 18600,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "548988000"
+    },
+    {
+      "sample_id": "pair_0030936",
+      "manifest_row": 18601,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "563141900"
+    },
+    {
+      "sample_id": "pair_0030937",
+      "manifest_row": 18602,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "563234500"
+    },
+    {
+      "sample_id": "pair_0030938",
+      "manifest_row": 18603,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "563305800"
+    },
+    {
+      "sample_id": "pair_0030939",
+      "manifest_row": 18604,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "636018481"
+    },
+    {
+      "sample_id": "pair_0030940",
+      "manifest_row": 18605,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "636023493"
+    },
+    {
+      "sample_id": "pair_0030941",
+      "manifest_row": 18606,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "636024189"
+    },
+    {
+      "sample_id": "pair_0030942",
+      "manifest_row": 18607,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "636024783"
+    },
+    {
+      "sample_id": "pair_0030943",
+      "manifest_row": 18608,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "636025442"
+    },
+    {
+      "sample_id": "pair_0030944",
+      "manifest_row": 18609,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": "636092981"
+    },
+    {
+      "sample_id": "pair_0030945",
+      "manifest_row": 18610,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": ""
+    },
+    {
+      "sample_id": "pair_0030946",
+      "manifest_row": 18611,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": ""
+    },
+    {
+      "sample_id": "pair_0030947",
+      "manifest_row": 18612,
+      "port": "Melbourne",
+      "class_name": "bulk_carrier",
+      "identity": ""
+    },
+    {
+      "sample_id": "pair_0031061",
+      "manifest_row": 18613,
+      "port": "Melbourne",
+      "class_name": "fishing_vessel",
+      "identity": "503517800"
+    },
+    {
+      "sample_id": "pair_0031062",
+      "manifest_row": 18614,
+      "port": "Melbourne",
+      "class_name": "fishing_vessel",
+      "identity": ""
+    },
+    {
+      "sample_id": "pair_0031063",
+      "manifest_row": 18615,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "246769000"
+    },
+    {
+      "sample_id": "pair_0031064",
+      "manifest_row": 18616,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "255806183"
+    },
+    {
+      "sample_id": "pair_0031065",
+      "manifest_row": 18617,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "305048000"
+    },
+    {
+      "sample_id": "pair_0031066",
+      "manifest_row": 18618,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "305160000"
+    },
+    {
+      "sample_id": "pair_0031067",
+      "manifest_row": 18619,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "305302000"
+    },
+    {
+      "sample_id": "pair_0031068",
+      "manifest_row": 18620,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "309759000"
+    },
+    {
+      "sample_id": "pair_0031069",
+      "manifest_row": 18621,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "371046000"
+    },
+    {
+      "sample_id": "pair_0031070",
+      "manifest_row": 18622,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "413479970"
+    },
+    {
+      "sample_id": "pair_0031071",
+      "manifest_row": 18623,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "413490410"
+    },
+    {
+      "sample_id": "pair_0031072",
+      "manifest_row": 18624,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "413491830"
+    },
+    {
+      "sample_id": "pair_0031073",
+      "manifest_row": 18625,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "413491830"
+    },
+    {
+      "sample_id": "pair_0031074",
+      "manifest_row": 18626,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "413492450"
+    },
+    {
+      "sample_id": "pair_0031075",
+      "manifest_row": 18627,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "538010720"
+    },
+    {
+      "sample_id": "pair_0031076",
+      "manifest_row": 18628,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "636023639"
+    },
+    {
+      "sample_id": "pair_0031077",
+      "manifest_row": 18629,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "636024365"
+    },
+    {
+      "sample_id": "pair_0031078",
+      "manifest_row": 18630,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": "636092312"
+    },
+    {
+      "sample_id": "pair_0031079",
+      "manifest_row": 18631,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": ""
+    },
+    {
+      "sample_id": "pair_0031080",
+      "manifest_row": 18632,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": ""
+    },
+    {
+      "sample_id": "pair_0031081",
+      "manifest_row": 18633,
+      "port": "Melbourne",
+      "class_name": "general_cargo",
+      "identity": ""
+    }
+  ],
+  "region_rule": "bbox pixel-edge bounds padded max(3,.20*max(width,height)); wide .35; clipped to native extent",
+  "comparison_limit": "Detection bboxes, not head/tail annotations or vessel masks. Bbox long side is not head-tail length.",
+  "unsuffixed_geometry": "VV native frame; center_x/y = native_w/h // 2 are coordinate adapter values, not object center",
+  "runner_requirement": "Use bbox_regions or generated per-polarization boxes. Existing head-tail region_boxes cannot consume missing endpoints. Process polarizations independently before model resize; do not stack unequal native shapes.",
+  "source_bbox_derivation": "Legacy center+width/height in base manifest; crop generator computes center=(left+right)/2. Returned original edges exactly cross-checked.",
+  "changed_original_files": false,
+  "gpu_used": false
+}
