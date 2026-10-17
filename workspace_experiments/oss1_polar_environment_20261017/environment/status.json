@@ -1,0 +1,81 @@
+{
+  "state": "completed_verified",
+  "verification_file": "verification.json",
+  "verification_result": "passed",
+  "verified_samples": 1349,
+  "verified_acquisitions": 22,
+  "independent_scalar_check_examples": 5,
+  "independent_source_check_examples": 10,
+  "remaining_access_blockers": [],
+  "updated_utc": "2026-10-17T05:12:42.237184+00:00",
+  "manifest_samples": 1349,
+  "acquisition_count": 22,
+  "actual_coverage": {
+    "era5_u10": {
+      "actual": 1349
+    },
+    "era5_v10": {
+      "actual": 1349
+    },
+    "era5_hs": {
+      "actual": 1293,
+      "source_missing_at_nearest_cell": 56
+    },
+    "era5_mean_wave_period": {
+      "actual": 1293,
+      "source_missing_at_nearest_cell": 56
+    },
+    "era5_mean_wave_direction": {
+      "actual": 1293,
+      "source_missing_at_nearest_cell": 56
+    },
+    "cmems_uo": {
+      "actual": 1347,
+      "source_missing_at_nearest_cell": 2
+    },
+    "cmems_vo": {
+      "actual": 1347,
+      "source_missing_at_nearest_cell": 2
+    },
+    "cmems_thetao": {
+      "actual": 1347,
+      "source_missing_at_nearest_cell": 2
+    },
+    "cmems_so": {
+      "actual": 1347,
+      "source_missing_at_nearest_cell": 2
+    }
+  },
+  "source_status": [
+    {
+      "source": "cmems",
+      "status": "finished",
+      "matched_acquisitions": 22,
+      "depth_m": 0.49402499198913574
+    },
+    {
+      "source": "era5",
+      "status": "finished",
+      "matched_acquisitions": 22,
+      "land_sea_mask_source_time_utc": "2015-08-23T22:00:00Z",
+      "depth_m": null
+    }
+  ],
+  "credentials": {
+    "cds_client_configured": false,
+    "marine_config_present": false,
+    "marine_netrc_present": false,
+    "cds_client_exception_type": "Exception",
+    "marine_env_pair_present": false
+  },
+  "bytes_downloaded_this_run": 0,
+  "bytes_downloaded_logged_total": 302845282,
+  "actual_array_chunk_bytes_downloaded_total": 302565243,
+  "cache_bytes": 302845282,
+  "run_download_limit_bytes": 0,
+  "sample_rows_with_all_nine_variables": 1292,
+  "no_new_training": true,
+  "predictions_remain_SAR_only": true,
+  "storage_overfetch": "ERA5: single-hour global 721x1440 chunks; CMEMS: 2081-day x 1-layer x 16x16 chunks; only required chunks are fetched, logical point selection retains sample date/location.",
+  "boundary": "Coarse regional background; shared grid/time records are not independent chip observations."
+}

@@ -1,0 +1,19 @@
+{
+  "arms": [
+    "uint8_spatial",
+    "uint8_bag",
+    "sigma0_spatial",
+    "uint8_lowpass"
+  ],
+  "alpha_candidates": [
+    0.0,
+    0.75,
+    4.0
+  ],
+  "alpha_selection": "source validation macro Brier; same and cross episodes",
+  "standardization": "legal source train only; missing response masked, coverage/presence explicit",
+  "task": "frozen four OSS1 acquisition folds; B16; five support draws; same/cross; no new SGD training",
+  "integration": "PSD SS and QS increment; refit support coefficients; frozen priors and equal full fusion",
+  "retrieval": "support-set MAP@R only, absent-class queries excluded with counts",
+  "limits": "exploratory previously used target cohorts; no independent confirmation claim; cached timing not end-to-end"
+}

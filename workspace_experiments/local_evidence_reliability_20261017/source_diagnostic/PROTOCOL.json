@@ -1,0 +1,37 @@
+{
+  "alpha": 0.75,
+  "descriptor": "uint8_spatial",
+  "training": "none; reconstruct only original analytic priors",
+  "dose_selection": "none; .75 predeclared; zero dose used only for endpoint verification",
+  "source_loader": "source-only projection of public.load_fold; no target query/support files or labels read",
+  "global_row_axis": "spatial_descriptors.npz sample_ids; no target_manifest read",
+  "episodes": "original make_episodes(fit/selection), exact q/s/prior comparison to old source_task_rows.json",
+  "pca": "original public.pca; same train+validation source rows and order; transform source rows only",
+  "standardization": "original probe.standardize; source train valid descriptors only; unchanged within-source exposure",
+  "integration": "original make_task/predict, SS+QS increment, support solve, old priors and equal full fusion",
+  "brier": "sum across 8 classes; gain=old-fixed, positive favors fixed; task weights 1/(observed_classes*class_query_count)",
+  "ap": "original stable-sort MAP@R per query; NaN when no same-class support; inactive queries use old retrieval",
+  "primary_aggregation": "average contexts/folds per unique sample within kind/origin, then equal observed class mean",
+  "secondary_aggregation": "old equal-task macro Brier; class-balanced unique queries per acquisition",
+  "oracle": "NONREALIZABLE: max(mean_context_brier_gain,0) per query; eventwise positive-only bound separately retained",
+  "associations": {
+    "features": [
+      "vv_native_contrast_db",
+      "vh_native_contrast_db",
+      "vv_native_top5_mass",
+      "vh_native_top5_mass",
+      "vv_native_long_extent_ratio",
+      "vh_native_long_extent_ratio",
+      "native_min_coverage",
+      "descriptor_min_coverage",
+      "baseline_entropy",
+      "baseline_top2_gap",
+      "support_sameclass_count"
+    ],
+    "method": "descriptive Spearman, unique queries and acquisition means; no p values",
+    "strata": "one source-fit median per feature/origin, reused unchanged in selection; no gate fitted"
+  },
+  "limits": "overlapping folds and fit/selection source memberships; source-only diagnostic, not independent confirmation or causal proof",
+  "threads": 1,
+  "writes": "this source_diagnostic directory only"
+}

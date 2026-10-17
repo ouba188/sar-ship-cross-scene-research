@@ -1,0 +1,58 @@
+{
+  "scope": "Metadata only; no images, training, new downloads, root scripts or brain modifications",
+  "alignment": {
+    "oss1": "E:\\临时会话\\oss1_joint_geometry_20261017\\geometry.csv",
+    "oss2": "E:\\Hermes\\paper_tracking\\sensitivity\\opensarship2_transfer_20261007\\target_manifest.csv",
+    "oss2_prior_inventory": "E:\\临时会话\\oss1_polar_environment_20261017\\oss2_native_inventory.csv",
+    "keys": "preserve input order; exact scene folder + center_x/y + MMSI; OSS1 XML ordinal checked"
+  },
+  "ais": {
+    "sog": "integer raw 0..1022 divided by 10 knots; 1023 missing; 1022 is >=102.2 knots, excluded from point-vector projections",
+    "cog": "integer raw 0..3599 divided by 10 degrees clockwise from true north; 3600 missing; low-speed direction not necessarily meaningful",
+    "true_heading": "0..359 degrees, 511 missing; independent from COG and SAR Chip_Direction",
+    "nav_status": "raw code retained; 15 undefined; 0..14 encoded categories include reserved statuses, not a validated activity label",
+    "draught": "raw 1..254 /10 metres; 0 missing; 255 lower bound >=25.5m; outside 0..255 invalid; update time unknown",
+    "dimensions": "AIS Length/Width metres, MarineTraffic Length_overall/Breadth_extreme metres and SAR Manual_Length metres remain separate; no fallback",
+    "timegap": "AIS UTC epoch - Ship.xml SAR UTC; signed seconds; no timegap excluded automatically; 60/120/300s flags are sensitivity views",
+    "static_time": "AIS dynamic timestamp is not evidence of dimensions/draught update time"
+  },
+  "geometry": {
+    "method": "Scipy CubicHermiteSpline uses original timed ECEF position metres and velocity m/s, no extrapolation; pyproj WGS84 lon/lat to ECEF at ellipsoid height 0m",
+    "time": "evaluate at reported Ship.xml SAR time, constant per product; not recovered per-target azimuth time; geographic ground proxy only",
+    "los": "target to satellite unit vector transformed into target local east,north,up; horizontal normalized LOS also retained",
+    "incidence": "acos(up component), compared to geometry.csv incidence for OSS1 / raw XML for OSS2; absolute residual <=1deg is a coarse prespecified consistency flag, not accuracy certification",
+    "flight": "normalize satellite ECEF velocity projected onto target local horizontal plane; not PASS-derived bearing",
+    "ground": "SOG vector: east=speed*sin(COG), north=speed*cos(COG), vertical=0; dot horizontal LOS for ground range-direction proxy; dot 3D LOS for slant-LOS ground-motion contribution; dot flight for alongflight; abs columns discard sign",
+    "positive_signs": "LOS toward satellite; range_away opposite horizontal LOS; alongflight in projected satellite flight direction",
+    "validity": "point SOG + coded COG + orbit bracket + finite above-horizon geometry + reported SAR timestamp inside product acquisition interval + incidence residual <=1deg; does NOT certify simultaneity or physical motion truth",
+    "not_claimed": [
+      "STW",
+      "measured SAR velocity",
+      "measured Doppler shift",
+      "stationary duration",
+      "precise per-pixel acquisition time",
+      "full chip georeference",
+      "image-plane geographic direction mapping"
+    ]
+  },
+  "product": {
+    "frequency": "SNAP AbstractMetadata radar_frequency MHz -> Hz",
+    "pixel_spacing": "range spacing uses srgr_flag=1 ground vs 0 slant; azimuth spacing stored separately; neither is effective resolution",
+    "processing": "raw metadata flags describe native product; imported displayed chips may have separate scaling/cropping; raw attributes/bands retained in product_metadata_raw.json",
+    "local_duplicate_folder": "OSS2 scene ending (1) retained; metadata PRODUCT is checked against exact name minus that observed suffix"
+  },
+  "xml": {
+    "method": "existing audit lxml structured parser with recover=True and UTF8 replacement; no source files edited; errors and affected fields recorded per product",
+    "evidence": "E:\\临时会话\\ports_root_cause_20261013\\dataset_audit\\audit_local.py"
+  },
+  "references": [
+    "E:\\临时会话\\ports_root_cause_20261013\\dataset_audit\\BUNDLED_README_TEXT.md",
+    "https://www.navcen.uscg.gov/ais-class-a-reports",
+    "https://www.navcen.uscg.gov/ais-class-a-static-voyage-message-5",
+    "https://raw.githubusercontent.com/senbox-org/snap-engine/master/snap-engine-utilities/src/main/java/org/esa/snap/engine_utilities/datamodel/AbstractMetadata.java"
+  ],
+  "provenance_only": [
+    "imported_heading_deg is SAR Chip_Direction, not AIS heading",
+    "imported_mixed_length_m may include SAR fallback, never independent truth"
+  ]
+}

@@ -1,6 +1,8 @@
 # SAR Ship Cross-Scene Research Archive
 
-Private working archive of the SAR ship-classification experiments through 2026-10-15. This is a research snapshot, not a release of the datasets or a claim that every candidate became part of the final method.
+Public research archive of the SAR ship-classification experiments through 2026-10-17. This is a research snapshot, not a release of the datasets or a claim that every candidate became part of the final method.
+
+Start with [the October 17 research update](RESEARCH_UPDATE_20261017_ZH.md) for the new studies, results, and their limitations. Earlier findings are retained as historical evidence, not silently replaced by the newest candidate.
 
 ## Current Study
 
@@ -12,12 +14,15 @@ The October 15 body/context probe found a small, scoped gain from a ring-only su
 
 ## Contents
 
-- `workspace_experiments/`: experiment code, notes, plots, configs, and result tables from the dated October 3-15 workspace studies, including negative results.
+- `workspace_experiments/`: experiment code, notes, plots, configs, and result tables from the dated October 3-17 workspace studies, including negative results.
+- `workspace_tools/`: the repaired OBB preview utility and its regression tests used by the geometry investigations.
 - `paper_tracking_sensitivity/`: October 2026 SAR sensitivity code and reports with its small result tables.
 - `legacy_paper_20261007/`: older manuscript notes from the preceding repository, retained as historical context only; they do not describe the current strict model.
 - `snapshot.ps1`: exact local file-selection and compression procedure used to assemble this archive.
 - `archive_manifest.json`: source scopes, file counts, and size accounting generated at snapshot time.
 
 CSV tables larger than 1 MiB are stored as `.csv.gz` at the same relative path. Standard gzip tools or Python's `gzip.open` can read them. Excluded are original SAR imagery, chips, pretrained/model weights, full feature tensors, PDF literature copies, and large cache arrays. Absolute paths in scripts describe the original Windows workstation and must be adjusted for another machine.
+
+Image panels in reports are diagnostic figures, not a complete image dataset. External environment caches and vendored dependencies are excluded. The October 17 chip-quality side study is actively rewriting metadata and running detection, so it is deferred rather than archived as a potentially mixed-version snapshot.
 
 This archive is a development record. The datasets have been used repeatedly for model development; support draws are not independent backbone seeds; some held folds contain fewer than eight query classes. Refer to the individual reports for each protocol and denominator. Do not add improvements from different protocols or treat diagnostic oracle interventions as deployable methods.

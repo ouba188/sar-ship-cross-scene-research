@@ -1,0 +1,104 @@
+{
+  "source_historical_ship_max_error": 2.2593419416183647e-06,
+  "historical_pca_rounding_note": "Raw peaks and original batch replay exactly; inventory batch changes float32 GEMM rounding.",
+  "query_label_prediction_invariant": true,
+  "nonzero_B_gradients": true,
+  "region_input_changes": [
+    {
+      "arm": "wrong",
+      "changes": {
+        "ship": 0.7310620827830648,
+        "tokens": 2.6041667461395264,
+        "positions": 0.9617130756378174,
+        "areas": 112.0,
+        "ship_tokens": 1.3758001327514648,
+        "img_tokens": 1.3758001327514648
+      }
+    },
+    {
+      "arm": "fixed",
+      "changes": {
+        "ship": 0.7359262598586631,
+        "tokens": 2.6041667461395264,
+        "positions": 0.9617130756378174,
+        "areas": 112.0,
+        "ship_tokens": 1.5146852731704712,
+        "img_tokens": 1.5146852731704712
+      }
+    }
+  ],
+  "role_overlap_checks": [
+    {
+      "left": "fit",
+      "right": "gallery",
+      "field": "mmsi",
+      "overlap": 0
+    },
+    {
+      "left": "fit",
+      "right": "gallery",
+      "field": "product",
+      "overlap": 0
+    },
+    {
+      "left": "fit",
+      "right": "selection",
+      "field": "mmsi",
+      "overlap": 0
+    },
+    {
+      "left": "fit",
+      "right": "selection",
+      "field": "product",
+      "overlap": 0
+    },
+    {
+      "left": "fit",
+      "right": "target",
+      "field": "mmsi",
+      "overlap": 0
+    },
+    {
+      "left": "fit",
+      "right": "target",
+      "field": "product",
+      "overlap": 0
+    },
+    {
+      "left": "gallery",
+      "right": "selection",
+      "field": "mmsi",
+      "overlap": 0
+    },
+    {
+      "left": "gallery",
+      "right": "selection",
+      "field": "product",
+      "overlap": 0
+    },
+    {
+      "left": "gallery",
+      "right": "target",
+      "field": "mmsi",
+      "overlap": 0
+    },
+    {
+      "left": "gallery",
+      "right": "target",
+      "field": "product",
+      "overlap": 0
+    },
+    {
+      "left": "selection",
+      "right": "target",
+      "field": "mmsi",
+      "overlap": 0
+    },
+    {
+      "left": "selection",
+      "right": "target",
+      "field": "product",
+      "overlap": 0
+    }
+  ]
+}

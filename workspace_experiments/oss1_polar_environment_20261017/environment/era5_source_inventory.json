@@ -1,0 +1,248 @@
+{
+  "url": "https://storage.googleapis.com/gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3",
+  "attrs": {
+    "valid_time_start": "1940-01-01",
+    "last_updated": "2026-10-17 03:40:56.749115+00:00",
+    "valid_time_stop": "2026-06-30",
+    "valid_time_stop_era5t": "2026-10-11"
+  },
+  "sizes": {
+    "time": 1323648,
+    "latitude": 721,
+    "longitude": 1440,
+    "level": 37
+  },
+  "variables": {
+    "10m_u_component_of_wind": {
+      "attrs": {
+        "long_name": "10 metre U wind component",
+        "short_name": "u10",
+        "units": "m s**-1"
+      },
+      "dimensions": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "zarr": {
+        "chunks": [
+          1,
+          721,
+          1440
+        ],
+        "compressor": {
+          "blocksize": 0,
+          "clevel": 5,
+          "cname": "lz4",
+          "id": "blosc",
+          "shuffle": 1
+        },
+        "dtype": "<f4",
+        "fill_value": "NaN",
+        "filters": null,
+        "order": "C",
+        "shape": [
+          1323648,
+          721,
+          1440
+        ],
+        "zarr_format": 2
+      }
+    },
+    "10m_v_component_of_wind": {
+      "attrs": {
+        "long_name": "10 metre V wind component",
+        "short_name": "v10",
+        "units": "m s**-1"
+      },
+      "dimensions": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "zarr": {
+        "chunks": [
+          1,
+          721,
+          1440
+        ],
+        "compressor": {
+          "blocksize": 0,
+          "clevel": 5,
+          "cname": "lz4",
+          "id": "blosc",
+          "shuffle": 1
+        },
+        "dtype": "<f4",
+        "fill_value": "NaN",
+        "filters": null,
+        "order": "C",
+        "shape": [
+          1323648,
+          721,
+          1440
+        ],
+        "zarr_format": 2
+      }
+    },
+    "land_sea_mask": {
+      "attrs": {
+        "long_name": "Land-sea mask",
+        "short_name": "lsm",
+        "standard_name": "land_binary_mask",
+        "units": "(0 - 1)"
+      },
+      "dimensions": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "zarr": {
+        "chunks": [
+          1,
+          721,
+          1440
+        ],
+        "compressor": {
+          "blocksize": 0,
+          "clevel": 5,
+          "cname": "lz4",
+          "id": "blosc",
+          "shuffle": 1
+        },
+        "dtype": "<f4",
+        "fill_value": "NaN",
+        "filters": null,
+        "order": "C",
+        "shape": [
+          1323648,
+          721,
+          1440
+        ],
+        "zarr_format": 2
+      }
+    },
+    "mean_wave_direction": {
+      "attrs": {
+        "long_name": "Mean wave direction",
+        "short_name": "mwd",
+        "units": "Degree true"
+      },
+      "dimensions": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "zarr": {
+        "chunks": [
+          1,
+          721,
+          1440
+        ],
+        "compressor": {
+          "blocksize": 0,
+          "clevel": 5,
+          "cname": "lz4",
+          "id": "blosc",
+          "shuffle": 1
+        },
+        "dtype": "<f4",
+        "fill_value": "NaN",
+        "filters": null,
+        "order": "C",
+        "shape": [
+          1323648,
+          721,
+          1440
+        ],
+        "zarr_format": 2
+      }
+    },
+    "mean_wave_period": {
+      "attrs": {
+        "long_name": "Mean wave period",
+        "short_name": "mwp",
+        "units": "s"
+      },
+      "dimensions": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "zarr": {
+        "chunks": [
+          1,
+          721,
+          1440
+        ],
+        "compressor": {
+          "blocksize": 0,
+          "clevel": 5,
+          "cname": "lz4",
+          "id": "blosc",
+          "shuffle": 1
+        },
+        "dtype": "<f4",
+        "fill_value": "NaN",
+        "filters": null,
+        "order": "C",
+        "shape": [
+          1323648,
+          721,
+          1440
+        ],
+        "zarr_format": 2
+      }
+    },
+    "significant_height_of_combined_wind_waves_and_swell": {
+      "attrs": {
+        "long_name": "Significant height of combined wind waves and swell",
+        "short_name": "swh",
+        "units": "m"
+      },
+      "dimensions": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "zarr": {
+        "chunks": [
+          1,
+          721,
+          1440
+        ],
+        "compressor": {
+          "blocksize": 0,
+          "clevel": 5,
+          "cname": "lz4",
+          "id": "blosc",
+          "shuffle": 1
+        },
+        "dtype": "<f4",
+        "fill_value": "NaN",
+        "filters": null,
+        "order": "C",
+        "shape": [
+          1323648,
+          721,
+          1440
+        ],
+        "zarr_format": 2
+      }
+    }
+  },
+  "coordinate_first_last": {
+    "time": [
+      "1900-01-01T00:00:00.000000000",
+      "2050-12-31T23:00:00.000000000"
+    ],
+    "latitude": [
+      "90.0",
+      "-90.0"
+    ],
+    "longitude": [
+      "0.0",
+      "359.75"
+    ]
+  }
+}

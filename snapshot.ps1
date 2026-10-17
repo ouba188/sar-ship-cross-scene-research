@@ -7,7 +7,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $allowed = @('.md', '.py', '.csv', '.json', '.yaml', '.yml', '.txt', '.svg', '.html', '.ipynb', '.geojson', '.jsonl', '.png', '.tex', '.bib')
-$skipDirectory = '\\(__pycache__|\.pytest_cache|cache|tmp|\.git)\\'
+$skipDirectory = '\\(__pycache__|\.pytest_cache|cache|tmp|\.git|vendor)\\'
 $records = [System.Collections.Generic.List[object]]::new()
 $skipped = [System.Collections.Generic.List[object]]::new()
 
@@ -40,10 +40,16 @@ function Copy-ResearchFile {
     } else {
         [System.IO.File]::Copy($File.FullName, $target, $true)
     }
+    if ($File.Extension -eq '.csv') {
+        $alternate = if ($target.EndsWith('.gz')) { $target.Substring(0, $target.Length - 3) } else { $target + '.gz' }
+        if (Test-Path -LiteralPath $alternate) { Remove-Item -LiteralPath $alternate }
+    }
     $records.Add([pscustomobject]@{scope=$TargetRoot; path=$relative; source_bytes=$File.Length; stored_bytes=(Get-Item -LiteralPath $target).Length})
 }
 
-$experimentDirs = @(Get-ChildItem -LiteralPath $Workspace -Directory | Where-Object { $_.Name -match '202610(0[1-9]|1[0-5])' })
+$experimentDirs = @(Get-ChildItem -LiteralPath $Workspace -Directory | Where-Object {
+    $_.Name -match '202610(0[1-9]|1[0-7])' -and $_.Name -ne 'chip_quality_20261017'
+})
 foreach ($dir in $experimentDirs) {
     $targetRoot = Join-Path $Destination 'workspace_experiments' $dir.Name
     foreach ($file in (Get-ChildItem -LiteralPath $dir.FullName -File -Recurse)) {
@@ -63,8 +69,18 @@ foreach ($file in (Get-ChildItem -LiteralPath $legacyRoot -File -Recurse)) {
     Copy-ResearchFile $file $legacyRoot $targetRoot $false
 }
 
+$targetRoot = Join-Path $Destination 'workspace_tools'
+foreach ($name in @('sea_ship_redetect_preview.py', 'test_sea_ship_redetect_preview.py')) {
+    $path = Join-Path $Workspace $name
+    if (Test-Path -LiteralPath $path) {
+        Copy-ResearchFile (Get-Item -LiteralPath $path) $Workspace $targetRoot $false
+    }
+}
+
 $summary = [pscustomobject]@{
-    snapshot_date = '2026-10-15'
+    snapshot_date = '2026-10-17'
+    snapshot_created_local = (Get-Date -Format 'yyyy-MM-ddTHH:mm:sszzz')
+    deferred_studies = @('chip_quality_20261017: actively rewriting metadata and running detection; excluded until a coherent snapshot is available')
     experiment_directories = @($experimentDirs.Name)
     copied_files = $records.Count
     source_bytes = [long](($records | Measure-Object source_bytes -Sum).Sum)

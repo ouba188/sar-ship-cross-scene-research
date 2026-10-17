@@ -1,0 +1,90 @@
+{
+  "samples": 1349,
+  "acquisitions": 22,
+  "variables": {
+    "era5_u10": {
+      "actual": 1349,
+      "missing": 0,
+      "min": -10.329459190368652,
+      "median": 1.0698837041854858,
+      "max": 8.297320365905762
+    },
+    "era5_v10": {
+      "actual": 1349,
+      "missing": 0,
+      "min": -8.382277488708496,
+      "median": 1.23603093624115,
+      "max": 9.339550971984863
+    },
+    "era5_hs": {
+      "actual": 1293,
+      "missing": 56,
+      "min": 0.1522378921508789,
+      "median": 0.5194821357727051,
+      "max": 1.9442739486694336
+    },
+    "era5_mean_wave_period": {
+      "actual": 1293,
+      "missing": 56,
+      "min": 2.207498073577881,
+      "median": 3.140072822570801,
+      "max": 5.9712419509887695
+    },
+    "era5_mean_wave_direction": {
+      "actual": 1293,
+      "missing": 56,
+      "min": 8.729110717773438,
+      "max": 302.7284851074219
+    },
+    "cmems_uo": {
+      "actual": 1347,
+      "missing": 2,
+      "min": -0.2423169650137424,
+      "median": 0.0683614611625671,
+      "max": 0.4406872764229774
+    },
+    "cmems_vo": {
+      "actual": 1347,
+      "missing": 2,
+      "min": -0.2587969601154327,
+      "median": 0.0030518509447574,
+      "max": 0.4766991175711155
+    },
+    "cmems_thetao": {
+      "actual": 1347,
+      "missing": 2,
+      "min": -0.6818140000104904,
+      "median": 11.187444694340227,
+      "max": 28.61961729079485
+    },
+    "cmems_so": {
+      "actual": 1347,
+      "missing": 2,
+      "min": 9.086886188015342,
+      "median": 23.740348499268293,
+      "max": 34.50422678142786
+    }
+  },
+  "sources": {
+    "era5": {
+      "unique_cell_times": 288,
+      "unique_valid_all_variable_cell_times": 256,
+      "max_samples_sharing_cell_time": 25,
+      "distance_km_median": 10.91841225238839,
+      "distance_km_max": 17.464739889699544
+    },
+    "cmems": {
+      "unique_cell_times": 634,
+      "unique_valid_all_variable_cell_times": 632,
+      "max_samples_sharing_cell_time": 12,
+      "distance_km_median": 3.374502844361692,
+      "distance_km_max": 6.295515245430632
+    }
+  },
+  "all_nine_actual_samples": 1292,
+  "missing_any_samples": 57,
+  "wave_missing_with_atmospheric_land_fraction_gt_half": 6,
+  "wave_missing_with_atmospheric_land_fraction_le_half": 50,
+  "atmospheric_land_fraction_gt_half_samples": 11,
+  "mean_wave_direction_aggregation": "not_averaged;retain_native_FROM_degrees_per_cell"
+}

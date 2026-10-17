@@ -1,0 +1,9 @@
+{
+  "date": "2026-10-17",
+  "notes": "Initial read-only HTTP probes preceded the persistent download log. They fetched metadata/documents, not environmental numeric data. No credentials were emitted.",
+  "probes": [
+    {"source": "ECMWF official ERA5 wave ARCO", "url": "https://arco.datastores.ecmwf.int/cadl-arco-geo-003/arco/reanalysis_era5_single_levels/wav/geoChunked.zarr/.zmetadata", "http_status": 401, "response_bytes": 128, "reason": "MISSING_CREDENTIALS"},
+    {"source": "Google Research ARCO ERA5", "url": "https://storage.googleapis.com/gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/.zmetadata", "http_status": 200, "response_bytes": 132785, "reason": "public_metadata_readable;numeric_reads_recorded_in_download_log.csv"},
+    {"source": "Copernicus Marine official GLORYS12", "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-025/arco/GLOBAL_MULTIYEAR_PHY_001_030/cmems_mod_glo_phy_my_0.083deg_P1D-m_202311/geoChunked.zarr/.zmetadata", "http_status": 200, "response_bytes": 17376, "reason": "public_metadata_readable;numeric_reads_recorded_in_download_log.csv"}
+  ]
+}

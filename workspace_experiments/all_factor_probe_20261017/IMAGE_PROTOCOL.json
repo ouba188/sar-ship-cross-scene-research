@@ -1,0 +1,25 @@
+{
+  "samples": 1349,
+  "valid_axes": 1282,
+  "tokens": 18,
+  "token_channels": [
+    "vv_response",
+    "vv_coverage",
+    "vv_present",
+    "vh_response",
+    "vh_coverage",
+    "vh_present"
+  ],
+  "scalar": "log1p(region_mean/body_mean)",
+  "coordinate": "native OBB times1.25; -3..3 in long/transverse axes",
+  "arms": [
+    "uint8_spatial",
+    "uint8_bag",
+    "sigma0_spatial",
+    "uint8_lowpass"
+  ],
+  "axis": "unsigned; opposite cells paired",
+  "lowpass": "half native dimensions then restore bilinear, not a new sensor simulation",
+  "input": "SAR pixels and image-derived OBB only; no AIS/environment labels",
+  "intent": "fixed diagnostic readouts, not a newly trained attention module"
+}

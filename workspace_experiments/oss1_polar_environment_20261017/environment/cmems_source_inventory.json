@@ -1,0 +1,227 @@
+{
+  "url": "https://s3.waw3-1.cloudferro.com/mdl-arco-geo-025/arco/GLOBAL_MULTIYEAR_PHY_001_030/cmems_mod_glo_phy_my_0.083deg_P1D-m_202311/geoChunked.zarr",
+  "attrs": {
+    "Conventions": "CF-1.4",
+    "bulletin_date": "2021-07-07 00:00:00",
+    "bulletin_type": "operational",
+    "comment": "CMEMS product",
+    "domain_name": "GL12",
+    "easting": "longitude",
+    "field_date": "2021-06-30 00:00:00",
+    "field_julian_date": 26113.0,
+    "field_type": "mean",
+    "forecast_range": "",
+    "forecast_type": "",
+    "history": "2023/06/01 16:20:05 MERCATOR OCEAN Netcdf creation",
+    "institution": "MERCATOR OCEAN",
+    "julian_day_unit": "days since 1950-01-01 00:00:00",
+    "latitude_max": 90.0,
+    "latitude_min": -80.0,
+    "longitude_max": 179.9166717529297,
+    "longitude_min": -180.0,
+    "northing": "latitude",
+    "references": "http://www.mercator-ocean.fr",
+    "source": "MERCATOR GLORYS12V1",
+    "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily",
+    "z_max": 5727.9169921875,
+    "z_min": 0.49402499198913574
+  },
+  "sizes": {
+    "time": 12290,
+    "latitude": 2041,
+    "longitude": 4320,
+    "elevation": 50
+  },
+  "variables": {
+    "so": {
+      "attrs": {
+        "cell_methods": "area: mean",
+        "long_name": "Salinity",
+        "standard_name": "sea_water_salinity",
+        "unit_long": "Practical Salinity Unit",
+        "units": "1e-3",
+        "valid_max": 28249,
+        "valid_min": 1
+      },
+      "dimensions": [
+        "time",
+        "elevation",
+        "latitude",
+        "longitude"
+      ],
+      "zarr": {
+        "chunks": [
+          2081,
+          1,
+          16,
+          16
+        ],
+        "compressor": {
+          "blocksize": 0,
+          "clevel": 5,
+          "cname": "lz4",
+          "id": "blosc",
+          "shuffle": 1
+        },
+        "dtype": "<i2",
+        "fill_value": -32767,
+        "filters": null,
+        "order": "C",
+        "shape": [
+          12290,
+          50,
+          2041,
+          4320
+        ],
+        "zarr_format": 2
+      }
+    },
+    "thetao": {
+      "attrs": {
+        "cell_methods": "area: mean",
+        "long_name": "Temperature",
+        "standard_name": "sea_water_potential_temperature",
+        "unit_long": "Degrees Celsius",
+        "units": "degrees_C",
+        "valid_max": 21306,
+        "valid_min": -32766
+      },
+      "dimensions": [
+        "time",
+        "elevation",
+        "latitude",
+        "longitude"
+      ],
+      "zarr": {
+        "chunks": [
+          2081,
+          1,
+          16,
+          16
+        ],
+        "compressor": {
+          "blocksize": 0,
+          "clevel": 5,
+          "cname": "lz4",
+          "id": "blosc",
+          "shuffle": 1
+        },
+        "dtype": "<i2",
+        "fill_value": -32767,
+        "filters": null,
+        "order": "C",
+        "shape": [
+          12290,
+          50,
+          2041,
+          4320
+        ],
+        "zarr_format": 2
+      }
+    },
+    "uo": {
+      "attrs": {
+        "cell_methods": "area: mean",
+        "long_name": "Eastward velocity",
+        "standard_name": "eastward_sea_water_velocity",
+        "unit_long": "Meters per second",
+        "units": "m s-1",
+        "valid_max": 4314,
+        "valid_min": -3123
+      },
+      "dimensions": [
+        "time",
+        "elevation",
+        "latitude",
+        "longitude"
+      ],
+      "zarr": {
+        "chunks": [
+          2081,
+          1,
+          16,
+          16
+        ],
+        "compressor": {
+          "blocksize": 0,
+          "clevel": 5,
+          "cname": "lz4",
+          "id": "blosc",
+          "shuffle": 1
+        },
+        "dtype": "<i2",
+        "fill_value": -32767,
+        "filters": null,
+        "order": "C",
+        "shape": [
+          12290,
+          50,
+          2041,
+          4320
+        ],
+        "zarr_format": 2
+      }
+    },
+    "vo": {
+      "attrs": {
+        "cell_methods": "area: mean",
+        "long_name": "Northward velocity",
+        "standard_name": "northward_sea_water_velocity",
+        "unit_long": "Meters per second",
+        "units": "m s-1",
+        "valid_max": 3639,
+        "valid_min": -3680
+      },
+      "dimensions": [
+        "time",
+        "elevation",
+        "latitude",
+        "longitude"
+      ],
+      "zarr": {
+        "chunks": [
+          2081,
+          1,
+          16,
+          16
+        ],
+        "compressor": {
+          "blocksize": 0,
+          "clevel": 5,
+          "cname": "lz4",
+          "id": "blosc",
+          "shuffle": 1
+        },
+        "dtype": "<i2",
+        "fill_value": -32767,
+        "filters": null,
+        "order": "C",
+        "shape": [
+          12290,
+          50,
+          2041,
+          4320
+        ],
+        "zarr_format": 2
+      }
+    }
+  },
+  "coordinate_first_last": {
+    "time": [
+      "1993-01-01T00:00:00.000000000",
+      "2026-08-25T00:00:00.000000000"
+    ],
+    "latitude": [
+      "-80.0",
+      "90.0"
+    ],
+    "longitude": [
+      "-180.0",
+      "179.91667"
+    ],
+    "elevation": [
+      "-5727.917",
+      "-0.494025"
+    ]
+  }
+}

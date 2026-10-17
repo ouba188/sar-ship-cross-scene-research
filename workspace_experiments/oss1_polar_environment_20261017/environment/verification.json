@@ -1,0 +1,438 @@
+{
+  "result": "passed",
+  "verification": "Offline original packed Zarr scalar values vs xarray-derived CSV; coordinate/time/depth/fill/status/shared-cell consistency",
+  "samples": 1349,
+  "acquisitions": 22,
+  "checked_examples": 5,
+  "checked_source_examples": 10,
+  "network_bytes": 0,
+  "selected_sample_ids": [
+    "S1A_IW_GRDH_1SDV_20150823T221233_20150823T221258_007396_00A2CA_54D0:x1673:y6973",
+    "S1A_IW_GRDH_1SDV_20160328T095421_20160328T095446_010568_00FB64_215C:x5998:y8270",
+    "S1A_IW_GRDH_1SDV_20160405T102459_20160405T102528_010685_00FED5_97D5:x394:y2746",
+    "S1A_IW_GRDH_1SDV_20160328T095421_20160328T095446_010568_00FB64_215C:x16498:y4160",
+    "S1A_IW_GRDH_1SDV_20150916T221233_20150916T221258_007746_00AC44_BA63:x1866:y6375"
+  ],
+  "examples": [
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20150823T221233_20150823T221258_007396_00A2CA_54D0:x1673:y6973",
+      "acquisition": "S1A_007396_00A2CA",
+      "source": "cmems",
+      "sar_time_utc": "2015-08-23 22:12:45+00:00",
+      "sar_lat": 39.10183,
+      "sar_lon": 119.1583,
+      "product_time_utc": "2015-08-23T00:00:00+00:00",
+      "source_indices": [
+        8269,
+        49,
+        1429,
+        3590
+      ],
+      "grid_lat": 39.08333206176758,
+      "grid_lon": 119.16666412353516,
+      "match_distance_km": 2.1798631766870558,
+      "values": {
+        "cmems_uo": {
+          "packed_raw": -79.0,
+          "decoded": -0.04821924492716789,
+          "csv_value": -0.0482192449271678
+        },
+        "cmems_vo": {
+          "packed_raw": -83.0,
+          "decoded": -0.05066072568297386,
+          "csv_value": -0.0506607256829738
+        },
+        "cmems_thetao": {
+          "packed_raw": -1182.0,
+          "decoded": 20.134250923991203,
+          "csv_value": 20.134250923991203
+        },
+        "cmems_so": {
+          "packed_raw": 18083.0,
+          "decoded": 27.59178439155221,
+          "csv_value": 27.59178439155221
+        }
+      }
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20160328T095421_20160328T095446_010568_00FB64_215C:x5998:y8270",
+      "acquisition": "S1A_010568_00FB64",
+      "source": "cmems",
+      "sar_time_utc": "2016-03-28 09:54:35+00:00",
+      "sar_lat": 30.5858,
+      "sar_lon": 121.1788,
+      "product_time_utc": "2016-03-28T00:00:00+00:00",
+      "source_indices": [
+        8487,
+        49,
+        1327,
+        3614
+      ],
+      "grid_lat": 30.58333396911621,
+      "grid_lon": 121.16666412353516,
+      "match_distance_km": 1.1936367693102727,
+      "values": {
+        "cmems_uo": {
+          "packed_raw": 221.0,
+          "decoded": 0.1348918117582798,
+          "csv_value": 0.1348918117582798
+        },
+        "cmems_vo": {
+          "packed_raw": 53.0,
+          "decoded": 0.03234962001442909,
+          "csv_value": 0.032349620014429
+        },
+        "cmems_thetao": {
+          "packed_raw": -12646.0,
+          "decoded": 11.737510308623314,
+          "csv_value": 11.737510308623314
+        },
+        "cmems_so": {
+          "packed_raw": 6683.0,
+          "decoded": 10.196234006434679,
+          "csv_value": 10.19623400643468
+        }
+      }
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20160405T102459_20160405T102528_010685_00FED5_97D5:x394:y2746",
+      "acquisition": "S1A_010685_00FED5",
+      "source": "cmems",
+      "sar_time_utc": "2016-04-05 10:25:14+00:00",
+      "sar_lat": 21.709,
+      "sar_lon": 114.2729,
+      "product_time_utc": "2016-04-05T00:00:00+00:00",
+      "source_indices": [
+        8495,
+        49,
+        1221,
+        3531
+      ],
+      "grid_lat": 21.75,
+      "grid_lon": 114.25,
+      "match_distance_km": 5.1361185279706,
+      "values": {
+        "cmems_uo": {
+          "packed_raw": 162.0,
+          "decoded": 0.09887997061014175,
+          "csv_value": 0.0988799706101417
+        },
+        "cmems_vo": {
+          "packed_raw": 238.0,
+          "decoded": 0.14526810497045517,
+          "csv_value": 0.1452681049704551
+        },
+        "cmems_thetao": {
+          "packed_raw": 1475.0,
+          "decoded": 22.08035523444414,
+          "csv_value": 22.08035523444414
+        },
+        "cmems_so": {
+          "packed_raw": 22416.0,
+          "decoded": 34.20361946336925,
+          "csv_value": 34.20361946336925
+        }
+      }
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20160328T095421_20160328T095446_010568_00FB64_215C:x16498:y4160",
+      "acquisition": "S1A_010568_00FB64",
+      "source": "cmems",
+      "sar_time_utc": "2016-03-28 09:54:35+00:00",
+      "sar_lat": 30.38543,
+      "sar_lon": 122.3332,
+      "product_time_utc": "2016-03-28T00:00:00+00:00",
+      "source_indices": [
+        8487,
+        49,
+        1325,
+        3628
+      ],
+      "grid_lat": 30.41666603088379,
+      "grid_lon": 122.33333587646484,
+      "match_distance_km": 3.473317406384911,
+      "values": {
+        "cmems_uo": {
+          "packed_raw": -32767.0,
+          "decoded": null,
+          "csv_value": null
+        },
+        "cmems_vo": {
+          "packed_raw": -32767.0,
+          "decoded": null,
+          "csv_value": null
+        },
+        "cmems_thetao": {
+          "packed_raw": -32767.0,
+          "decoded": null,
+          "csv_value": null
+        },
+        "cmems_so": {
+          "packed_raw": -32767.0,
+          "decoded": null,
+          "csv_value": null
+        }
+      }
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20150916T221233_20150916T221258_007746_00AC44_BA63:x1866:y6375",
+      "acquisition": "S1A_007746_00AC44",
+      "source": "cmems",
+      "sar_time_utc": "2015-09-16 22:12:45+00:00",
+      "sar_lat": 39.15881,
+      "sar_lon": 119.1503,
+      "product_time_utc": "2015-09-16T00:00:00+00:00",
+      "source_indices": [
+        8293,
+        49,
+        1430,
+        3590
+      ],
+      "grid_lat": 39.16666793823242,
+      "grid_lon": 119.16666412353516,
+      "match_distance_km": 1.659501576955322,
+      "values": {
+        "cmems_uo": {
+          "packed_raw": 154.0,
+          "decoded": 0.09399700909852982,
+          "csv_value": 0.0939970090985298
+        },
+        "cmems_vo": {
+          "packed_raw": 32.0,
+          "decoded": 0.019531846046447754,
+          "csv_value": 0.0195318460464477
+        },
+        "cmems_thetao": {
+          "packed_raw": -4227.0,
+          "decoded": 17.90395825356245,
+          "csv_value": 17.90395825356245
+        },
+        "cmems_so": {
+          "packed_raw": 15206.0,
+          "decoded": 23.2016968075186,
+          "csv_value": 23.2016968075186
+        }
+      }
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20150823T221233_20150823T221258_007396_00A2CA_54D0:x1673:y6973",
+      "acquisition": "S1A_007396_00A2CA",
+      "source": "era5",
+      "sar_time_utc": "2015-08-23 22:12:45+00:00",
+      "sar_lat": 39.10183,
+      "sar_lon": 119.1583,
+      "product_time_utc": "2015-08-23T22:00:00+00:00",
+      "source_indices": [
+        1013710,
+        204,
+        477
+      ],
+      "grid_lat": 39.0,
+      "grid_lon": 119.25,
+      "match_distance_km": 13.817138546288142,
+      "values": {
+        "era5_u10": {
+          "packed_raw": -4.080251693725586,
+          "decoded": -4.080251693725586,
+          "csv_value": -4.080251693725586
+        },
+        "era5_v10": {
+          "packed_raw": -5.337749481201172,
+          "decoded": -5.337749481201172,
+          "csv_value": -5.337749481201172
+        },
+        "era5_hs": {
+          "packed_raw": 0.5108318328857422,
+          "decoded": 0.5108318328857422,
+          "csv_value": 0.5108318328857422
+        },
+        "era5_mean_wave_period": {
+          "packed_raw": 2.954312801361084,
+          "decoded": 2.954312801361084,
+          "csv_value": 2.954312801361084
+        },
+        "era5_mean_wave_direction": {
+          "packed_raw": 43.93132019042969,
+          "decoded": 43.93132019042969,
+          "csv_value": 43.93132019042969
+        }
+      }
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20160328T095421_20160328T095446_010568_00FB64_215C:x5998:y8270",
+      "acquisition": "S1A_010568_00FB64",
+      "source": "era5",
+      "sar_time_utc": "2016-03-28 09:54:35+00:00",
+      "sar_lat": 30.5858,
+      "sar_lon": 121.1788,
+      "product_time_utc": "2016-03-28T10:00:00+00:00",
+      "source_indices": [
+        1018930,
+        238,
+        485
+      ],
+      "grid_lat": 30.5,
+      "grid_lon": 121.25,
+      "match_distance_km": 11.726676542421169,
+      "values": {
+        "era5_u10": {
+          "packed_raw": -4.3648481369018555,
+          "decoded": -4.3648481369018555,
+          "csv_value": -4.364848136901856
+        },
+        "era5_v10": {
+          "packed_raw": 3.2573065757751465,
+          "decoded": 3.2573065757751465,
+          "csv_value": 3.2573065757751465
+        },
+        "era5_hs": {
+          "packed_raw": 0.4013490676879883,
+          "decoded": 0.4013490676879883,
+          "csv_value": 0.4013490676879883
+        },
+        "era5_mean_wave_period": {
+          "packed_raw": 2.7565536499023438,
+          "decoded": 2.7565536499023438,
+          "csv_value": 2.756553649902344
+        },
+        "era5_mean_wave_direction": {
+          "packed_raw": 151.76785278320312,
+          "decoded": 151.76785278320312,
+          "csv_value": 151.76785278320312
+        }
+      }
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20160405T102459_20160405T102528_010685_00FED5_97D5:x394:y2746",
+      "acquisition": "S1A_010685_00FED5",
+      "source": "era5",
+      "sar_time_utc": "2016-04-05 10:25:14+00:00",
+      "sar_lat": 21.709,
+      "sar_lon": 114.2729,
+      "product_time_utc": "2016-04-05T10:00:00+00:00",
+      "source_indices": [
+        1019122,
+        273,
+        457
+      ],
+      "grid_lat": 21.75,
+      "grid_lon": 114.25,
+      "match_distance_km": 5.1361185279706,
+      "values": {
+        "era5_u10": {
+          "packed_raw": -3.177145481109619,
+          "decoded": -3.177145481109619,
+          "csv_value": -3.177145481109619
+        },
+        "era5_v10": {
+          "packed_raw": 3.042159080505371,
+          "decoded": 3.042159080505371,
+          "csv_value": 3.042159080505371
+        },
+        "era5_hs": {
+          "packed_raw": 0.5846414566040039,
+          "decoded": 0.5846414566040039,
+          "csv_value": 0.5846414566040039
+        },
+        "era5_mean_wave_period": {
+          "packed_raw": 5.16291618347168,
+          "decoded": 5.16291618347168,
+          "csv_value": 5.16291618347168
+        },
+        "era5_mean_wave_direction": {
+          "packed_raw": 130.28854370117188,
+          "decoded": 130.28854370117188,
+          "csv_value": 130.28854370117188
+        }
+      }
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20160328T095421_20160328T095446_010568_00FB64_215C:x16498:y4160",
+      "acquisition": "S1A_010568_00FB64",
+      "source": "era5",
+      "sar_time_utc": "2016-03-28 09:54:35+00:00",
+      "sar_lat": 30.38543,
+      "sar_lon": 122.3332,
+      "product_time_utc": "2016-03-28T10:00:00+00:00",
+      "source_indices": [
+        1018930,
+        238,
+        489
+      ],
+      "grid_lat": 30.5,
+      "grid_lon": 122.25,
+      "match_distance_km": 15.030447275605646,
+      "values": {
+        "era5_u10": {
+          "packed_raw": -0.9876453876495361,
+          "decoded": -0.9876453876495361,
+          "csv_value": -0.987645387649536
+        },
+        "era5_v10": {
+          "packed_raw": 9.169628143310547,
+          "decoded": 9.169628143310547,
+          "csv_value": 9.169628143310549
+        },
+        "era5_hs": {
+          "packed_raw": 0.7301468849182129,
+          "decoded": 0.7301468849182129,
+          "csv_value": 0.7301468849182129
+        },
+        "era5_mean_wave_period": {
+          "packed_raw": 3.091677665710449,
+          "decoded": 3.091677665710449,
+          "csv_value": 3.091677665710449
+        },
+        "era5_mean_wave_direction": {
+          "packed_raw": 172.65943908691406,
+          "decoded": 172.65943908691406,
+          "csv_value": 172.65943908691406
+        }
+      }
+    },
+    {
+      "sample_id": "S1A_IW_GRDH_1SDV_20150916T221233_20150916T221258_007746_00AC44_BA63:x1866:y6375",
+      "acquisition": "S1A_007746_00AC44",
+      "source": "era5",
+      "sar_time_utc": "2015-09-16 22:12:45+00:00",
+      "sar_lat": 39.15881,
+      "sar_lon": 119.1503,
+      "product_time_utc": "2015-09-16T22:00:00+00:00",
+      "source_indices": [
+        1014286,
+        203,
+        477
+      ],
+      "grid_lat": 39.25,
+      "grid_lon": 119.25,
+      "match_distance_km": 13.289684325502652,
+      "values": {
+        "era5_u10": {
+          "packed_raw": 1.8605448007583618,
+          "decoded": 1.8605448007583618,
+          "csv_value": 1.8605448007583616
+        },
+        "era5_v10": {
+          "packed_raw": 1.9802117347717285,
+          "decoded": 1.9802117347717285,
+          "csv_value": 1.9802117347717283
+        },
+        "era5_hs": {
+          "packed_raw": null,
+          "decoded": null,
+          "csv_value": null
+        },
+        "era5_mean_wave_period": {
+          "packed_raw": null,
+          "decoded": null,
+          "csv_value": null
+        },
+        "era5_mean_wave_direction": {
+          "packed_raw": null,
+          "decoded": null,
+          "csv_value": null
+        }
+      }
+    }
+  ]
+}

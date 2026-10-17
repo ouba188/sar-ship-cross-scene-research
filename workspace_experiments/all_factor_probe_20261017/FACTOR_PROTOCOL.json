@@ -1,0 +1,85 @@
+{
+  "diagnostic": "predict image response, NOT ship class; class is a nuisance/structure control",
+  "arms": {
+    "class_only": [],
+    "structure_only": [
+      "log_ais_length_m",
+      "log_ais_width_m"
+    ],
+    "base": [
+      "log_ais_length_m",
+      "log_ais_width_m",
+      "axis_cos2",
+      "axis_sin2",
+      "incidence_deg",
+      "length_axis_cos2"
+    ],
+    "speed": [
+      "log_ais_length_m",
+      "log_ais_width_m",
+      "axis_cos2",
+      "axis_sin2",
+      "incidence_deg",
+      "length_axis_cos2",
+      "ais_sog_mps"
+    ],
+    "motion_geometry": [
+      "log_ais_length_m",
+      "log_ais_width_m",
+      "axis_cos2",
+      "axis_sin2",
+      "incidence_deg",
+      "length_axis_cos2",
+      "ais_sog_mps",
+      "ground_los_3d_abs_mps",
+      "ground_alongflight_abs_mps",
+      "radial_incidence",
+      "sog_axis_cos2"
+    ],
+    "environment": [
+      "log_ais_length_m",
+      "log_ais_width_m",
+      "axis_cos2",
+      "axis_sin2",
+      "incidence_deg",
+      "length_axis_cos2",
+      "era5_wind_speed_m_s",
+      "era5_hs",
+      "cmems_current_speed_m_s"
+    ],
+    "draught": [
+      "log_ais_length_m",
+      "log_ais_width_m",
+      "axis_cos2",
+      "axis_sin2",
+      "incidence_deg",
+      "length_axis_cos2",
+      "log_ais_draught_m",
+      "draught_incidence"
+    ],
+    "joint": [
+      "log_ais_length_m",
+      "log_ais_width_m",
+      "axis_cos2",
+      "axis_sin2",
+      "incidence_deg",
+      "length_axis_cos2",
+      "ais_sog_mps",
+      "ground_los_3d_abs_mps",
+      "ground_alongflight_abs_mps",
+      "radial_incidence",
+      "sog_axis_cos2",
+      "era5_wind_speed_m_s",
+      "era5_hs",
+      "cmems_current_speed_m_s",
+      "log_ais_draught_m",
+      "draught_incidence"
+    ]
+  },
+  "ridge_alpha": 10,
+  "splitting": "leave one product out AND exclude its MMSIs from source",
+  "imputation": "source fold medians and missingness indicators; no external values fabricated",
+  "evaluation": "same cohort per outcome/pol/arm, product- and class-macro MSE",
+  "uncertainty": "1000 product bootstrap of fixed OOF losses, exploratory, not model-refit or causal CI",
+  "limits": "many dependent exploratory hypotheses; no best-factor causal claim"
+}

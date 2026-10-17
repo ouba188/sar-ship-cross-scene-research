@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://assets.opendata.aws/css/bootstrap.min.css" integrity="sha384-QgMEqHzUTK+LoHUhEPkPPb5doQ7O2/sBRiq03GWdbo3k3eNPu/LMiRtrWI+SdVzu" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://assets.opendata.aws/css/awsod.css" integrity="sha384-xJI5lYTAHi5szIar83e2pooIt8BOLN3vGa4dRrLi07y45XFAbgzl9F0mMNyw5SzN" crossorigin="anonymous">
+  <title>Sentinel-1 GRD dataset</title>
+</head>
+<body>
+  <div class="container">
+    <div class="col-md-8 col-md-offset-2">
+      <h1>Sentinel-1 GRD dataset</h1>
+
+<p>The Sentinel-1 is a pair of European radar imaging (SAR) satellites launched in 2014 and 2016. Its 6 days revisit cycle and ability to observe through clouds makes it perfect for sea and land monitoring, emergency response due to environmental disasters, and economic applications. This dataset represents the global Sentinel-1 GRD archive, from beginning to the present, converted to <a href="https://www.cogeo.org/">cloud-optimized GeoTIFF format</a>.
+
+<h2 id="data-structure">Data structure</h2>
+<p>Each file is its own object in Amazon S3..
+The basic data format is the following:</p>
+<p><code>[product type]/[year]/[month]/[day]/[mode]/[polarization]/[product identifier]</code></p>
+<p>For example, the files for individual scene are available in the following location: </p>
+<p><code>s3://sentinel-s1-l1c/GRD/2018/1/11/EW/DH/S1A_EW_GRDH_1SDH_20180111T110409_20180111T110513_020106_02247C_FBAB/</code>
+</p>
+<p>Where:</p>
+<ul class="category-block-content">
+                                           <li class="category-block-content-item">
+		<p><code>[product type]</code> =  <code>GRD</code> - GRD or SLC</p>
+	</li>
+                                           <li class="category-block-content-item">
+		<p><code>[year]</code> = e.g. <code>2018</code> - is the year the data was collected.</p>
+	</li>
+                                           <li class="category-block-content-item">
+		<p><code>[month]</code> = e.g. <code>1</code> - is the month of the year the data was collected (without leading zeros).</p>
+	</li>
+                                           <li class="category-block-content-item">
+		<p><code>[day]</code> = e.g. <code>11</code> - is the day of the month the data was collected (without leading zeros).</p>
+	</li>
+	 <li class="category-block-content-item">
+		<p><code>[mode]</code> = e.g. <code>EW</code> -  IW, EW, WV, IW1-IW3, EW1-EW5, WV1-WV2, S1-S6, IS1-IS7; note that modes depend on the [product type[</p>
+	</li>
+	 <li class="category-block-content-item">
+		<p><code>[polarization]</code> = e.g. <code>DH</code> - DH, DV, SH, SV, VH, HV, HV, VH; note that polarizations depend on the observation scenario </p>
+	</li>	
+	<li class="category-block-content-item">
+	<p><code>product identifier</code> - original product identifier</p>
+	</li>
+</ul>
+
+<h2 id="accessing-the-sentinel-1-grd-dataset">Accessing the Sentinel-1 GRD dataset</h2>
+<p>If you use the AWS Command Line Interface, you can list data in the bucket with the &ldquo;ls&rdquo; command:</p>
+
+<p><code>aws s3 ls s3://sentinel-s1-l1c/GRD/ --request-payer</code></p>
+
+<p>The data is in <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester Pays</a> S3 bucket.</p>
+
+<p>Some meta-data is available over HTTP proxy, find more details <a href="https://forum.sentinel-hub.com/t/how-to-access-s-2-meta-data-in-aws-after-bucket-goes-to-requester-pays/328">here</a></p>
+
+<h2 id="contact">Contact</h2>
+
+<p>If you have questions about the data, please use <a href="https://forum.sentinel-hub.com/c/aws-sentinel">Sentinel Hub forum</a></p>
+
+<h2 id="license">License</h2>
+
+<p>Access to Sentinel data is free, full and open for the broad Regional, National, European and International user community. View <a href="https://scihub.copernicus.eu/twiki/do/view/SciHubWebPortal/TermsConditions">Terms and Conditions</a>.</p>
+
+      <footer>
+        <hr>
+        <a href="http://aws.amazon.com/public-datasets">AWS Public Datasets</a>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
