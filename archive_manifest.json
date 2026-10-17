@@ -1,11 +1,22 @@
 {
   "snapshot_date": "2026-10-17",
-  "snapshot_created_local": "2026-10-17T17:34:59+08:00",
+  "snapshot_created_local": "2026-10-17T20:59:52+08:00",
+  "deferred_studies": [],
+  "excluded_review_artifacts": [
+    "manual_review/state",
+    "manual_review/browser_checks",
+    "manual_review/node_modules",
+    "manual_review/lucide.js"
+  ],
   "experiment_directories": [
     "all_factor_probe_20261017",
+    "axis_access_margin_20261017",
+    "axis_preserving_addition_20261017",
     "branch_condition_crossover_20261014",
     "branch_dependency_20261013",
     "branch_root_link_20261013",
+    "chip_failure_trace_20261017",
+    "chip_quality_20261017",
     "class_contrast_core_controls_20261014",
     "class_contrast_probe_20261014",
     "class_contrast_scope_validation_20261014",
@@ -24,6 +35,7 @@
     "correction_rollback_study_20261013",
     "dual_cue_decomposition_20261012",
     "external_scene_transfer_20261013",
+    "frozen_axis_reader_20261017",
     "frozen_candidate_coverage_20261012",
     "frozen_scope_closeout_20261013",
     "full_model_explainability_20261013",
@@ -72,33 +84,40 @@
     "support_task_alignment_20261017",
     "target_domain_gap_20261012"
   ],
-  "copied_files": 15671,
-  "source_bytes": 5600161932,
-  "stored_bytes": 1894639529,
-  "skipped_files": 95502,
+  "copied_files": 16000,
+  "source_bytes": 6066756565,
+  "stored_bytes": 1969711028,
+  "skipped_files": 99867,
   "skipped_by_reason": [
     {
       "reason": "binary_or_other_extension",
-      "count": 74329,
-      "bytes": 168343028102
+      "count": 74687,
+      "bytes": 168581159404
     },
     {
       "reason": "cache_directory",
-      "count": 1814,
-      "bytes": 585554503
+      "count": 5814,
+      "bytes": 626978315
     },
     {
       "reason": "large_non_table",
-      "count": 1,
-      "bytes": 12315898
+      "count": 3,
+      "bytes": 88709911
     },
     {
       "reason": "per_sample_json",
       "count": 19358,
       "bytes": 286119783
+    },
+    {
+      "reason": "private_or_test_review_state",
+      "count": 4,
+      "bytes": 305513
+    },
+    {
+      "reason": "vendored_dependency",
+      "count": 1,
+      "bytes": 454638
     }
-  ],
-  "deferred_studies": [
-    "chip_quality_20261017: actively rewriting metadata and running detection; excluded until a coherent snapshot is available"
   ]
 }

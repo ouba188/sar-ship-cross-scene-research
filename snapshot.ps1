@@ -6,8 +6,8 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$allowed = @('.md', '.py', '.csv', '.json', '.yaml', '.yml', '.txt', '.svg', '.html', '.ipynb', '.geojson', '.jsonl', '.png', '.tex', '.bib')
-$skipDirectory = '\\(__pycache__|\.pytest_cache|cache|tmp|\.git|vendor)\\'
+$allowed = @('.md', '.py', '.csv', '.json', '.yaml', '.yml', '.txt', '.svg', '.html', '.ipynb', '.geojson', '.jsonl', '.png', '.tex', '.bib', '.js', '.css', '.mjs', '.ps1')
+$skipDirectory = '[\\/](__pycache__|\.pytest_cache|cache|tmp|\.git|vendor|node_modules)[\\/]'
 $records = [System.Collections.Generic.List[object]]::new()
 $skipped = [System.Collections.Generic.List[object]]::new()
 
@@ -16,6 +16,8 @@ function Copy-ResearchFile {
     $relative = [System.IO.Path]::GetRelativePath($SourceRoot, $File.FullName)
     $reason = $null
     if ($File.FullName -match $skipDirectory) { $reason = 'cache_directory' }
+    elseif ($File.FullName -match '[\\/]manual_review[\\/](state|browser_checks)[\\/]') { $reason = 'private_or_test_review_state' }
+    elseif ($File.FullName -match '[\\/]manual_review[\\/]lucide\.js$') { $reason = 'vendored_dependency' }
     elseif ($File.Extension -notin $allowed) { $reason = 'binary_or_other_extension' }
     elseif ($Sensitivity -and $File.Extension -eq '.json' -and $File.Name -notmatch 'summary|result|metric|config|manifest') { $reason = 'per_sample_json' }
     elseif ($File.Extension -ne '.csv' -and $File.Length -gt 10MB) { $reason = 'large_non_table' }
@@ -48,7 +50,7 @@ function Copy-ResearchFile {
 }
 
 $experimentDirs = @(Get-ChildItem -LiteralPath $Workspace -Directory | Where-Object {
-    $_.Name -match '202610(0[1-9]|1[0-7])' -and $_.Name -ne 'chip_quality_20261017'
+    $_.Name -match '202610(0[1-9]|1[0-7])'
 })
 foreach ($dir in $experimentDirs) {
     $targetRoot = Join-Path $Destination 'workspace_experiments' $dir.Name
@@ -80,7 +82,8 @@ foreach ($name in @('sea_ship_redetect_preview.py', 'test_sea_ship_redetect_prev
 $summary = [pscustomobject]@{
     snapshot_date = '2026-10-17'
     snapshot_created_local = (Get-Date -Format 'yyyy-MM-ddTHH:mm:sszzz')
-    deferred_studies = @('chip_quality_20261017: actively rewriting metadata and running detection; excluded until a coherent snapshot is available')
+    deferred_studies = @()
+    excluded_review_artifacts = @('manual_review/state', 'manual_review/browser_checks', 'manual_review/node_modules', 'manual_review/lucide.js')
     experiment_directories = @($experimentDirs.Name)
     copied_files = $records.Count
     source_bytes = [long](($records | Measure-Object source_bytes -Sum).Sum)

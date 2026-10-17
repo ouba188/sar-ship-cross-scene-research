@@ -1,0 +1,68 @@
+{
+  "conflict_mmsi_count": 290,
+  "expected_290_confirmed": true,
+  "input_rows": {
+    "ais_metadata_sidecar.csv": 38091,
+    "dimension_conflicts.csv": 1016,
+    "dimension_evidence.csv": 35627
+  },
+  "all_sidecar_mmsi_count": 18766,
+  "dimension_conflicts_unique_mmsi": 290,
+  "missing_from_conflicts_csv": [],
+  "conflicts_csv_without_multiple_valid_pairs": [],
+  "size_validity": "finite L >= W > 0; union of vessel_static_variants_json by MMSI",
+  "percentile_method": "linear interpolation at (n-1)*p, each MMSI weighted once",
+  "thresholds_are_descriptive_not_error_truth": true,
+  "bins": {
+    "L_range_le2m": 69,
+    "L_range_gt2_le10m": 137,
+    "L_range_gt10_le50m": 73,
+    "L_range_gt50m": 11,
+    "W_range_le1m": 256,
+    "W_range_gt1_le5m": 16,
+    "W_range_gt5m": 18,
+    "L_or_W_at_least_2x": 24,
+    "mild_L_le5_W_le2": 106
+  },
+  "class_conflict_mmsi": 0,
+  "imo_conflict_mmsi": 1,
+  "sidecar_records_for_conflicting_mmsi": 1016,
+  "class_memberships": {
+    "fishing_vessel": 247,
+    "general_cargo": 22,
+    "bulk_carrier": 19,
+    "offshore_supply": 1,
+    "product_chemical_tanker": 1
+  },
+  "L_range_m": {
+    "median": 6.0,
+    "p90": 15.0,
+    "maximum": 512.0
+  },
+  "W_range_m": {
+    "median": 0.0,
+    "p90": 2.0,
+    "maximum": 90.0
+  },
+  "L_max_min_ratio": {
+    "median": 1.1935483870967742,
+    "p90": 1.501515151515152,
+    "maximum": 63.875
+  },
+  "W_max_min_ratio": {
+    "median": 1.0,
+    "p90": 1.2050000000000012,
+    "maximum": 12.25
+  },
+  "raw_verification": {
+    "mmsi_count": 5,
+    "records": 10,
+    "verified_records": 10,
+    "raw_columns_1_based": {
+      "mmsi": 2,
+      "imo": 13,
+      "length": 15,
+      "width": 16
+    }
+  }
+}

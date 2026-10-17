@@ -2,7 +2,7 @@
 
 Public research archive of the SAR ship-classification experiments through 2026-10-17. This is a research snapshot, not a release of the datasets or a claim that every candidate became part of the final method.
 
-Start with [the October 17 research update](RESEARCH_UPDATE_20261017_ZH.md) for the new studies, results, and their limitations. Earlier findings are retained as historical evidence, not silently replaced by the newest candidate.
+Start with [the latest October 17 supplement](RESEARCH_APPEND_20261017_ZH.md) for frozen-reader results, native-chip tracing, and the completed chip-quality study. [The earlier October 17 update](RESEARCH_UPDATE_20261017_ZH.md) retains the preceding studies and their limitations. Earlier findings are historical evidence, not silently replaced by the newest candidate.
 
 ## Current Study
 
@@ -23,6 +23,6 @@ The October 15 body/context probe found a small, scoped gain from a ring-only su
 
 CSV tables larger than 1 MiB are stored as `.csv.gz` at the same relative path. Standard gzip tools or Python's `gzip.open` can read them. Excluded are original SAR imagery, chips, pretrained/model weights, full feature tensors, PDF literature copies, and large cache arrays. Absolute paths in scripts describe the original Windows workstation and must be adjusted for another machine.
 
-Image panels in reports are diagnostic figures, not a complete image dataset. External environment caches and vendored dependencies are excluded. The October 17 chip-quality side study is actively rewriting metadata and running detection, so it is deferred rather than archived as a potentially mixed-version snapshot.
+Image panels in reports are diagnostic figures, not a complete image dataset. External environment caches and vendored dependencies are excluded. The completed October 17 chip-quality study is now included; its multi-object detections are screening candidates, not independently confirmed labels or a measured cause of classification loss. Private manual-review state and browser-test exports are excluded. The review-tool sources are archived, but local imagery, compressed CSV restoration, and the Lucide browser bundle from its declared npm dependency are needed to run that local application.
 
 This archive is a development record. The datasets have been used repeatedly for model development; support draws are not independent backbone seeds; some held folds contain fewer than eight query classes. Refer to the individual reports for each protocol and denominator. Do not add improvements from different protocols or treat diagnostic oracle interventions as deployable methods.

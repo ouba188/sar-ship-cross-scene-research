@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>24港 · 数据复核</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/lucide.js"></script>
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand"><i data-lucide="scan-line"></i><h1>24港 · 数据复核</h1><span class="read-only">原始数据：只读</span></div>
+    <div class="header-right"><span id="progress">载入候选…</span><button id="export-open" class="icon-button" title="导出审核记录" aria-label="导出审核记录"><i data-lucide="download"></i></button></div>
+  </header>
+  <section class="filters" aria-label="候选筛选">
+    <label>范围<select id="scope"><option value="experiment">近期24港实验子集</option><option value="all">8类全量候选</option></select></label>
+    <label>疑点<select id="flag"><option value="">全部疑点</option><option value="multi">多目标</option><option value="length">船长差异</option><option value="ais_conflict">AIS尺寸记录冲突</option><option value="ais_extreme">AIS极端尺寸</option><option value="ais_limit">AIS边界值形态</option></select></label>
+    <label>类别<select id="class-filter"><option value="">全部类别</option></select></label>
+    <label>港口<select id="port"><option value="">全部港口</option></select></label>
+    <label>角色<select id="role"><option value="">全部角色</option><option value="target:q">目标查询</option><option value="target:s">目标支持</option><option value="fit:q">源训练查询</option><option value="fit:s">源训练支持</option><option value="selection:q">源验证查询</option><option value="selection:s">源验证支持</option><option value="gallery:fit">源特征库</option></select></label>
+    <label>状态<select id="status-filter"><option value="pending">未审核</option><option value="all">全部状态</option><option value="keep">保留</option><option value="exclude">剔除</option><option value="defer">待定</option></select></label>
+    <label class="search-label">查找<input id="search" type="search" placeholder="MMSI / 样本编号" autocomplete="off"></label>
+  </section>
+  <main class="workspace">
+    <aside class="queue" aria-label="候选列表">
+      <div class="queue-heading"><strong id="queue-count">候选</strong><span id="queue-page"></span></div>
+      <div id="queue-list" class="queue-list"></div>
+      <div class="queue-pagination"><button id="page-prev" class="icon-button" title="上一页" aria-label="上一页"><i data-lucide="chevron-left"></i></button><span id="page-label"></span><button id="page-next" class="icon-button" title="下一页" aria-label="下一页"><i data-lucide="chevron-right"></i></button></div>
+    </aside>
+    <section class="inspection" aria-label="样本复核">
+      <div id="empty-state" class="empty-state">正在载入候选与审核记录…</div>
+      <article id="detail" hidden>
+        <div class="sample-heading">
+          <div><div class="eyebrow" id="sample-position"></div><h2 id="sample-title"></h2><div id="sample-subtitle" class="muted"></div></div>
+          <div class="sample-nav"><button id="sample-prev" class="icon-button" title="上一张" aria-label="上一张"><i data-lucide="arrow-left"></i></button><button id="sample-next" class="icon-button" title="下一张" aria-label="下一张"><i data-lucide="arrow-right"></i></button></div>
+        </div>
+        <div id="flags" class="flags"></div>
+        <div class="image-toolbar">
+          <label class="check"><input id="show-boxes" type="checkbox" checked>检测框</label>
+          <label>置信度<select id="confidence"><option value="0.08">0.08</option><option value="0.25" selected>0.25</option><option value="0.5">0.50</option></select></label>
+          <label class="slider-label"><i data-lucide="zoom-in"></i><input id="zoom" type="range" min="0.5" max="3" step="0.25" value="1" aria-label="图像缩放"><output id="zoom-value">1×</output></label>
+          <label class="slider-label">对比度<input id="contrast" type="range" min="0.5" max="3" step="0.1" value="1" aria-label="显示对比度"><output id="contrast-value">1×</output></label>
+          <button id="reset-image" class="icon-button" title="重置显示" aria-label="重置显示"><i data-lucide="rotate-ccw"></i></button>
+          <span class="legend"><span class="green-line"></span>标注目标 <span class="amber-line"></span>其他候选</span>
+        </div>
+        <div class="image-pair">
+          <figure><figcaption><strong>VV</strong><span id="vv-info"></span><a id="vv-original" target="_blank" class="icon-button" title="打开VV原图" aria-label="打开VV原图"><i data-lucide="external-link"></i></a></figcaption><div class="viewer" id="vv-viewer"><canvas id="vv-canvas"></canvas><span class="image-error" id="vv-error" hidden></span></div><div class="image-measure" id="vv-measure"></div></figure>
+          <figure><figcaption><strong>VH</strong><span id="vh-info"></span><a id="vh-original" target="_blank" class="icon-button" title="打开VH原图" aria-label="打开VH原图"><i data-lucide="external-link"></i></a></figcaption><div class="viewer" id="vh-viewer"><canvas id="vh-canvas"></canvas><span class="image-error" id="vh-error" hidden></span></div><div class="image-measure" id="vh-measure"></div></figure>
+        </div>
+        <section class="decision" aria-label="审核结论">
+          <div class="decision-top"><h3>审核结论</h3><span id="save-state" role="status">未审核</span><button id="reset-decision" class="icon-button" title="重置为未审核" aria-label="重置为未审核"><i data-lucide="undo-2"></i></button></div>
+          <div class="decision-controls">
+            <div class="status-options" role="group" aria-label="处置状态"><button data-status="keep" aria-pressed="false"><i data-lucide="check"></i>保留</button><button data-status="exclude" aria-pressed="false"><i data-lucide="x"></i>剔除</button><button data-status="defer" aria-pressed="false"><i data-lucide="clock-3"></i>待定</button></div>
+            <select id="reason" aria-label="审核原因"><option value="">原因未填写</option><option value="target_clear">目标明确</option><option value="ais_only">仅AIS字段需修正</option><option value="neighbors_acceptable">邻船可接受</option><option value="association_wrong">判断配错船</option><option value="class_wrong">类别不符</option><option value="target_incomplete">目标不完整</option><option value="target_unreadable">目标不可辨</option><option value="need_scene">需核对原始场景</option><option value="insufficient">证据不足</option><option value="other">其他</option></select>
+            <button id="save-only" class="icon-button" title="保存当前结论" aria-label="保存当前结论"><i data-lucide="save"></i></button>
+            <button id="save-next" class="primary"><i data-lucide="save"></i>保存并下一张<i data-lucide="arrow-right"></i></button>
+          </div>
+          <textarea id="note" rows="2" placeholder="核查备注" aria-label="核查备注"></textarea>
+        </section>
+        <section class="evidence">
+          <div class="evidence-title"><h3>AIS与样本信息</h3><a id="ais-source-link" target="_blank"><i data-lucide="file-text"></i>原始AIS记录</a></div>
+          <dl id="metadata"></dl>
+          <div class="source-row"><span>记录来源</span><code id="source-path"></code><button id="copy-source" class="icon-button" title="复制来源路径" aria-label="复制来源路径"><i data-lucide="copy"></i></button></div>
+          <details><summary>裁片文件</summary><div id="image-paths" class="path-list"></div></details>
+        </section>
+        <section class="related"><div class="evidence-title"><h3>同MMSI其他候选观测</h3><span id="related-count" class="muted"></span></div><div id="related-list"></div></section>
+      </article>
+    </section>
+  </main>
+  <dialog id="export-dialog"><div class="dialog-heading"><h2>导出审核记录</h2><button id="export-close" class="icon-button" title="关闭" aria-label="关闭"><i data-lucide="x"></i></button></div><label>记录范围<select id="export-status"><option value="all">全部候选及状态</option><option value="keep">仅保留</option><option value="exclude">仅剔除</option><option value="defer">仅待定</option></select></label><label>格式<select id="export-format"><option value="csv">CSV · Excel</option><option value="json">JSON</option></select></label><button id="export-download" class="primary"><i data-lucide="download"></i>下载</button></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>
