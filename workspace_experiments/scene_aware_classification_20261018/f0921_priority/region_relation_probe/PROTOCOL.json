@@ -1,0 +1,41 @@
+{
+  "classes": [
+    "bulk_carrier",
+    "chemical_oil_products_tanker",
+    "container_ship",
+    "crude_oil_tanker",
+    "lpg_tanker",
+    "pusher_tug",
+    "tug"
+  ],
+  "n": 84,
+  "unique_mmsi": 84,
+  "products": 5,
+  "eligibility": "unique point-in-OBB proposal without competing source; not land-interior; raw class>=4records and>=2acquisitions, chosen before model outcomes",
+  "label_status": "Source metadata joined via unique spatial containment proposals, NOT human-confirmed identity. Exploratory relation probe,NOT formal classification main table.",
+  "support_budget": 16,
+  "support_draw_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "support_sampling": "Up to2 per source class then fill to16 without replacement; identical across arms; every source class represented",
+  "region_order": [
+    "target_candidate",
+    "other_candidates",
+    "remaining_map_water",
+    "remaining_nonwater_or_unknown"
+  ],
+  "protocol": "Each acquisition held out as query; all supports and centering from other acquisitions; all84MMSI distinct; no target labels for fitting/selection.",
+  "arms": [
+    "global",
+    "global_grid",
+    "global_region",
+    "global_area"
+  ],
+  "feature_plan": "Frozen ImageNet ResNet50 V2; last avgpool base,layer1 four local mean pools per polarization; equal local dimensions; fixed0.5 base/local cosine mix; per-pol supports-centered L2 representation. No trainable region parameters.",
+  "classifier": "Support-class mean kernel score,softmax fixed temperature0.1; relationship diagnostic readout,NOT existing full dual-backbone support-adapted model.",
+  "claim_limits": "Map access is extra geographic information; feature receptive fields cross region borders; region pooling is not pure physical component separation; no random backbone seeds for fixed inference."
+}
