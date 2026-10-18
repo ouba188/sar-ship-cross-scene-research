@@ -1,0 +1,117 @@
+{
+  "candidate": "target_only",
+  "comparator": "global_grid",
+  "selection_rule": "Lower median of signed candidate-minus-comparator final margin; ties fold,row,draw; per budget/category",
+  "selection_randomness": "None; actual support draw IDs retained",
+  "cases": 18,
+  "counts": [
+    {
+      "budget": 16,
+      "category": "rescue",
+      "eligible_events": 2
+    },
+    {
+      "budget": 32,
+      "category": "rescue",
+      "eligible_events": 2
+    },
+    {
+      "budget": 64,
+      "category": "rescue",
+      "eligible_events": 1
+    },
+    {
+      "budget": 16,
+      "category": "harm",
+      "eligible_events": 1
+    },
+    {
+      "budget": 32,
+      "category": "harm",
+      "eligible_events": 0
+    },
+    {
+      "budget": 64,
+      "category": "harm",
+      "eligible_events": 2
+    },
+    {
+      "budget": 16,
+      "category": "persistent_correct_improve",
+      "eligible_events": 73
+    },
+    {
+      "budget": 32,
+      "category": "persistent_correct_improve",
+      "eligible_events": 63
+    },
+    {
+      "budget": 64,
+      "category": "persistent_correct_improve",
+      "eligible_events": 41
+    },
+    {
+      "budget": 16,
+      "category": "persistent_correct_worsen",
+      "eligible_events": 95
+    },
+    {
+      "budget": 32,
+      "category": "persistent_correct_worsen",
+      "eligible_events": 64
+    },
+    {
+      "budget": 64,
+      "category": "persistent_correct_worsen",
+      "eligible_events": 41
+    },
+    {
+      "budget": 16,
+      "category": "persistent_wrong_improve",
+      "eligible_events": 126
+    },
+    {
+      "budget": 32,
+      "category": "persistent_wrong_improve",
+      "eligible_events": 101
+    },
+    {
+      "budget": 64,
+      "category": "persistent_wrong_improve",
+      "eligible_events": 67
+    },
+    {
+      "budget": 16,
+      "category": "persistent_wrong_worsen",
+      "eligible_events": 103
+    },
+    {
+      "budget": 32,
+      "category": "persistent_wrong_worsen",
+      "eligible_events": 65
+    },
+    {
+      "budget": 64,
+      "category": "persistent_wrong_worsen",
+      "eligible_events": 43
+    }
+  ],
+  "predictions": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\predictions.csv",
+  "supports": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\supports.csv",
+  "cohort": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\cohort.csv",
+  "masks": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\masks.npz",
+  "episode_plan": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\episodes.json",
+  "native_query": true,
+  "inference_or_fitting": false,
+  "requested_cases": [
+    "20250315,32,0,80",
+    "20250401,32,1,236",
+    "20251126,16,1,260",
+    "20250315,64,3,161"
+  ],
+  "contribution_comparators": [
+    "global_grid",
+    "postpool"
+  ],
+  "limitations": "Repeated queries/draws are not independent cases. Zero-change persistent events are not called improve/worsen. No physical mechanism inferred from images. Source mosaic lineage does not prove original-product pixel ownership; acquisition labels refer to records. Supports may share query acquisition."
+}
