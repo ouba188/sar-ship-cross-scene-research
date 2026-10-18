@@ -1,0 +1,171 @@
+{
+  "candidate": "target_only",
+  "comparator": "roi_repeat_target",
+  "selection_rule": "Lower median of signed candidate-minus-comparator final margin; ties fold,row,draw; per budget/category",
+  "unchanged_policy": "One lower-median unchanged fallback per budget/correctness only when changed persistent cases are absent",
+  "selection_randomness": "None; existing support draw IDs retained; no resampling or new seed",
+  "cases": 19,
+  "counts": [
+    {
+      "budget": 16,
+      "category": "rescue",
+      "eligible_events": 2
+    },
+    {
+      "budget": 32,
+      "category": "rescue",
+      "eligible_events": 1
+    },
+    {
+      "budget": 64,
+      "category": "rescue",
+      "eligible_events": 0
+    },
+    {
+      "budget": 16,
+      "category": "harm",
+      "eligible_events": 0
+    },
+    {
+      "budget": 32,
+      "category": "harm",
+      "eligible_events": 1
+    },
+    {
+      "budget": 64,
+      "category": "harm",
+      "eligible_events": 1
+    },
+    {
+      "budget": 16,
+      "category": "persistent_correct_improve",
+      "eligible_events": 82
+    },
+    {
+      "budget": 32,
+      "category": "persistent_correct_improve",
+      "eligible_events": 56
+    },
+    {
+      "budget": 64,
+      "category": "persistent_correct_improve",
+      "eligible_events": 42
+    },
+    {
+      "budget": 16,
+      "category": "persistent_correct_worsen",
+      "eligible_events": 86
+    },
+    {
+      "budget": 32,
+      "category": "persistent_correct_worsen",
+      "eligible_events": 72
+    },
+    {
+      "budget": 64,
+      "category": "persistent_correct_worsen",
+      "eligible_events": 41
+    },
+    {
+      "budget": 16,
+      "category": "persistent_wrong_improve",
+      "eligible_events": 125
+    },
+    {
+      "budget": 32,
+      "category": "persistent_wrong_improve",
+      "eligible_events": 88
+    },
+    {
+      "budget": 64,
+      "category": "persistent_wrong_improve",
+      "eligible_events": 52
+    },
+    {
+      "budget": 16,
+      "category": "persistent_wrong_worsen",
+      "eligible_events": 105
+    },
+    {
+      "budget": 32,
+      "category": "persistent_wrong_worsen",
+      "eligible_events": 77
+    },
+    {
+      "budget": 64,
+      "category": "persistent_wrong_worsen",
+      "eligible_events": 59
+    },
+    {
+      "budget": 16,
+      "category": "persistent_correct_unchanged",
+      "eligible_events": 0,
+      "fallback_selected": false
+    },
+    {
+      "budget": 32,
+      "category": "persistent_correct_unchanged",
+      "eligible_events": 0,
+      "fallback_selected": false
+    },
+    {
+      "budget": 64,
+      "category": "persistent_correct_unchanged",
+      "eligible_events": 0,
+      "fallback_selected": false
+    },
+    {
+      "budget": 16,
+      "category": "persistent_wrong_unchanged",
+      "eligible_events": 0,
+      "fallback_selected": false
+    },
+    {
+      "budget": 32,
+      "category": "persistent_wrong_unchanged",
+      "eligible_events": 0,
+      "fallback_selected": false
+    },
+    {
+      "budget": 64,
+      "category": "persistent_wrong_unchanged",
+      "eligible_events": 0,
+      "fallback_selected": false
+    }
+  ],
+  "pinned_prior_comparisons": [
+    [
+      "20250315",
+      32,
+      0,
+      80
+    ],
+    [
+      "20250401",
+      32,
+      1,
+      236
+    ]
+  ],
+  "requested_explanatory_comparisons": [
+    [
+      "20250401",
+      16,
+      3,
+      188
+    ]
+  ],
+  "predictions": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\roi_controls_20261019\\predictions.csv",
+  "supports": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\supports.csv",
+  "cohort": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\cohort.csv",
+  "masks": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\masks.npz",
+  "episode_plan": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\episodes.json",
+  "helper": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\review_cases.py",
+  "native_query_requested": true,
+  "inference_or_fitting": false,
+  "limitations": "All readouts pool existing feature maps; these are NOT separately cropped ROI inference. Masks are target/other candidates, not verified physical segmentation; rest is not verified background. Stored224 VV/VH are shown separately at 1:1 with no extra stretch; stored224 is a resized input, not native source spatial resolution. Record acquisition is NOT per-pixel product ownership; supports may share query acquisition. Source-mosaic replay establishes lineage, not independent AIS truth. Repeated queries and support draws are not independent evidence; selected cases are not population rates. Image appearance, masks and saved scores do not establish a physical mechanism.",
+  "native_query_status_counts": {
+    "rendered; stored224 replay verified by parent helper": 19
+  },
+  "interpretation": "Visual evidence package only; record visible facts separately from model evidence and untested mechanisms. No inherited contribution traces are attributed to these new comparisons."
+}
