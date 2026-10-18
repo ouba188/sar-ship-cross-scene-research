@@ -1,5 +1,7 @@
 # SAR Ship Cross-Scene Research Archive
 
+Latest incremental progress: [October 18 F_0921 source recovery and existing dynamic-chip inventory](RESEARCH_UPDATE_20261018_ZH.md). This bounded addition contains no new classification training or claimed accuracy improvement; the prior snapshot below remains historical context.
+
 Public research archive of the SAR ship-classification experiments through 2026-10-17. This is a research snapshot, not a release of the datasets or a claim that every candidate became part of the final method.
 
 Start with [the latest October 17 supplement](RESEARCH_APPEND_20261017_ZH.md) for frozen-reader results, native-chip tracing, and the completed chip-quality study. [The earlier October 17 update](RESEARCH_UPDATE_20261017_ZH.md) retains the preceding studies and their limitations. Earlier findings are historical evidence, not silently replaced by the newest candidate.
