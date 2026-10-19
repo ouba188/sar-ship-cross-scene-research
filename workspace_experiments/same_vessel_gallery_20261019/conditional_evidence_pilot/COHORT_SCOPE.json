@@ -1,0 +1,90 @@
+{
+  "n": 15252,
+  "ships": 6688,
+  "products": 330,
+  "classes": {
+    "bulk_carrier": 4254,
+    "product_chemical_tanker": 4177,
+    "general_cargo": 1679,
+    "fishing_vessel": 1427,
+    "container_ship": 1173,
+    "crude_oil_tanker": 1069,
+    "tug_towing": 806,
+    "offshore_supply": 667
+  },
+  "ports": {
+    "Singapore": 2795,
+    "Jebel Ali": 2558,
+    "Port Klang": 2138,
+    "Ningbo-Zhoushan": 2009,
+    "Santos": 1003,
+    "Port Said": 799,
+    "Fujairah": 635,
+    "Shanghai": 590,
+    "Busan": 421,
+    "Tanger Med": 368,
+    "Los Angeles": 363,
+    "Richards Bay": 323,
+    "New York": 261,
+    "Port Hedland": 226,
+    "Houston": 205,
+    "Callao": 151,
+    "Antwerp-Bruges": 146,
+    "Sydney Botany": 108,
+    "Newcastle": 94,
+    "Rotterdam": 36,
+    "Mombasa": 23
+  },
+  "geometry": "Exact-product annotation orbit LOS; axial relative encoding; annotation incidence",
+  "gallery_summary": {
+    "source": "E:\\临时会话\\same_vessel_condition_study_20261010",
+    "source_observations": 37893,
+    "pairs": 46977,
+    "paired_observations": 28027,
+    "paired_ships": 8900,
+    "unique_image_paths": 56054,
+    "unavailable_image_paths": 0,
+    "pairs_with_all_four_images": 46977,
+    "groups": {
+      "unmatched": 33275,
+      "SP_near": 8919,
+      "DP_near": 574,
+      "DP_far": 2174,
+      "SP_far": 2035
+    },
+    "scope": "All existing pairs.csv rows; not all combinatorial pairs and not all datasets.",
+    "image_note": "Existing preprocessed PNG chips, unchanged; not calibrated raw SAR values.",
+    "prediction_scope": "2026-10-10 MMSI-held-out frozen-feature diagnostic classifier, not the latest complete model.",
+    "detection_scope": "2026-10-17 frozen 550k.pt on native chips zero-padded to 512; not historical full-scene detections. Target association is an existing candidate, not ground truth.",
+    "radar_scope": "Signed target-to-satellite LOS from exact-product annotation orbit, target position and per-view native affine; WGS84 height zero. Old undirected range proxy retained only as labeled fallback. Independent of detected ship axis.",
+    "prior_coverage_views": {
+      "total": 56054,
+      "with_detection_cache": 56054,
+      "with_target_obb": 45665,
+      "with_radar_axis": 31162,
+      "with_orbit_los": 31162,
+      "range_proxy_only": 0,
+      "los_without_target_obb": 4855,
+      "with_metric_scale": 31162
+    },
+    "observations_with_incidence": 20937,
+    "prediction_pair_counts": {
+      "r50": {
+        "2": 11666,
+        "1": 15266,
+        "0": 20045
+      },
+      "r18": {
+        "2": 12574,
+        "1": 13917,
+        "0": 20486
+      },
+      "dual": {
+        "2": 13680,
+        "1": 14842,
+        "0": 18455
+      }
+    }
+  },
+  "read_time": "2026-10-19T17:08:31"
+}
