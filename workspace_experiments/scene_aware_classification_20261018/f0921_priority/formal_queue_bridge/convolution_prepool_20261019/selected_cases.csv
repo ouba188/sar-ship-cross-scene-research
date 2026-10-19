@@ -1,0 +1,13 @@
+task,seed,draw,row,line,budget,truth,prediction,margin,top_same,top_wrong,same_support,readout_valid,arm,comparator,old_prediction,delta_margin,delta_brier,rescue,harm,persistent_correct,persistent_wrong,category
+1_cross_pass_B16,1,0,227,cross_pass,16,3,3,0.0012853052509525,50,70,4,True,conv_first,base,1,0.0027614294832596,-0.00462154918792157,True,False,False,False,rescue
+1_cross_pass_B16,2,4,197,cross_pass,16,3,2,-0.001457906985211,84,161,5,True,conv_first,base,3,-0.001553210951462431,0.000568907660906004,False,True,False,False,harm
+1_cross_pass_B16,0,1,215,cross_pass,16,1,1,0.0468399437965308,77,132,5,True,conv_first,base,1,-7.774632366299578e-05,0.0007305704883038278,False,False,True,False,persistent_correct
+1_cross_pass_B16,2,0,219,cross_pass,16,1,2,-0.0136453157237526,143,103,5,True,conv_first,base,2,-8.157011445539958e-05,0.0006869784380300059,False,False,False,True,persistent_wrong
+1_cross_pass_B16,1,0,227,cross_pass,16,3,3,0.0012853052509525,50,70,4,True,conv_first,pool_first,2,0.0032920760422544,-0.002624056662062446,True,False,False,False,rescue
+1_cross_pass_B16,1,1,197,cross_pass,16,3,2,-0.0038117820888696,80,132,3,True,conv_first,pool_first,3,-0.0051470768631145004,0.00425917954935251,False,True,False,False,harm
+1_cross_pass_B16,1,2,189,cross_pass,16,3,3,0.1499584641417568,92,130,2,True,conv_first,pool_first,3,-0.0005461830648440247,0.0010453227424318534,False,False,True,False,persistent_correct
+0_cross_pass_B16,2,3,108,cross_pass,16,1,3,-0.0286793032222741,193,180,6,True,conv_first,pool_first,3,2.6562484572899975e-05,0.0003160863040952977,False,False,False,True,persistent_wrong
+1_cross_pass_B16,1,3,208,cross_pass,16,5,5,0.0001618356840934,122,52,2,True,conv_first,point_first,3,0.00021242448641357282,0.0001076823584308384,True,False,False,False,rescue
+0_cross_pass_B16,1,0,123,cross_pass,16,5,4,-0.0030693278377604,208,181,1,True,conv_first,point_first,5,-0.0032705134674238,0.004292480777435159,False,True,False,False,harm
+1_cross_pass_B16,0,0,197,cross_pass,16,3,3,0.0218491577651604,50,47,4,True,conv_first,point_first,3,-4.813583361030008e-05,4.7328148693570604e-05,False,False,True,False,persistent_correct
+0_cross_pass_B16,2,2,156,cross_pass,16,0,1,-0.1172841590178165,214,207,1,True,conv_first,point_first,1,-4.970644060242613e-08,-0.0009346746876873757,False,False,False,True,persistent_wrong
