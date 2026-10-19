@@ -1,0 +1,16 @@
+task,seed,draw,row,line,budget,truth,prediction,margin,top_same,top_wrong,same_support,arm,comparator,old_prediction,delta_margin,delta_brier,rescue,harm,persistent_correct,persistent_wrong,category
+1_cross_pass_B16,2,4,208,cross_pass,16,5,5,0.0015184465937708,-1,54,0,C,base,3,0.0025513150268096,-0.0018035907235967041,True,False,False,False,rescue
+1_cross_pass_B16,0,4,197,cross_pass,16,3,2,-0.004360709286669,84,161,5,C,base,3,-0.004456013252920431,0.004736933373279406,False,True,False,False,harm
+0_cross_pass_B16,0,0,137,cross_pass,16,1,1,0.0456135672568027,198,224,3,C,base,1,8.256217766140078e-05,3.41471696363449e-05,False,False,True,False,persistent_correct
+0_cross_pass_B16,1,1,123,cross_pass,16,5,4,-0.0074518795375314,-1,193,0,C,base,4,-0.0001764458449411005,-0.0008332606897042405,False,False,False,True,persistent_wrong
+1_cross_pass_B16,0,1,197,cross_pass,16,3,2,-2.4615725852134007e-05,80,132,3,B,A,3,-4.427139662996349e-05,4.4356425959457546e-05,False,True,False,False,harm
+1_cross_pass_B16,0,4,203,cross_pass,16,1,1,0.0894134585543209,93,59,4,B,A,1,1.5874717972791386e-05,-7.266279916051666e-05,False,False,True,False,persistent_correct
+0_cross_pass_B16,0,2,141,cross_pass,16,1,3,-0.0721248445152788,207,190,11,B,A,3,-1.0174590898970326e-06,2.298655085386514e-06,False,False,False,True,persistent_wrong
+1_cross_pass_B32,1,3,208,cross_pass,32,5,5,0.0008769039603906,122,54,3,B,A,0,0.0010601761063449,-0.0014158606451508682,True,False,False,False,rescue_B32
+1_cross_pass_B16,1,3,208,cross_pass,16,5,3,-0.0003589615924202,122,52,2,C,B,5,-0.0008014427597208,0.0012148040138406646,False,True,False,False,harm
+0_cross_pass_B16,0,3,113,cross_pass,16,1,1,0.1266112669605504,193,224,6,C,B,1,3.406176531078886e-06,-5.268360967813912e-06,False,False,True,False,persistent_correct
+1_cross_pass_B16,0,1,232,cross_pass,16,1,3,-0.0693655098052727,77,65,5,C,B,3,5.834402019844198e-08,-4.76021588302622e-06,False,False,False,True,persistent_wrong
+1_cross_pass_B32,2,3,208,cross_pass,32,5,5,0.0008861897207873,122,54,3,C,B,0,0.0029502324154129,-0.005558610075612647,True,False,False,False,rescue_B32
+1_cross_pass_B16,1,3,208,cross_pass,16,5,3,-0.0003589615924202,122,52,2,C,D,5,-0.001236847637615,0.0018688869107444939,False,True,False,False,harm
+0_cross_pass_B16,1,4,113,cross_pass,16,1,1,0.1024288119278631,206,218,6,C,D,1,7.394090220297356e-06,0.0001958936568855485,False,False,True,False,persistent_correct
+0_cross_pass_B16,0,0,79,cross_pass,16,3,2,-0.0302970780090586,192,173,7,C,D,2,-1.0945944314600525e-05,9.972533857705024e-06,False,False,False,True,persistent_wrong
