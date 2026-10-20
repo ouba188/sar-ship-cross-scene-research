@@ -1,0 +1,78 @@
+{
+  "test_observations": 4744,
+  "eligible_observations": 3899,
+  "eligibility_reasons": {
+    "eligible": 3899,
+    "crossview_unknown": 723,
+    "nonunique_or_nonreciprocal_mapping": 9,
+    "crossview_outside": 91,
+    "crossview_conflict": 17,
+    "nonunique_or_unusable_target": 5
+  },
+  "all_evaluable_pairs": 2517,
+  "main_pairs": 910,
+  "independent_unit": "one MMSI; repeated dates and seeds are not independent",
+  "main_pair_selection": "maximum elapsed time; tie ascending obs_id_a then obs_id_b; no predictions used",
+  "case_selection": "seed0 CW and WC illustrations; greatest time gap within each outcome; not prevalence sampling",
+  "pair_rule": "different calendar dates/products; same MMSI/fold/class; both polarizations uniquely matched usable boxes; reciprocal unique center mapping",
+  "identity_caveat": "MMSI and reciprocal affine center-in-box checks are not manual physical identity verification; inherited CRS assumption retained",
+  "class_counts": {
+    "crude_oil_tanker": 100,
+    "container_ship": 126,
+    "bulk_carrier": 185,
+    "offshore_supply": 51,
+    "general_cargo": 62,
+    "product_chemical_tanker": 341,
+    "tug_towing": 45
+  },
+  "fold_counts": {
+    "2": 281,
+    "0": 310,
+    "1": 319
+  },
+  "cross_port_pairs": 189,
+  "outcomes_by_seed": {
+    "0": {
+      "CW": 174,
+      "WW": 401,
+      "WC": 151,
+      "CC": 184,
+      "WW_same_prediction": 146
+    },
+    "1": {
+      "CW": 175,
+      "WW": 382,
+      "WC": 164,
+      "CC": 189,
+      "WW_same_prediction": 146
+    },
+    "2": {
+      "CW": 180,
+      "WW": 387,
+      "WC": 161,
+      "CC": 182,
+      "WW_same_prediction": 135
+    }
+  },
+  "margins": "true-class score minus maximum other-class score, raw frozen_fivepoint logits; rival may differ between dates",
+  "examples": [
+    {
+      "pair_id": "30951_30953",
+      "mmsi": "564970000",
+      "outcome": "CW",
+      "days_apart": 87.94657407407408,
+      "margin_a": 0.424139142036438,
+      "margin_b": -0.6001925468444824,
+      "raw_panel": "pair_30951_30953_raw.png"
+    },
+    {
+      "pair_id": "9577_9581",
+      "mmsi": "352004450",
+      "outcome": "WC",
+      "days_apart": 94.5263425925926,
+      "margin_a": -0.22419780492782593,
+      "margin_b": 0.5087296366691589,
+      "raw_panel": "pair_9577_9581_raw.png"
+    }
+  ]
+}
