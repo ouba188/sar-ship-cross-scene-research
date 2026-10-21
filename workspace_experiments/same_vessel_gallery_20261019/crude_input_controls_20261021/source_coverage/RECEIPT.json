@@ -1,0 +1,26 @@
+{
+  "status": "complete",
+  "classifier_fits": 0,
+  "feature_arrays_read": 0,
+  "image_reads": 0,
+  "score_files_rows_verified": 63,
+  "test_observations": 4744,
+  "crude_pairs": 100,
+  "crude_endpoints": 200,
+  "exclusion_ids": [
+    31237
+  ],
+  "weights": "N_train / (8 * observations_per_ship * ships_in_class)",
+  "tolerances": {
+    "axial_degrees": 15.0,
+    "incidence_degrees": 3.0,
+    "length_width_ratio": 1.25
+  },
+  "distance": "max(axial_gap/15, incidence_gap/3, abs(log(Lq/Ls))/log(1.25), abs(log(Wq/Ws))/log(1.25))",
+  "calibration": "Each fold/class/polarization: source nearest neighbor excluding same MMSI and same product; weighted empirical q95 using source weights; missing geometry excluded, never imputed.",
+  "source_scope": "Only paired_relation training rows. Validation never added. All query references are unseen ships/products by split.",
+  "interpretation": "Coverage association only, no causal conclusion; fixed tolerances are descriptive, not validated physical cutoffs.",
+  "coordinates_used": false,
+  "image_and_literature_review": "Reserved for main agent; not performed here.",
+  "github_sync": "Reserved for main-agent combined delivery: writes restricted to source_coverage directory."
+}

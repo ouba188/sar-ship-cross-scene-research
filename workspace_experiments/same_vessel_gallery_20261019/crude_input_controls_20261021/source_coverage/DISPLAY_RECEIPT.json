@@ -1,0 +1,32 @@
+{
+  "status": "complete",
+  "source_classes": [
+    0,
+    3,
+    4,
+    5
+  ],
+  "source_unique_observations": 5131,
+  "endpoint_observations": 200,
+  "endpoint_views_reused": 400,
+  "new_source_png_reads": 10090,
+  "unavailable_source_views": 172,
+  "native_no_crop_pad_resize": true,
+  "physical_values": false,
+  "classifier_fits": 0,
+  "feature_arrays_read": 0,
+  "thresholds": "Fixed weighted source q025/q975, strict outside; no target correctness selection",
+  "percentiles": "100 * weighted (P(X<value) + 0.5 P(X=value)); lower/upper CDF also exported",
+  "clip": "Fraction of original uint8 region pixels exactly equal to 255; not proof of physical saturation",
+  "masks": "Existing masks_for: valid shape and confidence >=0.25; T target, R complement of target and valid other boxes",
+  "weights": "Original per-fold N/(8*n_obs_ship*n_ships_class); filter unavailable views, renormalize remaining original weights only",
+  "original_baseline": "source_coverage/endpoint_baseline_outcomes.csv: paired_relation baseline, 3 seeds",
+  "verified": [
+    "Matched-input partitions equal previous source memberships",
+    "400 endpoint image paths and T/R counts match verified raw cache",
+    "400 endpoint means/contrast/target_clip match old image_statistics",
+    "Native source PNG uint8 L shape checks",
+    "All finite source distributions; 2000 endpoint metric records; contrast identity"
+  ],
+  "perturb_status": "User confirmed baseline replay <1e-5 passed before this supplement; no rerun"
+}
