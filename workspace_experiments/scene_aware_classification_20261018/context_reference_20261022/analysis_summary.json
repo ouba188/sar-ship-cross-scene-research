@@ -1,0 +1,80 @@
+{
+  "seconds": 10.428882600041106,
+  "baseline": {
+    "OA": 74.25812115891132,
+    "BA": 72.43251636461717
+  },
+  "targets": 5695,
+  "eligible": 1165,
+  "review_ids": [
+    "pair_0047041",
+    "pair_0062885",
+    "pair_0052382",
+    "pair_0062775",
+    "pair_0052394",
+    "pair_0031576",
+    "pair_0069192"
+  ],
+  "score_checks": [
+    {
+      "fold": 0,
+      "score_cache_replay_error": 1.3322676295501878e-15,
+      "inactive_change_max": 0.0
+    },
+    {
+      "fold": 1,
+      "score_cache_replay_error": 1.3322676295501878e-15,
+      "inactive_change_max": 0.0
+    },
+    {
+      "fold": 2,
+      "score_cache_replay_error": 8.881784197001252e-16,
+      "inactive_change_max": 0.0
+    },
+    {
+      "fold": 3,
+      "score_cache_replay_error": 8.881784197001252e-16,
+      "inactive_change_max": 0.0
+    },
+    {
+      "fold": 4,
+      "score_cache_replay_error": 8.881784197001252e-16,
+      "inactive_change_max": 0.0
+    },
+    {
+      "fold": 5,
+      "score_cache_replay_error": 1.3322676295501878e-15,
+      "inactive_change_max": 0.0
+    }
+  ],
+  "replacement_windows_checked": 4690,
+  "replacement_changed": 1153,
+  "replacement_identical_object_sets": 8,
+  "replacement_disjoint": 1128,
+  "external_class_net": [
+    {
+      "class_name": "bulk_carrier",
+      "net": -51,
+      "recall_delta_pp": -1.608832807570978
+    },
+    {
+      "class_name": "fishing_vessel",
+      "net": -4,
+      "recall_delta_pp": -0.34873583260680036
+    },
+    {
+      "class_name": "general_cargo",
+      "net": 37,
+      "recall_delta_pp": 2.6850507982583456
+    }
+  ],
+  "external_acquisitions": {
+    "positive": 15,
+    "negative": 24,
+    "zero": 124
+  },
+  "no_model_fitting": true,
+  "source_script_unchanged": true,
+  "ci_note": "2000 paired cluster bootstrap replicates, fixed seed20261022. Pass and MMSI blocks are separate sensitivity analyses, not joint two-way intervals. Developed-on cohort.",
+  "control_note": "Fixed-external-strength and group deletions are cached posthoc diagnostics, not retrained/source-selected policies."
+}

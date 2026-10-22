@@ -1,0 +1,204 @@
+{
+  "status": "complete",
+  "targets": 5695,
+  "ships": 4312,
+  "passes": 163,
+  "ports": 15,
+  "checkpoint": "C:\\Users\\25791\\.cache\\torch\\hub\\checkpoints\\resnet50-11ad3fa6.pth",
+  "source_table": "E:\\临时会话\\scene_aware_classification_20261018\\context_expansion_20261022\\readout\\targets.csv",
+  "source_images": "E:\\临时会话\\scene_aware_classification_20261018\\context_expansion_20261022\\readout\\native_targets",
+  "output": "E:\\临时会话\\scene_aware_classification_20261018\\context_strong_reader_20261022\\deep_features.npz",
+  "local_cache_no_git": true,
+  "keys": {
+    "layer3": [
+      5695,
+      2048
+    ],
+    "layer4": [
+      5695,
+      4096
+    ]
+  },
+  "instance_ids_shape": [
+    5695
+  ],
+  "dtype": "float32",
+  "model_eval": true,
+  "frozen_parameters": true,
+  "autocast": false,
+  "tf32": false,
+  "input": "native grayscale uint8 /255, replicate RGB, ImageNet mean/std; no resize, interpolation or added input padding",
+  "architecture_padding": "original ResNet convolution/maxpool padding unchanged",
+  "rotations_degrees": [
+    0,
+    90,
+    180,
+    270
+  ],
+  "rotation_operation": "torch.rot90 exact pixel permutation",
+  "pooling": "spatial mean at layer3 and layer4 per rotation, then arithmetic mean over C4",
+  "polarization_order": [
+    "VV",
+    "VH"
+  ],
+  "shape_buckets": 9,
+  "max_batch": 32,
+  "batches": 360,
+  "shape_counts": [
+    {
+      "height": 64,
+      "width": 64,
+      "images": 7391
+    },
+    {
+      "height": 72,
+      "width": 72,
+      "images": 1601
+    },
+    {
+      "height": 80,
+      "width": 80,
+      "images": 1023
+    },
+    {
+      "height": 88,
+      "width": 88,
+      "images": 772
+    },
+    {
+      "height": 96,
+      "width": 96,
+      "images": 394
+    },
+    {
+      "height": 104,
+      "width": 104,
+      "images": 107
+    },
+    {
+      "height": 112,
+      "width": 112,
+      "images": 61
+    },
+    {
+      "height": 120,
+      "width": 120,
+      "images": 22
+    },
+    {
+      "height": 128,
+      "width": 128,
+      "images": 19
+    }
+  ],
+  "replay_selection": "first VV/VH of most frequent, largest-area and first nonsquare shape when present",
+  "replay_atol": 5e-05,
+  "replay_rtol": 5e-05,
+  "replay": [
+    {
+      "instance_id": "pair_0087800",
+      "polarization": "vv",
+      "layer": "layer3",
+      "shape": [
+        64,
+        64
+      ],
+      "max_abs_error": 1.9073486328125e-06,
+      "top_feature": 370,
+      "single_top_feature": 370
+    },
+    {
+      "instance_id": "pair_0087800",
+      "polarization": "vv",
+      "layer": "layer4",
+      "shape": [
+        64,
+        64
+      ],
+      "max_abs_error": 1.3709068298339844e-05,
+      "top_feature": 1651,
+      "single_top_feature": 1651
+    },
+    {
+      "instance_id": "pair_0087786",
+      "polarization": "vh",
+      "layer": "layer3",
+      "shape": [
+        64,
+        64
+      ],
+      "max_abs_error": 2.8908252716064453e-06,
+      "top_feature": 338,
+      "single_top_feature": 338
+    },
+    {
+      "instance_id": "pair_0087786",
+      "polarization": "vh",
+      "layer": "layer4",
+      "shape": [
+        64,
+        64
+      ],
+      "max_abs_error": 1.4781951904296875e-05,
+      "top_feature": 762,
+      "single_top_feature": 762
+    },
+    {
+      "instance_id": "pair_0095170",
+      "polarization": "vv",
+      "layer": "layer3",
+      "shape": [
+        128,
+        128
+      ],
+      "max_abs_error": 1.6689300537109375e-06,
+      "top_feature": 370,
+      "single_top_feature": 370
+    },
+    {
+      "instance_id": "pair_0095170",
+      "polarization": "vv",
+      "layer": "layer4",
+      "shape": [
+        128,
+        128
+      ],
+      "max_abs_error": 9.059906005859375e-06,
+      "top_feature": 958,
+      "single_top_feature": 958
+    },
+    {
+      "instance_id": "pair_0095148",
+      "polarization": "vh",
+      "layer": "layer3",
+      "shape": [
+        128,
+        128
+      ],
+      "max_abs_error": 1.6689300537109375e-06,
+      "top_feature": 370,
+      "single_top_feature": 370
+    },
+    {
+      "instance_id": "pair_0095148",
+      "polarization": "vh",
+      "layer": "layer4",
+      "shape": [
+        128,
+        128
+      ],
+      "max_abs_error": 6.198883056640625e-06,
+      "top_feature": 1651,
+      "single_top_feature": 1651
+    }
+  ],
+  "replay_max_abs_error": 1.4781951904296875e-05,
+  "identical_top_feature": true,
+  "persisted_arrays_exact": true,
+  "all_finite": true,
+  "torch_version": "2.7.1+cu128",
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU",
+  "gpu_peak_allocated_bytes": 263694848,
+  "seconds": 34.71786570001859,
+  "scope": "target extraction only; no neighbor features, fitting, depth selection or accuracy claim"
+}

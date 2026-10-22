@@ -1,0 +1,128 @@
+{
+  "targets": 5695,
+  "edges": 2397,
+  "context_targets": 1165,
+  "products": 178,
+  "unique_neighbor_windows": 2101,
+  "neighbor_cache_hits": 296,
+  "target_valid_pol": [
+    5695,
+    5695
+  ],
+  "target_invalid_pol": [
+    0,
+    0
+  ],
+  "neighbor_valid_pol": [
+    2397,
+    2397
+  ],
+  "neighbor_invalid_pol": [
+    0,
+    0
+  ],
+  "invalid_reasons": {},
+  "all_finite": true,
+  "ids_mask_edge_index_unchanged": true,
+  "invalid_exact_zero": true,
+  "shape": {
+    "target_mean": [
+      5695,
+      2,
+      64
+    ],
+    "target_second": [
+      5695,
+      2,
+      64
+    ],
+    "target_valid": [
+      5695,
+      2
+    ],
+    "target_bg_pixels": [
+      5695,
+      2
+    ],
+    "target_excluded_obb_count": [
+      5695,
+      2
+    ],
+    "target_weight_sum": [
+      5695,
+      2,
+      4
+    ],
+    "neighbor_mean": [
+      5695,
+      16,
+      2,
+      64
+    ],
+    "neighbor_second": [
+      5695,
+      16,
+      2,
+      64
+    ],
+    "neighbor_valid": [
+      5695,
+      16,
+      2
+    ],
+    "neighbor_bg_pixels": [
+      5695,
+      16,
+      2
+    ],
+    "neighbor_excluded_obb_count": [
+      5695,
+      16,
+      2
+    ],
+    "neighbor_weight_sum": [
+      5695,
+      16,
+      2,
+      4
+    ],
+    "neighbor_cache_index": [
+      5695,
+      16
+    ],
+    "instance_ids": [
+      5695
+    ],
+    "mask": [
+      5695,
+      16
+    ],
+    "edge_index": [
+      5695,
+      16
+    ]
+  },
+  "min_background_native_pixels": 64,
+  "mask_definition": "union of every same-product valid VV detection OBB with conf>=0.25, dilated by square radius3 native pixels; includes overlapping and dilation-fringe boxes",
+  "moment_definition": "for each pol/rotation: sum(area_weight*z)/sum(area_weight), sum(area_weight*z^2)/sum(area_weight); equal mean of four rotations",
+  "visual": "frozen ImageNet R50 conv1/bn1/relu; native separate VV/VH windows; no image masking/resizing; no PCA",
+  "source_directory": "E:\\临时会话\\scene_aware_classification_20261018\\context_expansion_20261022\\readout",
+  "source_files": [
+    "targets.csv",
+    "neighbors.csv",
+    "features.npz"
+  ],
+  "source_catalogs": "E:\\临时会话\\scene_aware_classification_20261018\\data_image_review\\ports24\\fullscene_candidate_catalogs.csv",
+  "source_inputs_modified": false,
+  "new_detection_or_training": false,
+  "product_seconds": 69.80587959976401,
+  "invocation_seconds": 73.94809189997613,
+  "review_targets": 4,
+  "review_neighbors": 1,
+  "limitations": [
+    "Background is outside catalog OBBs, not pure sea or a physical component.",
+    "7x7 convolution receptive fields mix OBB boundaries despite output pooling exclusions.",
+    "C4 rotations are repeated views of the same pixels, not four independent observations.",
+    "Second is a raw feature-map second moment, not variance of previously pooled node means."
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "targets": 5695,
+  "identities": 4312,
+  "acquisitions": 163,
+  "folds": 6,
+  "fits": 18,
+  "parameters": {
+    "max_iter": 100,
+    "max_leaf_nodes": 7,
+    "l2_regularization": 1,
+    "random_state": 17,
+    "early_stopping": false
+  },
+  "inputs": {
+    "body_geometry": [
+      "log_length_m",
+      "log_width_m",
+      "log_aspect"
+    ],
+    "canvas_geometry": [
+      "log_canvas_w_vv",
+      "log_canvas_h_vv",
+      "log_canvas_w_vh",
+      "log_canvas_h_vh",
+      "log_occupancy_vv",
+      "log_occupancy_vh"
+    ],
+    "both": [
+      "log_length_m",
+      "log_width_m",
+      "log_aspect",
+      "log_canvas_w_vv",
+      "log_canvas_h_vv",
+      "log_canvas_w_vh",
+      "log_canvas_h_vh",
+      "log_occupancy_vv",
+      "log_occupancy_vh"
+    ]
+  },
+  "occupancy": "Frozen original target bounding-box area divided by native canvas area, independently VV/VH; not readout OBB-mask fraction.",
+  "body": "Matched valid VV detection OBB lengths in metres; not AIS hull measurements.",
+  "weights": "Imported unchanged run_ports24.weights; class balance then equal MMSI within class, mean-one.",
+  "validation_usage": "Report only; no tuning, early stopping, model/group selection, or refit on validation.",
+  "checks": {
+    "ids_aligned": true,
+    "folds_match_expanded_and_strong": true,
+    "mmsi_and_acquisition_disjoint": true,
+    "each_test_once": true,
+    "baseline_score_replay": true,
+    "finite_inputs_and_outputs": true
+  },
+  "strong_rescues": 666,
+  "strong_harms": 261,
+  "cases": [
+    "pair_0068754",
+    "pair_0062831",
+    "pair_0066778",
+    "pair_0066606"
+  ],
+  "seconds": 5.599940999993123,
+  "context_boundary": "Strong-reader external context has slightly lower OA but slightly positive BA; not uniform degradation."
+}
