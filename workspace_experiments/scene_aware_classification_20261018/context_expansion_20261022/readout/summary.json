@@ -1,0 +1,150 @@
+{
+  "input_targets": 6134,
+  "targets": 5695,
+  "target_excluded": 439,
+  "edges": 2397,
+  "context_targets": 1165,
+  "classes": {
+    "bulk_carrier": 3170,
+    "general_cargo": 1378,
+    "fishing_vessel": 1147
+  },
+  "products": 178,
+  "acquisitions": 163,
+  "ports": 15,
+  "mmsi": 4312,
+  "missing_mmsi": 0,
+  "input_mmsi_cross_class_conflicts": 0,
+  "conflict_policy": "report only; no row or label cleanup",
+  "unique_neighbor_encodes": 2101,
+  "neighbor_cache_hits": 296,
+  "excluded_reasons": [
+    {
+      "scope": "catalog",
+      "reason": "confidence_below_0.25",
+      "count": 220480
+    },
+    {
+      "scope": "catalog",
+      "reason": "pixel_status_not_valid",
+      "count": 131
+    },
+    {
+      "scope": "neighbor",
+      "reason": "neighbor_center_inside_target_vv_window",
+      "count": 435
+    },
+    {
+      "scope": "neighbor",
+      "reason": "neighbor_read_window_intersects_target_obb",
+      "count": 147
+    },
+    {
+      "scope": "neighbor",
+      "reason": "target_detection",
+      "count": 5695
+    },
+    {
+      "scope": "target",
+      "reason": "target_axis_unresolved_distance_gt5px",
+      "count": 439
+    }
+  ],
+  "target_fg_invalid": 0,
+  "target_bg_invalid": 0,
+  "neighbor_fg_invalid": 0,
+  "neighbor_bg_invalid": 0,
+  "all_finite": true,
+  "source_fields_preserved": true,
+  "zero_target_obb_overlap": true,
+  "aligned_ids": true,
+  "feature_shapes": {
+    "target": [
+      5695,
+      256
+    ],
+    "target_fg": [
+      5695,
+      256
+    ],
+    "target_bg": [
+      5695,
+      256
+    ],
+    "neighbor": [
+      5695,
+      16,
+      256
+    ],
+    "neighbor_fg": [
+      5695,
+      16,
+      256
+    ],
+    "neighbor_bg": [
+      5695,
+      16,
+      256
+    ],
+    "geometry": [
+      5695,
+      16,
+      7
+    ],
+    "mask": [
+      5695,
+      16
+    ],
+    "fg_valid": [
+      5695,
+      16
+    ],
+    "bg_valid": [
+      5695,
+      16
+    ],
+    "target_fg_valid": [
+      5695
+    ],
+    "target_bg_valid": [
+      5695
+    ],
+    "target_fg_valid_pol": [
+      5695,
+      2
+    ],
+    "target_bg_valid_pol": [
+      5695,
+      2
+    ],
+    "fg_valid_pol": [
+      5695,
+      16,
+      2
+    ],
+    "bg_valid_pol": [
+      5695,
+      16,
+      2
+    ],
+    "instance_ids": [
+      5695
+    ],
+    "edge_index": [
+      5695,
+      16
+    ]
+  },
+  "product_seconds": 172.7669117997866,
+  "invocation_seconds": 8.546395499957725,
+  "status": "frozen_features_only_no_training",
+  "review_selection": "first accepted target in each port absent from old pilot, plus nearest retained neighbor",
+  "visual": "ImageNet R50 conv1/bn1/relu meanmax C4, separate native VV/VH, no image resize/masking",
+  "region": "same full-raster OBB mapped independently to recorded VV/VH windows; BG beyond square radius3",
+  "valid_semantics": "combined flag requires both polarizations; per-polarization flags also saved",
+  "limitations": [
+    "7x7 stem receptive fields mix boundaries",
+    "WorldCover 2021 is an external static map",
+    "axis-unmatched targets explicitly excluded without relaxing 5px rule"
+  ]
+}
