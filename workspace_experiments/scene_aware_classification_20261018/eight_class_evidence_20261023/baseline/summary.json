@@ -1,0 +1,29 @@
+{
+  "rows": 15251,
+  "mmsi": 6688,
+  "products": 330,
+  "passes": 316,
+  "class_count": 8,
+  "vv_valid": 15251,
+  "vh_valid": 13783,
+  "evaluated_test_rows": 4744,
+  "test_mmsi": 2973,
+  "test_vh_valid": 4436,
+  "outer_models": 3,
+  "inner_models": 12,
+  "ridge_fits_including_candidates": 21,
+  "attention_heads": 0,
+  "seconds": 28.39084330003243,
+  "pooled": {
+    "n": 4744,
+    "OA": 39.52360876897133,
+    "BA": 40.34906132923653,
+    "balanced_NLL": 1.6832989992372362
+  },
+  "max_decomposition_error": 7.105427357601002e-15,
+  "float32_top1_differences": 0,
+  "evaluation": "New frozen layer3 baseline; not old A+D. Float32 fit, float64 linear-map evaluation.",
+  "oof": "Source-only shuffled passes seed20261023 roundrobin4; held identities excluded; inner refit all preprocessing.",
+  "projection": "Whole-stem-only StandardScaler/PCA64(full)/postscale; whole64 and fg64 L2 sqrt32; dual first32 per region /sqrt2.",
+  "missing": "Invalid polarization raw block stays zero; any-valid-polarization region retained; flags saved."
+}
