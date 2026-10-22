@@ -1,0 +1,37 @@
+--- original/run_transfer.py
++++ aligned/run_transfer.py
+@@ -1,4 +1,4 @@
+-"""Three fixed heads on frozen eight-class OOF and inference caches."""
++"""Coordinate correction: shared outer-source condition, unchanged OOF reader."""
+ import os
+ for key in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS'):
+     os.environ[key]='2'
+@@ -132,15 +132,15 @@
+         np.testing.assert_allclose(old[[f's{c}' for c in range(8)]],d['base'][test],atol=1e-12)
+         np.testing.assert_array_equal(old.prediction,d['base'][test].argmax(1))
+         basepred.append(frame_predictions(f,test,d['base'][test],d['base'][test],fold,'A',-1,d['valid']))
+-        # Materialize train tensors only from the three matching inner OOF arrays.
+-        te=torch.tensor(d['oof_whole64'][train],dtype=torch.float32,device=device)
++        # Only condition coordinates change; base/contributions remain inner OOF.
++        te=torch.tensor(d['whole64'][train],dtype=torch.float32,device=device)
+         tq=torch.tensor(d['oq'][train],dtype=torch.float32,device=device)
+         tb=torch.tensor(d['oof'][train],dtype=torch.float32,device=device)
+         yy=torch.tensor(y[train],dtype=torch.long,device=device)
+         w=torch.tensor(weights(f,train),dtype=torch.float32,device=device)
+         env=torch.tensor(d['whole64'],dtype=torch.float32,device=device)
+         sources.append(dict(fold=fold,train=len(train),validation=len(val),test=len(test),
+-            train_arrays='oof,oq,oof_whole64',inference_arrays='base,q,whole64',groups=16,
++            train_arrays='oof,oq,whole64',inference_arrays='base,q,whole64',groups=16,
+             train_outer_oof_env_max_difference=float(abs(d['whole64'][train]-d['oof_whole64'][train]).max()),
+             missing_vh=int((~d['valid'][:,1]).sum()),
+             missing_vh_max_abs_q=float(abs(d['q'][~d['valid'][:,1],8:]).max())))
+@@ -244,7 +244,8 @@
+         max_float32_formula_error=max(c['float32_formula_error'] for c in checks),
+         float32_top1_differences=sum(c['float32_top1_differences'] for c in checks),
+         baseline_refits=0,new_feature_extractions=0,
+-        scope='Fixed eight-class development transfer, not old A+D or full-model victory. No test tuning.')
++        scope='Coordinate-corrected eight-class transfer; reader OOF, shared unlabeled outer-source condition. Not full-pipeline OOF.',
++        only_training_change='oof_whole64[train] -> whole64[train]',original_directory=str(PARENT/'gated_transfer'))
+     (HERE/'summary.json').write_text(json.dumps(summary,indent=2),encoding='utf-8')
+     print(pd.DataFrame(pooled).to_string(index=False),flush=True)
+     print(json.dumps(summary,indent=2),flush=True)

@@ -1,0 +1,39 @@
+{
+  "status": "training_complete",
+  "heads": 27,
+  "steps": 200,
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "arms": [
+    "original_centered",
+    "score_scale_decoupled",
+    "additive"
+  ],
+  "device": "cuda",
+  "seconds": 22.323594100074843,
+  "train_val_seconds": 17.530064199818298,
+  "rows": 15251,
+  "test_rows": 4744,
+  "baseline": {
+    "n": 4744,
+    "classes": 8,
+    "OA": 39.52360876897133,
+    "BA": 40.34906132923653,
+    "NLL": 1.7140145932677808,
+    "balanced_NLL": 1.6832989992372362,
+    "Brier": 0.7623984241412678,
+    "balanced_Brier": 0.7429976279951396
+  },
+  "zero_step_heads": 0,
+  "max_replay_error": 0.0,
+  "max_float32_formula_error": 6.635131493126778e-07,
+  "float32_top1_differences": 0,
+  "baseline_refits": 0,
+  "new_feature_extractions": 0,
+  "scope": "Coordinate-corrected eight-class transfer; reader OOF, shared unlabeled outer-source condition. Not full-pipeline OOF.",
+  "only_training_change": "oof_whole64[train] -> whole64[train]",
+  "original_directory": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\eight_class_evidence_20261023\\gated_transfer"
+}

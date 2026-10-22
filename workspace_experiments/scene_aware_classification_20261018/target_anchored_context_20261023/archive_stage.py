@@ -13,7 +13,7 @@ def archive(folder, source=SOURCE):
         return
     count = 0
     for path in sorted(folder.iterdir()):
-        if not path.is_file() or path.suffix not in {'.py', '.md', '.json', '.csv', '.png'}:
+        if not path.is_file() or path.suffix not in {'.py', '.md', '.json', '.csv', '.png', '.diff'}:
             continue
         out = ARCHIVE / source.name / path.relative_to(source)
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -35,14 +35,15 @@ def archive(folder, source=SOURCE):
 if __name__ == '__main__':
     archive(SOURCE)
     for name in ['centering_probe', 'partition_replication', 'controller_readout_probe', 'common_gain_diagnosis',
-                 'common_gain_training', 'score_scale_decoupling', 'linear_probe_control']:
+                 'common_gain_training', 'score_scale_decoupling', 'linear_probe_control',
+                 'spatial_evidence_review', 'global_calibration_control']:
         folder = SOURCE / name
         if folder.exists():
             archive(folder)
     eight = SOURCE.parent / 'eight_class_evidence_20261023'
     if eight.exists():
         archive(eight, source=eight)
-        for name in ['baseline', 'gated_transfer']:
+        for name in ['baseline', 'gated_transfer', 'gated_transfer_aligned', 'reader_stability']:
             folder = eight / name
             if (folder / 'FINDINGS_ZH.md').exists():
                 archive(folder, source=eight)
