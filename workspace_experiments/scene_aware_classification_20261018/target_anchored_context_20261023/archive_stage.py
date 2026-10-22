@@ -53,6 +53,8 @@ if __name__ == '__main__':
                         out = ARCHIVE / eight.name / path.relative_to(eight)
                         out.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copy2(path, out)
+                norm=folder/'weight_norm_diagnosis'
+                if norm.exists():archive(norm,source=eight)
     for name in ['contrastive_spatial_pool_20261023', 'contrastive_spatial_pool_20261023_review',
                  'contrastive_spatial_pool_20261023_oldsplit', 'signed_evidence_pool_20261023']:
         folder=SOURCE.parent/name
@@ -60,6 +62,19 @@ if __name__ == '__main__':
             archive(folder, source=folder)
             controls=folder/'dispersion_controls'
             if controls.exists():archive(controls, source=folder)
-            for child in ['signed_only_retrain', 'source_utility_diagnosis']:
+            for child in ['signed_only_retrain', 'source_utility_diagnosis',
+                          'source_utility_alignment', 'spatial_contributions', 'literature_design',
+                          'old_partition_replication', 'calibrated_increment']:
                 sub=folder/child
-                if sub.exists():archive(sub, source=folder)
+                if sub.exists():
+                    archive(sub, source=folder)
+                    matched=sub/'matched_controls'
+                    if matched.exists():archive(matched, source=folder)
+                    for part in ['new', 'old']:
+                        images=sub/part
+                        if images.exists() and (sub/'FINDINGS_ZH.md').exists():
+                            for path in images.iterdir():
+                                if path.suffix in {'.png','.csv','.json'}:
+                                    out=ARCHIVE/folder.name/path.relative_to(folder)
+                                    out.parent.mkdir(parents=True,exist_ok=True)
+                                    shutil.copy2(path,out)

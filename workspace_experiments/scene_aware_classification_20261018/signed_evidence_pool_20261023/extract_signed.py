@@ -27,7 +27,7 @@ def moments(v):
 
 
 @torch.inference_mode()
-def main():
+def main(reference_std=None, batch_size=32):
     start=time.perf_counter()
     torch.set_num_threads(2)
     torch.backends.cuda.matmul.allow_tf32=False
@@ -72,8 +72,8 @@ def main():
     counts=np.zeros((len(t),2),int)
     gap_error=0.;last=time.perf_counter()
     for shape,items in sorted(buckets.items(),key=lambda item:(-len(item[1]),item[0])):
-        for begin in range(0,len(items),32):
-            batch=items[begin:begin+32]
+        for begin in range(0,len(items),batch_size):
+            batch=items[begin:begin+batch_size]
             ix=np.array([a[0] for a in batch]);pol=np.array([a[1] for a in batch])
             pixels=[]
             for _,_,path in batch:
@@ -104,7 +104,8 @@ def main():
                 print(f'images={counts.sum()}/{2*len(t)} elapsed={time.perf_counter()-start:.1f}s',flush=True)
                 last=time.perf_counter()
     assert (counts==1).all() and gap_error<1e-4
-    old=np.load(HERE.parent/'contrastive_spatial_pool_20261023/delta_features.npz')['delta'][:,:,2]
+    old=(np.load(HERE.parent/'contrastive_spatial_pool_20261023/delta_features.npz')['delta'][:,:,2]
+         if reference_std is None else reference_std)
     for f in range(6):
         j=[p.stem for p in paths].index(f'fold{f}_outer')
         np.testing.assert_allclose(result[j,:,:,0],old[f],atol=1e-8,rtol=1e-8)
