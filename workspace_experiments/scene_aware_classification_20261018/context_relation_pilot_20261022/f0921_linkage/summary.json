@@ -1,0 +1,111 @@
+{
+  "cohort_rows": 269,
+  "distinct_mmsi": 256,
+  "geometry_valid": 240,
+  "retained_objects": 990,
+  "five_scene_record_products": 88,
+  "inherited_neighbor_edges": 3604,
+  "status_counts": {
+    "unresolved_product_ownership": 29,
+    "outside_five_scene_inventory": 161,
+    "geometry_one_to_one_candidate": 71,
+    "no_qualifying_box_overlap": 7,
+    "box_candidates_pending": 1
+  },
+  "candidate_edges": 73,
+  "one_to_one_candidates": 71,
+  "candidate_distinct_mmsi": 71,
+  "confirmed_training_targets": 0,
+  "iou_threshold": 0.25,
+  "neighbor_radius_m": 1000,
+  "scenes": [
+    {
+      "product": "S1A_IW_GRDH_1SDV_20250202T135247_20250202T135312_057718_071D69_2EC7",
+      "scene_suffix": "2EC7",
+      "inventory_objects": 87,
+      "cohort_targets": 6,
+      "cohort_distinct_mmsi": 6,
+      "exclusive_targets": 1,
+      "one_to_one_candidates": 1,
+      "candidate_distinct_mmsi": 1,
+      "candidate_classes_json": "{\"crude_oil_tanker\": 1}",
+      "candidates_with_external_neighbors": 0,
+      "candidates_with_complete_1km": 1,
+      "confirmed_training_targets": 0
+    },
+    {
+      "product": "S1A_IW_GRDH_1SDV_20250211T225059_20250211T225124_057855_0722DE_45FE",
+      "scene_suffix": "45FE",
+      "inventory_objects": 37,
+      "cohort_targets": 6,
+      "cohort_distinct_mmsi": 6,
+      "exclusive_targets": 6,
+      "one_to_one_candidates": 4,
+      "candidate_distinct_mmsi": 4,
+      "candidate_classes_json": "{\"container_ship\": 3, \"tug\": 1}",
+      "candidates_with_external_neighbors": 1,
+      "candidates_with_complete_1km": 4,
+      "confirmed_training_targets": 0
+    },
+    {
+      "product": "S1A_IW_GRDH_1SDV_20250315T122314_20250315T122344_058315_07357B_31CC",
+      "scene_suffix": "31CC",
+      "inventory_objects": 159,
+      "cohort_targets": 5,
+      "cohort_distinct_mmsi": 5,
+      "exclusive_targets": 1,
+      "one_to_one_candidates": 1,
+      "candidate_distinct_mmsi": 1,
+      "candidate_classes_json": "{\"tug\": 1}",
+      "candidates_with_external_neighbors": 1,
+      "candidates_with_complete_1km": 1,
+      "confirmed_training_targets": 0
+    },
+    {
+      "product": "S1A_IW_GRDH_1SDV_20250401T002647_20250401T002712_058556_073F16_5FFE",
+      "scene_suffix": "5FFE",
+      "inventory_objects": 363,
+      "cohort_targets": 45,
+      "cohort_distinct_mmsi": 45,
+      "exclusive_targets": 45,
+      "one_to_one_candidates": 43,
+      "candidate_distinct_mmsi": 43,
+      "candidate_classes_json": "{\"chemical_oil_products_tanker\": 21, \"lpg_tanker\": 5, \"crude_oil_tanker\": 7, \"pusher_tug\": 2, \"container_ship\": 5, \"bulk_carrier\": 3}",
+      "candidates_with_external_neighbors": 12,
+      "candidates_with_complete_1km": 43,
+      "confirmed_training_targets": 0
+    },
+    {
+      "product": "S1A_IW_GRDH_1SDV_20251126T225109_20251126T225134_062055_07C38B_B529",
+      "scene_suffix": "B529",
+      "inventory_objects": 344,
+      "cohort_targets": 26,
+      "cohort_distinct_mmsi": 26,
+      "exclusive_targets": 26,
+      "one_to_one_candidates": 22,
+      "candidate_distinct_mmsi": 22,
+      "candidate_classes_json": "{\"container_ship\": 6, \"tug\": 5, \"pusher_tug\": 8, \"chemical_oil_products_tanker\": 2, \"crude_oil_tanker\": 1}",
+      "candidates_with_external_neighbors": 13,
+      "candidates_with_complete_1km": 22,
+      "confirmed_training_targets": 0
+    }
+  ],
+  "evidence_sources": [
+    "E:\\临时会话\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\cohort.csv",
+    "E:\\临时会话\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\axis_radar_readout_20261019\\geometry.csv",
+    "E:\\临时会话\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\learned_geometry_crosspass_20261019\\recovery\\expanded_geometry.csv",
+    "E:\\临时会话\\scene_aware_classification_20261018\\f0921_priority\\formal_queue_bridge\\detections.json",
+    "E:\\临时会话\\scene_aware_classification_20261018\\f0921_priority\\land_mask\\objects_retained.json",
+    "E:\\临时会话\\scene_aware_classification_20261018\\f0921_priority\\recovery_31cc_2ec7\\five_scene_object_inputs.csv"
+  ],
+  "limitations": [
+    "Inherited pixel replay is crop-to-mosaic, not an independently verified vessel label.",
+    "Record product may be outside these five scenes; overlapping mosaic ownership stays unresolved.",
+    "Box IoU >= 0.25 plus reciprocal uniqueness yields a candidate only; no nearest-point or MMSI assignment.",
+    "224-coordinate detection boxes are geometrically mapped to native pixels; no resized image is used as native input.",
+    "Neighbor counts are retained local detections, not verified vessels or full-scene density.",
+    "The 3604 inherited edges are inventoried; 1km external-chip neighbors are recomputed from retained object geometry.",
+    "Coverage is union of existing VV detection windows; it is not detector recall or dual-pol completeness.",
+    "No native pixel equality between newly linked object and target is asserted. No new visual confirmation."
+  ]
+}
