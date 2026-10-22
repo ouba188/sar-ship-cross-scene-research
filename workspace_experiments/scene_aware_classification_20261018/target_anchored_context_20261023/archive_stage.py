@@ -43,7 +43,7 @@ if __name__ == '__main__':
     eight = SOURCE.parent / 'eight_class_evidence_20261023'
     if eight.exists():
         archive(eight, source=eight)
-        for name in ['baseline', 'gated_transfer', 'gated_transfer_aligned', 'reader_stability']:
+        for name in ['baseline', 'gated_transfer', 'gated_transfer_aligned', 'reader_stability', 'spatial_std_transfer']:
             folder = eight / name
             if (folder / 'FINDINGS_ZH.md').exists():
                 archive(folder, source=eight)
@@ -53,3 +53,13 @@ if __name__ == '__main__':
                         out = ARCHIVE / eight.name / path.relative_to(eight)
                         out.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copy2(path, out)
+    for name in ['contrastive_spatial_pool_20261023', 'contrastive_spatial_pool_20261023_review',
+                 'contrastive_spatial_pool_20261023_oldsplit', 'signed_evidence_pool_20261023']:
+        folder=SOURCE.parent/name
+        if folder.exists():
+            archive(folder, source=folder)
+            controls=folder/'dispersion_controls'
+            if controls.exists():archive(controls, source=folder)
+            for child in ['signed_only_retrain', 'source_utility_diagnosis']:
+                sub=folder/child
+                if sub.exists():archive(sub, source=folder)
