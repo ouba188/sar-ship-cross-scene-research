@@ -1,0 +1,55 @@
+{
+  "status": "complete",
+  "fits": 18,
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "arms": [
+    "body",
+    "additive",
+    "mixed",
+    "mixed_shuffle101",
+    "mixed_shuffle211",
+    "mixed_shuffle307"
+  ],
+  "source_n": 3387,
+  "roles": {
+    "utility_train": 644,
+    "selection": 612,
+    "evaluation": 485
+  },
+  "parameters_per_head": 4,
+  "tau": 0.17677669529663687,
+  "edge_mass": "uniform over legal edges; mass only tests positivity",
+  "centering": "valid classes within each group",
+  "scale": "per arm/group RMS on utility644 only",
+  "equal_reference_weight": true,
+  "difference_unit_normalized": false,
+  "source_only": true,
+  "no_external": true,
+  "no_git": true,
+  "no_images": true,
+  "checks": {
+    "four_point_error": 0.0,
+    "row_column_bias_error": 8.881784197001252e-16,
+    "axis_flip_score_error": 0.0,
+    "checked_indices": [
+      0,
+      1,
+      2976,
+      3140
+    ],
+    "missing_vh_index": 1,
+    "shuffle_mass": "uniform unchanged; positive mass validity only"
+  },
+  "trace_error": 7.092370006844817e-07,
+  "max_prediction_replay_error": 3.24067878754164e-07,
+  "trace_example_indices": [
+    8,
+    280
+  ],
+  "outside_idx_predictions": "unchanged frozen anchor; all3387 local scores still cached",
+  "seconds": 13.141640099929646
+}
