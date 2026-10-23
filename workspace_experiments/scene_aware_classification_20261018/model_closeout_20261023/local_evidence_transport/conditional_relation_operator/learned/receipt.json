@@ -1,0 +1,44 @@
+{
+  "status": "complete",
+  "fits": 15,
+  "optimizer_steps_per_fit": 200,
+  "batch_size": 128,
+  "checkpoints": [
+    0,
+    20,
+    50,
+    100,
+    200
+  ],
+  "configs": [
+    17,
+    29,
+    43
+  ],
+  "arms": [
+    "independent",
+    "transfer",
+    "excess",
+    "excess_shuffle101",
+    "excess_shuffle307"
+  ],
+  "base": "clean full only",
+  "transform_parameters": 512,
+  "coefficients": 4,
+  "initial_U_seed": 17,
+  "initial_U_std": 0.01,
+  "initial_V_zero": true,
+  "a_init": 0.25,
+  "regularizer_once_per_update": true,
+  "global_balanced_CE": true,
+  "utility": 644,
+  "selection": 612,
+  "evaluation": 485,
+  "evaluation_after_selection": true,
+  "per_arm_RMS": "utility identity frozen",
+  "max_feature_replay_error": 8.940696716308594e-07,
+  "no_external": true,
+  "no_git": true,
+  "no_raw_analysis": true,
+  "seconds": 141.19678019999992
+}
