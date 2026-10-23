@@ -1,0 +1,104 @@
+{
+  "seconds": 13.588931599981152,
+  "scale": 0.3938252627849579,
+  "support_n": 64,
+  "source_query_n": 1741,
+  "tau": 0.17677669529663687,
+  "source_only": true,
+  "checks": [
+    {
+      "arm": "reference_image",
+      "initial_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.25,
+        "BA": 0.25,
+        "J": 0.25,
+        "NLL": 1.9476237297058105,
+        "balanced_NLL": 1.9476237297058105,
+        "Brier": 0.832766224011698
+      },
+      "terminal_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.296875,
+        "BA": 0.296875,
+        "J": 0.296875,
+        "NLL": 1.802565097808838,
+        "balanced_NLL": 1.8025649785995483,
+        "Brier": 0.79001363175531
+      }
+    },
+    {
+      "arm": "reference_pass",
+      "initial_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.265625,
+        "BA": 0.265625,
+        "J": 0.265625,
+        "NLL": 1.954052209854126,
+        "balanced_NLL": 1.954052209854126,
+        "Brier": 0.8357335593987114
+      },
+      "terminal_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.296875,
+        "BA": 0.296875,
+        "J": 0.296875,
+        "NLL": 1.8045425415039062,
+        "balanced_NLL": 1.8045424222946167,
+        "Brier": 0.7908894581951578
+      }
+    },
+    {
+      "arm": "token_image",
+      "initial_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.25,
+        "BA": 0.25,
+        "J": 0.25,
+        "NLL": 1.9476237297058105,
+        "balanced_NLL": 1.9476237297058105,
+        "Brier": 0.832766224011698
+      },
+      "terminal_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.625,
+        "BA": 0.625,
+        "J": 0.625,
+        "NLL": 1.43764066696167,
+        "balanced_NLL": 1.43764066696167,
+        "Brier": 0.6622823920541077
+      }
+    },
+    {
+      "arm": "token_pass",
+      "initial_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.265625,
+        "BA": 0.265625,
+        "J": 0.265625,
+        "NLL": 1.954052209854126,
+        "balanced_NLL": 1.954052209854126,
+        "Brier": 0.8357335593987114
+      },
+      "terminal_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.671875,
+        "BA": 0.671875,
+        "J": 0.671875,
+        "NLL": 1.3771182298660278,
+        "balanced_NLL": 1.3771181106567383,
+        "Brier": 0.6303935522528925
+      }
+    }
+  ],
+  "no_backbone_training": true,
+  "method": "normalized FewTURE-inspired control, not official reproduction"
+}

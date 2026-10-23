@@ -1,0 +1,58 @@
+{
+  "seconds": 9.981424300000072,
+  "scale": 0.3938252627849579,
+  "support_n": 64,
+  "source_query_n": 1741,
+  "tau": 0.17677669529663687,
+  "source_only": true,
+  "checks": [
+    {
+      "arm": "token_crosspos",
+      "initial_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.25,
+        "BA": 0.25,
+        "J": 0.25,
+        "NLL": 1.9570860862731934,
+        "balanced_NLL": 1.957086205482483,
+        "Brier": 0.8363069103310072
+      },
+      "terminal_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.640625,
+        "BA": 0.640625,
+        "J": 0.640625,
+        "NLL": 1.364311695098877,
+        "balanced_NLL": 1.364311695098877,
+        "Brier": 0.6246483190217147
+      }
+    },
+    {
+      "arm": "token_crossneg",
+      "initial_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.265625,
+        "BA": 0.265625,
+        "J": 0.265625,
+        "NLL": 1.944587230682373,
+        "balanced_NLL": 1.944587230682373,
+        "Brier": 0.8321933697882143
+      },
+      "terminal_train": {
+        "n": 64,
+        "classes": 8,
+        "OA": 0.625,
+        "BA": 0.625,
+        "J": 0.625,
+        "NLL": 1.4413130283355713,
+        "balanced_NLL": 1.4413130283355713,
+        "Brier": 0.6644873590200878
+      }
+    }
+  ],
+  "no_backbone_training": true,
+  "method": "normalized FewTURE-inspired control, not official reproduction"
+}

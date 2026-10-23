@@ -1,5 +1,15 @@
 # 研究进度：2026-10-24
 
+## 支持学习与查询聚合：已完成两个针对性阶段
+
+新增入口：`local_evidence_transport/support_transfer_learning/FINDINGS_ZH.md`与`query_evidence_pooling/FINDINGS_ZH.md`（均在下述workspace_experiments对应目录内）。
+
+源支持token学习确实改善局部OA和NLL，但完整系统token_pass OA59.244/BA40.428，相对简单uniform59.038/40.556并未形成共同优势。保留部分收益，不将普通重加权升级为强原创。固定100步后，同采集正负训练边的拆分没有支持“删掉异类边是主要原因”的解释。官方FewTURE代码、标签边界、独立标量重放和8幅原chip/实际支持面板已核查。
+
+新四种查询聚合诊断中，逐query平均log局部OA37.320→39.175，完整OA保持59.038、BA40.556→40.540。真类VV body有效贡献数中位数7.35/8，不支持普遍单峰垄断。新增4幅原始尺度VV/VH查询与参考面板、逐区域分差已查看。四篇方法对照精读完成，不将普通聚合包装为创新。
+
+研究目标继续：正在验证固定单区域边际后的实际参考内联合证据，是否提供额外判别信息。尚未宣称第三强算法模块成立，本次同步的前两阶段均已终态完成。
+
 ## 竞争匹配的真实源端验证已完成
 
 入口：`workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/local_evidence_transport/competitive_matching/FINDINGS_ZH.md`。
