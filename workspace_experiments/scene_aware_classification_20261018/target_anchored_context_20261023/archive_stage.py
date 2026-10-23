@@ -9,7 +9,7 @@ ARCHIVE = Path('E:/临时会话/_sar_ship_cross_scene_incremental_git/workspace_
 
 
 def archive(folder, source=SOURCE):
-    if not (folder / 'FINDINGS_ZH.md').exists():
+    if not ((folder / 'FINDINGS_ZH.md').exists() or (folder / 'REVIEW_ZH.md').exists()):
         print('pending, not archived:', folder.name)
         return
     count = 0
@@ -126,7 +126,11 @@ if __name__ == '__main__':
     if (oss2 / 'analysis/FINDINGS_ZH.md').exists():
         for folder in [oss2] + [oss2 / p for p in ['readers', 'analysis', 'geometry_coverage_diagnosis',
                                                   'robust_moment_readout', 'robust_moment_readout/analysis',
-                                                  'pair_local_evidence', 'pair_local_evidence/review']]:
+                                                  'pair_local_evidence', 'pair_local_evidence/review',
+                                                  'pair_local_evidence/antisymmetric_readout',
+                                                  'pair_local_evidence/antisymmetric_readout/analysis',
+                                                  'reader_substitution', 'native_canvas_probe',
+                                                  'next_mechanism_review']]:
             archive(folder, source=oss2)
             for path in (folder / 'panels').glob('*.png'):
                 out = ARCHIVE / oss2.name / path.relative_to(oss2)
