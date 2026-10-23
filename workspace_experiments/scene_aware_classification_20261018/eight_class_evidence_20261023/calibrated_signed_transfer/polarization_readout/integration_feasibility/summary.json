@@ -1,0 +1,63 @@
+{
+  "status": "complete_read_only",
+  "old_cohort": 15252,
+  "new_cohort": 15251,
+  "common_rows": 15251,
+  "old_only_obs": [
+    31237
+  ],
+  "new_only_obs": [],
+  "metadata_mismatch": {
+    "instance_id": 0,
+    "mmsi": 0,
+    "class_id": 0,
+    "fold": 0,
+    "product": 0,
+    "time": 0,
+    "image_vv": 0,
+    "image_vh": 0
+  },
+  "shifted_row_positions": 3103,
+  "outer_partitions_exact": true,
+  "old_inner_groups": 3,
+  "new_inner_groups": 4,
+  "same_inner_held_sets": 0,
+  "tested_inner_pairs": 36,
+  "independent_branch_oof_pairing_legal": true,
+  "paired_source_fold_exposures": 13229,
+  "query_identity_exposure_failures": 0,
+  "outer_test_identity_exposure_failures": 0,
+  "old_score_reference_max_error": 0.0,
+  "old_ridge_coef_shape": [
+    8,
+    796
+  ],
+  "signed_reader_names": [
+    "fold0_outer",
+    "fold0_inner0",
+    "fold0_inner1",
+    "fold0_inner2",
+    "fold0_inner3",
+    "fold1_outer",
+    "fold1_inner0",
+    "fold1_inner1",
+    "fold1_inner2",
+    "fold1_inner3",
+    "fold2_outer",
+    "fold2_inner0",
+    "fold2_inner1",
+    "fold2_inner2",
+    "fold2_inner3"
+  ],
+  "moments_pol_shape": [
+    15,
+    15251,
+    2,
+    8,
+    2
+  ],
+  "new_fits": 0,
+  "new_extractions": 0,
+  "parent_writes": 0,
+  "note": "Independent branch cross-fitting is legal: join fold+instance, use EACH branch own held assignment, not same inner number. Full stack is identity-OOF but not pass-OOF; source calibration remains a supervised second stage, not nested calibration OOF."
+}

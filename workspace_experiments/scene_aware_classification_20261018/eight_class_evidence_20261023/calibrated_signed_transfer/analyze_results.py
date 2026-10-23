@@ -89,6 +89,7 @@ def render(stage, p, show_used_polarization_moments=False):
                 mom = mom.sum(0)[None] / valid.sum() * valid[:, None, None]
                 moment_note = 'Displayed moments are aggregate-repeated INPUT slots, not original VV/VH moments.'
             fig, axes = plt.subplots(2, 3, figsize=(15, 11), layout='constrained')
+            fig.get_layout_engine().set(h_pad=0.12, hspace=0.08)
             for j, pol in enumerate(['vv', 'vh']):
                 view = snapshots[int(row.obs_id)]['images'][pol]
                 with Image.open(row[f'image_{pol}']) as im:
@@ -106,7 +107,7 @@ def render(stage, p, show_used_polarization_moments=False):
                 axes[j, 2].set(xlim=(0, 160), ylim=(160, 0), aspect='equal')
                 axes[j, 2].set_title(f'10x10 footprint; valid={used}; coverage={support.mean():.3f}\n'
                     f'sigma true/wrong={mom[j, truth, 0]:.3f}/{mom[j, wrong, 0]:.3f}; '
-                    f'kappa={mom[j, truth, 1]:+.3f}/{mom[j, wrong, 1]:+.3f}')
+                    f'kappa={mom[j, truth, 1]:+.3f}/{mom[j, wrong, 1]:+.3f}', fontsize=10)
                 prior = view['priors']
                 target = prior.get('target_index')
                 detections = prior.get('detections', [])

@@ -89,7 +89,9 @@ if __name__ == '__main__':
                         out.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copy2(path, out)
                     for nested_name in ['standard_controls', 'spatial_cases', 'integration_feasibility',
-                                        'free_information_control', 'full_model_integration', 'literature_comparison']:
+                                        'free_information_control', 'full_model_integration', 'literature_comparison',
+                                        'crude_case_diagnosis', 'score_strength_diagnosis',
+                                        'score_matched_moment_diagnosis']:
                         nested = sub / nested_name
                         if (nested / 'FINDINGS_ZH.md').exists():
                             archive(nested, source=eight)

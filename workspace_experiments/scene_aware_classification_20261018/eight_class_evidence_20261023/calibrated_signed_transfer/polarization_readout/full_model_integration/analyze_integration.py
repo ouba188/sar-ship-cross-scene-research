@@ -1,0 +1,122 @@
+"""Fixed-prediction stratification, matched CIs and native image review."""
+import json
+import sys
+import numpy as np
+import pandas as pd
+from PIL import Image
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from run_integration import HERE, OLD, parent, ref
+sys.path.insert(0,str(parent.HERE))
+import analyze_results as common
+
+
+def render(p):
+    table=parent.load_table().set_index('instance_id')
+    snapshots={s['obs_id']:s for s in json.loads((OLD/'local_condition_module/view_snapshot.json').read_text(encoding='utf-8'))}
+    (HERE/'panels').mkdir(exist_ok=True)
+    cases,missing=[],[]
+    for arm,g in p[p.seed.eq(17)&p.role.eq('test')].groupby('arm'):
+        choices=[]
+        for outcome in ['rescued','harmed','CC','WW']:
+            hits=g[g.outcome.eq(outcome)].sort_values('instance_id')
+            if len(hits):choices.append(hits.iloc[0])
+            else:missing.append(dict(arm=arm,outcome=outcome))
+        if len(choices)<4:
+            for outcome in ['CC','WW']:
+                choices.extend(q for _,q in g[g.outcome.eq(outcome)].sort_values('instance_id').iloc[1:2].iterrows())
+        for q in choices:
+            row=table.loc[q.instance_id]
+            y,oldr,newr=int(q.class_id),int(q.old_rival),int(q.final_rival)
+            b=q[[f'b{c}' for c in range(8)]].to_numpy(float)
+            s=q[[f's{c}' for c in range(8)]].to_numpy(float)
+            fig,axes=plt.subplots(2,3,figsize=(15,10),layout='constrained')
+            dimensions=[]
+            for j,pol in enumerate(['vv','vh']):
+                view=snapshots[int(row.obs_id)]['images'][pol]
+                with Image.open(row[f'image_{pol}']) as im:raw=np.array(im.convert('L'))
+                pix,masks,place=common.crop_pad(raw,common.masks_for(view),160)
+                dimensions.append(f'{pol}:{raw.shape[1]}x{raw.shape[0]}')
+                axes[j,0].imshow(raw,cmap='gray',vmin=0,vmax=255,interpolation='nearest')
+                axes[j,0].set_title(f'{pol.upper()} original {raw.shape[1]}x{raw.shape[0]} px')
+                axes[j,1].imshow(pix,cmap='gray',vmin=0,vmax=255,interpolation='nearest')
+                axes[j,1].set_title(f'160 crop/pad; valid={q[f"valid_{pol}"]}; footprint={masks.sum(0).mean():.3f}')
+                prior=view['priors'];target=prior.get('target_index');det=prior.get('detections',[])
+                if target is not None and 0<=target<len(det):
+                    points=np.array(det[target]['corners']);points=np.r_[points,points[:1]]
+                    axes[j,0].plot(points[:,0],points[:,1],color='#13c74e',lw=1)
+                    points=points-[place['crop_x'],place['crop_y']]+[place['pad_left'],place['pad_top']]
+                    axes[j,1].plot(points[:,0],points[:,1],color='#13c74e',lw=1)
+                for ax in axes[j,:2]:ax.set_xlabel('pixel x');ax.set_ylabel('pixel y')
+            xx=np.arange(8)
+            axes[0,2].bar(xx-.18,b,width=.36,label='Frozen old A+D',color='#64748b')
+            axes[0,2].bar(xx+.18,s,width=.36,label='A+D + residual',color='#168b65')
+            axes[0,2].set_xticks(xx);axes[0,2].set_title('Actual eight-class scores');axes[0,2].legend(fontsize=8)
+            axes[1,2].bar(xx,s-b,color=['#168b65' if c==y else '#be5264' for c in xx])
+            axes[1,2].axhline(0,color='black',lw=.6);axes[1,2].set_xticks(xx)
+            axes[1,2].set_title('Actual direct residual (not kappa contribution)')
+            description={'free_real':'Real pol moments -> shared direct residual, no kappa carrier',
+                'free_aggregate':'Aggregate-repeated moments -> shared direct residual, no kappa carrier',
+                'score_only':'Centered old A+D scores only -> direct class residual; images are not head inputs'}[arm]
+            fig.suptitle(f'{arm} / oldseed0 -> seed17 / fold{int(q.fold)} / epoch{int(q.epoch)} / {q.outcome}\n'
+                f'{q.instance_id} / {row.class_name} / {row.port}\n{description}\n'
+                f'true={y}; winner {int(q.base_prediction)} -> {int(q.final_winner)}; old rival={oldr}; final rival={newr}\n'
+                f'true margin {b[y]-b[oldr]:+.5f} -> {s[y]-s[newr]:+.5f}; '
+                f'fixed old-rival margin change {(s-b)[y]-(s-b)[oldr]:+.5f}',fontsize=10)
+            path=HERE/'panels'/f'{arm}_{q.outcome}_{q.instance_id}.png'
+            fig.savefig(path,dpi=100);plt.close(fig)
+            cases.append(dict(arm=arm,seed=17,oldseed=0,fold=int(q.fold),epoch=int(q.epoch),outcome=q.outcome,
+                instance_id=q.instance_id,obs_id=int(row.obs_id),class_id=y,class_name=row.class_name,port=row.port,
+                old_winner=int(q.base_prediction),final_winner=int(q.final_winner),old_rival=oldr,final_rival=newr,
+                old_margin=b[y]-b[oldr],final_margin=s[y]-s[newr],old_rival_delta=(s-b)[y]-(s-b)[oldr],
+                image_vv=row.image_vv,image_vh=row.image_vh,dimensions=';'.join(dimensions),valid_vh=bool(q.valid_vh),
+                panel=str(path),readout=description,selection='test seed17 first instance_id per arm/outcome'))
+    pd.DataFrame(cases).to_csv(HERE/'review_cases.csv',index=False)
+    return cases,missing
+
+
+def main():
+    p=pd.read_csv(HERE/'predictions.csv',dtype={'mmsi':str})
+    strata,paired,ci,classes,unique_val=[],[],[],[],[]
+    for (role,arm,seed),g in p.groupby(['role','arm','seed']):
+        meta=dict(role=role,arm=arm,seed=seed,oldseed=int(g.oldseed.iloc[0]))
+        for unit in ['fold','class_id','port','valid_vh','pass_group']:
+            for name,h in g.groupby(unit):strata.append(dict(**meta,unit=unit,name=name,**common.metrics(h)))
+        if role=='validation':
+            h=g.sort_values(['fold','instance_id']).drop_duplicates('instance_id')
+            unique_val.append(dict(**meta,**common.metrics(h)))
+        else:
+            ci.extend(dict(**meta,**r) for r in common.intervals(g,g.net.to_numpy(),arm+'-oldAD'))
+        if arm!='free_real':continue
+        key=['fold','instance_id']
+        a=g.set_index(key).sort_index()
+        for other in ['free_aggregate','score_only']:
+            h=p[p.role.eq(role)&p.seed.eq(seed)&p.arm.eq(other)].set_index(key).loc[a.index]
+            np.testing.assert_array_equal(a.class_id,h.class_id)
+            np.testing.assert_array_equal(a[[f'b{c}' for c in range(8)]],h[[f'b{c}' for c in range(8)]])
+            diff=a.net.to_numpy()-h.net.to_numpy()
+            am,hm=common.metrics(a),common.metrics(h)
+            paired.append(dict(**meta,reference=other,n=len(a),net=int(diff.sum()),
+                delta_OA=am['OA']-hm['OA'],delta_BA=am['BA']-hm['BA'],delta_NLL=am['NLL']-hm['NLL'],
+                delta_Brier=am['Brier']-hm['Brier']))
+            for c,sub in a.groupby('class_id'):
+                hh=h.loc[sub.index]
+                classes.append(dict(**meta,reference=other,class_id=c,n=len(sub),net=int(sub.net.sum()-hh.net.sum()),
+                    delta_recall=100*float(sub.net.mean()-hh.net.mean())))
+            if role=='test':ci.extend(dict(**meta,**r) for r in common.intervals(a,diff,'free_real-'+other))
+    for name,rows in [('stratified_metrics',strata),('paired_metrics',paired),('paired_intervals',ci),
+                      ('paired_classes',classes),('validation_unique_metrics',unique_val)]:
+        pd.DataFrame(rows).to_csv(HERE/f'{name}.csv',index=False)
+    s=pd.DataFrame(strata)
+    for unit,name in [('fold','fold_metrics'),('class_id','class_metrics'),('port','port_metrics'),('valid_vh','vh_metrics')]:
+        s[s.unit.eq(unit)].to_csv(HERE/f'{name}.csv',index=False)
+    cases,missing=render(p)
+    (HERE/'analysis_summary.json').write_text(json.dumps(dict(panels=[r['panel'] for r in cases],
+        missing_outcomes=missing,images_viewed=False,seeds_pooled_as_independent=False,
+        bootstrap_scope='fixed predictions; pass/MMSI clustered, no training or selection uncertainty'),indent=2),encoding='utf-8')
+    print(pd.DataFrame(paired).to_string(index=False),flush=True)
+    print(pd.DataFrame(cases)[['arm','outcome','instance_id','class_id','old_winner','final_winner','old_rival','final_rival','old_margin','final_margin']].to_string(index=False),flush=True)
+
+
+if __name__=='__main__':main()
