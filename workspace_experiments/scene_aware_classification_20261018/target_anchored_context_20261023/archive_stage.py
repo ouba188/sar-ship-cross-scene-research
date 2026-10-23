@@ -130,7 +130,10 @@ if __name__ == '__main__':
                                                   'pair_local_evidence/antisymmetric_readout',
                                                   'pair_local_evidence/antisymmetric_readout/analysis',
                                                   'reader_substitution', 'native_canvas_probe',
-                                                  'next_mechanism_review']]:
+                                                  'next_mechanism_review', 'spatial_topology_probe',
+                                                  'spatial_topology_probe/analysis',
+                                                  'radiometric_source_inspection',
+                                                  'radiometric_source_inspection/radiometric_scale_probe']]:
             archive(folder, source=oss2)
             for path in (folder / 'panels').glob('*.png'):
                 out = ARCHIVE / oss2.name / path.relative_to(oss2)
