@@ -1,0 +1,30 @@
+{
+  "status": "complete",
+  "fits": 15,
+  "optimizer_steps_per_fit": 200,
+  "batch_size": 128,
+  "global_utility_count": 644,
+  "regularizer_once_per_optimizer_step": true,
+  "a_init": 0.25,
+  "a_regularizer_center": 0,
+  "initial_V_zero": true,
+  "initial_U_seed": 17,
+  "initial_U_std": 0.01,
+  "comparison_caveat": "Absolute arm used a_init=0; relative uses .25 with unchanged zero-centered regularizer.",
+  "feature_definition": "arm = Z_W-Z_I; arm_rawZ_W = standardized Z_W; arm_referencefeatures = standardized Z_I",
+  "reference_computation": "Same numerical Reader at I with frozen source RMS; no reference gradients or refitting.",
+  "completed_heads_resumed": 1,
+  "resume_note": "First process exit1 at duplicate n field in class report; completed body17 checkpoints replayed without optimizer updates.",
+  "evaluation_after_selection_only": true,
+  "checkpoint_steps": [
+    0,
+    20,
+    50,
+    100,
+    200
+  ],
+  "no_external": true,
+  "no_git": true,
+  "no_images": true,
+  "seconds": 78.59030580008402
+}

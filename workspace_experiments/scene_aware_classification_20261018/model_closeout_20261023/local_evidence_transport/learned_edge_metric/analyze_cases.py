@@ -42,7 +42,8 @@ def main():
             continue
         i = int(ids[np.argmin(table.iloc[ids].obs_id.to_numpy())])
         c = int(y[i])
-        r = int(np.argmax(np.where(np.arange(8) == c, -np.inf, pred[focus][i])))
+        rival_scores = pred[focus][i] if name == 'harmed' else pred['anchor'][i]
+        r = int(np.argmax(np.where(np.arange(8) == c, -np.inf, rival_scores)))
         coef = weights['mixed_17_a']
         parts = coef * (features['mixed'][i, c] - features['mixed'][i, r])
         group = int(np.argmax(np.abs(parts)))
@@ -110,7 +111,7 @@ def main():
                                 arm=arm, prediction=int(score.argmax()), true=c, rival=r, margin=margin))
             lines.append(f'{arm}: pred={int(score.argmax())}; margin={margin:+.4f}')
         fixed_margin = float(old_fixed['mixed'][i, c] - old_fixed['mixed'][i, r])
-        fig.suptitle(f"Learned edge metric | {ca['focus']} {ca['outcome']} vs anchor | obs {ca['obs_id']} | seed17 | group n={ca['n']}\nRefs: top two raw mixed responsibilities in {edge.GROUPS[ca['group']]}; not independent evidence counts", fontsize=12)
+        fig.suptitle(f"{HERE.name} | {ca['focus']} {ca['outcome']} vs anchor | obs {ca['obs_id']} | seed17 | group n={ca['n']}\nRefs: top two raw mixed responsibilities in {edge.GROUPS[ca['group']]}; not independent evidence counts", fontsize=12)
         fig.text(.04, .018, '\n'.join(lines) + f'\nFixed mixed margin={fixed_margin:+.4f}; native160 crop/pad, NO resize. Layer1 RF=35: regions are not pixel-pure.', fontsize=9)
         fig.savefig(OUT / f"case_{ca['focus']}_{ca['outcome']}_{ca['obs_id']}.png", dpi=130)
         plt.close(fig)
