@@ -113,15 +113,17 @@ if __name__ == '__main__':
                                     out = ARCHIVE / eight.name / path.relative_to(eight)
                                     out.parent.mkdir(parents=True, exist_ok=True)
                                     shutil.copy2(path, out)
-                            diagnostic = nested / 'conditional_distribution_diagnosis'
-                            if (diagnostic / 'FINDINGS_ZH.md').exists():
-                                archive(diagnostic, source=eight)
-                                for path in (diagnostic / 'panels').glob('*.png'):
-                                    out = ARCHIVE / eight.name / path.relative_to(eight)
-                                    if os.name == 'nt':
-                                        out = Path('\\\\?\\' + str(out))
-                                    out.parent.mkdir(parents=True, exist_ok=True)
-                                    shutil.copy2(path, out)
+                            for diagnostic_name in ['conditional_distribution_diagnosis', 'component_isolation']:
+                                diagnostic = nested / diagnostic_name
+                                if (diagnostic / 'FINDINGS_ZH.md').exists():
+                                    archive(diagnostic, source=eight)
+                                    for panel_dir in ['panels', 'source_panels', 'test_panels']:
+                                        for path in (diagnostic / panel_dir).glob('*.png'):
+                                            out = ARCHIVE / eight.name / path.relative_to(eight)
+                                            if os.name == 'nt':
+                                                out = Path('\\\\?\\' + str(out))
+                                            out.parent.mkdir(parents=True, exist_ok=True)
+                                            shutil.copy2(path, out)
     oss2 = SOURCE.parent / 'oss2_distribution_transfer_20261023'
     if (oss2 / 'analysis/FINDINGS_ZH.md').exists():
         for folder in [oss2] + [oss2 / p for p in ['readers', 'analysis', 'geometry_coverage_diagnosis',
