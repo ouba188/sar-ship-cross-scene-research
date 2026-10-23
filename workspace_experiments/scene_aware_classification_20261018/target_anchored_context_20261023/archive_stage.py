@@ -124,7 +124,9 @@ if __name__ == '__main__':
                                     shutil.copy2(path, out)
     oss2 = SOURCE.parent / 'oss2_distribution_transfer_20261023'
     if (oss2 / 'analysis/FINDINGS_ZH.md').exists():
-        for folder in [oss2] + [oss2 / p for p in ['readers', 'analysis', 'geometry_coverage_diagnosis']]:
+        for folder in [oss2] + [oss2 / p for p in ['readers', 'analysis', 'geometry_coverage_diagnosis',
+                                                  'robust_moment_readout', 'robust_moment_readout/analysis',
+                                                  'pair_local_evidence', 'pair_local_evidence/review']]:
             archive(folder, source=oss2)
             for path in (folder / 'panels').glob('*.png'):
                 out = ARCHIVE / oss2.name / path.relative_to(oss2)
