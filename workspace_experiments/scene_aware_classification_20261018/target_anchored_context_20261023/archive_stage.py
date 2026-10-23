@@ -1,5 +1,6 @@
 """Archive completed anchored-reader artifacts, never feature or weight caches."""
 import gzip
+import os
 import shutil
 from pathlib import Path
 
@@ -17,6 +18,8 @@ def archive(folder, source=SOURCE):
                                   and not path.name.endswith('.csv.gz')):
             continue
         out = ARCHIVE / source.name / path.relative_to(source)
+        if os.name == 'nt':
+            out = Path('\\\\?\\' + str(out))
         out.parent.mkdir(parents=True, exist_ok=True)
         if path.suffix == '.csv' and path.stat().st_size > 1_000_000:
             compressed = Path(str(out) + '.gz')
@@ -91,7 +94,7 @@ if __name__ == '__main__':
                     for nested_name in ['standard_controls', 'spatial_cases', 'integration_feasibility',
                                         'free_information_control', 'full_model_integration', 'literature_comparison',
                                         'crude_case_diagnosis', 'score_strength_diagnosis',
-                                        'score_matched_moment_diagnosis']:
+                                        'score_matched_moment_diagnosis', 'strong_calibration_increment']:
                         nested = sub / nested_name
                         if (nested / 'FINDINGS_ZH.md').exists():
                             archive(nested, source=eight)
@@ -99,6 +102,13 @@ if __name__ == '__main__':
                                 out = ARCHIVE / eight.name / path.relative_to(eight)
                                 out.parent.mkdir(parents=True, exist_ok=True)
                                 shutil.copy2(path, out)
+                            corrected = nested / 'centered_correction'
+                            if (corrected / 'FINDINGS_ZH.md').exists():
+                                archive(corrected, source=eight)
+                                for path in (corrected / 'panels').glob('*.png'):
+                                    out = ARCHIVE / eight.name / path.relative_to(eight)
+                                    out.parent.mkdir(parents=True, exist_ok=True)
+                                    shutil.copy2(path, out)
     for name in ['contrastive_spatial_pool_20261023', 'contrastive_spatial_pool_20261023_review',
                  'contrastive_spatial_pool_20261023_oldsplit', 'signed_evidence_pool_20261023']:
         folder=SOURCE.parent/name
