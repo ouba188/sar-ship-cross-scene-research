@@ -1,0 +1,42 @@
+{
+  "fits": 12,
+  "steps": 200,
+  "schedule_seeds": "10001..10200",
+  "shared_schedule_all_arms": true,
+  "parameters": 516,
+  "configs": [
+    17,
+    29,
+    43
+  ],
+  "arms": [
+    "independent",
+    "transfer",
+    "excess",
+    "excess_shuffle101"
+  ],
+  "transform_init_seed": 17,
+  "main_deployed_bank": "original only; others are stress tests, no inference ensemble",
+  "source_selection": "mean exact J over 6 frozen organizations",
+  "evaluation_after_selection": true,
+  "old_training_reselected_same_rule": true,
+  "checks": {
+    "independent": {
+      "rebound_reader_error": 0.0,
+      "initial_delta_zero": true
+    },
+    "transfer": {
+      "rebound_reader_error": 0.0,
+      "initial_delta_zero": true
+    },
+    "excess": {
+      "rebound_reader_error": 0.0,
+      "initial_delta_zero": true
+    },
+    "excess_shuffle101": {
+      "rebound_reader_error": 0.0,
+      "initial_delta_zero": true
+    }
+  },
+  "seconds": 182.19615140010137
+}
