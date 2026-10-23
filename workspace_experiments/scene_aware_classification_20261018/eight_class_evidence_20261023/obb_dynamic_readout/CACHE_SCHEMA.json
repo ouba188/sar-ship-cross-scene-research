@@ -1,0 +1,23 @@
+{
+  "row_index_space": "ROOT/cohort.csv original positional index, instance_ids stored alongside each reader subset",
+  "readers": "readers/fold{f}_outer.npz and fold{f}_inner{k}.npz; 15 new layer1 readers; W[8,512] concatenates VV256 then VH256; intercept and full projection/head/fit parameters saved",
+  "features_source": "features_source.npz: layer1[N,512], valid[N,2], computed[N], instance_ids[N]; uncomputed rows zero",
+  "summary_paths": "summaries_source/fold{f}_{outer|inner{k}}.npz; summaries_test/fold{f}_outer.npz",
+  "summary_indices": "source inner contains held only, source outer validation only, test outer test only; no train summary from its own outer fit",
+  "summary_shape": "[n_reader_role,2,7,8,3]",
+  "pol_order": ["vv", "vh"],
+  "region_order": ["global", "body", "end", "side", "fixed_body", "fixed_end", "fixed_side"],
+  "stat_order": ["mu", "h", "b"],
+  "summary_aggregation": "Each C4 view completes weighted mean, spatial/class centering and both softmax reads separately; then four-view mean. Invalid regions/pol are zero.",
+  "region_valid": "[n,2,7]; global follows valid pol; each regional flag is area>0 and minimum C4 n_eff>=4",
+  "quality": "[n,2,3,4], dynamic body/end/side only, fields area_px, coverage_fraction, min_C4_neff, region_valid; common to every arm",
+  "geometry": "[n,2,4], actual length_px,width_px,detector_confidence,geometry_valid; unavailable/disabled pol zero",
+  "sigma": "The sigma field inside regional summary NPZ is unused zero allocation; use scale_fold{f}_{tag}.npz sigma[n,2,8] for actual global sigma. It was only used to set source tau.",
+  "tau": "per fold/pol in scales.json, copied into each summary NPZ; fixed before head training",
+  "fixed_template": "source_templates.csv by reader/pol; medians over the reader fit indices, including separate inner fits",
+  "merged": "dynamic region mu/h/b separately averaged over valid regions, equal region weights, denominator valid count; no area-weighted merge",
+  "intervention_entry": "run_heads.load_info(fold,role,table), raw_inputs(base,info,arm), standardize(raw,checkpoint.mu,checkpoint.scale), Head(checkpoint.input_dim); preserve baseline and selected state",
+  "prediction_columns": "role,arm,seed,fold,instance_id,obs_id,mmsi,port,product,pass_group,class_id,class_name,row_index,epoch,b0..b7,s0..s7,prediction,base_prediction,net",
+  "baseline": "b0..b7 are exact historical two_sided_attention s0..s7 from corresponding source/test prediction CSV, matched by fold/seed/role/instance_id",
+  "not_fully_oof": "New W and source summaries are reader-crossfitted; inherited T/attention source-training predictions are not whole-stack OOF."
+}

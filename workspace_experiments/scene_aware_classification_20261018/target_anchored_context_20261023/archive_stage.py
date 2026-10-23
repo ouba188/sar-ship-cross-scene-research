@@ -48,6 +48,19 @@ if __name__ == '__main__':
     eight = SOURCE.parent / 'eight_class_evidence_20261023'
     if eight.exists():
         archive(eight, source=eight)
+        obb = eight / 'obb_dynamic_readout'
+        if (obb / 'FINDINGS_ZH.md').exists():
+            for folder in [obb, obb / 'data_review', obb / 'analysis']:
+                if not folder.exists():
+                    continue
+                archive(folder, source=eight)
+                for panel_dir in ['panels', 'source_panels', 'test_panels', 'coverage_panels']:
+                    for path in (folder / panel_dir).glob('*.png'):
+                        out = ARCHIVE / eight.name / path.relative_to(eight)
+                        if os.name == 'nt':
+                            out = Path('\\\\?\\' + str(out))
+                        out.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(path, out)
         for name in ['baseline', 'gated_transfer', 'gated_transfer_aligned', 'reader_stability', 'spatial_std_transfer']:
             folder = eight / name
             if (folder / 'FINDINGS_ZH.md').exists():
