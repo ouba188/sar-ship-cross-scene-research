@@ -50,7 +50,8 @@ if __name__ == '__main__':
         archive(eight, source=eight)
         obb = eight / 'obb_dynamic_readout'
         if (obb / 'FINDINGS_ZH.md').exists():
-            for folder in [obb, obb / 'data_review', obb / 'analysis']:
+            for folder in [obb, obb / 'data_review', obb / 'analysis',
+                           obb / 'region_controls', obb / 'region_controls' / 'review']:
                 if not folder.exists():
                     continue
                 archive(folder, source=eight)
