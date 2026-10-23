@@ -1,0 +1,73 @@
+{
+  "status": "complete",
+  "utc": "2026-10-23T18:09:34.911186+00:00",
+  "fits": 18,
+  "seconds": 16.076596099999733,
+  "feature_seconds": 2.109617599984631,
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "shuffle_seeds": [
+    101,
+    211,
+    307
+  ],
+  "pairs": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      5
+    ]
+  ],
+  "roles": {
+    "utility_train": 644,
+    "selection": 612,
+    "evaluation": 485
+  },
+  "loss": "0.5 CE + 0.5 balanced CE + 0.01 sum(theta^2)",
+  "optimizer": "Adam lr=0.01, 200 full-batch steps, zero initialization",
+  "selection": "source selection full exact_j; strict improvement; earliest tie; step0 fallback",
+  "scale": "utility only; joint and shuffle share actual-joint RMS",
+  "scope": "frozen source reference-dependence availability probe, not strong innovation",
+  "no_backbone_training": true,
+  "no_hyperparameter_search": true,
+  "no_git": true,
+  "no_figures": true,
+  "checks": {
+    "single_region_replay_error": 1.7763568394002505e-15,
+    "max_first_marginal_error": 8.881784197001252e-16,
+    "max_second_marginal_error": 1.7763568394002505e-15,
+    "max_multiset_error": 0.0,
+    "synthetic_positive": 0.30748469974796055,
+    "synthetic_negative": -0.446287102628419,
+    "synthetic_constant": 0.0,
+    "synthetic_singleton": 0.0
+  },
+  "max_prediction_replay_error": 1.2218530347496426e-06,
+  "raw_chip_review": "deferred to main agent as requested"
+}

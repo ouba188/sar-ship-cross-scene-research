@@ -1,5 +1,17 @@
 # 研究进度：2026-10-24
 
+## 参考联合证据：源端正信号与外推边界均已落地
+
+入口：`local_evidence_transport/reference_dependence/FINDINGS_ZH.md`及`frozen_marginal/FINDINGS_ZH.md`（位于workspace_experiments对应目录）。
+
+先重学单区域和联合项的18头没有保住整体优势。根据原始chip和精确贡献分解，冻结旧边际，仅学习7项联合补充的15头在源485条上取得OA59.725/BA41.882，对anchor59.038/40.556有部分可保留净收益；三基础配置净+6/0/+4，0为源选择step0。
+
+冻结源参数直接推理历史外部3075条，joint44.499/37.975，对anchor44.488/38.917未保住BA；概率评分改善，普通货船及成品/化学品油轮有收益，渔船受损。未据外部结果改选置乱方法或调参。源11条（5缺VH）重放误差8.88e-16；三阶段共13组案例已查看（150、220跨阶段重复，合计11个独立query），VV/VH和实际参考分开保留。
+
+新的有界诊断定位到具体混淆参考：外部渔船-普通货船76条中74/75条VV船体/侧邻域首选obs3536；源25条中各7条。联合统计会奖励同一混淆源的重复确认。源均值隐含类别偏置参与，但删除它并未改善整体，因此不是单一已证实根因。
+
+下一阶段`edge_difference/PROTOCOL_ZH.md`正在实现：对目标相对船体-邻域匹配块计算四点交叉差分，对比body/additive及保持单端token的错配。它检验非一阶结构证据能否利用，不预先宣称新卷积或顶刊创新成立。已有V1/V2未替换；长期目标继续。
+
 ## 支持学习与查询聚合：已完成两个针对性阶段
 
 新增入口：`local_evidence_transport/support_transfer_learning/FINDINGS_ZH.md`与`query_evidence_pooling/FINDINGS_ZH.md`（均在下述workspace_experiments对应目录内）。
