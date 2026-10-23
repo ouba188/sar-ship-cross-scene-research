@@ -55,6 +55,34 @@ if __name__ == '__main__':
                         shutil.copy2(path, out)
                 norm=folder/'weight_norm_diagnosis'
                 if norm.exists():archive(norm,source=eight)
+        transfer = eight / 'calibrated_signed_transfer'
+        if (transfer / 'FINDINGS_ZH.md').exists():
+            archive(transfer, source=eight)
+            for stage in ['calibration', 'increment']:
+                part = transfer / stage
+                # Stage tables are covered by the completed parent report.
+                for path in part.iterdir():
+                    if path.is_file() and path.suffix in {'.csv', '.json'}:
+                        out = ARCHIVE / eight.name / path.relative_to(eight)
+                        out.parent.mkdir(parents=True, exist_ok=True)
+                        if path.suffix == '.csv' and path.stat().st_size > 1_000_000:
+                            compressed = Path(str(out) + '.gz')
+                            if compressed.exists():
+                                with gzip.open(compressed, 'rb') as previous:
+                                    if previous.read() == path.read_bytes():
+                                        continue
+                            with path.open('rb') as a, gzip.open(compressed, 'wb', compresslevel=6) as b:
+                                shutil.copyfileobj(a, b)
+                        else:
+                            shutil.copy2(path, out)
+                for path in (part / 'panels').glob('*.png'):
+                    out = ARCHIVE / eight.name / path.relative_to(eight)
+                    out.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(path, out)
+            for child in ['polarization_diagnosis', 'calibration_utility_diagnosis']:
+                sub = transfer / child
+                if sub.exists():
+                    archive(sub, source=eight)
     for name in ['contrastive_spatial_pool_20261023', 'contrastive_spatial_pool_20261023_review',
                  'contrastive_spatial_pool_20261023_oldsplit', 'signed_evidence_pool_20261023']:
         folder=SOURCE.parent/name
@@ -69,7 +97,19 @@ if __name__ == '__main__':
                 if sub.exists():
                     archive(sub, source=folder)
                     matched=sub/'matched_controls'
-                    if matched.exists():archive(matched, source=folder)
+                    if matched.exists():
+                        archive(matched, source=folder)
+                        diagnosis = matched / 'score_matched_diagnosis'
+                        if diagnosis.exists():archive(diagnosis, source=folder)
+                    constant = sub / 'constant_moments_control'
+                    if (constant / 'FINDINGS_ZH.md').exists():
+                        archive(constant, source=folder)
+                        for part in ['new', 'old']:
+                            for path in (constant / part).iterdir():
+                                if path.suffix in {'.png', '.csv', '.json'}:
+                                    out = ARCHIVE / folder.name / path.relative_to(folder)
+                                    out.parent.mkdir(parents=True, exist_ok=True)
+                                    shutil.copy2(path, out)
                     for part in ['new', 'old']:
                         images=sub/part
                         if images.exists() and (sub/'FINDINGS_ZH.md').exists():
