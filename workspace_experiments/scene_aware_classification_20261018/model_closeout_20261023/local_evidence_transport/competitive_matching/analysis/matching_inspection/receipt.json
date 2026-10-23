@@ -1,0 +1,233 @@
+{
+  "seed": 17,
+  "device": "cuda",
+  "case_count": 4,
+  "projected_unique_rows": 43,
+  "eps": 0.1,
+  "penalty": 0.1,
+  "input_paths": [
+    "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\competitive_matching\\analysis\\case_selection.csv",
+    "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\competitive_matching\\scores.npz",
+    "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\competitive_matching\\source_metrics.csv",
+    "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\competitive_matching\\transforms.json",
+    "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\competitive_matching\\predictions_17.npz",
+    "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\regional_utility_pilot\\upstream\\table.csv",
+    "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\tokens.npz",
+    "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\projection_layer1.npz"
+  ],
+  "implementation": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\competitive_matching\\run.py",
+  "cases": [
+    {
+      "case": {
+        "table_index": 152,
+        "cache_index": 80,
+        "obs_id": 2080,
+        "true_class": 5,
+        "rival_class": 0,
+        "outcome": "rescued",
+        "rival_reason": "fixed_actual_error"
+      },
+      "checks": {
+        "fixed_score_max_abs": 0.0,
+        "coupled_score_max_abs": 0.0
+      },
+      "maximum_inner_error": 1.7881393432617188e-07,
+      "fusion": {
+        "obs_id": 2080,
+        "true_class": 5,
+        "shown_rival": 0,
+        "arms": {
+          "fixed": {
+            "actual_margin": -0.0242988970130682,
+            "base_margin": -0.04633817635476589,
+            "region_contribution_sum": 0.02203928153202981,
+            "float32_rounding_residual": -2.1903321170690937e-09
+          },
+          "coupled": {
+            "actual_margin": 0.05625060573220253,
+            "base_margin": -0.04633817635476589,
+            "region_contribution_sum": 0.10258878268951863,
+            "float32_rounding_residual": -6.02550204176211e-10
+          }
+        },
+        "actual_margin_delta": 0.08054950274527073,
+        "regional_delta_sum": 0.08054950115748881,
+        "rounding_delta": 1.5877819128928827e-09,
+        "closure_abs": 6.938893903907228e-18,
+        "saved_float32_predictions_exact": true
+      }
+    },
+    {
+      "case": {
+        "table_index": 368,
+        "cache_index": 166,
+        "obs_id": 5405,
+        "true_class": 2,
+        "rival_class": 6,
+        "outcome": "harmed",
+        "rival_reason": "coupled_actual_error"
+      },
+      "checks": {
+        "fixed_score_max_abs": 5.364418029785156e-07,
+        "coupled_score_max_abs": 0.0
+      },
+      "maximum_inner_error": 1.5497207641601562e-06,
+      "fusion": {
+        "obs_id": 5405,
+        "true_class": 2,
+        "shown_rival": 6,
+        "arms": {
+          "fixed": {
+            "actual_margin": 0.10131538659334183,
+            "base_margin": 0.1677996926009655,
+            "region_contribution_sum": -0.06648431440479796,
+            "float32_rounding_residual": 8.397174289243026e-09
+          },
+          "coupled": {
+            "actual_margin": -0.24286185950040817,
+            "base_margin": 0.1677996926009655,
+            "region_contribution_sum": -0.4106615685541386,
+            "float32_rounding_residual": 1.6452764928232e-08
+          }
+        },
+        "actual_margin_delta": -0.34417724609375,
+        "regional_delta_sum": -0.34417725414934064,
+        "rounding_delta": 8.055590638988974e-09,
+        "closure_abs": 0.0,
+        "saved_float32_predictions_exact": true
+      }
+    },
+    {
+      "case": {
+        "table_index": 8,
+        "cache_index": 5,
+        "obs_id": 150,
+        "true_class": 0,
+        "rival_class": 5,
+        "outcome": "CC",
+        "rival_reason": "coupled_highest_nontrue_not_prediction"
+      },
+      "checks": {
+        "fixed_score_max_abs": 1.1920928955078125e-07,
+        "coupled_score_max_abs": 0.0
+      },
+      "maximum_inner_error": 3.5762786865234375e-07,
+      "fusion": {
+        "obs_id": 150,
+        "true_class": 0,
+        "shown_rival": 5,
+        "arms": {
+          "fixed": {
+            "actual_margin": 1.1163133084774017,
+            "base_margin": 1.123842716217041,
+            "region_contribution_sum": -0.007529434700721531,
+            "float32_rounding_residual": 2.6961082248699864e-08
+          },
+          "coupled": {
+            "actual_margin": 1.0638059675693512,
+            "base_margin": 1.123842716217041,
+            "region_contribution_sum": -0.06003675660168184,
+            "float32_rounding_residual": 7.95399202058178e-09
+          }
+        },
+        "actual_margin_delta": -0.05250734090805054,
+        "regional_delta_sum": -0.05250732190096032,
+        "rounding_delta": -1.9007090228118084e-08,
+        "closure_abs": 1.3877787807814457e-17,
+        "saved_float32_predictions_exact": true
+      }
+    },
+    {
+      "case": {
+        "table_index": 16,
+        "cache_index": 11,
+        "obs_id": 220,
+        "true_class": 2,
+        "rival_class": 0,
+        "outcome": "WW",
+        "rival_reason": "coupled_actual_error"
+      },
+      "checks": {
+        "fixed_score_max_abs": 2.9802322387695312e-08,
+        "coupled_score_max_abs": 1.1920928955078125e-07
+      },
+      "maximum_inner_error": 2.384185791015625e-07,
+      "fusion": {
+        "obs_id": 220,
+        "true_class": 2,
+        "shown_rival": 0,
+        "arms": {
+          "fixed": {
+            "actual_margin": -0.11337876319885254,
+            "base_margin": -0.11238352209329605,
+            "region_contribution_sum": -0.000995239902692316,
+            "float32_rounding_residual": -1.2028641719827315e-09
+          },
+          "coupled": {
+            "actual_margin": -0.07953885197639465,
+            "base_margin": -0.11238352209329605,
+            "region_contribution_sum": 0.03284467541972898,
+            "float32_rounding_residual": -5.302827579822811e-09
+          }
+        },
+        "actual_margin_delta": 0.033839911222457886,
+        "regional_delta_sum": 0.03383991532242129,
+        "rounding_delta": -4.099963407840079e-09,
+        "closure_abs": 4.336808689942018e-18,
+        "saved_float32_predictions_exact": true
+      }
+    }
+  ],
+  "utility_rms": {
+    "fixed": [
+      [
+        0.1705438208860572,
+        0.19957900074178941,
+        0.19120234013172777
+      ],
+      [
+        0.11683161386881673,
+        0.1349786043580406,
+        0.16535311383973011
+      ]
+    ],
+    "coupled": [
+      [
+        0.15529571460424324,
+        0.18399617164516965,
+        0.17471341697167028
+      ],
+      [
+        0.10182720145589866,
+        0.11903579481740321,
+        0.1494390794651972
+      ]
+    ]
+  },
+  "selected_lambdas": {
+    "fixed": 0.1,
+    "coupled": 0.5
+  },
+  "utility_rms_max_abs_errors": {
+    "fixed": 0.0,
+    "coupled": 0.0
+  },
+  "no_training": true,
+  "no_outer_optimization": true,
+  "no_full_cohort_transport": true,
+  "no_npz_export": true,
+  "no_upload": true,
+  "interpretation": {
+    "neutral": "Invalid regions contribute zero and are excluded from TV and fusion denominators.",
+    "Fgap": "own F minus best available nonself F at the same hypothesis w; outer KL is separate.",
+    "kl": "Generalized KL uses fixed R, includes both dustbins and all entries; entropy term is -eps*KL.",
+    "tv": "Half L1 of T1/w minus T0/a over all 17 columns, including support null; no row renormalization.",
+    "padding": "body8/side8/end4 real query rows; end support refs occupy columns0:4 and4:8; null=16.",
+    "support_comparison": "Own class and union of baseline/new best competitors, each held fixed across w.",
+    "zero_mass": "Rows with zero denominator have undefined TV, excluded with excluded mass reported.",
+    "plan_split": "T1-T0=(w-a)*Q0+(T1-w*Q0); real-query rows only; null query is excluded from TV.",
+    "linear_fusion": "Class mean centering cancels in true-minus-shown-rival; each class uses its own valid-region count.",
+    "margin_delta": "Regional cached-score contributions plus explicit float32 rounding delta exactly reconstruct saved margins.",
+    "attribution": "Local-score change uses coupled coefficients; RMS/lambda change uses fixed local scores. This is algebra, not a causal experiment."
+  }
+}
