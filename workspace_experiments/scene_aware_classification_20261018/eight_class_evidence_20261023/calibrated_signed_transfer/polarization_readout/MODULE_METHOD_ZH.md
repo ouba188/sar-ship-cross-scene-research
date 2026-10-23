@@ -2,6 +2,24 @@
 
 2026-10-23。工作名，不宣称首创或已经达到顶刊标准。对应 `strong_calibration_increment` 的local实现，不是另设计但未运行的网络。
 
+## 最新冻结候选：均值与分布分路相加
+
+截至本轮，additive两支固定删除、原图和成本核算已完成。local支加回固定mean支后，测试BA增加1.173/.586/.759pp，OA净-3/+2/+9；它对部分原油/offshore有保护，但也伤chemical，并非全部OA收益必需。本图B+mu匹配分布交换再显示测试净7/6/7的小对应信号，区间跨0。详见joint_distribution_readout及其conditional_distribution_diagnosis。
+
+OSS2方法复验也已完成90头：additive相对B净2/1/1，BA-.496/+.014/+.462pp，NLL/Brier三seed均改善；OA增量接近零，local净-4/-8/-18。它界定了当前候选的外推范围，不撤销自建队列收益，也不支持通用优势。OSS2的B=T(native224 layer3 GAP Ridge)，不是旧A+D；因此当前是方法在另一基线/数据来源上复验，而非同权重直接跨数据集迁移。
+
+下方209参数local是已完成的单信息参照。新增joint_distribution_readout18头后，暂冻结266参数additive进行外数据来源方法复验：
+
+`s = B + center_class(f_mean(center(B), mu_VV, mu_VH, valid) + f_distribution(center(B), sigma_VV, kappa_VV, sigma_VH, kappa_VH, valid))`。
+
+两支实际输入包括各统计量的原值与类中心化值。mean支7→12 GELU→1共109参数；distribution支11→12 GELU→1共157参数。均为类共享，不传真实类别选择分支；一起训练，零末层初始化。不是把两个此前独立训练的209头直接相加。B及图像提取保持冻结，不采用5%交接。
+
+与读同一信息的15→16→1联合头273参数比较，additive在三个test seed均有更高OA/BA；相对B净+46/+45/+75，OA+.970/+.949/+1.581pp，BA+1.009/+.413/+1.127pp。不是全部港类胜出，也不证明复杂交互永远无用。原mean-only OA仍更高、additive BA更高；当前候选是基于开发结果冻结，不冒称从未看过test。
+
+该结构的解释优势是两支对最终类别分差可分别核对，但分支名称不等于已分离的独立物理信息。二者均读B，删除一支也不是重新训练的消融。当前正补逐支作用、原图及更广采集复验；CSRA/GSoP/CPINet的方法继承与差异见module_novelty_review。不能把相加、GELU或二阶统计本身写成首创。
+
+已实测独立辅助R50+C4+统计+additive路径，双有效极化热I/O单张23.51ms、batch16折算8.27ms/张；不含旧AD/T，也不预设可共享旧特征。见joint_distribution_readout/COST_ZH.md。下面保留local阶段完整定义与证据。
+
 ## 为什么这样组织
 
 现有证据揭示两个不同问题：旧类别分数有可通过普通校准改善的竞争关系；原图局部响应在基线分数相近时仍可能提供额外信息。让一个小头同时承担两者，会把普通校准收益误算为局部机制收益。

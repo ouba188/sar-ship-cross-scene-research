@@ -1,0 +1,17 @@
+{
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU",
+  "torch": "2.7.1+cu128",
+  "checks": {
+    "mean_max": 2.366447840181779e-06,
+    "moment_max": 4.994772047961504e-06,
+    "score_max": 4.589557647705078e-06
+  },
+  "test_labels_used": false,
+  "head": "fold0 additive seed17",
+  "both_polarizations": true,
+  "scope": "Auxiliary native R50 C4 plus class readout, B supplied from cache. Not entire oldAD+T inference.",
+  "mean_reference": "Same auxiliary encoder/footprint and mean projection, no readout head; lower-bound comparison, not complete mean_only pipeline.",
+  "io": "Warm filesystem: PNG load/crop/masks counted only in warm_io; model and metadata loading excluded.",
+  "sharing": "No assumption that oldAD can share this native R50 forward.",
+  "batch_note": "First 32 sorted fold0 seed17 test observations with both valid polarizations; no accuracy-based selection."
+}
