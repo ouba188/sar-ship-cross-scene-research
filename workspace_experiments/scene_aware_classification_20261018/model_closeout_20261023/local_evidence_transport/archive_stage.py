@@ -11,7 +11,7 @@ def main(external=False):
     count=0
     for path in sorted(SOURCE.rglob('*')):
         rel=path.relative_to(SOURCE)
-        if not path.is_file() or 'models' in rel.parts or '__pycache__' in rel.parts:continue
+        if not path.is_file() or 'models' in rel.parts or any(p.startswith('.') or p=='__pycache__' for p in rel.parts):continue
         if not external and 'external_confirmation' in rel.parts:continue
         if path.suffix not in {'.py','.md','.csv','.json','.png'}:continue
         out=DEST/rel;out.parent.mkdir(parents=True,exist_ok=True)

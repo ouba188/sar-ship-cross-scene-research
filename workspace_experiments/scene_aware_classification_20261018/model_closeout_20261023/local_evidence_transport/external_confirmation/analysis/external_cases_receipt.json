@@ -1,0 +1,52 @@
+{
+  "seed": 17,
+  "layer": "layer1",
+  "evaluation_n": 3075,
+  "figures": 6,
+  "selection": "minimum numeric obs_id in each predeclared group; zero-count groups retained",
+  "outcome_direction": "comparison -> anchored",
+  "reference_table": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\regional_utility_pilot\\upstream\\table.csv",
+  "reference_rule": "actual shared refs for true class and anchored strongest wrong class; two each",
+  "canvas": [
+    160,
+    160
+  ],
+  "display_limits": [
+    -0.5,
+    159.5
+  ],
+  "head_checks": [
+    {
+      "arm": "anchored",
+      "selected_step": 45,
+      "replay_max_abs": 0.0,
+      "replay_top1_exact": true
+    },
+    {
+      "arm": "independent",
+      "selected_step": 55,
+      "replay_max_abs": 0.0,
+      "replay_top1_exact": true
+    },
+    {
+      "arm": "body_match",
+      "selected_step": 80,
+      "replay_max_abs": 0.0,
+      "replay_top1_exact": true
+    },
+    {
+      "arm": "factorized",
+      "selected_step": 80,
+      "replay_max_abs": 0.0,
+      "replay_top1_exact": true
+    }
+  ],
+  "local_replay_max_abs": 2.384185791015625e-07,
+  "atol": 5e-05,
+  "rtol": 1e-05,
+  "new_fits": 0,
+  "new_backbone_forwards": 0,
+  "scope": "historical external coverage, not a new blind collection",
+  "interpretation": "T-weighted similarities are local inputs, not additive final-logit or physical contributions; layer1 RF35 mixes across masks",
+  "image_review": "panels generated; this receipt does not claim a human/model has viewed them"
+}

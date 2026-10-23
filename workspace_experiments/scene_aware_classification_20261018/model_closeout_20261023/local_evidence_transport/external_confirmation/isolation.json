@@ -1,0 +1,59 @@
+{
+  "fold_counts": [
+    1561,
+    1632,
+    1551
+  ],
+  "original_union": 4744,
+  "retained": 3075,
+  "excluded": 1669,
+  "overlaps": [
+    {
+      "role": "evaluation",
+      "field": "mmsi",
+      "overlapping_rows": 286
+    },
+    {
+      "role": "evaluation",
+      "field": "pass_group",
+      "overlapping_rows": 0
+    },
+    {
+      "role": "selection",
+      "field": "mmsi",
+      "overlapping_rows": 365
+    },
+    {
+      "role": "selection",
+      "field": "pass_group",
+      "overlapping_rows": 0
+    },
+    {
+      "role": "strategy_fit",
+      "field": "mmsi",
+      "overlapping_rows": 685
+    },
+    {
+      "role": "strategy_fit",
+      "field": "pass_group",
+      "overlapping_rows": 0
+    },
+    {
+      "role": "utility_train",
+      "field": "mmsi",
+      "overlapping_rows": 333
+    },
+    {
+      "role": "utility_train",
+      "field": "pass_group",
+      "overlapping_rows": 0
+    }
+  ],
+  "retained_by_original_fold": {
+    "0": 1561,
+    "2": 758,
+    "1": 756
+  },
+  "policy": "Exclude identity/pass overlap with ALL source roles, including developed evaluation.",
+  "blind_test": false
+}

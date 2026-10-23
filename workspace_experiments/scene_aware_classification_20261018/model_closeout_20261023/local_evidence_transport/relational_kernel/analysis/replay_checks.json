@@ -1,0 +1,92 @@
+{
+  "seed": 17,
+  "external_n": 3075,
+  "cases": [
+    {
+      "outcome": "rescued",
+      "group_n": 116,
+      "selected": true,
+      "external_index": 3,
+      "obs_id": 85,
+      "true_class": 0,
+      "role_prediction": 0,
+      "ordered_prediction": 2,
+      "fixed_comparison_rival": 2,
+      "rival_reason": "ordered_actual_error",
+      "role_final_rival": 2
+    },
+    {
+      "outcome": "harmed",
+      "group_n": 108,
+      "selected": true,
+      "external_index": 13,
+      "obs_id": 353,
+      "true_class": 0,
+      "role_prediction": 4,
+      "ordered_prediction": 0,
+      "fixed_comparison_rival": 4,
+      "rival_reason": "role_highest_nontrue",
+      "role_final_rival": 4
+    },
+    {
+      "outcome": "CC",
+      "group_n": 1263,
+      "selected": true,
+      "external_index": 0,
+      "obs_id": 35,
+      "true_class": 2,
+      "role_prediction": 2,
+      "ordered_prediction": 2,
+      "fixed_comparison_rival": 3,
+      "rival_reason": "role_highest_nontrue",
+      "role_final_rival": 3
+    },
+    {
+      "outcome": "WW",
+      "group_n": 1588,
+      "selected": true,
+      "external_index": 5,
+      "obs_id": 189,
+      "true_class": 2,
+      "role_prediction": 1,
+      "ordered_prediction": 1,
+      "fixed_comparison_rival": 1,
+      "rival_reason": "role_highest_nontrue",
+      "role_final_rival": 1
+    }
+  ],
+  "checks": [
+    {
+      "arm": "anchored",
+      "local_max_error": 1.1920928955078125e-07,
+      "head_max_error": 4.76837158203125e-07,
+      "top1_exact": true,
+      "selected_step": 55
+    },
+    {
+      "arm": "ordered",
+      "local_max_error": 1.1920928955078125e-07,
+      "head_max_error": 2.384185791015625e-07,
+      "top1_exact": true,
+      "selected_step": 50
+    },
+    {
+      "arm": "role_contrast",
+      "local_max_error": 1.1920928955078125e-07,
+      "head_max_error": 5.364418029785156e-07,
+      "top1_exact": true,
+      "selected_step": 100
+    },
+    {
+      "arm": "mispaired",
+      "local_max_error": 1.1920928955078125e-07,
+      "head_max_error": 7.152557373046875e-07,
+      "top1_exact": true,
+      "selected_step": 90
+    }
+  ],
+  "ordered_minus_cross_closure": 4.470348358154297e-08,
+  "availability_count_exact": true,
+  "no_training": true,
+  "no_backbone_extraction": true
+}
