@@ -1,0 +1,98 @@
+{
+  "status": "complete",
+  "completed_utc": "2026-10-23T12:45:54.468989+00:00",
+  "source_pool": 4702,
+  "retained": 3387,
+  "roles": {
+    "evaluation": 485,
+    "selection": 612,
+    "strategy_fit": 1646,
+    "utility_train": 644
+  },
+  "internal_fit": 1205,
+  "internal_validation": 296,
+  "internal_excluded": 145,
+  "seed": [
+    17,
+    29,
+    43
+  ],
+  "axis_readers": 1,
+  "aux_readers": 2,
+  "neural_heads": 18,
+  "original_historical_models_unchanged": true,
+  "full_stack_oof_within_strategy_fit": false,
+  "external_role_labels_used_for_supervision_or_selection": false,
+  "external_label_usage": "Metadata coverage only; no upstream performance-based split/fit/selection.",
+  "historical_target_overlap": 0,
+  "backbone_fits": 0,
+  "source_extraction_passes": 2,
+  "seconds": {
+    "successful_head_train_selection_and_replay": 13.829667099984363,
+    "auxiliary_reader_fit": 0.6338165999623016,
+    "scale_pass": 19.52533770003356,
+    "summary_pass": 82.57901210000273,
+    "backbone_gpu_wall": 29.283079702872783
+  },
+  "cost_scope": "Successful function/stage wall times; not full end-to-end wall time. Debugging, imports, split preparation and failed checks not included.",
+  "corrected_failures": [
+    "Five-head continuous-risk equality changed to same-batch exact selection replay plus bounded batch-score error/top1 equality.",
+    "Trusted feature ID object-array loading enabled; existing fitted A/D/T were not refitted for this loader fix.",
+    "Rotated single-channel CUDA area mask path disagreed at 180 degrees; exact CPU 16x16 area-bin weights restored original layer3 GAP. No failed extraction trained later heads."
+  ],
+  "validation_checks": [
+    {
+      "seed": 17,
+      "arm": "body",
+      "selected_epoch": 60,
+      "full_replay_error": 0.0,
+      "small_batch_replay_error": 2.384185791015625e-07,
+      "raw_contract_error": 0.0
+    },
+    {
+      "seed": 17,
+      "arm": "full",
+      "selected_epoch": 15,
+      "full_replay_error": 0.0,
+      "small_batch_replay_error": 1.4901161193847656e-08,
+      "raw_contract_error": 0.0
+    },
+    {
+      "seed": 29,
+      "arm": "body",
+      "selected_epoch": 30,
+      "full_replay_error": 0.0,
+      "small_batch_replay_error": 1.1920928955078125e-07,
+      "raw_contract_error": 0.0
+    },
+    {
+      "seed": 29,
+      "arm": "full",
+      "selected_epoch": 0,
+      "full_replay_error": 0.0,
+      "small_batch_replay_error": 0.0,
+      "raw_contract_error": 0.0
+    },
+    {
+      "seed": 43,
+      "arm": "body",
+      "selected_epoch": 15,
+      "full_replay_error": 0.0,
+      "small_batch_replay_error": 1.4901161193847656e-08,
+      "raw_contract_error": 0.0
+    },
+    {
+      "seed": 43,
+      "arm": "full",
+      "selected_epoch": 0,
+      "full_replay_error": 0.0,
+      "small_batch_replay_error": 0.0,
+      "raw_contract_error": 0.0
+    }
+  ],
+  "outputs": [
+    "strategies_seed17.npz",
+    "strategies_seed29.npz",
+    "strategies_seed43.npz"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "created_utc": "2026-10-23T12:32:39.254589+00:00",
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "source_fold": 0,
+  "backbone_training": false,
+  "old_A": "stem axis Ridge + keep_refs five-point MSE residual",
+  "old_D": "separated R-context MSE residual",
+  "T": "score_only 8-16-8 residual",
+  "attention": "mean7-12-1 + local11-12-1 (h,b)",
+  "strategies": [
+    "s0",
+    "body",
+    "full"
+  ],
+  "region_head": "69-12-1",
+  "upstream_roles": [
+    "fit_train",
+    "fit_validation"
+  ],
+  "external_roles": [
+    "utility_train",
+    "selection",
+    "evaluation"
+  ],
+  "fit_train_n": 1205,
+  "fit_validation_n": 296,
+  "whole_stack_oof": false,
+  "supervised_fit_scope": "All fit labels/scalers limited to fit_train; all upstream selection labels limited to fit_validation.",
+  "legacy_steps": 150,
+  "new_steps": 200,
+  "no_historical_models_modified": true,
+  "layer1_stride": 4,
+  "layer1_origin": 0,
+  "layer3_pool": "original area footprint",
+  "rhoL": 0.25,
+  "rhoW": 0.5,
+  "edge": 1,
+  "min_C4_neff": 4,
+  "tau_scope": "Median C4-averaged global sigma of fit_train for the new reader, valid pol/classes; in-sample within strategy_fit.",
+  "internal_protocol_change": "No nested whole-stack OOF inside strategy_fit; same in-sample upstream training predictions at successive stages."
+}
