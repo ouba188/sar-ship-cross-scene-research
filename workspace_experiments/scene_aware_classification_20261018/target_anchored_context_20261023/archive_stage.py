@@ -94,7 +94,8 @@ if __name__ == '__main__':
                     for nested_name in ['standard_controls', 'spatial_cases', 'integration_feasibility',
                                         'free_information_control', 'full_model_integration', 'literature_comparison',
                                         'crude_case_diagnosis', 'score_strength_diagnosis',
-                                        'score_matched_moment_diagnosis', 'strong_calibration_increment']:
+                                        'score_matched_moment_diagnosis', 'strong_calibration_increment',
+                                        'mean_only_control', 'module_novelty_review', 'mean_local_case_basis']:
                         nested = sub / nested_name
                         if (nested / 'FINDINGS_ZH.md').exists():
                             archive(nested, source=eight)
