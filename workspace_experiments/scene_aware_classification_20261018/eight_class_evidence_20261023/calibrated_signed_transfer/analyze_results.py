@@ -54,7 +54,7 @@ def intervals(g, diff, label):
     return rows
 
 
-def render(stage, p):
+def render(stage, p, show_used_polarization_moments=False):
     out = HERE/stage
     (out/'panels').mkdir(exist_ok=True)
     frame = load_table().set_index('instance_id')
@@ -83,6 +83,11 @@ def render(stage, p):
             wrong = max((c for c in range(8) if c != truth), key=lambda c: base[c])
             ri = list(cache['reader_names']).index(f'fold{int(pred.fold)}_outer')
             mom = cache['moments_pol'][ri, lookup[ident]]
+            moment_note = 'Observed per-polarization moments.'
+            if show_used_polarization_moments and arm == 'aggregate_repeated':
+                valid = cache['valid'][lookup[ident]].astype(bool)
+                mom = mom.sum(0)[None] / valid.sum() * valid[:, None, None]
+                moment_note = 'Displayed moments are aggregate-repeated INPUT slots, not original VV/VH moments.'
             fig, axes = plt.subplots(2, 3, figsize=(15, 11), layout='constrained')
             for j, pol in enumerate(['vv', 'vh']):
                 view = snapshots[int(row.obs_id)]['images'][pol]
@@ -120,7 +125,8 @@ def render(stage, p):
                 f'prediction {int(pred.base_prediction)} -> {int(pred.prediction)}\n'
                 f'true {truth} vs fixed wrong {wrong}: margin {base[truth]-base[wrong]:+.5f} -> '
                 f'{score[truth]-score[wrong]:+.5f}; correction {(score-base)[truth]-(score-base)[wrong]:+.5f}\n'
-                'Green: recorded OBB. Area footprint affects pooling, not image pixels; convolution RF may mix padding.', fontsize=11)
+                'Green: recorded OBB. Area footprint affects pooling, not image pixels; convolution RF may mix padding.\n'
+                + moment_note, fontsize=11)
             path = out/'panels'/f'{arm}_{pred.outcome}_{ident}.png'
             fig.savefig(path, dpi=110)
             plt.close(fig)
@@ -138,7 +144,7 @@ def render(stage, p):
     return [r['panel'] for r in rows], missing
 
 
-def main(stage):
+def main(stage, show_used_polarization_moments=False):
     tick = time.perf_counter()
     torch.set_num_threads(2)
     out = HERE/stage
@@ -185,7 +191,7 @@ def main(stage):
         pd.DataFrame(errors).to_csv(out/'frozen_C_replays.csv', index=False)
     pd.DataFrame(ci).to_csv(out/'paired_intervals.csv', index=False)
     test.groupby(['arm', 'seed', 'class_id', 'base_prediction', 'prediction']).size().rename('n').reset_index().to_csv(out/'transitions.csv', index=False)
-    panels, missing = render(stage, test)
+    panels, missing = render(stage, test, show_used_polarization_moments)
     summary = dict(stage=stage, panels=panels, missing_outcomes=missing, seconds=time.perf_counter()-tick,
                    bootstrap_scope='paired fixed predictions; no refitting or selection uncertainty',
                    stratum_BA='macro recall over classes present within stratum',

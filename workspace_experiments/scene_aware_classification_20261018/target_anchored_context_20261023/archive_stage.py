@@ -13,7 +13,8 @@ def archive(folder, source=SOURCE):
         return
     count = 0
     for path in sorted(folder.iterdir()):
-        if not path.is_file() or path.suffix not in {'.py', '.md', '.json', '.csv', '.png', '.diff'}:
+        if not path.is_file() or (path.suffix not in {'.py', '.md', '.json', '.csv', '.png', '.diff'}
+                                  and not path.name.endswith('.csv.gz')):
             continue
         out = ARCHIVE / source.name / path.relative_to(source)
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -79,10 +80,22 @@ if __name__ == '__main__':
                     out = ARCHIVE / eight.name / path.relative_to(eight)
                     out.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(path, out)
-            for child in ['polarization_diagnosis', 'calibration_utility_diagnosis']:
+            for child in ['polarization_diagnosis', 'calibration_utility_diagnosis', 'polarization_readout']:
                 sub = transfer / child
-                if sub.exists():
+                if (sub / 'FINDINGS_ZH.md').exists():
                     archive(sub, source=eight)
+                    for path in (sub / 'panels').glob('*.png'):
+                        out = ARCHIVE / eight.name / path.relative_to(eight)
+                        out.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(path, out)
+                    for nested_name in ['standard_controls', 'spatial_cases']:
+                        nested = sub / nested_name
+                        if (nested / 'FINDINGS_ZH.md').exists():
+                            archive(nested, source=eight)
+                            for path in (nested / 'panels').glob('*.png'):
+                                out = ARCHIVE / eight.name / path.relative_to(eight)
+                                out.parent.mkdir(parents=True, exist_ok=True)
+                                shutil.copy2(path, out)
     for name in ['contrastive_spatial_pool_20261023', 'contrastive_spatial_pool_20261023_review',
                  'contrastive_spatial_pool_20261023_oldsplit', 'signed_evidence_pool_20261023']:
         folder=SOURCE.parent/name
