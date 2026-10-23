@@ -1,5 +1,13 @@
 # 研究进度：2026-10-24
 
+## 汇总前矩阵学习完成：局部可改善，完整净收益尚未成立
+
+`local_evidence_transport/learned_edge_metric/`完成15fits，源485条平均mixed OA57.801/BA39.289，低于anchor59.038/40.556；body56.220/38.224，additive57.388/39.911。真实边未证明优于错配。所选checkpoint的连续损失改善，不能统称过拟合；后期训练与selection损失分离则有过拟合迹象。
+
+固定所选a、仅将W换回I的诊断表明，seed17的W确实净增加34个正确，但完整mixed仍比anchor净-9；seed29不复现这一改善。原图1128救回、1064误伤、150持续正确、220持续错误及实际VV/VH参考均已查看。1064四组raw分差都改善但增量仍偏错类，最终越过原有正确边界。这区分了局部学习效用与完整路径净收益。
+
+下一有界实验`reference_relative_metric/PROTOCOL_ZH.md`已在训练前固定：改为只添加Z_W-Z_I，保持旧anchor，重新训练而非后验删分数；尚无新结果，不宣称强创新。现有源端联合参考补充的正信号继续保留，不因本轮阴性被抹去。V1/V2未替换。
+
 ## 四点关系原型已完成，强算法创新目标尚未达成
 
 入口：`local_evidence_transport/edge_difference/FINDINGS_ZH.md`及`RAW_REVIEW_ZH.md`。18头训练、源端诊断、四幅原始VV/VH查询和实际参考回看全部完成，无运行中训练。
