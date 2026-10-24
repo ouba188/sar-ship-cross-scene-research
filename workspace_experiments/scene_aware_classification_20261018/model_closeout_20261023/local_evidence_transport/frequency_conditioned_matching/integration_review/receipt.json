@@ -1,0 +1,115 @@
+{
+  "seconds": 7.724733199924231,
+  "executable": "D:\\Program_documents\\Anaconda_envs\\envs\\ClearSAR\\python.exe",
+  "fits": 0,
+  "checkpoint_selection": 0,
+  "checkpoints": [
+    {
+      "seed": 17,
+      "arm": "frequency",
+      "selected_step": 100,
+      "parameters": 680,
+      "steps": 100,
+      "batch": 644,
+      "seconds": 17.941849499940872
+    },
+    {
+      "seed": 29,
+      "arm": "frequency",
+      "selected_step": 40,
+      "parameters": 680,
+      "steps": 100,
+      "batch": 644,
+      "seconds": 19.380916900001466
+    },
+    {
+      "seed": 43,
+      "arm": "frequency",
+      "selected_step": 60,
+      "parameters": 680,
+      "steps": 100,
+      "batch": 644,
+      "seconds": 21.236645800061524
+    }
+  ],
+  "roles": [
+    {
+      "role": "evaluation",
+      "n": 485,
+      "ships": 445,
+      "passes": 29
+    },
+    {
+      "role": "selection",
+      "n": 612,
+      "ships": 562,
+      "passes": 28
+    },
+    {
+      "role": "strategy_fit",
+      "n": 64,
+      "ships": 64,
+      "passes": 35
+    },
+    {
+      "role": "utility_train",
+      "n": 644,
+      "ships": 587,
+      "passes": 45
+    }
+  ],
+  "checks": [
+    {
+      "pair_score_formula_error": 0.0,
+      "mass_channel_error": 0.0,
+      "masked_mass_max": 0.0,
+      "invalid_pair_count": 551548,
+      "seed": 17,
+      "n": 1805,
+      "scaler_error": 0.0,
+      "old_head_replay": 4.76837158203125e-07,
+      "new_score_replay": 0.0,
+      "new_local_replay": 0.0,
+      "old_score_replay": 9.5367431640625e-07,
+      "old_local_replay": 5.364418029785156e-07,
+      "new_prediction_mismatch": 0,
+      "old_prediction_mismatch": 0
+    },
+    {
+      "pair_score_formula_error": 0.0,
+      "mass_channel_error": 0.0,
+      "masked_mass_max": 0.0,
+      "invalid_pair_count": 551548,
+      "seed": 29,
+      "n": 1805,
+      "scaler_error": 0.0,
+      "old_head_replay": 1.9073486328125e-06,
+      "new_score_replay": 0.0,
+      "new_local_replay": 0.0,
+      "old_score_replay": 3.0994415283203125e-06,
+      "old_local_replay": 5.364418029785156e-07,
+      "new_prediction_mismatch": 0,
+      "old_prediction_mismatch": 0
+    },
+    {
+      "pair_score_formula_error": 0.0,
+      "mass_channel_error": 0.0,
+      "masked_mass_max": 0.0,
+      "invalid_pair_count": 551548,
+      "seed": 43,
+      "n": 1805,
+      "scaler_error": 0.0,
+      "old_head_replay": 1.430511474609375e-06,
+      "new_score_replay": 0.0,
+      "new_local_replay": 0.0,
+      "old_score_replay": 3.337860107421875e-06,
+      "old_local_replay": 5.364418029785156e-07,
+      "new_prediction_mismatch": 0,
+      "old_prediction_mismatch": 0
+    }
+  ],
+  "formula": "strong + old_head(new_local, fixed_context) - old_head(old_local, fixed_context)",
+  "replacements": "old/new T crossed with old/new K; pair_score returns masked affinity AND unnormalized real match mass",
+  "descriptive": "content_dot/delta_K: valid token pairs pooled over two refs within each pol/region; then equal-query mean. No transport weighting. Empty cells excluded. Transport/mass include empty zero cells.",
+  "evaluation": "Historical development evaluation; descriptive replacements, no training or selection on either reported role."
+}
