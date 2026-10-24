@@ -1,0 +1,13 @@
+# Position-bound frequency-content pooling
+
+Frozen before new fitting, 2026-10-24. Historical development evaluation, not independent confirmation.
+
+The candidate retains local co-occurrence that independent regional averages discard. For each C4 view, region weights a, projected layer1 content F and native-pixel filter energy e: joint C=E[eF]-E[e]E[F]; marginal control M=E[e]E[F]. Average the resulting moments over C4, not independently averaged maps. Both have 3x32 entries per token. Gabor wavelengths 4/8/16 native pixels, four image directions averaged, log1p energy/1e-4. Filters run before crop/pad; original 160 crop/pad, masks, backbone and PCA remain unchanged. This changes directional handling relative to the preceding frequency gate; C versus M is the matched attribution comparison.
+
+Each descriptor is standardized using valid utility-training slots only. A shared bias-free 96->4->32 GELU projection produces a bounded residual r=0.25*tanh(output)/sqrt(32). New token=normalize(old unit token+r); invalid tokens remain zero. The output matrix starts at zero, input matrix random. Thus the initial model reproduces the old reader, but the output matrix has a live gradient. Residual L2 norm is at most 0.25 before normalization. Query and reference tokens use the identical operator. This is equivalent to adding a norm-relative residual to the unnormalized original token, without changing the magnitude weighting across slots.
+
+Keep region OT, reference selection and frozen head. Final score=strong score+head(new local)-head(old local). No new frequency-only classifier. No direct angle-to-class path. No guarantee that the representation removes acquisition effects.
+
+Bank64 / utility644 / selection612 / development evaluation485; same IDs and references as paired_scale_readout. Seeds17/29/43; 100 full-source updates; AdamW lr0.003 wd0.01; loss half OA-weighted CE plus half equal-class CE. Choose checkpoints0/10/20/40/60/80/100 using source-selection (OA+BA)/2, ties earlier. Fit all six models before reporting evaluation. Identity is eligible. No evaluation-based architecture tuning.
+
+Checks address concrete failure risks: regional mean replay (coordinate/PCA error), constant-frequency covariance (wrong centering), C4 co-rotation (misalignment), initial complete-head replay and finite-difference gradient (inert insertion). Compare joint/marginal/strong/current frequency gate, report source curves, paired rescue/harm, classes and acquisitions. Review native VV/VH and actual reference images for rescue/harm/CC/WW. Retain bounded useful signals without requiring every class or port to win.
