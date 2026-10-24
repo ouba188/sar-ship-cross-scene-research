@@ -54,9 +54,10 @@ def region_masks(shape,p):
     return {f'disk{r*10}':(((xx+.5-cx)**2+(yy+.5-cy)**2<=r*r)&valid) for r in (4,6,8)}
 
 
-def extract(cohort,gallery):
+def extract(cohort,gallery,views_override=None):
     gdal.UseExceptions();gdal.SetConfigOption('GDAL_PAM_ENABLED','NO');gdal.SetCacheMax(64*1024*1024)
-    views=pd.read_csv(raw.WORK/'chip_quality_20261017/ais_metadata/view_metadata.csv',low_memory=False)
+    views=(pd.read_csv(raw.WORK/'chip_quality_20261017/ais_metadata/view_metadata.csv',low_memory=False)
+           if views_override is None else views_override.copy())
     ids=set(cohort.instance_id_a)|set(cohort.instance_id_b)
     views=views[views.instance_id.isin(ids)]
     lookup={o['instance_id']:o for o in gallery.values()}

@@ -29,6 +29,7 @@
 | 17 | 读出中心及跨极化地理对应的作用 | `round17_center_sensitivity/FINDINGS_ZH.md` | 位置敏感；26525跨极化不共址需隔离 |
 | 18 | 空间形状、方向FFT与径向频带联合解释 | `round18_joint_spatial_frequency/FINDINGS_ZH.md` | 方向关联可保留，细粗比未复现；尚非物理因果 |
 | 19 | 新日期冻结外推与船轴坐标残差 | `round19_external_rotation/FINDINGS_ZH.md` | 新采集对4艘新船有限正信号，收益集中；旧尺度关联未复现 |
+| 20 | 从真实整景TIFF恢复缺失chip映射 | `round20_georef_recovery/FINDINGS_ZH.md` | 新增5对新船/5日期组合；空间对应可用但非灰度精确重放 |
 
 ## 以后每轮的记录约定
 
