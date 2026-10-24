@@ -1,0 +1,34 @@
+{
+  "queries": 485,
+  "ships": 445,
+  "acquisitions": 29,
+  "class_counts": [
+    169,
+    91,
+    69,
+    67,
+    33,
+    13,
+    40,
+    3
+  ],
+  "valid_BA_draws": 1736,
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "cases": 4,
+  "case_seed": 17,
+  "bootstrap_seed": 1024,
+  "bootstrap_draws": 2000,
+  "bootstrap": "Acquisition clusters, paired per-observation effects averaged across seeds first; BA only full-eight-class draws. Fixed trained seeds, not training-population uncertainty.",
+  "interaction": "(adapt_axis-adapt_moment)-(freeze_axis-freeze_moment); differences of trained-system increments, not isolated convolution causation.",
+  "metric_units": "OA/BA in [0,1]; OA_pp/BA_pp in percentage points; NLL/Brier deltas candidate minus comparator (negative is better). Stratum BA averages present classes; bootstrap BA requires all eight.",
+  "seed_std": "Sample standard deviation (ddof=1) across seeds 17/29/43; no seed ensemble.",
+  "source_mean": "Zero normalized raw evidence columns for one available polarization (raw and class-centered); keep availability, old scores, head, scalers and all-invalid gate. Entirely absent polarization is unchanged and marked not applicable.",
+  "projection_reset": "Restore only W/bias from original source reader; retain selected head, normalizers, tau, convolution and old full baseline.",
+  "limitations": "Fixed-head interventions may create representation/head mismatch; model-level sensitivity only. Selected cases do not estimate prevalence. Missing chips/references are recorded without substitutes.",
+  "source_reader": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\evidence_preserving_redesign\\native_validation\\reader.npz",
+  "M3": "unchanged"
+}

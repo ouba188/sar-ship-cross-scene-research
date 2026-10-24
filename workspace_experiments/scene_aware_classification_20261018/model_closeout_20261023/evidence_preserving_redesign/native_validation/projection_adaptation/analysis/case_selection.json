@@ -1,0 +1,89 @@
+[
+  {
+    "seed": 17,
+    "arm": "adapt_axis",
+    "comparator": "adapt_moment",
+    "case": "rescue",
+    "population_n": 0,
+    "eligible_n": 0,
+    "rule": "obs_id first",
+    "excluded_obs_ids": [],
+    "status": "absent_or_already_selected"
+  },
+  {
+    "seed": 17,
+    "arm": "adapt_axis",
+    "comparator": "adapt_moment",
+    "case": "harm",
+    "population_n": 0,
+    "eligible_n": 0,
+    "rule": "obs_id first",
+    "excluded_obs_ids": [],
+    "status": "absent_or_already_selected"
+  },
+  {
+    "seed": 17,
+    "arm": "adapt_axis",
+    "comparator": "adapt_moment",
+    "case": "CC",
+    "population_n": 280,
+    "eligible_n": 280,
+    "rule": "obs_id lower median",
+    "excluded_obs_ids": [],
+    "status": "selected",
+    "index": 731,
+    "obs_id": 19531,
+    "rank_zero_based": 139
+  },
+  {
+    "seed": 17,
+    "arm": "adapt_axis",
+    "comparator": "adapt_moment",
+    "case": "WW",
+    "population_n": 205,
+    "eligible_n": 205,
+    "rule": "obs_id lower median",
+    "excluded_obs_ids": [
+      19531
+    ],
+    "status": "selected",
+    "index": 751,
+    "obs_id": 20356,
+    "rank_zero_based": 102
+  },
+  {
+    "seed": 17,
+    "arm": "adapt_moment",
+    "comparator": "freeze_moment",
+    "case": "rescue",
+    "population_n": 20,
+    "eligible_n": 20,
+    "rule": "obs_id first",
+    "excluded_obs_ids": [
+      19531,
+      20356
+    ],
+    "status": "selected",
+    "index": 11,
+    "obs_id": 220,
+    "rank_zero_based": 0
+  },
+  {
+    "seed": 17,
+    "arm": "adapt_moment",
+    "comparator": "freeze_moment",
+    "case": "harm",
+    "population_n": 42,
+    "eligible_n": 42,
+    "rule": "obs_id first",
+    "excluded_obs_ids": [
+      220,
+      19531,
+      20356
+    ],
+    "status": "selected",
+    "index": 41,
+    "obs_id": 1128,
+    "rank_zero_based": 0
+  }
+]
