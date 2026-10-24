@@ -18,6 +18,11 @@
 | 06 | 联合位置、尺度、方向能否区分整体谱掩盖的变化 | `round06_joint_pilot/FINDINGS_ZH.md`、`joint_probe.py` | 4组案例重放落盘，含区域大小敏感性 |
 | 07 | 转向解释与局部变化是否在更大同船队列存在 | `round07_joint_coverage/FINDINGS_ZH.md`、`PROTOCOL_ZH.md` | VV/VH各114对，116艘船；无分类训练 |
 | 08 | 框边与深内部能否分开；外围该用哪套参照 | `round08_boundary_reference/FINDINGS_ZH.md`、`boundary_reference.py` | 已完成；近框信号与独立外围不能混同 |
+| 09 | 固定读出位置，区分框内与框外输入 | `round09_fixed_support/FINDINGS_ZH.md` | 完成，属于算子贡献而非物理源分离 |
+| 10 | 方向细节对冻结模型的作用 | `round10_directional_intervention/FINDINGS_ZH.md` | 完成，两剂量、等L2干预 |
+| 11 | 灰度均值替代解释与真实变化幅度 | `round11_level_control/FINDINGS_ZH.md` | 完成，含四状态原图 |
+| 12 | 观测角关联是否受测量区域转动影响 | `round12_region_counterfactual/FINDINGS_ZH.md` | 完成，2×2及固定圆盘 |
+| 13 | 匹配自然尺度变化是否重现类别证据 | `round13_natural_amplitude/FINDINGS_ZH.md` | 完成，未建立物理因果链 |
 
 ## 以后每轮的记录约定
 
@@ -32,6 +37,8 @@
 本轮保存数值、可复现脚本、有限案例图，不复制原始数据集或模型权重。远端同步状态在 `SYNC_ZH.md` 中另行记录。
 
 ## 最新判断
+
+第09–13轮的最新整合见CAUSAL_STATUS_20261024_ZH.md。局部方向细节操作对冻结full_global诊断分类器存在有边界作用，均值匹配不能普遍复现；但单一尺度比匹配不能普遍重现同船自然证据变化，角度相关又部分受测量区域影响。未声称原物理因果假设已实现，未改主模型。已知原始产品入口与本队列没有完整两端配对，下一步优先恢复清单在第13轮。
 
 2026-10-24第08轮完成。当前尺度下框边覆盖大部分框内面积；有限深内部仍有随船转向的方向结构。VV轴端的雷达参照小优势在剔除读取OBB输入的输出位置后消失，但该操作同时排除了真实近船响应，尚不能归因为卷积混入。已保存协议、原始正负结果、过境分组和四组原图面板。没有新分类训练或物理因果结论。
 
