@@ -1,0 +1,74 @@
+{
+  "status": "complete",
+  "source_only": true,
+  "roles": [
+    {
+      "role": "selection",
+      "queries": 612,
+      "vessels": 562,
+      "ports": 16,
+      "passes": 28,
+      "classes": {
+        "bulk_carrier": 176,
+        "container_ship": 58,
+        "crude_oil_tanker": 36,
+        "fishing_vessel": 24,
+        "general_cargo": 51,
+        "offshore_supply": 37,
+        "product_chemical_tanker": 198,
+        "tug_towing": 32
+      },
+      "valid_groups": {
+        "VV_side": 612,
+        "VV_end": 612,
+        "VH_side": 561,
+        "VH_end": 561
+      }
+    },
+    {
+      "role": "utility_train",
+      "queries": 644,
+      "vessels": 587,
+      "ports": 16,
+      "passes": 45,
+      "classes": {
+        "bulk_carrier": 204,
+        "container_ship": 26,
+        "crude_oil_tanker": 35,
+        "fishing_vessel": 83,
+        "general_cargo": 72,
+        "offshore_supply": 27,
+        "product_chemical_tanker": 157,
+        "tug_towing": 40
+      },
+      "valid_groups": {
+        "VV_side": 644,
+        "VV_end": 644,
+        "VH_side": 561,
+        "VH_end": 561
+      }
+    }
+  ],
+  "selected_steps": {
+    "17": 20,
+    "43": 20
+  },
+  "query_source": "parent source_data; only utility_train and selection retained",
+  "reference_source": "original frozen fit bank; no new reference selection",
+  "reference_roles": {
+    "strategy_fit": 64
+  },
+  "query_reference_vessel_overlap": [],
+  "max_score_allocation_error": 5.551115123125783e-17,
+  "cached_prediction_max_errors": {
+    "17": 1.967374659406218e-06,
+    "43": 1.657884119654618e-06
+  },
+  "seconds": 21.965152999968268,
+  "case_selection": "Prefer selection; outcome shared by more seeds, then largest minimum absolute fixed-rival margin change; display seed with larger absolute change.",
+  "no_training": true,
+  "no_tuning": true,
+  "no_evaluation_scoring": true,
+  "no_git": true,
+  "caveat": "Source descriptive evidence only; token oracle is label-dependent, not a learned classifier or proof of a new algorithm."
+}
