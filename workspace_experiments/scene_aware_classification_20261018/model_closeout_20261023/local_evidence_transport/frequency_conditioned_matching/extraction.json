@@ -1,0 +1,2300 @@
+{
+  "status": "complete",
+  "completed_utc": "2026-10-24T03:31:12.229113+00:00",
+  "n": 1805,
+  "valid_pol": 3399,
+  "utility_valid_pol": 1205,
+  "roles": {
+    "utility_train": 644,
+    "selection": 612,
+    "evaluation": 485,
+    "strategy_fit": 64
+  },
+  "seconds": 73.01315320003778,
+  "threads": 2,
+  "device": "CPU",
+  "new_fits": 0,
+  "new_classifiers": 0,
+  "labels_used": false,
+  "source_views": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\paired_scale_readout\\views.npz",
+  "source_table": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\paired_scale_readout\\table.csv",
+  "inherited_arrays": {
+    "mass": "views.npz:mass",
+    "valid": "views.npz:valid",
+    "bank": "views.npz:bank",
+    "bank_shape": [
+      8,
+      8
+    ],
+    "ids": "original table_index; preserve paired table row order"
+  },
+  "shapes": {
+    "e_ship": [
+      1805,
+      2,
+      20,
+      24
+    ],
+    "e_image": [
+      1805,
+      2,
+      20,
+      24
+    ],
+    "coverage": [
+      1805,
+      2,
+      20,
+      3
+    ]
+  },
+  "wavelengths": [
+    4.0,
+    8.0,
+    16.0
+  ],
+  "angles": [
+    0.0,
+    0.7853981633974483,
+    1.5707963267948966,
+    2.356194490192345
+  ],
+  "sigma": [
+    2.0,
+    4.0,
+    8.0
+  ],
+  "radius": [
+    6,
+    12,
+    24
+  ],
+  "kernel_sizes": [
+    13,
+    25,
+    49
+  ],
+  "input": "PIL convert L / 255, original full PNG",
+  "filter": "numpy reflect padding on the original PNG, scipy.signal.fftconvolve same, crop to original shape",
+  "kernel": "envelope*(complex_carrier - sum(envelope*carrier)/sum(envelope)); complex L2=1",
+  "feature_order": "first 12 log1p(meanenergy/1e-4), next 12 meanenergy/(sum12energy+1e-8); wavelength-major, angle-minor",
+  "frames": {
+    "ship": "g[4]+phi for all 20 slots",
+    "image": "phi for all 20 slots"
+  },
+  "rotation": "image x right, y down: np.rot90 -> theta-pi/2; fixed image channels map a -> (a-2)%4",
+  "coverage_definition": "sum(mask*indicator_entire_square_kernel_inside_original_PNG)/sum(mask), each wavelength; invalid=0; no exclusion",
+  "quantile_percentiles": [
+    0,
+    10,
+    25,
+    50,
+    75,
+    90,
+    100
+  ],
+  "geometry_quantiles": {
+    "length": [
+      9.060776168700173,
+      13.241326778266183,
+      16.839872009138432,
+      24.00181156305162,
+      30.434614585723082,
+      35.99262646299852,
+      63.155674877776754
+    ],
+    "width": [
+      5.12942811935881,
+      7.196618430224756,
+      8.107554446262604,
+      9.401226220015651,
+      10.623601199032162,
+      12.157676644892755,
+      19.12100089560106
+    ]
+  },
+  "wavelength_ratio_quantiles": {
+    "wavelength_over_width_4": [
+      0.209194070009182,
+      0.32901025791182825,
+      0.37652015781281495,
+      0.4254764119476045,
+      0.4933670228812226,
+      0.5558166055280876,
+      0.7798140273968804
+    ],
+    "wavelength_over_length_4": [
+      0.06333555943691643,
+      0.11113424490316849,
+      0.1314292970174955,
+      0.16665408731720893,
+      0.23753149654755895,
+      0.30208541124538274,
+      0.4414632836663292
+    ],
+    "wavelength_over_width_8": [
+      0.418388140018364,
+      0.6580205158236565,
+      0.7530403156256299,
+      0.850952823895209,
+      0.9867340457624452,
+      1.1116332110561753,
+      1.5596280547937609
+    ],
+    "wavelength_over_length_8": [
+      0.12667111887383287,
+      0.22226848980633698,
+      0.262858594034991,
+      0.33330817463441786,
+      0.4750629930951179,
+      0.6041708224907655,
+      0.8829265673326584
+    ],
+    "wavelength_over_width_16": [
+      0.836776280036728,
+      1.316041031647313,
+      1.5060806312512598,
+      1.701905647790418,
+      1.9734680915248903,
+      2.2232664221123506,
+      3.1192561095875218
+    ],
+    "wavelength_over_length_16": [
+      0.25334223774766573,
+      0.44453697961267397,
+      0.525717188069982,
+      0.6666163492688357,
+      0.9501259861902358,
+      1.208341644981531,
+      1.7658531346653168
+    ]
+  },
+  "native_height_quantiles": [
+    64.0,
+    64.0,
+    64.0,
+    64.0,
+    72.0,
+    88.0,
+    152.0
+  ],
+  "native_width_quantiles": [
+    64.0,
+    64.0,
+    64.0,
+    64.0,
+    72.0,
+    88.0,
+    152.0
+  ],
+  "boundary_coverage": [
+    {
+      "scope": "all",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 4.0,
+      "n_slots": 14440,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9996442198753357,
+      "mass_weighted_mean": 0.9994421020133628,
+      "fraction_zero": 0.00013850415512465375,
+      "fraction_lt_half": 0.0002770083102493075,
+      "fraction_lt_one": 0.0007617728531855956
+    },
+    {
+      "scope": "all",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 8.0,
+      "n_slots": 14440,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9991579055786133,
+      "mass_weighted_mean": 0.9984356950578265,
+      "fraction_zero": 0.0002770083102493075,
+      "fraction_lt_half": 0.0008310249307479224,
+      "fraction_lt_one": 0.001592797783933518
+    },
+    {
+      "scope": "all",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 16.0,
+      "n_slots": 14440,
+      "quantiles": [
+        0.0,
+        0.43182044327259067,
+        0.8591687083244324,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.8666020631790161,
+      "mass_weighted_mean": 0.8598369079363627,
+      "fraction_zero": 0.00775623268698061,
+      "fraction_lt_half": 0.12167590027700831,
+      "fraction_lt_one": 0.36094182825484766
+    },
+    {
+      "scope": "all",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 4.0,
+      "n_slots": 14439,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9996400475502014,
+      "mass_weighted_mean": 0.9993826608667795,
+      "fraction_zero": 6.925687374471916e-05,
+      "fraction_lt_half": 0.00020777062123415748,
+      "fraction_lt_one": 0.0011773668536602258
+    },
+    {
+      "scope": "all",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 8.0,
+      "n_slots": 14439,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9988291263580322,
+      "mass_weighted_mean": 0.9977515865018876,
+      "fraction_zero": 0.00027702749497887663,
+      "fraction_lt_half": 0.001246623727404945,
+      "fraction_lt_one": 0.0031165593185123624
+    },
+    {
+      "scope": "all",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 16.0,
+      "n_slots": 14439,
+      "quantiles": [
+        0.0,
+        0.04475129544734956,
+        0.3494538217782974,
+        0.7561163902282715,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.6476126909255981,
+      "mass_weighted_mean": 0.6573782662123246,
+      "fraction_zero": 0.06551700256250433,
+      "fraction_lt_half": 0.33395664519703583,
+      "fraction_lt_one": 0.7098829558833715
+    },
+    {
+      "scope": "all",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 4.0,
+      "n_slots": 7218,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9985901117324829,
+      "mass_weighted_mean": 0.998254512543456,
+      "fraction_zero": 0.0008312551953449709,
+      "fraction_lt_half": 0.0012468827930174563,
+      "fraction_lt_one": 0.002770850651149903
+    },
+    {
+      "scope": "all",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 8.0,
+      "n_slots": 7218,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9913718104362488,
+      "mass_weighted_mean": 0.9871964924945822,
+      "fraction_zero": 0.0015239678581324466,
+      "fraction_lt_half": 0.00457190357439734,
+      "fraction_lt_one": 0.058326406206705456
+    },
+    {
+      "scope": "all",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 16.0,
+      "n_slots": 7218,
+      "quantiles": [
+        0.0,
+        0.0,
+        0.0,
+        0.004296813393011689,
+        0.3647399768233299,
+        0.7902278125286104,
+        1.0
+      ],
+      "mean": 0.2136036455631256,
+      "mass_weighted_mean": 0.1967546013430661,
+      "fraction_zero": 0.48476032141867553,
+      "fraction_lt_half": 0.8092269326683291,
+      "fraction_lt_one": 0.9674425048489886
+    },
+    {
+      "scope": "all",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 4.0,
+      "n_slots": 12752,
+      "quantiles": [
+        0.16114023327827454,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9997435808181763,
+      "mass_weighted_mean": 0.9995907035203928,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0003136762860727729,
+      "fraction_lt_one": 0.00047051442910915934
+    },
+    {
+      "scope": "all",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 8.0,
+      "n_slots": 12752,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9991815090179443,
+      "mass_weighted_mean": 0.9987219159886401,
+      "fraction_zero": 0.0003136762860727729,
+      "fraction_lt_half": 0.0007841907151819323,
+      "fraction_lt_one": 0.001725219573400251
+    },
+    {
+      "scope": "all",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 16.0,
+      "n_slots": 12752,
+      "quantiles": [
+        0.0,
+        0.4683155953884125,
+        0.889557883143425,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.8780869841575623,
+      "mass_weighted_mean": 0.8840955221316038,
+      "fraction_zero": 0.006195106649937265,
+      "fraction_lt_half": 0.10908092848180677,
+      "fraction_lt_one": 0.3437892095357591
+    },
+    {
+      "scope": "all",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 4.0,
+      "n_slots": 12752,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.999677300453186,
+      "mass_weighted_mean": 0.9995494177840055,
+      "fraction_zero": 0.00015683814303638644,
+      "fraction_lt_half": 0.0003136762860727729,
+      "fraction_lt_one": 0.0007057716436637391
+    },
+    {
+      "scope": "all",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 8.0,
+      "n_slots": 12752,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9987422227859497,
+      "mass_weighted_mean": 0.9981253566648708,
+      "fraction_zero": 0.0003136762860727729,
+      "fraction_lt_half": 0.0012547051442910915,
+      "fraction_lt_one": 0.00266624843161857
+    },
+    {
+      "scope": "all",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 16.0,
+      "n_slots": 12752,
+      "quantiles": [
+        0.0,
+        0.07828869372606284,
+        0.40518853068351746,
+        0.8475325703620911,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.6872678995132446,
+      "mass_weighted_mean": 0.7182344351789167,
+      "fraction_zero": 0.04916875784190715,
+      "fraction_lt_half": 0.2982277289836888,
+      "fraction_lt_one": 0.6587986198243413
+    },
+    {
+      "scope": "all",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 4.0,
+      "n_slots": 6375,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.998711109161377,
+      "mass_weighted_mean": 0.998973403171774,
+      "fraction_zero": 0.0006274509803921569,
+      "fraction_lt_half": 0.0012549019607843138,
+      "fraction_lt_one": 0.0026666666666666666
+    },
+    {
+      "scope": "all",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 8.0,
+      "n_slots": 6375,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9942588806152344,
+      "mass_weighted_mean": 0.9935090880115949,
+      "fraction_zero": 0.0018823529411764706,
+      "fraction_lt_half": 0.002980392156862745,
+      "fraction_lt_one": 0.03388235294117647
+    },
+    {
+      "scope": "all",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 16.0,
+      "n_slots": 6375,
+      "quantiles": [
+        0.0,
+        0.0,
+        0.0,
+        0.01616807095706463,
+        0.38701367378234863,
+        0.8134975552558902,
+        1.0
+      ],
+      "mean": 0.2242109328508377,
+      "mass_weighted_mean": 0.24369955392388182,
+      "fraction_zero": 0.4603921568627451,
+      "fraction_lt_half": 0.7968627450980392,
+      "fraction_lt_one": 0.9639215686274509
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 4.0,
+      "n_slots": 5152,
+      "quantiles": [
+        0.7761244773864746,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9999169707298279,
+      "mass_weighted_mean": 0.9998257528266195,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0005822981366459627
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 8.0,
+      "n_slots": 5152,
+      "quantiles": [
+        0.2018110454082489,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9994781613349915,
+      "mass_weighted_mean": 0.9990344190148647,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0005822981366459627,
+      "fraction_lt_one": 0.0009704968944099379
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 16.0,
+      "n_slots": 5152,
+      "quantiles": [
+        0.0,
+        0.4354081511497498,
+        0.8735484778881073,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.8702593445777893,
+      "mass_weighted_mean": 0.8605402969236717,
+      "fraction_zero": 0.00718167701863354,
+      "fraction_lt_half": 0.12092391304347826,
+      "fraction_lt_one": 0.3513198757763975
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 4.0,
+      "n_slots": 5152,
+      "quantiles": [
+        0.731437623500824,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9998732805252075,
+      "mass_weighted_mean": 0.9997575319666373,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0005822981366459627
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 8.0,
+      "n_slots": 5152,
+      "quantiles": [
+        0.026407675817608833,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9994120001792908,
+      "mass_weighted_mean": 0.9989578136371234,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0005822981366459627,
+      "fraction_lt_one": 0.001358695652173913
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 16.0,
+      "n_slots": 5152,
+      "quantiles": [
+        0.0,
+        0.0419456746429205,
+        0.36997395753860474,
+        0.7651930749416351,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.6530507206916809,
+      "mass_weighted_mean": 0.6595367772723356,
+      "fraction_zero": 0.06521739130434782,
+      "fraction_lt_half": 0.32278726708074534,
+      "fraction_lt_one": 0.7078804347826086
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 4.0,
+      "n_slots": 2576,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9986059665679932,
+      "mass_weighted_mean": 0.9985662066610884,
+      "fraction_zero": 0.0007763975155279503,
+      "fraction_lt_half": 0.0015527950310559005,
+      "fraction_lt_one": 0.0019409937888198758
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 8.0,
+      "n_slots": 2576,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.991308867931366,
+      "mass_weighted_mean": 0.9886023378529921,
+      "fraction_zero": 0.0015527950310559005,
+      "fraction_lt_half": 0.004270186335403727,
+      "fraction_lt_one": 0.057065217391304345
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 16.0,
+      "n_slots": 2576,
+      "quantiles": [
+        0.0,
+        0.0,
+        0.0,
+        0.008589976001530886,
+        0.3916960284113884,
+        0.7946097254753113,
+        1.0
+      ],
+      "mean": 0.22194378077983856,
+      "mass_weighted_mean": 0.18387313161722216,
+      "fraction_zero": 0.4720496894409938,
+      "fraction_lt_half": 0.8016304347826086,
+      "fraction_lt_one": 0.9654503105590062
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 4.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.16114023327827454,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9996481537818909,
+      "mass_weighted_mean": 0.9995361233941029,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.000445632798573975,
+      "fraction_lt_one": 0.000445632798573975
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 8.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9992412328720093,
+      "mass_weighted_mean": 0.9989891603942661,
+      "fraction_zero": 0.000445632798573975,
+      "fraction_lt_half": 0.0006684491978609625,
+      "fraction_lt_one": 0.0015597147950089127
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 16.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.0,
+        0.4858267694711686,
+        0.8976087719202042,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.8813870549201965,
+      "mass_weighted_mean": 0.8862886386814346,
+      "fraction_zero": 0.0053475935828877,
+      "fraction_lt_half": 0.10472370766488413,
+      "fraction_lt_one": 0.33868092691622104
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 4.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.999640941619873,
+      "mass_weighted_mean": 0.9995685483349531,
+      "fraction_zero": 0.0002228163992869875,
+      "fraction_lt_half": 0.000445632798573975,
+      "fraction_lt_one": 0.0006684491978609625
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 8.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9991151690483093,
+      "mass_weighted_mean": 0.9988976186890781,
+      "fraction_zero": 0.000445632798573975,
+      "fraction_lt_half": 0.00089126559714795,
+      "fraction_lt_one": 0.001336898395721925
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 16.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.0,
+        0.08352253958582882,
+        0.4278898537158966,
+        0.8482758700847626,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.692770779132843,
+      "mass_weighted_mean": 0.723121853326029,
+      "fraction_zero": 0.04434046345811052,
+      "fraction_lt_half": 0.29211229946524064,
+      "fraction_lt_one": 0.6548573975044564
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 4.0,
+      "n_slots": 2243,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9993321299552917,
+      "mass_weighted_mean": 0.9997786106061941,
+      "fraction_zero": 0.00044583147570218456,
+      "fraction_lt_half": 0.00044583147570218456,
+      "fraction_lt_one": 0.002229157378510923
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 8.0,
+      "n_slots": 2243,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9956322312355042,
+      "mass_weighted_mean": 0.9956645463553907,
+      "fraction_zero": 0.0013374944271065537,
+      "fraction_lt_half": 0.002229157378510923,
+      "fraction_lt_one": 0.03165403477485511
+    },
+    {
+      "scope": "utility_train",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 16.0,
+      "n_slots": 2243,
+      "quantiles": [
+        0.0,
+        0.0,
+        0.0,
+        0.02092817798256874,
+        0.4067043513059616,
+        0.8008857011795041,
+        1.0
+      ],
+      "mean": 0.22684329748153687,
+      "mass_weighted_mean": 0.2318152125267875,
+      "fraction_zero": 0.45474810521622827,
+      "fraction_lt_half": 0.790013374944271,
+      "fraction_lt_one": 0.9679001337494427
+    },
+    {
+      "scope": "selection",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 4.0,
+      "n_slots": 4896,
+      "quantiles": [
+        0.3050695061683655,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9995808601379395,
+      "mass_weighted_mean": 0.9992371605452182,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0004084967320261438,
+      "fraction_lt_one": 0.0008169934640522876
+    },
+    {
+      "scope": "selection",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 8.0,
+      "n_slots": 4896,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9989801645278931,
+      "mass_weighted_mean": 0.9981503035458518,
+      "fraction_zero": 0.0004084967320261438,
+      "fraction_lt_half": 0.0010212418300653595,
+      "fraction_lt_one": 0.0016339869281045752
+    },
+    {
+      "scope": "selection",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 16.0,
+      "n_slots": 4896,
+      "quantiles": [
+        0.0,
+        0.46688567101955414,
+        0.8806625455617905,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.8735557198524475,
+      "mass_weighted_mean": 0.8752769876414682,
+      "fraction_zero": 0.007761437908496732,
+      "fraction_lt_half": 0.11090686274509803,
+      "fraction_lt_one": 0.3576388888888889
+    },
+    {
+      "scope": "selection",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 4.0,
+      "n_slots": 4896,
+      "quantiles": [
+        0.0036602860782295465,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9994608759880066,
+      "mass_weighted_mean": 0.9992421038710686,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0004084967320261438,
+      "fraction_lt_one": 0.0014297385620915032
+    },
+    {
+      "scope": "selection",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 8.0,
+      "n_slots": 4896,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9985899329185486,
+      "mass_weighted_mean": 0.9974961118197848,
+      "fraction_zero": 0.0006127450980392157,
+      "fraction_lt_half": 0.0014297385620915032,
+      "fraction_lt_one": 0.004493464052287581
+    },
+    {
+      "scope": "selection",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 16.0,
+      "n_slots": 4896,
+      "quantiles": [
+        0.0,
+        0.04903084225952625,
+        0.334909625351429,
+        0.7589785754680634,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.6475245952606201,
+      "mass_weighted_mean": 0.6759320584836264,
+      "fraction_zero": 0.06454248366013073,
+      "fraction_lt_half": 0.3396650326797386,
+      "fraction_lt_one": 0.6962826797385621
+    },
+    {
+      "scope": "selection",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 4.0,
+      "n_slots": 2448,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9983375668525696,
+      "mass_weighted_mean": 0.9989134752092694,
+      "fraction_zero": 0.0016339869281045752,
+      "fraction_lt_half": 0.0016339869281045752,
+      "fraction_lt_one": 0.0028594771241830064
+    },
+    {
+      "scope": "selection",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 8.0,
+      "n_slots": 2448,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9918445348739624,
+      "mass_weighted_mean": 0.9882445091883132,
+      "fraction_zero": 0.0016339869281045752,
+      "fraction_lt_half": 0.004493464052287581,
+      "fraction_lt_one": 0.0559640522875817
+    },
+    {
+      "scope": "selection",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 16.0,
+      "n_slots": 2448,
+      "quantiles": [
+        0.0,
+        0.0,
+        0.0,
+        0.01515286322683096,
+        0.37627168744802475,
+        0.778625011444092,
+        1.0
+      ],
+      "mean": 0.2181278020143509,
+      "mass_weighted_mean": 0.22716249396677393,
+      "fraction_zero": 0.46200980392156865,
+      "fraction_lt_half": 0.8031045751633987,
+      "fraction_lt_one": 0.9689542483660131
+    },
+    {
+      "scope": "selection",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 4.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.3073637783527374,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9996233582496643,
+      "mass_weighted_mean": 0.9993343927627335,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.000445632798573975,
+      "fraction_lt_one": 0.00089126559714795
+    },
+    {
+      "scope": "selection",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 8.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9985939860343933,
+      "mass_weighted_mean": 0.9977414559830409,
+      "fraction_zero": 0.000445632798573975,
+      "fraction_lt_half": 0.0015597147950089127,
+      "fraction_lt_one": 0.0024509803921568627
+    },
+    {
+      "scope": "selection",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 16.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.0,
+        0.46878186166286473,
+        0.9148222208023071,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.8803435564041138,
+      "mass_weighted_mean": 0.8893745764272263,
+      "fraction_zero": 0.008467023172905526,
+      "fraction_lt_half": 0.10828877005347594,
+      "fraction_lt_one": 0.33645276292335113
+    },
+    {
+      "scope": "selection",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 4.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9994775652885437,
+      "mass_weighted_mean": 0.99925635188125,
+      "fraction_zero": 0.0002228163992869875,
+      "fraction_lt_half": 0.000445632798573975,
+      "fraction_lt_one": 0.00089126559714795
+    },
+    {
+      "scope": "selection",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 8.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9980899691581726,
+      "mass_weighted_mean": 0.9971162027488991,
+      "fraction_zero": 0.000445632798573975,
+      "fraction_lt_half": 0.002005347593582888,
+      "fraction_lt_one": 0.004456327985739751
+    },
+    {
+      "scope": "selection",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 16.0,
+      "n_slots": 4488,
+      "quantiles": [
+        0.0,
+        0.06955118179321293,
+        0.3804186210036278,
+        0.8489381968975067,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.6822338700294495,
+      "mass_weighted_mean": 0.7245784822704736,
+      "fraction_zero": 0.05392156862745098,
+      "fraction_lt_half": 0.3048128342245989,
+      "fraction_lt_one": 0.6532976827094474
+    },
+    {
+      "scope": "selection",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 4.0,
+      "n_slots": 2244,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9973035454750061,
+      "mass_weighted_mean": 0.9979459647892449,
+      "fraction_zero": 0.001336898395721925,
+      "fraction_lt_half": 0.00267379679144385,
+      "fraction_lt_one": 0.0035650623885918
+    },
+    {
+      "scope": "selection",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 8.0,
+      "n_slots": 2244,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9923045635223389,
+      "mass_weighted_mean": 0.9917823579450668,
+      "fraction_zero": 0.0031194295900178253,
+      "fraction_lt_half": 0.0035650623885918,
+      "fraction_lt_one": 0.040998217468805706
+    },
+    {
+      "scope": "selection",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 16.0,
+      "n_slots": 2244,
+      "quantiles": [
+        0.0,
+        0.0,
+        0.0,
+        0.03008259180933237,
+        0.4380304142832756,
+        0.832343077659607,
+        1.0
+      ],
+      "mean": 0.2409060001373291,
+      "mass_weighted_mean": 0.28271177220777943,
+      "fraction_zero": 0.43137254901960786,
+      "fraction_lt_half": 0.7776292335115864,
+      "fraction_lt_one": 0.963903743315508
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 4.0,
+      "n_slots": 3880,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9993150234222412,
+      "mass_weighted_mean": 0.9991455501644549,
+      "fraction_zero": 0.0005154639175257732,
+      "fraction_lt_half": 0.0005154639175257732,
+      "fraction_lt_one": 0.0010309278350515464
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 8.0,
+      "n_slots": 3880,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9988455772399902,
+      "mass_weighted_mean": 0.9978302421364827,
+      "fraction_zero": 0.0005154639175257732,
+      "fraction_lt_half": 0.0010309278350515464,
+      "fraction_lt_one": 0.002577319587628866
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 16.0,
+      "n_slots": 3880,
+      "quantiles": [
+        0.0,
+        0.3849972873926163,
+        0.7869845330715179,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.849911630153656,
+      "mass_weighted_mean": 0.8342386641601566,
+      "fraction_zero": 0.009278350515463918,
+      "fraction_lt_half": 0.13969072164948454,
+      "fraction_lt_one": 0.37989690721649483
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 4.0,
+      "n_slots": 3879,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9995089769363403,
+      "mass_weighted_mean": 0.9989948941142516,
+      "fraction_zero": 0.0002577984016499098,
+      "fraction_lt_half": 0.0002577984016499098,
+      "fraction_lt_one": 0.0018045888115493685
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 8.0,
+      "n_slots": 3879,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9982020258903503,
+      "mass_weighted_mean": 0.9961777941735233,
+      "fraction_zero": 0.0002577984016499098,
+      "fraction_lt_half": 0.0020623872131992783,
+      "fraction_lt_one": 0.0041247744263985565
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 16.0,
+      "n_slots": 3879,
+      "quantiles": [
+        0.0,
+        0.03608073964715004,
+        0.3303980529308319,
+        0.7270131707191467,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.6359822750091553,
+      "mass_weighted_mean": 0.6257460011523873,
+      "fraction_zero": 0.06883217324052592,
+      "fraction_lt_half": 0.34441866460427945,
+      "fraction_lt_one": 0.7324052590873936
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 4.0,
+      "n_slots": 1938,
+      "quantiles": [
+        0.4296743869781494,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9987015724182129,
+      "mass_weighted_mean": 0.9966188640640833,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0005159958720330237,
+      "fraction_lt_one": 0.0041279669762641896
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 8.0,
+      "n_slots": 1938,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9899016618728638,
+      "mass_weighted_mean": 0.9823140329287084,
+      "fraction_zero": 0.0015479876160990713,
+      "fraction_lt_half": 0.005675954592363261,
+      "fraction_lt_one": 0.06553147574819401
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 16.0,
+      "n_slots": 1938,
+      "quantiles": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.29777097702026367,
+        0.7876843392848966,
+        1.0
+      ],
+      "mean": 0.19432730972766876,
+      "mass_weighted_mean": 0.17163409787950065,
+      "fraction_zero": 0.5392156862745098,
+      "fraction_lt_half": 0.827141382868937,
+      "fraction_lt_one": 0.9705882352941176
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 4.0,
+      "n_slots": 3328,
+      "quantiles": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "mass_weighted_mean": 1.0,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 8.0,
+      "n_slots": 3328,
+      "quantiles": [
+        0.6647133827209473,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9997831583023071,
+      "mass_weighted_mean": 0.9996682098631103,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.001201923076923077
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 16.0,
+      "n_slots": 3328,
+      "quantiles": [
+        0.0,
+        0.4479935944080353,
+        0.8327202796936035,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.8666667938232422,
+      "mass_weighted_mean": 0.869268967322347,
+      "fraction_zero": 0.005108173076923077,
+      "fraction_lt_half": 0.11989182692307693,
+      "fraction_lt_one": 0.36568509615384615
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 4.0,
+      "n_slots": 3328,
+      "quantiles": [
+        0.8740712404251099,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9999523162841797,
+      "mass_weighted_mean": 0.999906957172737,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0006009615384615385
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 8.0,
+      "n_slots": 3328,
+      "quantiles": [
+        0.05517824366688728,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9989497065544128,
+      "mass_weighted_mean": 0.9983365538127585,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0009014423076923077,
+      "fraction_lt_one": 0.002403846153846154
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 16.0,
+      "n_slots": 3328,
+      "quantiles": [
+        0.0,
+        0.07677178606390955,
+        0.39182674139738083,
+        0.8337625563144684,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.6807175278663635,
+      "mass_weighted_mean": 0.6958529618642748,
+      "fraction_zero": 0.050180288461538464,
+      "fraction_lt_half": 0.3037860576923077,
+      "fraction_lt_one": 0.6751802884615384
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 4.0,
+      "n_slots": 1664,
+      "quantiles": [
+        0.4944955110549927,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.999598503112793,
+      "mass_weighted_mean": 0.9992791170990053,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0006009615384615385,
+      "fraction_lt_one": 0.002403846153846154
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 8.0,
+      "n_slots": 1664,
+      "quantiles": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9942739009857178,
+      "mass_weighted_mean": 0.9922782559711802,
+      "fraction_zero": 0.001201923076923077,
+      "fraction_lt_half": 0.003605769230769231,
+      "fraction_lt_one": 0.03125
+    },
+    {
+      "scope": "evaluation",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 16.0,
+      "n_slots": 1664,
+      "quantiles": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.2805016189813614,
+        0.8007069408893587,
+        1.0
+      ],
+      "mean": 0.19564899802207947,
+      "mass_weighted_mean": 0.2022194235466296,
+      "fraction_zero": 0.5192307692307693,
+      "fraction_lt_half": 0.8323317307692307,
+      "fraction_lt_one": 0.9597355769230769
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 4.0,
+      "n_slots": 512,
+      "quantiles": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "mass_weighted_mean": 1.0,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 8.0,
+      "n_slots": 512,
+      "quantiles": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "mass_weighted_mean": 1.0,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vv",
+      "region": "body",
+      "wavelength": 16.0,
+      "n_slots": 512,
+      "quantiles": [
+        0.0,
+        0.5198167622089386,
+        0.9124085605144501,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.8897891044616699,
+      "mass_weighted_mean": 0.8731852029597491,
+      "fraction_zero": 0.001953125,
+      "fraction_lt_half": 0.095703125,
+      "fraction_lt_one": 0.345703125
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 4.0,
+      "n_slots": 512,
+      "quantiles": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "mass_weighted_mean": 1.0,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 8.0,
+      "n_slots": 512,
+      "quantiles": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "mass_weighted_mean": 1.0,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vv",
+      "region": "side",
+      "wavelength": 16.0,
+      "n_slots": 512,
+      "quantiles": [
+        0.0,
+        0.06821564286947251,
+        0.42216940969228745,
+        0.8331539928913116,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.6818484663963318,
+      "mass_weighted_mean": 0.6664036090610513,
+      "fraction_zero": 0.052734375,
+      "fraction_lt_half": 0.3125,
+      "fraction_lt_one": 0.689453125
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 4.0,
+      "n_slots": 256,
+      "quantiles": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "mass_weighted_mean": 1.0,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 8.0,
+      "n_slots": 256,
+      "quantiles": [
+        0.8452434539794922,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9986143112182617,
+      "mass_weighted_mean": 0.9977560048912852,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0390625
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vv",
+      "region": "end",
+      "wavelength": 16.0,
+      "n_slots": 256,
+      "quantiles": [
+        0.0,
+        0.0,
+        0.0,
+        0.03225402720272541,
+        0.38294394314289093,
+        0.8765102326869965,
+        1.0
+      ],
+      "mean": 0.23234695196151733,
+      "mass_weighted_mean": 0.17991813609420051,
+      "fraction_zero": 0.41796875,
+      "fraction_lt_half": 0.80859375,
+      "fraction_lt_one": 0.94921875
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 4.0,
+      "n_slots": 448,
+      "quantiles": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "mass_weighted_mean": 1.0,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 8.0,
+      "n_slots": 448,
+      "quantiles": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "mass_weighted_mean": 1.0,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vh",
+      "region": "body",
+      "wavelength": 16.0,
+      "n_slots": 448,
+      "quantiles": [
+        0.06327662616968155,
+        0.5854048490524292,
+        0.950801357626915,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9072561264038086,
+      "mass_weighted_mean": 0.9122223905034504,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.08035714285714286,
+      "fraction_lt_one": 0.30580357142857145
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 4.0,
+      "n_slots": 448,
+      "quantiles": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "mass_weighted_mean": 1.0,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 8.0,
+      "n_slots": 448,
+      "quantiles": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "mass_weighted_mean": 1.0,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vh",
+      "region": "side",
+      "wavelength": 16.0,
+      "n_slots": 448,
+      "quantiles": [
+        0.0,
+        0.16968774199485778,
+        0.4942478686571121,
+        0.9353918135166168,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.7312297821044922,
+      "mass_weighted_mean": 0.7628380513095563,
+      "fraction_zero": 0.04241071428571429,
+      "fraction_lt_half": 0.25223214285714285,
+      "fraction_lt_one": 0.6316964285714286
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 4.0,
+      "n_slots": 224,
+      "quantiles": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "mass_weighted_mean": 1.0,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.0
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 8.0,
+      "n_slots": 224,
+      "quantiles": [
+        0.9941614866256714,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 0.9999739527702332,
+      "mass_weighted_mean": 0.9999681913582743,
+      "fraction_zero": 0.0,
+      "fraction_lt_half": 0.0,
+      "fraction_lt_one": 0.004464285714285714
+    },
+    {
+      "scope": "strategy_fit",
+      "pol": "vh",
+      "region": "end",
+      "wavelength": 16.0,
+      "n_slots": 224,
+      "quantiles": [
+        0.0,
+        0.0,
+        0.0,
+        0.0723625048995018,
+        0.4181671440601349,
+        0.8138425409793855,
+        1.0
+      ],
+      "mean": 0.24277816712856293,
+      "mass_weighted_mean": 0.23494125770749363,
+      "fraction_zero": 0.3705357142857143,
+      "fraction_lt_half": 0.7946428571428571,
+      "fraction_lt_one": 0.9553571428571429
+    }
+  ],
+  "checks": {
+    "synthetic": {
+      "constant_response_max": 1.6653345369377348e-15,
+      "rotation_energy_relative_max": 2.9337624439644025e-15,
+      "halfturn_energy_relative_max": 2.5244629343344415e-15,
+      "kernel_sum_abs_max": 1.1102230246251565e-15,
+      "kernel_l2_error_max": 3.3306690738754696e-16,
+      "image_channel_rotation_relative_max": 2.6383807802580107e-15,
+      "mapping_max_abs": 3.3306690738754696e-16
+    },
+    "real_cases": {
+      "16596_vv": {
+        "constant_response_max": 2.2704052967271437e-15,
+        "rotation_energy_relative_max": 2.2541094741666643e-15,
+        "halfturn_energy_relative_max": 2.2541094741666643e-15,
+        "kernel_sum_abs_max": 2.220446049250313e-15,
+        "kernel_l2_error_max": 2.220446049250313e-16,
+        "image_channel_rotation_relative_max": 1.4386902223901895e-15
+      },
+      "16596_vh": {
+        "constant_response_max": 1.791095058439339e-15,
+        "rotation_energy_relative_max": 1.1879629488755264e-15,
+        "halfturn_energy_relative_max": 1.2148395590108756e-15,
+        "kernel_sum_abs_max": 9.71445146547012e-16,
+        "kernel_l2_error_max": 4.440892098500626e-16,
+        "image_channel_rotation_relative_max": 1.1985661512424423e-15
+      },
+      "25707_vv": {
+        "constant_response_max": 1.9091418018976074e-15,
+        "rotation_energy_relative_max": 1.3605129411855092e-15,
+        "halfturn_energy_relative_max": 1.6745712613909973e-15,
+        "kernel_sum_abs_max": 1.790180836524724e-15,
+        "kernel_l2_error_max": 4.440892098500626e-16,
+        "image_channel_rotation_relative_max": 1.4841959358387373e-15
+      },
+      "25707_vh": {
+        "constant_response_max": 1.791095058439339e-15,
+        "rotation_energy_relative_max": 1.7427855249029047e-15,
+        "halfturn_energy_relative_max": 2.376525715776688e-15,
+        "kernel_sum_abs_max": 1.2490009027033011e-15,
+        "kernel_l2_error_max": 2.220446049250313e-16,
+        "image_channel_rotation_relative_max": 1.3536716275312222e-15
+      }
+    },
+    "mass_relative_max": 5.9255452537842974e-08,
+    "placement_pixel_max_abs": 0.0,
+    "mapping_max_abs": 7.771561172376096e-16,
+    "pool_range_violation_max": 0.0,
+    "invalid_zero": true,
+    "invalid_pol_count": 211,
+    "invalid_slot_count": 4224,
+    "all_finite": true,
+    "saved_array_roundtrip": true
+  },
+  "cases": [
+    {
+      "obs_id": 16596,
+      "pol": "vv",
+      "table_index": 1308,
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\fishing_vessel\\S1A_IW_GRDH_1SDV_20250221T095438_20250221T095503_057993_072873_AE0F_VV_UTM_8bit__r01_c04__3e1c5dbdcb1d9ee2.png",
+      "shape": [
+        64,
+        64
+      ],
+      "geometry": [
+        78.92137908935547,
+        80.88284301757812,
+        16.550978784100383,
+        8.708938330109731,
+        1.3756268362380633,
+        0.6316179633140564
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 64,
+        "crop_height": 64,
+        "pad_left": 48,
+        "pad_top": 48,
+        "target_present": true,
+        "native_target_pixels": 155.0,
+        "retained_target_pixels": 155.0,
+        "native_rest_pixels": 3941.0,
+        "retained_rest_pixels": 3941.0,
+        "input_scale": 1.0
+      },
+      "coverage_mass_weighted": [
+        1.0000000000000002,
+        1.0000000000000002,
+        0.6835608525205917
+      ],
+      "mask_mass": 360.4010181528346,
+      "selection": "user-specified diagnostic IDs; no label fitting"
+    },
+    {
+      "obs_id": 16596,
+      "pol": "vh",
+      "table_index": 1308,
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\fishing_vessel\\S1A_IW_GRDH_1SDV_20250221T095438_20250221T095503_057993_072873_AE0F_VH_UTM_8bit__r01_c04__71b943b105407ea5.png",
+      "shape": [
+        64,
+        64
+      ],
+      "geometry": [
+        78.8536605834961,
+        80.22393798828125,
+        15.174324022784573,
+        7.098162264308754,
+        1.2998331131303515,
+        0.29021215438842773
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 64,
+        "crop_height": 64,
+        "pad_left": 48,
+        "pad_top": 48,
+        "target_present": true,
+        "native_target_pixels": 130.0,
+        "retained_target_pixels": 130.0,
+        "native_rest_pixels": 3966.0,
+        "retained_rest_pixels": 3966.0,
+        "input_scale": 1.0
+      },
+      "coverage_mass_weighted": [
+        1.0000000000000002,
+        1.0000000000000002,
+        0.7992323653720455
+      ],
+      "mask_mass": 269.2280242950405,
+      "selection": "user-specified diagnostic IDs; no label fitting"
+    },
+    {
+      "obs_id": 25707,
+      "pol": "vv",
+      "table_index": 2150,
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250801T113407_20250801T113432_060342_077FF2_60B9_VV_UTM_8bit__r02_c03__b4a9ba0acbfaacaf.png",
+      "shape": [
+        64,
+        64
+      ],
+      "geometry": [
+        78.80742645263672,
+        79.83484649658203,
+        11.607520696863874,
+        5.74903454827294,
+        0.65997934547481,
+        0.4401940107345581
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 64,
+        "crop_height": 64,
+        "pad_left": 48,
+        "pad_top": 48,
+        "target_present": true,
+        "native_target_pixels": 74.0,
+        "retained_target_pixels": 74.0,
+        "native_rest_pixels": 4022.0,
+        "retained_rest_pixels": 4022.0,
+        "input_scale": 1.0
+      },
+      "coverage_mass_weighted": [
+        1.0,
+        1.0,
+        0.9842329559578695
+      ],
+      "mask_mass": 166.87896902067442,
+      "selection": "user-specified diagnostic IDs; no label fitting"
+    },
+    {
+      "obs_id": 25707,
+      "pol": "vh",
+      "table_index": 2150,
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250801T113407_20250801T113432_060342_077FF2_60B9_VH_UTM_8bit__r02_c03__415ca2c05461f1fb.png",
+      "shape": [
+        64,
+        64
+      ],
+      "geometry": [
+        81.00011444091797,
+        80.32468032836914,
+        10.833819820627516,
+        6.6616197756234925,
+        0.5048731798718218,
+        0.26360949873924255
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 64,
+        "crop_height": 64,
+        "pad_left": 48,
+        "pad_top": 48,
+        "target_present": true,
+        "native_target_pixels": 82.0,
+        "retained_target_pixels": 82.0,
+        "native_rest_pixels": 4014.0,
+        "retained_rest_pixels": 4014.0,
+        "input_scale": 1.0
+      },
+      "coverage_mass_weighted": [
+        1.0,
+        1.0,
+        0.9436363347267582
+      ],
+      "mask_mass": 180.33568871607648,
+      "selection": "user-specified diagnostic IDs; no label fitting"
+    }
+  ],
+  "limitations": [
+    "Band shares are not an orthogonal energy decomposition.",
+    "Response centers have region assignments; filter support can cross the OBB.",
+    "Original PNG boundary reflect extension is an observation-boundary assumption, not 160-canvas padding.",
+    "No classifier, predictions, benefit estimate, physical-mechanism naming, or feature standardization fit."
+  ]
+}
