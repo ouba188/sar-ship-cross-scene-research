@@ -1,0 +1,515 @@
+[
+  {
+    "arm": "mean",
+    "seed": 17,
+    "selected_step": 80,
+    "seconds": 26.567178299999796,
+    "parameters": 1561,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.20831070840358734,
+          "head.2.bias": 5.529727786779404e-09
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.009162256494164467,
+          "head.0.bias": 0.0004969623405486345,
+          "head.2.weight": 0.1425652951002121,
+          "head.2.bias": 2.939486876130104e-09
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.018858613446354866,
+          "head.0.bias": 0.0012398960534483194,
+          "head.2.weight": 0.19897809624671936,
+          "head.2.bias": 8.149072527885437e-10
+        }
+      }
+    ]
+  },
+  {
+    "arm": "moment",
+    "seed": 17,
+    "selected_step": 40,
+    "seconds": 16.347093100077473,
+    "parameters": 1561,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.20542816817760468,
+          "head.2.bias": 5.529727786779404e-09
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.009762498550117016,
+          "head.0.bias": 0.0005534313968382776,
+          "head.2.weight": 0.14554038643836975,
+          "head.2.bias": 2.735760062932968e-09
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.016784653067588806,
+          "head.0.bias": 0.0010252640349790454,
+          "head.2.weight": 0.11560796201229095,
+          "head.2.bias": 6.577465683221817e-09
+        }
+      }
+    ]
+  },
+  {
+    "arm": "grid_moment",
+    "seed": 17,
+    "selected_step": 20,
+    "seconds": 21.694152200012468,
+    "parameters": 2377,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.20542816817760468,
+          "head.2.bias": 5.529727786779404e-09,
+          "conv.depth": 0.0,
+          "conv.out": 0.0
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.009762498550117016,
+          "head.0.bias": 0.0005534313968382776,
+          "head.2.weight": 0.14554038643836975,
+          "head.2.bias": 2.735760062932968e-09,
+          "conv.depth": 0.0,
+          "conv.out": 0.00018239566998090595
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.016782233491539955,
+          "head.0.bias": 0.001025357167236507,
+          "head.2.weight": 0.11569131165742874,
+          "head.2.bias": 4.656612873077393e-10,
+          "conv.depth": 2.921085433627013e-05,
+          "conv.out": 0.00040444821934215724
+        }
+      }
+    ]
+  },
+  {
+    "arm": "axis_moment",
+    "seed": 17,
+    "selected_step": 40,
+    "seconds": 39.75959819997661,
+    "parameters": 2805,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.20542816817760468,
+          "head.2.bias": 5.529727786779404e-09,
+          "conv.basis": 0.0,
+          "conv.output": 0.0,
+          "conv.embedding.weight": 0.0,
+          "conv.gate.0.weight": 0.0,
+          "conv.gate.0.bias": 0.0,
+          "conv.gate.2.weight": 0.0,
+          "conv.gate.2.bias": 0.0
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.009762498550117016,
+          "head.0.bias": 0.0005534313968382776,
+          "head.2.weight": 0.14554038643836975,
+          "head.2.bias": 2.735760062932968e-09,
+          "conv.basis": 0.0,
+          "conv.output": 1.775213604560122e-05,
+          "conv.embedding.weight": 0.0,
+          "conv.gate.0.weight": 0.0,
+          "conv.gate.0.bias": 0.0,
+          "conv.gate.2.weight": 0.0,
+          "conv.gate.2.bias": 0.0
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.01678447611629963,
+          "head.0.bias": 0.0010252604261040688,
+          "head.2.weight": 0.11561122536659241,
+          "head.2.bias": 5.6461431086063385e-09,
+          "conv.basis": 1.652279365771392e-06,
+          "conv.output": 4.6049346565268934e-05,
+          "conv.embedding.weight": 4.977807499528808e-09,
+          "conv.gate.0.weight": 1.6509683575804956e-07,
+          "conv.gate.0.bias": 1.8631240550348593e-08,
+          "conv.gate.2.weight": 1.1647166786588059e-07,
+          "conv.gate.2.bias": 8.137207174740979e-08
+        }
+      }
+    ]
+  },
+  {
+    "arm": "mean",
+    "seed": 29,
+    "selected_step": 0,
+    "seconds": 23.480560299940407,
+    "parameters": 1561,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.0932265892624855,
+          "head.2.bias": 1.6007106751203537e-09
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.010927083902060986,
+          "head.0.bias": 0.000415909307776019,
+          "head.2.weight": 0.14022016525268555,
+          "head.2.bias": 7.4214767664670944e-09
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.011960302479565144,
+          "head.0.bias": 0.00045881999540142715,
+          "head.2.weight": 0.10565730184316635,
+          "head.2.bias": 1.4260876923799515e-09
+        }
+      }
+    ]
+  },
+  {
+    "arm": "moment",
+    "seed": 29,
+    "selected_step": 20,
+    "seconds": 17.503716200008057,
+    "parameters": 1561,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.08671002089977264,
+          "head.2.bias": 1.6007106751203537e-09
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.013270337134599686,
+          "head.0.bias": 0.0005067167803645134,
+          "head.2.weight": 0.20127016305923462,
+          "head.2.bias": 4.016328603029251e-09
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.014169430360198021,
+          "head.0.bias": 0.0006116693839430809,
+          "head.2.weight": 0.1646229326725006,
+          "head.2.bias": 4.802132025361061e-10
+        }
+      }
+    ]
+  },
+  {
+    "arm": "grid_moment",
+    "seed": 29,
+    "selected_step": 20,
+    "seconds": 16.53047030000016,
+    "parameters": 2377,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.08671002089977264,
+          "head.2.bias": 1.6007106751203537e-09,
+          "conv.depth": 0.0,
+          "conv.out": 0.0
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.013270337134599686,
+          "head.0.bias": 0.0005067167803645134,
+          "head.2.weight": 0.20127016305923462,
+          "head.2.bias": 4.016328603029251e-09,
+          "conv.depth": 0.0,
+          "conv.out": 0.0002934942895080894
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.014175907708704472,
+          "head.0.bias": 0.0006123929051682353,
+          "head.2.weight": 0.16467010974884033,
+          "head.2.bias": 1.6007106751203537e-09,
+          "conv.depth": 3.364956137374975e-05,
+          "conv.out": 0.0004541245580185205
+        }
+      }
+    ]
+  },
+  {
+    "arm": "axis_moment",
+    "seed": 29,
+    "selected_step": 20,
+    "seconds": 42.88156620005611,
+    "parameters": 2805,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.08671002089977264,
+          "head.2.bias": 1.6007106751203537e-09,
+          "conv.basis": 0.0,
+          "conv.output": 0.0,
+          "conv.embedding.weight": 0.0,
+          "conv.gate.0.weight": 0.0,
+          "conv.gate.0.bias": 0.0,
+          "conv.gate.2.weight": 0.0,
+          "conv.gate.2.bias": 0.0
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.013270337134599686,
+          "head.0.bias": 0.0005067167803645134,
+          "head.2.weight": 0.20127016305923462,
+          "head.2.bias": 4.016328603029251e-09,
+          "conv.basis": 0.0,
+          "conv.output": 3.124716386082582e-05,
+          "conv.embedding.weight": 0.0,
+          "conv.gate.0.weight": 0.0,
+          "conv.gate.0.bias": 0.0,
+          "conv.gate.2.weight": 0.0,
+          "conv.gate.2.bias": 0.0
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.014169877395033836,
+          "head.0.bias": 0.0006116477306932211,
+          "head.2.weight": 0.164624884724617,
+          "head.2.bias": 6.51925802230835e-09,
+          "conv.basis": 1.5694582771175192e-06,
+          "conv.output": 4.6535020373994485e-05,
+          "conv.embedding.weight": 5.084681120592904e-09,
+          "conv.gate.0.weight": 2.0003605527563195e-07,
+          "conv.gate.0.bias": 1.911746494442923e-08,
+          "conv.gate.2.weight": 7.527242473770457e-08,
+          "conv.gate.2.bias": 3.307212637082557e-08
+        }
+      }
+    ]
+  },
+  {
+    "arm": "mean",
+    "seed": 43,
+    "selected_step": 80,
+    "seconds": 19.976897500106134,
+    "parameters": 1561,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.07148461043834686,
+          "head.2.bias": 7.275957614183426e-10
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.008169981651008129,
+          "head.0.bias": 0.0004888387047685683,
+          "head.2.weight": 0.1591562181711197,
+          "head.2.bias": 6.984919309616089e-10
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.018175365403294563,
+          "head.0.bias": 0.0008448329754173756,
+          "head.2.weight": 0.14217020571231842,
+          "head.2.bias": 3.4051481634378433e-09
+        }
+      }
+    ]
+  },
+  {
+    "arm": "moment",
+    "seed": 43,
+    "selected_step": 80,
+    "seconds": 16.32989669998642,
+    "parameters": 1561,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.10495848953723907,
+          "head.2.bias": 7.275957614183426e-10
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.013901707716286182,
+          "head.0.bias": 0.0006154414732009172,
+          "head.2.weight": 0.1732511967420578,
+          "head.2.bias": 1.9208528101444244e-09
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.018735874444246292,
+          "head.0.bias": 0.0010526184923946857,
+          "head.2.weight": 0.1652710884809494,
+          "head.2.bias": 1.979060471057892e-09
+        }
+      }
+    ]
+  },
+  {
+    "arm": "grid_moment",
+    "seed": 43,
+    "selected_step": 40,
+    "seconds": 19.042550800018944,
+    "parameters": 2377,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.10495848953723907,
+          "head.2.bias": 7.275957614183426e-10,
+          "conv.depth": 0.0,
+          "conv.out": 0.0
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.013901707716286182,
+          "head.0.bias": 0.0006154414732009172,
+          "head.2.weight": 0.1732511967420578,
+          "head.2.bias": 1.9208528101444244e-09,
+          "conv.depth": 0.0,
+          "conv.out": 0.0003766859881579876
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.01873086206614971,
+          "head.0.bias": 0.0010522347874939442,
+          "head.2.weight": 0.16519802808761597,
+          "head.2.bias": 8.265487849712372e-09,
+          "conv.depth": 2.7501182557898574e-05,
+          "conv.out": 0.0003936854191124439
+        }
+      }
+    ]
+  },
+  {
+    "arm": "axis_moment",
+    "seed": 43,
+    "selected_step": 80,
+    "seconds": 41.91089900000952,
+    "parameters": 2805,
+    "gradients": [
+      {
+        "step": 1,
+        "gradients": {
+          "head.0.weight": 0.0,
+          "head.0.bias": 0.0,
+          "head.2.weight": 0.10495848953723907,
+          "head.2.bias": 7.275957614183426e-10,
+          "conv.basis": 0.0,
+          "conv.output": 0.0,
+          "conv.embedding.weight": 0.0,
+          "conv.gate.0.weight": 0.0,
+          "conv.gate.0.bias": 0.0,
+          "conv.gate.2.weight": 0.0,
+          "conv.gate.2.bias": 0.0
+        }
+      },
+      {
+        "step": 2,
+        "gradients": {
+          "head.0.weight": 0.013901707716286182,
+          "head.0.bias": 0.0006154414732009172,
+          "head.2.weight": 0.1732511967420578,
+          "head.2.bias": 1.9208528101444244e-09,
+          "conv.basis": 0.0,
+          "conv.output": 3.229772119084373e-05,
+          "conv.embedding.weight": 0.0,
+          "conv.gate.0.weight": 0.0,
+          "conv.gate.0.bias": 0.0,
+          "conv.gate.2.weight": 0.0,
+          "conv.gate.2.bias": 0.0
+        }
+      },
+      {
+        "step": 3,
+        "gradients": {
+          "head.0.weight": 0.018736420199275017,
+          "head.0.bias": 0.0010525347897782922,
+          "head.2.weight": 0.1652607023715973,
+          "head.2.bias": 1.862645149230957e-09,
+          "conv.basis": 1.3748696119364467e-06,
+          "conv.output": 3.0155815693433397e-05,
+          "conv.embedding.weight": 3.884637500561894e-09,
+          "conv.gate.0.weight": 1.7293946541485639e-07,
+          "conv.gate.0.bias": 1.6338814745608943e-08,
+          "conv.gate.2.weight": 7.88235752224864e-08,
+          "conv.gate.2.bias": 4.050010105061119e-08
+        }
+      }
+    ]
+  }
+]

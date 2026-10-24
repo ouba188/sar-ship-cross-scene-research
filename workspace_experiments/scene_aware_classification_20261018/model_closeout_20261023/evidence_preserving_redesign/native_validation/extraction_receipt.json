@@ -1,0 +1,363 @@
+{
+  "status": "complete",
+  "started_utc": "2026-10-24T13:06:10.536672+00:00",
+  "completed_utc": "2026-10-24T13:06:20.169833+00:00",
+  "seconds": 9.633704900043085,
+  "timing": {
+    "read_place_filter_check": 7.416490900097415,
+    "write": 1.2012971002841368
+  },
+  "n": 1805,
+  "query_n": 1741,
+  "reference_n": 64,
+  "shapes": {
+    "native_bands": [
+      1805,
+      2,
+      3,
+      160,
+      160
+    ],
+    "valid_pixels": [
+      1805,
+      2,
+      160,
+      160
+    ],
+    "geometry": [
+      1805,
+      2,
+      6
+    ],
+    "geometry_valid": [
+      1805,
+      2
+    ],
+    "pol_valid": [
+      1805,
+      2
+    ]
+  },
+  "dtypes": {
+    "native_bands": "float32",
+    "valid_pixels": "uint8",
+    "geometry": "float64",
+    "geometry_valid": "bool",
+    "pol_valid": "bool"
+  },
+  "pol_order": [
+    "vv",
+    "vh"
+  ],
+  "band_order": [
+    "fine",
+    "middle",
+    "low"
+  ],
+  "geometry_fields": [
+    "cx",
+    "cy",
+    "length",
+    "width",
+    "angle_radians_mod_pi",
+    "confidence"
+  ],
+  "geometry_validity": "geometry_valid.npy; absent geometry is zero; pol_valid is independent",
+  "pixel_validity": "1 for retained original chip pixels, 0 for padding or absent polarization",
+  "missing_pol": 211,
+  "valid_pol": 3399,
+  "geometry_missing_on_valid_pol": 0,
+  "missing_geometry_cases": [],
+  "coverage": {
+    "utility_train": {
+      "n": 644,
+      "valid_pol": [
+        644,
+        561
+      ],
+      "missing_pol": [
+        0,
+        83
+      ],
+      "missing_geometry_on_valid_pol": [
+        0,
+        0
+      ]
+    },
+    "selection": {
+      "n": 612,
+      "valid_pol": [
+        612,
+        561
+      ],
+      "missing_pol": [
+        0,
+        51
+      ],
+      "missing_geometry_on_valid_pol": [
+        0,
+        0
+      ]
+    },
+    "evaluation": {
+      "n": 485,
+      "valid_pol": [
+        485,
+        416
+      ],
+      "missing_pol": [
+        0,
+        69
+      ],
+      "missing_geometry_on_valid_pol": [
+        0,
+        0
+      ]
+    },
+    "strategy_fit": {
+      "n": 64,
+      "valid_pol": [
+        64,
+        56
+      ],
+      "missing_pol": [
+        0,
+        8
+      ],
+      "missing_geometry_on_valid_pol": [
+        0,
+        0
+      ]
+    }
+  },
+  "checks": {
+    "raw_reconstruction_max_abs_error": 1.1102230246251565e-16,
+    "placed_float32_reconstruction_max_abs_error": 4.891087024283536e-08,
+    "geo_native_pixel_max_abs_error": 0.0,
+    "footprint_replay_exact": true,
+    "zero_outside_footprint": true,
+    "missing_pol_zero": true
+  },
+  "png_modes": {
+    "L": 3399
+  },
+  "geo_native_replay_cases": [
+    {
+      "index": 0,
+      "obs_id": 15,
+      "polarization": "vv",
+      "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\fishing_vessel\\S1A_IW_GRDH_1SDV_20250925T095436_20250925T095501_061143_079F62_97AE_VV_UTM_8bit__r02_c02__b873f0a11e37be6c.png",
+      "raw_shape": [
+        64,
+        64
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 64,
+        "crop_height": 64,
+        "pad_left": 48,
+        "pad_top": 48,
+        "target_present": true,
+        "native_target_pixels": 105.0,
+        "retained_target_pixels": 105.0,
+        "native_rest_pixels": 3991.0,
+        "retained_rest_pixels": 3991.0,
+        "input_scale": 1.0
+      }
+    },
+    {
+      "index": 0,
+      "obs_id": 15,
+      "polarization": "vh",
+      "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\fishing_vessel\\S1A_IW_GRDH_1SDV_20250925T095436_20250925T095501_061143_079F62_97AE_VH_UTM_8bit__r02_c02__dfdfc49aba0a233a.png",
+      "raw_shape": [
+        64,
+        64
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 64,
+        "crop_height": 64,
+        "pad_left": 48,
+        "pad_top": 48,
+        "target_present": true,
+        "native_target_pixels": 107.0,
+        "retained_target_pixels": 107.0,
+        "native_rest_pixels": 3989.0,
+        "retained_rest_pixels": 3989.0,
+        "input_scale": 1.0
+      }
+    },
+    {
+      "index": 4,
+      "obs_id": 135,
+      "polarization": "vv",
+      "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250621T021544_20250621T021607_059738_076B1D_2523_VV_UTM_8bit__r02_c02__a742849bb65e2750.png",
+      "raw_shape": [
+        64,
+        64
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 64,
+        "crop_height": 64,
+        "pad_left": 48,
+        "pad_top": 48,
+        "target_present": true,
+        "native_target_pixels": 157.0,
+        "retained_target_pixels": 157.0,
+        "native_rest_pixels": 3939.0,
+        "retained_rest_pixels": 3939.0,
+        "input_scale": 1.0
+      }
+    },
+    {
+      "index": 4,
+      "obs_id": 135,
+      "polarization": "vh",
+      "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250621T021544_20250621T021607_059738_076B1D_2523_VH_UTM_8bit__r02_c02__5ef08d2ce6599121.png",
+      "raw_shape": [
+        64,
+        64
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 64,
+        "crop_height": 64,
+        "pad_left": 48,
+        "pad_top": 48,
+        "target_present": true,
+        "native_target_pixels": 156.0,
+        "retained_target_pixels": 156.0,
+        "native_rest_pixels": 3940.0,
+        "retained_rest_pixels": 3940.0,
+        "input_scale": 1.0
+      }
+    },
+    {
+      "index": 5,
+      "obs_id": 150,
+      "polarization": "vv",
+      "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250116T095440_20250116T095505_057468_071372_AF77_VV_UTM_8bit__r02_c03__40d43e598804e0c6.png",
+      "raw_shape": [
+        96,
+        96
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 96,
+        "crop_height": 96,
+        "pad_left": 32,
+        "pad_top": 32,
+        "target_present": true,
+        "native_target_pixels": 469.0,
+        "retained_target_pixels": 469.0,
+        "native_rest_pixels": 8747.0,
+        "retained_rest_pixels": 8747.0,
+        "input_scale": 1.0
+      }
+    },
+    {
+      "index": 5,
+      "obs_id": 150,
+      "polarization": "vh",
+      "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250116T095440_20250116T095505_057468_071372_AF77_VH_UTM_8bit__r02_c03__dd405f61b3dec340.png",
+      "raw_shape": [
+        112,
+        112
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 112,
+        "crop_height": 112,
+        "pad_left": 24,
+        "pad_top": 24,
+        "target_present": true,
+        "native_target_pixels": 568.0,
+        "retained_target_pixels": 568.0,
+        "native_rest_pixels": 11976.0,
+        "retained_rest_pixels": 11976.0,
+        "input_scale": 1.0
+      }
+    },
+    {
+      "index": 1741,
+      "obs_id": 35396,
+      "polarization": "vv",
+      "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Santos\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250426T083111_20250426T083140_058925_074E33_CD35_VV_UTM_8bit__r04_c02__49643655c260edeb.png",
+      "raw_shape": [
+        80,
+        80
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 80,
+        "crop_height": 80,
+        "pad_left": 40,
+        "pad_top": 40,
+        "target_present": true,
+        "native_target_pixels": 357.0,
+        "retained_target_pixels": 357.0,
+        "native_rest_pixels": 6043.0,
+        "retained_rest_pixels": 6043.0,
+        "input_scale": 1.0
+      }
+    },
+    {
+      "index": 1741,
+      "obs_id": 35396,
+      "polarization": "vh",
+      "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Santos\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250426T083111_20250426T083140_058925_074E33_CD35_VH_UTM_8bit__r04_c02__b0037afb8f230145.png",
+      "raw_shape": [
+        88,
+        88
+      ],
+      "placement": {
+        "crop_x": 0,
+        "crop_y": 0,
+        "crop_width": 88,
+        "crop_height": 88,
+        "pad_left": 36,
+        "pad_top": 36,
+        "target_present": true,
+        "native_target_pixels": 376.0,
+        "retained_target_pixels": 376.0,
+        "native_rest_pixels": 7368.0,
+        "retained_rest_pixels": 7368.0,
+        "input_scale": 1.0
+      }
+    }
+  ],
+  "source": {
+    "old_table": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\table.csv",
+    "upstream_table": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\regional_utility_pilot\\upstream\\table.csv",
+    "polarization_validity": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\regional_utility_pilot\\upstream\\summaries.npz",
+    "bank": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\projection_layer1.npz",
+    "snapshot": "E:\\临时会话\\same_vessel_gallery_20261019\\local_condition_module\\view_snapshot.json",
+    "geometry_implementation": "E:\\临时会话\\scene_aware_classification_20261018\\eight_class_evidence_20261023\\obb_dynamic_readout\\common.py",
+    "bands_implementation": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\evidence_preserving_redesign\\operators.py"
+  },
+  "table_rule": "First 1741 rows preserve old table order; next 64 are bank.ravel() order. old_index=-1 for references; up_index addresses upstream table.",
+  "filter_rule": "Each 2D uint8 PNG converted to L exactly as geo.native; /255; native_bands float64 DoG sigma1/2 reflect on original chip; THEN identical crop/pad to 160; stored float32.",
+  "boundary_rule": "scipy gaussian_filter default truncate=4; sigma1 radius4 and sigma2 radius8 on original chip, reflected at its edges; crop and zero pad only after filtering",
+  "reference_isolation_intersections": {
+    "mmsi": 0,
+    "pass_group": 0
+  },
+  "no_resize": true,
+  "no_filter_on_padded_input": true,
+  "no_c4_cache": true,
+  "no_native_slot_cache": true,
+  "labels": "Copied table metadata only; no label-based selection, predictions, fitting or parameter decisions.",
+  "no_fitting": true,
+  "no_git": true,
+  "raw_bands_not_uploaded": true,
+  "cache_bytes": 1201601207
+}
