@@ -27,6 +27,7 @@
 | 15 | 强峰/低值及框内/外截断的实际作用 | `round15_clipping_factorial/FINDINGS_ZH.md` | 处理层因果效应成立，VH原始测量物理候选待确认 |
 | 16 | VH候选能否经定标/去噪及不同半径保持 | `round16_calibrated_relation/FINDINGS_ZH.md` | 有边界正关联仍在，不是因果确认 |
 | 17 | 读出中心及跨极化地理对应的作用 | `round17_center_sensitivity/FINDINGS_ZH.md` | 位置敏感；26525跨极化不共址需隔离 |
+| 18 | 空间形状、方向FFT与径向频带联合解释 | `round18_joint_spatial_frequency/FINDINGS_ZH.md` | 方向关联可保留，细粗比未复现；尚非物理因果 |
 
 ## 以后每轮的记录约定
 
