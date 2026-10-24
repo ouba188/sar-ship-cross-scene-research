@@ -1,0 +1,180 @@
+{
+  "status": "complete",
+  "completed_utc": "2026-10-24T11:45:23.879499+00:00",
+  "seconds": 161.29448549996596,
+  "timing": {
+    "native_geometry_cpu": 130.77871000021696,
+    "backbone_projection_response": 10.692588399746455,
+    "replay": 8.581195601844229,
+    "write": 7.559680701699108
+  },
+  "n": 1741,
+  "upstream_n": 3387,
+  "batch_objects": 8,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU",
+  "gpu_peak_bytes": 239234048,
+  "shapes": {
+    "x": [
+      1741,
+      2,
+      4,
+      32,
+      40,
+      40
+    ],
+    "response": [
+      1741,
+      2,
+      4,
+      8,
+      40,
+      40
+    ],
+    "region": [
+      1741,
+      2,
+      4,
+      3,
+      40,
+      40
+    ],
+    "a0": [
+      1741,
+      2,
+      4,
+      20,
+      40,
+      40
+    ]
+  },
+  "dtypes": {
+    "x": "float16",
+    "response": "float32",
+    "region": "float32",
+    "a0": "float32"
+  },
+  "checks": {
+    "tolerances": {
+      "summary_replay": 0.0002,
+      "cell_rowmass": 2e-05,
+      "pixel_rowmass": 1e-10,
+      "theta_pi": 1e-09,
+      "integrated_mass": 1e-08
+    },
+    "missing_pol_all_zero": true,
+    "invalid_summary_all_zero": true,
+    "quality_max_abs_error": 0.0,
+    "theta_pi_slot_permutation_max_abs_error": 2.2211399386407038e-14,
+    "pixel_rowmass_max_abs_error": 6.661338147750939e-16,
+    "negative_roundoff_clipped_max": 0.0,
+    "stored_cell_rowmass_max_abs_error": 1.1846423149108887e-06,
+    "integrated_region_mass_max_abs_error": 9.094947017729282e-13,
+    "response_float32_summary_max_abs_error": 9.69482209711714e-06,
+    "old_summary1_c4_max_abs_error": 3.654563156985091e-05,
+    "static_a0_mean_c4_max_abs_error": 9.436225449466207e-06
+  },
+  "source_coverage": {
+    "utility_train": {
+      "n": 644,
+      "ships": 587,
+      "ports": 16,
+      "passes": 45,
+      "valid_pol": [
+        644,
+        561
+      ],
+      "valid_regions": [
+        1205,
+        1205,
+        1205
+      ]
+    },
+    "selection": {
+      "n": 612,
+      "ships": 562,
+      "ports": 16,
+      "passes": 28,
+      "valid_pol": [
+        612,
+        561
+      ],
+      "valid_regions": [
+        1173,
+        1173,
+        1173
+      ]
+    },
+    "evaluation": {
+      "n": 485,
+      "ships": 445,
+      "ports": 14,
+      "passes": 29,
+      "valid_pol": [
+        485,
+        416
+      ],
+      "valid_regions": [
+        901,
+        901,
+        901
+      ]
+    }
+  },
+  "source_columns": [
+    "up_index",
+    "row_index",
+    "obs_id",
+    "instance_id",
+    "manifest_row",
+    "mmsi",
+    "class_id",
+    "class_name",
+    "fold",
+    "port",
+    "product",
+    "time",
+    "platform",
+    "cos2",
+    "sin2",
+    "incidence",
+    "axis_deg",
+    "los_axis_deg",
+    "elongation",
+    "match_status",
+    "image_vv",
+    "image_vh",
+    "quarter",
+    "pass_group",
+    "role",
+    "upstream_role"
+  ],
+  "missing_pol": 203,
+  "valid_pol": 3279,
+  "geometry_missing_on_valid_pol": 0,
+  "all_valid_region_rotations_have_cycles": true,
+  "upstream": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\regional_utility_pilot\\upstream",
+  "projection": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\projection_layer1.npz",
+  "frozen_reader": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\regional_utility_pilot\\upstream\\models\\reader_layer1.npz",
+  "frozen_backbone": "C:\\Users\\25791\\.cache\\torch\\hub\\checkpoints\\resnet50-11ad3fa6.pth",
+  "inputs": "geo.native native160 crop/pad; each rotated input independently traverses frozen R50 layer1",
+  "projection_rule": "x=(F-mean256) projected by components32x256; no unit normalization; float16 only for new convolution",
+  "response_rule": "response[p,c,u]=sum_d W[c,p,d]*F[p,d,u]; no intercept; float64 dot stored float32; never PCA reconstruction",
+  "region_order": [
+    "body",
+    "end",
+    "side"
+  ],
+  "slot_order": [
+    "body0:8",
+    "side8:16",
+    "end16:20"
+  ],
+  "assignment": "exp(-((u-cu)/.35)^2-((v-cv)/.5)^2), normalized within role, multiplied by exact observed pixel region, rotated then geo.cell_mass",
+  "deviation": "Full positive within-role assignment uses soft geometric localization, not strict neighboring-only or two-nearest truncation; cycles checked on stored float32 assignments.",
+  "theta_rule": "theta[i,p,k]=geometry[i,p,4]-k*pi/2; missing geometry/pol remains zero",
+  "validity": "valid copied from upstream summaries; region_valid masks old readout only; region/a0 retain exact observed mass even for subthreshold nonempty regions",
+  "labels": "Original table label columns copied verbatim; never inspected for selection, extraction, geometry, checks, or parameter decisions; no evaluation labels loaded into tensors.",
+  "reference_summary": "metadata.summary1 is original upstream subset; metadata.replay_summary1 uses stored float32 response/region; metadata.static_a0_mu uses actual stored a0",
+  "no_fitting": true,
+  "no_git_commits": true
+}

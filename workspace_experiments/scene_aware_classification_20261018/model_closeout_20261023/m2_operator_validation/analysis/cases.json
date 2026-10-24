@@ -1,0 +1,1036 @@
+[
+  {
+    "seed": 17,
+    "arm": "conv_learned_pool",
+    "index": 1507,
+    "case": "rescue",
+    "change": 0.4143688678741455,
+    "obs_id": 33163,
+    "true_class": 4,
+    "rival": 0,
+    "rival_rule": "new wrong prediction for harm; old strongest wrong class otherwise",
+    "old_pred": 0,
+    "new_pred": 4,
+    "selected_step": 20,
+    "attribution": {
+      "old_fixed_margin": -0.0006868839263916016,
+      "new_fixed_margin": 0.4136819839477539,
+      "head_change": 0.2570902109146118,
+      "representation_change": 0.1572786569595337,
+      "region_shapley": [
+        0.034103266398111974,
+        0.03823394576708475,
+        0.05527926882108052,
+        -0.002828426162401835,
+        0.041754906376202904,
+        -0.009264304240544637
+      ],
+      "region_order": [
+        "VV_body",
+        "VV_end",
+        "VV_side",
+        "VH_body",
+        "VH_end",
+        "VH_side"
+      ],
+      "operator_interventions": {
+        "conv_zero": {
+          "prediction": 4,
+          "fixed_margin": 0.4141988754272461
+        },
+        "pool_static": {
+          "prediction": 4,
+          "fixed_margin": 0.4136806130409241
+        }
+      }
+    },
+    "reference_obs": [
+      26479,
+      21323,
+      23272,
+      23781
+    ],
+    "provenance": [
+      {
+        "up_index": 2921,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Santos\\container_ship\\S1A_IW_GRDH_1SDV_20250601T083112_20250601T083141_059450_07613A_3D85_VV_UTM_8bit__r03_c02__8a039cf57528e9c8.png"
+      },
+      {
+        "up_index": 2222,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Santos\\container_ship\\S1A_IW_GRDH_1SDV_20250508T083113_20250508T083142_059100_07551D_E789_VV_UTM_8bit__r03_c02__41a51249b0169f1e.png"
+      },
+      {
+        "up_index": 1691,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Sydney Botany\\container_ship\\S1A_IW_GRDH_1SDV_20250129T083936_20250129T084001_057656_071AFA_59EF_VV_UTM_8bit__r03_c03__20b6d4c2e3ea6a81.png"
+      },
+      {
+        "up_index": 1892,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Newcastle\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250207T191539_20250207T191604_057794_07206C_D215_VV_UTM_8bit__r03_c04__6cb7b5dff66c91b6.png"
+      },
+      {
+        "up_index": 1949,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250410T095439_20250410T095504_058693_0744B4_AF10_VV_UTM_8bit__r01_c03__814c715f1ba1ca36.png"
+      },
+      {
+        "up_index": 2921,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Santos\\container_ship\\S1A_IW_GRDH_1SDV_20250601T083112_20250601T083141_059450_07613A_3D85_VH_UTM_8bit__r03_c02__52202242fe609144.png"
+      },
+      {
+        "up_index": 2222,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Santos\\container_ship\\S1A_IW_GRDH_1SDV_20250508T083113_20250508T083142_059100_07551D_E789_VH_UTM_8bit__r03_c02__859f2df1dd97ec25.png"
+      },
+      {
+        "up_index": 1691,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Sydney Botany\\container_ship\\S1A_IW_GRDH_1SDV_20250129T083936_20250129T084001_057656_071AFA_59EF_VH_UTM_8bit__r03_c03__5714bcd958a4fa4d.png"
+      },
+      {
+        "up_index": 1892,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Newcastle\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250207T191539_20250207T191604_057794_07206C_D215_VH_UTM_8bit__r03_c04__30e3f4d9db5f3d6d.png"
+      },
+      {
+        "up_index": 1949,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250410T095439_20250410T095504_058693_0744B4_AF10_VH_UTM_8bit__r01_c03__448e6d16f622e23d.png"
+      }
+    ],
+    "path": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\analysis\\conv_learned_pool_rescue_33163_17.png"
+  },
+  {
+    "seed": 17,
+    "arm": "conv_learned_pool",
+    "index": 1531,
+    "case": "harm",
+    "change": -0.519328236579895,
+    "obs_id": 33617,
+    "true_class": 0,
+    "rival": 4,
+    "rival_rule": "new wrong prediction for harm; old strongest wrong class otherwise",
+    "old_pred": 0,
+    "new_pred": 4,
+    "selected_step": 20,
+    "attribution": {
+      "old_fixed_margin": 0.1847333312034607,
+      "new_fixed_margin": -0.3345949053764343,
+      "head_change": -0.3339531719684601,
+      "representation_change": -0.18537506461143494,
+      "region_shapley": [
+        -0.042022473861773824,
+        -0.04381050740679105,
+        -0.016082574178775153,
+        -0.007380680243174236,
+        -0.049075106531381606,
+        -0.027003722389539082
+      ],
+      "region_order": [
+        "VV_body",
+        "VV_end",
+        "VV_side",
+        "VH_body",
+        "VH_end",
+        "VH_side"
+      ],
+      "operator_interventions": {
+        "conv_zero": {
+          "prediction": 4,
+          "fixed_margin": -0.33495551347732544
+        },
+        "pool_static": {
+          "prediction": 4,
+          "fixed_margin": -0.3345611095428467
+        }
+      }
+    },
+    "reference_obs": [
+      35396,
+      33678,
+      33664,
+      8286
+    ],
+    "provenance": [
+      {
+        "up_index": 2969,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\New York\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250418T105757_20250418T105822_058810_07497C_BD3F_VV_UTM_8bit__r04_c02__897a0c5e01fad967.png"
+      },
+      {
+        "up_index": 3140,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Santos\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250426T083111_20250426T083140_058925_074E33_CD35_VV_UTM_8bit__r04_c02__49643655c260edeb.png"
+      },
+      {
+        "up_index": 2976,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250528T095438_20250528T095503_059393_075F43_015F_VV_UTM_8bit__r01_c04__bd86883da1da3650.png"
+      },
+      {
+        "up_index": 2975,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\container_ship\\S1A_IW_GRDH_1SDV_20250317T021545_20250317T021609_058338_073664_181C_VV_UTM_8bit__r03_c02__7779526f4d6b6183.png"
+      },
+      {
+        "up_index": 590,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\container_ship\\S1A_IW_GRDH_1SDV_20250907T225606_20250907T225631_060888_079528_A9E2_VV_UTM_8bit__r03_c02__bdce01364b524b5c.png"
+      },
+      {
+        "up_index": 2969,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\New York\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250418T105757_20250418T105822_058810_07497C_BD3F_VH_UTM_8bit__r04_c02__234034a3a79e5292.png"
+      },
+      {
+        "up_index": 3140,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Santos\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250426T083111_20250426T083140_058925_074E33_CD35_VH_UTM_8bit__r04_c02__b0037afb8f230145.png"
+      },
+      {
+        "up_index": 2976,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250528T095438_20250528T095503_059393_075F43_015F_VH_UTM_8bit__r01_c04__7644ebfe292278d4.png"
+      },
+      {
+        "up_index": 2975,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\container_ship\\S1A_IW_GRDH_1SDV_20250317T021545_20250317T021609_058338_073664_181C_VH_UTM_8bit__r03_c02__21941ee053aa471e.png"
+      },
+      {
+        "up_index": 590,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\container_ship\\S1A_IW_GRDH_1SDV_20250907T225606_20250907T225631_060888_079528_A9E2_VH_UTM_8bit__r03_c02__9a6bea0497abef92.png"
+      }
+    ],
+    "path": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\analysis\\conv_learned_pool_harm_33617_17.png"
+  },
+  {
+    "seed": 17,
+    "arm": "conv_learned_pool",
+    "index": 843,
+    "case": "CC",
+    "change": -0.5539422631263733,
+    "obs_id": 21759,
+    "true_class": 0,
+    "rival": 4,
+    "rival_rule": "new wrong prediction for harm; old strongest wrong class otherwise",
+    "old_pred": 0,
+    "new_pred": 0,
+    "selected_step": 20,
+    "attribution": {
+      "old_fixed_margin": 0.9721552133560181,
+      "new_fixed_margin": 0.4182129502296448,
+      "head_change": -0.26666516065597534,
+      "representation_change": -0.28727710247039795,
+      "region_shapley": [
+        0.00020819505055745579,
+        0.00900653600692749,
+        -0.23378458917140957,
+        -0.010512075821558635,
+        -0.020873990654945378,
+        -0.03132117787996927
+      ],
+      "region_order": [
+        "VV_body",
+        "VV_end",
+        "VV_side",
+        "VH_body",
+        "VH_end",
+        "VH_side"
+      ],
+      "operator_interventions": {
+        "conv_zero": {
+          "prediction": 0,
+          "fixed_margin": 0.4174100160598755
+        },
+        "pool_static": {
+          "prediction": 0,
+          "fixed_margin": 0.41822177171707153
+        }
+      }
+    },
+    "reference_obs": [
+      2379,
+      26615,
+      23546,
+      26479
+    ],
+    "provenance": [
+      {
+        "up_index": 1729,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250116T095440_20250116T095505_057468_071372_AF77_VV_UTM_8bit__r02_c03__5179eac39131aeb7.png"
+      },
+      {
+        "up_index": 178,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Singapore\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VV_UTM_8bit__r02_c04__6b8af7fc06d5a12f.png"
+      },
+      {
+        "up_index": 2233,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Shanghai\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250104T095506_20250104T095531_057293_070C89_4BA6_VV_UTM_8bit__r02_c04__1baf076ab0cf049a.png"
+      },
+      {
+        "up_index": 1919,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Sydney Botany\\container_ship\\S1A_IW_GRDH_1SDV_20250129T083936_20250129T084001_057656_071AFA_59EF_VV_UTM_8bit__r03_c03__33cb5f18cb8d946f.png"
+      },
+      {
+        "up_index": 2222,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Santos\\container_ship\\S1A_IW_GRDH_1SDV_20250508T083113_20250508T083142_059100_07551D_E789_VV_UTM_8bit__r03_c02__41a51249b0169f1e.png"
+      },
+      {
+        "up_index": 1729,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250116T095440_20250116T095505_057468_071372_AF77_VH_UTM_8bit__r02_c03__fe67af756c840327.png"
+      },
+      {
+        "up_index": 178,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Singapore\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VH_UTM_8bit__r02_c04__e9f51208e4b11b78.png"
+      },
+      {
+        "up_index": 2233,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Shanghai\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250104T095506_20250104T095531_057293_070C89_4BA6_VH_UTM_8bit__r02_c04__d3b4d91e4b950995.png"
+      },
+      {
+        "up_index": 1919,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Sydney Botany\\container_ship\\S1A_IW_GRDH_1SDV_20250129T083936_20250129T084001_057656_071AFA_59EF_VH_UTM_8bit__r03_c03__fd1b1547974629f7.png"
+      },
+      {
+        "up_index": 2222,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Santos\\container_ship\\S1A_IW_GRDH_1SDV_20250508T083113_20250508T083142_059100_07551D_E789_VH_UTM_8bit__r03_c02__859f2df1dd97ec25.png"
+      }
+    ],
+    "path": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\analysis\\conv_learned_pool_CC_21759_17.png"
+  },
+  {
+    "seed": 17,
+    "arm": "conv_learned_pool",
+    "index": 1092,
+    "case": "WW",
+    "change": -0.5899302959442139,
+    "obs_id": 26130,
+    "true_class": 3,
+    "rival": 7,
+    "rival_rule": "new wrong prediction for harm; old strongest wrong class otherwise",
+    "old_pred": 7,
+    "new_pred": 7,
+    "selected_step": 20,
+    "attribution": {
+      "old_fixed_margin": -0.2722887396812439,
+      "new_fixed_margin": -0.8622190356254578,
+      "head_change": -0.47746360301971436,
+      "representation_change": -0.11246669292449951,
+      "region_shapley": [
+        -0.021817407011985777,
+        -0.024565290411313376,
+        -0.03564798533916473,
+        -0.010077921549479169,
+        -0.005573617418607077,
+        -0.014784471193949381
+      ],
+      "region_order": [
+        "VV_body",
+        "VV_end",
+        "VV_side",
+        "VH_body",
+        "VH_end",
+        "VH_side"
+      ],
+      "operator_interventions": {
+        "conv_zero": {
+          "prediction": 7,
+          "fixed_margin": -0.8624119758605957
+        },
+        "pool_static": {
+          "prediction": 7,
+          "fixed_margin": -0.8621194362640381
+        }
+      }
+    },
+    "reference_obs": [
+      31086,
+      24840,
+      13344,
+      30434
+    ],
+    "provenance": [
+      {
+        "up_index": 2183,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250110T225610_20250110T225635_057388_07104B_6663_VV_UTM_8bit__r02_c01__16e65abe64732bb1.png"
+      },
+      {
+        "up_index": 2707,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250901T112532_20250901T112557_060793_079162_B38D_VV_UTM_8bit__r02_c03__6f47eabfc4e6e24b.png"
+      },
+      {
+        "up_index": 2063,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VV_UTM_8bit__r02_c04__b4bf43cc1b969f91.png"
+      },
+      {
+        "up_index": 1107,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\offshore_supply\\S1A_IW_GRDH_1SDV_20250504T021546_20250504T021609_059038_0752B2_34DE_VV_UTM_8bit__r02_c03__cc27f409479c1d36.png"
+      },
+      {
+        "up_index": 2632,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\offshore_supply\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VV_UTM_8bit__r02_c04__f785c2bbc23ea810.png"
+      },
+      {
+        "up_index": 2183,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250110T225610_20250110T225635_057388_07104B_6663_VH_UTM_8bit__r02_c01__b5a1acf027aa0bd3.png"
+      },
+      {
+        "up_index": 2707,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250901T112532_20250901T112557_060793_079162_B38D_VH_UTM_8bit__r02_c03__de06e6538b8d2120.png"
+      },
+      {
+        "up_index": 2063,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VH_UTM_8bit__r02_c04__ef568ec52b49df23.png"
+      },
+      {
+        "up_index": 1107,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\offshore_supply\\S1A_IW_GRDH_1SDV_20250504T021546_20250504T021609_059038_0752B2_34DE_VH_UTM_8bit__r02_c03__18b45573683e7329.png"
+      },
+      {
+        "up_index": 2632,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\offshore_supply\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VH_UTM_8bit__r02_c04__fe7ea60fb40ef443.png"
+      }
+    ],
+    "path": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\analysis\\conv_learned_pool_WW_26130_17.png"
+  },
+  {
+    "seed": 17,
+    "arm": "conv_grid",
+    "index": 795,
+    "case": "rescue",
+    "change": 0.2991372346878052,
+    "obs_id": 20820,
+    "true_class": 3,
+    "rival": 0,
+    "rival_rule": "new wrong prediction for harm; old strongest wrong class otherwise",
+    "old_pred": 0,
+    "new_pred": 3,
+    "selected_step": 40,
+    "attribution": {
+      "old_fixed_margin": -0.07656633853912354,
+      "new_fixed_margin": 0.22257083654403687,
+      "head_change": 0.2913234531879425,
+      "representation_change": 0.007813721895217896,
+      "region_shapley": [
+        1.823951800664266e-05,
+        9.94985302289327e-05,
+        0.00024619648853937786,
+        0.0037958090504010503,
+        0.0011251474420229594,
+        0.0025288308660189308
+      ],
+      "region_order": [
+        "VV_body",
+        "VV_end",
+        "VV_side",
+        "VH_body",
+        "VH_end",
+        "VH_side"
+      ],
+      "operator_interventions": {
+        "conv_zero": {
+          "prediction": 3,
+          "fixed_margin": 0.21475714445114136
+        }
+      }
+    },
+    "reference_obs": [
+      9086,
+      24840,
+      33678,
+      23781
+    ],
+    "provenance": [
+      {
+        "up_index": 1638,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250801T113407_20250801T113432_060342_077FF2_60B9_VV_UTM_8bit__r03_c04__774d87f15b3bcc6d.png"
+      },
+      {
+        "up_index": 692,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250504T021546_20250504T021609_059038_0752B2_34DE_VV_UTM_8bit__r01_c02__ae7d3ef0a1f68543.png"
+      },
+      {
+        "up_index": 2063,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VV_UTM_8bit__r02_c04__b4bf43cc1b969f91.png"
+      },
+      {
+        "up_index": 2976,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250528T095438_20250528T095503_059393_075F43_015F_VV_UTM_8bit__r01_c04__bd86883da1da3650.png"
+      },
+      {
+        "up_index": 1949,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250410T095439_20250410T095504_058693_0744B4_AF10_VV_UTM_8bit__r01_c03__814c715f1ba1ca36.png"
+      },
+      {
+        "up_index": 1638,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250801T113407_20250801T113432_060342_077FF2_60B9_VH_UTM_8bit__r03_c04__dd21dd71ff2736c9.png"
+      },
+      {
+        "up_index": 692,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250504T021546_20250504T021609_059038_0752B2_34DE_VH_UTM_8bit__r01_c02__aa42f0cd597e316c.png"
+      },
+      {
+        "up_index": 2063,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VH_UTM_8bit__r02_c04__ef568ec52b49df23.png"
+      },
+      {
+        "up_index": 2976,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250528T095438_20250528T095503_059393_075F43_015F_VH_UTM_8bit__r01_c04__7644ebfe292278d4.png"
+      },
+      {
+        "up_index": 1949,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250410T095439_20250410T095504_058693_0744B4_AF10_VH_UTM_8bit__r01_c03__448e6d16f622e23d.png"
+      }
+    ],
+    "path": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\analysis\\conv_grid_rescue_20820_17.png"
+  },
+  {
+    "seed": 17,
+    "arm": "conv_grid",
+    "index": 1069,
+    "case": "harm",
+    "change": -0.594815194606781,
+    "obs_id": 25781,
+    "true_class": 3,
+    "rival": 7,
+    "rival_rule": "new wrong prediction for harm; old strongest wrong class otherwise",
+    "old_pred": 3,
+    "new_pred": 7,
+    "selected_step": 40,
+    "attribution": {
+      "old_fixed_margin": 0.47449976205825806,
+      "new_fixed_margin": -0.20115205645561218,
+      "head_change": -0.6759209930896759,
+      "representation_change": 0.00026917457580566406,
+      "region_shapley": [
+        0.00016589760780334466,
+        9.924620389938355e-05,
+        -2.0520389080047603e-05,
+        0.00016225377718607584,
+        -0.0002843623359998067,
+        0.00014665971199671427
+      ],
+      "region_order": [
+        "VV_body",
+        "VV_end",
+        "VV_side",
+        "VH_body",
+        "VH_end",
+        "VH_side"
+      ],
+      "operator_interventions": {
+        "conv_zero": {
+          "prediction": 7,
+          "fixed_margin": -0.20142120122909546
+        }
+      }
+    },
+    "reference_obs": [
+      31086,
+      24840,
+      13344,
+      30434
+    ],
+    "provenance": [
+      {
+        "up_index": 2157,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250801T113407_20250801T113432_060342_077FF2_60B9_VV_UTM_8bit__r01_c03__be1fa60aa9630bcf.png"
+      },
+      {
+        "up_index": 2707,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250901T112532_20250901T112557_060793_079162_B38D_VV_UTM_8bit__r02_c03__6f47eabfc4e6e24b.png"
+      },
+      {
+        "up_index": 2063,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VV_UTM_8bit__r02_c04__b4bf43cc1b969f91.png"
+      },
+      {
+        "up_index": 1107,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\offshore_supply\\S1A_IW_GRDH_1SDV_20250504T021546_20250504T021609_059038_0752B2_34DE_VV_UTM_8bit__r02_c03__cc27f409479c1d36.png"
+      },
+      {
+        "up_index": 2632,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\offshore_supply\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VV_UTM_8bit__r02_c04__f785c2bbc23ea810.png"
+      },
+      {
+        "up_index": 2157,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250801T113407_20250801T113432_060342_077FF2_60B9_VH_UTM_8bit__r01_c03__0fc9f7f4df0f1d9f.png"
+      },
+      {
+        "up_index": 2707,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250901T112532_20250901T112557_060793_079162_B38D_VH_UTM_8bit__r02_c03__de06e6538b8d2120.png"
+      },
+      {
+        "up_index": 2063,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VH_UTM_8bit__r02_c04__ef568ec52b49df23.png"
+      },
+      {
+        "up_index": 1107,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\offshore_supply\\S1A_IW_GRDH_1SDV_20250504T021546_20250504T021609_059038_0752B2_34DE_VH_UTM_8bit__r02_c03__18b45573683e7329.png"
+      },
+      {
+        "up_index": 2632,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\offshore_supply\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VH_UTM_8bit__r02_c04__fe7ea60fb40ef443.png"
+      }
+    ],
+    "path": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\analysis\\conv_grid_harm_25781_17.png"
+  },
+  {
+    "seed": 17,
+    "arm": "learned_pool",
+    "index": 273,
+    "case": "rescue",
+    "change": 1.0197257995605469,
+    "obs_id": 8492,
+    "true_class": 0,
+    "rival": 4,
+    "rival_rule": "new wrong prediction for harm; old strongest wrong class otherwise",
+    "old_pred": 4,
+    "new_pred": 0,
+    "selected_step": 100,
+    "attribution": {
+      "old_fixed_margin": -0.3946186900138855,
+      "new_fixed_margin": 0.6251071691513062,
+      "head_change": 1.9803356528282166,
+      "representation_change": -0.9606097936630249,
+      "region_shapley": [
+        0.4140639752149581,
+        -0.33030600845813757,
+        -0.7769173989693323,
+        -0.039390968283017476,
+        0.3488993495702744,
+        -0.57695874273777
+      ],
+      "region_order": [
+        "VV_body",
+        "VV_end",
+        "VV_side",
+        "VH_body",
+        "VH_end",
+        "VH_side"
+      ],
+      "operator_interventions": {
+        "pool_static": {
+          "prediction": 0,
+          "fixed_margin": 0.6337335109710693
+        }
+      }
+    },
+    "reference_obs": [
+      26615,
+      2379,
+      23546,
+      26479
+    ],
+    "provenance": [
+      {
+        "up_index": 619,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250116T095440_20250116T095505_057468_071372_AF77_VV_UTM_8bit__r01_c03__08c1d159cacf85e7.png"
+      },
+      {
+        "up_index": 2233,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Shanghai\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250104T095506_20250104T095531_057293_070C89_4BA6_VV_UTM_8bit__r02_c04__1baf076ab0cf049a.png"
+      },
+      {
+        "up_index": 178,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Singapore\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VV_UTM_8bit__r02_c04__6b8af7fc06d5a12f.png"
+      },
+      {
+        "up_index": 1919,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Sydney Botany\\container_ship\\S1A_IW_GRDH_1SDV_20250129T083936_20250129T084001_057656_071AFA_59EF_VV_UTM_8bit__r03_c03__33cb5f18cb8d946f.png"
+      },
+      {
+        "up_index": 2222,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Santos\\container_ship\\S1A_IW_GRDH_1SDV_20250508T083113_20250508T083142_059100_07551D_E789_VV_UTM_8bit__r03_c02__41a51249b0169f1e.png"
+      },
+      {
+        "up_index": 619,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250116T095440_20250116T095505_057468_071372_AF77_VH_UTM_8bit__r01_c03__fd7dc8b090299dc4.png"
+      },
+      {
+        "up_index": 2233,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Shanghai\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250104T095506_20250104T095531_057293_070C89_4BA6_VH_UTM_8bit__r02_c04__d3b4d91e4b950995.png"
+      },
+      {
+        "up_index": 178,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Singapore\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VH_UTM_8bit__r02_c04__e9f51208e4b11b78.png"
+      },
+      {
+        "up_index": 1919,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Sydney Botany\\container_ship\\S1A_IW_GRDH_1SDV_20250129T083936_20250129T084001_057656_071AFA_59EF_VH_UTM_8bit__r03_c03__fd1b1547974629f7.png"
+      },
+      {
+        "up_index": 2222,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Santos\\container_ship\\S1A_IW_GRDH_1SDV_20250508T083113_20250508T083142_059100_07551D_E789_VH_UTM_8bit__r03_c02__859f2df1dd97ec25.png"
+      }
+    ],
+    "path": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\analysis\\learned_pool_rescue_8492_17.png"
+  },
+  {
+    "seed": 17,
+    "arm": "learned_pool",
+    "index": 1069,
+    "case": "harm",
+    "change": -1.5305309295654297,
+    "obs_id": 25781,
+    "true_class": 3,
+    "rival": 7,
+    "rival_rule": "new wrong prediction for harm; old strongest wrong class otherwise",
+    "old_pred": 3,
+    "new_pred": 7,
+    "selected_step": 100,
+    "attribution": {
+      "old_fixed_margin": 0.47449976205825806,
+      "new_fixed_margin": -1.1368687152862549,
+      "head_change": -1.7708486914634705,
+      "representation_change": 0.15948021411895752,
+      "region_shapley": [
+        0.5052213013172149,
+        -0.1795095523198446,
+        -0.5933251698811849,
+        0.025683583815892537,
+        0.19231099387009937,
+        0.20909905731678
+      ],
+      "region_order": [
+        "VV_body",
+        "VV_end",
+        "VV_side",
+        "VH_body",
+        "VH_end",
+        "VH_side"
+      ],
+      "operator_interventions": {
+        "pool_static": {
+          "prediction": 7,
+          "fixed_margin": -1.1184145212173462
+        }
+      }
+    },
+    "reference_obs": [
+      31086,
+      24840,
+      13344,
+      30434
+    ],
+    "provenance": [
+      {
+        "up_index": 2157,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250801T113407_20250801T113432_060342_077FF2_60B9_VV_UTM_8bit__r01_c03__be1fa60aa9630bcf.png"
+      },
+      {
+        "up_index": 2707,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250901T112532_20250901T112557_060793_079162_B38D_VV_UTM_8bit__r02_c03__6f47eabfc4e6e24b.png"
+      },
+      {
+        "up_index": 2063,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VV_UTM_8bit__r02_c04__b4bf43cc1b969f91.png"
+      },
+      {
+        "up_index": 1107,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\offshore_supply\\S1A_IW_GRDH_1SDV_20250504T021546_20250504T021609_059038_0752B2_34DE_VV_UTM_8bit__r02_c03__cc27f409479c1d36.png"
+      },
+      {
+        "up_index": 2632,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\offshore_supply\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VV_UTM_8bit__r02_c04__f785c2bbc23ea810.png"
+      },
+      {
+        "up_index": 2157,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250801T113407_20250801T113432_060342_077FF2_60B9_VH_UTM_8bit__r01_c03__0fc9f7f4df0f1d9f.png"
+      },
+      {
+        "up_index": 2707,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250901T112532_20250901T112557_060793_079162_B38D_VH_UTM_8bit__r02_c03__de06e6538b8d2120.png"
+      },
+      {
+        "up_index": 2063,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VH_UTM_8bit__r02_c04__ef568ec52b49df23.png"
+      },
+      {
+        "up_index": 1107,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\offshore_supply\\S1A_IW_GRDH_1SDV_20250504T021546_20250504T021609_059038_0752B2_34DE_VH_UTM_8bit__r02_c03__18b45573683e7329.png"
+      },
+      {
+        "up_index": 2632,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\offshore_supply\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VH_UTM_8bit__r02_c04__fe7ea60fb40ef443.png"
+      }
+    ],
+    "path": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\analysis\\learned_pool_harm_25781_17.png"
+  },
+  {
+    "seed": 43,
+    "arm": "conv_learned_pool",
+    "index": 215,
+    "case": "rescue",
+    "change": 1.0655572414398193,
+    "obs_id": 6695,
+    "true_class": 2,
+    "rival": 1,
+    "rival_rule": "new wrong prediction for harm; old strongest wrong class otherwise",
+    "old_pred": 1,
+    "new_pred": 2,
+    "selected_step": 100,
+    "attribution": {
+      "old_fixed_margin": -0.7392820119857788,
+      "new_fixed_margin": 0.3262753486633301,
+      "head_change": 1.347506582736969,
+      "representation_change": -0.2819492220878601,
+      "region_shapley": [
+        -0.19708945006132123,
+        -0.15865102658669156,
+        0.13268210589885712,
+        0.015142326056957244,
+        0.009224678575992584,
+        -0.08325785597165423
+      ],
+      "region_order": [
+        "VV_body",
+        "VV_end",
+        "VV_side",
+        "VH_body",
+        "VH_end",
+        "VH_side"
+      ],
+      "operator_interventions": {
+        "conv_zero": {
+          "prediction": 2,
+          "fixed_margin": 0.24886637926101685
+        },
+        "pool_static": {
+          "prediction": 2,
+          "fixed_margin": 0.3171694874763489
+        }
+      }
+    },
+    "reference_obs": [
+      7884,
+      26409,
+      20215,
+      15663
+    ],
+    "provenance": [
+      {
+        "up_index": 463,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\general_cargo\\S1A_IW_GRDH_1SDV_20250221T095438_20250221T095503_057993_072873_AE0F_VV_UTM_8bit__r01_c03__ff16823045b5340f.png"
+      },
+      {
+        "up_index": 562,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Jebel Ali\\general_cargo\\S1A_IW_GRDH_1SDV_20250317T021545_20250317T021609_058338_073664_181C_VV_UTM_8bit__r02_c03__17ffee678bde88f0.png"
+      },
+      {
+        "up_index": 2211,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Singapore\\general_cargo\\S1A_IW_GRDH_1SDV_20250901T112532_20250901T112557_060793_079162_B38D_VV_UTM_8bit__r02_c02__cd22e4efce29a669.png"
+      },
+      {
+        "up_index": 1552,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\fishing_vessel\\S1A_IW_GRDH_1SDV_20250410T095439_20250410T095504_058693_0744B4_AF10_VV_UTM_8bit__r02_c03__55ce8be7be3f5527.png"
+      },
+      {
+        "up_index": 1235,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\fishing_vessel\\S1A_IW_GRDH_1SDV_20250410T095439_20250410T095504_058693_0744B4_AF10_VV_UTM_8bit__r04_c03__e64fb7d0de0e2d67.png"
+      },
+      {
+        "up_index": 463,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\general_cargo\\S1A_IW_GRDH_1SDV_20250221T095438_20250221T095503_057993_072873_AE0F_VH_UTM_8bit__r01_c03__d1de999f78c6ab9b.png"
+      },
+      {
+        "up_index": 562,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Jebel Ali\\general_cargo\\S1A_IW_GRDH_1SDV_20250317T021545_20250317T021609_058338_073664_181C_VH_UTM_8bit__r02_c03__731a0572e3f8d8f6.png"
+      },
+      {
+        "up_index": 2211,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Singapore\\general_cargo\\S1A_IW_GRDH_1SDV_20250901T112532_20250901T112557_060793_079162_B38D_VH_UTM_8bit__r02_c02__e98492c06de145c9.png"
+      },
+      {
+        "up_index": 1552,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\fishing_vessel\\S1A_IW_GRDH_1SDV_20250410T095439_20250410T095504_058693_0744B4_AF10_VH_UTM_8bit__r02_c03__f13edc265a3b85c4.png"
+      },
+      {
+        "up_index": 1235,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Ningbo-Zhoushan\\fishing_vessel\\S1A_IW_GRDH_1SDV_20250410T095439_20250410T095504_058693_0744B4_AF10_VH_UTM_8bit__r04_c03__d1bb7a271c199c40.png"
+      }
+    ],
+    "path": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\analysis\\conv_learned_pool_rescue_6695_43.png"
+  },
+  {
+    "seed": 43,
+    "arm": "conv_learned_pool",
+    "index": 1107,
+    "case": "harm",
+    "change": -1.4223616123199463,
+    "obs_id": 26348,
+    "true_class": 6,
+    "rival": 7,
+    "rival_rule": "new wrong prediction for harm; old strongest wrong class otherwise",
+    "old_pred": 6,
+    "new_pred": 7,
+    "selected_step": 100,
+    "attribution": {
+      "old_fixed_margin": 1.3247778415679932,
+      "new_fixed_margin": -0.09758371114730835,
+      "head_change": -1.6302655935287476,
+      "representation_change": 0.20790404081344604,
+      "region_shapley": [
+        -0.4691203673680623,
+        0.0546694204211235,
+        0.10974943488836289,
+        0.28338738083839415,
+        0.1356767803430557,
+        0.0935413916905721
+      ],
+      "region_order": [
+        "VV_body",
+        "VV_end",
+        "VV_side",
+        "VH_body",
+        "VH_end",
+        "VH_side"
+      ],
+      "operator_interventions": {
+        "conv_zero": {
+          "prediction": 7,
+          "fixed_margin": -0.42451977729797363
+        },
+        "pool_static": {
+          "prediction": 7,
+          "fixed_margin": -0.09087449312210083
+        }
+      }
+    },
+    "reference_obs": [
+      25298,
+      7429,
+      13344,
+      30434
+    ],
+    "provenance": [
+      {
+        "up_index": 2203,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\tug_towing\\S1A_IW_GRDH_1SDV_20250801T113407_20250801T113432_060342_077FF2_60B9_VV_UTM_8bit__r03_c04__39cf4d635683b987.png"
+      },
+      {
+        "up_index": 2113,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\tug_towing\\S1A_IW_GRDH_1SDV_20250913T112533_20250913T112558_060968_079865_EAC9_VV_UTM_8bit__r03_c03__57fb952e9a87924a.png"
+      },
+      {
+        "up_index": 523,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\New York\\tug_towing\\S1A_IW_GRDH_1SDV_20250623T225123_20250623T225148_059780_076C81_4E63_VV_UTM_8bit__r03_c02__5dbd8d4cef9518d4.png"
+      },
+      {
+        "up_index": 1107,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\offshore_supply\\S1A_IW_GRDH_1SDV_20250504T021546_20250504T021609_059038_0752B2_34DE_VV_UTM_8bit__r02_c03__cc27f409479c1d36.png"
+      },
+      {
+        "up_index": 2632,
+        "polarization": "VV",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\offshore_supply\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VV_UTM_8bit__r02_c04__f785c2bbc23ea810.png"
+      },
+      {
+        "up_index": 2203,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\tug_towing\\S1A_IW_GRDH_1SDV_20250801T113407_20250801T113432_060342_077FF2_60B9_VH_UTM_8bit__r03_c04__b35f541c44cb3c1c.png"
+      },
+      {
+        "up_index": 2113,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\tug_towing\\S1A_IW_GRDH_1SDV_20250913T112533_20250913T112558_060968_079865_EAC9_VH_UTM_8bit__r03_c03__a6ab989cda004e14.png"
+      },
+      {
+        "up_index": 523,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\New York\\tug_towing\\S1A_IW_GRDH_1SDV_20250623T225123_20250623T225148_059780_076C81_4E63_VH_UTM_8bit__r03_c02__ef11647fd787e408.png"
+      },
+      {
+        "up_index": 1107,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\offshore_supply\\S1A_IW_GRDH_1SDV_20250504T021546_20250504T021609_059038_0752B2_34DE_VH_UTM_8bit__r02_c03__18b45573683e7329.png"
+      },
+      {
+        "up_index": 2632,
+        "polarization": "VH",
+        "path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Singapore\\offshore_supply\\S1A_IW_GRDH_1SDV_20250104T112537_20250104T112602_057293_070C93_D06A_VH_UTM_8bit__r02_c04__fe7ea60fb40ef443.png"
+      }
+    ],
+    "path": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\analysis\\conv_learned_pool_harm_26348_43.png"
+  }
+]
