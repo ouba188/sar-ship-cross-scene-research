@@ -1,0 +1,184 @@
+{
+  "status": "ready_metadata_only",
+  "split_id": "oss1_legacy_pilot_four_class_stack_20261026",
+  "parent_split": "oss1_legacy_pilot_four_class_20261026",
+  "partition_seed": 17,
+  "source_pass_counts": [
+    9,
+    3,
+    4
+  ],
+  "source_pass_assignments": {
+    "S1A_012646_013D9A": "fit_train",
+    "S1A_010196_00F0D2": "fit_train",
+    "S1A_011946_012696": "fit_train",
+    "S1A_009321_00D788": "fit_train",
+    "S1A_012121_012C5B": "fit_train",
+    "S1A_010685_00FED5": "fit_train",
+    "S1A_010896_01052F": "fit_train",
+    "S1A_010546_00FAC9": "fit_train",
+    "S1A_007746_00AC44": "fit_train",
+    "S1A_007396_00A2CA": "fit_validation",
+    "S1A_011596_011B8A": "fit_validation",
+    "S1A_011246_011040": "fit_validation",
+    "S1A_007921_00B100": "utility_train",
+    "S1A_011385_0114CC": "utility_train",
+    "S1A_009671_00E1AF": "utility_train",
+    "S1A_008096_00B5A1": "utility_train"
+  },
+  "identity_priority": [
+    "utility_train",
+    "fit_validation",
+    "fit_train"
+  ],
+  "roles": {
+    "fit_train": {
+      "observations": 405,
+      "vessels": 384,
+      "passes": [
+        "S1A_007746_00AC44",
+        "S1A_009321_00D788",
+        "S1A_010196_00F0D2",
+        "S1A_010546_00FAC9",
+        "S1A_010685_00FED5",
+        "S1A_010896_01052F",
+        "S1A_011946_012696",
+        "S1A_012121_012C5B",
+        "S1A_012646_013D9A"
+      ]
+    },
+    "fit_validation": {
+      "observations": 89,
+      "vessels": 87,
+      "passes": [
+        "S1A_007396_00A2CA",
+        "S1A_011246_011040",
+        "S1A_011596_011B8A"
+      ]
+    },
+    "utility_train": {
+      "observations": 122,
+      "vessels": 118,
+      "passes": [
+        "S1A_007921_00B100",
+        "S1A_008096_00B5A1",
+        "S1A_009671_00E1AF",
+        "S1A_011385_0114CC"
+      ]
+    },
+    "selection": {
+      "observations": 187,
+      "vessels": 177,
+      "passes": [
+        "S1A_010021_00EBE1",
+        "S1A_010721_00FFEA",
+        "S1A_011421_0115FD",
+        "S1A_013543_015ACD"
+      ]
+    },
+    "evaluation": {
+      "observations": 63,
+      "vessels": 63,
+      "passes": [
+        "S1A_010568_00FB64"
+      ]
+    }
+  },
+  "excluded_source_observations": 44,
+  "isolation": [
+    {
+      "role_a": "fit_train",
+      "role_b": "fit_validation",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_train",
+      "role_b": "utility_train",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_train",
+      "role_b": "selection",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_train",
+      "role_b": "evaluation",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_validation",
+      "role_b": "utility_train",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_validation",
+      "role_b": "selection",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_validation",
+      "role_b": "evaluation",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "utility_train",
+      "role_b": "selection",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "utility_train",
+      "role_b": "evaluation",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "selection",
+      "role_b": "evaluation",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    }
+  ],
+  "references_per_class": 8,
+  "total_references": 32,
+  "reference_source_role": "fit_train",
+  "reference_candidate_vessels": {
+    "0": 254,
+    "1": 33,
+    "2": 30,
+    "3": 67
+  },
+  "bank_selected": false,
+  "padding_repeated_references": false,
+  "bank_selection": "source-only original KMeans(8, random_state=17, n_init=10) after extraction",
+  "source_fit_selection_shared": false,
+  "whole_stack_nested_oof": false,
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "outer_folds": 1,
+  "target_outcomes_used_for_split": false,
+  "training_run": false,
+  "gpu_used": false,
+  "git_used": false
+}

@@ -1,0 +1,153 @@
+{
+  "n": 866,
+  "obs_id_exact": true,
+  "invalid_polarizations": 40,
+  "invalid_reader_and_M1_M2_zero": true,
+  "seeds": [
+    {
+      "seed": 17,
+      "selected_steps": {
+        "five": 100,
+        "neighborhood": 50,
+        "calibration": 0,
+        "attention": 135,
+        "full": 75
+      },
+      "fit_validation": {
+        "base": {
+          "n": 89,
+          "classes": 4,
+          "OA": 0.6067415730337079,
+          "BA": 0.49652777777777773,
+          "J": 0.5516346754057428,
+          "NLL": 1.0769205321485025,
+          "balanced_NLL": 1.2558988818819092,
+          "Brier": 0.5773077918929626
+        },
+        "m1": {
+          "n": 89,
+          "classes": 4,
+          "OA": 0.6741573033707865,
+          "BA": 0.5192550505050505,
+          "J": 0.5967061769379185,
+          "NLL": 1.149136223588873,
+          "balanced_NLL": 1.8186761938075962,
+          "Brier": 0.5190772853989389
+        },
+        "s12": {
+          "n": 89,
+          "classes": 4,
+          "OA": 0.7528089887640449,
+          "BA": 0.4908459595959596,
+          "J": 0.6218274741800023,
+          "NLL": 1.1149176954170323,
+          "balanced_NLL": 2.2881597320226152,
+          "Brier": 0.4328325587494084
+        }
+      }
+    },
+    {
+      "seed": 29,
+      "selected_steps": {
+        "five": 150,
+        "neighborhood": 0,
+        "calibration": 20,
+        "attention": 0,
+        "full": 0
+      },
+      "fit_validation": {
+        "base": {
+          "n": 89,
+          "classes": 4,
+          "OA": 0.6067415730337079,
+          "BA": 0.523989898989899,
+          "J": 0.5653657360118034,
+          "NLL": 1.0816264211709123,
+          "balanced_NLL": 1.3181607950397214,
+          "Brier": 0.5744386579383307
+        },
+        "m1": {
+          "n": 89,
+          "classes": 4,
+          "OA": 0.6067415730337079,
+          "BA": 0.523989898989899,
+          "J": 0.5653657360118034,
+          "NLL": 1.0816264211709123,
+          "balanced_NLL": 1.3181607950397214,
+          "Brier": 0.5744386579383307
+        },
+        "s12": {
+          "n": 89,
+          "classes": 4,
+          "OA": 0.6067415730337079,
+          "BA": 0.523989898989899,
+          "J": 0.5653657360118034,
+          "NLL": 1.0816264211709123,
+          "balanced_NLL": 1.3181607950397214,
+          "Brier": 0.5744386579383307
+        }
+      }
+    },
+    {
+      "seed": 43,
+      "selected_steps": {
+        "five": 50,
+        "neighborhood": 0,
+        "calibration": 185,
+        "attention": 75,
+        "full": 30
+      },
+      "fit_validation": {
+        "base": {
+          "n": 89,
+          "classes": 4,
+          "OA": 0.5730337078651685,
+          "BA": 0.48516414141414144,
+          "J": 0.5290989246396549,
+          "NLL": 1.3504182830116371,
+          "balanced_NLL": 2.247450003343684,
+          "Brier": 0.6414000618244827
+        },
+        "m1": {
+          "n": 89,
+          "classes": 4,
+          "OA": 0.6629213483146067,
+          "BA": 0.5119949494949495,
+          "J": 0.5874581489047781,
+          "NLL": 1.4274807282621707,
+          "balanced_NLL": 2.2881968362342042,
+          "Brier": 0.5838820529623551
+        },
+        "s12": {
+          "n": 89,
+          "classes": 4,
+          "OA": 0.7078651685393258,
+          "BA": 0.5271464646464646,
+          "J": 0.6175058165928953,
+          "NLL": 1.2904997523688795,
+          "balanced_NLL": 2.323895772583653,
+          "Brier": 0.5255050983101303
+        }
+      }
+    }
+  ],
+  "m3_obs_id_exact": true,
+  "reader_closure": {
+    "n": 866,
+    "seconds": 83.73597609996796,
+    "reader_mean_closure": 7.677553970353301e-08,
+    "reader_mean_closure_tolerance": 1e-05,
+    "temperature_fit_role": "fit_train",
+    "class_response_dtype": "float64"
+  },
+  "downstream_labels_used": false,
+  "downstream_class_ids_masked_before_training": -1,
+  "native_preprocessing": "sar_m123.input.prepare: original 8-bit pixels, crop/pad to 160, no resize; four separate C4 forwards",
+  "completed_sessions": [
+    97357,
+    36541,
+    37331
+  ],
+  "frontend_gpu_work_complete": true,
+  "supervised_weights_loaded_from_24ports": false
+}
