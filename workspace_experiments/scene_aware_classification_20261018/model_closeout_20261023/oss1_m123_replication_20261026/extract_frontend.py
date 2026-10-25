@@ -28,6 +28,8 @@ from sar_m123.m12 import attention, centered_response
 
 WEIGHTS = Path('C:/Users/25791/.cache/torch/hub/checkpoints/resnet50-11ad3fa6.pth')
 DEFAULT_TABLE = HERE / 'stack_table.csv'
+VIEW_TABLE = HERE / 'view_inventory.csv'
+RADAR_TABLE = WORKSPACE / 'oss1_joint_geometry_20261017/geometry.csv'
 PLACEMENT = ('crop_x', 'crop_y', 'crop_width', 'crop_height', 'pad_left', 'pad_top')
 
 
@@ -47,8 +49,8 @@ def read_table(path, fold=None):
 
 
 def prepare_inventory(table):
-    views = pd.read_csv(HERE / 'view_inventory.csv').set_index(['obs_id', 'pol'])
-    radar = pd.read_csv(WORKSPACE / 'oss1_joint_geometry_20261017/geometry.csv',
+    views = pd.read_csv(VIEW_TABLE).set_index(['obs_id', 'pol'])
+    radar = pd.read_csv(RADAR_TABLE,
                         usecols=['sample_id', 'radar_axis_valid', 'radar_axis_rad']).set_index('sample_id')
     records = []
     for row in table.itertuples():
@@ -203,7 +205,8 @@ def extract_raw(table, outdir, device='cuda', weights=WEIGHTS):
 
 
 @torch.inference_mode()
-def extract_summaries(table, tr, cache, models, outdir, device='cuda', weights=WEIGHTS):
+def extract_summaries(table, tr, cache, models, outdir, device='cuda', weights=WEIGHTS,
+                      frozen_tau=None):
     """Reader-dependent second forward; compact class responses preserve float64."""
     tick = time.perf_counter()
     outdir.mkdir(parents=True, exist_ok=True)
@@ -244,12 +247,23 @@ def extract_summaries(table, tr, cache, models, outdir, device='cuda', weights=W
         np.savez_compressed(path, **response)
         if (i+1) % 16 == 0 or i+1 == n:
             print('reader responses', i+1, '/', n, 'seconds', round(time.perf_counter()-tick, 1), flush=True)
-    tau = {layer: [float(np.median(sig[layer][tr[data['valid'][tr, p]], p])) for p in range(2)] for layer in readers}
+    if frozen_tau is None:
+        tau = {layer: [float(np.median(sig[layer][tr[data['valid'][tr, p]], p])) for p in range(2)] for layer in readers}
+        scale_provenance = dict(fit_obs_id=table.iloc[tr].obs_id.tolist(),
+                                temperature_fit_role='fit_train', frozen=False)
+    else:
+        # In transfer mode the caller supplies the source scales.json unchanged.
+        tau = {layer: [float(v) for v in frozen_tau[layer]] for layer in readers}
+        if any(len(values) != 2 for values in tau.values()):
+            raise ValueError('Frozen tau requires two source temperatures per layer.')
+        scale_provenance = dict(fit_obs_id=[], temperature_fit_role='frozen_source', frozen=True,
+                                source_scales=str(models.parent / 'scales.json'))
     if not all(np.isfinite(v) and v > 0 for values in tau.values() for v in values):
         raise ValueError('Source-fit response temperature is empty or degenerate.')
-    save_json(outdir / 'scales.json', dict(tau=tau, fit_obs_id=table.iloc[tr].obs_id.tolist()))
-    np.savez_compressed(outdir / 'scale_sigma.npz', obs_id=table.iloc[tr].obs_id.to_numpy(),
-                        **{k: v[tr] for k, v in sig.items()})
+    save_json(outdir / 'scales.json', dict(tau=tau, **scale_provenance))
+    if frozen_tau is None:
+        np.savez_compressed(outdir / 'scale_sigma.npz', obs_id=table.iloc[tr].obs_id.to_numpy(),
+                            **{k: v[tr] for k, v in sig.items()})
     out = dict(mean3=np.zeros((n, 2, 4)), hb3=np.zeros((n, 2, 4, 2)),
                summary1=np.zeros((n, 2, 3, 4, 3)),
                **{k: data[k] for k in ('quality', 'geometry', 'region_valid', 'valid')})
@@ -286,7 +300,8 @@ def extract_summaries(table, tr, cache, models, outdir, device='cuda', weights=W
     np.savez_compressed(outdir / 'summaries.npz', obs_id=table.obs_id.to_numpy(), **out)
     save_json(outdir / 'summaries_complete.json', dict(n=n, seconds=time.perf_counter()-tick,
               reader_mean_closure=closure, reader_mean_closure_tolerance=1e-5,
-              temperature_fit_role='fit_train', class_response_dtype='float64'))
+              temperature_fit_role=scale_provenance['temperature_fit_role'],
+              frozen_tau=frozen_tau is not None, class_response_dtype='float64'))
     return out
 
 

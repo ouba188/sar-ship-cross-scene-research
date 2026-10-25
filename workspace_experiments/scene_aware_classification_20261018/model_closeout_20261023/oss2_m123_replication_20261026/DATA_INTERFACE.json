@@ -1,0 +1,56 @@
+{
+  "status": "ready_inputs_frozen_after_main_raw_started",
+  "root": "E:/临时会话/scene_aware_classification_20261018/model_closeout_20261023/oss2_m123_replication_20261026",
+  "stack_table": "E:/临时会话/scene_aware_classification_20261018/model_closeout_20261023/oss2_m123_replication_20261026/stack_table.csv",
+  "view_inventory": "E:/临时会话/scene_aware_classification_20261018/model_closeout_20261023/oss2_m123_replication_20261026/view_inventory.csv",
+  "geometry": "E:/临时会话/scene_aware_classification_20261018/model_closeout_20261023/oss2_m123_replication_20261026/geometry.csv",
+  "class_map_old_to_new": {"0": 0, "2": 1, "3": 2, "4": 3},
+  "class_names": ["bulk_carrier", "general_cargo", "product_chemical_tanker", "container_ship"],
+  "schema": {
+    "class_id": "int in [0,1,2,3]",
+    "y": "equal to class_id",
+    "sample_id": "persistent string; join geometry by this key",
+    "obs_id": "integer position in original full target_manifest, not compact GRDH or stack row index",
+    "table_index": "contiguous current table row position",
+    "row_index": "equal to table_index",
+    "up_index": "equal to table_index",
+    "pass_group": "platform_absoluteOrbit_datatake, e.g. S1A_010568_00FB64",
+    "pass_id": "equal to pass_group",
+    "mmsi": "9-digit string",
+    "role": "fit_train|fit_validation|utility_train|selection|evaluation",
+    "view_key": ["obs_id", "pol"],
+    "pol": "vv|vh",
+    "geometry_key": "sample_id",
+    "radar_axis_valid": "False for every OSS2 row",
+    "radar_axis_rad": "empty, never invented"
+  },
+  "stack_counts": {"fit_train": 478, "fit_validation": 228, "utility_train": 241, "selection": 194, "evaluation": 378},
+  "total_observations": 1519,
+  "total_vessels": 1468,
+  "reference_candidate_vessels": {"0": 135, "1": 45, "2": 91, "3": 177},
+  "cross_datasets": {
+    "oss1_to_oss2": {
+      "table": "E:/临时会话/scene_aware_classification_20261018/model_closeout_20261023/oss2_m123_replication_20261026/cross_oss1_to_oss2_table.csv",
+      "views": "E:/临时会话/scene_aware_classification_20261018/model_closeout_20261023/oss2_m123_replication_20261026/view_inventory.csv",
+      "geometry": "E:/临时会话/scene_aware_classification_20261018/model_closeout_20261023/oss2_m123_replication_20261026/geometry.csv",
+      "observations": 1619,
+      "vessels": 1347,
+      "passes": 27,
+      "all_inputs_prepare_checked": true
+    },
+    "oss2_to_oss1": {
+      "table": "E:/临时会话/scene_aware_classification_20261018/model_closeout_20261023/oss2_m123_replication_20261026/cross_oss2_to_oss1_table.csv",
+      "views": "E:/临时会话/scene_aware_classification_20261018/model_closeout_20261023/oss1_m123_replication_20261026/view_inventory.csv",
+      "geometry": "E:/临时会话/oss1_joint_geometry_20261017/geometry.csv",
+      "observations": 921,
+      "vessels": 742,
+      "passes": 21,
+      "all_inputs_prepare_checked": true
+    }
+  },
+  "cross_table_role": "evaluation only; use frozen source models, do not train these target-only tables",
+  "cross_exclusion": "target MMSI OR pass intersects any source fit_train/fit_validation/utility_train/selection row",
+  "blind_test": false,
+  "classification_training_run_by_data_branch": false,
+  "git_used_by_data_branch": false
+}

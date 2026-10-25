@@ -1,0 +1,183 @@
+{
+  "status": "ready_metadata_only",
+  "split_id": "oss2_legacy_fold0_four_class_stack_20261026",
+  "outer_fold": 0,
+  "parent_split": "E:\\临时会话\\scene_aware_classification_20261018\\oss2_distribution_transfer_20261023\\membership.csv",
+  "partition_seed": 20261023,
+  "pass_bag_role": {
+    "0": "evaluation",
+    "1": "selection",
+    "2": "fit_train",
+    "3": "fit_train",
+    "4": "fit_validation",
+    "5": "utility_train"
+  },
+  "new_partition_draws": 0,
+  "target_outcomes_used_for_split": false,
+  "class_map": {
+    "0": 0,
+    "2": 1,
+    "3": 2,
+    "4": 3
+  },
+  "roles": {
+    "fit_train": {
+      "observations": 478,
+      "vessels": 448,
+      "passes": [
+        "S1A_007710_00AB4B",
+        "S1A_007885_00AFF9",
+        "S1A_008235_00B97C",
+        "S1A_010335_00F4DB",
+        "S1A_010510_00F9BF",
+        "S1A_010568_00FB64",
+        "S1A_010918_0105DD",
+        "S1A_011640_011CF2",
+        "S1A_011990_012809"
+      ]
+    },
+    "fit_validation": {
+      "observations": 228,
+      "vessels": 223,
+      "passes": [
+        "S1A_006718_008FE4",
+        "S1A_007768_00ACD0",
+        "S1A_009737_00E392",
+        "S1A_010218_00F169"
+      ]
+    },
+    "utility_train": {
+      "observations": 241,
+      "vessels": 235,
+      "passes": [
+        "S1A_006346_0085A2",
+        "S1A_008060_00B4A7",
+        "S1A_011268_0110F6",
+        "S1A_011618_011C31"
+      ]
+    },
+    "selection": {
+      "observations": 194,
+      "vessels": 193,
+      "passes": [
+        "S1A_007418_00A360",
+        "S1A_008818_00C950",
+        "S1A_010568_00FB6C",
+        "S1A_011035_01098C",
+        "S1A_011311_011260"
+      ]
+    },
+    "evaluation": {
+      "observations": 378,
+      "vessels": 369,
+      "passes": [
+        "S1A_006565_008BD1",
+        "S1A_007535_00A699",
+        "S1A_009518_00DD1D",
+        "S1A_009868_00E747",
+        "S1A_011210_010F14"
+      ]
+    }
+  },
+  "isolation": [
+    {
+      "role_a": "fit_train",
+      "role_b": "fit_validation",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_train",
+      "role_b": "utility_train",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_train",
+      "role_b": "selection",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_train",
+      "role_b": "evaluation",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_validation",
+      "role_b": "utility_train",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_validation",
+      "role_b": "selection",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "fit_validation",
+      "role_b": "evaluation",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "utility_train",
+      "role_b": "selection",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "utility_train",
+      "role_b": "evaluation",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    },
+    {
+      "role_a": "selection",
+      "role_b": "evaluation",
+      "sample_id_overlap": 0,
+      "mmsi_overlap": 0,
+      "pass_group_overlap": 0
+    }
+  ],
+  "exclusions": {
+    "no_obb_either_polarization_conf025": 280,
+    "excluded_train_mmsi": 236,
+    "mmsi_reserved_for_utility_train": 94,
+    "excluded_val_test_mmsi": 49,
+    "mmsi_reserved_for_fit_validation": 24
+  },
+  "references_per_class": 8,
+  "total_references": 32,
+  "reference_source_role": "fit_train",
+  "reference_candidate_vessels": {
+    "0": 135,
+    "1": 45,
+    "2": 91,
+    "3": 177
+  },
+  "reference_selection": "same source-only OSS1 KMeans(8, random_state=17, n_init=10), after extraction",
+  "bank_selected": false,
+  "padding_repeated_references": false,
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "native_canvas": 160,
+  "resized": 0,
+  "radar_axis_valid": 0,
+  "training_run": false,
+  "git_used": false
+}

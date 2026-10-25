@@ -1,0 +1,57 @@
+{
+  "status": "target_queues_ready",
+  "overlap_scope": "OSS1 full 8-class inventory versus OSS2 selected 4-class GRDH inventory",
+  "shared_mmsi": 265,
+  "shared_passes": [
+    "S1A_010568_00FB64"
+  ],
+  "directions": [
+    {
+      "direction": "oss1_to_oss2",
+      "source_roles": [
+        "fit_train",
+        "fit_validation",
+        "utility_train",
+        "selection"
+      ],
+      "source_observations": 803,
+      "source_vessels": 766,
+      "candidate_observations": 1839,
+      "kept_observations": 1619,
+      "kept_vessels": 1347,
+      "kept_passes": 27,
+      "excluded_observations": 220,
+      "mmsi_overlap_observations": 220,
+      "pass_overlap_observations": 0,
+      "target_original_roles": "all legal inventory rows, including historical training/validation roles",
+      "historical_development_exposure": true,
+      "new_training": false
+    },
+    {
+      "direction": "oss2_to_oss1",
+      "source_roles": [
+        "fit_train",
+        "fit_validation",
+        "utility_train",
+        "selection"
+      ],
+      "source_observations": 1141,
+      "source_vessels": 1099,
+      "candidate_observations": 1222,
+      "kept_observations": 921,
+      "kept_vessels": 742,
+      "kept_passes": 21,
+      "excluded_observations": 301,
+      "mmsi_overlap_observations": 204,
+      "pass_overlap_observations": 133,
+      "target_original_roles": "all legal inventory rows, including historical training/validation roles",
+      "historical_development_exposure": true,
+      "new_training": false
+    }
+  ],
+  "rule": "Freeze each existing source model; exclude target rows sharing MMSI OR pass with ANY source fit/validation/utility/selection row.",
+  "target_label_tuning_allowed": false,
+  "target_support_fit_allowed": false,
+  "previously_exposed_public_data": true,
+  "blind_test": false
+}
