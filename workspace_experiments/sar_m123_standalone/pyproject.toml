@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sar-m123"
+version = "0.1.0"
+description = "Native-chip M1/M2/M3 SAR ship classification inference"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.7,<2.8", "torchvision>=0.22,<0.23", "numpy>=2.0,<3", "scipy>=1.14,<2", "Pillow>=11,<12"]
+
+[project.optional-dependencies]
+migration = ["pandas>=2,<3"]
+
+[project.scripts]
+sar-m123 = "sar_m123.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["sar_m123*"]

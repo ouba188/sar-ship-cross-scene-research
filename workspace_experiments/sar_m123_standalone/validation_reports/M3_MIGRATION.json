@@ -1,0 +1,191 @@
+{
+  "report_version": 1,
+  "date_local": "2026-10-25",
+  "status": "passed",
+  "scope": "Migration parity for selected M3; not a new training run or classification-benefit experiment",
+  "selected_variant": "pair_joint both + old VV + null-centered VH + B-anchored frequency gate",
+  "receipt_source": "Numerical outputs from completed validation commands, recorded without rerunning",
+  "runtime_assets": {
+    "relative_directory": "assets/m3",
+    "reference_count": 64,
+    "references_per_class_in_bank": 8,
+    "retrieved_per_candidate_class": 2,
+    "query_records_exported": 0,
+    "runtime_legacy_imports": false,
+    "runtime_query_cache_required": false,
+    "runtime_query_label_required": false
+  },
+  "cached_feature_parity": {
+    "device": "cuda",
+    "unique_query_records": 1741,
+    "seed_query_evaluations": 5223,
+    "independence_note": "Three seeds evaluate the same 1741 records; 5223 is not an independent-sample count",
+    "comparison": "Recomputed reference retrieval, learned matching, polar heads, gate descriptors and final scores against frozen historical outputs",
+    "checks": {
+      "all_retrieved_references_exactly_equal": true,
+      "all_final_predictions_equal": true,
+      "local_max_abs_threshold": 0.00003,
+      "gate_raw_max_abs_threshold": 0.00005,
+      "final_score_max_abs_threshold": 0.00005
+    },
+    "seeds": [
+      {
+        "seed": 17,
+        "n": 1741,
+        "changed_predictions": 0,
+        "max_abs_errors": {
+          "local": 1.7881393432617188e-7,
+          "delta_vv": 5.960464477539062e-7,
+          "delta_vh": 1.9073486328125e-6,
+          "gate_raw": 2.384185791015625e-6,
+          "final_score": 7.152557373046875e-7,
+          "weight": 5.960464477539063e-8
+        }
+      },
+      {
+        "seed": 29,
+        "n": 1741,
+        "changed_predictions": 0,
+        "max_abs_errors": {
+          "local": 2.384185791015625e-7,
+          "delta_vv": 2.7418136596679688e-6,
+          "delta_vh": 5.066394805908203e-7,
+          "gate_raw": 3.2186508178710938e-6,
+          "final_score": 2.1457672119140625e-6,
+          "weight": 5.960464477539063e-8
+        }
+      },
+      {
+        "seed": 43,
+        "n": 1741,
+        "changed_predictions": 0,
+        "max_abs_errors": {
+          "local": 2.384185791015625e-7,
+          "delta_vv": 1.9073486328125e-6,
+          "delta_vh": 1.9073486328125e-6,
+          "gate_raw": 2.86102294921875e-6,
+          "final_score": 1.9073486328125e-6,
+          "weight": 5.960464477539063e-8
+        }
+      }
+    ]
+  },
+  "raw_chip_extraction_parity": {
+    "device": "cuda",
+    "n_records": 5,
+    "selection": "First utility_train, selection, evaluation and strategy_fit records, plus first missing-VH record; duplicate indices removed",
+    "scope": "Original uint8 chip plus historical geometry preparation -> shared frozen R50 maps -> new M3 extraction",
+    "input_preparation_note": "Historical preparation is used only in this validation fixture to isolate M3 extraction. Full standalone input-to-classification integration is validated separately by the main thread",
+    "thresholds": {
+      "layer1_stem_mean_joint_max_abs": 0.0002,
+      "mass_e_image_coverage_max_abs": 0.000001
+    },
+    "records": [
+      {
+        "up_index": 0,
+        "obs_id": 15,
+        "errors": {
+          "layer1": 6.9141387939453125e-6,
+          "stem": 3.814697265625e-6,
+          "mass": 0.0,
+          "mean": 3.814697265625e-6,
+          "joint": 3.2261013984680176e-6,
+          "e_image": 0.0,
+          "coverage": 0.0
+        }
+      },
+      {
+        "up_index": 1,
+        "obs_id": 31,
+        "errors": {
+          "layer1": 5.7220458984375e-6,
+          "stem": 3.814697265625e-6,
+          "mass": 0.0,
+          "mean": 5.245208740234375e-6,
+          "joint": 2.384185791015625e-6,
+          "e_image": 0.0,
+          "coverage": 0.0
+        }
+      },
+      {
+        "up_index": 7,
+        "obs_id": 135,
+        "errors": {
+          "layer1": 4.708766937255859e-6,
+          "stem": 3.814697265625e-6,
+          "mass": 0.0,
+          "mean": 3.874301910400391e-6,
+          "joint": 1.430511474609375e-6,
+          "e_image": 0.0,
+          "coverage": 0.0
+        }
+      },
+      {
+        "up_index": 8,
+        "obs_id": 150,
+        "errors": {
+          "layer1": 3.0994415283203125e-6,
+          "stem": 3.814697265625e-6,
+          "mass": 0.0,
+          "mean": 2.0265579223632812e-6,
+          "joint": 2.3245811462402344e-6,
+          "e_image": 0.0,
+          "coverage": 0.0
+        }
+      },
+      {
+        "up_index": 54,
+        "obs_id": 905,
+        "errors": {
+          "layer1": 4.947185516357422e-6,
+          "stem": 3.814697265625e-6,
+          "mass": 0.0,
+          "mean": 2.9206275939941406e-6,
+          "joint": 1.5795230865478516e-6,
+          "e_image": 0.0,
+          "coverage": 0.0
+        }
+      }
+    ]
+  },
+  "additional_checks": {
+    "operator_unit_tests": {
+      "passed": 5,
+      "failed": 0,
+      "checks": [
+        "Fractional pixel mass on true Voronoi grid cells",
+        "Token masks partition the original OBB regions",
+        "Zero-DC Gabor and original-pixel placement",
+        "Dustbin transport matches and rejects known examples",
+        "Null-centered VH is zero for absent evidence; gate reverts to anchor for missing polarization"
+      ]
+    },
+    "cpu_cached_feature_smoke": {
+      "records_per_seed": 48,
+      "seeds": [17, 29, 43],
+      "changed_predictions": 0,
+      "all_retrieved_references_exactly_equal": true,
+      "maximum_final_score_abs_error": 1.6689300537109375e-6
+    }
+  },
+  "reproduction": {
+    "script": "tests/test_m3.py",
+    "script_saved": true,
+    "working_directory": "Standalone project root",
+    "legacy_root_meaning": "Local model_closeout_20261023 directory containing the frozen historical fixtures",
+    "commands_powershell": {
+      "operators": "python -B tests/test_m3.py",
+      "cached_features_all_seeds": "python -B tests/test_m3.py --legacy-root $env:SAR_LEGACY_ROOT --assets-root assets --device cuda",
+      "raw_extraction": "python -B tests/test_m3.py --legacy-root $env:SAR_LEGACY_ROOT --assets-root assets --device cuda --extract",
+      "cpu_smoke": "python -B tests/test_m3.py --legacy-root $env:SAR_LEGACY_ROOT --assets-root assets --device cpu --limit 48"
+    },
+    "requirements": "Use the project Python environment and already exported assets. Legacy fixtures are required only for parity testing; raw extraction parity additionally requires the original local chips",
+    "effects": "Reads inputs and prints numerical JSON receipts; does not train, refit scalers, alter checkpoints or overwrite historical results",
+    "privacy": "This report contains no private absolute paths, credentials or original images"
+  },
+  "limitations": [
+    "Cached-feature parity tests M3 downstream of feature extraction; it does not alone establish full raw-chip parity",
+    "Five raw extraction records are targeted migration checks, not full-dataset raw extraction coverage",
+    "No claim of new accuracy improvement, physical causality or novel model selection follows from these parity results"
+  ]
+}
