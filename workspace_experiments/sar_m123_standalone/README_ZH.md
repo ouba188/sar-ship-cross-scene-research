@@ -6,6 +6,8 @@
 
 真实模型证据图册：`evidence_gallery_20261025/index.html`。含M1类别响应、M2实际区域、M3真实参考与匹配、分数变化及反例；图由现有检查点重新计算，无新增训练。绘图依赖可通过 `pip install -e ".[visualization]"` 安装。
 
+研究逻辑与证据：[问题、受控干预、M1–M3算法和案例的完整对应](RESEARCH_EVIDENCE_CHAIN_ZH.md)。区分历史4744观测的组件对照与当前485开发查询的冻结版本，不把不同实验的收益相加。
+
 ## 1. 快速运行
 
 本机已验证环境：Python + PyTorch 2.7.1/cu128、torchvision 0.22.1、NumPy 2.4.4、SciPy 1.17.1、Pillow 11.1.0。CPU 和 CUDA 均已实际运行。新环境安装工程依赖可执行 `python -m pip install -e .`；需要 CUDA 时先安装适合机器的 PyTorch。
