@@ -1,0 +1,25 @@
+{
+  "n": 485,
+  "ships": 445,
+  "passes": 29,
+  "ports": 14,
+  "class_counts": [
+    169,
+    91,
+    69,
+    67,
+    33,
+    13,
+    40,
+    3
+  ],
+  "cases": 8,
+  "figures_rendered_not_human_reviewed": true,
+  "case_selection": "Four distinct-vessel selected-effect cases; fill missing flips with CC/WW. Up to two strongest signed source-selection teacher endpoints plus requested seed29 1761/type0 rescue and 1822/type0 third-class harm; not prevalence estimates or an explanation of all failures.",
+  "source_utility": "Unclipped signed utility vs tanh(effect/source644 RMS); source644 active-type mean and zero baselines. Also report macroclass query MSE and training-weighted MSE/Huber. Weighted type means fit source644 targets with training class weight divided by each query active-operation count. Per-type weighted losses retain the full-query denominator and sum to the aggregate loss. The weighted mean minimizes matched MSE, not necessarily Huber. Selected checkpoints and fixed final100 source only; selection reused for J is not an independent test.",
+  "raw_effect_sign_tolerance": 1e-06,
+  "diagnostics": "Prespecified fixed-model K/T switches, source644 mean deployed gate with validity mask, and single maximum positive deployed gate without amplitude rescaling. Never selected by development outcomes.",
+  "uncertainty": "2000 acquisition-cluster bootstrap draws after seed averaging; BA uses all-eight-class draws.",
+  "scope": "No final checkpoint development inference; no training or checkpoint selection. Source action coverage and operator scale are reported by source_scope.py/operator_scale separately.",
+  "small_dose": "Preserve small_dose_source_pilot as a source-only amplitude failure; do not infer that the full operator has no utility."
+}
