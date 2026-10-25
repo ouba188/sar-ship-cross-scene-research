@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M1–M3 模型证据图册</title>
+<style>
+*{box-sizing:border-box}body{margin:0;color:#202b30;background:#fff;font:16px/1.7 "Microsoft YaHei",sans-serif;letter-spacing:0}
+header,main,footer{max-width:1240px;margin:auto;padding:22px 28px}header{border-bottom:1px solid #dce3e5}h1{font-size:27px;margin:0 0 8px}h2{font-size:23px;margin:0 0 12px}h3{font-size:18px;margin:22px 0 8px}
+nav{display:flex;flex-wrap:wrap;gap:24px;margin-top:14px}a{color:#156c9b;text-underline-offset:4px}section{padding:30px 0;border-bottom:1px solid #dce3e5;scroll-margin-top:18px}p{margin:8px 0 14px}.note{color:#53646c;font-size:14px}.gain{color:#087560}.harm{color:#ad3b48}
+figure{margin:16px 0 30px}img{display:block;width:100%;height:auto}figcaption{border-left:3px solid #51919d;padding:8px 14px;color:#42535a;font-size:14px}table{border-collapse:collapse;width:100%;font-size:15px}td,th{padding:10px 12px;border-bottom:1px solid #dce3e5;text-align:left}th{background:#f3f6f7}.table-wrap{overflow-x:auto}code{font-family:Consolas,monospace;font-size:14px}footer{color:#64747b;font-size:14px}
+@media(max-width:640px){header,main,footer{padding:18px 14px}h1{font-size:23px}h2{font-size:21px}table{min-width:580px}}
+</style>
+<header>
+<h1>M1–M3：从原始 chip 到分类判断的证据</h1>
+<p>真实图像、真实检查点、真实前向计算。保留有利和不利案例，区分响应、匹配与最终分数贡献。</p>
+<nav><a href="#m1">M1 类别响应</a><a href="#m2">M2 区域池化</a><a href="#m3">M3 参考匹配与融合</a><a href="#records">数值记录</a></nav>
+</header>
+<main>
+<section>
+<h2>先看这几条实际变化</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>案例与配置</th><th>检查的作用</th><th>真实类 − 固定竞争类分差</th><th>可以说明什么</th></tr></thead>
+<tbody>
+<tr><td>M1 · 13372 · 29</td><td>均值与分布支路</td><td class="gain">+0.4312 → +1.8826</td><td>分布支路贡献+0.4195，强化正确判断</td></tr>
+<tr><td>M1 · 21151 · 29</td><td>相同结构的反例</td><td class="harm">−1.3158 → −4.5054</td><td>均值和分布都进一步偏向错误类别</td></tr>
+<tr><td>M2 · 2418 · 17</td><td>区域证据补充</td><td class="gain">−0.7160 → −0.1562</td><td>明显改善分差，但M2后仍未判对</td></tr>
+<tr><td>M3 · 13372 · 17</td><td>固定B → 条件调权</td><td class="gain">约−0.0566 → +0.0219</td><td>引入有益VH，救回</td></tr>
+<tr><td>M3 · 26043 · 17</td><td>相同调权的反例</td><td class="harm">约+0.0941 → −0.0951</td><td>引入有害VH，误伤</td></tr>
+</tbody></table></div>
+<p class="note">同一案例的不同配置不是同一次决策；这些是事后选择的解释案例，不是总体收益比例。分差来自当前重新计算，和历史缓存可能有约10⁻⁴的浮点差异。</p>
+</section>
+<section id="m1">
+<h2>M1：不仅知道看哪里，也知道支路改了多少分</h2>
+<p>左侧是实际VV/VH输入；中间是候选类别的相对响应差；右侧分别是同一真实类别的高侧、低侧注意力。下方将均值与分布支路的类别增量分开记账。</p>
+<figure><a href="m1_13372_29.png"><img src="m1_13372_29.png" alt="13372真实原图、M1响应和分数贡献"></a><figcaption>这例原本已判对。均值增加约1.0320，分布支路再增加约0.4195；不能把强化正确判断说成“救回错误”。</figcaption></figure>
+<figure><a href="m1_21151_29.png"><img src="m1_21151_29.png" alt="21151的M1不利作用"></a><figcaption>反例：两条支路都偏向普通货船，导致真实散货船的分差进一步降低。注意力图本身并不保证关注正确。</figcaption></figure>
+<p class="note">热图保留10×10特征网格，只展示有效区域；四旋转分别计算后逆对齐汇总。颜色是响应或注意力，不是精确的像素级因果贡献。</p>
+</section>
+<section id="m2">
+<h2>M2：同样的类别响应，来自哪个区域？</h2>
+<p>绿色为框内，黄色为轴端，蓝色为侧向。右侧是各区域分别读出的均值与分布摘要，VV/VH不预先混合。下方显示当前M2的实际总增量。</p>
+<figure><a href="m2_2418_17.png"><img src="m2_2418_17.png" alt="2418的OBB区域覆盖、分类摘要和分数变化"></a><figcaption>VV侧向的“高低侧差”与框内方向不同，而VH三个区域方向又不同。区域分开保留了这种差异；最终M2增加约0.5598的分差，但尚不足以越过分类边界。</figcaption></figure>
+<figure><a href="m2_16596_17.png"><img src="m2_16596_17.png" alt="16596区域证据和有限改善"></a><figcaption>这例船体较小。VV区域摘要整体偏向拖带船，VH读出不同；完整M2只带来约0.0692的改善，仍然错误。不能直接将某个摘要的正负当作该区域的最终贡献。</figcaption></figure>
+<p class="note">区域为OBB定义的读出范围，不是精确物理分割。区域摘要到输出还有非线性头与质量、上下文输入，本图不虚构逐区域加性贡献。</p>
+</section>
+<section id="m3">
+<h2>M3：与谁比较、如何对应、为什么改变类别判断？</h2>
+<p>下面并列真实查询与模型实际选到的同类、混淆类源参考；匹配矩阵来自本次前向计算。末端分差图可精确核对S12、VV补充与VH补充如何组成最终判断。</p>
+<figure><a href="m3_evidence_13372_seed17.png"><img src="m3_evidence_13372_seed17.png" alt="13372实际参考、局部匹配与VH救回证据"></a><figcaption>固定B在配置17只用VV；加入约0.198的VH补充后救回。匹配和分数贡献可追踪；这不意味着动态频域是唯一能救回它的方法。</figcaption></figure>
+<figure><a href="m3_evidence_26043_seed17.png"><img src="m3_evidence_26043_seed17.png" alt="26043实际参考、局部匹配与VH误伤证据"></a><figcaption>反例：同样加入约0.200的VH，但此处VH补充指向错误类别，最终误伤。这是条件调权未稳定判断证据效用的具体边界。</figcaption></figure>
+<p class="note">K是内容比较相似度，T是匹配质量分配，不是船型正确概率，也不是物理归因。模型看到源参考类别，不读取查询真实类别；真标签仅用于事后选定解释对象。</p>
+</section>
+<section id="records">
+<h2>可核对的记录</h2>
+<p><a href="FINDINGS_ZH.md">本轮说明</a> · <a href="m12_evidence.json">M1/M2数值</a> · <a href="m3_validation.json">M3重构检查</a> · <a href="m3_evidence_13372_seed17.json">13372完整匹配记录</a> · <a href="m3_evidence_26043_seed17.json">26043完整匹配记录</a></p>
+<p>本轮不训练新模型、不修改权重。完成的是对当前选定模型的真实证据可视化，不新增全数据集有效性结论。</p>
+</section>
+</main>
+<footer>2026-10-25 · 所选模型：M1注意力含均值 / M2区域池化 / M3 both＋B锚定空间—频域调权</footer>
+</html>

@@ -4,6 +4,8 @@
 
 本机 `assets/` 已导出所选模型的全部推理资源。复制整个目录（包括 `assets/`）即可迁移；GitHub 只保存代码、文档和小型验证记录，不保存权重、源参考特征库或原图。
 
+真实模型证据图册：`evidence_gallery_20261025/index.html`。含M1类别响应、M2实际区域、M3真实参考与匹配、分数变化及反例；图由现有检查点重新计算，无新增训练。绘图依赖可通过 `pip install -e ".[visualization]"` 安装。
+
 ## 1. 快速运行
 
 本机已验证环境：Python + PyTorch 2.7.1/cu128、torchvision 0.22.1、NumPy 2.4.4、SciPy 1.17.1、Pillow 11.1.0。CPU 和 CUDA 均已实际运行。新环境安装工程依赖可执行 `python -m pip install -e .`；需要 CUDA 时先安装适合机器的 PyTorch。
