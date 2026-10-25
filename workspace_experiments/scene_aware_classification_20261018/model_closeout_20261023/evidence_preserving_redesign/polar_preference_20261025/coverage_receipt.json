@@ -1,0 +1,51 @@
+{
+  "source_only": true,
+  "development_metrics_computed": false,
+  "fits": 0,
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "unique_source_observations": 612,
+  "repeated_seed_rows": 1836,
+  "fold_n": {
+    "A": 432,
+    "B": 180
+  },
+  "source_folds": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\evidence_preserving_redesign\\query_polar_gate_20261025\\source_folds.csv",
+  "cache_pattern": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\evidence_preserving_redesign\\query_polar_gate_20261025\\results\\features_{seed}.npz",
+  "checks": [
+    {
+      "seed": 17,
+      "source_n": 612,
+      "prior_vv_max_error": 0.0,
+      "center_vh_max_error": 0.0
+    },
+    {
+      "seed": 29,
+      "source_n": 612,
+      "prior_vv_max_error": 0.0,
+      "center_vh_max_error": 0.0
+    },
+    {
+      "seed": 43,
+      "source_n": 612,
+      "prior_vv_max_error": 0.0,
+      "center_vh_max_error": 0.0
+    }
+  ],
+  "ce_definition": "CE = logsumexp(float64 cached endpoint logits) - true-class logit; strict sign, no chosen threshold",
+  "ce_gap_definition": "CE_VH - CE_VV: positive favors VV; 1e-6 count is numerical context only",
+  "top1_definition": "Exactly one of base+deltaVV and base+deltaVH predicts the true class",
+  "endpoint_definition": "Old VV correction versus centered VH correction, on an already dual-polar base",
+  "limitation": "Historical selection612 used upstream early stopping; grouped gate coverage is not clean full-pipeline OOF. Coverage and oracle possibility do not establish learnability or deployment benefit.",
+  "outputs": [
+    "coverage_samples.csv",
+    "coverage_summary.csv",
+    "coverage_composition.csv",
+    "coverage_group_overlap.csv",
+    "coverage_ce_top1.csv",
+    "coverage_cross_seed.csv"
+  ]
+}
