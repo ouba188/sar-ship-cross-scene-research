@@ -153,7 +153,7 @@ def load_checkpoint(path):
     return torch.load(path, map_location='cpu', weights_only=False)
 
 
-def frontend_predict(raw, summaries, models, seed):
+def frontend_predict(raw, summaries, models, seed, neighborhood_active=None):
     """Replay original dtype/batching and all five frozen residual stages."""
     ridge = load_npz(models / 'axis_ridge.npz')
     x = (raw['axis']-ridge['mean'])/ridge['std']/np.sqrt(raw['axis'].shape[1])
@@ -173,6 +173,8 @@ def frontend_predict(raw, summaries, models, seed):
                       *raw['usable'][:, p, None])
         level[:, p] = ((raw['means'][:, p]-sc['level_mean'][p])/sc['level_std'][p]
                        *raw['usable'][:, p])
+    if neighborhood_active is not None:
+        feat *= np.asarray(neighborhood_active, dtype=bool)[None]
     xd = np.concatenate((feat.reshape(len(a), -1), level, raw['usable'].astype(np.float32)), 1)
     u = a+residual('neighborhood', front.Neighborhood(), xd, scale=False)
     b = u+residual('calibration', front.Calibration(), front.upstream.center(u))
