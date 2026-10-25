@@ -1,0 +1,144 @@
+{
+  "status": "complete",
+  "started_utc": "2026-10-25T02:32:45.550306+00:00",
+  "threads": 2,
+  "batch_objects": 8,
+  "no_fitting": true,
+  "no_training": true,
+  "no_git": true,
+  "seconds": 146.98083090002183,
+  "checks": {
+    "identity_correspondence": true,
+    "source4_role_rotation_checks": 96,
+    "raw_legacy_mass_max_abs": 0.0,
+    "raw_legacy_mass_mismatch_count": 0,
+    "raw_region_partition_max_abs": 0.0,
+    "typed_helper_desc_max_abs": 0.0,
+    "source4_cases": [
+      {
+        "index": 0,
+        "up_index": 0,
+        "obs_id": 15
+      },
+      {
+        "index": 2,
+        "up_index": 3,
+        "obs_id": 88
+      },
+      {
+        "index": 3,
+        "up_index": 5,
+        "obs_id": 113
+      },
+      {
+        "index": 9,
+        "up_index": 14,
+        "obs_id": 203
+      }
+    ],
+    "source4_slot_merge_direct_class_max_abs": 2.9976021664879227e-15,
+    "source4_pixel_partition_max_abs": 0.0,
+    "source4_merged_linear_cross_max_abs": 3.552713678800501e-15,
+    "source4_c4_slot_mass_max_abs": 1.4210854715202004e-14,
+    "source4_band_reconstruction_max_abs": 3.815865978751276e-08,
+    "reference_band_reconstruction_max_abs": 4.5419323635442765e-08,
+    "finite": true,
+    "empty_and_padded_slots_exact_zero": true,
+    "invalid_types_exact_zero": true,
+    "output_flagged_legacy_mass_max_abs": 0.0,
+    "output_ungated_legacy_mass_max_abs": 0.0,
+    "output_ungated_legacy_mass_mismatch_count": 0,
+    "regionflag_suppressed_nonzero_slots": 0,
+    "regionflag_suppressed_mass": 0.0,
+    "regionflag_suppressed_slots": [],
+    "active_regions_with_empty_hard_slots": [
+      {
+        "index": 463,
+        "up_index": 946,
+        "obs_id": 11556,
+        "polarization": "vv",
+        "region": "end",
+        "legacy_slot_ids": [
+          18,
+          19
+        ]
+      },
+      {
+        "index": 463,
+        "up_index": 946,
+        "obs_id": 11556,
+        "polarization": "vv",
+        "region": "side",
+        "legacy_slot_ids": [
+          14
+        ]
+      },
+      {
+        "index": 1188,
+        "up_index": 2352,
+        "obs_id": 27846,
+        "polarization": "vh",
+        "region": "end",
+        "legacy_slot_ids": [
+          18
+        ]
+      }
+    ],
+    "active_empty_hard_slot_count": 4,
+    "saved_arrays_exact_roundtrip": true
+  },
+  "processed": 1805,
+  "completed_utc": "2026-10-25T02:35:12.529937+00:00",
+  "n": 1805,
+  "query_n": 1741,
+  "reference_n": 64,
+  "timing": {
+    "reference_encoding": 0.9521656999131665,
+    "descriptors_and_validation": 135.64544340176508
+  },
+  "shapes": {
+    "desc": [
+      1805,
+      18,
+      8,
+      91
+    ],
+    "mass": [
+      1805,
+      18,
+      8
+    ]
+  },
+  "dtype": "float32",
+  "output_bytes": 55051803,
+  "gpu_peak_bytes": 233389056,
+  "type_order": "polarization(VV,VH), region(BODY,ENDS,SIDES), band(fine,middle,low)",
+  "slot_order": "BODY 0:8; ENDS 16:20 padded to8; SIDES 8:16; exact historical ordering",
+  "regionflag_behavior": "Upstream flags suppress descriptor and output mass only; raw_slot_mass preserves all historical mass. Empty hard slots remain zero even in an available region; slot_valid=mass>0.",
+  "descriptor_fields": {
+    "0:32": "PCA32 weighted mean",
+    "32:56": "8 classes x (mu,h,b), class-major",
+    "56:59": "native band signed mean, abs mean, square mean",
+    "59:91": "population Cov(native band,PCA32)"
+  },
+  "class_projection": "Frozen source reader on standardized PCA[:7]+native band; no new convolution",
+  "c4": "Same typed per-view interpolation, float64 moments and covariance BEFORE C4 averaging",
+  "empty_slot_handling": "Only change to typed descriptor arithmetic: zero denominator replaced by1 for zero-weight slots; no epsilon, redistribution, soft assignment or global monkeypatch",
+  "sources": {
+    "table": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\evidence_preserving_redesign\\native_validation\\table.csv",
+    "hard_slots": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\extract_tokens.py",
+    "legacy_tokens": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\tokens.npz",
+    "typed_descriptor": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\evidence_preserving_redesign\\typed_m3_20261025\\extract_typed.py",
+    "query_maps": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_operator_validation\\x.npy",
+    "native_cache": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\evidence_preserving_redesign\\native_validation\\native_cache",
+    "reader": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\evidence_preserving_redesign\\native_validation\\reader.npz",
+    "projection": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\projection_layer1.npz",
+    "backbone": "C:\\Users\\25791\\.cache\\torch\\hub\\checkpoints\\resnet50-11ad3fa6.pth"
+  },
+  "reference_encoding": "Same typed.ReferenceEncoder frozen R50 layer1/source PCA; float16 before interpolation",
+  "limitations": [
+    "Extraction only; no training or accuracy claim.",
+    "PCA32 is interpolated stride4 content, not native-resolution backbone output.",
+    "Source4 algebra/helper parity checks are bounded; hard mass and region partitions checked on all1805."
+  ]
+}
