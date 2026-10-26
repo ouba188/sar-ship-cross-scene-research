@@ -1,0 +1,39 @@
+{
+  "candidate": "raw_summary_seed{seed}",
+  "sources": [
+    "oss1",
+    "oss2"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "interpretation": "raw_summary replaces M2 scores; does not preserve original M1/M2 chain",
+  "development_status": "added after intermediate target results; development diagnostic, not blind test",
+  "base": "new candidate is s12; no M2 training",
+  "frozen": "historical source-trained PairMetric; 32 references; local and non-base gate descriptors",
+  "trained": "JointHead, VV, centeredVH, source alpha and frequency gate only",
+  "roles": "utility_train for optimization/scalers; selection for checkpoint/alpha",
+  "head_steps": 200,
+  "gate_steps": 100,
+  "optimizer": "AdamW lr=.003 weight_decay=.01",
+  "alpha_grid": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "checkpoint": "every5steps; earliest strict exact-J optimum including0",
+  "target_labels": "not loaded during fits; evaluate only after all six groups saved",
+  "scope": "readout refit conditional on frozen matcher; not end-to-end M3 refit",
+  "base_predictions_oof": false,
+  "cpu_threads": 2
+}

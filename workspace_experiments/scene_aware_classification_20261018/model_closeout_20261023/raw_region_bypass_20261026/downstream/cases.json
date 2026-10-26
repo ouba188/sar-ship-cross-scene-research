@@ -1,0 +1,2930 @@
+[
+  {
+    "direction": "oss1-to-oss2",
+    "seed": 17,
+    "status": "CC",
+    "candidate": "anchored_raw_summary",
+    "target_index": 1353,
+    "obs_id": 2359,
+    "mmsi": "412665000",
+    "pass_group": "S1A_011268_0110F6",
+    "true": 2,
+    "rival": 0,
+    "before_prediction": 2,
+    "after_prediction": 2,
+    "rawMLP_prediction": 2,
+    "rawMLP_margin": 31.718910217285156,
+    "before_margin": 6.428232669830322,
+    "after_margin": 6.428232669830322,
+    "joint_margin": 0.3237743377685547,
+    "B_margin": 6.428232669830322,
+    "rawMLP_scores": [
+      -6.848927974700928,
+      -6.425899505615234,
+      24.86998176574707,
+      -1.2554341554641724
+    ],
+    "before_scores": [
+      6.890936374664307,
+      -22.455114364624023,
+      13.319169044494629,
+      -2.325153350830078
+    ],
+    "after_scores": [
+      6.890936374664307,
+      -22.455114364624023,
+      13.319169044494629,
+      -2.325153350830078
+    ],
+    "bare_minus_rawMLP_centered": [
+      17.467334747314453,
+      -12.30174446105957,
+      -7.823341369628906,
+      2.6577513217926025
+    ],
+    "bare_minus_rawMLP_true_vs_each": [
+      -25.290678024291992,
+      4.478403091430664,
+      0.0,
+      -10.481093406677246
+    ],
+    "final_minus_bare": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "polar_weight": [
+      0.5,
+      0.5
+    ],
+    "delta_vv": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "delta_vh": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "available": [
+      1.0,
+      1.0
+    ],
+    "refs_source_rows": [
+      [
+        278,
+        2
+      ],
+      [
+        136,
+        258
+      ]
+    ],
+    "refs_obs_id": [
+      [
+        913,
+        11
+      ],
+      [
+        508,
+        880
+      ]
+    ],
+    "rows": [
+      2219,
+      278,
+      2,
+      136,
+      258
+    ],
+    "image": "oss1_1_CC_2359.png",
+    "provenance": [
+      {
+        "name": "QUERY",
+        "pol": "VV",
+        "row": 2219,
+        "obs_id": 2359,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_006015.png",
+        "native_shape": [
+          45,
+          45
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 45,
+          "crop_height": 45,
+          "pad_left": 58,
+          "pad_top": 58,
+          "target_present": true,
+          "native_target_pixels": 216.0,
+          "retained_target_pixels": 216.0,
+          "native_rest_pixels": 1809.0,
+          "retained_rest_pixels": 1809.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "QUERY",
+        "pol": "VH",
+        "row": 2219,
+        "obs_id": 2359,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_006015.png",
+        "native_shape": [
+          45,
+          45
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 45,
+          "crop_height": 45,
+          "pad_left": 58,
+          "pad_top": 58,
+          "target_present": true,
+          "native_target_pixels": 211.0,
+          "retained_target_pixels": 211.0,
+          "native_rest_pixels": 1814.0,
+          "retained_rest_pixels": 1814.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VV",
+        "row": 278,
+        "obs_id": 913,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160419T221227_20160419T221252_010896_01052F_69E2\\Patch_Uint8\\Visual_Tanker_x10442_y14583_vv.tif",
+        "native_shape": [
+          61,
+          61
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 61,
+          "crop_height": 61,
+          "pad_left": 50,
+          "pad_top": 50,
+          "target_present": true,
+          "native_target_pixels": 181.0,
+          "retained_target_pixels": 181.0,
+          "native_rest_pixels": 3540.0,
+          "retained_rest_pixels": 3540.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VH",
+        "row": 278,
+        "obs_id": 913,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160419T221227_20160419T221252_010896_01052F_69E2\\Patch_Uint8\\Visual_Tanker_x10442_y14583_vh.tif",
+        "native_shape": [
+          61,
+          61
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 61,
+          "crop_height": 61,
+          "pad_left": 50,
+          "pad_top": 50,
+          "target_present": true,
+          "native_target_pixels": 191.0,
+          "retained_target_pixels": 191.0,
+          "native_rest_pixels": 3530.0,
+          "retained_rest_pixels": 3530.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VV",
+        "row": 2,
+        "obs_id": 11,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20150916T221233_20150916T221258_007746_00AC44_BA63\\Patch_Uint8\\Visual_Tanker_x2438_y6840_vv.tif",
+        "native_shape": [
+          45,
+          45
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 45,
+          "crop_height": 45,
+          "pad_left": 58,
+          "pad_top": 58,
+          "target_present": true,
+          "native_target_pixels": 144.0,
+          "retained_target_pixels": 144.0,
+          "native_rest_pixels": 1881.0,
+          "retained_rest_pixels": 1881.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VH",
+        "row": 2,
+        "obs_id": 11,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20150916T221233_20150916T221258_007746_00AC44_BA63\\Patch_Uint8\\Visual_Tanker_x2438_y6840_vh.tif",
+        "native_shape": [
+          45,
+          45
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 45,
+          "crop_height": 45,
+          "pad_left": 58,
+          "pad_top": 58,
+          "target_present": true,
+          "native_target_pixels": 171.0,
+          "retained_target_pixels": 171.0,
+          "native_rest_pixels": 1854.0,
+          "retained_rest_pixels": 1854.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VV",
+        "row": 136,
+        "obs_id": 508,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160302T221225_20160302T221250_010196_00F0D2_D0C8\\Patch_Uint8\\Visual_Cargo_x9776_y13871_vv.tif",
+        "native_shape": [
+          73,
+          73
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 73,
+          "crop_height": 73,
+          "pad_left": 44,
+          "pad_top": 44,
+          "target_present": true,
+          "native_target_pixels": 170.0,
+          "retained_target_pixels": 170.0,
+          "native_rest_pixels": 5159.0,
+          "retained_rest_pixels": 5159.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VH",
+        "row": 136,
+        "obs_id": 508,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160302T221225_20160302T221250_010196_00F0D2_D0C8\\Patch_Uint8\\Visual_Cargo_x9776_y13871_vh.tif",
+        "native_shape": [
+          73,
+          73
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 73,
+          "crop_height": 73,
+          "pad_left": 44,
+          "pad_top": 44,
+          "target_present": true,
+          "native_target_pixels": 176.0,
+          "retained_target_pixels": 176.0,
+          "native_rest_pixels": 5153.0,
+          "retained_rest_pixels": 5153.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VV",
+        "row": 258,
+        "obs_id": 880,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160419T221227_20160419T221252_010896_01052F_69E2\\Patch_Uint8\\Visual_Cargo_x6044_y13724_vv.tif",
+        "native_shape": [
+          81,
+          81
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 81,
+          "crop_height": 81,
+          "pad_left": 40,
+          "pad_top": 40,
+          "target_present": true,
+          "native_target_pixels": 190.0,
+          "retained_target_pixels": 190.0,
+          "native_rest_pixels": 6371.0,
+          "retained_rest_pixels": 6371.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VH",
+        "row": 258,
+        "obs_id": 880,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160419T221227_20160419T221252_010896_01052F_69E2\\Patch_Uint8\\Visual_Cargo_x6044_y13724_vh.tif",
+        "native_shape": [
+          81,
+          81
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 81,
+          "crop_height": 81,
+          "pad_left": 40,
+          "pad_top": 40,
+          "target_present": true,
+          "native_target_pixels": 190.0,
+          "retained_target_pixels": 190.0,
+          "native_rest_pixels": 6371.0,
+          "retained_rest_pixels": 6371.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      }
+    ]
+  },
+  {
+    "direction": "oss1-to-oss2",
+    "seed": 17,
+    "status": "WW",
+    "candidate": "anchored_raw_summary",
+    "target_index": 1123,
+    "obs_id": 2007,
+    "mmsi": "253269000",
+    "pass_group": "S1A_010918_0105DD",
+    "true": 3,
+    "rival": 1,
+    "before_prediction": 1,
+    "after_prediction": 1,
+    "rawMLP_prediction": 3,
+    "rawMLP_margin": 9.134739875793457,
+    "before_margin": -22.617652893066406,
+    "after_margin": -22.617652893066406,
+    "joint_margin": -9.273839950561523,
+    "B_margin": -22.617652893066406,
+    "rawMLP_scores": [
+      3.9737157821655273,
+      -4.660813331604004,
+      -0.5157196521759033,
+      4.473926544189453
+    ],
+    "before_scores": [
+      -8.34958553314209,
+      14.076797485351562,
+      2.0761008262634277,
+      -8.540855407714844
+    ],
+    "after_scores": [
+      -8.34958553314209,
+      14.076797485351562,
+      2.0761008262634277,
+      -8.540855407714844
+    ],
+    "bare_minus_rawMLP_centered": [
+      -11.321138381958008,
+      19.73977279663086,
+      3.5939836502075195,
+      -12.012619018554688
+    ],
+    "bare_minus_rawMLP_true_vs_each": [
+      -0.6914806365966797,
+      -31.752391815185547,
+      -15.606602668762207,
+      0.0
+    ],
+    "final_minus_bare": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "polar_weight": [
+      0.5,
+      0.5
+    ],
+    "delta_vv": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "delta_vh": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "available": [
+      1.0,
+      1.0
+    ],
+    "refs_source_rows": [
+      [
+        230,
+        199
+      ],
+      [
+        329,
+        287
+      ]
+    ],
+    "refs_obs_id": [
+      [
+        798,
+        764
+      ],
+      [
+        1220,
+        1151
+      ]
+    ],
+    "rows": [
+      1989,
+      230,
+      199,
+      329,
+      287
+    ],
+    "image": "oss1_2_WW_2007.png",
+    "provenance": [
+      {
+        "name": "QUERY",
+        "pol": "VV",
+        "row": 1989,
+        "obs_id": 2007,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005207.png",
+        "native_shape": [
+          165,
+          165
+        ],
+        "placement": {
+          "crop_x": 2,
+          "crop_y": 2,
+          "crop_width": 160,
+          "crop_height": 160,
+          "pad_left": 0,
+          "pad_top": 0,
+          "target_present": true,
+          "native_target_pixels": 467.0,
+          "retained_target_pixels": 467.0,
+          "native_rest_pixels": 26758.0,
+          "retained_rest_pixels": 25133.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "QUERY",
+        "pol": "VH",
+        "row": 1989,
+        "obs_id": 2007,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005207.png",
+        "native_shape": [
+          165,
+          165
+        ],
+        "placement": {
+          "crop_x": 3,
+          "crop_y": 1,
+          "crop_width": 160,
+          "crop_height": 160,
+          "pad_left": 0,
+          "pad_top": 0,
+          "target_present": true,
+          "native_target_pixels": 552.0,
+          "retained_target_pixels": 552.0,
+          "native_rest_pixels": 26673.0,
+          "retained_rest_pixels": 25048.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VV",
+        "row": 230,
+        "obs_id": 798,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160405T102459_20160405T102528_010685_00FED5_97D5\\Patch_Uint8\\Visual_Cargo_x7801_y6719_vv.tif",
+        "native_shape": [
+          93,
+          93
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 93,
+          "crop_height": 93,
+          "pad_left": 34,
+          "pad_top": 34,
+          "target_present": true,
+          "native_target_pixels": 242.0,
+          "retained_target_pixels": 242.0,
+          "native_rest_pixels": 8407.0,
+          "retained_rest_pixels": 8407.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VH",
+        "row": 230,
+        "obs_id": 798,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160405T102459_20160405T102528_010685_00FED5_97D5\\Patch_Uint8\\Visual_Cargo_x7801_y6719_vh.tif",
+        "native_shape": [
+          93,
+          93
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 93,
+          "crop_height": 93,
+          "pad_left": 34,
+          "pad_top": 34,
+          "target_present": true,
+          "native_target_pixels": 250.0,
+          "retained_target_pixels": 250.0,
+          "native_rest_pixels": 8399.0,
+          "retained_rest_pixels": 8399.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VV",
+        "row": 199,
+        "obs_id": 764,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160405T102459_20160405T102528_010685_00FED5_97D5\\Patch_Uint8\\Visual_Cargo_x404_y7115_vv.tif",
+        "native_shape": [
+          105,
+          105
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 105,
+          "crop_height": 105,
+          "pad_left": 28,
+          "pad_top": 28,
+          "target_present": true,
+          "native_target_pixels": 269.0,
+          "retained_target_pixels": 269.0,
+          "native_rest_pixels": 10756.0,
+          "retained_rest_pixels": 10756.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VH",
+        "row": 199,
+        "obs_id": 764,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160405T102459_20160405T102528_010685_00FED5_97D5\\Patch_Uint8\\Visual_Cargo_x404_y7115_vh.tif",
+        "native_shape": [
+          105,
+          105
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 105,
+          "crop_height": 105,
+          "pad_left": 28,
+          "pad_top": 28,
+          "target_present": true,
+          "native_target_pixels": 311.0,
+          "retained_target_pixels": 311.0,
+          "native_rest_pixels": 10714.0,
+          "retained_rest_pixels": 10714.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VV",
+        "row": 329,
+        "obs_id": 1220,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160630T221233_20160630T221258_011946_012696_1AA1\\Patch_Uint8\\Visual_Other Type_x10548_y12683_vv.tif",
+        "native_shape": [
+          65,
+          65
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 65,
+          "crop_height": 65,
+          "pad_left": 48,
+          "pad_top": 48,
+          "target_present": true,
+          "native_target_pixels": 152.0,
+          "retained_target_pixels": 152.0,
+          "native_rest_pixels": 4073.0,
+          "retained_rest_pixels": 4073.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VH",
+        "row": 329,
+        "obs_id": 1220,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160630T221233_20160630T221258_011946_012696_1AA1\\Patch_Uint8\\Visual_Other Type_x10548_y12683_vh.tif",
+        "native_shape": [
+          65,
+          65
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 65,
+          "crop_height": 65,
+          "pad_left": 48,
+          "pad_top": 48,
+          "target_present": true,
+          "native_target_pixels": 213.0,
+          "retained_target_pixels": 213.0,
+          "native_rest_pixels": 4012.0,
+          "retained_rest_pixels": 4012.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VV",
+        "row": 287,
+        "obs_id": 1151,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160630T221233_20160630T221258_011946_012696_1AA1\\Patch_Uint8\\Visual_Cargo_x2687_y8272_vv.tif",
+        "native_shape": [
+          53,
+          53
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 53,
+          "crop_height": 53,
+          "pad_left": 54,
+          "pad_top": 54,
+          "target_present": true,
+          "native_target_pixels": 154.0,
+          "retained_target_pixels": 154.0,
+          "native_rest_pixels": 2655.0,
+          "retained_rest_pixels": 2655.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VH",
+        "row": 287,
+        "obs_id": 1151,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160630T221233_20160630T221258_011946_012696_1AA1\\Patch_Uint8\\Visual_Cargo_x2687_y8272_vh.tif",
+        "native_shape": [
+          53,
+          53
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 53,
+          "crop_height": 53,
+          "pad_left": 54,
+          "pad_top": 54,
+          "target_present": true,
+          "native_target_pixels": 163.0,
+          "retained_target_pixels": 163.0,
+          "native_rest_pixels": 2646.0,
+          "retained_rest_pixels": 2646.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      }
+    ]
+  },
+  {
+    "direction": "oss1-to-oss2",
+    "seed": 17,
+    "status": "CC",
+    "candidate": "anchored_raw_summary",
+    "target_index": 962,
+    "obs_id": 1744,
+    "mmsi": "370836000",
+    "pass_group": "S1A_010568_00FB6C",
+    "true": 2,
+    "rival": 1,
+    "before_prediction": 2,
+    "after_prediction": 2,
+    "rawMLP_prediction": 0,
+    "rawMLP_margin": -1.4398794174194336,
+    "before_margin": 18.906801223754883,
+    "after_margin": 18.906801223754883,
+    "joint_margin": 0.9601821899414062,
+    "B_margin": 18.906801223754883,
+    "rawMLP_scores": [
+      3.966884136199951,
+      1.8027347326278687,
+      0.36285537481307983,
+      -1.7918936014175415
+    ],
+    "before_scores": [
+      -6.115019798278809,
+      -5.622008323669434,
+      13.28479290008545,
+      -6.55748176574707
+    ],
+    "after_scores": [
+      -6.115019798278809,
+      -5.622008323669434,
+      13.28479290008545,
+      -6.55748176574707
+    ],
+    "bare_minus_rawMLP_centered": [
+      -7.744329452514648,
+      -5.0871686935424805,
+      15.259511947631836,
+      -2.428013801574707
+    ],
+    "bare_minus_rawMLP_true_vs_each": [
+      23.003841400146484,
+      20.3466796875,
+      0.0,
+      17.687524795532227
+    ],
+    "final_minus_bare": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "polar_weight": [
+      0.5,
+      0.5
+    ],
+    "delta_vv": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "delta_vh": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "available": [
+      1.0,
+      1.0
+    ],
+    "refs_source_rows": [
+      [
+        113,
+        194
+      ],
+      [
+        89,
+        117
+      ]
+    ],
+    "refs_obs_id": [
+      [
+        474,
+        759
+      ],
+      [
+        448,
+        479
+      ]
+    ],
+    "rows": [
+      1828,
+      113,
+      194,
+      89,
+      117
+    ],
+    "image": "oss1_3_CC_1744.png",
+    "provenance": [
+      {
+        "name": "QUERY",
+        "pol": "VV",
+        "row": 1828,
+        "obs_id": 1744,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_004610.png",
+        "native_shape": [
+          53,
+          53
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 53,
+          "crop_height": 53,
+          "pad_left": 54,
+          "pad_top": 54,
+          "target_present": true,
+          "native_target_pixels": 118.0,
+          "retained_target_pixels": 118.0,
+          "native_rest_pixels": 2691.0,
+          "retained_rest_pixels": 2691.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "QUERY",
+        "pol": "VH",
+        "row": 1828,
+        "obs_id": 1744,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_004610.png",
+        "native_shape": [
+          53,
+          53
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 53,
+          "crop_height": 53,
+          "pad_left": 54,
+          "pad_top": 54,
+          "target_present": true,
+          "native_target_pixels": 134.0,
+          "retained_target_pixels": 134.0,
+          "native_rest_pixels": 2675.0,
+          "retained_rest_pixels": 2675.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VV",
+        "row": 113,
+        "obs_id": 474,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160302T221225_20160302T221250_010196_00F0D2_D0C8\\Patch_Uint8\\Visual_Tanker_x10498_y14466_vv.tif",
+        "native_shape": [
+          37,
+          37
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 37,
+          "crop_height": 37,
+          "pad_left": 62,
+          "pad_top": 62,
+          "target_present": true,
+          "native_target_pixels": 101.0,
+          "retained_target_pixels": 101.0,
+          "native_rest_pixels": 1268.0,
+          "retained_rest_pixels": 1268.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VH",
+        "row": 113,
+        "obs_id": 474,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160302T221225_20160302T221250_010196_00F0D2_D0C8\\Patch_Uint8\\Visual_Tanker_x10498_y14466_vh.tif",
+        "native_shape": [
+          37,
+          37
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 37,
+          "crop_height": 37,
+          "pad_left": 62,
+          "pad_top": 62,
+          "target_present": true,
+          "native_target_pixels": 101.0,
+          "retained_target_pixels": 101.0,
+          "native_rest_pixels": 1268.0,
+          "retained_rest_pixels": 1268.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VV",
+        "row": 194,
+        "obs_id": 759,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160405T102459_20160405T102528_010685_00FED5_97D5\\Patch_Uint8\\Visual_Tanker_x545_y6933_vv.tif",
+        "native_shape": [
+          65,
+          65
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 65,
+          "crop_height": 65,
+          "pad_left": 48,
+          "pad_top": 48,
+          "target_present": true,
+          "native_target_pixels": 152.0,
+          "retained_target_pixels": 152.0,
+          "native_rest_pixels": 4073.0,
+          "retained_rest_pixels": 4073.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VH",
+        "row": 194,
+        "obs_id": 759,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160405T102459_20160405T102528_010685_00FED5_97D5\\Patch_Uint8\\Visual_Tanker_x545_y6933_vh.tif",
+        "native_shape": [
+          65,
+          65
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 65,
+          "crop_height": 65,
+          "pad_left": 48,
+          "pad_top": 48,
+          "target_present": true,
+          "native_target_pixels": 133.0,
+          "retained_target_pixels": 133.0,
+          "native_rest_pixels": 4092.0,
+          "retained_rest_pixels": 4092.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VV",
+        "row": 89,
+        "obs_id": 448,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160302T221225_20160302T221250_010196_00F0D2_D0C8\\Patch_Uint8\\Visual_Cargo_x1351_y15046_vv.tif",
+        "native_shape": [
+          85,
+          85
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 85,
+          "crop_height": 85,
+          "pad_left": 38,
+          "pad_top": 38,
+          "target_present": true,
+          "native_target_pixels": 180.0,
+          "retained_target_pixels": 180.0,
+          "native_rest_pixels": 7045.0,
+          "retained_rest_pixels": 7045.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VH",
+        "row": 89,
+        "obs_id": 448,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160302T221225_20160302T221250_010196_00F0D2_D0C8\\Patch_Uint8\\Visual_Cargo_x1351_y15046_vh.tif",
+        "native_shape": [
+          85,
+          85
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 85,
+          "crop_height": 85,
+          "pad_left": 38,
+          "pad_top": 38,
+          "target_present": true,
+          "native_target_pixels": 170.0,
+          "retained_target_pixels": 170.0,
+          "native_rest_pixels": 7055.0,
+          "retained_rest_pixels": 7055.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VV",
+        "row": 117,
+        "obs_id": 479,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160302T221225_20160302T221250_010196_00F0D2_D0C8\\Patch_Uint8\\Visual_Cargo_x10210_y14946_vv.tif",
+        "native_shape": [
+          77,
+          77
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 77,
+          "crop_height": 77,
+          "pad_left": 42,
+          "pad_top": 42,
+          "target_present": true,
+          "native_target_pixels": 217.0,
+          "retained_target_pixels": 217.0,
+          "native_rest_pixels": 5712.0,
+          "retained_rest_pixels": 5712.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VH",
+        "row": 117,
+        "obs_id": 479,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160302T221225_20160302T221250_010196_00F0D2_D0C8\\Patch_Uint8\\Visual_Cargo_x10210_y14946_vh.tif",
+        "native_shape": [
+          77,
+          77
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 77,
+          "crop_height": 77,
+          "pad_left": 42,
+          "pad_top": 42,
+          "target_present": true,
+          "native_target_pixels": 242.0,
+          "retained_target_pixels": 242.0,
+          "native_rest_pixels": 5687.0,
+          "retained_rest_pixels": 5687.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      }
+    ]
+  },
+  {
+    "direction": "oss1-to-oss2",
+    "seed": 17,
+    "status": "WW",
+    "candidate": "anchored_raw_summary",
+    "target_index": 1248,
+    "obs_id": 2208,
+    "mmsi": "218400000",
+    "pass_group": "S1A_011210_010F14",
+    "true": 3,
+    "rival": 1,
+    "before_prediction": 1,
+    "after_prediction": 1,
+    "rawMLP_prediction": 0,
+    "rawMLP_margin": 10.770423889160156,
+    "before_margin": -18.88992691040039,
+    "after_margin": -18.88992691040039,
+    "joint_margin": -8.300850868225098,
+    "B_margin": -18.88992691040039,
+    "rawMLP_scores": [
+      4.731070041656494,
+      -8.189611434936523,
+      2.9918265342712402,
+      2.580812454223633
+    ],
+    "before_scores": [
+      -4.652357578277588,
+      9.612215042114258,
+      3.340223789215088,
+      -9.277711868286133
+    ],
+    "after_scores": [
+      -4.652357578277588,
+      9.612215042114258,
+      3.340223789215088,
+      -9.277711868286133
+    ],
+    "bare_minus_rawMLP_centered": [
+      -8.610495567321777,
+      18.574758529663086,
+      1.1213293075561523,
+      -11.085592269897461
+    ],
+    "bare_minus_rawMLP_true_vs_each": [
+      -2.4750967025756836,
+      -29.660350799560547,
+      -12.206920623779297,
+      0.0
+    ],
+    "final_minus_bare": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "polar_weight": [
+      0.5,
+      0.5
+    ],
+    "delta_vv": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "delta_vh": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "available": [
+      1.0,
+      1.0
+    ],
+    "refs_source_rows": [
+      [
+        230,
+        74
+      ],
+      [
+        329,
+        62
+      ]
+    ],
+    "refs_obs_id": [
+      [
+        798,
+        174
+      ],
+      [
+        1220,
+        159
+      ]
+    ],
+    "rows": [
+      2114,
+      230,
+      74,
+      329,
+      62
+    ],
+    "image": "oss1_4_WW_2208.png",
+    "provenance": [
+      {
+        "name": "QUERY",
+        "pol": "VV",
+        "row": 2114,
+        "obs_id": 2208,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005582.png",
+        "native_shape": [
+          169,
+          169
+        ],
+        "placement": {
+          "crop_x": 7,
+          "crop_y": 4,
+          "crop_width": 160,
+          "crop_height": 160,
+          "pad_left": 0,
+          "pad_top": 0,
+          "target_present": true,
+          "native_target_pixels": 375.0,
+          "retained_target_pixels": 375.0,
+          "native_rest_pixels": 28186.0,
+          "retained_rest_pixels": 25225.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "QUERY",
+        "pol": "VH",
+        "row": 2114,
+        "obs_id": 2208,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005582.png",
+        "native_shape": [
+          169,
+          169
+        ],
+        "placement": {
+          "crop_x": 9,
+          "crop_y": 5,
+          "crop_width": 160,
+          "crop_height": 160,
+          "pad_left": 0,
+          "pad_top": 0,
+          "target_present": true,
+          "native_target_pixels": 450.0,
+          "retained_target_pixels": 450.0,
+          "native_rest_pixels": 28111.0,
+          "retained_rest_pixels": 25150.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VV",
+        "row": 230,
+        "obs_id": 798,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160405T102459_20160405T102528_010685_00FED5_97D5\\Patch_Uint8\\Visual_Cargo_x7801_y6719_vv.tif",
+        "native_shape": [
+          93,
+          93
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 93,
+          "crop_height": 93,
+          "pad_left": 34,
+          "pad_top": 34,
+          "target_present": true,
+          "native_target_pixels": 242.0,
+          "retained_target_pixels": 242.0,
+          "native_rest_pixels": 8407.0,
+          "retained_rest_pixels": 8407.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VH",
+        "row": 230,
+        "obs_id": 798,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160405T102459_20160405T102528_010685_00FED5_97D5\\Patch_Uint8\\Visual_Cargo_x7801_y6719_vh.tif",
+        "native_shape": [
+          93,
+          93
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 93,
+          "crop_height": 93,
+          "pad_left": 34,
+          "pad_top": 34,
+          "target_present": true,
+          "native_target_pixels": 250.0,
+          "retained_target_pixels": 250.0,
+          "native_rest_pixels": 8399.0,
+          "retained_rest_pixels": 8399.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VV",
+        "row": 74,
+        "obs_id": 174,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160102T221226_20160102T221251_009321_00D788_F5BA\\Patch_Uint8\\Visual_Cargo_x9135_y14066_vv.tif",
+        "native_shape": [
+          73,
+          73
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 73,
+          "crop_height": 73,
+          "pad_left": 44,
+          "pad_top": 44,
+          "target_present": true,
+          "native_target_pixels": 144.0,
+          "retained_target_pixels": 144.0,
+          "native_rest_pixels": 5185.0,
+          "retained_rest_pixels": 5185.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VH",
+        "row": 74,
+        "obs_id": 174,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160102T221226_20160102T221251_009321_00D788_F5BA\\Patch_Uint8\\Visual_Cargo_x9135_y14066_vh.tif",
+        "native_shape": [
+          73,
+          73
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 73,
+          "crop_height": 73,
+          "pad_left": 44,
+          "pad_top": 44,
+          "target_present": true,
+          "native_target_pixels": 163.0,
+          "retained_target_pixels": 163.0,
+          "native_rest_pixels": 5166.0,
+          "retained_rest_pixels": 5166.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VV",
+        "row": 329,
+        "obs_id": 1220,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160630T221233_20160630T221258_011946_012696_1AA1\\Patch_Uint8\\Visual_Other Type_x10548_y12683_vv.tif",
+        "native_shape": [
+          65,
+          65
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 65,
+          "crop_height": 65,
+          "pad_left": 48,
+          "pad_top": 48,
+          "target_present": true,
+          "native_target_pixels": 152.0,
+          "retained_target_pixels": 152.0,
+          "native_rest_pixels": 4073.0,
+          "retained_rest_pixels": 4073.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VH",
+        "row": 329,
+        "obs_id": 1220,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160630T221233_20160630T221258_011946_012696_1AA1\\Patch_Uint8\\Visual_Other Type_x10548_y12683_vh.tif",
+        "native_shape": [
+          65,
+          65
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 65,
+          "crop_height": 65,
+          "pad_left": 48,
+          "pad_top": 48,
+          "target_present": true,
+          "native_target_pixels": 213.0,
+          "retained_target_pixels": 213.0,
+          "native_rest_pixels": 4012.0,
+          "retained_rest_pixels": 4012.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VV",
+        "row": 62,
+        "obs_id": 159,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160102T221226_20160102T221251_009321_00D788_F5BA\\Patch_Uint8\\Visual_Cargo_x7710_y13767_vv.tif",
+        "native_shape": [
+          49,
+          49
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 49,
+          "crop_height": 49,
+          "pad_left": 56,
+          "pad_top": 56,
+          "target_present": true,
+          "native_target_pixels": 115.0,
+          "retained_target_pixels": 115.0,
+          "native_rest_pixels": 2286.0,
+          "retained_rest_pixels": 2286.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VH",
+        "row": 62,
+        "obs_id": 159,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160102T221226_20160102T221251_009321_00D788_F5BA\\Patch_Uint8\\Visual_Cargo_x7710_y13767_vh.tif",
+        "native_shape": [
+          49,
+          49
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 49,
+          "crop_height": 49,
+          "pad_left": 56,
+          "pad_top": 56,
+          "target_present": true,
+          "native_target_pixels": 112.0,
+          "retained_target_pixels": 112.0,
+          "native_rest_pixels": 2289.0,
+          "retained_rest_pixels": 2289.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      }
+    ]
+  },
+  {
+    "direction": "oss2-to-oss1",
+    "seed": 17,
+    "status": "rescue",
+    "candidate": "anchored_raw_summary",
+    "target_index": 886,
+    "obs_id": 1302,
+    "mmsi": "413401510",
+    "pass_group": "S1A_012646_013D9A",
+    "true": 0,
+    "rival": 3,
+    "before_prediction": 3,
+    "after_prediction": 0,
+    "rawMLP_prediction": 0,
+    "rawMLP_margin": 0.2589690685272217,
+    "before_margin": -3.317636728286743,
+    "after_margin": 0.19945843517780304,
+    "joint_margin": -2.9514522552490234,
+    "B_margin": 0.44133681058883667,
+    "rawMLP_scores": [
+      2.5650792121887207,
+      0.35533803701400757,
+      -1.8617197275161743,
+      2.306110143661499
+    ],
+    "before_scores": [
+      -0.7086262702941895,
+      -2.4792888164520264,
+      -1.7116163969039917,
+      2.6090104579925537
+    ],
+    "after_scores": [
+      -0.18788661062717438,
+      -1.2042744159698486,
+      -0.5110148191452026,
+      -0.3873450458049774
+    ],
+    "bare_minus_rawMLP_centered": [
+      -1.8598732948303223,
+      -1.4207947254180908,
+      1.5639355182647705,
+      1.716732382774353
+    ],
+    "bare_minus_rawMLP_true_vs_each": [
+      0.0,
+      -0.43907856941223145,
+      -3.4238085746765137,
+      -3.576605796813965
+    ],
+    "final_minus_bare": [
+      0.5207396745681763,
+      1.2750144004821777,
+      1.200601577758789,
+      -2.9963555335998535
+    ],
+    "polar_weight": [
+      0.9309657216072083,
+      0.06903427839279175
+    ],
+    "delta_vv": [
+      0.5688571333885193,
+      1.348478078842163,
+      1.272781252861023,
+      -3.1901164054870605
+    ],
+    "delta_vh": [
+      -0.1281512975692749,
+      0.2843160629272461,
+      0.2272188663482666,
+      -0.38338327407836914
+    ],
+    "available": [
+      1.0,
+      1.0
+    ],
+    "refs_source_rows": [
+      [
+        3,
+        363
+      ],
+      [
+        171,
+        66
+      ]
+    ],
+    "refs_obs_id": [
+      [
+        255,
+        2517
+      ],
+      [
+        1531,
+        560
+      ]
+    ],
+    "rows": [
+      2405,
+      3,
+      363,
+      171,
+      66
+    ],
+    "image": "oss2_1_rescue_1302.png",
+    "provenance": [
+      {
+        "name": "QUERY",
+        "pol": "VV",
+        "row": 2405,
+        "obs_id": 1302,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160817T221236_20160817T221301_012646_013D9A_4929\\Patch_Uint8\\Visual_Cargo_x6457_y16018_vv.tif",
+        "native_shape": [
+          65,
+          65
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 65,
+          "crop_height": 65,
+          "pad_left": 48,
+          "pad_top": 48,
+          "target_present": true,
+          "native_target_pixels": 137.0,
+          "retained_target_pixels": 137.0,
+          "native_rest_pixels": 4088.0,
+          "retained_rest_pixels": 4088.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "QUERY",
+        "pol": "VH",
+        "row": 2405,
+        "obs_id": 1302,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160817T221236_20160817T221301_012646_013D9A_4929\\Patch_Uint8\\Visual_Cargo_x6457_y16018_vh.tif",
+        "native_shape": [
+          65,
+          65
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 65,
+          "crop_height": 65,
+          "pad_left": 48,
+          "pad_top": 48,
+          "target_present": true,
+          "native_target_pixels": 169.0,
+          "retained_target_pixels": 169.0,
+          "native_rest_pixels": 4056.0,
+          "retained_rest_pixels": 4056.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VV",
+        "row": 3,
+        "obs_id": 255,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_000709.png",
+        "native_shape": [
+          81,
+          81
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 81,
+          "crop_height": 81,
+          "pad_left": 40,
+          "pad_top": 40,
+          "target_present": true,
+          "native_target_pixels": 151.0,
+          "retained_target_pixels": 151.0,
+          "native_rest_pixels": 6410.0,
+          "retained_rest_pixels": 6410.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VH",
+        "row": 3,
+        "obs_id": 255,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_000709.png",
+        "native_shape": [
+          81,
+          81
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 81,
+          "crop_height": 81,
+          "pad_left": 40,
+          "pad_top": 40,
+          "target_present": true,
+          "native_target_pixels": 161.0,
+          "retained_target_pixels": 161.0,
+          "native_rest_pixels": 6400.0,
+          "retained_rest_pixels": 6400.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VV",
+        "row": 363,
+        "obs_id": 2517,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_006477.png",
+        "native_shape": [
+          81,
+          81
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 81,
+          "crop_height": 81,
+          "pad_left": 40,
+          "pad_top": 40,
+          "target_present": true,
+          "native_target_pixels": 169.0,
+          "retained_target_pixels": 169.0,
+          "native_rest_pixels": 6392.0,
+          "retained_rest_pixels": 6392.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VH",
+        "row": 363,
+        "obs_id": 2517,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_006477.png",
+        "native_shape": [
+          81,
+          81
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 81,
+          "crop_height": 81,
+          "pad_left": 40,
+          "pad_top": 40,
+          "target_present": true,
+          "native_target_pixels": 166.0,
+          "retained_target_pixels": 166.0,
+          "native_rest_pixels": 6395.0,
+          "retained_rest_pixels": 6395.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VV",
+        "row": 171,
+        "obs_id": 1531,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_004205.png",
+        "native_shape": [
+          101,
+          101
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 101,
+          "crop_height": 101,
+          "pad_left": 30,
+          "pad_top": 30,
+          "target_present": true,
+          "native_target_pixels": 195.0,
+          "retained_target_pixels": 195.0,
+          "native_rest_pixels": 10006.0,
+          "retained_rest_pixels": 10006.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VH",
+        "row": 171,
+        "obs_id": 1531,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_004205.png",
+        "native_shape": [
+          101,
+          101
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 101,
+          "crop_height": 101,
+          "pad_left": 30,
+          "pad_top": 30,
+          "target_present": true,
+          "native_target_pixels": 211.0,
+          "retained_target_pixels": 211.0,
+          "native_rest_pixels": 9990.0,
+          "retained_rest_pixels": 9990.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VV",
+        "row": 66,
+        "obs_id": 560,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_001541.png",
+        "native_shape": [
+          97,
+          97
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 97,
+          "crop_height": 97,
+          "pad_left": 32,
+          "pad_top": 32,
+          "target_present": true,
+          "native_target_pixels": 206.0,
+          "retained_target_pixels": 206.0,
+          "native_rest_pixels": 9203.0,
+          "retained_rest_pixels": 9203.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VH",
+        "row": 66,
+        "obs_id": 560,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_001541.png",
+        "native_shape": [
+          97,
+          97
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 97,
+          "crop_height": 97,
+          "pad_left": 32,
+          "pad_top": 32,
+          "target_present": true,
+          "native_target_pixels": 258.0,
+          "retained_target_pixels": 258.0,
+          "native_rest_pixels": 9151.0,
+          "retained_rest_pixels": 9151.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      }
+    ]
+  },
+  {
+    "direction": "oss2-to-oss1",
+    "seed": 17,
+    "status": "harm",
+    "candidate": "anchored_raw_summary",
+    "target_index": 758,
+    "obs_id": 1144,
+    "mmsi": "353195000",
+    "pass_group": "S1A_011596_011B8A",
+    "true": 1,
+    "rival": 3,
+    "before_prediction": 1,
+    "after_prediction": 3,
+    "rawMLP_prediction": 3,
+    "rawMLP_margin": -5.032671928405762,
+    "before_margin": 2.3530571460723877,
+    "after_margin": -0.5748132467269897,
+    "joint_margin": 2.3760008811950684,
+    "B_margin": -0.7037400007247925,
+    "rawMLP_scores": [
+      -7.1755194664001465,
+      -2.01202130317688,
+      0.6076784729957581,
+      3.020650625228882
+    ],
+    "before_scores": [
+      -4.022663593292236,
+      3.7236440181732178,
+      -2.9496304988861084,
+      1.37058687210083
+    ],
+    "after_scores": [
+      -1.9580278396606445,
+      0.47368764877319336,
+      -1.4422239065170288,
+      1.048500895500183
+    ],
+    "bare_minus_rawMLP_centered": [
+      2.2325687408447266,
+      4.815378189086914,
+      -4.477596282958984,
+      -2.5703511238098145
+    ],
+    "bare_minus_rawMLP_true_vs_each": [
+      2.5828094482421875,
+      0.0,
+      9.292974472045898,
+      7.38572883605957
+    ],
+    "final_minus_bare": [
+      2.064635753631592,
+      -3.2499563694000244,
+      1.5074065923690796,
+      -0.322085976600647
+    ],
+    "polar_weight": [
+      0.9590460658073425,
+      0.04095393419265747
+    ],
+    "delta_vv": [
+      2.141397714614868,
+      -3.3824303150177,
+      1.5666658878326416,
+      -0.32563316822052
+    ],
+    "delta_vh": [
+      0.26704955101013184,
+      -0.14772415161132812,
+      0.11969387531280518,
+      -0.2390192747116089
+    ],
+    "available": [
+      1.0,
+      1.0
+    ],
+    "refs_source_rows": [
+      [
+        12,
+        208
+      ],
+      [
+        322,
+        0
+      ]
+    ],
+    "refs_obs_id": [
+      [
+        274,
+        1597
+      ],
+      [
+        1985,
+        249
+      ]
+    ],
+    "rows": [
+      2277,
+      12,
+      208,
+      322,
+      0
+    ],
+    "image": "oss2_2_harm_1144.png",
+    "provenance": [
+      {
+        "name": "QUERY",
+        "pol": "VV",
+        "row": 2277,
+        "obs_id": 1144,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160606T221232_20160606T221257_011596_011B8A_E6B1\\Patch_Uint8\\Visual_Cargo_x10825_y12113_vv.tif",
+        "native_shape": [
+          61,
+          61
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 61,
+          "crop_height": 61,
+          "pad_left": 50,
+          "pad_top": 50,
+          "target_present": true,
+          "native_target_pixels": 171.0,
+          "retained_target_pixels": 171.0,
+          "native_rest_pixels": 3550.0,
+          "retained_rest_pixels": 3550.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "QUERY",
+        "pol": "VH",
+        "row": 2277,
+        "obs_id": 1144,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160606T221232_20160606T221257_011596_011B8A_E6B1\\Patch_Uint8\\Visual_Cargo_x10825_y12113_vh.tif",
+        "native_shape": [
+          61,
+          61
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 61,
+          "crop_height": 61,
+          "pad_left": 50,
+          "pad_top": 50,
+          "target_present": true,
+          "native_target_pixels": 220.0,
+          "retained_target_pixels": 220.0,
+          "native_rest_pixels": 3501.0,
+          "retained_rest_pixels": 3501.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VV",
+        "row": 12,
+        "obs_id": 274,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_000731.png",
+        "native_shape": [
+          69,
+          69
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 69,
+          "crop_height": 69,
+          "pad_left": 46,
+          "pad_top": 46,
+          "target_present": true,
+          "native_target_pixels": 147.0,
+          "retained_target_pixels": 147.0,
+          "native_rest_pixels": 4614.0,
+          "retained_rest_pixels": 4614.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VH",
+        "row": 12,
+        "obs_id": 274,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_000731.png",
+        "native_shape": [
+          69,
+          69
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 69,
+          "crop_height": 69,
+          "pad_left": 46,
+          "pad_top": 46,
+          "target_present": true,
+          "native_target_pixels": 201.0,
+          "retained_target_pixels": 201.0,
+          "native_rest_pixels": 4560.0,
+          "retained_rest_pixels": 4560.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VV",
+        "row": 208,
+        "obs_id": 1597,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_004357.png",
+        "native_shape": [
+          45,
+          45
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 45,
+          "crop_height": 45,
+          "pad_left": 58,
+          "pad_top": 58,
+          "target_present": true,
+          "native_target_pixels": 106.0,
+          "retained_target_pixels": 106.0,
+          "native_rest_pixels": 1919.0,
+          "retained_rest_pixels": 1919.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VH",
+        "row": 208,
+        "obs_id": 1597,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_004357.png",
+        "native_shape": [
+          45,
+          45
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 45,
+          "crop_height": 45,
+          "pad_left": 58,
+          "pad_top": 58,
+          "target_present": true,
+          "native_target_pixels": 115.0,
+          "retained_target_pixels": 115.0,
+          "native_rest_pixels": 1910.0,
+          "retained_rest_pixels": 1910.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VV",
+        "row": 322,
+        "obs_id": 1985,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005167.png",
+        "native_shape": [
+          101,
+          101
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 101,
+          "crop_height": 101,
+          "pad_left": 30,
+          "pad_top": 30,
+          "target_present": true,
+          "native_target_pixels": 272.0,
+          "retained_target_pixels": 272.0,
+          "native_rest_pixels": 9929.0,
+          "retained_rest_pixels": 9929.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VH",
+        "row": 322,
+        "obs_id": 1985,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005167.png",
+        "native_shape": [
+          101,
+          101
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 101,
+          "crop_height": 101,
+          "pad_left": 30,
+          "pad_top": 30,
+          "target_present": true,
+          "native_target_pixels": 355.0,
+          "retained_target_pixels": 355.0,
+          "native_rest_pixels": 9846.0,
+          "retained_rest_pixels": 9846.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VV",
+        "row": 0,
+        "obs_id": 249,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_000699.png",
+        "native_shape": [
+          73,
+          73
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 73,
+          "crop_height": 73,
+          "pad_left": 44,
+          "pad_top": 44,
+          "target_present": true,
+          "native_target_pixels": 166.0,
+          "retained_target_pixels": 166.0,
+          "native_rest_pixels": 5163.0,
+          "retained_rest_pixels": 5163.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VH",
+        "row": 0,
+        "obs_id": 249,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_000699.png",
+        "native_shape": [
+          73,
+          73
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 73,
+          "crop_height": 73,
+          "pad_left": 44,
+          "pad_top": 44,
+          "target_present": true,
+          "native_target_pixels": 176.0,
+          "retained_target_pixels": 176.0,
+          "native_rest_pixels": 5153.0,
+          "retained_rest_pixels": 5153.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      }
+    ]
+  },
+  {
+    "direction": "oss2-to-oss1",
+    "seed": 17,
+    "status": "CC",
+    "candidate": "anchored_raw_summary",
+    "target_index": 46,
+    "obs_id": 58,
+    "mmsi": "229009000",
+    "pass_group": "S1A_007921_00B100",
+    "true": 3,
+    "rival": 2,
+    "before_prediction": 3,
+    "after_prediction": 3,
+    "rawMLP_prediction": 3,
+    "rawMLP_margin": 19.034900665283203,
+    "before_margin": 100.64688110351562,
+    "after_margin": 54.17148208618164,
+    "joint_margin": 92.28788757324219,
+    "B_margin": 40.48103332519531,
+    "rawMLP_scores": [
+      1.9110392332077026,
+      -15.918340682983398,
+      -6.074272632598877,
+      12.960628509521484
+    ],
+    "before_scores": [
+      -33.920684814453125,
+      -23.599929809570312,
+      -22.774642944335938,
+      77.87223815917969
+    ],
+    "after_scores": [
+      -20.579753875732422,
+      -12.10478687286377,
+      -11.95498275756836,
+      42.21649932861328
+    ],
+    "bare_minus_rawMLP_centered": [
+      -37.00620651245117,
+      -8.856070518493652,
+      -17.87485122680664,
+      63.73713302612305
+    ],
+    "bare_minus_rawMLP_true_vs_each": [
+      100.74333190917969,
+      72.59320068359375,
+      81.61198425292969,
+      0.0
+    ],
+    "final_minus_bare": [
+      13.340930938720703,
+      11.495142936706543,
+      10.819660186767578,
+      -35.655738830566406
+    ],
+    "polar_weight": [
+      0.7581060528755188,
+      0.2418939471244812
+    ],
+    "delta_vv": [
+      17.293262481689453,
+      14.884858131408691,
+      13.993861198425293,
+      -46.1719856262207
+    ],
+    "delta_vh": [
+      0.9541552066802979,
+      0.8716306686401367,
+      0.8715790510177612,
+      -2.6973650455474854
+    ],
+    "available": [
+      1.0,
+      1.0
+    ],
+    "refs_source_rows": [
+      [
+        322,
+        341
+      ],
+      [
+        395,
+        262
+      ]
+    ],
+    "refs_obs_id": [
+      [
+        1985,
+        2017
+      ],
+      [
+        2571,
+        1914
+      ]
+    ],
+    "rows": [
+      1565,
+      322,
+      341,
+      395,
+      262
+    ],
+    "image": "oss2_3_CC_58.png",
+    "provenance": [
+      {
+        "name": "QUERY",
+        "pol": "VV",
+        "row": 1565,
+        "obs_id": 58,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20150928T221239_20150928T221304_007921_00B100_32A3\\Patch_Uint8\\Visual_Cargo_x2304_y5915_vv.tif",
+        "native_shape": [
+          177,
+          177
+        ],
+        "placement": {
+          "crop_x": 7,
+          "crop_y": 8,
+          "crop_width": 160,
+          "crop_height": 160,
+          "pad_left": 0,
+          "pad_top": 0,
+          "target_present": true,
+          "native_target_pixels": 464.0,
+          "retained_target_pixels": 464.0,
+          "native_rest_pixels": 30865.0,
+          "retained_rest_pixels": 25136.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "QUERY",
+        "pol": "VH",
+        "row": 1565,
+        "obs_id": 58,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20150928T221239_20150928T221304_007921_00B100_32A3\\Patch_Uint8\\Visual_Cargo_x2304_y5915_vh.tif",
+        "native_shape": [
+          177,
+          177
+        ],
+        "placement": {
+          "crop_x": 8,
+          "crop_y": 8,
+          "crop_width": 160,
+          "crop_height": 160,
+          "pad_left": 0,
+          "pad_top": 0,
+          "target_present": true,
+          "native_target_pixels": 485.0,
+          "retained_target_pixels": 485.0,
+          "native_rest_pixels": 30844.0,
+          "retained_rest_pixels": 25115.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VV",
+        "row": 322,
+        "obs_id": 1985,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005167.png",
+        "native_shape": [
+          101,
+          101
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 101,
+          "crop_height": 101,
+          "pad_left": 30,
+          "pad_top": 30,
+          "target_present": true,
+          "native_target_pixels": 272.0,
+          "retained_target_pixels": 272.0,
+          "native_rest_pixels": 9929.0,
+          "retained_rest_pixels": 9929.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VH",
+        "row": 322,
+        "obs_id": 1985,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005167.png",
+        "native_shape": [
+          101,
+          101
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 101,
+          "crop_height": 101,
+          "pad_left": 30,
+          "pad_top": 30,
+          "target_present": true,
+          "native_target_pixels": 355.0,
+          "retained_target_pixels": 355.0,
+          "native_rest_pixels": 9846.0,
+          "retained_rest_pixels": 9846.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VV",
+        "row": 341,
+        "obs_id": 2017,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005219.png",
+        "native_shape": [
+          141,
+          141
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 141,
+          "crop_height": 141,
+          "pad_left": 10,
+          "pad_top": 10,
+          "target_present": true,
+          "native_target_pixels": 408.0,
+          "retained_target_pixels": 408.0,
+          "native_rest_pixels": 19473.0,
+          "retained_rest_pixels": 19473.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VH",
+        "row": 341,
+        "obs_id": 2017,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005219.png",
+        "native_shape": [
+          141,
+          141
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 141,
+          "crop_height": 141,
+          "pad_left": 10,
+          "pad_top": 10,
+          "target_present": true,
+          "native_target_pixels": 435.0,
+          "retained_target_pixels": 435.0,
+          "native_rest_pixels": 19446.0,
+          "retained_rest_pixels": 19446.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VV",
+        "row": 395,
+        "obs_id": 2571,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_006554.png",
+        "native_shape": [
+          57,
+          57
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 57,
+          "crop_height": 57,
+          "pad_left": 52,
+          "pad_top": 52,
+          "target_present": true,
+          "native_target_pixels": 110.0,
+          "retained_target_pixels": 110.0,
+          "native_rest_pixels": 3139.0,
+          "retained_rest_pixels": 3139.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VH",
+        "row": 395,
+        "obs_id": 2571,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_006554.png",
+        "native_shape": [
+          57,
+          57
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 57,
+          "crop_height": 57,
+          "pad_left": 52,
+          "pad_top": 52,
+          "target_present": true,
+          "native_target_pixels": 109.0,
+          "retained_target_pixels": 109.0,
+          "native_rest_pixels": 3140.0,
+          "retained_rest_pixels": 3140.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VV",
+        "row": 262,
+        "obs_id": 1914,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005072.png",
+        "native_shape": [
+          53,
+          53
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 53,
+          "crop_height": 53,
+          "pad_left": 54,
+          "pad_top": 54,
+          "target_present": true,
+          "native_target_pixels": 171.0,
+          "retained_target_pixels": 171.0,
+          "native_rest_pixels": 2638.0,
+          "retained_rest_pixels": 2638.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VH",
+        "row": 262,
+        "obs_id": 1914,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005072.png",
+        "native_shape": [
+          53,
+          53
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 53,
+          "crop_height": 53,
+          "pad_left": 54,
+          "pad_top": 54,
+          "target_present": true,
+          "native_target_pixels": 208.0,
+          "retained_target_pixels": 208.0,
+          "native_rest_pixels": 2601.0,
+          "retained_rest_pixels": 2601.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      }
+    ]
+  },
+  {
+    "direction": "oss2-to-oss1",
+    "seed": 17,
+    "status": "WW",
+    "candidate": "anchored_raw_summary",
+    "target_index": 323,
+    "obs_id": 404,
+    "mmsi": "445719000",
+    "pass_group": "S1A_010021_00EBE1",
+    "true": 1,
+    "rival": 2,
+    "before_prediction": 2,
+    "after_prediction": 2,
+    "rawMLP_prediction": 2,
+    "rawMLP_margin": -4.468667507171631,
+    "before_margin": -18.092113494873047,
+    "after_margin": -6.187098503112793,
+    "joint_margin": -16.474658966064453,
+    "B_margin": -6.187098503112793,
+    "rawMLP_scores": [
+      -5.6700663566589355,
+      4.128677845001221,
+      8.597345352172852,
+      0.5234191417694092
+    ],
+    "before_scores": [
+      -9.303833961486816,
+      -3.983541250228882,
+      14.108572006225586,
+      -6.788455486297607
+    ],
+    "after_scores": [
+      -5.555144309997559,
+      -1.4630763530731201,
+      4.724021911621094,
+      -3.6730594635009766
+    ],
+    "bare_minus_rawMLP_centered": [
+      -0.24710893630981445,
+      -4.725560188293457,
+      8.8978853225708,
+      -3.92521595954895
+    ],
+    "bare_minus_rawMLP_true_vs_each": [
+      -4.478451728820801,
+      0.0,
+      -13.623445510864258,
+      -0.8003444671630859
+    ],
+    "final_minus_bare": [
+      3.748689651489258,
+      2.5204648971557617,
+      -9.384550094604492,
+      3.115396022796631
+    ],
+    "polar_weight": [
+      1.0,
+      0.0
+    ],
+    "delta_vv": [
+      3.748689651489258,
+      2.5204648971557617,
+      -9.384550094604492,
+      3.115396022796631
+    ],
+    "delta_vh": [
+      0.46048951148986816,
+      0.3265070915222168,
+      -1.1849727630615234,
+      0.3979756832122803
+    ],
+    "available": [
+      1.0,
+      1.0
+    ],
+    "refs_source_rows": [
+      [
+        12,
+        208
+      ],
+      [
+        395,
+        471
+      ]
+    ],
+    "refs_obs_id": [
+      [
+        274,
+        1597
+      ],
+      [
+        2571,
+        2716
+      ]
+    ],
+    "rows": [
+      1842,
+      12,
+      208,
+      395,
+      471
+    ],
+    "image": "oss2_4_WW_404.png",
+    "provenance": [
+      {
+        "name": "QUERY",
+        "pol": "VV",
+        "row": 1842,
+        "obs_id": 404,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160219T221225_20160219T221250_010021_00EBE1_C9D5\\Patch_Uint8\\Visual_Cargo_x10937_y14685_vv.tif",
+        "native_shape": [
+          37,
+          37
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 37,
+          "crop_height": 37,
+          "pad_left": 62,
+          "pad_top": 62,
+          "target_present": true,
+          "native_target_pixels": 90.0,
+          "retained_target_pixels": 90.0,
+          "native_rest_pixels": 1279.0,
+          "retained_rest_pixels": 1279.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "QUERY",
+        "pol": "VH",
+        "row": 1842,
+        "obs_id": 404,
+        "image": "D:\\Documents\\project_root\\OpenSARShip_1\\S1A_IW_GRDH_1SDV_20160219T221225_20160219T221250_010021_00EBE1_C9D5\\Patch_Uint8\\Visual_Cargo_x10937_y14685_vh.tif",
+        "native_shape": [
+          37,
+          37
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 37,
+          "crop_height": 37,
+          "pad_left": 62,
+          "pad_top": 62,
+          "target_present": true,
+          "native_target_pixels": 110.0,
+          "retained_target_pixels": 110.0,
+          "native_rest_pixels": 1259.0,
+          "retained_rest_pixels": 1259.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VV",
+        "row": 12,
+        "obs_id": 274,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_000731.png",
+        "native_shape": [
+          69,
+          69
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 69,
+          "crop_height": 69,
+          "pad_left": 46,
+          "pad_top": 46,
+          "target_present": true,
+          "native_target_pixels": 147.0,
+          "retained_target_pixels": 147.0,
+          "native_rest_pixels": 4614.0,
+          "retained_rest_pixels": 4614.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #1",
+        "pol": "VH",
+        "row": 12,
+        "obs_id": 274,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_000731.png",
+        "native_shape": [
+          69,
+          69
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 69,
+          "crop_height": 69,
+          "pad_left": 46,
+          "pad_top": 46,
+          "target_present": true,
+          "native_target_pixels": 201.0,
+          "retained_target_pixels": 201.0,
+          "native_rest_pixels": 4560.0,
+          "retained_rest_pixels": 4560.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VV",
+        "row": 208,
+        "obs_id": 1597,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_004357.png",
+        "native_shape": [
+          45,
+          45
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 45,
+          "crop_height": 45,
+          "pad_left": 58,
+          "pad_top": 58,
+          "target_present": true,
+          "native_target_pixels": 106.0,
+          "retained_target_pixels": 106.0,
+          "native_rest_pixels": 1919.0,
+          "retained_rest_pixels": 1919.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "TRUE #2",
+        "pol": "VH",
+        "row": 208,
+        "obs_id": 1597,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_004357.png",
+        "native_shape": [
+          45,
+          45
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 45,
+          "crop_height": 45,
+          "pad_left": 58,
+          "pad_top": 58,
+          "target_present": true,
+          "native_target_pixels": 115.0,
+          "retained_target_pixels": 115.0,
+          "native_rest_pixels": 1910.0,
+          "retained_rest_pixels": 1910.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VV",
+        "row": 395,
+        "obs_id": 2571,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_006554.png",
+        "native_shape": [
+          57,
+          57
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 57,
+          "crop_height": 57,
+          "pad_left": 52,
+          "pad_top": 52,
+          "target_present": true,
+          "native_target_pixels": 110.0,
+          "retained_target_pixels": 110.0,
+          "native_rest_pixels": 3139.0,
+          "retained_rest_pixels": 3139.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #1",
+        "pol": "VH",
+        "row": 395,
+        "obs_id": 2571,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_006554.png",
+        "native_shape": [
+          57,
+          57
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 57,
+          "crop_height": 57,
+          "pad_left": 52,
+          "pad_top": 52,
+          "target_present": true,
+          "native_target_pixels": 109.0,
+          "retained_target_pixels": 109.0,
+          "native_rest_pixels": 3140.0,
+          "retained_rest_pixels": 3140.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VV",
+        "row": 471,
+        "obs_id": 2716,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_006746.png",
+        "native_shape": [
+          49,
+          49
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 49,
+          "crop_height": 49,
+          "pad_left": 56,
+          "pad_top": 56,
+          "target_present": true,
+          "native_target_pixels": 111.0,
+          "retained_target_pixels": 111.0,
+          "native_rest_pixels": 2290.0,
+          "retained_rest_pixels": 2290.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      },
+      {
+        "name": "RIVAL #2",
+        "pol": "VH",
+        "row": 471,
+        "obs_id": 2716,
+        "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_006746.png",
+        "native_shape": [
+          49,
+          49
+        ],
+        "placement": {
+          "crop_x": 0,
+          "crop_y": 0,
+          "crop_width": 49,
+          "crop_height": 49,
+          "pad_left": 56,
+          "pad_top": 56,
+          "target_present": true,
+          "native_target_pixels": 126.0,
+          "retained_target_pixels": 126.0,
+          "native_rest_pixels": 2275.0,
+          "retained_rest_pixels": 2275.0,
+          "input_scale": 1.0
+        },
+        "valid_target": true
+      }
+    ]
+  }
+]
