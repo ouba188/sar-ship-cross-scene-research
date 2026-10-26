@@ -1,4 +1,4 @@
-"""Train the retained four-class candidate with a frozen pretrained frontend.
+"""Train the retained candidate with a frozen pretrained frontend.
 
 Inputs are portable source features and identity/role metadata, not experiment
 modules. No evaluation labels enter optimization or checkpoint selection.
@@ -35,7 +35,8 @@ def scale_input(x, sc):
     return np.where(sc['active'], (x-sc['mean'])/sc['scale'], 0).astype(np.float32)
 
 
-def validate_roles(table, data):
+def validate_roles(table, data, classes=None):
+    classes = data['bank'].shape[0] if classes is None else classes
     if not table.obs_id.is_unique:
         raise ValueError('obs_id must uniquely identify an observation.')
     np.testing.assert_array_equal(table.obs_id.to_numpy().astype(str), data['obs_id'].astype(str))
@@ -43,8 +44,8 @@ def validate_roles(table, data):
         raise ValueError('Unknown role: expected source fit/validation/utility/selection/evaluation.')
     groups = {role: np.flatnonzero(table.role.eq(role)) for role in ROLES}
     for role in ROLES[:-1]:
-        if not len(groups[role]) or set(table.iloc[groups[role]].class_id) != set(range(4)):
-            raise ValueError(f'{role} needs all four source classes.')
+        if not len(groups[role]) or set(table.iloc[groups[role]].class_id) != set(range(classes)):
+            raise ValueError(f'{role} needs all {classes} source classes.')
     for key in ('mmsi', 'pass_group'):
         if table[key].isna().any() or table[key].astype(str).str.strip().eq('').any():
             raise ValueError(f'Missing {key}; cannot enforce the source split.')
@@ -53,26 +54,35 @@ def validate_roles(table, data):
                 if set(table.iloc[groups[role]][key]) & set(table.iloc[groups[other]][key]):
                     raise ValueError(f'{key} overlaps {role} and {other}.')
     refs, bank = data['refs'], data['bank'].ravel()
-    if refs.shape != (len(table), 4, 2) or data['bank'].shape != (4, 8):
-        raise ValueError('Expected 32 source references and two references per candidate class.')
+    if refs.shape != (len(table), classes, 2) or data['bank'].shape != (classes, 8):
+        raise ValueError(f'Expected {classes*8} source references and two references per candidate class.')
     if not np.isin(refs, bank).all() or not table.iloc[bank].role.eq('fit_train').all():
         raise ValueError('References must belong to the frozen fit-only bank.')
-    np.testing.assert_array_equal(table.iloc[bank].class_id, np.repeat(np.arange(4), 8))
-    if not (table.class_id.to_numpy()[refs] == np.arange(4)[None, :, None]).all():
+    np.testing.assert_array_equal(table.iloc[bank].class_id, np.repeat(np.arange(classes), 8))
+    if not (table.class_id.to_numpy()[refs] == np.arange(classes)[None, :, None]).all():
         raise ValueError('Retrieved references do not match the candidate class order.')
     if (table.mmsi.to_numpy()[:, None, None] == table.mmsi.to_numpy()[refs]).any():
         raise ValueError('A query retrieves its own vessel.')
+    if 'local_available' in data:
+        available = data['local_available']
+        required = np.concatenate((bank, groups['utility_train'], groups['selection'], groups['evaluation']))
+        if available.shape != (len(table),) or not available[required].all():
+            raise ValueError('local_available must cover the bank, utility_train, selection and evaluation rows.')
     return groups
 
 
-def fit_base(data, table, groups, seed, out):
+def fit_base(data, table, groups, seed, out, classes=None, steps=200):
+    classes = data['bank'].shape[0] if classes is None else classes
     raw, aux = data['raw'], data['aux']
+    aux_dim = 18*classes+32
+    if raw.shape != (len(table), 1538) or aux.shape != (len(table), aux_dim):
+        raise ValueError(f'Expected raw [N, 1538] and aux [N, {aux_dim}] for {classes} classes.')
     fit, val = groups['fit_train'], groups['fit_validation']
     sc, sa = source_scaler(raw, fit), source_scaler(aux, fit)
     x = np.c_[scale_input(raw, sc), scale_input(aux, sa)]
     torch.manual_seed(seed)
-    initial = nn.Sequential(nn.Linear(1538, 128), nn.GELU(), nn.Linear(128, 4))
-    model = nn.Sequential(nn.Linear(1642, 128), nn.GELU(), nn.Linear(128, 4))
+    initial = nn.Sequential(nn.Linear(1538, 128), nn.GELU(), nn.Linear(128, classes))
+    model = nn.Sequential(nn.Linear(1538+aux_dim, 128), nn.GELU(), nn.Linear(128, classes))
     with torch.no_grad():
         model[0].weight.zero_()
         model[0].weight[:, :1538].copy_(initial[0].weight)
@@ -81,11 +91,11 @@ def fit_base(data, table, groups, seed, out):
     f = table.iloc[fit]
     ships = f.groupby('class_id').mmsi.transform('nunique').to_numpy()
     repeat = f.groupby('mmsi').mmsi.transform('size').to_numpy()
-    wt = torch.tensor(len(f)/(4*ships*repeat), dtype=torch.float32)
+    wt = torch.tensor(len(f)/(classes*ships*repeat), dtype=torch.float32)
     xt, yt = torch.tensor(x), torch.tensor(f.class_id.to_numpy(int))
     optimizer = torch.optim.AdamW(model.parameters(), lr=.003, weight_decay=.01)
     best, chosen, selected, curve = None, None, 0, []
-    for step in range(1, 201):
+    for step in range(1, steps+1):
         optimizer.zero_grad(set_to_none=True)
         loss = (nn.functional.cross_entropy(model(xt[fit]), yt, reduction='none')*wt).mean()
         loss.backward()
@@ -101,7 +111,7 @@ def fit_base(data, table, groups, seed, out):
     model.load_state_dict(chosen)
     with torch.no_grad():
         base = model(xt).numpy()
-    torch.save(dict(state=chosen, step=selected, raw_dim=1538, aux_dim=104), out/'raw_summary.pt')
+    torch.save(dict(state=chosen, step=selected, raw_dim=1538, aux_dim=aux_dim), out/'raw_summary.pt')
     np.savez_compressed(out/'raw_scaler.npz', **sc)
     np.savez_compressed(out/'summary_scaler.npz', **sa)
     pd.DataFrame(curve).to_csv(out/'base_curve.csv', index=False)
@@ -136,7 +146,7 @@ def fit_readouts(local, base, features, refs, covariance, table, groups, seed, o
                     vv_step=steps[0], vh_step=steps[1], alpha=alpha, frequency_step=gs)
 
 
-def train(bundle, assets, out, seeds=(17, 29, 43), device='cpu'):
+def train(bundle, assets, out, seeds=(17, 29, 43), device='cpu', classes=None):
     """Refit base, warm polar heads, align metric, then refit final polar heads.
 
 The pretrained response readers, PCA, source bank and initial PairMetric remain
@@ -145,10 +155,12 @@ explicit input assets. This is staged training, not backbone pretraining.
     bundle, assets, out = Path(bundle), Path(assets), Path(out)
     data = load_npz(bundle/'features.npz')
     table = pd.read_csv(bundle/'table.csv', dtype={'mmsi': str, 'pass_group': str})
-    groups = validate_roles(table, data)
+    classes = data['bank'].shape[0] if classes is None else classes
+    groups = validate_roles(table, data, classes)
     features = {k: data[k] for k in FEATURES}
     covariance = {k: data['covariance_'+k] for k in ('mu', 'scale', 'active')}
     refs = data['refs']
+    local_ids = np.flatnonzero(data.get('local_available', np.ones(len(table), bool)))
     y = table.class_id.to_numpy(int, copy=True)
     y[table.role.eq('evaluation')] = -1
     torch.set_num_threads(2)
@@ -162,29 +174,32 @@ explicit input assets. This is staged training, not backbone pretraining.
         dest.mkdir(exist_ok=True)
         warm = dest/'warm'
         warm.mkdir(exist_ok=True)
-        base = fit_base(data, table, groups, seed, dest)
+        base = fit_base(data, table, groups, seed, dest, classes=classes)
         initial = assets/'warm'/f'seed{seed}'
         metric = PairMetric().to(device)
         metric.load_state_dict(op.load_checkpoint(initial/'both_metric.pt')['state'])
         sc = op.load_checkpoint(initial/'metric_scaler.pt')
         matcher = op.Matcher(features, refs, sc, device)
-        local = matcher.predict(np.arange(len(table)), metric)
+        local = np.zeros((len(table), classes, 2, 3, 2), np.float32)
+        local[local_ids] = matcher.predict(local_ids, metric)
         cached, _ = fit_readouts(local, base, features, refs, covariance,
                                   table, groups, seed, warm)
         decision = FrozenDecision(warm, cached, base, device)
         step, gradient, seconds = fit_metric(matcher, metric, decision, y,
             groups['utility_train'], groups['selection'], dest)
         if step:
-            local = matcher.predict(np.arange(len(table)), metric)
+            local[local_ids] = matcher.predict(local_ids, metric)
         outputs, receipt = fit_readouts(local, base, features, refs, covariance,
                                         table, groups, seed, dest)
         receipt.update(seed=seed, metric_step=step, max_gradient=gradient, metric_seconds=seconds)
+        if 'local_available' in data:
+            outputs['local_available'] = data['local_available']
         np.savez_compressed(dest/'predictions.npz', obs_id=data['obs_id'], bare=base,
                             local=local, refs=refs, **outputs)
         op.write_json(dest/'selection.json', receipt)
         results.append(receipt)
         print('FROZEN', seed, receipt, flush=True)
-    op.write_json(out/'training.json', dict(seeds=list(seeds), results=results,
+    op.write_json(out/'training.json', dict(seeds=list(seeds), results=results, classes=classes,
         evaluation_labels_used=False, backbone_frozen=True,
         initialization='source-trained readers, PCA, bank and initial PairMetric',
         stages='raw_summary -> polar warmup -> aligned metric -> polar refit'))
@@ -198,8 +213,9 @@ def main():
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--seeds', nargs='+', type=int, default=[17, 29, 43])
     parser.add_argument('--device', choices=('cpu', 'cuda'), default='cpu')
+    parser.add_argument('--classes', type=int, help='Class count (default: infer from the source bank).')
     args = parser.parse_args()
-    train(args.bundle, args.assets, args.output, args.seeds, args.device)
+    train(args.bundle, args.assets, args.output, args.seeds, args.device, args.classes)
 
 
 if __name__ == '__main__':

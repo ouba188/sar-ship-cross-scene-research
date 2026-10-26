@@ -1,0 +1,44 @@
+{
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "results": [
+    {
+      "vv_step": 10,
+      "vh_step": 35,
+      "alpha": 0.0,
+      "frequency_step": 0,
+      "seed": 17,
+      "metric_step": 0,
+      "max_gradient": 0.004087981302291155,
+      "metric_seconds": 370.6654547000071
+    },
+    {
+      "vv_step": 0,
+      "vh_step": 35,
+      "alpha": 0.0,
+      "frequency_step": 0,
+      "seed": 29,
+      "metric_step": 0,
+      "max_gradient": 0.006629380397498608,
+      "metric_seconds": 434.15530270000454
+    },
+    {
+      "vv_step": 200,
+      "vh_step": 160,
+      "alpha": 0.7,
+      "frequency_step": 0,
+      "seed": 43,
+      "metric_step": 0,
+      "max_gradient": 0.008161605335772038,
+      "metric_seconds": 576.220356100006
+    }
+  ],
+  "classes": 8,
+  "evaluation_labels_used": false,
+  "backbone_frozen": true,
+  "initialization": "source-trained readers, PCA, bank and initial PairMetric",
+  "stages": "raw_summary -> polar warmup -> aligned metric -> polar refit"
+}

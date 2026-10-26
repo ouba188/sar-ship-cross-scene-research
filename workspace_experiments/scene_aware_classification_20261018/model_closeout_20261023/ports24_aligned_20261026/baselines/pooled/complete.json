@@ -1,0 +1,38 @@
+{
+  "budget": "pooled",
+  "fit": 1849,
+  "validation": 908,
+  "source": 3242,
+  "source_evaluation": 485,
+  "external": 3075,
+  "classes": 8,
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "alphas": [
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0,
+    1000.0
+  ],
+  "mlp_steps": 200,
+  "mlp_initialization": "ordinary 128-wide MLP; no raw-only warm initialization",
+  "validation_criterion": "exact (OA+BA)/2; retain first candidate on ties",
+  "target_labels_used": false,
+  "evaluation_performed": false,
+  "methods": [
+    "raw_ridge",
+    "raw_mlp_seed17",
+    "raw_mlp_seed29",
+    "raw_mlp_seed43",
+    "raw_summary_ridge",
+    "raw_summary_mlp_seed17",
+    "raw_summary_mlp_seed29",
+    "raw_summary_mlp_seed43"
+  ],
+  "cpu_threads": 2
+}

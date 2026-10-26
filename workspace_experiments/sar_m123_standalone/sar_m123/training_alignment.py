@@ -31,14 +31,15 @@ class FrozenDecision:
 
     def __call__(self, local, ids):
         b, av = self.b[ids], self.av[ids]
+        classes = b.shape[-1]
         z = b-b.mean(1, keepdim=True)
-        rival = torch.stack([torch.cat((z[:, :c], z[:, c+1:]), 1).max(1).values for c in range(4)], 1)
-        raw = torch.cat((local.reshape(len(ids), 4, 12), torch.stack((z, rival, z-rival), -1)), -1)
+        rival = torch.stack([torch.cat((z[:, :c], z[:, c+1:]), 1).max(1).values for c in range(classes)], 1)
+        raw = torch.cat((local.reshape(len(ids), classes, 12), torch.stack((z, rival, z-rival), -1)), -1)
         x = torch.where(self.sc['active'], (raw-self.sc['mu'])/self.sc['scale'], 0).float()
         dv, dh = (h(x) for h in self.polar)
         vals = [z, dv, dh]
         for s in (b, b+dv, b+dh):
-            other = torch.stack([torch.cat((s[:, :c], s[:, c+1:]), 1).max(1).values for c in range(4)], 1)
+            other = torch.stack([torch.cat((s[:, :c], s[:, c+1:]), 1).max(1).values for c in range(classes)], 1)
             vals.append(s-other)
         vals.extend(torch.softmax(s, 1) for s in (b, b+dv, b+dh))
         vals.extend(av[:, p, None].expand_as(b) for p in range(2))
@@ -48,7 +49,7 @@ class FrozenDecision:
         return b+w[:, :1]*dv+w[:, 1:]*dh
 
 
-def fit_metric(matcher, metric, decision, y, fit, val, out):
+def fit_metric(matcher, metric, decision, y, fit, val, out, steps=100):
     def predict(ids):
         with torch.no_grad():
             return np.concatenate([decision(matcher.local(ids[k:k+48], metric), ids[k:k+48]).cpu().numpy()
@@ -56,12 +57,12 @@ def fit_metric(matcher, metric, decision, y, fit, val, out):
     initial = predict(val)
     best, selected, chosen = m3.exact_j(y[val], initial), 0, m3.state(metric)
     curve = [dict(step=0, **m3.metrics(y[val], initial))]
-    wt = m3.balanced_weights(y, fit, matcher.device)
+    wt = m3.balanced_weights(y, fit, matcher.device, classes=initial.shape[-1])
     yt = torch.tensor(y[fit], device=matcher.device)
     opt = torch.optim.AdamW(metric.parameters(), lr=.003, weight_decay=.01)
     tick = time.perf_counter()
     gradient_max = 0.
-    for step in range(1, 101):
+    for step in range(1, steps+1):
         opt.zero_grad(set_to_none=True)
         total = 0.
         for k in range(0, len(fit), 24):

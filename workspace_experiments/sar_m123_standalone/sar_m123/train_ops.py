@@ -1,4 +1,4 @@
-"""Frozen public-four-class training operators, migrated without math changes.
+"""Class-count-independent training operators with the retained numerical rules.
 
 Provenance: oss1_m123_replication_20261026/train_m3.py.
 No historical experiment directory is needed to import or execute this module.
@@ -14,9 +14,6 @@ from torch.nn import functional as F
 from scipy.special import softmax, logsumexp
 from . import tokens
 from .m3 import PairMetric, PolarHead, sinkhorn, regional_descriptors, pair_stats
-
-C = 4
-
 
 def load_checkpoint(path):
     return torch.load(path, map_location='cpu', weights_only=False)
@@ -38,7 +35,7 @@ def metrics(y, score):
     ba = float(np.mean([correct[y == c].mean() for c in np.unique(y)]))
     return dict(n=len(y), OA=oa, BA=ba, J=(oa+ba)/2,
                 NLL=float(-lp[np.arange(len(y)), y].mean()),
-                Brier=float(((np.exp(lp)-np.eye(C)[y])**2).sum(1).mean()))
+                Brier=float(((np.exp(lp)-np.eye(score.shape[-1])[y])**2).sum(1).mean()))
 
 
 def exact_j(y, score):
@@ -63,13 +60,15 @@ def transform(raw, sc):
 
 
 def local_raw(local, base):
+    classes = base.shape[-1]
     z = base-base.mean(1, keepdims=True)
-    competitor = np.stack([np.delete(z, c, axis=1).max(1) for c in range(C)], 1)
-    return np.concatenate((local.reshape(len(base), C, 12),
+    competitor = np.stack([np.delete(z, c, axis=1).max(1) for c in range(classes)], 1)
+    return np.concatenate((local.reshape(len(base), classes, 12),
                            np.stack((z, competitor, z-competitor), -1)), -1)
 
 
 def gate_raw(query, bank, refs, base, dv, dh):
+    classes = base.shape[-1]
     qvalid, rvalid = query['valid'], bank['valid'][refs]
     valid = qvalid[:, None, None] & rvalid
     has = valid.any(2)
@@ -77,7 +76,7 @@ def gate_raw(query, bank, refs, base, dv, dh):
     mean, std = pair_stats((q*s).sum(-1), valid)
     agreement = (s[:, :, 0]*s[:, :, 1]).sum(-1)*valid.all(2)
     spatial = np.stack((mean, std, agreement, valid.mean(2),
-                        np.broadcast_to(qvalid[:, None], has.shape)), -1).reshape(len(base), C, 30)
+                        np.broadcast_to(qvalid[:, None], has.shape)), -1).reshape(len(base), classes, 30)
     bv = np.broadcast_to(valid[..., None], valid.shape+(3,))
     cm, cs = pair_stats((query['cov'][:, None, None]*bank['cov'][refs]).sum(-1), bv)
     em, es = pair_stats(bank['energy'][refs], bv)
@@ -90,12 +89,12 @@ def gate_raw(query, bank, refs, base, dv, dh):
     values = [base-base.mean(1, keepdims=True), dv, dh]
     scores = (base, base+dv, base+dh)
     for score in scores:
-        other = np.stack([np.delete(score, c, axis=1).max(1) for c in range(C)], 1)
+        other = np.stack([np.delete(score, c, axis=1).max(1) for c in range(classes)], 1)
         values.append(score-other)
     values.extend(softmax(s, axis=1) for s in scores)
     values.extend(np.broadcast_to(avail[:, p, None], base.shape) for p in range(2))
-    raw = np.concatenate((np.stack(values, -1), spatial, freq.reshape(len(base), C, 144)), -1)
-    assert raw.shape == (len(base), C, 185)
+    raw = np.concatenate((np.stack(values, -1), spatial, freq.reshape(len(base), classes, 144)), -1)
+    assert raw.shape == (len(base), classes, 185)
     return raw.astype(np.float32), avail.astype(np.float32)
 
 
@@ -125,17 +124,18 @@ class Gate(nn.Module):
         return torch.stack((a, 1-a), 1)*available
 
 
-def balanced_weights(y, ids, device):
-    count = np.bincount(y[ids], minlength=C)
+def balanced_weights(y, ids, device, classes=None):
+    classes = int(y[ids].max())+1 if classes is None else classes
+    count = np.bincount(y[ids], minlength=classes)
     assert (count > 0).all(), count
-    return torch.tensor(.5/len(ids)+.5/(C*count[y[ids]]), dtype=torch.float32, device=device)
+    return torch.tensor(.5/len(ids)+.5/(classes*count[y[ids]]), dtype=torch.float32, device=device)
 
 
 def fit_head(name, model, x, base, y, tr, va, out, steps=200):
     device = next(model.parameters()).device
     xt, bt = torch.as_tensor(x, device=device), torch.as_tensor(base, device=device)
     yt = torch.as_tensor(y[tr], device=device)
-    wt = balanced_weights(y, tr, device)
+    wt = balanced_weights(y, tr, device, classes=base.shape[-1])
     opt = torch.optim.AdamW(model.parameters(), lr=.003, weight_decay=.01)
     best, selected, chosen = exact_j(y[va], base[va]), 0, state(model)
     curves = [dict(step=0, **metrics(y[va], base[va]))]
@@ -206,7 +206,7 @@ def choose_alpha(base, dv, dh, avail, y, ids):
     return min(choices, key=lambda v: (-v[1], abs(v[0]-.5), v[0]))[0]
 
 
-def fit_gate(arm, seed, raw, base, dv, dh, avail, y, tr, va, alpha, out):
+def fit_gate(arm, seed, raw, base, dv, dh, avail, y, tr, va, alpha, out, steps=100):
     dim = 41 if arm == 'spatial' else 185
     scaler = scale_fit(raw[..., :dim], tr)
     x = torch.tensor(transform(raw[..., :dim], scaler))
@@ -214,7 +214,7 @@ def fit_gate(arm, seed, raw, base, dv, dh, avail, y, tr, va, alpha, out):
     torch.manual_seed(seed)
     model = Gate(dim, alpha)
     opt = torch.optim.AdamW(model.parameters(), lr=.003, weight_decay=.01)
-    ytr, wt = torch.tensor(y[tr]), balanced_weights(y, tr, 'cpu')
+    ytr, wt = torch.tensor(y[tr]), balanced_weights(y, tr, 'cpu', classes=base.shape[-1])
     def prediction(ids):
         w = model(x[ids], a[ids])
         return b[ids]+w[:, :1]*v[ids]+w[:, 1:]*h[ids], w
@@ -222,7 +222,7 @@ def fit_gate(arm, seed, raw, base, dv, dh, avail, y, tr, va, alpha, out):
         initial = prediction(va)[0].numpy()
     best, selected, chosen = exact_j(y[va], initial), 0, state(model)
     curves = [dict(step=0, **metrics(y[va], initial))]
-    for step in range(1, 101):
+    for step in range(1, steps+1):
         opt.zero_grad(set_to_none=True)
         loss = (F.cross_entropy(prediction(tr)[0], ytr, reduction='none')*wt).sum()
         loss.backward()
