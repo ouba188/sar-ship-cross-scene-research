@@ -1,0 +1,62 @@
+{
+  "arms": [
+    "both",
+    "learned_fixed",
+    "cosine_soft",
+    "cosine_fixed"
+  ],
+  "endpoints": [
+    "bare",
+    "B_fixed",
+    "spatial",
+    "frequency"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "directions": [
+    [
+      "oss1",
+      "oss2"
+    ],
+    [
+      "oss2",
+      "oss1"
+    ]
+  ],
+  "base": "frozen retained raw_summary, no upstream refit",
+  "references": 32,
+  "per_class_retrieved": 2,
+  "learned_initialization": "original source both_metric.pt, not retained aligned_metric.pt",
+  "metric_steps": 100,
+  "metric_objective": "actual frozen old raw_summary frequency decision",
+  "metric_selection_steps": [
+    0,
+    5,
+    10,
+    15,
+    20,
+    30,
+    50,
+    75,
+    100
+  ],
+  "metric_optimizer": "AdamW lr=.003 weight_decay=.01; full utility objective, chunks24",
+  "head_steps": 200,
+  "gate_steps": 100,
+  "head_gate_optimizer": "AdamW lr=.003 weight_decay=.01",
+  "roles": "utility_train optimization/scalers, selection exact J and alpha, evaluation held out",
+  "checkpoint": "strict exact-J improvement, retain earliest including zero",
+  "fixed_metric": "ordinary cosine on source-PCA spatial tokens, no PairMetric weights",
+  "fixed_matching": "T_ij=1[i=j]*min(normalized_query_mass_i, normalized_reference_mass_i)",
+  "soft_matching": "original dustbin Sinkhorn eps=.1 iterations60; no independent trainable solver",
+  "training_scope": "learned_fixed and both adapt the same 640 PairMetric parameters; cosine arms have no metric optimizer",
+  "gate_scope": "three readouts conditional on the same frequency-adapted metric; not independent matcher fits per gate",
+  "all_readouts_refit": true,
+  "target_labels": "evaluate only after all24 configurations frozen",
+  "historical_target_development_exposure": true,
+  "device": "cuda",
+  "raw_review_pending": false
+}
