@@ -1,5 +1,9 @@
 # 2026-10-26：最终M3冻结扩围与OSS1准备
 
+## 最新保留决定
+
+用户确认保留本轮新版：`m3_aligned_training_20261026`的raw_summary＋PairMetric适配＋读出配套重训，输出臂`frequency`，不是metric_only诊断臂。作为收口候选保留完整六组源选配置；原正式M123和此前固定匹配器版继续作为对照，不覆盖旧工程、不混用最好结果。此为版本保留决定，无新增训练或预测变化。OA改善/BA代价及强对照边界不变，详见该目录CLOSEOUT_ZH.md。
+
 ## 最终四臂3075条扩围完成
 
 归档 `workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/final_m3_coverage_20261026/`。
