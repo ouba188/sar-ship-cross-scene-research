@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-26",
+  "scope": "within-dataset held-acquisition, source role evaluation only",
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "arms": [
+    "both",
+    "learned_fixed",
+    "cosine_soft",
+    "cosine_fixed"
+  ],
+  "endpoints": [
+    "bare",
+    "B_fixed",
+    "spatial",
+    "frequency"
+  ],
+  "cached_root": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\new_version_ablations_20261026\\m3",
+  "new_fits": 0,
+  "source_table": "ROOT/{oss1,oss2}_m123_replication_20261026/stack_table.csv",
+  "id_rule": "source_predictions.obs_id exactly equals stack_table.obs_id; refs index full source rows, NOT obs IDs",
+  "bank": "32 source fit_train ships, 8/class; actual 2/class retrieved references/query, identical across arms/seeds",
+  "uncertainty": {
+    "draws": 4000,
+    "seed": 1026,
+    "seed_std": "sample standard deviation, ddof=1",
+    "acquisition": "paired acquisition clusters, mean effects across seeds first; OSS1 no cross-pass interval; OSS2 five clusters exploratory",
+    "ships": "paired MMSI clusters conditional on the observed acquisitions; not independent acquisition uncertainty",
+    "BA": "macro over the four fixed classes; bootstrap BA drops incomplete-class draws and records count"
+  },
+  "version_boundary": "old raw_summary_pre_alignment -> retained aligned both. Neither is the original formal M1/M2 score chain.",
+  "reference_controls": "same raw_summary base; four operators use their previously fitted dependent polar heads and gates",
+  "existing_development_exposure": true,
+  "evaluation_reuse": "existing held cohort reanalysis, not a new untouched external confirmation",
+  "scope_limit": "No full-source role metrics enter efficacy. No target-side observations enter this evaluation. No Git or model/default edits."
+}
