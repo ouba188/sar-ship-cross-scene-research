@@ -1,0 +1,30 @@
+{
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "arms": [
+    "m1_both_refit",
+    "m1_mean_only",
+    "m2_identity_refit",
+    "m2_summary_merged"
+  ],
+  "steps": 200,
+  "optimizer": "AdamW lr=.003 weight_decay=.01",
+  "loss": ".5 observation CE + .5 class-balanced CE",
+  "selection": "fit_validation exact (OA+BA)/2; earliest strict maximum; every 5 steps including zero",
+  "fit_role": "fit_train",
+  "validation_role": "fit_validation",
+  "source_corrected": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\public_m123_cross_dataset_20261026\\normalization_repair_20261026",
+  "source_summaries": "oss{1,2}_m123_replication_20261026/frontend/summaries.npz",
+  "cross_summaries": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\public_m123_cross_dataset_20261026\\{direction}\\summaries\\summaries.npz",
+  "scaler": "source fit only; axes observations/classes; strict ptp==0 -> zero; std floor 1e-8",
+  "M1": "both branches unchanged; mean-only sets hb3=0 before raw feature construction; 266 parameters",
+  "M2": "both freeze original corrected m1; unchanged 69->12->1; 853 parameters",
+  "merge": "valid-region area weighted summary; copy to 3 slots; quality total area, area-weighted coverage/min_neff, any-valid; geometry unchanged",
+  "scope": "conditional matched head comparison; not independent physical causality; not complete M3",
+  "total_fits": 24,
+  "target_selection": false,
+  "original_cached_controls": true
+}

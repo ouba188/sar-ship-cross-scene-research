@@ -1,0 +1,28 @@
+{
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU",
+  "pytorch": "2.7.1+cu128",
+  "model_load_seconds": 1.3276000999612734,
+  "classes": 8,
+  "reference_bank": 64,
+  "native_chips": 8,
+  "repeats": 3,
+  "seed": 17,
+  "batch": 1,
+  "parameters": {
+    "backbone_resident": 25557032,
+    "backbone_executed_through_layer3": 8543296,
+    "M1": 266,
+    "M2": 853,
+    "M3_modules": {
+      "metric": 640,
+      "vv": 133,
+      "vh": 133,
+      "gate": 2245
+    }
+  },
+  "bank_arrays_bytes": 1925632,
+  "scope": "actual standalone8class, not public4class; warm filesystem/kernel; image IO included; detection/model loading excluded",
+  "baseline_path": "includes shared feature forward through layer3; not an independently optimized stem-only baseline",
+  "inference": "features freshly extracted every timed chip, no query-cache reuse"
+}
