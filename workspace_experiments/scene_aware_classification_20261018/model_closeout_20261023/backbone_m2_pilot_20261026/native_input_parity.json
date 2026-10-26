@@ -1,0 +1,742 @@
+{
+  "status": "passed",
+  "pilot_adapter": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\backbone_m2_pilot_20261026\\run.py",
+  "reference_adapter": "E:\\临时会话\\scene_aware_classification_20261018\\eight_class_evidence_20261023\\obb_dynamic_readout\\common.py",
+  "source_manifest": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\ports24_aligned_20261026\\bundle\\table.csv",
+  "availability_source": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\local_evidence_transport\\tokens.npz",
+  "availability_key": "valid[source_index, polarization]",
+  "snapshot_path": "E:\\临时会话\\same_vessel_gallery_20261019\\local_condition_module\\view_snapshot.json",
+  "selection": "First source fit_train row in existing bundle order with original valid=True, independently for each class_id 0..7 and VV/VH. No prediction-based selection.",
+  "normalization": "Pilot float32 pixels equal (reference uint8 pixels / 255).astype(float32) exactly; round(pilot pixels * 255) reconstructs reference pixels exactly.",
+  "device": "cpu",
+  "torch_threads": 1,
+  "training_launched": false,
+  "model_forward_run": false,
+  "evaluation_truth_read": false,
+  "evaluation_rows_used": false,
+  "class_count": 8,
+  "polarization_case_count": 16,
+  "unique_observations": 8,
+  "cases": [
+    {
+      "class_id": 0,
+      "class_name": "bulk_carrier",
+      "polarization": "vv",
+      "obs_id": 244,
+      "instance_id": "returned_20260915_0004391",
+      "role": "fit_train",
+      "bundle_position": 19,
+      "source_index": 19,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Sydney Botany\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250809T083935_20250809T084000_060456_078421_3DD2_VV_UTM_8bit__r02_c04__a7629246e7732ddd.png",
+      "native_shape": [
+        72,
+        72
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        79.76566314697266,
+        79.90187454223633,
+        29.090232538470953,
+        11.389158141625606,
+        1.9057805293778913,
+        0.8555245399475098
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 0,
+      "class_name": "bulk_carrier",
+      "polarization": "vh",
+      "obs_id": 244,
+      "instance_id": "returned_20260915_0004391",
+      "role": "fit_train",
+      "bundle_position": 19,
+      "source_index": 19,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\return_20260915\\Sydney Botany\\bulk_carrier\\S1A_IW_GRDH_1SDV_20250809T083935_20250809T084000_060456_078421_3DD2_VH_UTM_8bit__r02_c04__bc164b4593ad62ab.png",
+      "native_shape": [
+        72,
+        72
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        79.88675689697266,
+        79.7749137878418,
+        30.930547541999207,
+        12.576486794581355,
+        1.8054616870114737,
+        0.8101579546928406
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 1,
+      "class_name": "fishing_vessel",
+      "polarization": "vv",
+      "obs_id": 83,
+      "instance_id": "pair_0001219",
+      "role": "fit_train",
+      "bundle_position": 2,
+      "source_index": 2,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Antwerp-Bruges\\fishing_vessel\\S1A_IW_GRDH_1SDV_20250515T173329_20250515T173354_059208_0758CD_0F9D_VV_UTM_8bit__r04_c02__7a1058f25801b8ee.png",
+      "native_shape": [
+        64,
+        64
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        78.68981552124023,
+        79.39653778076172,
+        13.108445594498228,
+        9.169861219284739,
+        1.1550704313051101,
+        0.2819402813911438
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 1,
+      "class_name": "fishing_vessel",
+      "polarization": "vh",
+      "obs_id": 83,
+      "instance_id": "pair_0001219",
+      "role": "fit_train",
+      "bundle_position": 2,
+      "source_index": 2,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Antwerp-Bruges\\fishing_vessel\\S1A_IW_GRDH_1SDV_20250515T173329_20250515T173354_059208_0758CD_0F9D_VH_UTM_8bit__r04_c02__8c7b35a7b1dbdd7f.png",
+      "native_shape": [
+        64,
+        64
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        80.27084350585938,
+        79.06831359863281,
+        15.138663001710606,
+        9.192808687060358,
+        1.6098738341682588,
+        0.3023126423358917
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 2,
+      "class_name": "general_cargo",
+      "polarization": "vv",
+      "obs_id": 119,
+      "instance_id": "pair_0001401",
+      "role": "fit_train",
+      "bundle_position": 6,
+      "source_index": 6,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Antwerp-Bruges\\general_cargo\\S1A_IW_GRDH_1SDV_20250608T173328_20250608T173353_059558_0764E4_FD1A_VV_UTM_8bit__r04_c02__2b97974762ac3108.png",
+      "native_shape": [
+        64,
+        64
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        80.06511306762695,
+        80.66839218139648,
+        16.75398868101281,
+        8.443440490106791,
+        2.6656376879617345,
+        0.34648990631103516
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 2,
+      "class_name": "general_cargo",
+      "polarization": "vh",
+      "obs_id": 119,
+      "instance_id": "pair_0001401",
+      "role": "fit_train",
+      "bundle_position": 6,
+      "source_index": 6,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_merged_20260915\\images\\Antwerp-Bruges\\general_cargo\\S1A_IW_GRDH_1SDV_20250608T173328_20250608T173353_059558_0764E4_FD1A_VH_UTM_8bit__r04_c02__0ddbe7973d23926f.png",
+      "native_shape": [
+        64,
+        64
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        79.22496032714844,
+        80.67415618896484,
+        14.382289247983483,
+        7.842148031695295,
+        2.404825114803093,
+        0.37331628799438477
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 3,
+      "class_name": "product_chemical_tanker",
+      "polarization": "vv",
+      "obs_id": 297,
+      "instance_id": "returned_local_knowledge_0022217",
+      "role": "fit_train",
+      "bundle_position": 30,
+      "source_index": 32,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Tanger Med\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250127T062757_20250127T062822_057626_0719BE_BA8D_VV_UTM_8bit__r02_c04__4e7baffccb34534e.png",
+      "native_shape": [
+        64,
+        64
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        79.707275390625,
+        79.60075378417969,
+        19.75247768860552,
+        8.290645326280048,
+        2.20831330585431,
+        0.7722185850143433
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 3,
+      "class_name": "product_chemical_tanker",
+      "polarization": "vh",
+      "obs_id": 297,
+      "instance_id": "returned_local_knowledge_0022217",
+      "role": "fit_train",
+      "bundle_position": 30,
+      "source_index": 32,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Tanger Med\\product_chemical_tanker\\S1A_IW_GRDH_1SDV_20250127T062757_20250127T062822_057626_0719BE_BA8D_VH_UTM_8bit__r02_c04__1b6d05c73cbc331c.png",
+      "native_shape": [
+        72,
+        72
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        80.57965850830078,
+        80.068115234375,
+        27.538016783698048,
+        9.017305114927616,
+        1.8216967308746133,
+        0.8205269575119019
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 4,
+      "class_name": "container_ship",
+      "polarization": "vv",
+      "obs_id": 174,
+      "instance_id": "returned_local_knowledge_0001166",
+      "role": "fit_train",
+      "bundle_position": 11,
+      "source_index": 11,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\container_ship\\S1A_IW_GRDH_1SDV_20250104T021547_20250104T021611_057288_070C5C_2B74_VV_UTM_8bit__r02_c02__615f0976a56fb18d.png",
+      "native_shape": [
+        64,
+        64
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        80.10348510742188,
+        79.18894958496094,
+        18.289414193684973,
+        9.869149545486321,
+        1.7402863255516967,
+        0.7504123449325562
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 4,
+      "class_name": "container_ship",
+      "polarization": "vh",
+      "obs_id": 174,
+      "instance_id": "returned_local_knowledge_0001166",
+      "role": "fit_train",
+      "bundle_position": 11,
+      "source_index": 11,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Jebel Ali\\container_ship\\S1A_IW_GRDH_1SDV_20250104T021547_20250104T021611_057288_070C5C_2B74_VH_UTM_8bit__r02_c02__2537caec37b4a7a1.png",
+      "native_shape": [
+        64,
+        64
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        80.44403076171875,
+        79.83094787597656,
+        17.903316788591642,
+        8.161493889379079,
+        1.8511835940726473,
+        0.7993403673171997
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 5,
+      "class_name": "crude_oil_tanker",
+      "polarization": "vv",
+      "obs_id": 1093,
+      "instance_id": "returned_local_knowledge_0008384",
+      "role": "fit_train",
+      "bundle_position": 73,
+      "source_index": 75,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\crude_oil_tanker\\S1A_IW_GRDH_1SDV_20250907T225606_20250907T225631_060888_079528_A9E2_VV_UTM_8bit__r03_c02__a2b30142ee4d6956.png",
+      "native_shape": [
+        88,
+        88
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        80.15741729736328,
+        80.17151641845703,
+        41.38127647319916,
+        17.70701642428185,
+        0.7548846958844322,
+        0.7933152914047241
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 5,
+      "class_name": "crude_oil_tanker",
+      "polarization": "vh",
+      "obs_id": 1093,
+      "instance_id": "returned_local_knowledge_0008384",
+      "role": "fit_train",
+      "bundle_position": 73,
+      "source_index": 75,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Klang\\crude_oil_tanker\\S1A_IW_GRDH_1SDV_20250907T225606_20250907T225631_060888_079528_A9E2_VH_UTM_8bit__r03_c02__264d8b5067a97ed3.png",
+      "native_shape": [
+        80,
+        80
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        80.76309967041016,
+        79.88136291503906,
+        39.19425858381811,
+        16.601845967845932,
+        0.7706817195796605,
+        0.7915087938308716
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 6,
+      "class_name": "tug_towing",
+      "polarization": "vv",
+      "obs_id": 7429,
+      "instance_id": "returned_local_knowledge_0006597",
+      "role": "fit_train",
+      "bundle_position": 507,
+      "source_index": 523,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\New York\\tug_towing\\S1A_IW_GRDH_1SDV_20250623T225123_20250623T225148_059780_076C81_4E63_VV_UTM_8bit__r03_c02__5dbd8d4cef9518d4.png",
+      "native_shape": [
+        64,
+        64
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        79.88302612304688,
+        80.45358276367188,
+        18.374719366619715,
+        7.801683009886443,
+        1.9941134057387937,
+        0.7917789220809937
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 6,
+      "class_name": "tug_towing",
+      "polarization": "vh",
+      "obs_id": 7429,
+      "instance_id": "returned_local_knowledge_0006597",
+      "role": "fit_train",
+      "bundle_position": 507,
+      "source_index": 523,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\New York\\tug_towing\\S1A_IW_GRDH_1SDV_20250623T225123_20250623T225148_059780_076C81_4E63_VH_UTM_8bit__r03_c02__ef11647fd787e408.png",
+      "native_shape": [
+        64,
+        64
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        79.00984954833984,
+        80.48751831054688,
+        17.167119981227266,
+        8.046602436942443,
+        1.9035135335044253,
+        0.811409592628479
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 7,
+      "class_name": "offshore_supply",
+      "polarization": "vv",
+      "obs_id": 905,
+      "instance_id": "returned_local_knowledge_0012183",
+      "role": "fit_train",
+      "bundle_position": 52,
+      "source_index": 54,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Said\\offshore_supply\\S1C_IW_GRDH_1SDV_20250906T154800_20250906T154825_004006_007F76_6E9F_VV_UTM_8bit__r02_c04__ce953b02d67c0fc9.png",
+      "native_shape": [
+        64,
+        64
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        80.52047729492188,
+        81.72006225585938,
+        14.419189695463329,
+        10.077918053505726,
+        0.9435486212366566,
+        0.6962215304374695
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    },
+    {
+      "class_id": 7,
+      "class_name": "offshore_supply",
+      "polarization": "vh",
+      "obs_id": 905,
+      "instance_id": "returned_local_knowledge_0012183",
+      "role": "fit_train",
+      "bundle_position": 52,
+      "source_index": 54,
+      "original_available": [
+        true,
+        true
+      ],
+      "image_path": "E:\\SAR_AIS_T_shipchip_dataset\\v5_context_dynamic_64_128_return_20260915\\images\\Port Said\\offshore_supply\\S1C_IW_GRDH_1SDV_20250906T154800_20250906T154825_004006_007F76_6E9F_VH_UTM_8bit__r02_c04__15b51c27776f059c.png",
+      "native_shape": [
+        88,
+        88
+      ],
+      "canvas_shape": [
+        160,
+        160
+      ],
+      "geometry": [
+        78.86318588256836,
+        79.64026641845703,
+        35.71165653221663,
+        11.95473414853106,
+        1.3512794107982025,
+        0.6054243445396423
+      ],
+      "checks": {
+        "pixels_exact": true,
+        "normalized_pixels_exact": true,
+        "footprint_exact": true,
+        "geometry_exact": true,
+        "region_masks_exact": true
+      },
+      "max_absolute_errors": {
+        "pixels": 0,
+        "normalized_pixels": 0,
+        "footprint": 0,
+        "geometry": 0,
+        "region_masks": 0
+      }
+    }
+  ]
+}
