@@ -1,0 +1,19 @@
+{
+  "status": "diagnosed_batch_rounding_with_remaining_numeric_drift",
+  "source": "oss2",
+  "seed": 43,
+  "input_source_rows": 1519,
+  "dummy_rows": 921,
+  "source_only_vs_historical": 1.1920928955078125e-07,
+  "zero_padded_vs_historical": 0.0,
+  "source_only_vs_padded": 1.1920928955078125e-07,
+  "warm_parameter_differences": {
+    "vv.pt": 0.0,
+    "vh_centered.pt": 0.0,
+    "frequency.pt": 1.4901161193847656e-08
+  },
+  "all_prediction_and_selection_parity": true,
+  "strict_numeric_parity": "failed",
+  "original_weights_preserved": true,
+  "interpretation": "First observed rounding difference is reproduced at fixed weights by changing batch size only. Subsequent optimization differs slightly; not every later numerical path is isolated. No target records or labels are needed in standalone training."
+}

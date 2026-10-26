@@ -19,12 +19,18 @@ def main():
     parser.add_argument('--seeds', nargs='+', type=int, default=[17], choices=(17, 29, 43),
                         help='Separate frozen configurations, not an ensemble')
     parser.add_argument('--trace', action='store_true', help='Include stage scores and query-reference evidence')
+    parser.add_argument('--model', choices=('formal', 'aligned'), default='formal',
+                        help='formal: historical eight-class model; aligned: retained four-class candidate')
     args = parser.parse_args()
     requests = json.loads(args.input.read_text(encoding='utf-8-sig'))
     single = isinstance(requests, dict)
     if single:
         requests = [requests]
-    classifier = ShipClassifier(args.assets, args.device)
+    if args.model == 'aligned':
+        from .aligned import AlignedClassifier
+        classifier = AlignedClassifier(args.assets, args.device)
+    else:
+        classifier = ShipClassifier(args.assets, args.device)
     outputs = [classifier.predict(r, args.input.parent, args.seeds, args.trace) for r in requests]
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(outputs[0] if single else outputs, indent=2,

@@ -1,5 +1,11 @@
 # M1–M3 独立 SAR 船舶分类工程
 
+## 2026-10-26 新版入口
+
+**新版与下文历史八分类工程并存，不能混用资源。** 新版是已保留的公开四分类 `raw_summary + adapted PairMetric + paired readout refit`，完整说明见 [ALIGNED_MODEL_ZH.md](ALIGNED_MODEL_ZH.md)。使用 `--model aligned --assets assets_aligned/oss1` 或 `assets_aligned/oss2`；默认 `--model formal` 保留历史八分类行为。
+
+新版提供 chip 到分类的独立推理、原图训练特征提取、分阶段训练及模型资源安装入口。下文历史证据图册、八分类结果与接口默认值仍对应旧正式版本，不代表新版结果。新版验证记录见 `validation_reports/aligned*`。
+
 本目录是已经接通的 **chip 图像 + 检测 OBB → 分类输出** 推理工程。它不是旧 `replay_selected.py` 的包装：输入图像现场提取特征，M1、M2、M3 在本目录内实现，运行时不导入旧实验脚本、不读取查询特征或查询分数缓存、不需要查询标签。
 
 本机 `assets/` 已导出所选模型的全部推理资源。复制整个目录（包括 `assets/`）即可迁移；GitHub 只保存代码、文档和小型验证记录，不保存权重、源参考特征库或原图。
