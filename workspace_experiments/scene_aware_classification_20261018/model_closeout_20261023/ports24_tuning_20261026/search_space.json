@@ -1,0 +1,71 @@
+{
+  "configs": [
+    {
+      "name": "default"
+    },
+    {
+      "name": "head_lr_1e3",
+      "head_lr": 0.001
+    },
+    {
+      "name": "head_lr_3e4",
+      "head_lr": 0.0003
+    },
+    {
+      "name": "head_wd_01",
+      "head_wd": 0.1
+    },
+    {
+      "name": "head_wd_1",
+      "head_wd": 1.0
+    },
+    {
+      "name": "head_lr1e3_wd01",
+      "head_lr": 0.001,
+      "head_wd": 0.1
+    },
+    {
+      "name": "head_steps400",
+      "head_steps": 400
+    },
+    {
+      "name": "metric_lr3e4",
+      "metric_lr": 0.0003,
+      "metric_steps": 100
+    },
+    {
+      "name": "metric_lr1e3_steps200",
+      "metric_lr": 0.001,
+      "metric_steps": 200
+    },
+    {
+      "name": "transport_eps005",
+      "temperature": 0.05
+    },
+    {
+      "name": "transport_eps02",
+      "temperature": 0.2
+    },
+    {
+      "name": "transport_eps04",
+      "temperature": 0.4
+    }
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "lambdas": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0,
+    1.25,
+    1.5
+  ],
+  "selection": "mean three-seed exact source J; common config and lambda",
+  "external_features_loaded": false,
+  "evaluation_labels_used": false
+}

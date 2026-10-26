@@ -49,26 +49,28 @@ class FrozenDecision:
         return b+w[:, :1]*dv+w[:, 1:]*dh
 
 
-def fit_metric(matcher, metric, decision, y, fit, val, out, steps=100):
+def fit_metric(matcher, metric, decision, y, fit, val, out, steps=100, *, lr=.003, weight_decay=.01,
+               batch_size=24):
+    predict_batch = max(batch_size, 48)
     def predict(ids):
         with torch.no_grad():
-            return np.concatenate([decision(matcher.local(ids[k:k+48], metric), ids[k:k+48]).cpu().numpy()
-                                   for k in range(0, len(ids), 48)])
+            return np.concatenate([decision(matcher.local(ids[k:k+predict_batch], metric), ids[k:k+predict_batch]).cpu().numpy()
+                                   for k in range(0, len(ids), predict_batch)])
     initial = predict(val)
     best, selected, chosen = m3.exact_j(y[val], initial), 0, m3.state(metric)
     curve = [dict(step=0, **m3.metrics(y[val], initial))]
     wt = m3.balanced_weights(y, fit, matcher.device, classes=initial.shape[-1])
     yt = torch.tensor(y[fit], device=matcher.device)
-    opt = torch.optim.AdamW(metric.parameters(), lr=.003, weight_decay=.01)
+    opt = torch.optim.AdamW(metric.parameters(), lr=lr, weight_decay=weight_decay)
     tick = time.perf_counter()
     gradient_max = 0.
     for step in range(1, steps+1):
         opt.zero_grad(set_to_none=True)
         total = 0.
-        for k in range(0, len(fit), 24):
-            ix = fit[k:k+24]
+        for k in range(0, len(fit), batch_size):
+            ix = fit[k:k+batch_size]
             scores = decision(matcher.local(ix, metric), ix)
-            loss = (F.cross_entropy(scores, yt[k:k+24], reduction='none')*wt[k:k+24]).sum()
+            loss = (F.cross_entropy(scores, yt[k:k+batch_size], reduction='none')*wt[k:k+batch_size]).sum()
             assert torch.isfinite(loss)
             loss.backward()
             total += float(loss.detach())
@@ -79,7 +81,8 @@ def fit_metric(matcher, metric, decision, y, fit, val, out, steps=100):
             curve.append(dict(step=1, loss=total, gradient_max=grad, **m3.metrics(y[val], initial)))
             break
         opt.step()
-        if step in (5, 10, 15, 20, 30, 50, 75, 100):
+        if (step in (5, 10, 15, 20, 30, 50, 75, 100)
+                or (step > 100 and step % 25 == 0) or step == steps):
             scores = predict(val)
             j = m3.exact_j(y[val], scores)
             curve.append(dict(step=step, loss=total, gradient_max=grad, **m3.metrics(y[val], scores)))

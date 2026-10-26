@@ -131,12 +131,12 @@ def balanced_weights(y, ids, device, classes=None):
     return torch.tensor(.5/len(ids)+.5/(classes*count[y[ids]]), dtype=torch.float32, device=device)
 
 
-def fit_head(name, model, x, base, y, tr, va, out, steps=200):
+def fit_head(name, model, x, base, y, tr, va, out, steps=200, *, lr=.003, weight_decay=.01):
     device = next(model.parameters()).device
     xt, bt = torch.as_tensor(x, device=device), torch.as_tensor(base, device=device)
     yt = torch.as_tensor(y[tr], device=device)
     wt = balanced_weights(y, tr, device, classes=base.shape[-1])
-    opt = torch.optim.AdamW(model.parameters(), lr=.003, weight_decay=.01)
+    opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
     best, selected, chosen = exact_j(y[va], base[va]), 0, state(model)
     curves = [dict(step=0, **metrics(y[va], base[va]))]
     for step in range(1, steps+1):
@@ -163,8 +163,9 @@ def fit_head(name, model, x, base, y, tr, va, out, steps=200):
 
 
 class Matcher:
-    def __init__(self, features, refs, scaler, device):
+    def __init__(self, features, refs, scaler, device, *, temperature=None):
         self.device = device
+        self.temperature = temperature
         self.refs = torch.as_tensor(refs, device=device)
         self.x = torch.as_tensor(features['x'], device=device)
         self.mass = torch.as_tensor(features['mass'], device=device)
@@ -186,7 +187,8 @@ class Matcher:
             w = model.weights(hi, hj)
             sim = (w*qi*sj).sum(-1)/((w*qi.square()).sum(-1)*(w*sj.square()).sum(-1)).clamp_min(1e-20).sqrt()
             qa, sa = a[:, None, None, :, r], b[..., r]
-            t = sinkhorn(sim, qa, sa)
+            t = (sinkhorn(sim, qa, sa) if self.temperature is None
+                 else sinkhorn(sim, qa, sa, eps=self.temperature))
             t = t*((qa > 0)[..., :, None] & (sa > 0)[..., None, :])
             groups.append(torch.stack(((t*sim).sum((-1, -2)), t.sum((-1, -2))), -1))
         return torch.stack(groups, -2).mean(2)
@@ -206,14 +208,14 @@ def choose_alpha(base, dv, dh, avail, y, ids):
     return min(choices, key=lambda v: (-v[1], abs(v[0]-.5), v[0]))[0]
 
 
-def fit_gate(arm, seed, raw, base, dv, dh, avail, y, tr, va, alpha, out, steps=100):
+def fit_gate(arm, seed, raw, base, dv, dh, avail, y, tr, va, alpha, out, steps=100, *, lr=.003, weight_decay=.01):
     dim = 41 if arm == 'spatial' else 185
     scaler = scale_fit(raw[..., :dim], tr)
     x = torch.tensor(transform(raw[..., :dim], scaler))
     b, v, h, a = (torch.tensor(z) for z in (base, dv, dh, avail))
     torch.manual_seed(seed)
     model = Gate(dim, alpha)
-    opt = torch.optim.AdamW(model.parameters(), lr=.003, weight_decay=.01)
+    opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
     ytr, wt = torch.tensor(y[tr]), balanced_weights(y, tr, 'cpu', classes=base.shape[-1])
     def prediction(ids):
         w = model(x[ids], a[ids])
