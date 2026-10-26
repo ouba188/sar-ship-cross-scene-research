@@ -73,6 +73,38 @@ class BackboneRegionsIntegrationTests(unittest.TestCase):
         for block in model.blocks.values():
             self.assertGreater(block.output.weight.grad.abs().sum().item(), 0)
 
+    def test_stage1_nonzero_feedback_changes_logits_and_matches_cached_forward(self):
+        images, masks, valid, available = self.inputs
+        for gate_mode in ('dot', 'fixed', 'cosine'):
+            with self.subTest(gate_mode=gate_mode):
+                model = RegionResNet50(
+                    WEIGHTS, classes=8, stages=(1,), hidden=4,
+                    gate_mode=gate_mode).eval()
+                with torch.no_grad():
+                    baseline = model(*self.inputs)
+                    for block in model.blocks.values():
+                        nn.init.normal_(block.output.weight, std=.02)
+                    expected = model(*self.inputs)
+                    prefix = model.prefix(images, stop=1)
+                self.assertFalse(prefix.requires_grad)
+                self.assertEqual(prefix.shape, (2, 2, 256, 16, 16))
+                self.assertGreater((expected - baseline).abs().max().item(), 1e-6)
+                actual = model.forward_from(prefix, masks, valid, available, start=1)
+                torch.testing.assert_close(actual, expected, rtol=0, atol=0)
+                actual.square().mean().backward()
+                for block in model.blocks.values():
+                    self.assertIsNotNone(block.output.weight.grad)
+                    self.assertGreater(block.output.weight.grad.abs().sum().item(), 0)
+
+    def test_stage2_cached_entry_rejects_skipping_stage1_adapter(self):
+        images, masks, valid, available = self.inputs
+        baseline = self.model(mode='none').eval()
+        with torch.no_grad():
+            prefix = baseline.prefix(images, stop=2)
+        model = self.model(stages=(1,)).eval()
+        with self.assertRaisesRegex(ValueError, 'skip an earlier trainable adapter'):
+            model.forward_from(prefix, masks, valid, available, start=2)
+
     def test_repeated_stages_receive_gradients_and_backbone_stays_frozen(self):
         model = self.model(stages=(1, 3))
         self.assertEqual(set(model.blocks), {'0_1', '1_1', '0_3', '1_3'})

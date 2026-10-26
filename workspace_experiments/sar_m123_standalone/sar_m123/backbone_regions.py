@@ -15,14 +15,20 @@ from .backbone import Backbone
 class RegionFeedback(nn.Module):
     """Pool region tokens, then return content-gated updates to their regions."""
 
-    def __init__(self, channels, hidden=32, regions=3, temperature=1.):
+    def __init__(self, channels, hidden=32, regions=3, temperature=1., gate_mode='dot'):
         super().__init__()
         self.channels, self.regions = channels, regions
         if temperature <= 0:
             raise ValueError('Feedback temperature must be positive.')
         self.temperature = float(temperature)
+        if gate_mode not in ('dot', 'fixed', 'cosine'):
+            raise ValueError(gate_mode)
+        self.gate_mode = gate_mode
         self.query = nn.Conv2d(channels, hidden, 1, bias=False)
         self.key = nn.Linear(channels, hidden, bias=False)
+        if gate_mode == 'fixed':
+            self.query.requires_grad_(False)
+            self.key.requires_grad_(False)
         self.value = nn.Linear(channels, hidden, bias=False)
         self.region_value = nn.Parameter(torch.eye(hidden).repeat(regions, 1, 1))
         self.output = nn.Conv2d(hidden, channels, 1, bias=False)
@@ -40,15 +46,22 @@ class RegionFeedback(nn.Module):
         mass = masks.sum((-2, -1))
         z = F.layer_norm(x.permute(0, 2, 3, 1), (self.channels,)).permute(0, 3, 1, 2)
         tokens = torch.einsum('brhw,bchw->brc', masks, z) / mass.clamp_min(1e-6)[..., None]
-        q, k = self.query(z), self.key(tokens)
-        gates = torch.sigmoid(torch.einsum('bdhw,brd->brhw', q, k) /
-                              (math.sqrt(q.shape[1]) * self.temperature))
+        if self.gate_mode == 'fixed':
+            gates = torch.full_like(masks, .5)
+        else:
+            q, k = self.query(z), self.key(tokens)
+            if self.gate_mode == 'cosine':
+                q, k = F.normalize(q, dim=1), F.normalize(k, dim=-1)
+                logits = torch.einsum('bdhw,brd->brhw', q, k) / self.temperature
+            else:
+                logits = torch.einsum('bdhw,brd->brhw', q, k) / (math.sqrt(q.shape[1]) * self.temperature)
+            gates = torch.sigmoid(logits)
         weights = gates * masks / masks.sum(1, keepdim=True).clamp_min(1)
         values = torch.einsum('brd,rde->bre', self.value(tokens), self.region_value)
         update = self.output(torch.einsum('brhw,brd->bdhw', weights, values))
         out = x + self.gain * update
         if return_details:
-            return out, dict(weights=weights, mass=mass, update=self.gain * update)
+            return out, dict(weights=weights, mass=mass, update=self.gain * update, gates=gates)
         return out
 
 
@@ -59,7 +72,7 @@ class RegionResNet50(nn.Module):
     downstream stages remain enabled. No reference bank or M1/M3 is used here.
     """
 
-    def __init__(self, weight_path, classes=8, stages=(2,), mode='regional', hidden=32, temperature=1.):
+    def __init__(self, weight_path, classes=8, stages=(2,), mode='regional', hidden=32, temperature=1., gate_mode='dot'):
         super().__init__()
         if mode not in ('regional', 'merged', 'none'):
             raise ValueError(mode)
@@ -69,7 +82,7 @@ class RegionResNet50(nn.Module):
         self.mode = mode
         self.stages = tuple(sorted(set(stages))) if mode != 'none' else ()
         channels = {1: 256, 2: 512, 3: 1024, 4: 2048}
-        self.blocks = nn.ModuleDict({f'{p}_{s}': RegionFeedback(channels[s], hidden, temperature=temperature)
+        self.blocks = nn.ModuleDict({f'{p}_{s}': RegionFeedback(channels[s], hidden, temperature=temperature, gate_mode=gate_mode)
                                     for s in self.stages for p in range(2)})
         self.head = nn.Linear(4098, classes)
 
@@ -89,6 +102,8 @@ class RegionResNet50(nn.Module):
         return x.reshape(b, p, *x.shape[1:])
 
     def forward_from(self, prefix, masks, valid, available, start=2):
+        if any(s < start for s in self.stages):
+            raise ValueError('Cached entry would skip an earlier trainable adapter.')
         b, p = prefix.shape[:2]
         x = prefix
         for s in range(start, 5):

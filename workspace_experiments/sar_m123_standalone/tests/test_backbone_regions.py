@@ -55,6 +55,26 @@ class RegionFeedbackTests(unittest.TestCase):
         self.assertTrue(((b['weights'][active]-.5).abs() <= (a['weights'][active]-.5).abs()+1e-7).all())
         self.assertEqual(sum(p.numel() for p in soft.parameters()), sum(p.numel() for p in self.block.parameters()))
 
+    def test_cosine_gate_ignores_positive_projection_rescaling(self):
+        block = RegionFeedback(8, hidden=4, gate_mode='cosine')
+        _, a = block(self.x, self.masks, self.valid, return_details=True)
+        with torch.no_grad():
+            block.query.weight.mul_(100)
+            block.key.weight.mul_(30)
+        _, b = block(self.x, self.masks, self.valid, return_details=True)
+        torch.testing.assert_close(a['gates'], b['gates'])
+        self.assertGreaterEqual(float(b['gates'].min()), .2689)
+        self.assertLessEqual(float(b['gates'].max()), .7311)
+
+    def test_fixed_gate_still_trains_value_feedback(self):
+        block = RegionFeedback(8, hidden=4, gate_mode='fixed')
+        torch.nn.init.normal_(block.output.weight)
+        out, d = block(self.x, self.masks, self.valid, return_details=True)
+        torch.testing.assert_close(d['gates'], torch.full_like(d['gates'], .5))
+        out.square().mean().backward()
+        self.assertIsNone(block.query.weight.grad)
+        self.assertGreater(float(block.value.weight.grad.abs().sum()), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
