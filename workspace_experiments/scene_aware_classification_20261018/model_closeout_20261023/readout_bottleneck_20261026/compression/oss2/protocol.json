@@ -1,0 +1,30 @@
+{
+  "source": "oss2",
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "fit": 478,
+  "validation": 228,
+  "arms": [
+    "direct",
+    "reader_span",
+    "reader_complement",
+    "pca_same_rank",
+    "actual_m2_summary"
+  ],
+  "steps": 200,
+  "hidden": 128,
+  "training_roles": "fit_train / fit_validation",
+  "representations": "raw region means projected into existing per-pol class-reader rowspace/complement or equal-rank source PCA",
+  "summary_control": "actual M2 mean/high-low summaries +32 quality/geometry inputs; different dimension, no upstream score",
+  "scaler": "each arm source fit only, constant columns masked; no target fit",
+  "same_nominal_dimension": [
+    "direct",
+    "reader_span",
+    "reader_complement",
+    "pca_same_rank"
+  ],
+  "scope": "information availability under fixed readout family, not complete pipeline ablation"
+}

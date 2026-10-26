@@ -1,0 +1,21 @@
+{
+  "sources": [
+    "oss1",
+    "oss2"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "base": "regional_mlp fit_only versus original corrected M1",
+  "M2": "original regional_raw 69->12->1, fit_train/fit_validation,200 steps, strict constant-column mask",
+  "M3": "fixed source-trained PairMetric, original32 bank and local cache; refit JointHead, VV, centeredVH, alpha,185-dim frequency gate",
+  "M3_training": "utility_train/selection; heads200steps; gate100steps; AdamW .003/.01; alpha0,.1,...,1",
+  "selection": "exact (OA+BA)/2; retain earliest strict optimum including zero",
+  "target_labels": "masked during all fits; evaluation after all predictions saved",
+  "scope": "readout refit conditional on historical frozen matcher, not entire M3 training",
+  "base_training_predictions_oof": false,
+  "cpu_threads": 2,
+  "new_architecture": false
+}
