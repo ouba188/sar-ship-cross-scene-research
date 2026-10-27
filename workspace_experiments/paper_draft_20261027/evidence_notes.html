@@ -1,0 +1,54 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>证据与写作边界</title><style>
+:root{color:#252a2b;background:#f3f5f5;font-family:Georgia,'Times New Roman','Microsoft YaHei',serif;letter-spacing:0}
+*{box-sizing:border-box}body{margin:0}a{color:#17665e;text-underline-offset:3px}nav{font-family:Arial,'Microsoft YaHei',sans-serif;display:flex;gap:20px;flex-wrap:wrap;border-bottom:1px solid #d5ddda;padding:15px max(24px,calc((100% - 1000px)/2));background:#fff;font-size:13px}
+header,main{max-width:1060px;margin:auto;background:white;padding:28px 42px}header{padding-bottom:10px}.edition{font:12px Arial,'Microsoft YaHei',sans-serif;color:#687270;margin:0 0 12px}header h1{font-size:28px;line-height:1.3;font-weight:600;margin:0;max-width:850px}header .status{font:13px/1.65 Arial,'Microsoft YaHei',sans-serif;color:#59645f;margin:16px 0 0;border-left:3px solid #39867c;padding-left:12px}
+main{padding-top:12px;padding-bottom:60px}article{font-size:17px;line-height:1.75}article h1{font-size:23px;line-height:1.3;margin:28px 0 16px}h2{font-size:18px;line-height:1.5;margin:26px 0 12px}h3{font-size:16px}p{margin:0 0 17px;overflow-wrap:break-word}article>p,article>h1,article>h2,article>h3,article>ul,article>ol{max-width:80ch;margin-left:auto;margin-right:auto}figure{margin:24px 0 30px;break-inside:avoid}figure img{width:100%;height:auto;display:block}figcaption{font-size:13px;line-height:1.6;margin:12px 0 0;color:#414849}figure p{margin:0}table{border-collapse:collapse;font-size:14px;width:100%}td,th{border-bottom:1px solid #cdd4d1;text-align:left;padding:8px}code{font-size:.82em;overflow-wrap:anywhere}.references{font-size:13px;line-height:1.6}.references p{margin-bottom:12px}.citation{font-size:.88em;white-space:nowrap}footer{max-width:1060px;padding:20px 42px;margin:auto;color:#64716c;font:12px/1.6 Arial,sans-serif}.auxiliary{margin-top:35px;border-top:1px solid #ccd4d1;padding-top:20px;font:14px/1.7 Arial,'Microsoft YaHei',sans-serif}
+@media(max-width:700px){header,main{padding:22px 18px}header h1{font-size:23px}article{font-size:16px}nav{padding:14px 18px;gap:15px}figcaption{font-size:12px}}
+@page{size:A4;margin:18mm 17mm 18mm}
+@media print{:root{background:white;color:black}nav,footer,.status,.auxiliary{display:none}header,main{max-width:none;padding:0}header h1{font-size:19pt}.edition{font-size:8pt;margin-bottom:6mm}main{padding-top:4mm}article{font-size:11pt;line-height:1.45}article h1{font-size:14pt;margin-top:7mm}h2{font-size:12pt;break-after:avoid}article p{orphans:3;widows:3}figure{margin:5mm 0;break-inside:avoid}figure img{max-height:155mm;object-fit:contain}figcaption{font-size:8pt;line-height:1.35}.references{font-size:8.5pt;line-height:1.35}a{color:black;text-decoration:none}}
+</style></head><body>
+<nav><a href="index.html">中文主稿</a><a href="ieee_zh/main.pdf">IEEE双栏PDF</a><a href="evidence_notes.html">证据与写作边界</a><a href="reference_audit.html">引用核查</a></nav>
+<header><p class="edition">论文工作稿 · 2026年10月27日</p><h1>证据与写作边界</h1><p class="status">本页是编辑记录，不属于论文正文。</p></header><main><article><h1>本轮写作边界与证据位置</h1>
+<p>2026-10-27。初稿只推进Introduction与Related Work；最终完整管线、训练协议及核心贡献尚未定稿。不改实验代码，不重新训练，不修改标签。</p>
+<h2>版本同步</h2>
+<p>写作开始时已读取“读取会话记忆并继续论文实验”（01a0fd27-afa6-7861-b625-cad9b1cd417b）的状态，并于2026-10-27 16:10（北京时间）再次检查：联合条件化M1的单种子三组训练已完成，联合版未超过等容量自身摘要对照，固定权重关闭新增调节后296条预测不变，未替换原版。最新讨论转向“干预证据指导训练”，尚未实施。正文因此没有写入新M1已有效、已经使用干预监督或最终性能提升。</p>
+<p>用户本轮明确要求先写中文：中文为主稿，英文先行文本仅保留作后续翻译参考，不作为当前交付重点。</p>
+<p>Introduction结尾目前止于研究问题与章节衔接。最终方法概述、贡献列表、主结果与完整论文组织将在模型和正式评价确定后补写。本文当前未承诺纯域泛化、目标域少样本适配或开放集设定；源端参考与目标支持不能混写。</p>
+<h2>引言图的用途</h2>
+<ul>
+<li>主图1：3艘不同类别的船、6次观测、12张原chip；散货23490/23491、成品油/化学品24966/24967、原油6352/6353。</li>
+<li>补图S1：复用此前按类别、港口及诊断对错状态选出的全部6对案例，12次观测、24张chip，不是24艘独立船。</li>
+<li>身份以既有MMSI关联为依据，未新增独立船籍验证；一艘船对应同一个类别，不把不同类别图假配成同船。</li>
+<li>主图覆盖同港/跨港及同平台/不同平台观测组合，不试图从三对案例估计数据集层面的域偏移大小或原因占比。</li>
+<li>主图不展示预测标签，避免把诊断器的旧预测误认作探索中完整模型的输出；诊断预测仅保留在来源表供追溯。</li>
+<li>这些都是24港来源图像，不宣称跨数据集同船配对。不能为凑跨数据集案例而仅凭外观匹配身份。</li>
+<li>无裁剪、旋转、直方图调整、锐化或去噪；全部像素按共同原生尺度显示。原始文件本身是8位拉伸显示产品，所以不宣称定量辐射一致。</li>
+<li>浅灰留白仅出现在原始chip范围之外；不同尺寸chip不强行拉成同尺寸目标。VV/VH分别保留，不假设逐像素配准。</li>
+</ul>
+<p>图像文件：<code>figures/fig1_same_vessel_observation_shift.png</code>、同名PDF；补图<code>figures/figS1_extended_observations.png</code>、同名PDF。PDF中图像仍为栅格，仅字体/标记为矢量。来源与元数据见<code>figure_sources.csv</code>，生成条件见<code>figure_build_receipt.json</code>，脚本<code>build_figures.py</code>可复现。</p>
+<h2>原图观察记录</h2>
+<ul>
+<li>23490/23491：主响应方向、长度外观、周围离散亮响应和VV/VH裁剪范围可见变化；同时港口、日期、平台变化，不归因单一因素。</li>
+<li>24966/24967：同港同S1A，两次主响应由近水平变为倾斜；两极化亮响应形状并不完全相同。不能仅凭这点命名散焦或某种散射机制。</li>
+<li>6352/6353：主响应方向与周围条状响应不同；VH周围的显示亮度也不同。未对图像作对比度标准化，不将显示差异等同于物理能量变化。</li>
+</ul>
+<h2>受控干预放在第3节</h2>
+<p>建议标题：<strong>3. Problem Analysis via Controlled Perturbations</strong>。本轮没有把旧报告直接冒充最终第3节正文。</p>
+<ol>
+<li>同船跨观测现象：先说明实际问题，主图放引言，更多自然案例放第3节/补充材料。</li>
+<li>诊断器与扰动协议：区域、极化、尺度、剂量、固定项、对照、类别分差及重复观测统计口径。</li>
+<li>条件相关效应：对照联合/单极化读出，报告救回、误伤与无翻转，不只给正例。</li>
+<li>设计启示：证据来源需要保留，响应利弊需要结合类别竞争；不把这一步当作最终模块有效性证明。</li>
+</ol>
+<p>已完成的受控证据来源：<code>../paper_evidence_20261027/BACKGROUND_PROBLEM_FINDINGS_ZH.md</code>、<code>EVIDENCE_LEDGER_ZH.md</code>、<code>expanded_controls_20261027/FINDINGS_ZH.md</code>。完整模型干预与诊断器分别报告。原干预是高斯尺度操作，候选模块使用Gabor描述，不宣称两者已建立等价关系。</p>
+<h2>IEEE双栏排版（2026-10-27）</h2>
+<p>当前排版主稿为<code>ieee_zh/main.pdf</code>，共3页，使用真实IEEEtran journal类，中文正文、跨双栏图1和IEEEtran数字参考文献。LaTeX源码由中文分节Markdown生成；本轮未补写方法或实验结果，未虚构作者与摘要。正文中尚未写入的第3节暂称“后续问题分析部分”，避免悬空章节引用。</p>
+<p>本地XeLaTeX/BibTeX编译成功，11条文献均解析；已查看3页渲染，修正末页单栏堆积及过大的纵向留白。没有缺字、未解析引用或越栏警告。MiKTeX仍提示更新状态及类初始化字体替代，PDF字体检查确认实际正文使用SimSun/Times New Roman，中文强调及小标题使用SimHei/KaiTi。没有为清除环境提示而升级系统。</p>
+<p>Codex内置编译检查因MiKTeX注册表访问失败、备用编译器下载超时而未通过；本地<code>build.ps1</code>已完整编译成功，PDF通过逐页查看。使用现成PDF阅读，不将内置预览失败误记为源文件编译失败。</p>
+<h2>后续需要补齐而非提前写成贡献</h2>
+<ul>
+<li>确定最终任务协议、目标端可用信息和参考库来源。</li>
+<li>固定最终模型，报告公平重训/替换对照与独立评价。</li>
+<li>用新模型检验设计是否真正利用了问题分析指出的差异。</li>
+<li>Related Work为本轮核实论文的定向综述，不是截至2026年的穷尽综述；不足不能概括成“前人均未考虑”。</li>
+</ul></article></main><footer>本轮仅写问题与文献定位，不代表最终模型或性能结论。</footer></body></html>

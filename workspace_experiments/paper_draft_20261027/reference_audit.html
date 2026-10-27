@@ -1,0 +1,180 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>引用核查记录</title><style>
+:root{color:#252a2b;background:#f3f5f5;font-family:Georgia,'Times New Roman','Microsoft YaHei',serif;letter-spacing:0}
+*{box-sizing:border-box}body{margin:0}a{color:#17665e;text-underline-offset:3px}nav{font-family:Arial,'Microsoft YaHei',sans-serif;display:flex;gap:20px;flex-wrap:wrap;border-bottom:1px solid #d5ddda;padding:15px max(24px,calc((100% - 1000px)/2));background:#fff;font-size:13px}
+header,main{max-width:1060px;margin:auto;background:white;padding:28px 42px}header{padding-bottom:10px}.edition{font:12px Arial,'Microsoft YaHei',sans-serif;color:#687270;margin:0 0 12px}header h1{font-size:28px;line-height:1.3;font-weight:600;margin:0;max-width:850px}header .status{font:13px/1.65 Arial,'Microsoft YaHei',sans-serif;color:#59645f;margin:16px 0 0;border-left:3px solid #39867c;padding-left:12px}
+main{padding-top:12px;padding-bottom:60px}article{font-size:17px;line-height:1.75}article h1{font-size:23px;line-height:1.3;margin:28px 0 16px}h2{font-size:18px;line-height:1.5;margin:26px 0 12px}h3{font-size:16px}p{margin:0 0 17px;overflow-wrap:break-word}article>p,article>h1,article>h2,article>h3,article>ul,article>ol{max-width:80ch;margin-left:auto;margin-right:auto}figure{margin:24px 0 30px;break-inside:avoid}figure img{width:100%;height:auto;display:block}figcaption{font-size:13px;line-height:1.6;margin:12px 0 0;color:#414849}figure p{margin:0}table{border-collapse:collapse;font-size:14px;width:100%}td,th{border-bottom:1px solid #cdd4d1;text-align:left;padding:8px}code{font-size:.82em;overflow-wrap:anywhere}.references{font-size:13px;line-height:1.6}.references p{margin-bottom:12px}.citation{font-size:.88em;white-space:nowrap}footer{max-width:1060px;padding:20px 42px;margin:auto;color:#64716c;font:12px/1.6 Arial,sans-serif}.auxiliary{margin-top:35px;border-top:1px solid #ccd4d1;padding-top:20px;font:14px/1.7 Arial,'Microsoft YaHei',sans-serif}
+@media(max-width:700px){header,main{padding:22px 18px}header h1{font-size:23px}article{font-size:16px}nav{padding:14px 18px;gap:15px}figcaption{font-size:12px}}
+@page{size:A4;margin:18mm 17mm 18mm}
+@media print{:root{background:white;color:black}nav,footer,.status,.auxiliary{display:none}header,main{max-width:none;padding:0}header h1{font-size:19pt}.edition{font-size:8pt;margin-bottom:6mm}main{padding-top:4mm}article{font-size:11pt;line-height:1.45}article h1{font-size:14pt;margin-top:7mm}h2{font-size:12pt;break-after:avoid}article p{orphans:3;widows:3}figure{margin:5mm 0;break-inside:avoid}figure img{max-height:155mm;object-fit:contain}figcaption{font-size:8pt;line-height:1.35}.references{font-size:8.5pt;line-height:1.35}a{color:black;text-decoration:none}}
+</style></head><body>
+<nav><a href="index.html">中文主稿</a><a href="ieee_zh/main.pdf">IEEE双栏PDF</a><a href="evidence_notes.html">证据与写作边界</a><a href="reference_audit.html">引用核查</a></nav>
+<header><p class="edition">论文工作稿 · 2026年10月27日</p><h1>引用核查记录</h1><p class="status">仅支持已核实的具体主张；核查范围见各条目。</p></header><main><article><h1>References and Verification Record</h1>
+<p>Verified on 2026-10-27. Stable citation labels for both Introduction and Related Work. The Chinese Related Work is the current deliverable; the earlier English draft is retained and does not yet include R11.</p>
+<h2>Citation Map</h2>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>BibTeX key</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>huang2018opensarship</td>
+<td>OpenSARShip dataset</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>hou2020fusar</td>
+<td>FUSAR-Ship dataset</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>zhao2022dsan</td>
+<td>SAR ship domain-adaptation study; bibliographic verification only</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>xie2023hogsiam</td>
+<td>HOG-SiamShipCLSNet; shared backbone</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>shao2023dpig</td>
+<td>DPIG-Net; VV-guided polarization fusion</td>
+</tr>
+<tr>
+<td>R6</td>
+<td>he2024cpinet</td>
+<td>CPINet; pseudo-Siamese extraction and shared embedding</td>
+</tr>
+<tr>
+<td>R7</td>
+<td>li2023noncausality</td>
+<td>Regional dependence and clutter analysis in SAR ATR</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>fong2017meaningful</td>
+<td>Meaningful Perturbation</td>
+</tr>
+<tr>
+<td>R9</td>
+<td>hooker2019roar</td>
+<td>Remove And Retrain</td>
+</tr>
+<tr>
+<td>R10</td>
+<td>yin2019fourier</td>
+<td>Controlled Fourier-basis perturbations</td>
+</tr>
+<tr>
+<td>R11</td>
+<td>ross2017right</td>
+<td>Explanation constraints used during training</td>
+</tr>
+</tbody>
+</table>
+<p>Introduction replacements: DATASET_REFS = <a class="citation" href="#ref-R1">[R1]</a>, <a class="citation" href="#ref-R2">[R2]</a>; POLAR_REFS = <a class="citation" href="#ref-R4">[R4]</a>, <a class="citation" href="#ref-R5">[R5]</a>, <a class="citation" href="#ref-R6">[R6]</a>; PERTURB_REFS = <a class="citation" href="#ref-R8">[R8]</a>, <a class="citation" href="#ref-R9">[R9]</a>. Use <a class="citation" href="#ref-R11">[R11]</a> only for the connection from explanation to training, not as evidence that our project has implemented it.</p>
+<h2><a class="citation" href="#ref-R1">[R1]</a> OpenSARShip</h2>
+<p>Lanqing Huang, Bin Liu, Boying Li, Weiwei Guo, Wenhao Yu, Zenghui Zhang, and Wenxian Yu. "OpenSARShip: A Dataset Dedicated to Sentinel-1 Ship Interpretation." IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 11(1), 195-208, 2018. DOI: 10.1109/JSTARS.2017.2755672. Primary URL: https://doi.org/10.1109/JSTARS.2017.2755672.</p>
+<ul>
+<li>Verified scope: publisher-deposited Crossref metadata and the dataset authors' official SJTU site, https://opensar.sjtu.edu.cn/ and https://opensar.sjtu.edu.cn/DataAndCodes.html. The official site supplies this citation and distinguishes OpenSARShip_1 and OpenSARShip_2.</li>
+<li>Supports: existence and intended Sentinel-1 ship-interpretation scope of the benchmark. Paired VV/VH use is independently described in the full methods of R5 and R6.</li>
+<li>Gap: the original dataset paper's full text was not obtained in this run. No independent verification of its full construction pipeline, identity filtering, or collection statistics is claimed. Do not substitute OpenSARShip 2.0 statistics for R1; R4 explicitly uses version 2.0.</li>
+<li>Year: use the 2018 journal volume, not the 2017 DOI string as the publication year.</li>
+</ul>
+<h2><a class="citation" href="#ref-R2">[R2]</a> FUSAR-Ship</h2>
+<p>Xiyue Hou, Wei Ao, Qian Song, Jian Lai, Haipeng Wang, and Feng Xu. "FUSAR-Ship: building a high-resolution SAR-AIS matchup dataset of Gaofen-3 for ship detection and recognition." Science China Information Sciences, 63, article 140303, 2020. DOI: 10.1007/s11432-019-2772-5. Primary URL: https://link.springer.com/article/10.1007/s11432-019-2772-5.</p>
+<ul>
+<li>Verified scope: Crossref metadata and the publisher's abstract/preview, returned by https://link.springer.com/content/pdf/10.1007/s11432-019-2772-5.pdf. The returned material explicitly identifies itself as a subscription-content preview; it is not the article's methods full text.</li>
+<li>Supports: a Gaofen-3 SAR-AIS matchup dataset covering varied maritime/coastal scenes, with detection and recognition applications. These basic statements are present in the publisher's own abstract.</li>
+<li>Gap: detailed matching, taxonomy construction, and experimental protocols were not independently read. Requests to the Science China and ScienceEngine routes did not yield the article. No full-method verification is claimed, and no numerical benchmark comparison is used in the draft.</li>
+</ul>
+<h2><a class="citation" href="#ref-R3">[R3]</a> Domain Adaptation for SAR Ship Classification</h2>
+<p>Shuangmei Zhao and Haitao Lang. "Improving Deep Subdomain Adaptation by Dual-Branch Network Embedding Attention Module for SAR Ship Classification." IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 15, 8038-8048, 2022. DOI: 10.1109/JSTARS.2022.3206753. Primary URL: https://ieeexplore.ieee.org/document/9893336.</p>
+<ul>
+<li>Verified scope: complete bibliographic identity from publisher-deposited Crossref metadata; also listed in the references of the independently retrieved R6 publisher PDF.</li>
+<li>Supports in the draft: only the existence of a study explicitly connecting dual-branch attention and deep subdomain adaptation to SAR ship classification. The paragraph does not assert its precise source/target construction or numerical results.</li>
+<li>Gap: IEEE article/PDF routes returned empty or blocked responses, and the ResearchGate route was access-restricted. This run did not obtain a primary full-method text.</li>
+<li>Prior local notes mention optical-to-SAR transfer, R50/R18 branches, CBAM and LMMD. Those details were NOT independently reverified here and are deliberately excluded from the manuscript. Do not cite R3 as proof of a specific cross-port, cross-satellite, or domain-generalization protocol. This is the principal unresolved literature-method gap.</li>
+</ul>
+<h2><a class="citation" href="#ref-R4">[R4]</a> HOG-SiamShipCLSNet</h2>
+<p>Hongtu Xie, Jinfeng He, Zheng Lu, and Jun Hu. "Two-Level Feature-Fusion Ship Recognition Strategy Combining HOG Features with Dual-Polarized Data in SAR Images." Remote Sensing, 15(18), article 4393, 2023. DOI: 10.3390/rs15184393. Primary URL: https://www.mdpi.com/2072-4292/15/18/4393.</p>
+<ul>
+<li>Full-method source retrieved: https://mdpi-res.com/d_attachment/remotesensing/remotesensing-15-04393/article_deploy/remotesensing-15-04393.pdf.</li>
+<li>Read: title/authors; PDF pp. 6-7, Section 2.2.1 and Figures 4-6; pp. 9-11, loss and experimental setup.</li>
+<li>Verified: VV/VH share the feature-extraction backbone parameters. Grouped bilinear operations produce within- and cross-polarization representations at two depths; fused HOG descriptors are concatenated with learned representations. Six predictions are averaged during testing.</li>
+<li>Evaluation scope: OpenSARShip 2.0, four broad classes, 3:1 train/test ratio and 64-by-64 input.</li>
+<li>Supports: existing dual-polarization, hierarchical and handcrafted/learned fusion. This is NOT the differently titled HOG-ShipCLSNet TGRS paper.</li>
+<li>Precision note: the method overview says losses are added, while Equation (13) averages six losses. The draft does not make a claim about this scaling.</li>
+</ul>
+<h2><a class="citation" href="#ref-R5">[R5]</a> DPIG-Net</h2>
+<p>Zikang Shao, Tianwen Zhang, and Xiao Ke. "A Dual-Polarization Information-Guided Network for SAR Ship Classification." Remote Sensing, 15(8), article 2138, 2023. DOI: 10.3390/rs15082138. Primary URL: https://www.mdpi.com/2072-4292/15/8/2138.</p>
+<ul>
+<li>Full-method source retrieved: https://mdpi-res.com/d_attachment/remotesensing/remotesensing-15-02138/article_deploy/remotesensing-15-02138.pdf.</li>
+<li>Read: journal title/authors and PDF pp. 3-8, Sections 2, 2.1, 2.2 and beginning of 3.1. Also read the separate author preprint, https://arxiv.org/pdf/2207.04639.</li>
+<li>Verified: VV magnitude guides VH and product-magnitude branches; cross-attention precedes concatenation; dilated residual dense fusion includes a global VV residual. Experiments use three- and six-category OpenSARShip subsets.</li>
+<li>Sharing: the inspected method text specifies an encoder architecture but does not explicitly establish tied weights across the three encoders. Weight sharing remains unresolved.</li>
+<li>Formula boundary: Equation (1) takes |S_VV times conjugate(S_VH)|. By the magnitude-product identity, this quantity alone does not retain relative complex phase. Do not repeat the authors' complex-data requirement as mathematical proof of phase-sensitive input.</li>
+<li>Bibliographic correction: the 2022 preprint lists Tianwen Zhang and Xiaoling Zhang; the 2023 journal article lists Shao, Zhang and Ke. The draft cites the verified journal article and does not mix author lists or result versions.</li>
+</ul>
+<h2><a class="citation" href="#ref-R6">[R6]</a> CPINet</h2>
+<p>Jinglu He, Ruiting Sun, Yingying Kong, Wenlong Chang, Chenglu Sun, Gaige Chen, Yinghua Li, Zhe Meng, and Fuping Wang. "CPINet: Towards A Novel Cross-Polarimetric Interaction Network for Dual-Polarized SAR Ship Classification." Remote Sensing, 16(18), article 3479, 2024. DOI: 10.3390/rs16183479. Primary URL: https://www.mdpi.com/2072-4292/16/18/3479.</p>
+<ul>
+<li>Full-method source retrieved: https://mdpi-res.com/d_attachment/remotesensing/remotesensing-16-03479/article_deploy/remotesensing-16-03479.pdf?version=1726740972.</li>
+<li>Read: title/authors; PDF pp. 6-12, Sections 3.1-3.4, and the reference list.</li>
+<li>Verified: multiscale fusion; MO-SE uses GAP plus group-bilinear statistics to modulate the opposite polarization; FBC computes local low-rank bilinear codes, applies signed soft thresholding and spatial max pooling; four classification losses are coordinated with GradNorm.</li>
+<li>Sharing distinction: Section 3.1 calls the extractor pseudo-Siamese. Sections 3.1 and 3.4 explicitly place shared parameters in the FC embedding layer; GradNorm uses gradients with respect to this shared layer. This is not evidence of tied backbone weights. Code-level weight tying was not inspected.</li>
+<li>Scope: three- and five-category OpenSARShip classification. Supports prior multiscale/polarization interaction and optimization coordination, not a claim that natural maritime physical factors have been disentangled.</li>
+</ul>
+<h2><a class="citation" href="#ref-R7">[R7]</a> Noncausality in SAR ATR</h2>
+<p>Weijie Li, Wei Yang, Li Liu, Wenpeng Zhang, and Yongxiang Liu. "Discovering and Explaining the Noncausality of Deep Learning in SAR ATR." IEEE Geoscience and Remote Sensing Letters, 20, 1-5, 2023. DOI: 10.1109/LGRS.2023.3266493. Primary URL: https://arxiv.org/abs/2304.00668.</p>
+<ul>
+<li>Full-method source retrieved: https://arxiv.org/pdf/2304.00668v1. Read pp. 1-4, including Sections II-A-C and III-A-D. The unversioned PDF request timed out; v1 succeeded.</li>
+<li>The journal metadata uses "Noncausality"; the author preprint title uses "Non-Causality." Journal authors/year/venue/DOI were checked through Crossref. The final publisher article was not obtained.</li>
+<li>Verified in the author manuscript: baseline Shapley values over target/clutter/shadow; bivariate interactions; true-class pre-softmax score; random clutter rescaling to change signal-to-clutter ratio. Tests concern MSTAR ground targets.</li>
+<li>Supports: region-level dependence, data-associated clutter effects, and targeted input controls. It does not establish that ship neighborhoods are universally irrelevant, or identify a ship image's physical error mechanism. Preprint numerical values are not quoted as final journal results.</li>
+</ul>
+<h2><a class="citation" href="#ref-R8">[R8]</a> Meaningful Perturbation</h2>
+<p>Ruth C. Fong and Andrea Vedaldi. "Interpretable Explanations of Black Boxes by Meaningful Perturbation." Proceedings of the IEEE International Conference on Computer Vision (ICCV), 3449-3457, 2017. DOI: 10.1109/ICCV.2017.371. Primary URL: https://arxiv.org/abs/1704.03296.</p>
+<ul>
+<li>Full-method source retrieved: https://arxiv.org/pdf/1704.03296, served as v4 dated 3 December 2021. Read pp. 1-5, especially Sections 4.1-4.3. Conference identity, authors and pages independently checked through Crossref.</li>
+<li>Verified: optimize deletion/preservation masks for a fixed classifier; define constant, noise and blur perturbations; use total variation, low-resolution masks and random jitter to limit artifacts.</li>
+<li>Supports: explicit perturbations as tests of model dependence and the importance of the intervention definition. Does not establish a new trained model's benefit or identify natural causal mechanisms.</li>
+<li>Gap: the conference-final PDF route attempted here returned 404; methods were read from the author manuscript. Its 2021 revision date does not change the 2017 conference citation.</li>
+</ul>
+<h2><a class="citation" href="#ref-R9">[R9]</a> ROAR</h2>
+<p>Sara Hooker, Dumitru Erhan, Pieter-Jan Kindermans, and Been Kim. "A Benchmark for Interpretability Methods in Deep Neural Networks." Advances in Neural Information Processing Systems, 32, 2019. Primary URL: https://proceedings.neurips.cc/paper/2019/hash/fe4b8556000d0f0cae99daa5c5c5a410-Abstract.html.</p>
+<ul>
+<li>Conference full text retrieved: https://proceedings.neurips.cc/paper_files/paper/2019/file/fe4b8556000d0f0cae99daa5c5c5a410-Paper.pdf. Read pp. 1-4, including Section 3. Official proceedings page confirms metadata.</li>
+<li>Verified: rank inputs by attribution; replace selected pixels in both training and test images with the per-channel mean; retrain from random initialization across removal fractions and compare with random rankings.</li>
+<li>Supports: test-time removal can confound information removal with input-distribution change; fixed-model sensitivity differs from usefulness after retraining.</li>
+<li>Boundary: ROAR is an evaluation protocol, not a claim that every diagnostic intervention requires retraining. Retraining changes the fitted model, and redundant information also affects interpretation.</li>
+<li>No DOI was verified; it is omitted rather than invented.</li>
+</ul>
+<h2><a class="citation" href="#ref-R10">[R10]</a> Fourier Perspective</h2>
+<p>Dong Yin, Raphael Gontijo Lopes, Jonathon Shlens, Ekin D. Cubuk, and Justin Gilmer. "A Fourier Perspective on Model Robustness in Computer Vision." Advances in Neural Information Processing Systems, 32, 2019. Primary URL: https://proceedings.neurips.cc/paper/2019/file/b05b57f6add810d3b7490866d74c0053-Paper.pdf.</p>
+<ul>
+<li>Conference full text retrieved from the primary URL. Read pp. 1-4, including Section 2's Fourier heat-map definition and the opening robustness experiments.</li>
+<li>Verified: real-valued Fourier basis matrices have unit L2 norm; perturbed inputs use a controlled norm and randomized sign; error rates are studied across frequency coordinates. The paper examines robustness trade-offs and use of both high- and low-frequency image information.</li>
+<li>Supports: separate frequency location from perturbation magnitude. These are natural-image experiments, not direct evidence about SAR physical scattering.</li>
+<li>Boundary: a windowed Gaussian scale intervention is not the same operator as a global Fourier basis perturbation. Image-frequency dependence is not physical-factor identification.</li>
+<li>Author spelling follows the conference PDF: Jonathon Shlens. No DOI was verified.</li>
+</ul>
+<h2><a class="citation" href="#ref-R11">[R11]</a> Right for the Right Reasons</h2>
+<p>Andrew Slavin Ross, Michael C. Hughes, and Finale Doshi-Velez. "Right for the Right Reasons: Training Differentiable Models by Constraining their Explanations." Proceedings of the Twenty-Sixth International Joint Conference on Artificial Intelligence (IJCAI-17), 2017. Primary URL: https://www.ijcai.org/proceedings/2017/0371.pdf.</p>
+<ul>
+<li>Official conference full text retrieved. Read printed pp. 2662-2665, especially Sections 1.2, 2.1 and 2.2.</li>
+<li>Verified: binary per-example masks identify input dimensions to discourage; the training loss combines classification, parameter regularization and a squared masked input-gradient penalty. The constrained quantity is the gradient of the sum of log class probabilities. The paper also explores sequential alternative explanations without supplied masks.</li>
+<li>Supports: explanation information can enter a differentiable training objective; this connection predates the present project.</li>
+<li>Boundary: attribution or a beneficial fixed-model perturbation does not automatically supply valid irrelevance annotations. This is not a SAR-specific intervention-supervision method. Our project has not implemented this training constraint.</li>
+<li>Only the first four printed pages were read in this run. DOI and final page were not independently checked and are omitted.</li>
+</ul>
+<h2>Verification Limits and Editorial Handoff</h2>
+<p>This run called web search/open, but the tool returned empty content. Verification therefore used live requests to publisher, conference, author-preprint and dataset-author sites, with PDF extraction in memory. Crossref was used for publisher-deposited bibliographic fields, never as method full text. No old conversation citation IDs are used.</p>
+<p>Primary method text was independently read for R4-R6 and R8-R11; R7 was read as an author preprint. The unresolved full-text entries are R1, R2 and R3. R1 has an author-maintained dataset page, R2 has the publisher's abstract/preview, and R3 has bibliographic confirmation only. Detailed DSAN++ protocol claims remain excluded. The final publisher versions of R7 and R8 were not compared with the author manuscripts.</p>
+<p>The Chinese draft includes 11 references; the retained English draft includes R1-R10. Neither claims a first method, state-of-the-art performance, physical disentanglement, or verified benefit from our unfinished architecture. The newly reported joint-M1 experiment and prospective intervention-to-training work are not treated as positive method evidence. Same-vessel examples do not isolate platform, angle or port effects when these co-vary.</p>
+<p>Only RELATED_WORK_ZH.md, RELATED_WORK_EN.md, REFERENCES.md and references.bib belong to this contribution. No other project files, memory or Git state were edited.</p></article></main><footer>本轮仅写问题与文献定位，不代表最终模型或性能结论。</footer></body></html>

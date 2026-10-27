@@ -1,0 +1,24 @@
+% !TeX program = xelatex
+\documentclass[journal]{IEEEtran}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}[BoldFont=SimHei,ItalicFont=KaiTi]
+\setCJKsansfont{Microsoft YaHei}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{balance}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{figures/}}
+\hyphenation{Open-SAR-Ship}
+\title{成像条件与场景变化下的SAR船舶分类}
+\author{}
+\begin{document}
+\raggedbottom
+\maketitle
+\input{introduction}
+\input{related_work}
+\balance
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}
