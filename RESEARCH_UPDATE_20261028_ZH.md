@@ -1,5 +1,22 @@
 # 2026-10-28：M2浅层区域池化回写位置比较
 
+## 新增等宽残差合并位置实验已完成
+
+[完整报告](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/m2_residual_placement_20261028/FINDINGS_ZH.md)。C=conv3+BN后相加前，D=相加后ReLU前，E=ReLU后；均layer2最后block、512通道、197328新增参数。6次新训练+6个重放复用对照，同136源适配/16参考/160开发查询/54步，不调参不挑epoch。
+
+| 位置 | OA | BA | NLL | Brier |
+|---|---:|---:|---:|---:|
+| baseline | 45.0000 | 34.2648 | 2.532967 | .843748 |
+| C/preadd | 46.6667 | 36.0543 | 2.517617 | .829558 |
+| D/postadd | 46.2500 | 35.9182 | 2.517572 | .829591 |
+| E/stage | 46.4583 | 36.9726 | 2.530360 | .835287 |
+
+C/D相对baseline四指标三个seed均改善。C-E平均OA+.2083pp（两seed持平），BA-.9184pp（三seed更低），NLL/Brier三seed改善。普通货7602在E三次正确、C/D三次错，普通货仅12例；化学品70例中C额外救回带来OA补偿。C/D前两seed预测完全相同，第三seed D少两个正确，不能强调微小差别。
+
+保留C为正候选，E为BA更强对照，不自动替换默认，也未做新位置3075/公开集扩围。M2在该末块已比较5个位置，但不是全网络最优或重复次数结论。7个查询14张原生VV/VH及实际参考已查看；30206救回依赖双极化/侧向路径，34278误伤可由关闭VV恢复。C/D约52%-53%回写元素被末次ReLU归零，说明操作不同，但不是物理噪声去除证明。
+
+新增/复用初始与非零原生hook重放、保存重放、缓存对照均通过；可训练M2与layer3.5三卷积保持相同设置。代码、正负结果、文献定位与派生图库归档；原图库、完整私有清单、权重/缓存/论文全文不上传。配对CSV按仓库既有体积规则保存，本轮小于压缩阈值。所有作业已结束。
+
 ## 新增block内部位置实验已完成
 
 [完整报告](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/m2_block_placement_20261028/FINDINGS_ZH.md)，[文献核查](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/m2_block_placement_20261028/LITERATURE_DESIGN_ZH.md)。同136源适配/16参考/160历史开发查询/54步，复用并重放6个baseline/stage对照，只新训练pre/post共6次。没有按开发集选epoch或追加调参。

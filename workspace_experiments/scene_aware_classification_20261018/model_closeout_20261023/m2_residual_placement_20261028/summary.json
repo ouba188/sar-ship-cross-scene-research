@@ -1,0 +1,5214 @@
+{
+  "status": "numeric_complete_selected_visual_review_complete_see_VISUAL_REVIEW",
+  "arms": [
+    "baseline",
+    "stage",
+    "preadd",
+    "postadd"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "scope": "136条源适配样本的小范围研发；160条反复复用的开发集不是独立确认集。三seed逐一匹配baseline，不将模型平均概率作为主结果；seed不是独立船只或独立数据集。OA/BA为百分数，差值为百分点；BA仅平均开发集中实际出现的7类。NLL为自然对数交叉熵，Brier为8类概率平方误差之和；后二者越低越好。参考库固定16条、每类2条，其中1条无VH；不据外观命名物理原因。",
+  "predictions": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\predictions.npz",
+  "helper": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\analyze.py",
+  "manifest_directory": "E:\\临时会话\\sar_m123_current_20261027\\manifests",
+  "coverage": {
+    "source_adapt": {
+      "n": 136,
+      "ships": 128,
+      "acquisitions": 20,
+      "ports": {
+        "Busan": 21,
+        "Callao": 4,
+        "Fujairah": 17,
+        "Houston": 8,
+        "Los Angeles": 25,
+        "Newcastle": 7,
+        "Port Said": 36,
+        "Richards Bay": 1,
+        "Santos": 16,
+        "Sydney Botany": 1
+      },
+      "acquisitions_by_id": {
+        "S1A_057269_070B97": 1,
+        "S1A_057536_071629": 2,
+        "S1A_057565_071752": 7,
+        "S1A_057711_071D19": 7,
+        "S1A_058050_072ACF": 16,
+        "S1A_058401_0738E7": 11,
+        "S1A_058682_07443D": 6,
+        "S1A_058926_074E3C": 6,
+        "S1A_059019_0751F3": 2,
+        "S1A_059101_075525": 4,
+        "S1A_059358_075E0B": 8,
+        "S1A_059369_075E70": 4,
+        "S1A_059534_076419": 7,
+        "S1A_059544_076476": 1,
+        "S1A_059665_076891": 10,
+        "S1A_059907_0770FD": 11,
+        "S1A_060782_0790EB": 19,
+        "S1A_061117_079E56": 1,
+        "S1C_003514_0070C0": 4,
+        "S1C_003633_007456": 9
+      },
+      "classes": [
+        {
+          "class_id": 0,
+          "class_name": "bulk_carrier",
+          "n": 54,
+          "ships": 52
+        },
+        {
+          "class_id": 1,
+          "class_name": "fishing",
+          "n": 4,
+          "ships": 4
+        },
+        {
+          "class_id": 2,
+          "class_name": "general_cargo",
+          "n": 26,
+          "ships": 25
+        },
+        {
+          "class_id": 3,
+          "class_name": "chemical_tanker",
+          "n": 28,
+          "ships": 26
+        },
+        {
+          "class_id": 4,
+          "class_name": "container",
+          "n": 6,
+          "ships": 5
+        },
+        {
+          "class_id": 5,
+          "class_name": "crude_oil_tanker",
+          "n": 12,
+          "ships": 11
+        },
+        {
+          "class_id": 6,
+          "class_name": "tug",
+          "n": 3,
+          "ships": 2
+        },
+        {
+          "class_id": 7,
+          "class_name": "offshore",
+          "n": 3,
+          "ships": 3
+        }
+      ],
+      "polarization": {
+        "both": 128,
+        "vv_only": 8
+      }
+    },
+    "development": {
+      "n": 160,
+      "ships": 158,
+      "acquisitions": 3,
+      "ports": {
+        "Jebel Ali": 69,
+        "Port Klang": 28,
+        "Singapore": 63
+      },
+      "acquisitions_by_id": {
+        "S1A_058688_074483": 69,
+        "S1A_060268_077D6F": 63,
+        "S1A_060692_078D67": 28
+      },
+      "classes": [
+        {
+          "class_id": 0,
+          "class_name": "bulk_carrier",
+          "n": 25,
+          "ships": 24
+        },
+        {
+          "class_id": 1,
+          "class_name": "fishing",
+          "n": 0,
+          "ships": 0
+        },
+        {
+          "class_id": 2,
+          "class_name": "general_cargo",
+          "n": 12,
+          "ships": 12
+        },
+        {
+          "class_id": 3,
+          "class_name": "chemical_tanker",
+          "n": 70,
+          "ships": 70
+        },
+        {
+          "class_id": 4,
+          "class_name": "container",
+          "n": 22,
+          "ships": 22
+        },
+        {
+          "class_id": 5,
+          "class_name": "crude_oil_tanker",
+          "n": 16,
+          "ships": 15
+        },
+        {
+          "class_id": 6,
+          "class_name": "tug",
+          "n": 7,
+          "ships": 7
+        },
+        {
+          "class_id": 7,
+          "class_name": "offshore",
+          "n": 8,
+          "ships": 8
+        }
+      ],
+      "polarization": {
+        "both": 145,
+        "vv_only": 15
+      }
+    },
+    "references": {
+      "n": 16,
+      "ships": 16,
+      "acquisitions": 13,
+      "ports": {
+        "Houston": 1,
+        "Jebel Ali": 7,
+        "New York": 1,
+        "Ningbo-Zhoushan": 2,
+        "Port Klang": 1,
+        "Port Said": 1,
+        "Shanghai": 1,
+        "Singapore": 1,
+        "Tanger Med": 1
+      },
+      "acquisitions_by_id": {
+        "S1A_057288_070C5C": 2,
+        "S1A_057293_070C89": 1,
+        "S1A_058338_073664": 3,
+        "S1A_058693_0744B4": 1,
+        "S1A_059038_0752B2": 1,
+        "S1A_059780_076C81": 1,
+        "S1A_060713_078E34": 1,
+        "S1A_060793_079162": 1,
+        "S1A_060963_07982C": 1,
+        "S1A_060968_07985B": 1,
+        "S1A_061132_079EF0": 1,
+        "S1C_002064_004470": 1,
+        "S1C_003825_007A14": 1
+      },
+      "classes": [
+        {
+          "class_id": 0,
+          "class_name": "bulk_carrier",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 1,
+          "class_name": "fishing",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 2,
+          "class_name": "general_cargo",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 3,
+          "class_name": "chemical_tanker",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 4,
+          "class_name": "container",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 5,
+          "class_name": "crude_oil_tanker",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 6,
+          "class_name": "tug",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 7,
+          "class_name": "offshore",
+          "n": 2,
+          "ships": 2
+        }
+      ],
+      "polarization": {
+        "both": 15,
+        "vv_only": 1
+      }
+    },
+    "overlaps": {
+      "source_adapt__development": {
+        "id": [],
+        "mmsi": [],
+        "pass_group": [],
+        "port": []
+      },
+      "source_adapt__references": {
+        "id": [],
+        "mmsi": [],
+        "pass_group": [],
+        "port": [
+          "Houston",
+          "Port Said"
+        ]
+      },
+      "development__references": {
+        "id": [],
+        "mmsi": [],
+        "pass_group": [],
+        "port": [
+          "Jebel Ali",
+          "Port Klang",
+          "Singapore"
+        ]
+      }
+    }
+  },
+  "capacity_note": "C/preadd, D/postadd, E/stage: 512x20x20, hidden32, extra197328 parameters each; baseline extra0",
+  "planned_new_fits": 6,
+  "planned_reused_models": 6,
+  "score_semantics": "unnormalized logits; float64 stable log-softmax",
+  "initial_metrics": {
+    "OA": 41.25,
+    "BA": 33.0304576376005,
+    "NLL": 2.779998262768589,
+    "Brier": 0.8956601621596885
+  },
+  "by_arm": {
+    "baseline": {
+      "metrics": {
+        "OA": {
+          "mean": 45.0,
+          "std": 0.625
+        },
+        "BA": {
+          "mean": 34.26484230055658,
+          "std": 0.583397787042306
+        },
+        "NLL": {
+          "mean": 2.532966505370404,
+          "std": 0.01323101793588951
+        },
+        "Brier": {
+          "mean": 0.8437479535109135,
+          "std": 0.003040669354935459
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_BA": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_NLL": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_Brier": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 0,
+        "BA": 0,
+        "NLL": 0,
+        "Brier": 0
+      }
+    },
+    "stage": {
+      "metrics": {
+        "OA": {
+          "mean": 46.458333333333336,
+          "std": 0.3608439182435161
+        },
+        "BA": {
+          "mean": 36.97263450834879,
+          "std": 0.289575464677455
+        },
+        "NLL": {
+          "mean": 2.530359538847755,
+          "std": 0.013069738661130564
+        },
+        "Brier": {
+          "mean": 0.8352874469825745,
+          "std": 0.004125804807855981
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 1.4583333333333333,
+          "std": 0.7216878364870322
+        },
+        "delta_BA": {
+          "mean": 2.7077922077922096,
+          "std": 0.5583491588118584
+        },
+        "delta_NLL": {
+          "mean": -0.0026069665226489866,
+          "std": 0.011212270282405885
+        },
+        "delta_Brier": {
+          "mean": -0.008460506528339037,
+          "std": 0.001460342334582094
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 3,
+        "BA": 3,
+        "NLL": 1,
+        "Brier": 3
+      }
+    },
+    "preadd": {
+      "metrics": {
+        "OA": {
+          "mean": 46.666666666666664,
+          "std": 0.7216878364870323
+        },
+        "BA": {
+          "mean": 36.05426716141002,
+          "std": 0.38793407971110955
+        },
+        "NLL": {
+          "mean": 2.517617472277028,
+          "std": 0.01669804056160037
+        },
+        "Brier": {
+          "mean": 0.8295584126355641,
+          "std": 0.0032269559928539537
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 1.6666666666666667,
+          "std": 0.9547032697824667
+        },
+        "delta_BA": {
+          "mean": 1.7894248608534298,
+          "std": 0.6521105431509922
+        },
+        "delta_NLL": {
+          "mean": -0.015349033093376097,
+          "std": 0.009409410983500326
+        },
+        "delta_Brier": {
+          "mean": -0.014189540875349368,
+          "std": 0.0012610550207181428
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 3,
+        "BA": 3,
+        "NLL": 3,
+        "Brier": 3
+      }
+    },
+    "postadd": {
+      "metrics": {
+        "OA": {
+          "mean": 46.25,
+          "std": 0.0
+        },
+        "BA": {
+          "mean": 35.918212739641305,
+          "std": 0.2120878539880268
+        },
+        "NLL": {
+          "mean": 2.517572496653577,
+          "std": 0.018317995306197588
+        },
+        "Brier": {
+          "mean": 0.8295912417683448,
+          "std": 0.0036162618831221786
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 1.25,
+          "std": 0.625
+        },
+        "delta_BA": {
+          "mean": 1.6533704390847224,
+          "std": 0.475421512268177
+        },
+        "delta_NLL": {
+          "mean": -0.015394008716827093,
+          "std": 0.010259273794249821
+        },
+        "delta_Brier": {
+          "mean": -0.014156711742568717,
+          "std": 0.001636446554727127
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 3,
+        "BA": 3,
+        "NLL": 3,
+        "Brier": 3
+      }
+    }
+  },
+  "comparisons": {
+    "baseline__vs__baseline": {
+      "metrics": {
+        "OA": {
+          "mean": 45.0,
+          "std": 0.625
+        },
+        "BA": {
+          "mean": 34.26484230055658,
+          "std": 0.583397787042306
+        },
+        "NLL": {
+          "mean": 2.532966505370404,
+          "std": 0.01323101793588951
+        },
+        "Brier": {
+          "mean": 0.8437479535109135,
+          "std": 0.003040669354935459
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_BA": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_NLL": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_Brier": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 0,
+        "BA": 0,
+        "NLL": 0,
+        "Brier": 0
+      }
+    },
+    "stage__vs__baseline": {
+      "metrics": {
+        "OA": {
+          "mean": 46.458333333333336,
+          "std": 0.3608439182435161
+        },
+        "BA": {
+          "mean": 36.97263450834879,
+          "std": 0.289575464677455
+        },
+        "NLL": {
+          "mean": 2.530359538847755,
+          "std": 0.013069738661130564
+        },
+        "Brier": {
+          "mean": 0.8352874469825745,
+          "std": 0.004125804807855981
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 1.4583333333333333,
+          "std": 0.7216878364870322
+        },
+        "delta_BA": {
+          "mean": 2.7077922077922096,
+          "std": 0.5583491588118584
+        },
+        "delta_NLL": {
+          "mean": -0.0026069665226489866,
+          "std": 0.011212270282405885
+        },
+        "delta_Brier": {
+          "mean": -0.008460506528339037,
+          "std": 0.001460342334582094
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 3,
+        "BA": 3,
+        "NLL": 1,
+        "Brier": 3
+      }
+    },
+    "preadd__vs__baseline": {
+      "metrics": {
+        "OA": {
+          "mean": 46.666666666666664,
+          "std": 0.7216878364870323
+        },
+        "BA": {
+          "mean": 36.05426716141002,
+          "std": 0.38793407971110955
+        },
+        "NLL": {
+          "mean": 2.517617472277028,
+          "std": 0.01669804056160037
+        },
+        "Brier": {
+          "mean": 0.8295584126355641,
+          "std": 0.0032269559928539537
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 1.6666666666666667,
+          "std": 0.9547032697824667
+        },
+        "delta_BA": {
+          "mean": 1.7894248608534298,
+          "std": 0.6521105431509922
+        },
+        "delta_NLL": {
+          "mean": -0.015349033093376097,
+          "std": 0.009409410983500326
+        },
+        "delta_Brier": {
+          "mean": -0.014189540875349368,
+          "std": 0.0012610550207181428
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 3,
+        "BA": 3,
+        "NLL": 3,
+        "Brier": 3
+      }
+    },
+    "postadd__vs__baseline": {
+      "metrics": {
+        "OA": {
+          "mean": 46.25,
+          "std": 0.0
+        },
+        "BA": {
+          "mean": 35.918212739641305,
+          "std": 0.2120878539880268
+        },
+        "NLL": {
+          "mean": 2.517572496653577,
+          "std": 0.018317995306197588
+        },
+        "Brier": {
+          "mean": 0.8295912417683448,
+          "std": 0.0036162618831221786
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 1.25,
+          "std": 0.625
+        },
+        "delta_BA": {
+          "mean": 1.6533704390847224,
+          "std": 0.475421512268177
+        },
+        "delta_NLL": {
+          "mean": -0.015394008716827093,
+          "std": 0.010259273794249821
+        },
+        "delta_Brier": {
+          "mean": -0.014156711742568717,
+          "std": 0.001636446554727127
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 3,
+        "BA": 3,
+        "NLL": 3,
+        "Brier": 3
+      }
+    },
+    "preadd__vs__stage": {
+      "metrics": {
+        "OA": {
+          "mean": 46.666666666666664,
+          "std": 0.7216878364870323
+        },
+        "BA": {
+          "mean": 36.05426716141002,
+          "std": 0.38793407971110955
+        },
+        "NLL": {
+          "mean": 2.517617472277028,
+          "std": 0.01669804056160037
+        },
+        "Brier": {
+          "mean": 0.8295584126355641,
+          "std": 0.0032269559928539537
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 0.20833333333333334,
+          "std": 0.3608439182435161
+        },
+        "delta_BA": {
+          "mean": -0.9183673469387799,
+          "std": 0.11782658554890103
+        },
+        "delta_NLL": {
+          "mean": -0.01274206657072711,
+          "std": 0.005529452126189375
+        },
+        "delta_Brier": {
+          "mean": -0.005729034347010331,
+          "std": 0.002586741697031099
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 1,
+        "BA": 0,
+        "NLL": 3,
+        "Brier": 3
+      }
+    },
+    "postadd__vs__stage": {
+      "metrics": {
+        "OA": {
+          "mean": 46.25,
+          "std": 0.0
+        },
+        "BA": {
+          "mean": 35.918212739641305,
+          "std": 0.2120878539880268
+        },
+        "NLL": {
+          "mean": 2.517572496653577,
+          "std": 0.018317995306197588
+        },
+        "Brier": {
+          "mean": 0.8295912417683448,
+          "std": 0.0036162618831221786
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": -0.20833333333333334,
+          "std": 0.3608439182435161
+        },
+        "delta_BA": {
+          "mean": -1.0544217687074873,
+          "std": 0.11782658554890514
+        },
+        "delta_NLL": {
+          "mean": -0.012787042194178108,
+          "std": 0.006998534950536506
+        },
+        "delta_Brier": {
+          "mean": -0.005696205214229681,
+          "std": 0.0028502144968743284
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 0,
+        "BA": 0,
+        "NLL": 3,
+        "Brier": 3
+      }
+    },
+    "postadd__vs__preadd": {
+      "metrics": {
+        "OA": {
+          "mean": 46.25,
+          "std": 0.0
+        },
+        "BA": {
+          "mean": 35.918212739641305,
+          "std": 0.2120878539880268
+        },
+        "NLL": {
+          "mean": 2.517572496653577,
+          "std": 0.018317995306197588
+        },
+        "Brier": {
+          "mean": 0.8295912417683448,
+          "std": 0.0036162618831221786
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": -0.4166666666666667,
+          "std": 0.7216878364870322
+        },
+        "delta_BA": {
+          "mean": -0.13605442176870733,
+          "std": 0.2356531710978062
+        },
+        "delta_NLL": {
+          "mean": -4.4975623450997183e-05,
+          "std": 0.001646869428505029
+        },
+        "delta_Brier": {
+          "mean": 3.2829132780650326e-05,
+          "std": 0.00044872274524067703
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 0,
+        "BA": 0,
+        "NLL": 1,
+        "Brier": 2
+      }
+    }
+  },
+  "transition_totals": {
+    "stage__vs__baseline": {
+      "rescued": {
+        "events": 17,
+        "ids": 8,
+        "ships": 8
+      },
+      "harmed": {
+        "events": 10,
+        "ids": 4,
+        "ships": 4
+      },
+      "CC": {
+        "events": 206,
+        "ids": 70,
+        "ships": 70
+      },
+      "WW": {
+        "events": 247,
+        "ids": 84,
+        "ships": 83
+      },
+      "rescued_and_harmed_ids": []
+    },
+    "preadd__vs__baseline": {
+      "rescued": {
+        "events": 14,
+        "ids": 7,
+        "ships": 7
+      },
+      "harmed": {
+        "events": 6,
+        "ids": 3,
+        "ships": 3
+      },
+      "CC": {
+        "events": 210,
+        "ids": 72,
+        "ships": 72
+      },
+      "WW": {
+        "events": 250,
+        "ids": 85,
+        "ships": 84
+      },
+      "rescued_and_harmed_ids": []
+    },
+    "postadd__vs__baseline": {
+      "rescued": {
+        "events": 13,
+        "ids": 7,
+        "ships": 7
+      },
+      "harmed": {
+        "events": 7,
+        "ids": 3,
+        "ships": 3
+      },
+      "CC": {
+        "events": 209,
+        "ids": 71,
+        "ships": 71
+      },
+      "WW": {
+        "events": 251,
+        "ids": 86,
+        "ships": 85
+      },
+      "rescued_and_harmed_ids": []
+    },
+    "preadd__vs__stage": {
+      "rescued": {
+        "events": 7,
+        "ids": 4,
+        "ships": 4
+      },
+      "harmed": {
+        "events": 6,
+        "ids": 3,
+        "ships": 3
+      },
+      "CC": {
+        "events": 217,
+        "ids": 74,
+        "ships": 74
+      },
+      "WW": {
+        "events": 250,
+        "ids": 86,
+        "ships": 85
+      },
+      "rescued_and_harmed_ids": []
+    },
+    "postadd__vs__stage": {
+      "rescued": {
+        "events": 5,
+        "ids": 3,
+        "ships": 3
+      },
+      "harmed": {
+        "events": 6,
+        "ids": 3,
+        "ships": 3
+      },
+      "CC": {
+        "events": 217,
+        "ids": 74,
+        "ships": 74
+      },
+      "WW": {
+        "events": 252,
+        "ids": 87,
+        "ships": 86
+      },
+      "rescued_and_harmed_ids": []
+    },
+    "postadd__vs__preadd": {
+      "rescued": {
+        "events": 0,
+        "ids": 0,
+        "ships": 0
+      },
+      "harmed": {
+        "events": 2,
+        "ids": 2,
+        "ships": 2
+      },
+      "CC": {
+        "events": 222,
+        "ids": 76,
+        "ships": 76
+      },
+      "WW": {
+        "events": 256,
+        "ids": 88,
+        "ships": 87
+      },
+      "rescued_and_harmed_ids": []
+    }
+  },
+  "case_group_counts_seed17": {
+    "stage__vs__baseline": {
+      "rescued": 6,
+      "harmed": 3,
+      "CC": 68,
+      "WW": 83
+    },
+    "preadd__vs__baseline": {
+      "rescued": 5,
+      "harmed": 2,
+      "CC": 69,
+      "WW": 84
+    },
+    "postadd__vs__baseline": {
+      "rescued": 5,
+      "harmed": 2,
+      "CC": 69,
+      "WW": 84
+    },
+    "preadd__vs__stage": {
+      "rescued": 2,
+      "harmed": 2,
+      "CC": 72,
+      "WW": 84
+    },
+    "postadd__vs__stage": {
+      "rescued": 2,
+      "harmed": 2,
+      "CC": 72,
+      "WW": 84
+    },
+    "postadd__vs__preadd": {
+      "rescued": 0,
+      "harmed": 0,
+      "CC": 74,
+      "WW": 86
+    }
+  },
+  "cases": [
+    {
+      "arm": "stage",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "rescued",
+      "id": "35666",
+      "label": 5,
+      "class_name": "crude_oil_tanker",
+      "port": "Singapore",
+      "mmsi": "636022759",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 5,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -0.18724125623703003,
+      "fixed_margin": 1.0764546394348145,
+      "delta_fixed_margin": 1.2636959552764893,
+      "original_initial_fixed_margin": -1.853225588798523,
+      "baseline_NLL": 0.8293898215017887,
+      "NLL": 0.3575027298006614,
+      "baseline_Brier": 0.5952144205918308,
+      "Brier": 0.14976875863933017,
+      "baseline_logits": [
+        -0.6847227215766907,
+        -5.331837177276611,
+        -4.722701549530029,
+        -9.113702774047852,
+        -3.8259525299072266,
+        -0.8719639778137207,
+        -8.031299591064453,
+        -14.34189224243164
+      ],
+      "logits": [
+        -1.5614838600158691,
+        -5.357263565063477,
+        -5.328099727630615,
+        -8.377872467041016,
+        -3.1145224571228027,
+        -0.4850291609764099,
+        -7.474435329437256,
+        -12.967236518859863
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 5,
+          "reference_fixed_margin": -0.18724125623703003,
+          "fixed_margin": 1.0764546394348145
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": 0.1023680567741394,
+          "fixed_margin": 1.7375707626342773
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 5,
+          "reference_fixed_margin": -0.17063987255096436,
+          "fixed_margin": 0.5174975395202637
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\stage_vs_baseline_rescued_35666_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\stage_vs_baseline_rescued_35666_vh.png"
+      }
+    },
+    {
+      "arm": "stage",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "harmed",
+      "id": "20791",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Port Klang",
+      "mmsi": "413586730",
+      "pass_group": "S1A_060692_078D67",
+      "original_initial_prediction": 2,
+      "baseline_prediction": 3,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 2,
+      "fixed_rival": 2,
+      "fixed_rival_name": "general_cargo",
+      "baseline_fixed_margin": 0.23565876483917236,
+      "fixed_margin": -0.2984611988067627,
+      "delta_fixed_margin": -0.5341199636459351,
+      "original_initial_fixed_margin": -0.06453466415405273,
+      "baseline_NLL": 0.7142087764508506,
+      "NLL": 0.9716505390252619,
+      "baseline_Brier": 0.42243837695373654,
+      "Brier": 0.6566404626109547,
+      "baseline_logits": [
+        -2.401715040206909,
+        -2.233626127243042,
+        1.9377251863479614,
+        2.173383951187134,
+        -3.399993658065796,
+        -8.613247871398926,
+        0.6859189867973328,
+        -6.082122802734375
+      ],
+      "logits": [
+        -2.5821115970611572,
+        -2.1039998531341553,
+        2.32710599899292,
+        2.0286448001861572,
+        -3.895211935043335,
+        -8.706625938415527,
+        0.7023396492004395,
+        -5.843412399291992
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "prediction_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 3,
+          "prediction": 2,
+          "reference_fixed_margin": 0.23565876483917236,
+          "fixed_margin": -0.2984611988067627
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 3,
+          "prediction": 2,
+          "reference_fixed_margin": 0.034937381744384766,
+          "fixed_margin": -0.19084644317626953
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 3,
+          "prediction": 2,
+          "reference_fixed_margin": 0.2617678642272949,
+          "fixed_margin": -0.1725010871887207
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\stage_vs_baseline_harmed_20791_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\stage_vs_baseline_harmed_20791_vh.png"
+      }
+    },
+    {
+      "arm": "stage",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "CC",
+      "id": "35906",
+      "label": 0,
+      "class_name": "bulk_carrier",
+      "port": "Singapore",
+      "mmsi": "636023335",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 5,
+      "fixed_rival_name": "crude_oil_tanker",
+      "baseline_fixed_margin": 2.2398948669433594,
+      "fixed_margin": 1.0658535957336426,
+      "delta_fixed_margin": -1.1740412712097168,
+      "original_initial_fixed_margin": 3.0879955291748047,
+      "baseline_NLL": 0.10189418032501214,
+      "NLL": 0.2966765524666363,
+      "baseline_Brier": 0.018630822818651076,
+      "Brier": 0.1314453157093387,
+      "baseline_logits": [
+        3.474290132522583,
+        -6.327770233154297,
+        -4.208841800689697,
+        -7.016740798950195,
+        -6.271905899047852,
+        1.234395146369934,
+        -5.072500228881836,
+        -11.636029243469238
+      ],
+      "logits": [
+        2.8928823471069336,
+        -6.948827743530273,
+        -5.06148099899292,
+        -7.170079231262207,
+        -6.166744232177734,
+        1.827028751373291,
+        -4.975106716156006,
+        -12.017078399658203
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "fixed_rival_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "prediction_rival_reference_ids": [],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 2.2398948669433594,
+          "fixed_margin": 1.0658535957336426
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 1.8591073751449585,
+          "fixed_margin": 0.3854250907897949
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 2.3464059829711914,
+          "fixed_margin": 1.49873948097229
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\stage_vs_baseline_CC_35906_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\stage_vs_baseline_CC_35906_vh.png"
+      }
+    },
+    {
+      "arm": "stage",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "WW",
+      "id": "26255",
+      "label": 4,
+      "class_name": "container",
+      "port": "Singapore",
+      "mmsi": "533133374",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -9.774944305419922,
+      "fixed_margin": -7.401431083679199,
+      "delta_fixed_margin": 2.3735132217407227,
+      "original_initial_fixed_margin": -10.903186798095703,
+      "baseline_NLL": 9.812899375162706,
+      "NLL": 7.646924589204845,
+      "baseline_Brier": 1.9272919580528938,
+      "Brier": 1.6391539418668208,
+      "baseline_logits": [
+        3.780742645263672,
+        -4.684632778167725,
+        -2.355900526046753,
+        -0.8933023810386658,
+        -5.994202136993408,
+        -1.1972267627716064,
+        -0.12968523800373077,
+        -15.263957977294922
+      ],
+      "logits": [
+        2.2409727573394775,
+        -5.281189918518066,
+        -2.4040708541870117,
+        -1.1371817588806152,
+        -5.160458564758301,
+        -1.513533353805542,
+        0.6801764965057373,
+        -14.481390953063965
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.774944305419922,
+          "fixed_margin": -7.401431083679199
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.613468170166016,
+          "fixed_margin": -7.617210388183594
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.63637924194336,
+          "fixed_margin": -8.066679000854492
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\stage_vs_baseline_WW_26255_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\stage_vs_baseline_WW_26255_vh.png"
+      }
+    },
+    {
+      "arm": "preadd",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "rescued",
+      "id": "30206",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "563208100",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 4,
+      "baseline_prediction": 4,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 3,
+      "fixed_rival": 4,
+      "fixed_rival_name": "container",
+      "baseline_fixed_margin": -1.0864399671554565,
+      "fixed_margin": 0.9255690574645996,
+      "delta_fixed_margin": 2.0120091438293457,
+      "original_initial_fixed_margin": -1.4361438751220703,
+      "baseline_NLL": 1.6622524321206573,
+      "NLL": 0.6820437205441536,
+      "baseline_Brier": 1.00131998490154,
+      "Brier": 0.3328019049212159,
+      "baseline_logits": [
+        -3.0774006843566895,
+        -13.721433639526367,
+        -5.7250871658325195,
+        -2.769871950149536,
+        -1.6834319829940796,
+        -3.459397554397583,
+        -6.770442485809326,
+        -19.326995849609375
+      ],
+      "logits": [
+        -3.918726921081543,
+        -13.554472923278809,
+        -6.192964553833008,
+        -2.0511608123779297,
+        -2.9767298698425293,
+        -2.953770160675049,
+        -7.219086170196533,
+        -18.859548568725586
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "prediction_rival_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 4,
+          "prediction": 3,
+          "reference_fixed_margin": -1.0864399671554565,
+          "fixed_margin": 0.9255690574645996
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 4,
+          "prediction": 3,
+          "reference_fixed_margin": -1.5412315130233765,
+          "fixed_margin": 0.5645058155059814
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 4,
+          "prediction": 3,
+          "reference_fixed_margin": -1.448102593421936,
+          "fixed_margin": 0.021830081939697266
+        }
+      ],
+      "selection": "Main path_diagnosis selected ID; baseline outcome retained, diagnostic kind recorded separately",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "path_diagnosis": {
+        "arm": "preadd",
+        "seed": 17,
+        "kind": "rescued",
+        "id": "30206",
+        "label": 3,
+        "rival": 4,
+        "baseline_pred": 4,
+        "baseline_top1_margin": -1.0864399671554565,
+        "paths": {
+          "full": {
+            "pred": 3,
+            "top1_margin": 0.90260910987854,
+            "fixed_margin": 0.9255681037902832
+          },
+          "off_VV": {
+            "pred": 4,
+            "top1_margin": -0.6781927347183228,
+            "fixed_margin": -0.6781927347183228
+          },
+          "off_VH": {
+            "pred": 5,
+            "top1_margin": -0.42917585372924805,
+            "fixed_margin": 0.14426279067993164
+          },
+          "off_body": {
+            "pred": 3,
+            "top1_margin": 0.3965141773223877,
+            "fixed_margin": 0.3965141773223877
+          },
+          "off_end": {
+            "pred": 3,
+            "top1_margin": 0.5300610065460205,
+            "fixed_margin": 0.5300610065460205
+          },
+          "off_side": {
+            "pred": 4,
+            "top1_margin": -0.40637636184692383,
+            "fixed_margin": -0.40637636184692383
+          },
+          "off_all": {
+            "pred": 4,
+            "top1_margin": -1.459497332572937,
+            "fixed_margin": -1.459497332572937
+          }
+        },
+        "replay_error": 1.049041748046875e-05
+      },
+      "path_diagnosis_scope": "Fixed trained weights; remove feedback from BOTH query and references. No refit or physical causal claim.",
+      "path_fixed_rival_rule": "Strongest nontruth baseline seed17 logit; may differ from gallery initial-fixed rival",
+      "path_fixed_rival_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_baseline_rescued_30206_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_baseline_rescued_30206_vh.png"
+      }
+    },
+    {
+      "arm": "preadd",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "harmed",
+      "id": "34278",
+      "label": 4,
+      "class_name": "container",
+      "port": "Port Klang",
+      "mmsi": "636019337",
+      "pass_group": "S1A_060692_078D67",
+      "original_initial_prediction": 4,
+      "baseline_prediction": 4,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": 0.1255854368209839,
+      "fixed_margin": -0.7650235891342163,
+      "delta_fixed_margin": -0.8906090259552002,
+      "original_initial_fixed_margin": 0.600753664970398,
+      "baseline_NLL": 0.8706591545232518,
+      "NLL": 1.4902446961083033,
+      "baseline_Brier": 0.4967176024455846,
+      "Brier": 0.8765869864722559,
+      "baseline_logits": [
+        1.173323154449463,
+        -9.476844787597656,
+        0.08520030230283737,
+        -0.3161375820636749,
+        1.2989085912704468,
+        -7.268139839172363,
+        -3.2756574153900146,
+        -10.52213191986084
+      ],
+      "logits": [
+        1.1727964878082275,
+        -10.277076721191406,
+        0.11633048206567764,
+        -0.25023171305656433,
+        0.40777286887168884,
+        -7.398907661437988,
+        -3.3392114639282227,
+        -9.51938533782959
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 4,
+          "prediction": 0,
+          "reference_fixed_margin": 0.1255854368209839,
+          "fixed_margin": -0.7650235891342163
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 4,
+          "prediction": 0,
+          "reference_fixed_margin": 0.06811046600341797,
+          "fixed_margin": -0.9273079633712769
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 4,
+          "prediction": 0,
+          "reference_fixed_margin": 0.07432007789611816,
+          "fixed_margin": -0.7139734029769897
+        }
+      ],
+      "selection": "Main path_diagnosis selected ID; baseline outcome retained, diagnostic kind recorded separately",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "path_diagnosis": {
+        "arm": "preadd",
+        "seed": 17,
+        "kind": "harmed",
+        "id": "34278",
+        "label": 4,
+        "rival": 0,
+        "baseline_pred": 4,
+        "baseline_top1_margin": 0.1255854368209839,
+        "paths": {
+          "full": {
+            "pred": 0,
+            "top1_margin": -0.7650324106216431,
+            "fixed_margin": -0.7650324106216431
+          },
+          "off_VV": {
+            "pred": 4,
+            "top1_margin": 0.2817413806915283,
+            "fixed_margin": 0.2817413806915283
+          },
+          "off_VH": {
+            "pred": 0,
+            "top1_margin": -1.0334382057189941,
+            "fixed_margin": -1.0334382057189941
+          },
+          "off_body": {
+            "pred": 0,
+            "top1_margin": -0.693489670753479,
+            "fixed_margin": -0.693489670753479
+          },
+          "off_end": {
+            "pred": 0,
+            "top1_margin": -0.47714346647262573,
+            "fixed_margin": -0.47714346647262573
+          },
+          "off_side": {
+            "pred": 0,
+            "top1_margin": -0.2525639533996582,
+            "fixed_margin": -0.2525639533996582
+          },
+          "off_all": {
+            "pred": 4,
+            "top1_margin": 0.013335466384887695,
+            "fixed_margin": 0.013335466384887695
+          }
+        },
+        "replay_error": 1.049041748046875e-05
+      },
+      "path_diagnosis_scope": "Fixed trained weights; remove feedback from BOTH query and references. No refit or physical causal claim.",
+      "path_fixed_rival_rule": "Strongest nontruth baseline seed17 logit; may differ from gallery initial-fixed rival",
+      "path_fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_baseline_harmed_34278_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_baseline_harmed_34278_vh.png"
+      }
+    },
+    {
+      "arm": "preadd",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "CC",
+      "id": "35906",
+      "label": 0,
+      "class_name": "bulk_carrier",
+      "port": "Singapore",
+      "mmsi": "636023335",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 5,
+      "fixed_rival_name": "crude_oil_tanker",
+      "baseline_fixed_margin": 2.2398948669433594,
+      "fixed_margin": 1.1113554239273071,
+      "delta_fixed_margin": -1.1285394430160522,
+      "original_initial_fixed_margin": 3.0879955291748047,
+      "baseline_NLL": 0.10189418032501214,
+      "NLL": 0.28550011536925257,
+      "baseline_Brier": 0.018630822818651076,
+      "Brier": 0.12287757946823247,
+      "baseline_logits": [
+        3.474290132522583,
+        -6.327770233154297,
+        -4.208841800689697,
+        -7.016740798950195,
+        -6.271905899047852,
+        1.234395146369934,
+        -5.072500228881836,
+        -11.636029243469238
+      ],
+      "logits": [
+        2.866529941558838,
+        -6.897855758666992,
+        -4.60922908782959,
+        -7.047839164733887,
+        -5.801039218902588,
+        1.7551745176315308,
+        -4.799269199371338,
+        -11.812079429626465
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "fixed_rival_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "prediction_rival_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 2.2398948669433594,
+          "fixed_margin": 1.1113554239273071
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 1.8591073751449585,
+          "fixed_margin": 0.28768253326416016
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 2.3464059829711914,
+          "fixed_margin": 1.3278049230575562
+        }
+      ],
+      "selection": "Main path_diagnosis selected ID; baseline outcome retained, diagnostic kind recorded separately",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "path_diagnosis": {
+        "arm": "preadd",
+        "seed": 17,
+        "kind": "CC",
+        "id": "35906",
+        "label": 0,
+        "rival": 5,
+        "baseline_pred": 0,
+        "baseline_top1_margin": 2.2398948669433594,
+        "paths": {
+          "full": {
+            "pred": 0,
+            "top1_margin": 1.1113640069961548,
+            "fixed_margin": 1.1113640069961548
+          },
+          "off_VV": {
+            "pred": 0,
+            "top1_margin": 2.6319327354431152,
+            "fixed_margin": 2.6319327354431152
+          },
+          "off_VH": {
+            "pred": 0,
+            "top1_margin": 1.2396403551101685,
+            "fixed_margin": 1.2396403551101685
+          },
+          "off_body": {
+            "pred": 0,
+            "top1_margin": 1.6767876148223877,
+            "fixed_margin": 1.6767876148223877
+          },
+          "off_end": {
+            "pred": 0,
+            "top1_margin": 1.6469194889068604,
+            "fixed_margin": 1.6469194889068604
+          },
+          "off_side": {
+            "pred": 0,
+            "top1_margin": 1.5518549680709839,
+            "fixed_margin": 1.5518549680709839
+          },
+          "off_all": {
+            "pred": 0,
+            "top1_margin": 2.760209083557129,
+            "fixed_margin": 2.760209083557129
+          }
+        },
+        "replay_error": 1.430511474609375e-05
+      },
+      "path_diagnosis_scope": "Fixed trained weights; remove feedback from BOTH query and references. No refit or physical causal claim.",
+      "path_fixed_rival_rule": "Strongest nontruth baseline seed17 logit; may differ from gallery initial-fixed rival",
+      "path_fixed_rival_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_baseline_CC_35906_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_baseline_CC_35906_vh.png"
+      }
+    },
+    {
+      "arm": "preadd",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "WW",
+      "id": "26255",
+      "label": 4,
+      "class_name": "container",
+      "port": "Singapore",
+      "mmsi": "533133374",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -9.774944305419922,
+      "fixed_margin": -7.577869415283203,
+      "delta_fixed_margin": 2.1970748901367188,
+      "original_initial_fixed_margin": -10.903186798095703,
+      "baseline_NLL": 9.812899375162706,
+      "NLL": 7.7982608647785625,
+      "baseline_Brier": 1.9272919580528938,
+      "Brier": 1.6636580486096109,
+      "baseline_logits": [
+        3.780742645263672,
+        -4.684632778167725,
+        -2.355900526046753,
+        -0.8933023810386658,
+        -5.994202136993408,
+        -1.1972267627716064,
+        -0.12968523800373077,
+        -15.263957977294922
+      ],
+      "logits": [
+        2.4134111404418945,
+        -5.11801290512085,
+        -2.329270124435425,
+        -0.789446234703064,
+        -5.164458274841309,
+        -1.4042725563049316,
+        0.6657285094261169,
+        -14.014996528625488
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.774944305419922,
+          "fixed_margin": -7.577869415283203
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.613468170166016,
+          "fixed_margin": -7.581136703491211
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.63637924194336,
+          "fixed_margin": -8.023109436035156
+        }
+      ],
+      "selection": "Main path_diagnosis selected ID; baseline outcome retained, diagnostic kind recorded separately",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "path_diagnosis": {
+        "arm": "preadd",
+        "seed": 17,
+        "kind": "WW",
+        "id": "26255",
+        "label": 4,
+        "rival": 0,
+        "baseline_pred": 0,
+        "baseline_top1_margin": -9.774944305419922,
+        "paths": {
+          "full": {
+            "pred": 0,
+            "top1_margin": -7.577862739562988,
+            "fixed_margin": -7.577862739562988
+          },
+          "off_VV": {
+            "pred": 0,
+            "top1_margin": -9.629265785217285,
+            "fixed_margin": -9.629265785217285
+          },
+          "off_VH": {
+            "pred": 0,
+            "top1_margin": -8.191375732421875,
+            "fixed_margin": -8.191375732421875
+          },
+          "off_body": {
+            "pred": 0,
+            "top1_margin": -8.859508514404297,
+            "fixed_margin": -8.859508514404297
+          },
+          "off_end": {
+            "pred": 0,
+            "top1_margin": -7.8411102294921875,
+            "fixed_margin": -7.8411102294921875
+          },
+          "off_side": {
+            "pred": 0,
+            "top1_margin": -8.77165412902832,
+            "fixed_margin": -8.77165412902832
+          },
+          "off_all": {
+            "pred": 0,
+            "top1_margin": -10.242778778076172,
+            "fixed_margin": -10.242778778076172
+          }
+        },
+        "replay_error": 2.193450927734375e-05
+      },
+      "path_diagnosis_scope": "Fixed trained weights; remove feedback from BOTH query and references. No refit or physical causal claim.",
+      "path_fixed_rival_rule": "Strongest nontruth baseline seed17 logit; may differ from gallery initial-fixed rival",
+      "path_fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_baseline_WW_26255_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_baseline_WW_26255_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "rescued",
+      "id": "30206",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "563208100",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 4,
+      "baseline_prediction": 4,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 3,
+      "fixed_rival": 4,
+      "fixed_rival_name": "container",
+      "baseline_fixed_margin": -1.0864399671554565,
+      "fixed_margin": 0.641291618347168,
+      "delta_fixed_margin": 1.7277315855026245,
+      "original_initial_fixed_margin": -1.4361438751220703,
+      "baseline_NLL": 1.6622524321206573,
+      "NLL": 0.8037097891969072,
+      "baseline_Brier": 1.00131998490154,
+      "Brier": 0.41454586759979956,
+      "baseline_logits": [
+        -3.0774006843566895,
+        -13.721433639526367,
+        -5.7250871658325195,
+        -2.769871950149536,
+        -1.6834319829940796,
+        -3.459397554397583,
+        -6.770442485809326,
+        -19.326995849609375
+      ],
+      "logits": [
+        -3.849362850189209,
+        -13.67353343963623,
+        -6.096685886383057,
+        -2.2476367950439453,
+        -2.8889284133911133,
+        -2.9872548580169678,
+        -7.203031539916992,
+        -19.149770736694336
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "prediction_rival_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 4,
+          "prediction": 3,
+          "reference_fixed_margin": -1.0864399671554565,
+          "fixed_margin": 0.641291618347168
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 4,
+          "prediction": 3,
+          "reference_fixed_margin": -1.5412315130233765,
+          "fixed_margin": 0.2035207748413086
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 4,
+          "prediction": 4,
+          "reference_fixed_margin": -1.448102593421936,
+          "fixed_margin": -0.21548938751220703
+        }
+      ],
+      "selection": "Main path_diagnosis selected ID; baseline outcome retained, diagnostic kind recorded separately",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "path_diagnosis": {
+        "arm": "postadd",
+        "seed": 17,
+        "kind": "rescued",
+        "id": "30206",
+        "label": 3,
+        "rival": 4,
+        "baseline_pred": 4,
+        "baseline_top1_margin": -1.0864399671554565,
+        "paths": {
+          "full": {
+            "pred": 3,
+            "top1_margin": 0.6412889957427979,
+            "fixed_margin": 0.6412889957427979
+          },
+          "off_VV": {
+            "pred": 4,
+            "top1_margin": -0.941630482673645,
+            "fixed_margin": -0.941630482673645
+          },
+          "off_VH": {
+            "pred": 5,
+            "top1_margin": -0.47916412353515625,
+            "fixed_margin": 0.11182975769042969
+          },
+          "off_body": {
+            "pred": 3,
+            "top1_margin": 0.19616103172302246,
+            "fixed_margin": 0.19616103172302246
+          },
+          "off_end": {
+            "pred": 3,
+            "top1_margin": 0.35201573371887207,
+            "fixed_margin": 0.35201573371887207
+          },
+          "off_side": {
+            "pred": 4,
+            "top1_margin": -0.5298421382904053,
+            "fixed_margin": -0.5298421382904053
+          },
+          "off_all": {
+            "pred": 4,
+            "top1_margin": -1.4710899591445923,
+            "fixed_margin": -1.4710899591445923
+          }
+        },
+        "replay_error": 1.1682510375976562e-05
+      },
+      "path_diagnosis_scope": "Fixed trained weights; remove feedback from BOTH query and references. No refit or physical causal claim.",
+      "path_fixed_rival_rule": "Strongest nontruth baseline seed17 logit; may differ from gallery initial-fixed rival",
+      "path_fixed_rival_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_baseline_rescued_30206_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_baseline_rescued_30206_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "harmed",
+      "id": "34278",
+      "label": 4,
+      "class_name": "container",
+      "port": "Port Klang",
+      "mmsi": "636019337",
+      "pass_group": "S1A_060692_078D67",
+      "original_initial_prediction": 4,
+      "baseline_prediction": 4,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": 0.1255854368209839,
+      "fixed_margin": -0.7251908779144287,
+      "delta_fixed_margin": -0.8507763147354126,
+      "original_initial_fixed_margin": 0.600753664970398,
+      "baseline_NLL": 0.8706591545232518,
+      "NLL": 1.4598430234720607,
+      "baseline_Brier": 0.4967176024455846,
+      "Brier": 0.8611213371548628,
+      "baseline_logits": [
+        1.173323154449463,
+        -9.476844787597656,
+        0.08520030230283737,
+        -0.3161375820636749,
+        1.2989085912704468,
+        -7.268139839172363,
+        -3.2756574153900146,
+        -10.52213191986084
+      ],
+      "logits": [
+        1.1822863817214966,
+        -10.206733703613281,
+        0.14171233773231506,
+        -0.2585339844226837,
+        0.4570954740047455,
+        -7.284195899963379,
+        -3.3938701152801514,
+        -9.494532585144043
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 4,
+          "prediction": 0,
+          "reference_fixed_margin": 0.1255854368209839,
+          "fixed_margin": -0.7251908779144287
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 4,
+          "prediction": 0,
+          "reference_fixed_margin": 0.06811046600341797,
+          "fixed_margin": -0.7802901864051819
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 4,
+          "prediction": 0,
+          "reference_fixed_margin": 0.07432007789611816,
+          "fixed_margin": -0.6209961771965027
+        }
+      ],
+      "selection": "Main path_diagnosis selected ID; baseline outcome retained, diagnostic kind recorded separately",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "path_diagnosis": {
+        "arm": "postadd",
+        "seed": 17,
+        "kind": "harmed",
+        "id": "34278",
+        "label": 4,
+        "rival": 0,
+        "baseline_pred": 4,
+        "baseline_top1_margin": 0.1255854368209839,
+        "paths": {
+          "full": {
+            "pred": 0,
+            "top1_margin": -0.725188136100769,
+            "fixed_margin": -0.725188136100769
+          },
+          "off_VV": {
+            "pred": 4,
+            "top1_margin": 0.2857578992843628,
+            "fixed_margin": 0.2857578992843628
+          },
+          "off_VH": {
+            "pred": 0,
+            "top1_margin": -1.0616856813430786,
+            "fixed_margin": -1.0616856813430786
+          },
+          "off_body": {
+            "pred": 0,
+            "top1_margin": -0.6678797602653503,
+            "fixed_margin": -0.6678797602653503
+          },
+          "off_end": {
+            "pred": 0,
+            "top1_margin": -0.5094649195671082,
+            "fixed_margin": -0.5094649195671082
+          },
+          "off_side": {
+            "pred": 0,
+            "top1_margin": -0.24700003862380981,
+            "fixed_margin": -0.24700003862380981
+          },
+          "off_all": {
+            "pred": 0,
+            "top1_margin": -0.05074012279510498,
+            "fixed_margin": -0.05074012279510498
+          }
+        },
+        "replay_error": 1.71661376953125e-05
+      },
+      "path_diagnosis_scope": "Fixed trained weights; remove feedback from BOTH query and references. No refit or physical causal claim.",
+      "path_fixed_rival_rule": "Strongest nontruth baseline seed17 logit; may differ from gallery initial-fixed rival",
+      "path_fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_baseline_harmed_34278_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_baseline_harmed_34278_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "CC",
+      "id": "28385",
+      "label": 0,
+      "class_name": "bulk_carrier",
+      "port": "Port Klang",
+      "mmsi": "538010224",
+      "pass_group": "S1A_060692_078D67",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 2,
+      "fixed_rival_name": "general_cargo",
+      "baseline_fixed_margin": 3.6857731342315674,
+      "fixed_margin": 2.6448328495025635,
+      "delta_fixed_margin": -1.040940284729004,
+      "original_initial_fixed_margin": 4.457918167114258,
+      "baseline_NLL": 0.05306664575601406,
+      "NLL": 0.13123993073868187,
+      "baseline_Brier": 0.003775824851018142,
+      "Brier": 0.022205705253785214,
+      "baseline_logits": [
+        1.735321044921875,
+        -10.713150978088379,
+        -1.9504520893096924,
+        -4.187014102935791,
+        -4.341069221496582,
+        -1.984946370124817,
+        -6.70836067199707,
+        -14.53978157043457
+      ],
+      "logits": [
+        1.3846025466918945,
+        -9.730546951293945,
+        -1.260230302810669,
+        -4.513160705566406,
+        -4.982774257659912,
+        -1.357831597328186,
+        -6.621281623840332,
+        -14.514861106872559
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "fixed_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "prediction_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 3.6857731342315674,
+          "fixed_margin": 2.6448328495025635
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 3.3081307411193848,
+          "fixed_margin": 2.417196750640869
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 3.575054168701172,
+          "fixed_margin": 2.641026496887207
+        }
+      ],
+      "selection": "Main path_diagnosis selected ID; baseline outcome retained, diagnostic kind recorded separately",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "path_diagnosis": {
+        "arm": "postadd",
+        "seed": 17,
+        "kind": "CC",
+        "id": "28385",
+        "label": 0,
+        "rival": 2,
+        "baseline_pred": 0,
+        "baseline_top1_margin": 3.6857731342315674,
+        "paths": {
+          "full": {
+            "pred": 0,
+            "top1_margin": 2.6448254585266113,
+            "fixed_margin": 2.6448254585266113
+          },
+          "off_VV": {
+            "pred": 0,
+            "top1_margin": 2.6714398860931396,
+            "fixed_margin": 2.6714398860931396
+          },
+          "off_VH": {
+            "pred": 0,
+            "top1_margin": 3.07326340675354,
+            "fixed_margin": 3.6729373931884766
+          },
+          "off_body": {
+            "pred": 0,
+            "top1_margin": 3.4506168365478516,
+            "fixed_margin": 3.4959239959716797
+          },
+          "off_end": {
+            "pred": 0,
+            "top1_margin": 2.543869972229004,
+            "fixed_margin": 2.543869972229004
+          },
+          "off_side": {
+            "pred": 0,
+            "top1_margin": 2.786057949066162,
+            "fixed_margin": 2.786057949066162
+          },
+          "off_all": {
+            "pred": 0,
+            "top1_margin": 3.699551582336426,
+            "fixed_margin": 3.699551582336426
+          }
+        },
+        "replay_error": 1.0967254638671875e-05
+      },
+      "path_diagnosis_scope": "Fixed trained weights; remove feedback from BOTH query and references. No refit or physical causal claim.",
+      "path_fixed_rival_rule": "Strongest nontruth baseline seed17 logit; may differ from gallery initial-fixed rival",
+      "path_fixed_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_baseline_CC_28385_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_baseline_CC_28385_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "WW",
+      "id": "26255",
+      "label": 4,
+      "class_name": "container",
+      "port": "Singapore",
+      "mmsi": "533133374",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -9.774944305419922,
+      "fixed_margin": -7.442899703979492,
+      "delta_fixed_margin": 2.3320446014404297,
+      "original_initial_fixed_margin": -10.903186798095703,
+      "baseline_NLL": 9.812899375162706,
+      "NLL": 7.693429978162967,
+      "baseline_Brier": 1.9272919580528938,
+      "Brier": 1.6319762019514799,
+      "baseline_logits": [
+        3.780742645263672,
+        -4.684632778167725,
+        -2.355900526046753,
+        -0.8933023810386658,
+        -5.994202136993408,
+        -1.1972267627716064,
+        -0.12968523800373077,
+        -15.263957977294922
+      ],
+      "logits": [
+        2.313049554824829,
+        -5.0282368659973145,
+        -2.32376766204834,
+        -0.7999238967895508,
+        -5.129849910736084,
+        -1.3894236087799072,
+        0.7266122102737427,
+        -13.92367935180664
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.774944305419922,
+          "fixed_margin": -7.442899703979492
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.613468170166016,
+          "fixed_margin": -7.7045464515686035
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.63637924194336,
+          "fixed_margin": -7.980517864227295
+        }
+      ],
+      "selection": "Main path_diagnosis selected ID; baseline outcome retained, diagnostic kind recorded separately",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "path_diagnosis": {
+        "arm": "postadd",
+        "seed": 17,
+        "kind": "WW",
+        "id": "26255",
+        "label": 4,
+        "rival": 0,
+        "baseline_pred": 0,
+        "baseline_top1_margin": -9.774944305419922,
+        "paths": {
+          "full": {
+            "pred": 0,
+            "top1_margin": -7.442899703979492,
+            "fixed_margin": -7.442899703979492
+          },
+          "off_VV": {
+            "pred": 0,
+            "top1_margin": -9.59361457824707,
+            "fixed_margin": -9.59361457824707
+          },
+          "off_VH": {
+            "pred": 0,
+            "top1_margin": -8.080063819885254,
+            "fixed_margin": -8.080063819885254
+          },
+          "off_body": {
+            "pred": 0,
+            "top1_margin": -9.09024429321289,
+            "fixed_margin": -9.09024429321289
+          },
+          "off_end": {
+            "pred": 0,
+            "top1_margin": -7.589530944824219,
+            "fixed_margin": -7.589530944824219
+          },
+          "off_side": {
+            "pred": 0,
+            "top1_margin": -8.488353729248047,
+            "fixed_margin": -8.488353729248047
+          },
+          "off_all": {
+            "pred": 0,
+            "top1_margin": -10.230779647827148,
+            "fixed_margin": -10.230779647827148
+          }
+        },
+        "replay_error": 5.841255187988281e-06
+      },
+      "path_diagnosis_scope": "Fixed trained weights; remove feedback from BOTH query and references. No refit or physical causal claim.",
+      "path_fixed_rival_rule": "Strongest nontruth baseline seed17 logit; may differ from gallery initial-fixed rival",
+      "path_fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_baseline_WW_26255_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_baseline_WW_26255_vh.png"
+      }
+    },
+    {
+      "arm": "preadd",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "rescued",
+      "id": "30206",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "563208100",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 4,
+      "baseline_prediction": 5,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 3,
+      "fixed_rival": 4,
+      "fixed_rival_name": "container",
+      "baseline_fixed_margin": 0.36034178733825684,
+      "fixed_margin": 0.9255690574645996,
+      "delta_fixed_margin": 0.5652272701263428,
+      "original_initial_fixed_margin": -1.4361438751220703,
+      "baseline_NLL": 1.1267621667636485,
+      "NLL": 0.6820437205441536,
+      "baseline_Brier": 0.6308000669599195,
+      "Brier": 0.3328019049212159,
+      "baseline_logits": [
+        -3.7530808448791504,
+        -13.53695297241211,
+        -5.779260635375977,
+        -2.556884527206421,
+        -2.9172263145446777,
+        -2.5199942588806152,
+        -7.334858417510986,
+        -18.881948471069336
+      ],
+      "logits": [
+        -3.918726921081543,
+        -13.554472923278809,
+        -6.192964553833008,
+        -2.0511608123779297,
+        -2.9767298698425293,
+        -2.953770160675049,
+        -7.219086170196533,
+        -18.859548568725586
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "prediction_rival_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 5,
+          "prediction": 3,
+          "reference_fixed_margin": 0.36034178733825684,
+          "fixed_margin": 0.9255690574645996
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 5,
+          "prediction": 3,
+          "reference_fixed_margin": -0.2735593318939209,
+          "fixed_margin": 0.5645058155059814
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 5,
+          "prediction": 3,
+          "reference_fixed_margin": -0.6073446273803711,
+          "fixed_margin": 0.021830081939697266
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_stage_rescued_30206_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_stage_rescued_30206_vh.png"
+      }
+    },
+    {
+      "arm": "preadd",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "harmed",
+      "id": "31069",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "565497000",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 3,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": 0.32528823614120483,
+      "fixed_margin": -0.15865546464920044,
+      "delta_fixed_margin": -0.4839437007904053,
+      "original_initial_fixed_margin": -1.0426065921783447,
+      "baseline_NLL": 0.6357965921082651,
+      "NLL": 0.8543131365064522,
+      "baseline_Brier": 0.37416893856850986,
+      "Brier": 0.5835629949719885,
+      "baseline_logits": [
+        -0.930599570274353,
+        -9.557049751281738,
+        -7.022496223449707,
+        -0.6053113341331482,
+        -11.789566040039062,
+        -5.113773822784424,
+        -2.488497734069824,
+        -7.242961883544922
+      ],
+      "logits": [
+        -0.6957545280456543,
+        -9.920906066894531,
+        -7.257588863372803,
+        -0.8544099926948547,
+        -12.059375762939453,
+        -5.289595127105713,
+        -2.6670312881469727,
+        -7.801100730895996
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 3,
+          "prediction": 0,
+          "reference_fixed_margin": 0.32528823614120483,
+          "fixed_margin": -0.15865546464920044
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 3,
+          "prediction": 0,
+          "reference_fixed_margin": 0.15553343296051025,
+          "fixed_margin": -0.25005894899368286
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 3,
+          "prediction": 3,
+          "reference_fixed_margin": 0.43885165452957153,
+          "fixed_margin": 0.04754883050918579
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_stage_harmed_31069_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_stage_harmed_31069_vh.png"
+      }
+    },
+    {
+      "arm": "preadd",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "CC",
+      "id": "24553",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Jebel Ali",
+      "mmsi": "518999494",
+      "pass_group": "S1A_058688_074483",
+      "original_initial_prediction": 3,
+      "baseline_prediction": 3,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 3,
+      "fixed_rival": 2,
+      "fixed_rival_name": "general_cargo",
+      "baseline_fixed_margin": 0.6877704858779907,
+      "fixed_margin": 1.3870643377304077,
+      "delta_fixed_margin": 0.699293851852417,
+      "original_initial_fixed_margin": 1.1032512187957764,
+      "baseline_NLL": 0.4246989064447454,
+      "NLL": 0.23773924910540295,
+      "baseline_Brier": 0.22793242567709202,
+      "Brier": 0.08365443685621952,
+      "baseline_logits": [
+        -5.224167823791504,
+        -10.164506912231445,
+        -1.7110621929168701,
+        -1.0232917070388794,
+        -6.032245635986328,
+        -7.313833713531494,
+        -7.002766132354736,
+        -9.193517684936523
+      ],
+      "logits": [
+        -5.075163841247559,
+        -10.007238388061523,
+        -2.001260757446289,
+        -0.6141964197158813,
+        -6.266016960144043,
+        -7.239659786224365,
+        -6.891418933868408,
+        -9.033997535705566
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "prediction_rival_reference_ids": [],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 3,
+          "prediction": 3,
+          "reference_fixed_margin": 0.6877704858779907,
+          "fixed_margin": 1.3870643377304077
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 3,
+          "prediction": 3,
+          "reference_fixed_margin": 0.4950653314590454,
+          "fixed_margin": 0.9721071720123291
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 3,
+          "prediction": 3,
+          "reference_fixed_margin": 0.6898059844970703,
+          "fixed_margin": 1.3630869388580322
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_stage_CC_24553_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_stage_CC_24553_vh.png"
+      }
+    },
+    {
+      "arm": "preadd",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "WW",
+      "id": "8857",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "352002851",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 5,
+      "baseline_prediction": 5,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 5,
+      "fixed_rival": 5,
+      "fixed_rival_name": "crude_oil_tanker",
+      "baseline_fixed_margin": -5.822060585021973,
+      "fixed_margin": -5.060637474060059,
+      "delta_fixed_margin": 0.7614231109619141,
+      "original_initial_fixed_margin": -5.481489181518555,
+      "baseline_NLL": 5.847491273862376,
+      "NLL": 5.105128213969095,
+      "baseline_Brier": 1.9448850180481048,
+      "Brier": 1.9034460210435893,
+      "baseline_logits": [
+        -1.1560403108596802,
+        -8.707923889160156,
+        -4.286078929901123,
+        -2.65071177482605,
+        -1.5521526336669922,
+        3.1713485717773438,
+        -5.812090873718262,
+        -14.606771469116211
+      ],
+      "logits": [
+        -1.064724087715149,
+        -8.154285430908203,
+        -4.308797359466553,
+        -2.3031787872314453,
+        -1.3672751188278198,
+        2.7574586868286133,
+        -5.601569652557373,
+        -13.953385353088379
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "prediction_rival_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": -5.822060585021973,
+          "fixed_margin": -5.060637474060059
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": -6.682864189147949,
+          "fixed_margin": -5.77360725402832
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": -6.917981147766113,
+          "fixed_margin": -5.81782341003418
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_stage_WW_8857_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_stage_WW_8857_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "rescued",
+      "id": "31779",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "574005560",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 2,
+      "baseline_prediction": 2,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 3,
+      "fixed_rival": 2,
+      "fixed_rival_name": "general_cargo",
+      "baseline_fixed_margin": -0.2808990478515625,
+      "fixed_margin": 0.23393487930297852,
+      "delta_fixed_margin": 0.514833927154541,
+      "original_initial_fixed_margin": -0.6814131736755371,
+      "baseline_NLL": 0.8876820289569901,
+      "NLL": 0.6278637859125072,
+      "baseline_Brier": 0.6444363469571786,
+      "Brier": 0.39709511883217596,
+      "baseline_logits": [
+        -3.6981940269470215,
+        -11.407537460327148,
+        2.3307013511657715,
+        2.049802303314209,
+        -1.6044760942459106,
+        -10.265222549438477,
+        -0.5259510278701782,
+        -17.3818302154541
+      ],
+      "logits": [
+        -3.3476762771606445,
+        -11.035955429077148,
+        2.2390646934509277,
+        2.4729995727539062,
+        -1.783226490020752,
+        -10.05051040649414,
+        -0.25968825817108154,
+        -16.59799575805664
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "prediction_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 2,
+          "prediction": 3,
+          "reference_fixed_margin": -0.2808990478515625,
+          "fixed_margin": 0.23393487930297852
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 2,
+          "prediction": 3,
+          "reference_fixed_margin": -0.3820228576660156,
+          "fixed_margin": 0.11124205589294434
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 2,
+          "prediction": 2,
+          "reference_fixed_margin": -0.7402850389480591,
+          "fixed_margin": -0.299083948135376
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_stage_rescued_31779_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_stage_rescued_31779_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "harmed",
+      "id": "31069",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "565497000",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 3,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": 0.32528823614120483,
+      "fixed_margin": -0.15686053037643433,
+      "delta_fixed_margin": -0.48214876651763916,
+      "original_initial_fixed_margin": -1.0426065921783447,
+      "baseline_NLL": 0.6357965921082651,
+      "NLL": 0.8540168463476169,
+      "baseline_Brier": 0.37416893856850986,
+      "Brier": 0.5826124525637721,
+      "baseline_logits": [
+        -0.930599570274353,
+        -9.557049751281738,
+        -7.022496223449707,
+        -0.6053113341331482,
+        -11.789566040039062,
+        -5.113773822784424,
+        -2.488497734069824,
+        -7.242961883544922
+      ],
+      "logits": [
+        -0.7262381315231323,
+        -9.926712989807129,
+        -7.089747428894043,
+        -0.8830986618995667,
+        -12.004305839538574,
+        -5.140185832977295,
+        -2.7035722732543945,
+        -7.821460247039795
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 3,
+          "prediction": 0,
+          "reference_fixed_margin": 0.32528823614120483,
+          "fixed_margin": -0.15686053037643433
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 3,
+          "prediction": 0,
+          "reference_fixed_margin": 0.15553343296051025,
+          "fixed_margin": -0.21708661317825317
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 3,
+          "prediction": 3,
+          "reference_fixed_margin": 0.43885165452957153,
+          "fixed_margin": 0.07345199584960938
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_stage_harmed_31069_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_stage_harmed_31069_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "CC",
+      "id": "4908",
+      "label": 0,
+      "class_name": "bulk_carrier",
+      "port": "Jebel Ali",
+      "mmsi": "256919000",
+      "pass_group": "S1A_058688_074483",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 3,
+      "fixed_rival_name": "chemical_tanker",
+      "baseline_fixed_margin": 1.3571356534957886,
+      "fixed_margin": 1.9340745210647583,
+      "delta_fixed_margin": 0.5769388675689697,
+      "original_initial_fixed_margin": 2.2413787841796875,
+      "baseline_NLL": 0.23029684789661706,
+      "NLL": 0.1359937622451413,
+      "baseline_Brier": 0.08411430332359077,
+      "Brier": 0.032088997720272155,
+      "baseline_logits": [
+        3.2311699390411377,
+        -6.654006481170654,
+        -3.3785400390625,
+        1.8740342855453491,
+        -7.633363246917725,
+        -8.305405616760254,
+        -6.416803359985352,
+        -6.140655517578125
+      ],
+      "logits": [
+        3.547114849090576,
+        -6.6983184814453125,
+        -3.400056838989258,
+        1.6130403280258179,
+        -7.862987041473389,
+        -8.173920631408691,
+        -6.423174858093262,
+        -6.281042098999023
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "fixed_rival_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "prediction_rival_reference_ids": [],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 1.3571356534957886,
+          "fixed_margin": 1.9340745210647583
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 1.3794859647750854,
+          "fixed_margin": 1.9016153812408447
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 1.609664797782898,
+          "fixed_margin": 1.970771074295044
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_stage_CC_4908_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_stage_CC_4908_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "WW",
+      "id": "28198",
+      "label": 7,
+      "class_name": "offshore",
+      "port": "Singapore",
+      "mmsi": "538009741",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 5,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 5,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -18.457304000854492,
+      "fixed_margin": -19.07689094543457,
+      "delta_fixed_margin": -0.6195869445800781,
+      "original_initial_fixed_margin": -20.27630043029785,
+      "baseline_NLL": 19.831813606944554,
+      "NLL": 20.193917705264173,
+      "baseline_Brier": 1.5013070602602108,
+      "Brier": 1.4622534442215294,
+      "baseline_logits": [
+        -0.6053813695907593,
+        -9.6017427444458,
+        -4.987696647644043,
+        -4.4466657638549805,
+        -1.729998230934143,
+        0.3477563261985779,
+        -8.333338737487793,
+        -19.062685012817383
+      ],
+      "logits": [
+        -0.2641475200653076,
+        -10.020657539367676,
+        -4.927945613861084,
+        -4.566075801849365,
+        -1.7535628080368042,
+        0.3275187611579895,
+        -8.66306209564209,
+        -19.34103775024414
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "13000",
+        "13276"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": -18.457304000854492,
+          "fixed_margin": -19.07689094543457
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": -17.95079803466797,
+          "fixed_margin": -18.642539978027344
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": -18.956661224365234,
+          "fixed_margin": -19.19106674194336
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_stage_WW_28198_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_stage_WW_28198_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "preadd",
+      "seed": 17,
+      "state": "CC",
+      "id": "12595",
+      "label": 0,
+      "class_name": "bulk_carrier",
+      "port": "Singapore",
+      "mmsi": "372136000",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference preadd, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 3,
+      "fixed_rival_name": "chemical_tanker",
+      "baseline_fixed_margin": 4.238631248474121,
+      "fixed_margin": 4.5258307456970215,
+      "delta_fixed_margin": 0.2871994972229004,
+      "original_initial_fixed_margin": 4.859772682189941,
+      "baseline_NLL": 0.020180266348718827,
+      "NLL": 0.01629469790150371,
+      "baseline_Brier": 0.0006125779156472308,
+      "Brier": 0.0003856690630469285,
+      "baseline_logits": [
+        2.349358320236206,
+        -9.01801586151123,
+        -4.004483699798584,
+        -1.8892728090286255,
+        -6.353673934936523,
+        -4.89805793762207,
+        -3.3812127113342285,
+        -7.047255516052246
+      ],
+      "logits": [
+        2.464150905609131,
+        -9.040755271911621,
+        -3.8142309188842773,
+        -2.0616798400878906,
+        -6.305258750915527,
+        -4.669926166534424,
+        -3.458287000656128,
+        -6.915678977966309
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "fixed_rival_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "prediction_rival_reference_ids": [],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 4.238631248474121,
+          "fixed_margin": 4.5258307456970215
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 4.055133819580078,
+          "fixed_margin": 4.223355770111084
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 4.316714763641357,
+          "fixed_margin": 4.552590370178223
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_preadd_CC_12595_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_preadd_CC_12595_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "preadd",
+      "seed": 17,
+      "state": "WW",
+      "id": "25311",
+      "label": 0,
+      "class_name": "bulk_carrier",
+      "port": "Singapore",
+      "mmsi": "525801752",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 3,
+      "baseline_prediction": 3,
+      "baseline_field_semantics": "comparison reference preadd, see reference_arm",
+      "prediction": 3,
+      "fixed_rival": 3,
+      "fixed_rival_name": "chemical_tanker",
+      "baseline_fixed_margin": -0.786846935749054,
+      "fixed_margin": -0.548182487487793,
+      "delta_fixed_margin": 0.238664448261261,
+      "original_initial_fixed_margin": -0.8960323333740234,
+      "baseline_NLL": 1.608433821017755,
+      "NLL": 1.4780746803682705,
+      "baseline_Brier": 0.9394793976451603,
+      "Brier": 0.8658738158473751,
+      "baseline_logits": [
+        -1.087206244468689,
+        -8.142563819885254,
+        -3.188568115234375,
+        -0.300359308719635,
+        -0.6021806597709656,
+        -4.080461025238037,
+        -8.073841094970703,
+        -10.250123977661133
+      ],
+      "logits": [
+        -1.0197709798812866,
+        -8.211999893188477,
+        -3.1515159606933594,
+        -0.47158849239349365,
+        -0.6301254034042358,
+        -3.8752143383026123,
+        -8.018741607666016,
+        -10.159957885742188
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "fixed_rival_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "prediction_rival_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 3,
+          "prediction": 3,
+          "reference_fixed_margin": -0.786846935749054,
+          "fixed_margin": -0.548182487487793
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 3,
+          "prediction": 4,
+          "reference_fixed_margin": -1.05825936794281,
+          "fixed_margin": -1.0234286785125732
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 3,
+          "prediction": 4,
+          "reference_fixed_margin": -1.138258934020996,
+          "fixed_margin": -0.8955256938934326
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_preadd_WW_25311_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_preadd_WW_25311_vh.png"
+      }
+    },
+    {
+      "arm": "preadd",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "WW",
+      "id": "31069",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "565497000",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -0.1540491282939911,
+      "fixed_margin": -0.15865546464920044,
+      "delta_fixed_margin": -0.004606336355209351,
+      "original_initial_fixed_margin": -1.0426065921783447,
+      "baseline_NLL": 0.8744457274073388,
+      "NLL": 0.8543131365064522,
+      "baseline_Brier": 0.5848655689617418,
+      "Brier": 0.5835629949719885,
+      "baseline_logits": [
+        -0.44425055384635925,
+        -9.001596450805664,
+        -6.413488864898682,
+        -0.5982996821403503,
+        -11.197026252746582,
+        -5.459498405456543,
+        -2.11761736869812,
+        -7.3537821769714355
+      ],
+      "logits": [
+        -0.6957545280456543,
+        -9.920906066894531,
+        -7.257588863372803,
+        -0.8544099926948547,
+        -12.059375762939453,
+        -5.289595127105713,
+        -2.6670312881469727,
+        -7.801100730895996
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -0.1540491282939911,
+          "fixed_margin": -0.15865546464920044
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -0.22129592299461365,
+          "fixed_margin": -0.25005894899368286
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 3,
+          "reference_fixed_margin": -0.164301335811615,
+          "fixed_margin": 0.04754883050918579
+        }
+      ],
+      "selection": "Main path_diagnosis selected ID; baseline outcome retained, diagnostic kind recorded separately",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "path_diagnosis": {
+        "arm": "preadd",
+        "seed": 17,
+        "kind": "stage_harm",
+        "id": "31069",
+        "label": 3,
+        "rival": 0,
+        "baseline_pred": 0,
+        "baseline_top1_margin": -0.1540491282939911,
+        "paths": {
+          "full": {
+            "pred": 0,
+            "top1_margin": -0.15864473581314087,
+            "fixed_margin": -0.15864473581314087
+          },
+          "off_VV": {
+            "pred": 0,
+            "top1_margin": -0.03117889165878296,
+            "fixed_margin": -0.03117889165878296
+          },
+          "off_VH": {
+            "pred": 0,
+            "top1_margin": -0.5648320913314819,
+            "fixed_margin": -0.5648320913314819
+          },
+          "off_body": {
+            "pred": 0,
+            "top1_margin": -0.2683330774307251,
+            "fixed_margin": -0.2683330774307251
+          },
+          "off_end": {
+            "pred": 0,
+            "top1_margin": -0.14985406398773193,
+            "fixed_margin": -0.14985406398773193
+          },
+          "off_side": {
+            "pred": 0,
+            "top1_margin": -0.1423192024230957,
+            "fixed_margin": -0.1423192024230957
+          },
+          "off_all": {
+            "pred": 0,
+            "top1_margin": -0.43736591935157776,
+            "fixed_margin": -0.43736591935157776
+          }
+        },
+        "replay_error": 2.47955322265625e-05
+      },
+      "path_diagnosis_scope": "Fixed trained weights; remove feedback from BOTH query and references. No refit or physical causal claim.",
+      "path_fixed_rival_rule": "Strongest nontruth baseline seed17 logit; may differ from gallery initial-fixed rival",
+      "path_fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_baseline_WW_31069_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\preadd_vs_baseline_WW_31069_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "WW",
+      "id": "31069",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "565497000",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -0.1540491282939911,
+      "fixed_margin": -0.15686053037643433,
+      "delta_fixed_margin": -0.0028114020824432373,
+      "original_initial_fixed_margin": -1.0426065921783447,
+      "baseline_NLL": 0.8744457274073388,
+      "NLL": 0.8540168463476169,
+      "baseline_Brier": 0.5848655689617418,
+      "Brier": 0.5826124525637721,
+      "baseline_logits": [
+        -0.44425055384635925,
+        -9.001596450805664,
+        -6.413488864898682,
+        -0.5982996821403503,
+        -11.197026252746582,
+        -5.459498405456543,
+        -2.11761736869812,
+        -7.3537821769714355
+      ],
+      "logits": [
+        -0.7262381315231323,
+        -9.926712989807129,
+        -7.089747428894043,
+        -0.8830986618995667,
+        -12.004305839538574,
+        -5.140185832977295,
+        -2.7035722732543945,
+        -7.821460247039795
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -0.1540491282939911,
+          "fixed_margin": -0.15686053037643433
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -0.22129592299461365,
+          "fixed_margin": -0.21708661317825317
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 3,
+          "reference_fixed_margin": -0.164301335811615,
+          "fixed_margin": 0.07345199584960938
+        }
+      ],
+      "selection": "Main path_diagnosis selected ID; baseline outcome retained, diagnostic kind recorded separately",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "path_diagnosis": {
+        "arm": "postadd",
+        "seed": 17,
+        "kind": "stage_harm",
+        "id": "31069",
+        "label": 3,
+        "rival": 0,
+        "baseline_pred": 0,
+        "baseline_top1_margin": -0.1540491282939911,
+        "paths": {
+          "full": {
+            "pred": 0,
+            "top1_margin": -0.15686357021331787,
+            "fixed_margin": -0.15686357021331787
+          },
+          "off_VV": {
+            "pred": 0,
+            "top1_margin": -0.06732827425003052,
+            "fixed_margin": -0.06732827425003052
+          },
+          "off_VH": {
+            "pred": 0,
+            "top1_margin": -0.5025814771652222,
+            "fixed_margin": -0.5025814771652222
+          },
+          "off_body": {
+            "pred": 0,
+            "top1_margin": -0.2472466230392456,
+            "fixed_margin": -0.2472466230392456
+          },
+          "off_end": {
+            "pred": 0,
+            "top1_margin": -0.2182484269142151,
+            "fixed_margin": -0.2182484269142151
+          },
+          "off_side": {
+            "pred": 0,
+            "top1_margin": -0.12522858381271362,
+            "fixed_margin": -0.12522858381271362
+          },
+          "off_all": {
+            "pred": 0,
+            "top1_margin": -0.41304638981819153,
+            "fixed_margin": -0.41304638981819153
+          }
+        },
+        "replay_error": 2.002716064453125e-05
+      },
+      "path_diagnosis_scope": "Fixed trained weights; remove feedback from BOTH query and references. No refit or physical causal claim.",
+      "path_fixed_rival_rule": "Strongest nontruth baseline seed17 logit; may differ from gallery initial-fixed rival",
+      "path_fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_baseline_WW_31069_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_baseline_WW_31069_vh.png"
+      }
+    },
+    {
+      "arm": "postadd",
+      "reference_arm": "preadd",
+      "seed": 43,
+      "state": "harmed",
+      "id": "30206",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "563208100",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 4,
+      "baseline_prediction": 3,
+      "baseline_field_semantics": "comparison reference preadd, see reference_arm",
+      "prediction": 4,
+      "fixed_rival": 4,
+      "fixed_rival_name": "container",
+      "baseline_fixed_margin": 0.021830081939697266,
+      "fixed_margin": -0.21548938751220703,
+      "delta_fixed_margin": -0.2373194694519043,
+      "original_initial_fixed_margin": -1.4361438751220703,
+      "baseline_NLL": 1.1889610668753423,
+      "NLL": 1.334214756263185,
+      "baseline_Brier": 0.6603813045149143,
+      "Brier": 0.7408663161777268,
+      "baseline_logits": [
+        -3.565495729446411,
+        -14.292348861694336,
+        -5.966333866119385,
+        -2.5503733158111572,
+        -2.5722033977508545,
+        -2.6522295475006104,
+        -7.527891159057617,
+        -19.28046417236328
+      ],
+      "logits": [
+        -3.521817207336426,
+        -14.542278289794922,
+        -6.0097432136535645,
+        -2.740508556365967,
+        -2.5250191688537598,
+        -2.689160108566284,
+        -7.568177700042725,
+        -19.48511505126953
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "prediction_rival_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 3,
+          "prediction": 3,
+          "reference_fixed_margin": 0.9255690574645996,
+          "fixed_margin": 0.641291618347168
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 3,
+          "prediction": 3,
+          "reference_fixed_margin": 0.5645058155059814,
+          "fixed_margin": 0.2035207748413086
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 3,
+          "prediction": 4,
+          "reference_fixed_margin": 0.021830081939697266,
+          "fixed_margin": -0.21548938751220703
+        }
+      ],
+      "selection": "Supplementary D-vs-C flip at non17 seed; max absolute initial-fixed-rival margin change; not part of seed17 group counts",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_preadd_harmed_30206_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\CASES\\postadd_vs_preadd_harmed_30206_vh.png"
+      }
+    }
+  ],
+  "runs": [
+    {
+      "arm": "baseline",
+      "seed": 17,
+      "trainable": 1114112,
+      "seconds": 113.81114310002886,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 2.941867450873057,
+          "keep": 0.0027834758139495073,
+          "floor": 0.12690626612567035
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.838701672024197,
+          "keep": 0.010632539788881937,
+          "floor": 0.3863705032401615
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.428625934653812,
+          "keep": 0.01291460732722448,
+          "floor": 0.4028276155392329
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.10615391863717,
+          "keep": 0.01345814930068122,
+          "floor": 0.33497249914540184
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 2.0073610610432095,
+          "keep": 0.01257751566461391,
+          "floor": 0.23042726351155174
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.766069061226315,
+          "keep": 0.015485301510327391,
+          "floor": 0.1808622024125523
+        }
+      ],
+      "peak_cuda_mb": 649.111328125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\baseline_17.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\runs.json"
+    },
+    {
+      "arm": "baseline",
+      "seed": 29,
+      "trainable": 1114112,
+      "seconds": 114.87899939995259,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.106091088718838,
+          "keep": 0.002181783532848986,
+          "floor": 0.16602257966527614
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3721747431490154,
+          "keep": 0.010903055986596478,
+          "floor": 0.5293791459666358
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.2310033440589905,
+          "keep": 0.012689152887711922,
+          "floor": 0.3600493586725659
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.6267622444364758,
+          "keep": 0.011408119307210049,
+          "floor": 0.18180668105681738
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 2.053739736477534,
+          "keep": 0.012218787713209167,
+          "floor": 0.232400044798851
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 2.096202075481415,
+          "keep": 0.01601148282902108,
+          "floor": 0.3043049607012007
+        }
+      ],
+      "peak_cuda_mb": 645.744140625,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\baseline_29.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\runs.json"
+    },
+    {
+      "arm": "baseline",
+      "seed": 43,
+      "trainable": 1114112,
+      "seconds": 111.64111030008644,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.4636875655916004,
+          "keep": 0.0031518156657642177,
+          "floor": 0.32211588550876136
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3469736840989857,
+          "keep": 0.006814403821610742,
+          "floor": 0.39648694255285793
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.34875261121326,
+          "keep": 0.01007484476495948,
+          "floor": 0.25874315285020405
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.1621998614735074,
+          "keep": 0.010596639218015803,
+          "floor": 0.16442718398239878
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 2.0498127937316895,
+          "keep": 0.013224613671708439,
+          "floor": 0.2266156565811899
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 2.0429504182603626,
+          "keep": 0.012915014703240659,
+          "floor": 0.23203552183177736
+        }
+      ],
+      "peak_cuda_mb": 645.744140625,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\baseline_43.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\runs.json"
+    },
+    {
+      "arm": "stage",
+      "seed": 17,
+      "trainable": 1311440,
+      "seconds": 121.392611999996,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 2.9291406869888306,
+          "keep": 0.004061052855390875,
+          "floor": 0.15301588146649925
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.7556476129425898,
+          "keep": 0.014556604127089182,
+          "floor": 0.4125352021720674
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.2777735458479986,
+          "keep": 0.018954727255428832,
+          "floor": 0.47567227813932633
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 1.8906821807225545,
+          "keep": 0.018834806357820828,
+          "floor": 0.36249197357230717
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.7065850065814123,
+          "keep": 0.01680728534443511,
+          "floor": 0.23684416711330414
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.426680114534166,
+          "keep": 0.02968857085539235,
+          "floor": 0.20149045230613816
+        }
+      ],
+      "peak_cuda_mb": 1143.615234375,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\layer2_17.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\runs.json"
+    },
+    {
+      "arm": "stage",
+      "seed": 29,
+      "trainable": 1311440,
+      "seconds": 129.94821810000576,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.0916177696651883,
+          "keep": 0.0029500290007004417,
+          "floor": 0.1943395540076629
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.2953599260913,
+          "keep": 0.01627386226836178,
+          "floor": 0.5850268801053365
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.123082207308875,
+          "keep": 0.02143266352100505,
+          "floor": 0.3793240537246068
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.383539226320055,
+          "keep": 0.01692386980478962,
+          "floor": 0.19372212721241844
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.7448804378509521,
+          "keep": 0.018145103272723243,
+          "floor": 0.2701634880569246
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.660741925239563,
+          "keep": 0.026695599572526083,
+          "floor": 0.365064343644513
+        }
+      ],
+      "peak_cuda_mb": 1143.177734375,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\layer2_29.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\runs.json"
+    },
+    {
+      "arm": "stage",
+      "seed": 43,
+      "trainable": 1311440,
+      "seconds": 125.33157140016556,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.4650472005208335,
+          "keep": 0.0037250921205798588,
+          "floor": 0.34126272280286307
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3056064777904086,
+          "keep": 0.0083503945885847,
+          "floor": 0.37027810513973236
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.255918992890252,
+          "keep": 0.017082039991186723,
+          "floor": 0.28900695509380764
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 1.9491708543565538,
+          "keep": 0.018530858525385458,
+          "floor": 0.19108293474548393
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.7788931197590299,
+          "keep": 0.01996671532591184,
+          "floor": 0.310117755499151
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.639926145474116,
+          "keep": 0.022191747712592285,
+          "floor": 0.2109335462252299
+        }
+      ],
+      "peak_cuda_mb": 1144.490234375,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\layer2_43.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\runs.json"
+    },
+    {
+      "arm": "preadd",
+      "seed": 17,
+      "trainable": 1311440,
+      "seconds": 28.90261960006319,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 2.936738053957621,
+          "keep": 0.0033493111145755333,
+          "floor": 0.13876054435981441
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.7876281340916953,
+          "keep": 0.013191270228061412,
+          "floor": 0.3950789405239953
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.3071029914749994,
+          "keep": 0.017652452845747273,
+          "floor": 0.4516085700856315
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 1.9058359530236986,
+          "keep": 0.019271038576132722,
+          "floor": 0.3520788682831658
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.7057121594746907,
+          "keep": 0.018407936725351546,
+          "floor": 0.23711108747455809
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.4128817750347986,
+          "keep": 0.02859522122889757,
+          "floor": 0.1898218666513761
+        }
+      ],
+      "peak_cuda_mb": 1201.5908203125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\checkpoints\\preadd_17.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "preadd",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 512,
+      "grid": [
+        20,
+        20
+      ]
+    },
+    {
+      "arm": "preadd",
+      "seed": 29,
+      "trainable": 1311440,
+      "seconds": 28.494650600012392,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.1001666916741266,
+          "keep": 0.0025017172407912408,
+          "floor": 0.18045518661226356
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3260780539777546,
+          "keep": 0.013786371072961224,
+          "floor": 0.5550727562771903
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.1437551048066883,
+          "keep": 0.01947277220379975,
+          "floor": 0.37507033513651955
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.3967573973867626,
+          "keep": 0.01808120408612821,
+          "floor": 0.19699877417749828
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.7335474027527704,
+          "keep": 0.01890357181481603,
+          "floor": 0.25921858764357036
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.655306465095944,
+          "keep": 0.025531723370982543,
+          "floor": 0.33592553602324593
+        }
+      ],
+      "peak_cuda_mb": 1201.5908203125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\checkpoints\\preadd_29.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "preadd",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 512,
+      "grid": [
+        20,
+        20
+      ]
+    },
+    {
+      "arm": "preadd",
+      "seed": 43,
+      "trainable": 1311440,
+      "seconds": 24.72864290000871,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.46496053536733,
+          "keep": 0.003404374408802122,
+          "floor": 0.3318142435627237
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.318271643585629,
+          "keep": 0.007787775248289108,
+          "floor": 0.38584143420060474
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.276088767581516,
+          "keep": 0.01519958685255713,
+          "floor": 0.2798289590411716
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 1.9776830739445157,
+          "keep": 0.01767510822456744,
+          "floor": 0.18485468408713737
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.8020978371302288,
+          "keep": 0.020166761914475098,
+          "floor": 0.30271021607849335
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.6648955543835957,
+          "keep": 0.020302742357469268,
+          "floor": 0.20615431666374207
+        }
+      ],
+      "peak_cuda_mb": 1201.4658203125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\checkpoints\\preadd_43.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "preadd",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 512,
+      "grid": [
+        20,
+        20
+      ]
+    },
+    {
+      "arm": "postadd",
+      "seed": 17,
+      "trainable": 1311440,
+      "seconds": 27.4576867998112,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 2.9367396765285068,
+          "keep": 0.0034056865923489813,
+          "floor": 0.13924601322259963
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.776706920729743,
+          "keep": 0.013065665701611174,
+          "floor": 0.393887374136183
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.2901699940363565,
+          "keep": 0.01689472846272919,
+          "floor": 0.445385401447614
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 1.8887563546498616,
+          "keep": 0.018816254929535918,
+          "floor": 0.34641466041405994
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.685340439279874,
+          "keep": 0.01820559220181571,
+          "floor": 0.22824878659513262
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.3878484037187364,
+          "keep": 0.029058346007433202,
+          "floor": 0.17875953432586458
+        }
+      ],
+      "peak_cuda_mb": 1201.4658203125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\checkpoints\\postadd_17.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "postadd",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 512,
+      "grid": [
+        20,
+        20
+      ]
+    },
+    {
+      "arm": "postadd",
+      "seed": 29,
+      "trainable": 1311440,
+      "seconds": 26.049774000188336,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.0994724697536893,
+          "keep": 0.002572579091966867,
+          "floor": 0.18142308437160012
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3159042795499167,
+          "keep": 0.01404742311893238,
+          "floor": 0.5584841536151038
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.126509540610843,
+          "keep": 0.019378534466442134,
+          "floor": 0.3697049915790558
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.368327650758955,
+          "keep": 0.017780363301022187,
+          "floor": 0.18918797539340126
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.7087179157469008,
+          "keep": 0.019429838860459212,
+          "floor": 0.2584311225348049
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.6208514173825581,
+          "keep": 0.02657757006171677,
+          "floor": 0.34023916721343994
+        }
+      ],
+      "peak_cuda_mb": 1201.4658203125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\checkpoints\\postadd_29.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "postadd",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 512,
+      "grid": [
+        20,
+        20
+      ]
+    },
+    {
+      "arm": "postadd",
+      "seed": 43,
+      "trainable": 1311440,
+      "seconds": 28.13045120006427,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.4641182952457004,
+          "keep": 0.00345230915647828,
+          "floor": 0.33315159008010115
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.310402386718326,
+          "keep": 0.00785803678445518,
+          "floor": 0.38396551253067124
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.2589791152212353,
+          "keep": 0.01510970661830571,
+          "floor": 0.2739662395583259
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 1.9515677955415514,
+          "keep": 0.017288098473929696,
+          "floor": 0.17938474720964828
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.7706997129652235,
+          "keep": 0.02031587136702405,
+          "floor": 0.28820652183559203
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.6168344616889954,
+          "keep": 0.02114251074898574,
+          "floor": 0.20609583954016367
+        }
+      ],
+      "peak_cuda_mb": 1201.4658203125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\checkpoints\\postadd_43.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "postadd",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 512,
+      "grid": [
+        20,
+        20
+      ]
+    }
+  ],
+  "diagnostics": {
+    "initial_identity": {
+      "baseline": 0.0,
+      "stage": 0.0,
+      "preadd": 0.0,
+      "postadd": 0.0
+    },
+    "gradient": {
+      "preadd_2_0": {
+        "output": 86.17718124389648,
+        "inner": 50.73580360412598
+      },
+      "preadd_2_1": {
+        "output": 80.90271663665771,
+        "inner": 43.10351848602295
+      },
+      "postadd_2_0": {
+        "output": 95.95813179016113,
+        "inner": 50.456777572631836
+      },
+      "postadd_2_1": {
+        "output": 101.7475471496582,
+        "inner": 51.460280895233154
+      }
+    },
+    "native_block_hook_parity": {
+      "preadd": 0.0,
+      "postadd": 0.0
+    },
+    "cached_vs_live_prefix": {
+      "preadd": 0.0,
+      "postadd": 0.0
+    },
+    "reused_checkpoints": {
+      "baseline_17": 0.0,
+      "baseline_29": 0.0,
+      "baseline_43": 0.0,
+      "stage_17": 0.0,
+      "stage_29": 0.0,
+      "stage_43": 0.0
+    },
+    "extra_parameters": {
+      "baseline": 0,
+      "stage": 197328,
+      "preadd": 197328,
+      "postadd": 197328
+    }
+  },
+  "same_weights_bypass": [
+    {
+      "arm": "baseline",
+      "seed": 17,
+      "full_OA": 44.375,
+      "full_BA": 33.83116883116883,
+      "full_NLL": 2.5410803732631226,
+      "full_Brier": 0.8402375341363648,
+      "off_OA": 44.375,
+      "off_BA": 33.83116883116883,
+      "off_NLL": 2.5410803732631226,
+      "off_Brier": 0.8402375341363648,
+      "delta_OA": 0.0,
+      "delta_BA": 0.0,
+      "delta_NLL": 0.0,
+      "delta_Brier": 0.0,
+      "rescued": 0,
+      "harmed": 0,
+      "CC": 71,
+      "WW": 89
+    },
+    {
+      "arm": "baseline",
+      "seed": 29,
+      "full_OA": 45.625,
+      "full_BA": 34.92810760667903,
+      "full_NLL": 2.517698697395475,
+      "full_Brier": 0.8454449653705799,
+      "off_OA": 45.625,
+      "off_BA": 34.92810760667903,
+      "off_NLL": 2.517698697395475,
+      "off_Brier": 0.8454449653705799,
+      "delta_OA": 0.0,
+      "delta_BA": 0.0,
+      "delta_NLL": 0.0,
+      "delta_Brier": 0.0,
+      "rescued": 0,
+      "harmed": 0,
+      "CC": 73,
+      "WW": 87
+    },
+    {
+      "arm": "baseline",
+      "seed": 43,
+      "full_OA": 45.0,
+      "full_BA": 34.03525046382189,
+      "full_NLL": 2.5401204454526147,
+      "full_Brier": 0.8455613610257959,
+      "off_OA": 45.0,
+      "off_BA": 34.03525046382189,
+      "off_NLL": 2.5401204454526147,
+      "off_Brier": 0.8455613610257959,
+      "delta_OA": 0.0,
+      "delta_BA": 0.0,
+      "delta_NLL": 0.0,
+      "delta_Brier": 0.0,
+      "rescued": 0,
+      "harmed": 0,
+      "CC": 72,
+      "WW": 88
+    },
+    {
+      "arm": "stage",
+      "seed": 17,
+      "full_OA": 46.25,
+      "full_BA": 36.65970933828076,
+      "full_NLL": 2.5255999468329975,
+      "full_Brier": 0.8306806457671785,
+      "off_OA": 41.875,
+      "off_BA": 33.31246134817563,
+      "off_NLL": 2.6567783529799316,
+      "off_Brier": 0.87411854928129,
+      "delta_OA": 4.375,
+      "delta_BA": 3.3472479901051315,
+      "delta_NLL": -0.1311784061469341,
+      "delta_Brier": -0.043437903514111476,
+      "rescued": 9,
+      "harmed": 2,
+      "CC": 65,
+      "WW": 84
+    },
+    {
+      "arm": "stage",
+      "seed": 29,
+      "full_OA": 46.25,
+      "full_BA": 37.027056277056275,
+      "full_NLL": 2.5203366020288556,
+      "full_Brier": 0.8386421811405299,
+      "off_OA": 41.25,
+      "off_BA": 33.35188620902906,
+      "off_NLL": 2.653023584664633,
+      "off_Brier": 0.8809183520600399,
+      "delta_OA": 5.0,
+      "delta_BA": 3.6751700680272137,
+      "delta_NLL": -0.13268698263577727,
+      "delta_Brier": -0.04227617091950997,
+      "rescued": 8,
+      "harmed": 0,
+      "CC": 66,
+      "WW": 86
+    },
+    {
+      "arm": "stage",
+      "seed": 43,
+      "full_OA": 46.875,
+      "full_BA": 37.23113790970934,
+      "full_NLL": 2.5451420676814123,
+      "full_Brier": 0.8365395140400151,
+      "off_OA": 41.25,
+      "off_BA": 33.0304576376005,
+      "off_NLL": 2.6526987025125655,
+      "off_Brier": 0.8770387340687034,
+      "delta_OA": 5.625,
+      "delta_BA": 4.2006802721088405,
+      "delta_NLL": -0.10755663483115319,
+      "delta_Brier": -0.04049922002868822,
+      "rescued": 10,
+      "harmed": 1,
+      "CC": 65,
+      "WW": 84
+    },
+    {
+      "arm": "preadd",
+      "seed": 17,
+      "full_OA": 46.25,
+      "full_BA": 35.67331478045763,
+      "full_NLL": 2.516895318751213,
+      "full_Brier": 0.8261560641905064,
+      "off_OA": 42.5,
+      "off_BA": 33.8838899196042,
+      "off_NLL": 2.6395329894356427,
+      "off_Brier": 0.8694468974076421,
+      "delta_OA": 3.75,
+      "delta_BA": 1.7894248608534298,
+      "delta_NLL": -0.12263767068442988,
+      "delta_Brier": -0.04329083321713578,
+      "rescued": 8,
+      "harmed": 2,
+      "CC": 66,
+      "WW": 84
+    },
+    {
+      "arm": "preadd",
+      "seed": 29,
+      "full_OA": 46.25,
+      "full_BA": 36.04066171923314,
+      "full_NLL": 2.501292224420334,
+      "full_Brier": 0.8299438118873532,
+      "off_OA": 41.875,
+      "off_BA": 32.867192331478044,
+      "off_NLL": 2.6375735729786753,
+      "off_Brier": 0.8767980987948316,
+      "delta_OA": 4.375,
+      "delta_BA": 3.173469387755098,
+      "delta_NLL": -0.13628134855834118,
+      "delta_Brier": -0.04685428690747839,
+      "rescued": 8,
+      "harmed": 1,
+      "CC": 66,
+      "WW": 85
+    },
+    {
+      "arm": "preadd",
+      "seed": 43,
+      "full_OA": 47.5,
+      "full_BA": 36.448824984539264,
+      "full_NLL": 2.534664873659537,
+      "full_Brier": 0.832575361828833,
+      "off_OA": 42.5,
+      "off_BA": 33.8838899196042,
+      "off_NLL": 2.6468883672053964,
+      "off_Brier": 0.873989482907373,
+      "delta_OA": 5.0,
+      "delta_BA": 2.5649350649350637,
+      "delta_NLL": -0.11222349354585948,
+      "delta_Brier": -0.041414121078540034,
+      "rescued": 10,
+      "harmed": 2,
+      "CC": 66,
+      "WW": 82
+    },
+    {
+      "arm": "postadd",
+      "seed": 17,
+      "full_OA": 46.25,
+      "full_BA": 35.67331478045763,
+      "full_NLL": 2.517138751858628,
+      "full_Brier": 0.8258977210751602,
+      "off_OA": 41.875,
+      "off_BA": 33.234539270253556,
+      "off_NLL": 2.635964752956097,
+      "off_Brier": 0.8684063401261508,
+      "delta_OA": 4.375,
+      "delta_BA": 2.4387755102040742,
+      "delta_NLL": -0.1188260010974691,
+      "delta_Brier": -0.04250861905099057,
+      "rescued": 8,
+      "harmed": 1,
+      "CC": 66,
+      "WW": 85
+    },
+    {
+      "arm": "postadd",
+      "seed": 29,
+      "full_OA": 46.25,
+      "full_BA": 36.04066171923314,
+      "full_NLL": 2.499475225578655,
+      "full_Brier": 0.8297510585254578,
+      "off_OA": 41.875,
+      "off_BA": 33.555967841682126,
+      "off_NLL": 2.62882682050992,
+      "off_Brier": 0.8763961888150156,
+      "delta_OA": 4.375,
+      "delta_BA": 2.484693877551017,
+      "delta_NLL": -0.1293515949312649,
+      "delta_Brier": -0.046645130289557746,
+      "rescued": 8,
+      "harmed": 1,
+      "CC": 66,
+      "WW": 85
+    },
+    {
+      "arm": "postadd",
+      "seed": 43,
+      "full_OA": 46.25,
+      "full_BA": 36.04066171923314,
+      "full_NLL": 2.536103512523448,
+      "full_Brier": 0.8331249457044164,
+      "off_OA": 41.875,
+      "off_BA": 33.67980828695114,
+      "off_NLL": 2.6473918841423743,
+      "off_Brier": 0.8740813879000553,
+      "delta_OA": 4.375,
+      "delta_BA": 2.360853432281999,
+      "delta_NLL": -0.11128837161892635,
+      "delta_Brier": -0.040956442195638876,
+      "rescued": 9,
+      "harmed": 2,
+      "CC": 65,
+      "WW": 84
+    }
+  ],
+  "path_case_coverage": {
+    "source": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\path_diagnosis.json",
+    "scope": "Fixed trained weights; remove feedback from BOTH query and references. No refit or physical causal claim.",
+    "cases": 10,
+    "ids": [
+      "26255",
+      "28385",
+      "30206",
+      "31069",
+      "34278",
+      "35906"
+    ],
+    "visual_status": "pending_main_review"
+  },
+  "execution": {
+    "new_fits": 6,
+    "reused_fits": 6,
+    "endpoint": "fixed_epoch6",
+    "tuning": false,
+    "matched_width": 512,
+    "default_model_changed": false
+  }
+}

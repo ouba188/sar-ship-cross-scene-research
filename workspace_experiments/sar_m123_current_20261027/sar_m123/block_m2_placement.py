@@ -9,10 +9,10 @@ from .shallow_writeback import ShallowM2
 class Layer2BlockM2(ShallowM2):
     def __init__(self, state, position='pre3x3'):
         super().__init__(state, ())
-        if position not in ('none', 'stage', 'pre3x3', 'post3x3'):
+        if position not in ('none', 'stage', 'pre3x3', 'post3x3', 'preadd', 'postadd'):
             raise ValueError(position)
         self.position = position
-        channels = 512 if position == 'stage' else 128
+        channels = 512 if position in ('stage', 'preadd', 'postadd') else 128
         self.stages = () if position == 'none' else (2,)
         self.early = nn.ModuleDict()
         for p in range(2) if self.stages else ():
@@ -49,9 +49,14 @@ class Layer2BlockM2(ShallowM2):
         if self.position == 'post3x3':
             value = self.feedback(value, data, trace)
         value = block.bn3(block.conv3(value))
+        if self.position == 'preadd':
+            value = self.feedback(value, data, trace)
         if block.downsample is not None:
             identity = block.downsample(identity)
-        value = block.relu(value+identity)
+        value = value+identity
+        if self.position == 'postadd':
+            value = self.feedback(value, data, trace)
+        value = block.relu(value)
         return value.reshape(len(data['raw2']), 2, *value.shape[1:])
 
     def encode(self, data, trace, aux, propagate=True):
