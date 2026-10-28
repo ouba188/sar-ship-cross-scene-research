@@ -1,0 +1,49 @@
+{
+  "status": "passed_CPU_replay_only_not_current_experiment",
+  "source": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_residual_placement_20261028\\predictions.npz",
+  "fixture_mapping": {
+    "baseline": "baseline",
+    "stage": "stage",
+    "block1": "preadd",
+    "block2": "stage",
+    "block3": "preadd"
+  },
+  "fixture_scope": "In-memory aliases, never saved as current predictions or results",
+  "max_archived_metric_error": 0.0,
+  "metric_rows": 30,
+  "paired_rows": 4320,
+  "comparisons": 9,
+  "checks": [
+    "archived baseline/stage/preadd metrics",
+    "zero delta for identical score aliases",
+    "rescue-minus-harm equals OA delta",
+    "unique observation and ship counts match archive",
+    "missing fishing remains NA",
+    "all comparison case groups and actual reference IDs",
+    "no torch import"
+  ],
+  "visual_review": false,
+  "current_experiment": {
+    "status": "passed_CPU_numeric_and_artifact_validation",
+    "metric_rows": 30,
+    "paired_rows": 4320,
+    "comparison_pairs": 9,
+    "cases": 51,
+    "unique_queries": 22,
+    "supplied_path_cases": 11,
+    "path_rows": 99,
+    "case_png_files": 124,
+    "max_full_path_fixed_margin_error": 1.4066696166992188e-05,
+    "checks": [
+      "retained baseline/stage/block3 archived metric agreement",
+      "OA rescue-minus-harm identity",
+      "BA exact per-class recall decomposition",
+      "all unique observation/ship transition counts",
+      "all supplied representative paths retained",
+      "full-path prediction and fixed-rival margin alignment",
+      "all case PNG files decode and have expected minimum size"
+    ],
+    "visual_review": false,
+    "model_or_gpu_calls": false
+  }
+}

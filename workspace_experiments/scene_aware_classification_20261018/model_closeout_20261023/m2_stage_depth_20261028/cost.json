@@ -1,0 +1,35 @@
+{
+  "results": {
+    "baseline": {
+      "batch16_median_ms": 183.1359500065446,
+      "batch16_p90_ms": 284.89055000245577,
+      "extra_parameters": 0,
+      "peak_cuda_mb": 590.220703125
+    },
+    "stage": {
+      "batch16_median_ms": 194.1398000344634,
+      "batch16_p90_ms": 243.2714899769053,
+      "extra_parameters": 197328,
+      "peak_cuda_mb": 670.19140625
+    },
+    "block1": {
+      "batch16_median_ms": 196.27750001382083,
+      "batch16_p90_ms": 228.23013996239752,
+      "extra_parameters": 197328,
+      "peak_cuda_mb": 620.71826171875
+    },
+    "block2": {
+      "batch16_median_ms": 194.25900001078844,
+      "batch16_p90_ms": 235.41190987452865,
+      "extra_parameters": 197328,
+      "peak_cuda_mb": 622.42529296875
+    },
+    "block3": {
+      "batch16_median_ms": 210.79275012016296,
+      "batch16_p90_ms": 321.9640001654625,
+      "extra_parameters": 197328,
+      "peak_cuda_mb": 620.71826171875
+    }
+  },
+  "scope": "stage1/raw2/anchors ready, 16 queries and16 refs, cached prefix disabled; not chip-to-score latency"
+}

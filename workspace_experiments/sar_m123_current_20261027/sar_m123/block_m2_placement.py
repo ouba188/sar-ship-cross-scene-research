@@ -1,4 +1,4 @@
-"""One M2 inside the last layer2 bottleneck; preserve frozen M3 anchors."""
+"""One M2 inside a layer2 bottleneck; preserve frozen M3 anchors."""
 import torch
 from torch import nn
 
@@ -7,11 +7,14 @@ from .shallow_writeback import ShallowM2
 
 
 class Layer2BlockM2(ShallowM2):
-    def __init__(self, state, position='pre3x3'):
+    def __init__(self, state, position='pre3x3', block_index=3):
         super().__init__(state, ())
         if position not in ('none', 'stage', 'pre3x3', 'post3x3', 'preadd', 'postadd'):
             raise ValueError(position)
         self.position = position
+        if block_index not in (1, 2, 3) or (block_index != 3 and position != 'preadd'):
+            raise ValueError((position, block_index))
+        self.block_index = block_index
         channels = 512 if position in ('stage', 'preadd', 'postadd') else 128
         self.stages = () if position == 'none' else (2,)
         self.early = nn.ModuleDict()
@@ -32,15 +35,16 @@ class Layer2BlockM2(ShallowM2):
             return data['raw2']
         if self.position == 'stage':
             return self.early_feedback(data['raw2'], data, 2, trace)
-        if 'prefix2' in data:
-            prefix = data['prefix2'].flatten(0, 1)
+        prefix_key = 'prefix2' if self.block_index == 3 else f'prefix2_{self.block_index}'
+        if prefix_key in data:
+            prefix = data[prefix_key].flatten(0, 1)
         else:
             # This prefix precedes the only new layer2 adapter and is frozen.
             with torch.no_grad():
                 prefix = data['stage1'].flatten(0, 1)
-                for block in list(self.base.backbone.model.layer2.children())[:-1]:
+                for block in list(self.base.backbone.model.layer2.children())[:self.block_index]:
                     prefix = block(prefix)
-        block = self.base.backbone.model.layer2[-1]
+        block = self.base.backbone.model.layer2[self.block_index]
         identity = prefix
         value = block.relu(block.bn1(block.conv1(prefix)))
         if self.position == 'pre3x3':
@@ -57,6 +61,9 @@ class Layer2BlockM2(ShallowM2):
         if self.position == 'postadd':
             value = self.feedback(value, data, trace)
         value = block.relu(value)
+        # Frozen downstream blocks must transmit gradients to the inserted M2.
+        for block in list(self.base.backbone.model.layer2.children())[self.block_index+1:]:
+            value = block(value)
         return value.reshape(len(data['raw2']), 2, *value.shape[1:])
 
     def encode(self, data, trace, aux, propagate=True):
