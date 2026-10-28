@@ -1,0 +1,519 @@
+{
+  "cohort": {
+    "n": 3075,
+    "ships": 1950,
+    "passes": 85,
+    "ports": 18,
+    "class_counts": {
+      "0": 947,
+      "1": 102,
+      "2": 301,
+      "3": 803,
+      "4": 361,
+      "5": 256,
+      "6": 138,
+      "7": 167
+    },
+    "polarization": {
+      "VV+VH": 2876,
+      "VV": 199
+    },
+    "port_counts": {
+      "Busan": 34,
+      "Callao": 8,
+      "Fujairah": 110,
+      "Houston": 7,
+      "Jebel Ali": 628,
+      "Los Angeles": 103,
+      "Mombasa": 7,
+      "Newcastle": 20,
+      "Ningbo-Zhoushan": 195,
+      "Port Hedland": 40,
+      "Port Klang": 798,
+      "Port Said": 96,
+      "Richards Bay": 195,
+      "Rotterdam": 30,
+      "Santos": 239,
+      "Singapore": 498,
+      "Sydney Botany": 7,
+      "Tanger Med": 60
+    },
+    "old_three_ports": [
+      "Jebel Ali",
+      "Port Klang",
+      "Singapore"
+    ],
+    "polarization_rule": "Manifest image present and alignment_valid; missing views are not observed black chips"
+  },
+  "by_arm": {
+    "baseline": {
+      "OA": {
+        "mean": 47.349593495934954,
+        "std": 0.11725370001508886
+      },
+      "BA": {
+        "mean": 39.372502557480516,
+        "std": 0.10360333994477401
+      },
+      "NLL": {
+        "mean": 2.1634070994030896,
+        "std": 0.020968995775658764
+      },
+      "Brier": {
+        "mean": 0.7897961064033469,
+        "std": 0.002199878084251163
+      }
+    },
+    "stage": {
+      "OA": {
+        "mean": 47.06775067750677,
+        "std": 0.1231199641365935
+      },
+      "BA": {
+        "mean": 39.852225582914144,
+        "std": 0.11211523975741135
+      },
+      "NLL": {
+        "mean": 2.1821854993868866,
+        "std": 0.016581920665465693
+      },
+      "Brier": {
+        "mean": 0.79429125870593,
+        "std": 0.001930853019413405
+      }
+    },
+    "preadd": {
+      "OA": {
+        "mean": 47.382113821138205,
+        "std": 0.06504065040650531
+      },
+      "BA": {
+        "mean": 39.650674230401066,
+        "std": 0.07252236659172795
+      },
+      "NLL": {
+        "mean": 2.1839708136941036,
+        "std": 0.017135373562892898
+      },
+      "Brier": {
+        "mean": 0.792982893480545,
+        "std": 0.0021812969360145876
+      }
+    }
+  },
+  "paired_deltas": {
+    "preadd_vs_baseline": {
+      "OA": {
+        "mean": 0.03252032520325088,
+        "std": 0.16898056659208574
+      },
+      "BA": {
+        "mean": 0.2781716729205475,
+        "std": 0.09921031605205856
+      },
+      "NLL": {
+        "mean": 0.020563714291013852,
+        "std": 0.004799194843226446
+      },
+      "Brier": {
+        "mean": 0.0031867870771980686,
+        "std": 0.00022019300657002017
+      }
+    },
+    "preadd_vs_stage": {
+      "OA": {
+        "mean": 0.31436314363143697,
+        "std": 0.17910798527759864
+      },
+      "BA": {
+        "mean": -0.20155135251307618,
+        "std": 0.14014278359839594
+      },
+      "NLL": {
+        "mean": 0.0017853143072167714,
+        "std": 0.002786707228699024
+      },
+      "Brier": {
+        "mean": -0.001308365225385059,
+        "std": 0.0004075244263925861
+      }
+    },
+    "stage_vs_baseline": {
+      "OA": {
+        "mean": -0.2818428184281861,
+        "std": 0.018775618510229013
+      },
+      "BA": {
+        "mean": 0.4797230254336237,
+        "std": 0.21313484870856755
+      },
+      "NLL": {
+        "mean": 0.018778399983797083,
+        "std": 0.007306913358871941
+      },
+      "Brier": {
+        "mean": 0.0044951523025831275,
+        "std": 0.00029322815279669086
+      }
+    }
+  },
+  "outcomes": {
+    "preadd_vs_baseline": {
+      "rescue": {
+        "events": 206,
+        "unique_queries": 97,
+        "unique_ships": 95,
+        "queries_by_seed_count": {
+          "1": 29,
+          "2": 27,
+          "3": 41
+        }
+      },
+      "harm": {
+        "events": 203,
+        "unique_queries": 102,
+        "unique_ships": 101,
+        "queries_by_seed_count": {
+          "1": 37,
+          "2": 29,
+          "3": 36
+        }
+      },
+      "CC": {
+        "events": 4165,
+        "unique_queries": 1424,
+        "unique_ships": 1125,
+        "queries_by_seed_count": {
+          "1": 34,
+          "2": 39,
+          "3": 1351
+        }
+      },
+      "WW": {
+        "events": 4651,
+        "unique_queries": 1584,
+        "unique_ships": 1117,
+        "queries_by_seed_count": {
+          "1": 38,
+          "2": 25,
+          "3": 1521
+        }
+      },
+      "both_rescue_and_harm_queries": 1,
+      "both_rescue_and_harm_ships": 4
+    },
+    "preadd_vs_stage": {
+      "rescue": {
+        "events": 104,
+        "unique_queries": 75,
+        "unique_ships": 74,
+        "queries_by_seed_count": {
+          "1": 51,
+          "2": 19,
+          "3": 5
+        }
+      },
+      "harm": {
+        "events": 75,
+        "unique_queries": 54,
+        "unique_ships": 54,
+        "queries_by_seed_count": {
+          "1": 40,
+          "2": 7,
+          "3": 7
+        }
+      },
+      "CC": {
+        "events": 4267,
+        "unique_queries": 1464,
+        "unique_ships": 1151,
+        "queries_by_seed_count": {
+          "1": 41,
+          "2": 43,
+          "3": 1380
+        }
+      },
+      "WW": {
+        "events": 4779,
+        "unique_queries": 1636,
+        "unique_ships": 1150,
+        "queries_by_seed_count": {
+          "1": 47,
+          "2": 35,
+          "3": 1554
+        }
+      },
+      "both_rescue_and_harm_queries": 2,
+      "both_rescue_and_harm_ships": 3
+    },
+    "stage_vs_baseline": {
+      "rescue": {
+        "events": 197,
+        "unique_queries": 98,
+        "unique_ships": 96,
+        "queries_by_seed_count": {
+          "1": 35,
+          "2": 27,
+          "3": 36
+        }
+      },
+      "harm": {
+        "events": 223,
+        "unique_queries": 115,
+        "unique_ships": 112,
+        "queries_by_seed_count": {
+          "1": 41,
+          "2": 40,
+          "3": 34
+        }
+      },
+      "CC": {
+        "events": 4145,
+        "unique_queries": 1420,
+        "unique_ships": 1126,
+        "queries_by_seed_count": {
+          "1": 40,
+          "2": 35,
+          "3": 1345
+        }
+      },
+      "WW": {
+        "events": 4660,
+        "unique_queries": 1593,
+        "unique_ships": 1124,
+        "queries_by_seed_count": {
+          "1": 45,
+          "2": 29,
+          "3": 1519
+        }
+      },
+      "both_rescue_and_harm_queries": 5,
+      "both_rescue_and_harm_ships": 5
+    }
+  },
+  "bootstrap": {
+    "preadd_vs_baseline": {
+      "group": "pass_group",
+      "clusters": 85,
+      "replicates": 2000,
+      "random_seed": 20261028,
+      "confidence": 0.95,
+      "method": "paired percentile cluster bootstrap",
+      "missing_class_draws": 0,
+      "missing_class_rule": "BA averages classes present in that replicate; all draws retained",
+      "intervals": {
+        "OA": [
+          -0.6012473562724678,
+          0.6720055564875923
+        ],
+        "BA": [
+          -0.25212164035620993,
+          0.862804862880851
+        ],
+        "NLL": [
+          0.005511583561565476,
+          0.036407793491618726
+        ],
+        "Brier": [
+          -0.0011730669092098083,
+          0.007862437010910424
+        ]
+      },
+      "scope": "Conditional on the six fixed models and fixed reference bank; averages seed metrics, not probabilities. Resample 85 whole passes with replacement with identical weights for both arms and all seeds. Same MMSI may occur across passes; not training-initialization uncertainty or independent-ship bootstrap. Same bootstrap random seed and pass draws used for all three comparisons; nine fixed models overall.",
+      "comparison": "preadd_vs_baseline",
+      "arm": "preadd",
+      "reference": "baseline"
+    },
+    "preadd_vs_stage": {
+      "group": "pass_group",
+      "clusters": 85,
+      "replicates": 2000,
+      "random_seed": 20261028,
+      "confidence": 0.95,
+      "method": "paired percentile cluster bootstrap",
+      "missing_class_draws": 0,
+      "missing_class_rule": "BA averages classes present in that replicate; all draws retained",
+      "intervals": {
+        "OA": [
+          -0.05426190089434237,
+          0.7189737319355713
+        ],
+        "BA": [
+          -0.4619780691442799,
+          0.0811039128423335
+        ],
+        "NLL": [
+          -0.004633691695062797,
+          0.008421175323168578
+        ],
+        "Brier": [
+          -0.004087186010303406,
+          0.0014415515882692052
+        ]
+      },
+      "scope": "Conditional on the six fixed models and fixed reference bank; averages seed metrics, not probabilities. Resample 85 whole passes with replacement with identical weights for both arms and all seeds. Same MMSI may occur across passes; not training-initialization uncertainty or independent-ship bootstrap. Same bootstrap random seed and pass draws used for all three comparisons; nine fixed models overall.",
+      "comparison": "preadd_vs_stage",
+      "arm": "preadd",
+      "reference": "stage"
+    },
+    "stage_vs_baseline": {
+      "group": "pass_group",
+      "clusters": 85,
+      "replicates": 2000,
+      "random_seed": 20261028,
+      "confidence": 0.95,
+      "method": "paired percentile cluster bootstrap",
+      "missing_class_draws": 0,
+      "missing_class_rule": "BA averages classes present in that replicate; all draws retained",
+      "intervals": {
+        "OA": [
+          -0.9133028544897317,
+          0.3110924280014426
+        ],
+        "BA": [
+          0.00724692565037989,
+          0.988230779853482
+        ],
+        "NLL": [
+          0.0030057954954080027,
+          0.035044726639764004
+        ],
+        "Brier": [
+          -0.0007273609222035315,
+          0.010512918300944543
+        ]
+      },
+      "scope": "Conditional on the six fixed models and fixed reference bank; averages seed metrics, not probabilities. Resample 85 whole passes with replacement with identical weights for both arms and all seeds. Same MMSI may occur across passes; not training-initialization uncertainty or independent-ship bootstrap. Same bootstrap random seed and pass draws used for all three comparisons; nine fixed models overall.",
+      "comparison": "stage_vs_baseline",
+      "arm": "stage",
+      "reference": "baseline"
+    }
+  },
+  "scope": "Frozen historical 3075 observations, 1950 ships, 85 passes, 18 ports, 8 classes. No fitting, inference, tuning or model selection in this CPU analysis. Baseline/E reuse six historical scores after main-owned matched replay; only C has three new inference runs. Metrics are computed per seed 17/29/43 then averaged; no probability ensemble. OA/BA are percentages and deltas percentage points; BA averages classes present in the group. Natural-log NLL and summed eight-class Brier are lower-is-better. SD uses ddof=1. Historical targets are not a new blind test; seeds are not independent datasets.",
+  "score_ensemble": false,
+  "new_training": false,
+  "visual_review": "pending main-agent review",
+  "references_manifest": "E:\\临时会话\\sar_m123_current_20261027\\manifests\\references.json",
+  "cases": [
+    {
+      "comparison": "preadd_vs_baseline",
+      "id": "34733",
+      "state": "rescue"
+    },
+    {
+      "comparison": "preadd_vs_baseline",
+      "id": "31166",
+      "state": "harm"
+    },
+    {
+      "comparison": "preadd_vs_baseline",
+      "id": "26109",
+      "state": "CC"
+    },
+    {
+      "comparison": "preadd_vs_baseline",
+      "id": "32844",
+      "state": "WW"
+    },
+    {
+      "comparison": "preadd_vs_baseline",
+      "id": "30134",
+      "state": "rescue"
+    },
+    {
+      "comparison": "preadd_vs_baseline",
+      "id": "25929",
+      "state": "harm"
+    },
+    {
+      "comparison": "preadd_vs_baseline",
+      "id": "9724",
+      "state": "CC"
+    },
+    {
+      "comparison": "preadd_vs_baseline",
+      "id": "36034",
+      "state": "WW"
+    },
+    {
+      "comparison": "preadd_vs_stage",
+      "id": "7872",
+      "state": "rescue"
+    },
+    {
+      "comparison": "preadd_vs_stage",
+      "id": "28401",
+      "state": "harm"
+    },
+    {
+      "comparison": "preadd_vs_stage",
+      "id": "35487",
+      "state": "CC"
+    },
+    {
+      "comparison": "preadd_vs_stage",
+      "id": "26914",
+      "state": "WW"
+    },
+    {
+      "comparison": "preadd_vs_stage",
+      "id": "8647",
+      "state": "rescue"
+    },
+    {
+      "comparison": "preadd_vs_stage",
+      "id": "2490",
+      "state": "harm"
+    },
+    {
+      "comparison": "preadd_vs_stage",
+      "id": "4248",
+      "state": "CC"
+    },
+    {
+      "comparison": "preadd_vs_stage",
+      "id": "23004",
+      "state": "WW"
+    },
+    {
+      "comparison": "stage_vs_baseline",
+      "id": "34733",
+      "state": "rescue"
+    },
+    {
+      "comparison": "stage_vs_baseline",
+      "id": "4007",
+      "state": "harm"
+    },
+    {
+      "comparison": "stage_vs_baseline",
+      "id": "36543",
+      "state": "CC"
+    },
+    {
+      "comparison": "stage_vs_baseline",
+      "id": "32844",
+      "state": "WW"
+    },
+    {
+      "comparison": "stage_vs_baseline",
+      "id": "30134",
+      "state": "rescue"
+    },
+    {
+      "comparison": "stage_vs_baseline",
+      "id": "27591",
+      "state": "harm"
+    },
+    {
+      "comparison": "stage_vs_baseline",
+      "id": "9724",
+      "state": "CC"
+    },
+    {
+      "comparison": "stage_vs_baseline",
+      "id": "23004",
+      "state": "WW"
+    }
+  ]
+}

@@ -1,0 +1,1781 @@
+{
+  "cases": [
+    {
+      "id": "30134",
+      "state": "rescue",
+      "seed": 17,
+      "label": 4,
+      "comparison": "preadd_vs_baseline",
+      "fixed_rival": 0,
+      "paths": {
+        "full": {
+          "prediction": 4,
+          "top1_margin": 0.42809125781059265,
+          "fixed_margin": 0.42809125781059265
+        },
+        "backbone_only": {
+          "prediction": 4,
+          "top1_margin": 0.2666368782520294,
+          "fixed_margin": 0.2666368782520294
+        },
+        "readout_only": {
+          "prediction": 0,
+          "top1_margin": -1.1328306198120117,
+          "fixed_margin": -1.1328306198120117
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": -0.6966850757598877,
+          "fixed_margin": -0.6966850757598877
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": -0.16950872540473938,
+          "fixed_margin": -0.16950872540473938
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": -0.7899938821792603,
+          "fixed_margin": -0.7899938821792603
+        },
+        "off_end": {
+          "prediction": 4,
+          "top1_margin": 0.2147572636604309,
+          "fixed_margin": 0.2147572636604309
+        },
+        "off_side": {
+          "prediction": 0,
+          "top1_margin": -0.1643301248550415,
+          "fixed_margin": -0.1643301248550415
+        },
+        "early_off": {
+          "prediction": 0,
+          "top1_margin": -1.2942848205566406,
+          "fixed_margin": -1.2942848205566406
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.251983165740967,
+            "end": 3.907757520675659,
+            "side": 3.540550947189331
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.141601085662842,
+            "end": 3.7770156860351562,
+            "side": 5.341762542724609
+          }
+        }
+      ],
+      "replay_error": 3.814697265625e-05
+    },
+    {
+      "id": "9724",
+      "state": "CC",
+      "seed": 17,
+      "label": 0,
+      "comparison": "preadd_vs_baseline",
+      "fixed_rival": 4,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": 7.195322036743164,
+          "fixed_margin": 7.195322036743164
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": 7.359903812408447,
+          "fixed_margin": 7.359903812408447
+        },
+        "readout_only": {
+          "prediction": 0,
+          "top1_margin": 5.321292400360107,
+          "fixed_margin": 5.321292400360107
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": 6.398639678955078,
+          "fixed_margin": 6.398639678955078
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": 6.282557010650635,
+          "fixed_margin": 6.282557010650635
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": 6.354819297790527,
+          "fixed_margin": 6.354819297790527
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": 7.106854438781738,
+          "fixed_margin": 7.106854438781738
+        },
+        "off_side": {
+          "prediction": 0,
+          "top1_margin": 6.039409160614014,
+          "fixed_margin": 6.039409160614014
+        },
+        "early_off": {
+          "prediction": 0,
+          "top1_margin": 5.485873222351074,
+          "fixed_margin": 5.485873222351074
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 4.901505470275879,
+            "end": 3.192626953125,
+            "side": 3.566124677658081
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.085781574249268,
+            "end": 4.8694748878479,
+            "side": 6.271312236785889
+          }
+        }
+      ],
+      "replay_error": 4.1961669921875e-05
+    },
+    {
+      "id": "28401",
+      "state": "harm",
+      "seed": 17,
+      "label": 3,
+      "comparison": "preadd_vs_stage",
+      "fixed_rival": 0,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": -0.5831290483474731,
+          "fixed_margin": -0.5831290483474731
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": -0.8604027032852173,
+          "fixed_margin": -0.8604027032852173
+        },
+        "readout_only": {
+          "prediction": 0,
+          "top1_margin": -0.04989731311798096,
+          "fixed_margin": -0.04989731311798096
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": -0.10431170463562012,
+          "fixed_margin": -0.10431170463562012
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": -0.8059885501861572,
+          "fixed_margin": -0.8059885501861572
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": -0.6521788835525513,
+          "fixed_margin": -0.6521788835525513
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": -0.47763919830322266,
+          "fixed_margin": -0.47763919830322266
+        },
+        "off_side": {
+          "prediction": 0,
+          "top1_margin": -0.4318234920501709,
+          "fixed_margin": -0.4318234920501709
+        },
+        "early_off": {
+          "prediction": 0,
+          "top1_margin": -0.32717108726501465,
+          "fixed_margin": -0.32717108726501465
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 4.639130115509033,
+            "end": 3.519179344177246,
+            "side": 3.4967336654663086
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.387068748474121,
+            "end": 5.012485504150391,
+            "side": 6.729012489318848
+          }
+        }
+      ],
+      "replay_error": 2.86102294921875e-05
+    },
+    {
+      "id": "26914",
+      "state": "WW",
+      "seed": 17,
+      "label": 0,
+      "comparison": "preadd_vs_stage",
+      "fixed_rival": 5,
+      "paths": {
+        "full": {
+          "prediction": 5,
+          "top1_margin": -4.63765287399292,
+          "fixed_margin": -4.63765287399292
+        },
+        "backbone_only": {
+          "prediction": 5,
+          "top1_margin": -4.257418632507324,
+          "fixed_margin": -4.257418632507324
+        },
+        "readout_only": {
+          "prediction": 5,
+          "top1_margin": -5.157168865203857,
+          "fixed_margin": -5.157168865203857
+        },
+        "off_VV": {
+          "prediction": 5,
+          "top1_margin": -4.4124650955200195,
+          "fixed_margin": -4.4124650955200195
+        },
+        "off_VH": {
+          "prediction": 5,
+          "top1_margin": -5.002122402191162,
+          "fixed_margin": -5.002122402191162
+        },
+        "off_body": {
+          "prediction": 5,
+          "top1_margin": -4.60721492767334,
+          "fixed_margin": -4.60721492767334
+        },
+        "off_end": {
+          "prediction": 5,
+          "top1_margin": -4.37326717376709,
+          "fixed_margin": -4.37326717376709
+        },
+        "off_side": {
+          "prediction": 5,
+          "top1_margin": -4.962841987609863,
+          "fixed_margin": -4.962841987609863
+        },
+        "early_off": {
+          "prediction": 5,
+          "top1_margin": -4.776934623718262,
+          "fixed_margin": -4.776934623718262
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 4.9286298751831055,
+            "end": 4.328832149505615,
+            "side": 3.929835796356201
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.293402671813965,
+            "end": 5.7239861488342285,
+            "side": 7.133950233459473
+          }
+        }
+      ],
+      "replay_error": 1.3232231140136719e-05
+    },
+    {
+      "id": "34733",
+      "state": "rescue",
+      "seed": 29,
+      "label": 0,
+      "comparison": "preadd_vs_baseline",
+      "fixed_rival": 4,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": 1.3662874698638916,
+          "fixed_margin": 1.3662874698638916
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": 1.4906337261199951,
+          "fixed_margin": 1.4906337261199951
+        },
+        "readout_only": {
+          "prediction": 4,
+          "top1_margin": -0.8301377296447754,
+          "fixed_margin": -0.8301377296447754
+        },
+        "off_VV": {
+          "prediction": 4,
+          "top1_margin": -0.03458303213119507,
+          "fixed_margin": -0.03458303213119507
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": 0.6950790882110596,
+          "fixed_margin": 0.6950790882110596
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": 0.252739816904068,
+          "fixed_margin": 0.252739816904068
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": 1.0894123315811157,
+          "fixed_margin": 1.0894123315811157
+        },
+        "off_side": {
+          "prediction": 0,
+          "top1_margin": 0.4307088851928711,
+          "fixed_margin": 0.4307088851928711
+        },
+        "early_off": {
+          "prediction": 4,
+          "top1_margin": -0.7057917714118958,
+          "fixed_margin": -0.7057917714118958
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.234556198120117,
+            "end": 3.506613254547119,
+            "side": 4.054863452911377
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.435792922973633,
+            "end": 4.664681911468506,
+            "side": 4.370985507965088
+          }
+        }
+      ],
+      "replay_error": 9.059906005859375e-06
+    },
+    {
+      "id": "31166",
+      "state": "harm",
+      "seed": 29,
+      "label": 4,
+      "comparison": "preadd_vs_baseline",
+      "fixed_rival": 0,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": -1.3969465494155884,
+          "fixed_margin": -1.3969465494155884
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": -1.609895944595337,
+          "fixed_margin": -1.609895944595337
+        },
+        "readout_only": {
+          "prediction": 4,
+          "top1_margin": 1.0471328496932983,
+          "fixed_margin": 1.0471328496932983
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": -0.41755640506744385,
+          "fixed_margin": -0.41755640506744385
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": -0.14520657062530518,
+          "fixed_margin": -0.14520657062530518
+        },
+        "off_body": {
+          "prediction": 4,
+          "top1_margin": 0.024798154830932617,
+          "fixed_margin": 0.024798154830932617
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": -1.1452815532684326,
+          "fixed_margin": -1.1452815532684326
+        },
+        "off_side": {
+          "prediction": 0,
+          "top1_margin": -0.15641367435455322,
+          "fixed_margin": -0.15641367435455322
+        },
+        "early_off": {
+          "prediction": 4,
+          "top1_margin": 0.8341830968856812,
+          "fixed_margin": 0.8341830968856812
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.224360942840576,
+            "end": 4.4546403884887695,
+            "side": 4.002863883972168
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.349636554718018,
+            "end": 5.626732349395752,
+            "side": 5.259165287017822
+          }
+        }
+      ],
+      "replay_error": 4.2438507080078125e-05
+    },
+    {
+      "id": "26109",
+      "state": "CC",
+      "seed": 29,
+      "label": 4,
+      "comparison": "preadd_vs_baseline",
+      "fixed_rival": 3,
+      "paths": {
+        "full": {
+          "prediction": 4,
+          "top1_margin": 3.5979037284851074,
+          "fixed_margin": 3.5979037284851074
+        },
+        "backbone_only": {
+          "prediction": 4,
+          "top1_margin": 3.691882610321045,
+          "fixed_margin": 3.691882610321045
+        },
+        "readout_only": {
+          "prediction": 4,
+          "top1_margin": 6.628628730773926,
+          "fixed_margin": 6.628628730773926
+        },
+        "off_VV": {
+          "prediction": 4,
+          "top1_margin": 4.992926120758057,
+          "fixed_margin": 4.992926120758057
+        },
+        "off_VH": {
+          "prediction": 4,
+          "top1_margin": 5.327586650848389,
+          "fixed_margin": 5.327586650848389
+        },
+        "off_body": {
+          "prediction": 4,
+          "top1_margin": 4.814854621887207,
+          "fixed_margin": 4.814854621887207
+        },
+        "off_end": {
+          "prediction": 4,
+          "top1_margin": 4.065510272979736,
+          "fixed_margin": 4.065510272979736
+        },
+        "off_side": {
+          "prediction": 4,
+          "top1_margin": 4.795425891876221,
+          "fixed_margin": 4.795425891876221
+        },
+        "early_off": {
+          "prediction": 4,
+          "top1_margin": 6.722607612609863,
+          "fixed_margin": 6.722607612609863
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.448957443237305,
+            "end": 4.154298782348633,
+            "side": 3.989419460296631
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.2402777671813965,
+            "end": 4.126156806945801,
+            "side": 5.280243396759033
+          }
+        }
+      ],
+      "replay_error": 2.86102294921875e-05
+    },
+    {
+      "id": "32844",
+      "state": "WW",
+      "seed": 29,
+      "label": 5,
+      "comparison": "preadd_vs_baseline",
+      "fixed_rival": 0,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": -5.785178184509277,
+          "fixed_margin": -5.785178184509277
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": -6.076962947845459,
+          "fixed_margin": -6.076962947845459
+        },
+        "readout_only": {
+          "prediction": 0,
+          "top1_margin": -9.193639755249023,
+          "fixed_margin": -9.193639755249023
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": -8.671096801757812,
+          "fixed_margin": -8.671096801757812
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": -6.599506378173828,
+          "fixed_margin": -6.599506378173828
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": -7.111876010894775,
+          "fixed_margin": -7.111876010894775
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": -6.402886390686035,
+          "fixed_margin": -6.402886390686035
+        },
+        "off_side": {
+          "prediction": 0,
+          "top1_margin": -7.85317850112915,
+          "fixed_margin": -7.85317850112915
+        },
+        "early_off": {
+          "prediction": 0,
+          "top1_margin": -9.485424041748047,
+          "fixed_margin": -9.485424041748047
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 4.787099838256836,
+            "end": 3.837278366088867,
+            "side": 3.766045331954956
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.8513503074646,
+            "end": 4.872987747192383,
+            "side": 6.517278671264648
+          }
+        }
+      ],
+      "replay_error": 3.528594970703125e-05
+    },
+    {
+      "id": "25929",
+      "state": "harm",
+      "seed": 29,
+      "label": 0,
+      "comparison": "preadd_vs_baseline",
+      "fixed_rival": 5,
+      "paths": {
+        "full": {
+          "prediction": 5,
+          "top1_margin": -1.7723262310028076,
+          "fixed_margin": -1.7723262310028076
+        },
+        "backbone_only": {
+          "prediction": 5,
+          "top1_margin": -1.4368222951889038,
+          "fixed_margin": -1.4368222951889038
+        },
+        "readout_only": {
+          "prediction": 0,
+          "top1_margin": 0.13905584812164307,
+          "fixed_margin": 0.13905584812164307
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": 1.2826567888259888,
+          "fixed_margin": 1.2826567888259888
+        },
+        "off_VH": {
+          "prediction": 5,
+          "top1_margin": -2.580423355102539,
+          "fixed_margin": -2.580423355102539
+        },
+        "off_body": {
+          "prediction": 5,
+          "top1_margin": -0.47495579719543457,
+          "fixed_margin": -0.47495579719543457
+        },
+        "off_end": {
+          "prediction": 5,
+          "top1_margin": -1.2318428754806519,
+          "fixed_margin": -1.2318428754806519
+        },
+        "off_side": {
+          "prediction": 5,
+          "top1_margin": -0.5284467935562134,
+          "fixed_margin": -0.5284467935562134
+        },
+        "early_off": {
+          "prediction": 0,
+          "top1_margin": 0.4745599031448364,
+          "fixed_margin": 0.4745599031448364
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.472689151763916,
+            "end": 5.364106178283691,
+            "side": 4.993514537811279
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.794167995452881,
+            "end": 5.363475322723389,
+            "side": 5.731815338134766
+          }
+        }
+      ],
+      "replay_error": 1.811981201171875e-05
+    },
+    {
+      "id": "36034",
+      "state": "WW",
+      "seed": 29,
+      "label": 4,
+      "comparison": "preadd_vs_baseline",
+      "fixed_rival": 0,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": -4.106828689575195,
+          "fixed_margin": -4.106828689575195
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": -4.26384162902832,
+          "fixed_margin": -4.26384162902832
+        },
+        "readout_only": {
+          "prediction": 0,
+          "top1_margin": -1.479817509651184,
+          "fixed_margin": -1.479817509651184
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": -1.7047903537750244,
+          "fixed_margin": -1.7047903537750244
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": -4.0388689041137695,
+          "fixed_margin": -4.0388689041137695
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": -3.522409439086914,
+          "fixed_margin": -3.522409439086914
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": -3.7242536544799805,
+          "fixed_margin": -3.7242536544799805
+        },
+        "off_side": {
+          "prediction": 0,
+          "top1_margin": -2.613825559616089,
+          "fixed_margin": -2.613825559616089
+        },
+        "early_off": {
+          "prediction": 0,
+          "top1_margin": -1.6368305683135986,
+          "fixed_margin": -1.6368305683135986
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.272366046905518,
+            "end": 4.140805244445801,
+            "side": 3.8603405952453613
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.35447883605957,
+            "end": 3.8735015392303467,
+            "side": 5.291045188903809
+          }
+        }
+      ],
+      "replay_error": 1.52587890625e-05
+    },
+    {
+      "id": "7872",
+      "state": "rescue",
+      "seed": 29,
+      "label": 0,
+      "comparison": "preadd_vs_stage",
+      "fixed_rival": 4,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": 0.12588012218475342,
+          "fixed_margin": 0.12588012218475342
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": 0.2495734691619873,
+          "fixed_margin": 0.2495734691619873
+        },
+        "readout_only": {
+          "prediction": 4,
+          "top1_margin": -0.18712329864501953,
+          "fixed_margin": -0.18712329864501953
+        },
+        "off_VV": {
+          "prediction": 4,
+          "top1_margin": -0.049593329429626465,
+          "fixed_margin": -0.049593329429626465
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": 0.11204314231872559,
+          "fixed_margin": 0.11204314231872559
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": 0.3901810646057129,
+          "fixed_margin": 0.3901810646057129
+        },
+        "off_end": {
+          "prediction": 4,
+          "top1_margin": -0.01582646369934082,
+          "fixed_margin": -0.01582646369934082
+        },
+        "off_side": {
+          "prediction": 4,
+          "top1_margin": -0.004799842834472656,
+          "fixed_margin": -0.004799842834472656
+        },
+        "early_off": {
+          "prediction": 4,
+          "top1_margin": -0.06343066692352295,
+          "fixed_margin": -0.06343066692352295
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.749687671661377,
+            "end": 3.497265100479126,
+            "side": 4.081715106964111
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.713115215301514,
+            "end": 3.934177875518799,
+            "side": 5.22706937789917
+          }
+        }
+      ],
+      "replay_error": 1.8835067749023438e-05
+    },
+    {
+      "id": "35487",
+      "state": "CC",
+      "seed": 29,
+      "label": 0,
+      "comparison": "preadd_vs_stage",
+      "fixed_rival": 3,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": 3.601301670074463,
+          "fixed_margin": 3.601301670074463
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": 3.830054998397827,
+          "fixed_margin": 3.830054998397827
+        },
+        "readout_only": {
+          "prediction": 0,
+          "top1_margin": 4.370562553405762,
+          "fixed_margin": 4.370562553405762
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": 3.823171615600586,
+          "fixed_margin": 3.823171615600586
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": 4.377445220947266,
+          "fixed_margin": 4.377445220947266
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": 3.452092170715332,
+          "fixed_margin": 3.452092170715332
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": 3.734919309616089,
+          "fixed_margin": 3.734919309616089
+        },
+        "off_side": {
+          "prediction": 0,
+          "top1_margin": 4.562407493591309,
+          "fixed_margin": 4.562407493591309
+        },
+        "early_off": {
+          "prediction": 0,
+          "top1_margin": 4.599315643310547,
+          "fixed_margin": 4.599315643310547
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.174039363861084,
+            "end": 4.050078392028809,
+            "side": 4.371432781219482
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.831447124481201,
+            "end": 5.431454181671143,
+            "side": 6.2402191162109375
+          }
+        }
+      ],
+      "replay_error": 5.340576171875e-05
+    },
+    {
+      "id": "8647",
+      "state": "rescue",
+      "seed": 29,
+      "label": 3,
+      "comparison": "preadd_vs_stage",
+      "fixed_rival": 2,
+      "paths": {
+        "full": {
+          "prediction": 3,
+          "top1_margin": 0.2677574157714844,
+          "fixed_margin": 0.2677574157714844
+        },
+        "backbone_only": {
+          "prediction": 3,
+          "top1_margin": 0.15914416313171387,
+          "fixed_margin": 0.15914416313171387
+        },
+        "readout_only": {
+          "prediction": 3,
+          "top1_margin": 0.09389686584472656,
+          "fixed_margin": 0.09389686584472656
+        },
+        "off_VV": {
+          "prediction": 3,
+          "top1_margin": 0.13150274753570557,
+          "fixed_margin": 0.13150274753570557
+        },
+        "off_VH": {
+          "prediction": 3,
+          "top1_margin": 0.12153851985931396,
+          "fixed_margin": 0.12153851985931396
+        },
+        "off_body": {
+          "prediction": 3,
+          "top1_margin": 0.2764838933944702,
+          "fixed_margin": 0.2764838933944702
+        },
+        "off_end": {
+          "prediction": 3,
+          "top1_margin": 0.1717296838760376,
+          "fixed_margin": 0.1717296838760376
+        },
+        "off_side": {
+          "prediction": 3,
+          "top1_margin": 0.1105196475982666,
+          "fixed_margin": 0.1105196475982666
+        },
+        "early_off": {
+          "prediction": 2,
+          "top1_margin": -0.014716386795043945,
+          "fixed_margin": -0.014716386795043945
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.137738227844238,
+            "end": 4.247748374938965,
+            "side": 3.9530131816864014
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.45136833190918,
+            "end": 3.920513153076172,
+            "side": 5.3865485191345215
+          }
+        }
+      ],
+      "replay_error": 1.1920928955078125e-05
+    },
+    {
+      "id": "2490",
+      "state": "harm",
+      "seed": 29,
+      "label": 5,
+      "comparison": "preadd_vs_stage",
+      "fixed_rival": 0,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": -0.20065906643867493,
+          "fixed_margin": -0.20065906643867493
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": -0.5194324851036072,
+          "fixed_margin": -0.5194324851036072
+        },
+        "readout_only": {
+          "prediction": 5,
+          "top1_margin": 0.6572850942611694,
+          "fixed_margin": 0.6572850942611694
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": -0.5290316343307495,
+          "fixed_margin": -0.5290316343307495
+        },
+        "off_VH": {
+          "prediction": 5,
+          "top1_margin": 0.6668839454650879,
+          "fixed_margin": 0.6668839454650879
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": -0.0010325312614440918,
+          "fixed_margin": -0.0010325312614440918
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": -0.34448838233947754,
+          "fixed_margin": -0.34448838233947754
+        },
+        "off_side": {
+          "prediction": 5,
+          "top1_margin": 0.4776645004749298,
+          "fixed_margin": 0.4776645004749298
+        },
+        "early_off": {
+          "prediction": 5,
+          "top1_margin": 0.3385116159915924,
+          "fixed_margin": 0.3385116159915924
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.620965480804443,
+            "end": 4.996452331542969,
+            "side": 4.450808525085449
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.710624694824219,
+            "end": 5.7209153175354,
+            "side": 5.762239933013916
+          }
+        }
+      ],
+      "replay_error": 1.430511474609375e-05
+    },
+    {
+      "id": "4248",
+      "state": "CC",
+      "seed": 29,
+      "label": 4,
+      "comparison": "preadd_vs_stage",
+      "fixed_rival": 0,
+      "paths": {
+        "full": {
+          "prediction": 4,
+          "top1_margin": 1.2987571954727173,
+          "fixed_margin": 1.2987571954727173
+        },
+        "backbone_only": {
+          "prediction": 4,
+          "top1_margin": 1.0908852815628052,
+          "fixed_margin": 1.0908852815628052
+        },
+        "readout_only": {
+          "prediction": 4,
+          "top1_margin": 1.2900142669677734,
+          "fixed_margin": 1.2900142669677734
+        },
+        "off_VV": {
+          "prediction": 4,
+          "top1_margin": 1.5477312803268433,
+          "fixed_margin": 1.5477312803268433
+        },
+        "off_VH": {
+          "prediction": 4,
+          "top1_margin": 0.833168625831604,
+          "fixed_margin": 0.833168625831604
+        },
+        "off_body": {
+          "prediction": 4,
+          "top1_margin": 1.2414250373840332,
+          "fixed_margin": 1.2414250373840332
+        },
+        "off_end": {
+          "prediction": 4,
+          "top1_margin": 1.1744556427001953,
+          "fixed_margin": 1.1744556427001953
+        },
+        "off_side": {
+          "prediction": 4,
+          "top1_margin": 1.2744395732879639,
+          "fixed_margin": 1.2744395732879639
+        },
+        "early_off": {
+          "prediction": 4,
+          "top1_margin": 1.08214271068573,
+          "fixed_margin": 1.08214271068573
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.872311115264893,
+            "end": 4.4354472160339355,
+            "side": 5.077541828155518
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.7808756828308105,
+            "end": 4.907967567443848,
+            "side": 7.304997444152832
+          }
+        }
+      ],
+      "replay_error": 1.2874603271484375e-05
+    },
+    {
+      "id": "34733",
+      "state": "rescue",
+      "seed": 29,
+      "label": 0,
+      "comparison": "stage_vs_baseline",
+      "fixed_rival": 4,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": 1.3662874698638916,
+          "fixed_margin": 1.3662874698638916
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": 1.4906337261199951,
+          "fixed_margin": 1.4906337261199951
+        },
+        "readout_only": {
+          "prediction": 4,
+          "top1_margin": -0.8301377296447754,
+          "fixed_margin": -0.8301377296447754
+        },
+        "off_VV": {
+          "prediction": 4,
+          "top1_margin": -0.03458303213119507,
+          "fixed_margin": -0.03458303213119507
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": 0.6950790882110596,
+          "fixed_margin": 0.6950790882110596
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": 0.252739816904068,
+          "fixed_margin": 0.252739816904068
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": 1.0894123315811157,
+          "fixed_margin": 1.0894123315811157
+        },
+        "off_side": {
+          "prediction": 0,
+          "top1_margin": 0.4307088851928711,
+          "fixed_margin": 0.4307088851928711
+        },
+        "early_off": {
+          "prediction": 4,
+          "top1_margin": -0.7057917714118958,
+          "fixed_margin": -0.7057917714118958
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.234556198120117,
+            "end": 3.506613254547119,
+            "side": 4.054863452911377
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.435792922973633,
+            "end": 4.664681911468506,
+            "side": 4.370985507965088
+          }
+        }
+      ],
+      "replay_error": 9.059906005859375e-06
+    },
+    {
+      "id": "32844",
+      "state": "WW",
+      "seed": 29,
+      "label": 5,
+      "comparison": "stage_vs_baseline",
+      "fixed_rival": 0,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": -5.785178184509277,
+          "fixed_margin": -5.785178184509277
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": -6.076962947845459,
+          "fixed_margin": -6.076962947845459
+        },
+        "readout_only": {
+          "prediction": 0,
+          "top1_margin": -9.193639755249023,
+          "fixed_margin": -9.193639755249023
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": -8.671096801757812,
+          "fixed_margin": -8.671096801757812
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": -6.599506378173828,
+          "fixed_margin": -6.599506378173828
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": -7.111876010894775,
+          "fixed_margin": -7.111876010894775
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": -6.402886390686035,
+          "fixed_margin": -6.402886390686035
+        },
+        "off_side": {
+          "prediction": 0,
+          "top1_margin": -7.85317850112915,
+          "fixed_margin": -7.85317850112915
+        },
+        "early_off": {
+          "prediction": 0,
+          "top1_margin": -9.485424041748047,
+          "fixed_margin": -9.485424041748047
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 4.787099838256836,
+            "end": 3.837278366088867,
+            "side": 3.766045331954956
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.8513503074646,
+            "end": 4.872987747192383,
+            "side": 6.517278671264648
+          }
+        }
+      ],
+      "replay_error": 3.528594970703125e-05
+    },
+    {
+      "id": "30134",
+      "state": "rescue",
+      "seed": 29,
+      "label": 4,
+      "comparison": "stage_vs_baseline",
+      "fixed_rival": 0,
+      "paths": {
+        "full": {
+          "prediction": 4,
+          "top1_margin": 0.5485965013504028,
+          "fixed_margin": 0.8977938890457153
+        },
+        "backbone_only": {
+          "prediction": 4,
+          "top1_margin": 0.6930014491081238,
+          "fixed_margin": 0.7456172704696655
+        },
+        "readout_only": {
+          "prediction": 0,
+          "top1_margin": -0.8813033103942871,
+          "fixed_margin": -0.8813033103942871
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": -0.6464747190475464,
+          "fixed_margin": -0.6464747190475464
+        },
+        "off_VH": {
+          "prediction": 4,
+          "top1_margin": 0.5107883214950562,
+          "fixed_margin": 0.5107883214950562
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": -0.22319790720939636,
+          "fixed_margin": -0.22319790720939636
+        },
+        "off_end": {
+          "prediction": 4,
+          "top1_margin": 0.5184330344200134,
+          "fixed_margin": 0.7004069685935974
+        },
+        "off_side": {
+          "prediction": 4,
+          "top1_margin": 0.24953611195087433,
+          "fixed_margin": 0.24953611195087433
+        },
+        "early_off": {
+          "prediction": 0,
+          "top1_margin": -1.0334798097610474,
+          "fixed_margin": -1.0334798097610474
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.662195205688477,
+            "end": 4.303866386413574,
+            "side": 4.163115978240967
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.220815181732178,
+            "end": 3.844256639480591,
+            "side": 5.144406795501709
+          }
+        }
+      ],
+      "replay_error": 1.9073486328125e-05
+    },
+    {
+      "id": "27591",
+      "state": "harm",
+      "seed": 29,
+      "label": 3,
+      "comparison": "stage_vs_baseline",
+      "fixed_rival": 5,
+      "paths": {
+        "full": {
+          "prediction": 5,
+          "top1_margin": -0.5773589015007019,
+          "fixed_margin": -0.5773589015007019
+        },
+        "backbone_only": {
+          "prediction": 5,
+          "top1_margin": -0.6382461190223694,
+          "fixed_margin": -0.6382461190223694
+        },
+        "readout_only": {
+          "prediction": 3,
+          "top1_margin": 0.17633116245269775,
+          "fixed_margin": 0.17633116245269775
+        },
+        "off_VV": {
+          "prediction": 3,
+          "top1_margin": 0.044519126415252686,
+          "fixed_margin": 0.044519126415252686
+        },
+        "off_VH": {
+          "prediction": 5,
+          "top1_margin": -0.5064340829849243,
+          "fixed_margin": -0.5064340829849243
+        },
+        "off_body": {
+          "prediction": 3,
+          "top1_margin": 0.028016507625579834,
+          "fixed_margin": 0.028016507625579834
+        },
+        "off_end": {
+          "prediction": 5,
+          "top1_margin": -0.5472806096076965,
+          "fixed_margin": -0.5472806096076965
+        },
+        "off_side": {
+          "prediction": 5,
+          "top1_margin": -0.29562848806381226,
+          "fixed_margin": -0.29562848806381226
+        },
+        "early_off": {
+          "prediction": 3,
+          "top1_margin": 0.11544400453567505,
+          "fixed_margin": 0.11544400453567505
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.559816837310791,
+            "end": 5.744187831878662,
+            "side": 4.357351779937744
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.933687210083008,
+            "end": 6.084461688995361,
+            "side": 5.2187957763671875
+          }
+        }
+      ],
+      "replay_error": 1.2516975402832031e-05
+    },
+    {
+      "id": "23004",
+      "state": "WW",
+      "seed": 43,
+      "label": 7,
+      "comparison": "preadd_vs_stage",
+      "fixed_rival": 4,
+      "paths": {
+        "full": {
+          "prediction": 4,
+          "top1_margin": -9.762201309204102,
+          "fixed_margin": -9.762201309204102
+        },
+        "backbone_only": {
+          "prediction": 4,
+          "top1_margin": -9.535752296447754,
+          "fixed_margin": -9.535752296447754
+        },
+        "readout_only": {
+          "prediction": 4,
+          "top1_margin": -8.480021476745605,
+          "fixed_margin": -8.480021476745605
+        },
+        "off_VV": {
+          "prediction": 4,
+          "top1_margin": -9.775779724121094,
+          "fixed_margin": -9.775779724121094
+        },
+        "off_VH": {
+          "prediction": 4,
+          "top1_margin": -8.239994049072266,
+          "fixed_margin": -8.239994049072266
+        },
+        "off_body": {
+          "prediction": 4,
+          "top1_margin": -8.807931900024414,
+          "fixed_margin": -8.807931900024414
+        },
+        "off_end": {
+          "prediction": 4,
+          "top1_margin": -9.432633399963379,
+          "fixed_margin": -9.432633399963379
+        },
+        "off_side": {
+          "prediction": 4,
+          "top1_margin": -9.513672828674316,
+          "fixed_margin": -9.513672828674316
+        },
+        "early_off": {
+          "prediction": 4,
+          "top1_margin": -8.253572463989258,
+          "fixed_margin": -8.253572463989258
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 4.21704626083374,
+            "end": 3.7457921504974365,
+            "side": 3.178481340408325
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.6212849617004395,
+            "end": 5.338498115539551,
+            "side": 5.887694835662842
+          }
+        }
+      ],
+      "replay_error": 1.9073486328125e-05
+    },
+    {
+      "id": "4007",
+      "state": "harm",
+      "seed": 43,
+      "label": 4,
+      "comparison": "stage_vs_baseline",
+      "fixed_rival": 0,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": -0.4542280435562134,
+          "fixed_margin": -0.4542280435562134
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": -0.703182578086853,
+          "fixed_margin": -0.703182578086853
+        },
+        "readout_only": {
+          "prediction": 4,
+          "top1_margin": 1.3171303272247314,
+          "fixed_margin": 1.3171303272247314
+        },
+        "off_VV": {
+          "prediction": 4,
+          "top1_margin": 0.3943594694137573,
+          "fixed_margin": 0.3943594694137573
+        },
+        "off_VH": {
+          "prediction": 4,
+          "top1_margin": 0.21958839893341064,
+          "fixed_margin": 0.21958839893341064
+        },
+        "off_body": {
+          "prediction": 4,
+          "top1_margin": 0.5281350612640381,
+          "fixed_margin": 0.5281350612640381
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": -0.48145872354507446,
+          "fixed_margin": -0.48145872354507446
+        },
+        "off_side": {
+          "prediction": 4,
+          "top1_margin": 0.2098485231399536,
+          "fixed_margin": 0.2098485231399536
+        },
+        "early_off": {
+          "prediction": 4,
+          "top1_margin": 1.068176031112671,
+          "fixed_margin": 1.068176031112671
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 4.042695045471191,
+            "end": 4.429625034332275,
+            "side": 3.2356650829315186
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 6.2373127937316895,
+            "end": 4.739495277404785,
+            "side": 6.088578224182129
+          }
+        }
+      ],
+      "replay_error": 1.430511474609375e-05
+    },
+    {
+      "id": "36543",
+      "state": "CC",
+      "seed": 43,
+      "label": 5,
+      "comparison": "stage_vs_baseline",
+      "fixed_rival": 0,
+      "paths": {
+        "full": {
+          "prediction": 5,
+          "top1_margin": 2.503887891769409,
+          "fixed_margin": 2.503887891769409
+        },
+        "backbone_only": {
+          "prediction": 5,
+          "top1_margin": 2.2098073959350586,
+          "fixed_margin": 2.2098073959350586
+        },
+        "readout_only": {
+          "prediction": 5,
+          "top1_margin": 0.751305103302002,
+          "fixed_margin": 0.751305103302002
+        },
+        "off_VV": {
+          "prediction": 5,
+          "top1_margin": 2.338463544845581,
+          "fixed_margin": 2.338463544845581
+        },
+        "off_VH": {
+          "prediction": 5,
+          "top1_margin": 0.6226488351821899,
+          "fixed_margin": 0.6226488351821899
+        },
+        "off_body": {
+          "prediction": 5,
+          "top1_margin": 1.4239799976348877,
+          "fixed_margin": 1.4239799976348877
+        },
+        "off_end": {
+          "prediction": 5,
+          "top1_margin": 2.176205635070801,
+          "fixed_margin": 2.176205635070801
+        },
+        "off_side": {
+          "prediction": 5,
+          "top1_margin": 1.7215524911880493,
+          "fixed_margin": 1.7215524911880493
+        },
+        "early_off": {
+          "prediction": 5,
+          "top1_margin": 0.45722436904907227,
+          "fixed_margin": 0.45722436904907227
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 3.9756882190704346,
+            "end": 3.2916033267974854,
+            "side": 2.6979143619537354
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.895955562591553,
+            "end": 4.171825885772705,
+            "side": 5.182781219482422
+          }
+        }
+      ],
+      "replay_error": 4.100799560546875e-05
+    },
+    {
+      "id": "9724",
+      "state": "CC",
+      "seed": 43,
+      "label": 0,
+      "comparison": "stage_vs_baseline",
+      "fixed_rival": 4,
+      "paths": {
+        "full": {
+          "prediction": 0,
+          "top1_margin": 6.913699150085449,
+          "fixed_margin": 6.913699150085449
+        },
+        "backbone_only": {
+          "prediction": 0,
+          "top1_margin": 7.158639907836914,
+          "fixed_margin": 7.158639907836914
+        },
+        "readout_only": {
+          "prediction": 0,
+          "top1_margin": 5.292943000793457,
+          "fixed_margin": 5.292943000793457
+        },
+        "off_VV": {
+          "prediction": 0,
+          "top1_margin": 6.287302494049072,
+          "fixed_margin": 6.287302494049072
+        },
+        "off_VH": {
+          "prediction": 0,
+          "top1_margin": 6.164279937744141,
+          "fixed_margin": 6.164279937744141
+        },
+        "off_body": {
+          "prediction": 0,
+          "top1_margin": 6.177538871765137,
+          "fixed_margin": 6.177538871765137
+        },
+        "off_end": {
+          "prediction": 0,
+          "top1_margin": 6.910027027130127,
+          "fixed_margin": 6.910027027130127
+        },
+        "off_side": {
+          "prediction": 0,
+          "top1_margin": 6.048795700073242,
+          "fixed_margin": 6.048795700073242
+        },
+        "early_off": {
+          "prediction": 0,
+          "top1_margin": 5.5378828048706055,
+          "fixed_margin": 5.5378828048706055
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 3.899174690246582,
+            "end": 2.6720592975616455,
+            "side": 2.9378650188446045
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.969520568847656,
+            "end": 4.35330867767334,
+            "side": 5.696763038635254
+          }
+        }
+      ],
+      "replay_error": 1.5735626220703125e-05
+    },
+    {
+      "id": "23004",
+      "state": "WW",
+      "seed": 43,
+      "label": 7,
+      "comparison": "stage_vs_baseline",
+      "fixed_rival": 4,
+      "paths": {
+        "full": {
+          "prediction": 4,
+          "top1_margin": -9.762201309204102,
+          "fixed_margin": -9.762201309204102
+        },
+        "backbone_only": {
+          "prediction": 4,
+          "top1_margin": -9.535752296447754,
+          "fixed_margin": -9.535752296447754
+        },
+        "readout_only": {
+          "prediction": 4,
+          "top1_margin": -8.480021476745605,
+          "fixed_margin": -8.480021476745605
+        },
+        "off_VV": {
+          "prediction": 4,
+          "top1_margin": -9.775779724121094,
+          "fixed_margin": -9.775779724121094
+        },
+        "off_VH": {
+          "prediction": 4,
+          "top1_margin": -8.239994049072266,
+          "fixed_margin": -8.239994049072266
+        },
+        "off_body": {
+          "prediction": 4,
+          "top1_margin": -8.807931900024414,
+          "fixed_margin": -8.807931900024414
+        },
+        "off_end": {
+          "prediction": 4,
+          "top1_margin": -9.432633399963379,
+          "fixed_margin": -9.432633399963379
+        },
+        "off_side": {
+          "prediction": 4,
+          "top1_margin": -9.513672828674316,
+          "fixed_margin": -9.513672828674316
+        },
+        "early_off": {
+          "prediction": 4,
+          "top1_margin": -8.253572463989258,
+          "fixed_margin": -8.253572463989258
+        }
+      },
+      "updates": [
+        {
+          "pol": "VV",
+          "regional_mean_proposed_update_l2": {
+            "body": 4.21704626083374,
+            "end": 3.7457921504974365,
+            "side": 3.178481340408325
+          }
+        },
+        {
+          "pol": "VH",
+          "regional_mean_proposed_update_l2": {
+            "body": 5.6212849617004395,
+            "end": 5.338498115539551,
+            "side": 5.887694835662842
+          }
+        }
+      ],
+      "replay_error": 1.9073486328125e-05
+    }
+  ],
+  "interpretation": "Frozen C; removal affects BOTH query and references; no refit, no physical or pixel attribution. Proposed update precedes final layer2 ReLU."
+}
