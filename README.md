@@ -1,6 +1,6 @@
 # SAR Ship Cross-Scene Research Archive
 
-Latest incremental progress: [October 28 M2 placement study and frozen 3075-query expansion](RESEARCH_UPDATE_20261028_ZH.md). Layer2 retains a modest BA gain but loses OA and probability quality on expansion; it is a scoped candidate, not a universal replacement. Layer1 and dual insertion had negative pilot results. The [October 27 engineering release](RESEARCH_UPDATE_20261027_ZH.md) remains the unchanged default. Weights, raw datasets and private manifests are excluded. The October 17-18 descriptions below are historical, not the current model definition.
+Latest incremental progress: [October 28 M2 stage/internal placement and frozen 3075-query expansion](RESEARCH_UPDATE_20261028_ZH.md). The new equal-capacity internal comparison favors post-3x3 over pre-3x3, but neither beats stage-output OA/BA on the 160-query development set. Post-3x3 is a smaller probability-quality candidate, not a replacement. Stage-output layer2 retains a modest BA gain but loses OA and probability quality on the earlier expansion. The [October 27 engineering release](RESEARCH_UPDATE_20261027_ZH.md) remains the unchanged default. Weights, raw datasets and private manifests are excluded. The October 17-18 descriptions below are historical, not the current model definition.
 
 Public research archive of the SAR ship-classification experiments through 2026-10-17. This is a research snapshot, not a release of the datasets or a claim that every candidate became part of the final method.
 

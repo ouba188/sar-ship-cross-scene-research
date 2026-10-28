@@ -1,5 +1,22 @@
 # 2026-10-28：M2浅层区域池化回写位置比较
 
+## 新增block内部位置实验已完成
+
+[完整报告](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/m2_block_placement_20261028/FINDINGS_ZH.md)，[文献核查](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/m2_block_placement_20261028/LITERATURE_DESIGN_ZH.md)。同136源适配/16参考/160历史开发查询/54步，复用并重放6个baseline/stage对照，只新训练pre/post共6次。没有按开发集选epoch或追加调参。
+
+| 配置 | OA | BA | NLL | Brier | 新增参数 |
+|---|---:|---:|---:|---:|---:|
+| baseline | 45.0000 | 34.2648 | 2.532967 | .843748 | 0 |
+| stage输出 | 46.4583 | 36.9726 | 2.530360 | .835287 | 197328 |
+| block内部pre3x3 | 43.9583 | 33.3570 | 2.533082 | .841774 | 49872 |
+| block内部post3x3 | 44.7917 | 34.5395 | 2.515404 | .836405 | 49872 |
+
+两个内部版本都是layer2最后block的128通道20x20，post相对pre四指标三个seed均改善；但内部对512通道stage还包含容量差异。post相对baseline OA略降、BA略升、NLL/Brier三个seed改善，保留为轻量概率质量候选，不替换stage或默认模型。pre未新增救回baseline，不继续堆次数。内部版本未做3075或公开数据扩围。
+
+原生block非零hook重放、缓存/实时prefix、初始恒等均误差0；6旧模型和6新保存模型重放均0，梯度正常，冻结状态未变。新增M2与原layer3.5三卷积训练，layer2仍冻结，不代表端到端全解冻的位置排序。
+
+主代理实际回看9个查询的18张VV/VH及实际参考面板。post救回35666依赖VV回写；误伤20791在关闭VH/侧向回写时恢复；pre误伤34278关闭VV恢复。同权重路径关闭作用于查询及参考，不是像素物理归因。完整正负数值、代码、案例、作用边界均归档；论文PDF/全文、原始数据、权重、缓存、私人输入清单未上传。
+
 ## 后续冻结扩围已完成
 
 [3075条扩围完整结论](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/shallow_m2_expansion_20261028/FINDINGS_ZH.md)。以下小验证之后，冻结layer2和baseline各3模型，在1950艘/85过境/18港八类队列测试，不重训、不调参、不换16源参考。

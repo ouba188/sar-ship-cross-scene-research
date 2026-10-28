@@ -1,0 +1,3784 @@
+{
+  "status": "numeric_complete_selected_visual_review_complete",
+  "arms": [
+    "baseline",
+    "stage",
+    "pre3x3",
+    "post3x3"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "scope": "136条源适配样本的小范围研发；160条反复复用的开发集不是独立确认集。三seed逐一匹配baseline，不将模型平均概率作为主结果；seed不是独立船只或独立数据集。OA/BA为百分数，差值为百分点；BA仅平均开发集中实际出现的7类。NLL为自然对数交叉熵，Brier为8类概率平方误差之和；后二者越低越好。参考库固定16条、每类2条，其中1条无VH；不据外观命名物理原因。",
+  "predictions": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\predictions.npz",
+  "manifest_directory": "E:\\临时会话\\sar_m123_current_20261027\\manifests",
+  "helper": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\analyze.py",
+  "coverage": {
+    "source_adapt": {
+      "n": 136,
+      "ships": 128,
+      "acquisitions": 20,
+      "ports": {
+        "Busan": 21,
+        "Callao": 4,
+        "Fujairah": 17,
+        "Houston": 8,
+        "Los Angeles": 25,
+        "Newcastle": 7,
+        "Port Said": 36,
+        "Richards Bay": 1,
+        "Santos": 16,
+        "Sydney Botany": 1
+      },
+      "acquisitions_by_id": {
+        "S1A_057269_070B97": 1,
+        "S1A_057536_071629": 2,
+        "S1A_057565_071752": 7,
+        "S1A_057711_071D19": 7,
+        "S1A_058050_072ACF": 16,
+        "S1A_058401_0738E7": 11,
+        "S1A_058682_07443D": 6,
+        "S1A_058926_074E3C": 6,
+        "S1A_059019_0751F3": 2,
+        "S1A_059101_075525": 4,
+        "S1A_059358_075E0B": 8,
+        "S1A_059369_075E70": 4,
+        "S1A_059534_076419": 7,
+        "S1A_059544_076476": 1,
+        "S1A_059665_076891": 10,
+        "S1A_059907_0770FD": 11,
+        "S1A_060782_0790EB": 19,
+        "S1A_061117_079E56": 1,
+        "S1C_003514_0070C0": 4,
+        "S1C_003633_007456": 9
+      },
+      "classes": [
+        {
+          "class_id": 0,
+          "class_name": "bulk_carrier",
+          "n": 54,
+          "ships": 52
+        },
+        {
+          "class_id": 1,
+          "class_name": "fishing",
+          "n": 4,
+          "ships": 4
+        },
+        {
+          "class_id": 2,
+          "class_name": "general_cargo",
+          "n": 26,
+          "ships": 25
+        },
+        {
+          "class_id": 3,
+          "class_name": "chemical_tanker",
+          "n": 28,
+          "ships": 26
+        },
+        {
+          "class_id": 4,
+          "class_name": "container",
+          "n": 6,
+          "ships": 5
+        },
+        {
+          "class_id": 5,
+          "class_name": "crude_oil_tanker",
+          "n": 12,
+          "ships": 11
+        },
+        {
+          "class_id": 6,
+          "class_name": "tug",
+          "n": 3,
+          "ships": 2
+        },
+        {
+          "class_id": 7,
+          "class_name": "offshore",
+          "n": 3,
+          "ships": 3
+        }
+      ],
+      "polarization": {
+        "both": 128,
+        "vv_only": 8
+      }
+    },
+    "development": {
+      "n": 160,
+      "ships": 158,
+      "acquisitions": 3,
+      "ports": {
+        "Jebel Ali": 69,
+        "Port Klang": 28,
+        "Singapore": 63
+      },
+      "acquisitions_by_id": {
+        "S1A_058688_074483": 69,
+        "S1A_060268_077D6F": 63,
+        "S1A_060692_078D67": 28
+      },
+      "classes": [
+        {
+          "class_id": 0,
+          "class_name": "bulk_carrier",
+          "n": 25,
+          "ships": 24
+        },
+        {
+          "class_id": 1,
+          "class_name": "fishing",
+          "n": 0,
+          "ships": 0
+        },
+        {
+          "class_id": 2,
+          "class_name": "general_cargo",
+          "n": 12,
+          "ships": 12
+        },
+        {
+          "class_id": 3,
+          "class_name": "chemical_tanker",
+          "n": 70,
+          "ships": 70
+        },
+        {
+          "class_id": 4,
+          "class_name": "container",
+          "n": 22,
+          "ships": 22
+        },
+        {
+          "class_id": 5,
+          "class_name": "crude_oil_tanker",
+          "n": 16,
+          "ships": 15
+        },
+        {
+          "class_id": 6,
+          "class_name": "tug",
+          "n": 7,
+          "ships": 7
+        },
+        {
+          "class_id": 7,
+          "class_name": "offshore",
+          "n": 8,
+          "ships": 8
+        }
+      ],
+      "polarization": {
+        "both": 145,
+        "vv_only": 15
+      }
+    },
+    "references": {
+      "n": 16,
+      "ships": 16,
+      "acquisitions": 13,
+      "ports": {
+        "Houston": 1,
+        "Jebel Ali": 7,
+        "New York": 1,
+        "Ningbo-Zhoushan": 2,
+        "Port Klang": 1,
+        "Port Said": 1,
+        "Shanghai": 1,
+        "Singapore": 1,
+        "Tanger Med": 1
+      },
+      "acquisitions_by_id": {
+        "S1A_057288_070C5C": 2,
+        "S1A_057293_070C89": 1,
+        "S1A_058338_073664": 3,
+        "S1A_058693_0744B4": 1,
+        "S1A_059038_0752B2": 1,
+        "S1A_059780_076C81": 1,
+        "S1A_060713_078E34": 1,
+        "S1A_060793_079162": 1,
+        "S1A_060963_07982C": 1,
+        "S1A_060968_07985B": 1,
+        "S1A_061132_079EF0": 1,
+        "S1C_002064_004470": 1,
+        "S1C_003825_007A14": 1
+      },
+      "classes": [
+        {
+          "class_id": 0,
+          "class_name": "bulk_carrier",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 1,
+          "class_name": "fishing",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 2,
+          "class_name": "general_cargo",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 3,
+          "class_name": "chemical_tanker",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 4,
+          "class_name": "container",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 5,
+          "class_name": "crude_oil_tanker",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 6,
+          "class_name": "tug",
+          "n": 2,
+          "ships": 2
+        },
+        {
+          "class_id": 7,
+          "class_name": "offshore",
+          "n": 2,
+          "ships": 2
+        }
+      ],
+      "polarization": {
+        "both": 15,
+        "vv_only": 1
+      }
+    },
+    "overlaps": {
+      "source_adapt__development": {
+        "id": [],
+        "mmsi": [],
+        "pass_group": [],
+        "port": []
+      },
+      "source_adapt__references": {
+        "id": [],
+        "mmsi": [],
+        "pass_group": [],
+        "port": [
+          "Houston",
+          "Port Said"
+        ]
+      },
+      "development__references": {
+        "id": [],
+        "mmsi": [],
+        "pass_group": [],
+        "port": [
+          "Jebel Ali",
+          "Port Klang",
+          "Singapore"
+        ]
+      }
+    }
+  },
+  "score_semantics": "unnormalized logits; float64 stable log-softmax",
+  "initial_metrics": {
+    "OA": 41.25,
+    "BA": 33.0304576376005,
+    "NLL": 2.779998262768589,
+    "Brier": 0.8956601621596885
+  },
+  "by_arm": {
+    "baseline": {
+      "metrics": {
+        "OA": {
+          "mean": 45.0,
+          "std": 0.625
+        },
+        "BA": {
+          "mean": 34.26484230055658,
+          "std": 0.583397787042306
+        },
+        "NLL": {
+          "mean": 2.532966505370404,
+          "std": 0.01323101793588951
+        },
+        "Brier": {
+          "mean": 0.8437479535109135,
+          "std": 0.003040669354935459
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_BA": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_NLL": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_Brier": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 0,
+        "BA": 0,
+        "NLL": 0,
+        "Brier": 0
+      }
+    },
+    "stage": {
+      "metrics": {
+        "OA": {
+          "mean": 46.458333333333336,
+          "std": 0.3608439182435161
+        },
+        "BA": {
+          "mean": 36.97263450834879,
+          "std": 0.289575464677455
+        },
+        "NLL": {
+          "mean": 2.530359538847755,
+          "std": 0.013069738661130564
+        },
+        "Brier": {
+          "mean": 0.8352874469825745,
+          "std": 0.004125804807855981
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 1.4583333333333333,
+          "std": 0.7216878364870322
+        },
+        "delta_BA": {
+          "mean": 2.7077922077922096,
+          "std": 0.5583491588118584
+        },
+        "delta_NLL": {
+          "mean": -0.0026069665226489866,
+          "std": 0.011212270282405885
+        },
+        "delta_Brier": {
+          "mean": -0.008460506528339037,
+          "std": 0.001460342334582094
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 3,
+        "BA": 3,
+        "NLL": 1,
+        "Brier": 3
+      }
+    },
+    "pre3x3": {
+      "metrics": {
+        "OA": {
+          "mean": 43.958333333333336,
+          "std": 0.3608439182435161
+        },
+        "BA": {
+          "mean": 33.356988249845394,
+          "std": 0.1626529758703715
+        },
+        "NLL": {
+          "mean": 2.533081873750429,
+          "std": 0.012031658783907846
+        },
+        "Brier": {
+          "mean": 0.8417738348673337,
+          "std": 0.002322557615799487
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": -1.0416666666666667,
+          "std": 0.7216878364870322
+        },
+        "delta_BA": {
+          "mean": -0.9078540507111891,
+          "std": 0.44774102508583297
+        },
+        "delta_NLL": {
+          "mean": 0.00011536838002509005,
+          "std": 0.004422958520557562
+        },
+        "delta_Brier": {
+          "mean": -0.0019741186435798808,
+          "std": 0.0008093511246184912
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 0,
+        "BA": 0,
+        "NLL": 1,
+        "Brier": 3
+      }
+    },
+    "post3x3": {
+      "metrics": {
+        "OA": {
+          "mean": 44.791666666666664,
+          "std": 0.3608439182435161
+        },
+        "BA": {
+          "mean": 34.53952793238508,
+          "std": 0.6366392354361154
+        },
+        "NLL": {
+          "mean": 2.515403653998683,
+          "std": 0.011718057545876698
+        },
+        "Brier": {
+          "mean": 0.8364045478454174,
+          "std": 0.0024484450657014218
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": -0.20833333333333334,
+          "std": 0.9547032697824668
+        },
+        "delta_BA": {
+          "mean": 0.2746856318284922,
+          "std": 1.1440261844269533
+        },
+        "delta_NLL": {
+          "mean": -0.017562851371721273,
+          "std": 0.0015198235623710681
+        },
+        "delta_Brier": {
+          "mean": -0.007343405665496183,
+          "std": 0.0005960356793536326
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 1,
+        "BA": 2,
+        "NLL": 3,
+        "Brier": 3
+      }
+    }
+  },
+  "comparisons": {
+    "baseline__vs__baseline": {
+      "metrics": {
+        "OA": {
+          "mean": 45.0,
+          "std": 0.625
+        },
+        "BA": {
+          "mean": 34.26484230055658,
+          "std": 0.583397787042306
+        },
+        "NLL": {
+          "mean": 2.532966505370404,
+          "std": 0.01323101793588951
+        },
+        "Brier": {
+          "mean": 0.8437479535109135,
+          "std": 0.003040669354935459
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_BA": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_NLL": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "delta_Brier": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 0,
+        "BA": 0,
+        "NLL": 0,
+        "Brier": 0
+      }
+    },
+    "stage__vs__baseline": {
+      "metrics": {
+        "OA": {
+          "mean": 46.458333333333336,
+          "std": 0.3608439182435161
+        },
+        "BA": {
+          "mean": 36.97263450834879,
+          "std": 0.289575464677455
+        },
+        "NLL": {
+          "mean": 2.530359538847755,
+          "std": 0.013069738661130564
+        },
+        "Brier": {
+          "mean": 0.8352874469825745,
+          "std": 0.004125804807855981
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 1.4583333333333333,
+          "std": 0.7216878364870322
+        },
+        "delta_BA": {
+          "mean": 2.7077922077922096,
+          "std": 0.5583491588118584
+        },
+        "delta_NLL": {
+          "mean": -0.0026069665226489866,
+          "std": 0.011212270282405885
+        },
+        "delta_Brier": {
+          "mean": -0.008460506528339037,
+          "std": 0.001460342334582094
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 3,
+        "BA": 3,
+        "NLL": 1,
+        "Brier": 3
+      }
+    },
+    "pre3x3__vs__baseline": {
+      "metrics": {
+        "OA": {
+          "mean": 43.958333333333336,
+          "std": 0.3608439182435161
+        },
+        "BA": {
+          "mean": 33.356988249845394,
+          "std": 0.1626529758703715
+        },
+        "NLL": {
+          "mean": 2.533081873750429,
+          "std": 0.012031658783907846
+        },
+        "Brier": {
+          "mean": 0.8417738348673337,
+          "std": 0.002322557615799487
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": -1.0416666666666667,
+          "std": 0.7216878364870322
+        },
+        "delta_BA": {
+          "mean": -0.9078540507111891,
+          "std": 0.44774102508583297
+        },
+        "delta_NLL": {
+          "mean": 0.00011536838002509005,
+          "std": 0.004422958520557562
+        },
+        "delta_Brier": {
+          "mean": -0.0019741186435798808,
+          "std": 0.0008093511246184912
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 0,
+        "BA": 0,
+        "NLL": 1,
+        "Brier": 3
+      }
+    },
+    "post3x3__vs__baseline": {
+      "metrics": {
+        "OA": {
+          "mean": 44.791666666666664,
+          "std": 0.3608439182435161
+        },
+        "BA": {
+          "mean": 34.53952793238508,
+          "std": 0.6366392354361154
+        },
+        "NLL": {
+          "mean": 2.515403653998683,
+          "std": 0.011718057545876698
+        },
+        "Brier": {
+          "mean": 0.8364045478454174,
+          "std": 0.0024484450657014218
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": -0.20833333333333334,
+          "std": 0.9547032697824668
+        },
+        "delta_BA": {
+          "mean": 0.2746856318284922,
+          "std": 1.1440261844269533
+        },
+        "delta_NLL": {
+          "mean": -0.017562851371721273,
+          "std": 0.0015198235623710681
+        },
+        "delta_Brier": {
+          "mean": -0.007343405665496183,
+          "std": 0.0005960356793536326
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 1,
+        "BA": 2,
+        "NLL": 3,
+        "Brier": 3
+      }
+    },
+    "pre3x3__vs__stage": {
+      "metrics": {
+        "OA": {
+          "mean": 43.958333333333336,
+          "std": 0.3608439182435161
+        },
+        "BA": {
+          "mean": 33.356988249845394,
+          "std": 0.1626529758703715
+        },
+        "NLL": {
+          "mean": 2.533081873750429,
+          "std": 0.012031658783907846
+        },
+        "Brier": {
+          "mean": 0.8417738348673337,
+          "std": 0.002322557615799487
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": -2.5,
+          "std": 0.0
+        },
+        "delta_BA": {
+          "mean": -3.6156462585033986,
+          "std": 0.20015352291768657
+        },
+        "delta_NLL": {
+          "mean": 0.0027223349026740764,
+          "std": 0.014402657942455257
+        },
+        "delta_Brier": {
+          "mean": 0.006486387884759155,
+          "std": 0.0018518109513677374
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 0,
+        "BA": 0,
+        "NLL": 2,
+        "Brier": 0
+      }
+    },
+    "post3x3__vs__stage": {
+      "metrics": {
+        "OA": {
+          "mean": 44.791666666666664,
+          "std": 0.3608439182435161
+        },
+        "BA": {
+          "mean": 34.53952793238508,
+          "std": 0.6366392354361154
+        },
+        "NLL": {
+          "mean": 2.515403653998683,
+          "std": 0.011718057545876698
+        },
+        "Brier": {
+          "mean": 0.8364045478454174,
+          "std": 0.0024484450657014218
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": -1.6666666666666667,
+          "std": 0.3608439182435161
+        },
+        "delta_BA": {
+          "mean": -2.4331065759637176,
+          "std": 0.8994096030232911
+        },
+        "delta_NLL": {
+          "mean": -0.014955884849072287,
+          "std": 0.010765391747842419
+        },
+        "delta_Brier": {
+          "mean": 0.0011171008628428532,
+          "std": 0.001929941934794732
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 0,
+        "BA": 0,
+        "NLL": 3,
+        "Brier": 1
+      }
+    },
+    "post3x3__vs__pre3x3": {
+      "metrics": {
+        "OA": {
+          "mean": 44.791666666666664,
+          "std": 0.3608439182435161
+        },
+        "BA": {
+          "mean": 34.53952793238508,
+          "std": 0.6366392354361154
+        },
+        "NLL": {
+          "mean": 2.515403653998683,
+          "std": 0.011718057545876698
+        },
+        "Brier": {
+          "mean": 0.8364045478454174,
+          "std": 0.0024484450657014218
+        }
+      },
+      "paired": {
+        "delta_OA": {
+          "mean": 0.8333333333333334,
+          "std": 0.3608439182435161
+        },
+        "delta_BA": {
+          "mean": 1.1825396825396812,
+          "std": 0.7964929269084903
+        },
+        "delta_NLL": {
+          "mean": -0.017678219751746365,
+          "std": 0.003883456608009472
+        },
+        "delta_Brier": {
+          "mean": -0.0053692870219163025,
+          "std": 0.00041327910540645327
+        }
+      },
+      "favorable_delta_seeds": {
+        "OA": 3,
+        "BA": 3,
+        "NLL": 3,
+        "Brier": 3
+      }
+    }
+  },
+  "case_group_counts_seed17": {
+    "stage__vs__baseline": {
+      "rescued": 6,
+      "harmed": 3,
+      "CC": 68,
+      "WW": 83
+    },
+    "pre3x3__vs__baseline": {
+      "rescued": 0,
+      "harmed": 1,
+      "CC": 70,
+      "WW": 89
+    },
+    "post3x3__vs__baseline": {
+      "rescued": 4,
+      "harmed": 3,
+      "CC": 68,
+      "WW": 85
+    },
+    "pre3x3__vs__stage": {
+      "rescued": 2,
+      "harmed": 6,
+      "CC": 68,
+      "WW": 84
+    },
+    "post3x3__vs__stage": {
+      "rescued": 0,
+      "harmed": 2,
+      "CC": 72,
+      "WW": 86
+    }
+  },
+  "cases": [
+    {
+      "arm": "stage",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "rescued",
+      "id": "35666",
+      "label": 5,
+      "class_name": "crude_oil_tanker",
+      "port": "Singapore",
+      "mmsi": "636022759",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 5,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -0.18724125623703003,
+      "fixed_margin": 1.0764546394348145,
+      "delta_fixed_margin": 1.2636959552764893,
+      "original_initial_fixed_margin": -1.853225588798523,
+      "baseline_NLL": 0.8293898215017887,
+      "NLL": 0.3575027298006614,
+      "baseline_Brier": 0.5952144205918308,
+      "Brier": 0.14976875863933017,
+      "baseline_logits": [
+        -0.6847227215766907,
+        -5.331837177276611,
+        -4.722701549530029,
+        -9.113702774047852,
+        -3.8259525299072266,
+        -0.8719639778137207,
+        -8.031299591064453,
+        -14.34189224243164
+      ],
+      "logits": [
+        -1.5614838600158691,
+        -5.357263565063477,
+        -5.328099727630615,
+        -8.377872467041016,
+        -3.1145224571228027,
+        -0.4850291609764099,
+        -7.474435329437256,
+        -12.967236518859863
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 5,
+          "reference_fixed_margin": -0.18724125623703003,
+          "fixed_margin": 1.0764546394348145
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": 0.1023680567741394,
+          "fixed_margin": 1.7375707626342773
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 5,
+          "reference_fixed_margin": -0.17063987255096436,
+          "fixed_margin": 0.5174975395202637
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\stage_vs_baseline_rescued_35666_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\stage_vs_baseline_rescued_35666_vh.png"
+      }
+    },
+    {
+      "arm": "stage",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "harmed",
+      "id": "20791",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Port Klang",
+      "mmsi": "413586730",
+      "pass_group": "S1A_060692_078D67",
+      "original_initial_prediction": 2,
+      "baseline_prediction": 3,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 2,
+      "fixed_rival": 2,
+      "fixed_rival_name": "general_cargo",
+      "baseline_fixed_margin": 0.23565876483917236,
+      "fixed_margin": -0.2984611988067627,
+      "delta_fixed_margin": -0.5341199636459351,
+      "original_initial_fixed_margin": -0.06453466415405273,
+      "baseline_NLL": 0.7142087764508506,
+      "NLL": 0.9716505390252619,
+      "baseline_Brier": 0.42243837695373654,
+      "Brier": 0.6566404626109547,
+      "baseline_logits": [
+        -2.401715040206909,
+        -2.233626127243042,
+        1.9377251863479614,
+        2.173383951187134,
+        -3.399993658065796,
+        -8.613247871398926,
+        0.6859189867973328,
+        -6.082122802734375
+      ],
+      "logits": [
+        -2.5821115970611572,
+        -2.1039998531341553,
+        2.32710599899292,
+        2.0286448001861572,
+        -3.895211935043335,
+        -8.706625938415527,
+        0.7023396492004395,
+        -5.843412399291992
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "prediction_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 3,
+          "prediction": 2,
+          "reference_fixed_margin": 0.23565876483917236,
+          "fixed_margin": -0.2984611988067627
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 3,
+          "prediction": 2,
+          "reference_fixed_margin": 0.034937381744384766,
+          "fixed_margin": -0.19084644317626953
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 3,
+          "prediction": 2,
+          "reference_fixed_margin": 0.2617678642272949,
+          "fixed_margin": -0.1725010871887207
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\stage_vs_baseline_harmed_20791_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\stage_vs_baseline_harmed_20791_vh.png"
+      }
+    },
+    {
+      "arm": "stage",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "CC",
+      "id": "35906",
+      "label": 0,
+      "class_name": "bulk_carrier",
+      "port": "Singapore",
+      "mmsi": "636023335",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 5,
+      "fixed_rival_name": "crude_oil_tanker",
+      "baseline_fixed_margin": 2.2398948669433594,
+      "fixed_margin": 1.0658535957336426,
+      "delta_fixed_margin": -1.1740412712097168,
+      "original_initial_fixed_margin": 3.0879955291748047,
+      "baseline_NLL": 0.10189418032501214,
+      "NLL": 0.2966765524666363,
+      "baseline_Brier": 0.018630822818651076,
+      "Brier": 0.1314453157093387,
+      "baseline_logits": [
+        3.474290132522583,
+        -6.327770233154297,
+        -4.208841800689697,
+        -7.016740798950195,
+        -6.271905899047852,
+        1.234395146369934,
+        -5.072500228881836,
+        -11.636029243469238
+      ],
+      "logits": [
+        2.8928823471069336,
+        -6.948827743530273,
+        -5.06148099899292,
+        -7.170079231262207,
+        -6.166744232177734,
+        1.827028751373291,
+        -4.975106716156006,
+        -12.017078399658203
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "fixed_rival_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "prediction_rival_reference_ids": [],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 2.2398948669433594,
+          "fixed_margin": 1.0658535957336426
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 1.8591073751449585,
+          "fixed_margin": 0.3854250907897949
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 2.3464059829711914,
+          "fixed_margin": 1.49873948097229
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\stage_vs_baseline_CC_35906_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\stage_vs_baseline_CC_35906_vh.png"
+      }
+    },
+    {
+      "arm": "stage",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "WW",
+      "id": "26255",
+      "label": 4,
+      "class_name": "container",
+      "port": "Singapore",
+      "mmsi": "533133374",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -9.774944305419922,
+      "fixed_margin": -7.401431083679199,
+      "delta_fixed_margin": 2.3735132217407227,
+      "original_initial_fixed_margin": -10.903186798095703,
+      "baseline_NLL": 9.812899375162706,
+      "NLL": 7.646924589204845,
+      "baseline_Brier": 1.9272919580528938,
+      "Brier": 1.6391539418668208,
+      "baseline_logits": [
+        3.780742645263672,
+        -4.684632778167725,
+        -2.355900526046753,
+        -0.8933023810386658,
+        -5.994202136993408,
+        -1.1972267627716064,
+        -0.12968523800373077,
+        -15.263957977294922
+      ],
+      "logits": [
+        2.2409727573394775,
+        -5.281189918518066,
+        -2.4040708541870117,
+        -1.1371817588806152,
+        -5.160458564758301,
+        -1.513533353805542,
+        0.6801764965057373,
+        -14.481390953063965
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.774944305419922,
+          "fixed_margin": -7.401431083679199
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.613468170166016,
+          "fixed_margin": -7.617210388183594
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -9.63637924194336,
+          "fixed_margin": -8.066679000854492
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\stage_vs_baseline_WW_26255_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\stage_vs_baseline_WW_26255_vh.png"
+      }
+    },
+    {
+      "arm": "pre3x3",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "harmed",
+      "id": "34278",
+      "label": 4,
+      "class_name": "container",
+      "port": "Port Klang",
+      "mmsi": "636019337",
+      "pass_group": "S1A_060692_078D67",
+      "original_initial_prediction": 4,
+      "baseline_prediction": 4,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": 0.1255854368209839,
+      "fixed_margin": -0.03436124324798584,
+      "delta_fixed_margin": -0.15994668006896973,
+      "original_initial_fixed_margin": 0.600753664970398,
+      "baseline_NLL": 0.8706591545232518,
+      "NLL": 0.9647861787015926,
+      "baseline_Brier": 0.4967176024455846,
+      "Brier": 0.5637781336642739,
+      "baseline_logits": [
+        1.173323154449463,
+        -9.476844787597656,
+        0.08520030230283737,
+        -0.3161375820636749,
+        1.2989085912704468,
+        -7.268139839172363,
+        -3.2756574153900146,
+        -10.52213191986084
+      ],
+      "logits": [
+        1.2446815967559814,
+        -9.51806640625,
+        0.13703285157680511,
+        -0.2285584658384323,
+        1.2103203535079956,
+        -7.344791889190674,
+        -3.3980541229248047,
+        -10.373537063598633
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 4,
+          "prediction": 0,
+          "reference_fixed_margin": 0.1255854368209839,
+          "fixed_margin": -0.03436124324798584
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 4,
+          "prediction": 0,
+          "reference_fixed_margin": 0.06811046600341797,
+          "fixed_margin": -0.1038808822631836
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 4,
+          "prediction": 0,
+          "reference_fixed_margin": 0.07432007789611816,
+          "fixed_margin": -0.09114348888397217
+        }
+      ],
+      "selection": "User-specified path-diagnosis case",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_baseline_harmed_34278_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_baseline_harmed_34278_vh.png"
+      }
+    },
+    {
+      "arm": "pre3x3",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "CC",
+      "id": "28657",
+      "label": 5,
+      "class_name": "crude_oil_tanker",
+      "port": "Singapore",
+      "mmsi": "538010884",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 5,
+      "baseline_prediction": 5,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 5,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": 4.090178966522217,
+      "fixed_margin": 4.365570545196533,
+      "delta_fixed_margin": 0.2753915786743164,
+      "original_initial_fixed_margin": 3.055835723876953,
+      "baseline_NLL": 0.0173256794693571,
+      "NLL": 0.013255176082203477,
+      "baseline_Brier": 0.0005658116188903281,
+      "Brier": 0.0003307967808298682,
+      "baseline_logits": [
+        -0.37468841671943665,
+        -10.95386028289795,
+        -4.111283779144287,
+        -6.174212455749512,
+        -4.57036018371582,
+        3.7154903411865234,
+        -6.456512928009033,
+        -12.57503890991211
+      ],
+      "logits": [
+        -0.512419581413269,
+        -10.983790397644043,
+        -4.204068660736084,
+        -6.081935882568359,
+        -4.506807327270508,
+        3.8531510829925537,
+        -6.371217250823975,
+        -12.57720947265625
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": 4.090178966522217,
+          "fixed_margin": 4.365570545196533
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": 4.272453784942627,
+          "fixed_margin": 4.542000770568848
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": 4.077998638153076,
+          "fixed_margin": 4.1880927085876465
+        }
+      ],
+      "selection": "User-specified path-diagnosis case",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_baseline_CC_28657_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_baseline_CC_28657_vh.png"
+      }
+    },
+    {
+      "arm": "pre3x3",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "WW",
+      "id": "28198",
+      "label": 7,
+      "class_name": "offshore",
+      "port": "Singapore",
+      "mmsi": "538009741",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 5,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -18.94437599182129,
+      "fixed_margin": -19.237796783447266,
+      "delta_fixed_margin": -0.29342079162597656,
+      "original_initial_fixed_margin": -20.27630043029785,
+      "baseline_NLL": 19.70002968942404,
+      "NLL": 20.156996769192215,
+      "baseline_Brier": 1.4230255225980948,
+      "Brier": 1.4355582767282404,
+      "baseline_logits": [
+        0.30548325181007385,
+        -9.528555870056152,
+        -4.337820053100586,
+        -5.029317378997803,
+        -1.4535115957260132,
+        0.24589520692825317,
+        -8.633406639099121,
+        -18.638893127441406
+      ],
+      "logits": [
+        0.12880802154541016,
+        -9.647321701049805,
+        -4.462196350097656,
+        -5.272890567779541,
+        -1.5448765754699707,
+        0.3949507474899292,
+        -9.112639427185059,
+        -19.108989715576172
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "13000",
+        "13276"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512",
+        "29922",
+        "2077"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 5,
+          "reference_fixed_margin": -18.94437599182129,
+          "fixed_margin": -19.237796783447266
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": -18.65469741821289,
+          "fixed_margin": -18.93204116821289
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 5,
+          "reference_fixed_margin": -18.871191024780273,
+          "fixed_margin": -19.147947311401367
+        }
+      ],
+      "selection": "User-specified path-diagnosis case",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_baseline_WW_28198_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_baseline_WW_28198_vh.png"
+      }
+    },
+    {
+      "arm": "post3x3",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "rescued",
+      "id": "35666",
+      "label": 5,
+      "class_name": "crude_oil_tanker",
+      "port": "Singapore",
+      "mmsi": "636022759",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 5,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -0.18724125623703003,
+      "fixed_margin": 0.27139800786972046,
+      "delta_fixed_margin": 0.4586392641067505,
+      "original_initial_fixed_margin": -1.853225588798523,
+      "baseline_NLL": 0.8293898215017887,
+      "NLL": 0.608638567456606,
+      "baseline_Brier": 0.5952144205918308,
+      "Brier": 0.3807461991298544,
+      "baseline_logits": [
+        -0.6847227215766907,
+        -5.331837177276611,
+        -4.722701549530029,
+        -9.113702774047852,
+        -3.8259525299072266,
+        -0.8719639778137207,
+        -8.031299591064453,
+        -14.34189224243164
+      ],
+      "logits": [
+        -0.9674111008644104,
+        -5.469776153564453,
+        -4.880924224853516,
+        -8.907696723937988,
+        -3.6712050437927246,
+        -0.6960130929946899,
+        -8.063179969787598,
+        -14.03564167022705
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 5,
+          "reference_fixed_margin": -0.18724125623703003,
+          "fixed_margin": 0.27139800786972046
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": 0.1023680567741394,
+          "fixed_margin": 0.6677904725074768
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 5,
+          "reference_fixed_margin": -0.17063987255096436,
+          "fixed_margin": 0.2069883942604065
+        }
+      ],
+      "selection": "User-specified path-diagnosis case",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_baseline_rescued_35666_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_baseline_rescued_35666_vh.png"
+      }
+    },
+    {
+      "arm": "post3x3",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "harmed",
+      "id": "20791",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Port Klang",
+      "mmsi": "413586730",
+      "pass_group": "S1A_060692_078D67",
+      "original_initial_prediction": 2,
+      "baseline_prediction": 3,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 2,
+      "fixed_rival": 2,
+      "fixed_rival_name": "general_cargo",
+      "baseline_fixed_margin": 0.23565876483917236,
+      "fixed_margin": -0.07496476173400879,
+      "delta_fixed_margin": -0.31062352657318115,
+      "original_initial_fixed_margin": -0.06453466415405273,
+      "baseline_NLL": 0.7142087764508506,
+      "NLL": 0.8605363237546695,
+      "baseline_Brier": 0.42243837695373654,
+      "Brier": 0.5529740850771375,
+      "baseline_logits": [
+        -2.401715040206909,
+        -2.233626127243042,
+        1.9377251863479614,
+        2.173383951187134,
+        -3.399993658065796,
+        -8.613247871398926,
+        0.6859189867973328,
+        -6.082122802734375
+      ],
+      "logits": [
+        -2.4471073150634766,
+        -2.451786994934082,
+        2.145237684249878,
+        2.070272922515869,
+        -3.406179904937744,
+        -8.718801498413086,
+        0.7242446541786194,
+        -5.9726433753967285
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "prediction_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 3,
+          "prediction": 2,
+          "reference_fixed_margin": 0.23565876483917236,
+          "fixed_margin": -0.07496476173400879
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 3,
+          "prediction": 2,
+          "reference_fixed_margin": 0.034937381744384766,
+          "fixed_margin": -0.08617973327636719
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 3,
+          "prediction": 3,
+          "reference_fixed_margin": 0.2617678642272949,
+          "fixed_margin": 0.06413984298706055
+        }
+      ],
+      "selection": "User-specified path-diagnosis case",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_baseline_harmed_20791_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_baseline_harmed_20791_vh.png"
+      }
+    },
+    {
+      "arm": "post3x3",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "CC",
+      "id": "35906",
+      "label": 0,
+      "class_name": "bulk_carrier",
+      "port": "Singapore",
+      "mmsi": "636023335",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 5,
+      "fixed_rival_name": "crude_oil_tanker",
+      "baseline_fixed_margin": 2.2398948669433594,
+      "fixed_margin": 1.789601445198059,
+      "delta_fixed_margin": -0.4502934217453003,
+      "original_initial_fixed_margin": 3.0879955291748047,
+      "baseline_NLL": 0.10189418032501214,
+      "NLL": 0.15524584697733365,
+      "baseline_Brier": 0.018630822818651076,
+      "Brier": 0.041128910739390456,
+      "baseline_logits": [
+        3.474290132522583,
+        -6.327770233154297,
+        -4.208841800689697,
+        -7.016740798950195,
+        -6.271905899047852,
+        1.234395146369934,
+        -5.072500228881836,
+        -11.636029243469238
+      ],
+      "logits": [
+        3.20772385597229,
+        -6.606612205505371,
+        -4.480884552001953,
+        -7.047171115875244,
+        -6.036127090454102,
+        1.418122410774231,
+        -4.996776103973389,
+        -11.661266326904297
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "fixed_rival_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "prediction_rival_reference_ids": [],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 2.2398948669433594,
+          "fixed_margin": 1.789601445198059
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 1.8591073751449585,
+          "fixed_margin": 1.2144310474395752
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 2.3464059829711914,
+          "fixed_margin": 1.9729185104370117
+        }
+      ],
+      "selection": "User-specified path-diagnosis case",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_baseline_CC_35906_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_baseline_CC_35906_vh.png"
+      }
+    },
+    {
+      "arm": "post3x3",
+      "reference_arm": "baseline",
+      "seed": 17,
+      "state": "WW",
+      "id": "20328",
+      "label": 4,
+      "class_name": "container",
+      "port": "Port Klang",
+      "mmsi": "413132000",
+      "pass_group": "S1A_060692_078D67",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference baseline, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -3.2560834884643555,
+      "fixed_margin": -2.55587100982666,
+      "delta_fixed_margin": 0.7002124786376953,
+      "original_initial_fixed_margin": -4.520538330078125,
+      "baseline_NLL": 3.306369887749261,
+      "NLL": 2.648625262192521,
+      "baseline_Brier": 1.8324455934683952,
+      "Brier": 1.694354274318325,
+      "baseline_logits": [
+        1.6006628274917603,
+        -12.018986701965332,
+        -3.1015853881835938,
+        -4.391693592071533,
+        -1.6554206609725952,
+        -5.837462902069092,
+        -5.445258140563965,
+        -19.96965789794922
+      ],
+      "logits": [
+        1.2718942165374756,
+        -11.97667407989502,
+        -3.0373265743255615,
+        -4.325471878051758,
+        -1.2839767932891846,
+        -5.474344253540039,
+        -5.421729564666748,
+        -19.76911163330078
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -3.2560834884643555,
+          "fixed_margin": -2.55587100982666
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -2.881011962890625,
+          "fixed_margin": -2.2459030151367188
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -3.112701892852783,
+          "fixed_margin": -2.5984411239624023
+        }
+      ],
+      "selection": "User-specified path-diagnosis case",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_baseline_WW_20328_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_baseline_WW_20328_vh.png"
+      }
+    },
+    {
+      "arm": "pre3x3",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "rescued",
+      "id": "31779",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "574005560",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 2,
+      "baseline_prediction": 2,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 3,
+      "fixed_rival": 2,
+      "fixed_rival_name": "general_cargo",
+      "baseline_fixed_margin": -0.2808990478515625,
+      "fixed_margin": 0.06948375701904297,
+      "delta_fixed_margin": 0.35038280487060547,
+      "original_initial_fixed_margin": -0.6814131736755371,
+      "baseline_NLL": 0.8876820289569901,
+      "NLL": 0.7102510784188382,
+      "baseline_Brier": 0.6444363469571786,
+      "Brier": 0.47026585777236257,
+      "baseline_logits": [
+        -3.6981940269470215,
+        -11.407537460327148,
+        2.3307013511657715,
+        2.049802303314209,
+        -1.6044760942459106,
+        -10.265222549438477,
+        -0.5259510278701782,
+        -17.3818302154541
+      ],
+      "logits": [
+        -2.5453457832336426,
+        -9.48715877532959,
+        2.1965227127075195,
+        2.2660064697265625,
+        -1.744660496711731,
+        -9.838726997375488,
+        -0.31953632831573486,
+        -16.101848602294922
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "prediction_rival_reference_ids": [
+        "6913",
+        "22755"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 2,
+          "prediction": 3,
+          "reference_fixed_margin": -0.2808990478515625,
+          "fixed_margin": 0.06948375701904297
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 2,
+          "prediction": 3,
+          "reference_fixed_margin": -0.3820228576660156,
+          "fixed_margin": 0.3463461399078369
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 2,
+          "prediction": 3,
+          "reference_fixed_margin": -0.7402850389480591,
+          "fixed_margin": 0.11121654510498047
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_stage_rescued_31779_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_stage_rescued_31779_vh.png"
+      }
+    },
+    {
+      "arm": "pre3x3",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "harmed",
+      "id": "35666",
+      "label": 5,
+      "class_name": "crude_oil_tanker",
+      "port": "Singapore",
+      "mmsi": "636022759",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 5,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": 1.0764546394348145,
+      "fixed_margin": -0.157440185546875,
+      "delta_fixed_margin": -1.2338948249816895,
+      "original_initial_fixed_margin": -1.853225588798523,
+      "baseline_NLL": 0.3575027298006614,
+      "NLL": 0.8082871875775351,
+      "baseline_Brier": 0.14976875863933017,
+      "Brier": 0.5799070490945872,
+      "baseline_logits": [
+        -1.5614838600158691,
+        -5.357263565063477,
+        -5.328099727630615,
+        -8.377872467041016,
+        -3.1145224571228027,
+        -0.4850291609764099,
+        -7.474435329437256,
+        -12.967236518859863
+      ],
+      "logits": [
+        -0.7237319946289062,
+        -5.659491539001465,
+        -4.876937389373779,
+        -9.173012733459473,
+        -3.961946725845337,
+        -0.8811721801757812,
+        -8.34878158569336,
+        -14.442732810974121
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 5,
+          "prediction": 0,
+          "reference_fixed_margin": 1.0764546394348145,
+          "fixed_margin": -0.157440185546875
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": 1.7375707626342773,
+          "fixed_margin": 0.23285484313964844
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 5,
+          "prediction": 0,
+          "reference_fixed_margin": 0.5174975395202637,
+          "fixed_margin": -0.1901267170906067
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_stage_harmed_35666_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_stage_harmed_35666_vh.png"
+      }
+    },
+    {
+      "arm": "pre3x3",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "CC",
+      "id": "35906",
+      "label": 0,
+      "class_name": "bulk_carrier",
+      "port": "Singapore",
+      "mmsi": "636023335",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 5,
+      "fixed_rival_name": "crude_oil_tanker",
+      "baseline_fixed_margin": 1.0658535957336426,
+      "fixed_margin": 2.1924221515655518,
+      "delta_fixed_margin": 1.1265685558319092,
+      "original_initial_fixed_margin": 3.0879955291748047,
+      "baseline_NLL": 0.2966765524666363,
+      "NLL": 0.10650024154827055,
+      "baseline_Brier": 0.1314453157093387,
+      "Brier": 0.0202797680079677,
+      "baseline_logits": [
+        2.8928823471069336,
+        -6.948827743530273,
+        -5.06148099899292,
+        -7.170079231262207,
+        -6.166744232177734,
+        1.827028751373291,
+        -4.975106716156006,
+        -12.017078399658203
+      ],
+      "logits": [
+        3.48549222946167,
+        -6.485106468200684,
+        -4.381933689117432,
+        -7.000613212585449,
+        -6.191225528717041,
+        1.2930700778961182,
+        -4.975908279418945,
+        -11.534761428833008
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "fixed_rival_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "prediction_rival_reference_ids": [],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 1.0658535957336426,
+          "fixed_margin": 2.1924221515655518
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 0.3854250907897949,
+          "fixed_margin": 1.7953500747680664
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": 1.49873948097229,
+          "fixed_margin": 2.282944679260254
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_stage_CC_35906_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_stage_CC_35906_vh.png"
+      }
+    },
+    {
+      "arm": "pre3x3",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "WW",
+      "id": "26255",
+      "label": 4,
+      "class_name": "container",
+      "port": "Singapore",
+      "mmsi": "533133374",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -7.401431083679199,
+      "fixed_margin": -9.672120094299316,
+      "delta_fixed_margin": -2.270689010620117,
+      "original_initial_fixed_margin": -10.903186798095703,
+      "baseline_NLL": 7.646924589204845,
+      "NLL": 9.717717859912039,
+      "baseline_Brier": 1.6391539418668208,
+      "Brier": 1.9134296736433192,
+      "baseline_logits": [
+        2.2409727573394775,
+        -5.281189918518066,
+        -2.4040708541870117,
+        -1.1371817588806152,
+        -5.160458564758301,
+        -1.513533353805542,
+        0.6801764965057373,
+        -14.481390953063965
+      ],
+      "logits": [
+        3.6380224227905273,
+        -4.798174858093262,
+        -2.3958566188812256,
+        -0.7540203928947449,
+        -6.034097671508789,
+        -1.185366153717041,
+        -0.11008365452289581,
+        -15.31592845916748
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -7.401431083679199,
+          "fixed_margin": -9.672120094299316
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -7.617210388183594,
+          "fixed_margin": -9.549585342407227
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -8.066679000854492,
+          "fixed_margin": -9.611989974975586
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_stage_WW_26255_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\pre3x3_vs_stage_WW_26255_vh.png"
+      }
+    },
+    {
+      "arm": "post3x3",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "harmed",
+      "id": "21161",
+      "label": 3,
+      "class_name": "chemical_tanker",
+      "port": "Singapore",
+      "mmsi": "414491000",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 3,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": 0.14659667015075684,
+      "fixed_margin": -0.5874534845352173,
+      "delta_fixed_margin": -0.7340501546859741,
+      "original_initial_fixed_margin": -1.601933479309082,
+      "baseline_NLL": 0.6996092463135002,
+      "NLL": 1.0792681772127966,
+      "baseline_Brier": 0.44025147468178005,
+      "Brier": 0.8109406193492458,
+      "baseline_logits": [
+        1.9137639999389648,
+        -3.9335248470306396,
+        -1.778296709060669,
+        2.0603606700897217,
+        -0.1834690123796463,
+        -5.976407051086426,
+        -3.232290267944336,
+        -2.2152209281921387
+      ],
+      "logits": [
+        2.573082685470581,
+        -3.6640326976776123,
+        -1.7116572856903076,
+        1.9856292009353638,
+        -0.3460097014904022,
+        -5.797102451324463,
+        -3.431877613067627,
+        -2.3708014488220215
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "24527",
+        "7790"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 3,
+          "prediction": 0,
+          "reference_fixed_margin": 0.14659667015075684,
+          "fixed_margin": -0.5874534845352173
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -0.16380631923675537,
+          "fixed_margin": -0.8737097978591919
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 3,
+          "prediction": 0,
+          "reference_fixed_margin": 0.08888518810272217,
+          "fixed_margin": -0.689629077911377
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_stage_harmed_21161_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_stage_harmed_21161_vh.png"
+      }
+    },
+    {
+      "arm": "post3x3",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "CC",
+      "id": "28657",
+      "label": 5,
+      "class_name": "crude_oil_tanker",
+      "port": "Singapore",
+      "mmsi": "538010884",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 5,
+      "baseline_prediction": 5,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 5,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": 3.3084487915039062,
+      "fixed_margin": 4.26224422454834,
+      "delta_fixed_margin": 0.9537954330444336,
+      "original_initial_fixed_margin": 3.055835723876953,
+      "baseline_NLL": 0.03761671137975385,
+      "NLL": 0.014648351878580322,
+      "baseline_Brier": 0.0026045278752280135,
+      "Brier": 0.00040444140849846125,
+      "baseline_logits": [
+        -0.6269885301589966,
+        -10.652702331542969,
+        -4.88286828994751,
+        -5.58823823928833,
+        -4.4303460121154785,
+        2.68146014213562,
+        -6.008422374725342,
+        -12.73344898223877
+      ],
+      "logits": [
+        -0.40904584527015686,
+        -10.880227088928223,
+        -4.2011637687683105,
+        -6.125180721282959,
+        -4.381110191345215,
+        3.853198289871216,
+        -6.391443252563477,
+        -12.530146598815918
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "29922",
+        "2077"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": 3.3084487915039062,
+          "fixed_margin": 4.26224422454834
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": 3.369481086730957,
+          "fixed_margin": 4.488182544708252
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 5,
+          "prediction": 5,
+          "reference_fixed_margin": 3.1480157375335693,
+          "fixed_margin": 4.210812091827393
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "Native query/reference content reviewed; see ../CASE_NOTES_ZH.md for actual scope and current-model interpretation.",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_stage_CC_28657_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_stage_CC_28657_vh.png"
+      }
+    },
+    {
+      "arm": "post3x3",
+      "reference_arm": "stage",
+      "seed": 17,
+      "state": "WW",
+      "id": "26255",
+      "label": 4,
+      "class_name": "container",
+      "port": "Singapore",
+      "mmsi": "533133374",
+      "pass_group": "S1A_060268_077D6F",
+      "original_initial_prediction": 0,
+      "baseline_prediction": 0,
+      "baseline_field_semantics": "comparison reference stage, see reference_arm",
+      "prediction": 0,
+      "fixed_rival": 0,
+      "fixed_rival_name": "bulk_carrier",
+      "baseline_fixed_margin": -7.401431083679199,
+      "fixed_margin": -9.371453285217285,
+      "delta_fixed_margin": -1.970022201538086,
+      "original_initial_fixed_margin": -10.903186798095703,
+      "baseline_NLL": 7.646924589204845,
+      "NLL": 9.420727296138558,
+      "baseline_Brier": 1.6391539418668208,
+      "Brier": 1.906824452229828,
+      "baseline_logits": [
+        2.2409727573394775,
+        -5.281189918518066,
+        -2.4040708541870117,
+        -1.1371817588806152,
+        -5.160458564758301,
+        -1.513533353805542,
+        0.6801764965057373,
+        -14.481390953063965
+      ],
+      "logits": [
+        3.5723440647125244,
+        -4.822706699371338,
+        -2.368793487548828,
+        -0.9113484025001526,
+        -5.799108982086182,
+        -1.021396279335022,
+        -0.0711158961057663,
+        -15.129748344421387
+      ],
+      "eligible_reference_ids": [
+        "34478",
+        "31512",
+        "14814",
+        "16401",
+        "6913",
+        "22755",
+        "24527",
+        "7790",
+        "36308",
+        "23719",
+        "29922",
+        "2077",
+        "12041",
+        "7429",
+        "13000",
+        "13276"
+      ],
+      "true_reference_ids": [
+        "36308",
+        "23719"
+      ],
+      "fixed_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "prediction_rival_reference_ids": [
+        "34478",
+        "31512"
+      ],
+      "per_seed": [
+        {
+          "seed": 17,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -7.401431083679199,
+          "fixed_margin": -9.371453285217285
+        },
+        {
+          "seed": 29,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -7.617210388183594,
+          "fixed_margin": -9.270336151123047
+        },
+        {
+          "seed": 43,
+          "reference_prediction": 0,
+          "prediction": 0,
+          "reference_fixed_margin": -8.066679000854492,
+          "fixed_margin": -9.38214111328125
+        }
+      ],
+      "selection": "Largest absolute initial-fixed-rival margin change within comparison/state; lexical ID tie break",
+      "fixed_rival_rule": "Strongest nontruth initial logit, held fixed across arms",
+      "visual_status": "pending_manual_review",
+      "panels": {
+        "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_stage_WW_26255_vv.png",
+        "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\CASES\\post3x3_vs_stage_WW_26255_vh.png"
+      }
+    }
+  ],
+  "runs": [
+    {
+      "arm": "baseline",
+      "seed": 17,
+      "trainable": 1114112,
+      "seconds": 113.81114310002886,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 2.941867450873057,
+          "keep": 0.0027834758139495073,
+          "floor": 0.12690626612567035
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.838701672024197,
+          "keep": 0.010632539788881937,
+          "floor": 0.3863705032401615
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.428625934653812,
+          "keep": 0.01291460732722448,
+          "floor": 0.4028276155392329
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.10615391863717,
+          "keep": 0.01345814930068122,
+          "floor": 0.33497249914540184
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 2.0073610610432095,
+          "keep": 0.01257751566461391,
+          "floor": 0.23042726351155174
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.766069061226315,
+          "keep": 0.015485301510327391,
+          "floor": 0.1808622024125523
+        }
+      ],
+      "peak_cuda_mb": 649.111328125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\baseline_17.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\run_baseline_17.json"
+    },
+    {
+      "arm": "baseline",
+      "seed": 29,
+      "trainable": 1114112,
+      "seconds": 114.87899939995259,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.106091088718838,
+          "keep": 0.002181783532848986,
+          "floor": 0.16602257966527614
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3721747431490154,
+          "keep": 0.010903055986596478,
+          "floor": 0.5293791459666358
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.2310033440589905,
+          "keep": 0.012689152887711922,
+          "floor": 0.3600493586725659
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.6267622444364758,
+          "keep": 0.011408119307210049,
+          "floor": 0.18180668105681738
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 2.053739736477534,
+          "keep": 0.012218787713209167,
+          "floor": 0.232400044798851
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 2.096202075481415,
+          "keep": 0.01601148282902108,
+          "floor": 0.3043049607012007
+        }
+      ],
+      "peak_cuda_mb": 645.744140625,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\baseline_29.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\run_baseline_29.json"
+    },
+    {
+      "arm": "baseline",
+      "seed": 43,
+      "trainable": 1114112,
+      "seconds": 111.64111030008644,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.4636875655916004,
+          "keep": 0.0031518156657642177,
+          "floor": 0.32211588550876136
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3469736840989857,
+          "keep": 0.006814403821610742,
+          "floor": 0.39648694255285793
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.34875261121326,
+          "keep": 0.01007484476495948,
+          "floor": 0.25874315285020405
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.1621998614735074,
+          "keep": 0.010596639218015803,
+          "floor": 0.16442718398239878
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 2.0498127937316895,
+          "keep": 0.013224613671708439,
+          "floor": 0.2266156565811899
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 2.0429504182603626,
+          "keep": 0.012915014703240659,
+          "floor": 0.23203552183177736
+        }
+      ],
+      "peak_cuda_mb": 645.744140625,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\baseline_43.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\run_baseline_43.json"
+    },
+    {
+      "arm": "stage",
+      "seed": 17,
+      "trainable": 1311440,
+      "seconds": 121.392611999996,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 2.9291406869888306,
+          "keep": 0.004061052855390875,
+          "floor": 0.15301588146649925
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.7556476129425898,
+          "keep": 0.014556604127089182,
+          "floor": 0.4125352021720674
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.2777735458479986,
+          "keep": 0.018954727255428832,
+          "floor": 0.47567227813932633
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 1.8906821807225545,
+          "keep": 0.018834806357820828,
+          "floor": 0.36249197357230717
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.7065850065814123,
+          "keep": 0.01680728534443511,
+          "floor": 0.23684416711330414
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.426680114534166,
+          "keep": 0.02968857085539235,
+          "floor": 0.20149045230613816
+        }
+      ],
+      "peak_cuda_mb": 1143.615234375,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\layer2_17.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\run_layer2_17.json"
+    },
+    {
+      "arm": "stage",
+      "seed": 29,
+      "trainable": 1311440,
+      "seconds": 129.94821810000576,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.0916177696651883,
+          "keep": 0.0029500290007004417,
+          "floor": 0.1943395540076629
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.2953599260913,
+          "keep": 0.01627386226836178,
+          "floor": 0.5850268801053365
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.123082207308875,
+          "keep": 0.02143266352100505,
+          "floor": 0.3793240537246068
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.383539226320055,
+          "keep": 0.01692386980478962,
+          "floor": 0.19372212721241844
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.7448804378509521,
+          "keep": 0.018145103272723243,
+          "floor": 0.2701634880569246
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.660741925239563,
+          "keep": 0.026695599572526083,
+          "floor": 0.365064343644513
+        }
+      ],
+      "peak_cuda_mb": 1143.177734375,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\layer2_29.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\run_layer2_29.json"
+    },
+    {
+      "arm": "stage",
+      "seed": 43,
+      "trainable": 1311440,
+      "seconds": 125.33157140016556,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.4650472005208335,
+          "keep": 0.0037250921205798588,
+          "floor": 0.34126272280286307
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3056064777904086,
+          "keep": 0.0083503945885847,
+          "floor": 0.37027810513973236
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.255918992890252,
+          "keep": 0.017082039991186723,
+          "floor": 0.28900695509380764
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 1.9491708543565538,
+          "keep": 0.018530858525385458,
+          "floor": 0.19108293474548393
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.7788931197590299,
+          "keep": 0.01996671532591184,
+          "floor": 0.310117755499151
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.639926145474116,
+          "keep": 0.022191747712592285,
+          "floor": 0.2109335462252299
+        }
+      ],
+      "peak_cuda_mb": 1144.490234375,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\checkpoints\\layer2_43.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "reused_from": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\shallow_m2_writeback_20261028\\run_layer2_43.json"
+    },
+    {
+      "arm": "pre3x3",
+      "seed": 17,
+      "trainable": 1163984,
+      "seconds": 24.013759599998593,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 2.9403039813041687,
+          "keep": 0.002830336751547772,
+          "floor": 0.1277812897332489
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.8212067087491355,
+          "keep": 0.010942769133382373,
+          "floor": 0.3794652968645096
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.3975272509786816,
+          "keep": 0.013274336104384728,
+          "floor": 0.3985138055351045
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.053770727581448,
+          "keep": 0.014166164781070419,
+          "floor": 0.33640970703628326
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.932980904976527,
+          "keep": 0.014034613035619259,
+          "floor": 0.2352234638399548
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.6764718559053209,
+          "keep": 0.018817825035916433,
+          "floor": 0.18351513395706812
+        }
+      ],
+      "peak_cuda_mb": 1266.0908203125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\checkpoints\\pre3x3_17.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "pre3x3",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 128,
+      "grid": [
+        20,
+        20
+      ]
+    },
+    {
+      "arm": "pre3x3",
+      "seed": 29,
+      "trainable": 1163984,
+      "seconds": 23.958434300031513,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.104541520277659,
+          "keep": 0.0022602287007247313,
+          "floor": 0.17003516085909579
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3573064373599157,
+          "keep": 0.011284343613725569,
+          "floor": 0.5332546201017168
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.21048723326789,
+          "keep": 0.013321083401226334,
+          "floor": 0.3550239834520552
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.578529861238268,
+          "keep": 0.012171766048090326,
+          "floor": 0.17722615351279578
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.9862866302331288,
+          "keep": 0.013114428335231625,
+          "floor": 0.22685814317729738
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 2.0059317615297108,
+          "keep": 0.01738564328600963,
+          "floor": 0.3043425381183624
+        }
+      ],
+      "peak_cuda_mb": 1266.0908203125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\checkpoints\\pre3x3_29.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "pre3x3",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 128,
+      "grid": [
+        20,
+        20
+      ]
+    },
+    {
+      "arm": "pre3x3",
+      "seed": 43,
+      "trainable": 1163984,
+      "seconds": 25.641245000064373,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.4623909725083246,
+          "keep": 0.003209578358213832,
+          "floor": 0.3265165467239475
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3349390162361994,
+          "keep": 0.006951870370863212,
+          "floor": 0.39234375456968945
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.3282141420576306,
+          "keep": 0.010876877776657542,
+          "floor": 0.257386381427447
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.1194510327445135,
+          "keep": 0.011751204625599913,
+          "floor": 0.16742097607089412
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.99442458152771,
+          "keep": 0.014952846906251378,
+          "floor": 0.23338292870256636
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.9620239668422275,
+          "keep": 0.014397940391467677,
+          "floor": 0.2319947224524286
+        }
+      ],
+      "peak_cuda_mb": 1265.8408203125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\checkpoints\\pre3x3_43.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "pre3x3",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 128,
+      "grid": [
+        20,
+        20
+      ]
+    },
+    {
+      "arm": "post3x3",
+      "seed": 17,
+      "trainable": 1163984,
+      "seconds": 24.948492400115356,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 2.9383567571640015,
+          "keep": 0.0032231863021819807,
+          "floor": 0.1337477102256132
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.8133783539136252,
+          "keep": 0.012255717224131027,
+          "floor": 0.38733236491680145
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.3853975203302173,
+          "keep": 0.01448886668206089,
+          "floor": 0.41089579959710437
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.041936265097724,
+          "keep": 0.015309933728228012,
+          "floor": 0.33493076099289787
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.9184394313229456,
+          "keep": 0.015309829575320085,
+          "floor": 0.2340389523241255
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.6636926564905379,
+          "keep": 0.021494425005382962,
+          "floor": 0.18888472103410298
+        }
+      ],
+      "peak_cuda_mb": 1240.8486328125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\checkpoints\\post3x3_17.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "post3x3",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 128,
+      "grid": [
+        20,
+        20
+      ]
+    },
+    {
+      "arm": "post3x3",
+      "seed": 29,
+      "trainable": 1163984,
+      "seconds": 26.143996800063178,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.1008369856410556,
+          "keep": 0.0024015793032876845,
+          "floor": 0.1773093855536036
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3474788003497653,
+          "keep": 0.012292871717363596,
+          "floor": 0.5450992733240128
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.1983183092541165,
+          "keep": 0.015226060162401862,
+          "floor": 0.356164178914494
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.5568271478017173,
+          "keep": 0.013601966176388992,
+          "floor": 0.18440249231126574
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.96677342388365,
+          "keep": 0.014362309170084901,
+          "floor": 0.24056598130199644
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.98061113887363,
+          "keep": 0.01924448822521501,
+          "floor": 0.31903327835930717
+        }
+      ],
+      "peak_cuda_mb": 1240.8486328125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\checkpoints\\post3x3_29.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "post3x3",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 128,
+      "grid": [
+        20,
+        20
+      ]
+    },
+    {
+      "arm": "post3x3",
+      "seed": 43,
+      "trainable": 1163984,
+      "seconds": 23.50845060008578,
+      "steps": 54,
+      "curve": [
+        {
+          "epoch": 1,
+          "steps": 9,
+          "ce": 3.4634757306840687,
+          "keep": 0.003362664672954837,
+          "floor": 0.3332699173036935
+        },
+        {
+          "epoch": 2,
+          "steps": 18,
+          "ce": 2.3263428012530007,
+          "keep": 0.007411303955854641,
+          "floor": 0.3928019031882286
+        },
+        {
+          "epoch": 3,
+          "steps": 27,
+          "ce": 2.318583846092224,
+          "keep": 0.011995558109548356,
+          "floor": 0.26448824339442784
+        },
+        {
+          "epoch": 4,
+          "steps": 36,
+          "ce": 2.1004235876931086,
+          "keep": 0.013297074138083391,
+          "floor": 0.16972878016531467
+        },
+        {
+          "epoch": 5,
+          "steps": 45,
+          "ce": 1.9786849949094985,
+          "keep": 0.01633442542515695,
+          "floor": 0.24239656494723427
+        },
+        {
+          "epoch": 6,
+          "steps": 54,
+          "ce": 1.9400422506862216,
+          "keep": 0.01563595835533407,
+          "floor": 0.23845547023746702
+        }
+      ],
+      "peak_cuda_mb": 1240.8486328125,
+      "endpoint": "fixed_epoch6",
+      "selected": 101,
+      "checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m2_block_placement_20261028\\checkpoints\\post3x3_43.pt",
+      "frozen_state_unchanged": true,
+      "micro_batch": 16,
+      "saved_replay_error": 0.0,
+      "model_class": "Layer2BlockM2",
+      "position": "post3x3",
+      "new_m2_per_polarization": 1,
+      "adapter_channels": 128,
+      "grid": [
+        20,
+        20
+      ]
+    }
+  ],
+  "diagnostics": {
+    "initial_identity": {
+      "baseline": 0.0,
+      "stage": 0.0,
+      "pre3x3": 0.0,
+      "post3x3": 0.0
+    },
+    "gradient": {
+      "pre3x3_2_0": {
+        "output": 31.980756282806396,
+        "inner": 4.62986421585083
+      },
+      "pre3x3_2_1": {
+        "output": 22.075220823287964,
+        "inner": 2.7464261651039124
+      },
+      "post3x3_2_0": {
+        "output": 64.98239278793335,
+        "inner": 8.514390230178833
+      },
+      "post3x3_2_1": {
+        "output": 39.891366958618164,
+        "inner": 4.99233865737915
+      }
+    },
+    "native_block_hook_parity": {
+      "pre3x3": 0.0,
+      "post3x3": 0.0
+    },
+    "cached_vs_live_prefix": {
+      "pre3x3": 0.0,
+      "post3x3": 0.0
+    },
+    "reused_checkpoints": {
+      "baseline_17": 0.0,
+      "baseline_29": 0.0,
+      "baseline_43": 0.0,
+      "stage_17": 0.0,
+      "stage_29": 0.0,
+      "stage_43": 0.0
+    },
+    "region_coverage": {}
+  },
+  "same_weights_bypass": [
+    {
+      "arm": "baseline",
+      "seed": 17,
+      "full_OA": 44.375,
+      "full_BA": 33.83116883116883,
+      "full_NLL": 2.5410803732631226,
+      "full_Brier": 0.8402375341363648,
+      "off_OA": 44.375,
+      "off_BA": 33.83116883116883,
+      "off_NLL": 2.5410803732631226,
+      "off_Brier": 0.8402375341363648,
+      "delta_OA": 0.0,
+      "delta_BA": 0.0,
+      "delta_NLL": 0.0,
+      "delta_Brier": 0.0,
+      "rescued": 0,
+      "harmed": 0,
+      "CC": 71,
+      "WW": 89
+    },
+    {
+      "arm": "baseline",
+      "seed": 29,
+      "full_OA": 45.625,
+      "full_BA": 34.92810760667903,
+      "full_NLL": 2.517698697395475,
+      "full_Brier": 0.8454449653705799,
+      "off_OA": 45.625,
+      "off_BA": 34.92810760667903,
+      "off_NLL": 2.517698697395475,
+      "off_Brier": 0.8454449653705799,
+      "delta_OA": 0.0,
+      "delta_BA": 0.0,
+      "delta_NLL": 0.0,
+      "delta_Brier": 0.0,
+      "rescued": 0,
+      "harmed": 0,
+      "CC": 73,
+      "WW": 87
+    },
+    {
+      "arm": "baseline",
+      "seed": 43,
+      "full_OA": 45.0,
+      "full_BA": 34.03525046382189,
+      "full_NLL": 2.5401204454526147,
+      "full_Brier": 0.8455613610257959,
+      "off_OA": 45.0,
+      "off_BA": 34.03525046382189,
+      "off_NLL": 2.5401204454526147,
+      "off_Brier": 0.8455613610257959,
+      "delta_OA": 0.0,
+      "delta_BA": 0.0,
+      "delta_NLL": 0.0,
+      "delta_Brier": 0.0,
+      "rescued": 0,
+      "harmed": 0,
+      "CC": 72,
+      "WW": 88
+    },
+    {
+      "arm": "stage",
+      "seed": 17,
+      "full_OA": 46.25,
+      "full_BA": 36.65970933828076,
+      "full_NLL": 2.5255999468329975,
+      "full_Brier": 0.8306806457671785,
+      "off_OA": 41.875,
+      "off_BA": 33.31246134817563,
+      "off_NLL": 2.6567783529799316,
+      "off_Brier": 0.87411854928129,
+      "delta_OA": 4.375,
+      "delta_BA": 3.3472479901051315,
+      "delta_NLL": -0.1311784061469341,
+      "delta_Brier": -0.043437903514111476,
+      "rescued": 9,
+      "harmed": 2,
+      "CC": 65,
+      "WW": 84
+    },
+    {
+      "arm": "stage",
+      "seed": 29,
+      "full_OA": 46.25,
+      "full_BA": 37.027056277056275,
+      "full_NLL": 2.5203366020288556,
+      "full_Brier": 0.8386421811405299,
+      "off_OA": 41.25,
+      "off_BA": 33.35188620902906,
+      "off_NLL": 2.653023584664633,
+      "off_Brier": 0.8809183520600399,
+      "delta_OA": 5.0,
+      "delta_BA": 3.6751700680272137,
+      "delta_NLL": -0.13268698263577727,
+      "delta_Brier": -0.04227617091950997,
+      "rescued": 8,
+      "harmed": 0,
+      "CC": 66,
+      "WW": 86
+    },
+    {
+      "arm": "stage",
+      "seed": 43,
+      "full_OA": 46.875,
+      "full_BA": 37.23113790970934,
+      "full_NLL": 2.5451420676814123,
+      "full_Brier": 0.8365395140400151,
+      "off_OA": 41.25,
+      "off_BA": 33.0304576376005,
+      "off_NLL": 2.6526987025125655,
+      "off_Brier": 0.8770387340687034,
+      "delta_OA": 5.625,
+      "delta_BA": 4.2006802721088405,
+      "delta_NLL": -0.10755663483115319,
+      "delta_Brier": -0.04049922002868822,
+      "rescued": 10,
+      "harmed": 1,
+      "CC": 65,
+      "WW": 84
+    },
+    {
+      "arm": "pre3x3",
+      "seed": 17,
+      "full_OA": 43.75,
+      "full_BA": 33.18181818181819,
+      "full_NLL": 2.543955292583265,
+      "full_Brier": 0.83911173182469,
+      "off_OA": 43.75,
+      "off_BA": 33.62708719851577,
+      "off_NLL": 2.5591848221209315,
+      "off_Brier": 0.846574524114921,
+      "delta_OA": 0.0,
+      "delta_BA": -0.4452690166975799,
+      "delta_NLL": -0.01522952953766632,
+      "delta_Brier": -0.007462792290230946,
+      "rescued": 1,
+      "harmed": 1,
+      "CC": 69,
+      "WW": 89
+    },
+    {
+      "arm": "pre3x3",
+      "seed": 29,
+      "full_OA": 43.75,
+      "full_BA": 33.50324675324675,
+      "full_NLL": 2.5201560131633722,
+      "full_Brier": 0.8433862747705563,
+      "off_OA": 44.375,
+      "off_BA": 33.707328385899814,
+      "off_NLL": 2.5372104520117817,
+      "off_Brier": 0.8504017207451768,
+      "delta_OA": -0.625,
+      "delta_BA": -0.20408163265306456,
+      "delta_NLL": -0.017054438848409514,
+      "delta_Brier": -0.00701544597462056,
+      "rescued": 0,
+      "harmed": 1,
+      "CC": 70,
+      "WW": 89
+    },
+    {
+      "arm": "pre3x3",
+      "seed": 43,
+      "full_OA": 44.375,
+      "full_BA": 33.385899814471244,
+      "full_NLL": 2.53513431550465,
+      "full_Brier": 0.8428234980067547,
+      "off_OA": 43.125,
+      "off_BA": 32.28896103896104,
+      "off_NLL": 2.5494061564352957,
+      "off_Brier": 0.849230452700063,
+      "delta_OA": 1.25,
+      "delta_BA": 1.0969387755102034,
+      "delta_NLL": -0.014271840930645485,
+      "delta_Brier": -0.00640695469330832,
+      "rescued": 2,
+      "harmed": 0,
+      "CC": 69,
+      "WW": 89
+    },
+    {
+      "arm": "post3x3",
+      "seed": 17,
+      "full_OA": 45.0,
+      "full_BA": 35.26515151515151,
+      "full_NLL": 2.522722060827449,
+      "full_Brier": 0.8335800392257567,
+      "off_OA": 43.75,
+      "off_BA": 33.62708719851577,
+      "off_NLL": 2.570892189513334,
+      "off_Brier": 0.8512857537260382,
+      "delta_OA": 1.25,
+      "delta_BA": 1.6380643166357416,
+      "delta_NLL": -0.04817012868588488,
+      "delta_Brier": -0.017705714500281466,
+      "rescued": 4,
+      "harmed": 2,
+      "CC": 68,
+      "WW": 86
+    },
+    {
+      "arm": "post3x3",
+      "seed": 29,
+      "full_OA": 44.375,
+      "full_BA": 34.074675324675326,
+      "full_NLL": 2.5018883071313573,
+      "full_Brier": 0.8377095802691666,
+      "off_OA": 43.75,
+      "off_BA": 33.25974025974026,
+      "off_NLL": 2.557528930880713,
+      "off_Brier": 0.8571787801525552,
+      "delta_OA": 0.625,
+      "delta_BA": 0.8149350649350637,
+      "delta_NLL": -0.05564062374935563,
+      "delta_Brier": -0.019469199883388577,
+      "rescued": 2,
+      "harmed": 1,
+      "CC": 69,
+      "WW": 88
+    },
+    {
+      "arm": "post3x3",
+      "seed": 43,
+      "full_OA": 45.0,
+      "full_BA": 34.27875695732839,
+      "full_NLL": 2.521600594037242,
+      "full_Brier": 0.8379240240413287,
+      "off_OA": 43.125,
+      "off_BA": 32.28896103896104,
+      "off_NLL": 2.567406380491096,
+      "off_Brier": 0.8544800769744885,
+      "delta_OA": 1.875,
+      "delta_BA": 1.9897959183673493,
+      "delta_NLL": -0.045805786453854136,
+      "delta_Brier": -0.01655605293315976,
+      "rescued": 3,
+      "harmed": 0,
+      "CC": 69,
+      "WW": 88
+    }
+  ],
+  "capacity_note": "pre/post:128x20x20, stage:512x20x20; hidden=32; pre/post matched, internal-stage not capacity matched",
+  "visual_review": {
+    "status": "completed_selected_cases",
+    "date": "2026-10-28",
+    "reviewer": "main_agent",
+    "query_ids": [
+      "35666",
+      "20791",
+      "34278",
+      "28657",
+      "28198",
+      "35906",
+      "20328",
+      "21161",
+      "31779"
+    ],
+    "panels_viewed": 18,
+    "polarizations": [
+      "VV",
+      "VH"
+    ],
+    "actual_reference_chips_viewed": true,
+    "reused_previous_identical_native_panels": [
+      "35666",
+      "20791"
+    ],
+    "notes": "CASE_NOTES_ZH.md",
+    "scope": "Outcome-selected native images and current-model evidence; not all generated cases, not all queries, not physical cause identification."
+  }
+}
