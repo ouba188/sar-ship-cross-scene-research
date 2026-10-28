@@ -1,0 +1,198 @@
+{
+  "cohort": {
+    "n": 3075,
+    "ships": 1950,
+    "passes": 85,
+    "ports": 18,
+    "class_counts": {
+      "0": 947,
+      "1": 102,
+      "2": 301,
+      "3": 803,
+      "4": 361,
+      "5": 256,
+      "6": 138,
+      "7": 167
+    },
+    "polarization": {
+      "VV+VH": 2876,
+      "VV": 199
+    },
+    "port_counts": {
+      "Busan": 34,
+      "Callao": 8,
+      "Fujairah": 110,
+      "Houston": 7,
+      "Jebel Ali": 628,
+      "Los Angeles": 103,
+      "Mombasa": 7,
+      "Newcastle": 20,
+      "Ningbo-Zhoushan": 195,
+      "Port Hedland": 40,
+      "Port Klang": 798,
+      "Port Said": 96,
+      "Richards Bay": 195,
+      "Rotterdam": 30,
+      "Santos": 239,
+      "Singapore": 498,
+      "Sydney Botany": 7,
+      "Tanger Med": 60
+    },
+    "old_three_ports": [
+      "Jebel Ali",
+      "Port Klang",
+      "Singapore"
+    ],
+    "polarization_rule": "Manifest image present and alignment_valid; missing views are not observed black chips"
+  },
+  "by_arm": {
+    "baseline": {
+      "OA": {
+        "mean": 47.349593495934954,
+        "std": 0.11725370001508886
+      },
+      "BA": {
+        "mean": 39.372502557480516,
+        "std": 0.10360333994477401
+      },
+      "NLL": {
+        "mean": 2.1634070994030896,
+        "std": 0.020968995775658764
+      },
+      "Brier": {
+        "mean": 0.7897961064033469,
+        "std": 0.002199878084251163
+      }
+    },
+    "layer2": {
+      "OA": {
+        "mean": 47.06775067750677,
+        "std": 0.1231199641365935
+      },
+      "BA": {
+        "mean": 39.852225582914144,
+        "std": 0.11211523975741135
+      },
+      "NLL": {
+        "mean": 2.1821854993868866,
+        "std": 0.016581920665465693
+      },
+      "Brier": {
+        "mean": 0.79429125870593,
+        "std": 0.001930853019413405
+      }
+    }
+  },
+  "paired_deltas": {
+    "OA": {
+      "mean": -0.2818428184281861,
+      "std": 0.018775618510229013
+    },
+    "BA": {
+      "mean": 0.4797230254336237,
+      "std": 0.21313484870856755
+    },
+    "NLL": {
+      "mean": 0.018778399983797083,
+      "std": 0.007306913358871941
+    },
+    "Brier": {
+      "mean": 0.0044951523025831275,
+      "std": 0.00029322815279669086
+    }
+  },
+  "positive_delta_seeds": {
+    "OA": 0,
+    "BA": 3,
+    "NLL": 3,
+    "Brier": 3
+  },
+  "outcomes": {
+    "rescue": {
+      "events": 197,
+      "unique_queries": 98,
+      "unique_ships": 96,
+      "queries_by_seed_count": {
+        "1": 35,
+        "2": 27,
+        "3": 36
+      }
+    },
+    "harm": {
+      "events": 223,
+      "unique_queries": 115,
+      "unique_ships": 112,
+      "queries_by_seed_count": {
+        "1": 41,
+        "2": 40,
+        "3": 34
+      }
+    },
+    "CC": {
+      "events": 4145,
+      "unique_queries": 1420,
+      "unique_ships": 1126,
+      "queries_by_seed_count": {
+        "1": 40,
+        "2": 35,
+        "3": 1345
+      }
+    },
+    "WW": {
+      "events": 4660,
+      "unique_queries": 1593,
+      "unique_ships": 1124,
+      "queries_by_seed_count": {
+        "1": 45,
+        "2": 29,
+        "3": 1519
+      }
+    },
+    "both_rescue_and_harm_queries": 5,
+    "both_rescue_and_harm_ships": 5
+  },
+  "bootstrap": {
+    "group": "pass_group",
+    "clusters": 85,
+    "replicates": 2000,
+    "random_seed": 20261028,
+    "confidence": 0.95,
+    "method": "paired percentile cluster bootstrap",
+    "missing_class_draws": 0,
+    "missing_class_rule": "BA averages classes present in that replicate; all draws retained",
+    "intervals": {
+      "OA": [
+        -0.9133028544897317,
+        0.3110924280014426
+      ],
+      "BA": [
+        0.00724692565037989,
+        0.988230779853482
+      ],
+      "NLL": [
+        0.0030057954954080027,
+        0.035044726639764004
+      ],
+      "Brier": [
+        -0.0007273609222035315,
+        0.010512918300944543
+      ]
+    },
+    "scope": "Conditional on the six fixed models and fixed reference bank; averages seed metrics, not probabilities. Resample 85 whole passes with replacement with identical weights for both arms and all seeds. Same MMSI may occur across passes; not training-initialization uncertainty or independent-ship bootstrap."
+  },
+  "cases": [
+    "34733",
+    "4007",
+    "36543",
+    "32844",
+    "30134",
+    "27591",
+    "9724",
+    "23004"
+  ],
+  "scope": "仅分析冻结模型已有 logits，无推理、训练、模型选择或目标集调参。3075 条历史目标观测不是全新盲测；两个 arm 按 seed 17/29/43 配对。先逐 seed 计算指标再取均值，不对概率做集成。OA/BA 为百分数，差值为百分点；BA 对当前分组实际出现的类别等权平均。NLL 使用自然对数，Brier 为全部 8 类概率平方误差之和，二者越低越好。三 seed 是已有训练次序，不是三套独立数据或独立预训练。",
+  "score_ensemble": false,
+  "new_training": false,
+  "visual_review": "complete: 8 queries, 16 native VV/VH panels and actual true/confusion reference chips reviewed; see ../CASE_NOTES_ZH.md and ../case_paths.json",
+  "references_manifest": "E:\\临时会话\\sar_m123_current_20261027\\manifests\\references.json"
+}
