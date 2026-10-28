@@ -1,6 +1,6 @@
 # SAR Ship Cross-Scene Research Archive
 
-Latest incremental progress: [October 27 independent backbone-internal M1/M2/M3 engineering release](RESEARCH_UPDATE_20261027_ZH.md). Includes training-only intervention selection, training/prediction code and verification receipts, but excludes weights, raw images and private sample manifests. The October 17-18 descriptions below are historical, not the current model definition.
+Latest incremental progress: [October 28 early M2 regional pooling/writeback placement study](RESEARCH_UPDATE_20261028_ZH.md). Twelve matched fits retain layer2-only as a development candidate; layer1 and dual insertion have negative net results. The [October 27 engineering release](RESEARCH_UPDATE_20261027_ZH.md) remains the unchanged default. Weights, raw datasets and private manifests are excluded. The October 17-18 descriptions below are historical, not the current model definition.
 
 Public research archive of the SAR ship-classification experiments through 2026-10-17. This is a research snapshot, not a release of the datasets or a claim that every candidate became part of the final method.
 
