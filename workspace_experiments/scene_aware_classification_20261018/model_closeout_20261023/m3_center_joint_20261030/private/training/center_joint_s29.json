@@ -1,0 +1,190 @@
+{
+  "dataset": "private",
+  "arm": "center_joint",
+  "seed": 29,
+  "source_count": 136,
+  "query_count": 160,
+  "steps": 54,
+  "epochs": 6,
+  "lr": 3e-05,
+  "trainable_names": [
+    "backbone.model.layer3.5.conv1.weight",
+    "backbone.model.layer3.5.conv2.weight",
+    "backbone.model.layer3.5.conv3.weight",
+    "m3.0.0.gain",
+    "m3.0.0.output.weight",
+    "m3.0.0.project.weight",
+    "m3.0.1.gain",
+    "m3.0.1.output.weight",
+    "m3.0.1.project.weight"
+  ],
+  "gradients": {
+    "backbone.model.layer3.5.conv1.weight": 7.43111515045166,
+    "backbone.model.layer3.5.conv2.weight": 7.250654220581055,
+    "backbone.model.layer3.5.conv3.weight": 7.5141730308532715,
+    "m3.0.0.gain": 0.26278096437454224,
+    "m3.0.0.project.weight": 0.03563770279288292,
+    "m3.0.0.output.weight": 0.3074631094932556,
+    "m3.0.1.gain": 0.11403538286685944,
+    "m3.0.1.project.weight": 0.014209544286131859,
+    "m3.0.1.output.weight": 0.34315595030784607
+  },
+  "frozen_unchanged": true,
+  "calibration": [
+    [
+      {
+        "stream": 0,
+        "shape": [
+          20,
+          1024
+        ],
+        "norm": 176.79258728027344,
+        "empty_slots": 0
+      },
+      {
+        "stream": 1,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.03713989257812,
+        "empty_slots": 0
+      },
+      {
+        "stream": 2,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.40687561035156,
+        "empty_slots": 0
+      },
+      {
+        "stream": 3,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.34317016601562,
+        "empty_slots": 0
+      },
+      {
+        "stream": 4,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.15780639648438,
+        "empty_slots": 0
+      }
+    ],
+    [
+      {
+        "stream": 0,
+        "shape": [
+          20,
+          1024
+        ],
+        "norm": 185.1849365234375,
+        "empty_slots": 0
+      },
+      {
+        "stream": 1,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.44114685058594,
+        "empty_slots": 0
+      },
+      {
+        "stream": 2,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.8059844970703,
+        "empty_slots": 0
+      },
+      {
+        "stream": 3,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.78663635253906,
+        "empty_slots": 0
+      },
+      {
+        "stream": 4,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.5718994140625,
+        "empty_slots": 0
+      }
+    ]
+  ],
+  "teacher_error": 1.71661376953125e-05,
+  "before": {
+    "oa": 43.75,
+    "ba": 35.036641929499076,
+    "nll": 2.342279087374805,
+    "brier": 0.8266408546340788
+  },
+  "baseline": {
+    "oa": 45.625,
+    "ba": 36.38358070500928,
+    "nll": 2.243899983450496,
+    "brier": 0.8264443571169423
+  },
+  "after": {
+    "oa": 45.0,
+    "ba": 35.73423005565862,
+    "nll": 2.25180123328167,
+    "brier": 0.8284477286570926
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "ce": 2.9798829555511475,
+      "keep": 0.002754748491699704,
+      "floor": 0.18691667655689848
+    },
+    {
+      "epoch": 2,
+      "ce": 2.3649428652392492,
+      "keep": 0.008074781184809076,
+      "floor": 0.4652214315202501
+    },
+    {
+      "epoch": 3,
+      "ce": 2.255613327026367,
+      "keep": 0.005293375967691342,
+      "floor": 0.20001251664426592
+    },
+    {
+      "epoch": 4,
+      "ce": 2.745509227116903,
+      "keep": 0.005247615956856559,
+      "floor": 0.09864463864101304
+    },
+    {
+      "epoch": 5,
+      "ce": 2.080619305372238,
+      "keep": 0.006327297726076924,
+      "floor": 0.1982701677415106
+    },
+    {
+      "epoch": 6,
+      "ce": 2.105293422937393,
+      "keep": 0.007788220472219918,
+      "floor": 0.28689738569988144
+    }
+  ],
+  "seconds": 15.168014199938625,
+  "evaluation_used": false,
+  "restore_error": 1.049041748046875e-05,
+  "native_error": 1.049041748046875e-05
+}

@@ -1,0 +1,190 @@
+{
+  "dataset": "private",
+  "arm": "center_joint",
+  "seed": 43,
+  "source_count": 136,
+  "query_count": 160,
+  "steps": 54,
+  "epochs": 6,
+  "lr": 3e-05,
+  "trainable_names": [
+    "backbone.model.layer3.5.conv1.weight",
+    "backbone.model.layer3.5.conv2.weight",
+    "backbone.model.layer3.5.conv3.weight",
+    "m3.0.0.gain",
+    "m3.0.0.output.weight",
+    "m3.0.0.project.weight",
+    "m3.0.1.gain",
+    "m3.0.1.output.weight",
+    "m3.0.1.project.weight"
+  ],
+  "gradients": {
+    "backbone.model.layer3.5.conv1.weight": 32.00625228881836,
+    "backbone.model.layer3.5.conv2.weight": 26.645198822021484,
+    "backbone.model.layer3.5.conv3.weight": 27.218019485473633,
+    "m3.0.0.gain": 1.6992847919464111,
+    "m3.0.0.project.weight": 0.126988023519516,
+    "m3.0.0.output.weight": 0.698066234588623,
+    "m3.0.1.gain": 1.1760871410369873,
+    "m3.0.1.project.weight": 0.0939752534031868,
+    "m3.0.1.output.weight": 1.0329195261001587
+  },
+  "frozen_unchanged": true,
+  "calibration": [
+    [
+      {
+        "stream": 0,
+        "shape": [
+          20,
+          1024
+        ],
+        "norm": 176.79258728027344,
+        "empty_slots": 0
+      },
+      {
+        "stream": 1,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.03713989257812,
+        "empty_slots": 0
+      },
+      {
+        "stream": 2,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.40687561035156,
+        "empty_slots": 0
+      },
+      {
+        "stream": 3,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.34317016601562,
+        "empty_slots": 0
+      },
+      {
+        "stream": 4,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.15780639648438,
+        "empty_slots": 0
+      }
+    ],
+    [
+      {
+        "stream": 0,
+        "shape": [
+          20,
+          1024
+        ],
+        "norm": 185.1849365234375,
+        "empty_slots": 0
+      },
+      {
+        "stream": 1,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.44114685058594,
+        "empty_slots": 0
+      },
+      {
+        "stream": 2,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.8059844970703,
+        "empty_slots": 0
+      },
+      {
+        "stream": 3,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.78663635253906,
+        "empty_slots": 0
+      },
+      {
+        "stream": 4,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.5718994140625,
+        "empty_slots": 0
+      }
+    ]
+  ],
+  "teacher_error": 5.7220458984375e-06,
+  "before": {
+    "oa": 38.125,
+    "ba": 31.530457637600495,
+    "nll": 2.8767712590246997,
+    "brier": 0.9596443816299267
+  },
+  "baseline": {
+    "oa": 43.75,
+    "ba": 35.88930117501546,
+    "nll": 2.5170348419095734,
+    "brier": 0.8611849692366054
+  },
+  "after": {
+    "oa": 43.75,
+    "ba": 35.88930117501546,
+    "nll": 2.5124798188581865,
+    "brier": 0.8573981492599557
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "ce": 3.2737470202975802,
+      "keep": 0.010745650823486762,
+      "floor": 0.31822391304497916
+    },
+    {
+      "epoch": 2,
+      "ce": 2.1962921420733132,
+      "keep": 0.02676606343852149,
+      "floor": 0.5204282874862353
+    },
+    {
+      "epoch": 3,
+      "ce": 2.190476324823168,
+      "keep": 0.04012091882112953,
+      "floor": 0.35134371287292904
+    },
+    {
+      "epoch": 4,
+      "ce": 2.0583087470796375,
+      "keep": 0.02926189773198631,
+      "floor": 0.18951065672768486
+    },
+    {
+      "epoch": 5,
+      "ce": 1.9762351512908936,
+      "keep": 0.029618564786182508,
+      "floor": 0.23813367303874758
+    },
+    {
+      "epoch": 6,
+      "ce": 1.9382377995385065,
+      "keep": 0.026697152501179114,
+      "floor": 0.22810077832804787
+    }
+  ],
+  "seconds": 13.432843299815431,
+  "evaluation_used": false,
+  "restore_error": 5.7220458984375e-06,
+  "native_error": 5.7220458984375e-06
+}

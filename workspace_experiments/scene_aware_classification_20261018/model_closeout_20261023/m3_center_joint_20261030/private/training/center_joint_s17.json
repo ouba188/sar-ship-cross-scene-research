@@ -1,0 +1,194 @@
+{
+  "dataset": "private",
+  "arm": "center_joint",
+  "seed": 17,
+  "source_count": 136,
+  "query_count": 160,
+  "steps": 54,
+  "epochs": 6,
+  "lr": 3e-05,
+  "trainable_names": [
+    "backbone.model.layer3.5.conv1.weight",
+    "backbone.model.layer3.5.conv2.weight",
+    "backbone.model.layer3.5.conv3.weight",
+    "m3.0.0.gain",
+    "m3.0.0.output.weight",
+    "m3.0.0.project.weight",
+    "m3.0.0.reader2.gain",
+    "m3.0.0.reader3.gain",
+    "m3.0.1.gain",
+    "m3.0.1.output.weight",
+    "m3.0.1.project.weight",
+    "m3.0.1.reader2.gain",
+    "m3.0.1.reader3.gain"
+  ],
+  "gradients": {
+    "backbone.model.layer3.5.conv1.weight": 4.896766185760498,
+    "backbone.model.layer3.5.conv2.weight": 5.287693977355957,
+    "backbone.model.layer3.5.conv3.weight": 5.40259313583374,
+    "m3.0.0.gain": 0.37734347581863403,
+    "m3.0.0.project.weight": 0.04018936678767204,
+    "m3.0.0.output.weight": 0.2997961640357971,
+    "m3.0.1.gain": 0.34208905696868896,
+    "m3.0.1.project.weight": 0.026349717751145363,
+    "m3.0.1.output.weight": 0.3563465178012848
+  },
+  "frozen_unchanged": true,
+  "calibration": [
+    [
+      {
+        "stream": 0,
+        "shape": [
+          20,
+          1024
+        ],
+        "norm": 176.79258728027344,
+        "empty_slots": 0
+      },
+      {
+        "stream": 1,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.03713989257812,
+        "empty_slots": 0
+      },
+      {
+        "stream": 2,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.40687561035156,
+        "empty_slots": 0
+      },
+      {
+        "stream": 3,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.34317016601562,
+        "empty_slots": 0
+      },
+      {
+        "stream": 4,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 138.15780639648438,
+        "empty_slots": 0
+      }
+    ],
+    [
+      {
+        "stream": 0,
+        "shape": [
+          20,
+          1024
+        ],
+        "norm": 185.1849365234375,
+        "empty_slots": 0
+      },
+      {
+        "stream": 1,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.44114685058594,
+        "empty_slots": 0
+      },
+      {
+        "stream": 2,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.8059844970703,
+        "empty_slots": 0
+      },
+      {
+        "stream": 3,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.78663635253906,
+        "empty_slots": 0
+      },
+      {
+        "stream": 4,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 139.5718994140625,
+        "empty_slots": 0
+      }
+    ]
+  ],
+  "teacher_error": 7.152557373046875e-06,
+  "before": {
+    "oa": 41.25,
+    "ba": 33.0304576376005,
+    "nll": 2.774651836745798,
+    "brier": 0.893470236062836
+  },
+  "baseline": {
+    "oa": 45.625,
+    "ba": 34.92810760667903,
+    "nll": 2.5320316180664575,
+    "brier": 0.8352585860527931
+  },
+  "after": {
+    "oa": 45.0,
+    "ba": 34.27875695732839,
+    "nll": 2.5301431855124603,
+    "brier": 0.8342129224484627
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "ce": 2.996112094985114,
+      "keep": 0.002969220574919341,
+      "floor": 0.12201608572569159
+    },
+    {
+      "epoch": 2,
+      "ce": 2.8652078178193836,
+      "keep": 0.010425676126033068,
+      "floor": 0.3785625381602181
+    },
+    {
+      "epoch": 3,
+      "ce": 2.4441838595602245,
+      "keep": 0.013784057020934092,
+      "floor": 0.4157561378346549
+    },
+    {
+      "epoch": 4,
+      "ce": 2.1147213843133716,
+      "keep": 0.014643453061580658,
+      "floor": 0.3448200325171153
+    },
+    {
+      "epoch": 5,
+      "ce": 2.0161051882637873,
+      "keep": 0.01355876758073767,
+      "floor": 0.21982779767778185
+    },
+    {
+      "epoch": 6,
+      "ce": 1.7697290745046403,
+      "keep": 0.015825032566984493,
+      "floor": 0.1788923574818505
+    }
+  ],
+  "seconds": 14.137624700088054,
+  "evaluation_used": false,
+  "restore_error": 9.5367431640625e-06,
+  "native_error": 9.5367431640625e-06
+}

@@ -1,0 +1,95 @@
+{
+  "dataset": "private",
+  "arm": "raw_joint",
+  "seed": 29,
+  "source_count": 136,
+  "query_count": 160,
+  "steps": 54,
+  "epochs": 6,
+  "lr": 3e-05,
+  "trainable_names": [
+    "backbone.model.layer3.5.conv1.weight",
+    "backbone.model.layer3.5.conv2.weight",
+    "backbone.model.layer3.5.conv3.weight",
+    "m3.0.0.gain",
+    "m3.0.0.output.weight",
+    "m3.0.0.project.weight",
+    "m3.0.1.gain",
+    "m3.0.1.output.weight",
+    "m3.0.1.project.weight"
+  ],
+  "gradients": {
+    "backbone.model.layer3.5.conv1.weight": 6.349171161651611,
+    "backbone.model.layer3.5.conv2.weight": 6.299612045288086,
+    "backbone.model.layer3.5.conv3.weight": 6.336013317108154,
+    "m3.0.0.gain": 0.5881964564323425,
+    "m3.0.0.project.weight": 0.04442613199353218,
+    "m3.0.0.output.weight": 0.3661196529865265,
+    "m3.0.1.gain": 0.32840391993522644,
+    "m3.0.1.project.weight": 0.028344614431262016,
+    "m3.0.1.output.weight": 0.37545356154441833
+  },
+  "frozen_unchanged": true,
+  "calibration": null,
+  "teacher_error": 1.71661376953125e-05,
+  "before": {
+    "oa": 43.75,
+    "ba": 35.036641929499076,
+    "nll": 2.342279087374805,
+    "brier": 0.8266408546340788
+  },
+  "baseline": {
+    "oa": 45.625,
+    "ba": 36.38358070500928,
+    "nll": 2.243899983450496,
+    "brier": 0.8264443571169423
+  },
+  "after": {
+    "oa": 45.625,
+    "ba": 36.38358070500928,
+    "nll": 2.245207078925054,
+    "brier": 0.8282900480347413
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "ce": 2.9795347452163696,
+      "keep": 0.0014286049692520367,
+      "floor": 0.16772896218347133
+    },
+    {
+      "epoch": 2,
+      "ce": 2.3554603159427643,
+      "keep": 0.00685748452734616,
+      "floor": 0.48089737362331814
+    },
+    {
+      "epoch": 3,
+      "ce": 2.2482803795072765,
+      "keep": 0.004843309819180932,
+      "floor": 0.20873967558145523
+    },
+    {
+      "epoch": 4,
+      "ce": 2.742999447716607,
+      "keep": 0.004887751141925239,
+      "floor": 0.09409080549246734
+    },
+    {
+      "epoch": 5,
+      "ce": 2.077099667655097,
+      "keep": 0.005793562488785635,
+      "floor": 0.18980248272418976
+    },
+    {
+      "epoch": 6,
+      "ce": 2.102304561270608,
+      "keep": 0.007228367082360718,
+      "floor": 0.2906798790726397
+    }
+  ],
+  "seconds": 14.404893200146034,
+  "evaluation_used": false,
+  "restore_error": 8.58306884765625e-06,
+  "native_error": 8.58306884765625e-06
+}

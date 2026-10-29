@@ -1,0 +1,99 @@
+{
+  "dataset": "oss2",
+  "arm": "raw_joint",
+  "seed": 17,
+  "source_count": 241,
+  "query_count": 228,
+  "steps": 96,
+  "epochs": 6,
+  "lr": 3e-05,
+  "trainable_names": [
+    "backbone.model.layer3.5.conv1.weight",
+    "backbone.model.layer3.5.conv2.weight",
+    "backbone.model.layer3.5.conv3.weight",
+    "m3.0.0.gain",
+    "m3.0.0.output.weight",
+    "m3.0.0.project.weight",
+    "m3.0.0.reader2.gain",
+    "m3.0.0.reader3.gain",
+    "m3.0.1.gain",
+    "m3.0.1.output.weight",
+    "m3.0.1.project.weight",
+    "m3.0.1.reader2.gain",
+    "m3.0.1.reader3.gain"
+  ],
+  "gradients": {
+    "backbone.model.layer3.5.conv1.weight": 3.430983066558838,
+    "backbone.model.layer3.5.conv2.weight": 3.2996463775634766,
+    "backbone.model.layer3.5.conv3.weight": 3.528934955596924,
+    "m3.0.0.gain": 0.635521650314331,
+    "m3.0.0.project.weight": 0.045210134238004684,
+    "m3.0.0.output.weight": 0.26359954476356506,
+    "m3.0.1.gain": 0.5579739212989807,
+    "m3.0.1.project.weight": 0.036859650164842606,
+    "m3.0.1.output.weight": 0.3566350042819977
+  },
+  "frozen_unchanged": true,
+  "calibration": null,
+  "teacher_error": 3.814697265625e-06,
+  "before": {
+    "oa": 57.89473684210527,
+    "ba": 49.91801851883047,
+    "nll": 1.4779163339000603,
+    "brier": 0.6449135808336784
+  },
+  "baseline": {
+    "oa": 57.89473684210527,
+    "ba": 50.123533738748606,
+    "nll": 1.3971815737041264,
+    "brier": 0.6228099265403916
+  },
+  "after": {
+    "oa": 57.01754385964912,
+    "ba": 49.56173598593961,
+    "nll": 1.391519750751526,
+    "brier": 0.6218173889860499
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "ce": 1.2323815322015435,
+      "keep": 0.005478053422419471,
+      "floor": 0.05436761882814857
+    },
+    {
+      "epoch": 2,
+      "ce": 1.0620350379031152,
+      "keep": 0.013067563580989372,
+      "floor": 0.08714761235751212
+    },
+    {
+      "epoch": 3,
+      "ce": 0.9833375583402812,
+      "keep": 0.016167834372026846,
+      "floor": 0.05256586321047507
+    },
+    {
+      "epoch": 4,
+      "ce": 1.1539957989007235,
+      "keep": 0.02094517304794863,
+      "floor": 0.05187758895044681
+    },
+    {
+      "epoch": 5,
+      "ce": 0.9314073361456394,
+      "keep": 0.023850513738580048,
+      "floor": 0.08780925040628063
+    },
+    {
+      "epoch": 6,
+      "ce": 0.7517295465804636,
+      "keep": 0.022321666605421342,
+      "floor": 0.037086789384943586
+    }
+  ],
+  "seconds": 22.5107166999951,
+  "evaluation_used": false,
+  "restore_error": 9.5367431640625e-06,
+  "native_error": 8.58306884765625e-06
+}

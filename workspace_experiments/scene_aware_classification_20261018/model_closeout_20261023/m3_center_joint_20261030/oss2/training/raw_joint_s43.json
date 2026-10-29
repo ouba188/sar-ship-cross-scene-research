@@ -1,0 +1,95 @@
+{
+  "dataset": "oss2",
+  "arm": "raw_joint",
+  "seed": 43,
+  "source_count": 241,
+  "query_count": 228,
+  "steps": 96,
+  "epochs": 6,
+  "lr": 3e-05,
+  "trainable_names": [
+    "backbone.model.layer3.5.conv1.weight",
+    "backbone.model.layer3.5.conv2.weight",
+    "backbone.model.layer3.5.conv3.weight",
+    "m3.0.0.gain",
+    "m3.0.0.output.weight",
+    "m3.0.0.project.weight",
+    "m3.0.1.gain",
+    "m3.0.1.output.weight",
+    "m3.0.1.project.weight"
+  ],
+  "gradients": {
+    "backbone.model.layer3.5.conv1.weight": 4.834414482116699,
+    "backbone.model.layer3.5.conv2.weight": 4.573615550994873,
+    "backbone.model.layer3.5.conv3.weight": 4.780610084533691,
+    "m3.0.0.gain": 0.18090055882930756,
+    "m3.0.0.project.weight": 0.024412674829363823,
+    "m3.0.0.output.weight": 0.17371900379657745,
+    "m3.0.1.gain": 0.11570209264755249,
+    "m3.0.1.project.weight": 0.016398385167121887,
+    "m3.0.1.output.weight": 0.10838963836431503
+  },
+  "frozen_unchanged": true,
+  "calibration": null,
+  "teacher_error": 5.7220458984375e-06,
+  "before": {
+    "oa": 58.77192982456141,
+    "ba": 48.44459792575621,
+    "nll": 1.4417029397661618,
+    "brier": 0.6355410773125352
+  },
+  "baseline": {
+    "oa": 59.64912280701754,
+    "ba": 50.948963720387,
+    "nll": 1.3787910427235401,
+    "brier": 0.6106980394860161
+  },
+  "after": {
+    "oa": 59.64912280701754,
+    "ba": 50.948963720387,
+    "nll": 1.3801478689352813,
+    "brier": 0.6107311390203051
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "ce": 1.4110807962715626,
+      "keep": 0.0038830536633982504,
+      "floor": 0.06495477462888248
+    },
+    {
+      "epoch": 2,
+      "ce": 1.1382485199719667,
+      "keep": 0.012494461094320286,
+      "floor": 0.04010209604166448
+    },
+    {
+      "epoch": 3,
+      "ce": 1.079059049487114,
+      "keep": 0.013043379818554968,
+      "floor": 0.0388928219981608
+    },
+    {
+      "epoch": 4,
+      "ce": 0.9487434582879359,
+      "keep": 0.012495946795752388,
+      "floor": 0.03669349159463309
+    },
+    {
+      "epoch": 5,
+      "ce": 0.8796489650048898,
+      "keep": 0.018406698881335615,
+      "floor": 0.04068630255642347
+    },
+    {
+      "epoch": 6,
+      "ce": 0.9081334620714188,
+      "keep": 0.017784110765205696,
+      "floor": 0.0341988615837181
+    }
+  ],
+  "seconds": 24.967586500104517,
+  "evaluation_used": false,
+  "restore_error": 7.62939453125e-06,
+  "native_error": 1.2874603271484375e-05
+}

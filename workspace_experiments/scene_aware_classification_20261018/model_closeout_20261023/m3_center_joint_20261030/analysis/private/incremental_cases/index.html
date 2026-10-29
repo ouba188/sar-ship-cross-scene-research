@@ -1,0 +1,615 @@
+<!doctype html><meta charset="utf-8"><title>M3 joint development cases</title><style>body{font:14px Arial;margin:24px}pre{white-space:pre-wrap}img{image-rendering:pixelated;max-width:none}</style><h1>private center_joint vs raw_joint</h1><p>VV/VH separate; original pixels, exact crop/pad, separate OBB overlay. Rendered, not yet visually reviewed.</p><h2>harmed: 10407 / center_joint vs raw_joint</h2><pre>{
+  &quot;id&quot;: &quot;10407&quot;,
+  &quot;label&quot;: 4,
+  &quot;seed&quot;: 29,
+  &quot;state&quot;: &quot;harmed&quot;,
+  &quot;old&quot;: 4,
+  &quot;new&quot;: 0,
+  &quot;changed&quot;: true,
+  &quot;rival&quot;: 0,
+  &quot;margin_change&quot;: -0.2375338077545166,
+  &quot;reference&quot;: &quot;raw_joint&quot;,
+  &quot;state_orders&quot;: 1,
+  &quot;dataset&quot;: &quot;private&quot;,
+  &quot;scope&quot;: &quot;development&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;class_name&quot;: &quot;container&quot;,
+  &quot;rival_name&quot;: &quot;bulk_carrier&quot;,
+  &quot;mmsi&quot;: &quot;352980873&quot;,
+  &quot;pass_group&quot;: &quot;S1A_060692_078D67&quot;,
+  &quot;port&quot;: &quot;Port Klang&quot;,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          2.650430202484131,
+          -7.769328594207764,
+          1.4126715660095215,
+          -4.756811618804932,
+          -1.4625545740127563,
+          -5.416656017303467,
+          -10.335112571716309,
+          -7.373449802398682
+        ],
+        &quot;truth_rival_margin&quot;: -4.112984776496887
+      },
+      &quot;raw_joint&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          2.6137304306030273,
+          -7.790558815002441,
+          1.3973718881607056,
+          -4.827986240386963,
+          -1.5013450384140015,
+          -5.479575157165527,
+          -10.390252113342285,
+          -7.46354866027832
+        ],
+        &quot;truth_rival_margin&quot;: -4.115075469017029
+      },
+      &quot;center_joint&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          2.571723222732544,
+          -7.771586894989014,
+          1.327911138534546,
+          -4.777315139770508,
+          -1.4901484251022339,
+          -5.313242435455322,
+          -10.310317039489746,
+          -7.343583583831787
+        ],
+        &quot;truth_rival_margin&quot;: -4.061871647834778
+      },
+      &quot;state_vs_saved_baseline&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_joint&quot;: &quot;WW&quot;
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          2.9465317726135254,
+          -6.861588001251221,
+          2.3635928630828857,
+          -2.5171444416046143,
+          2.9908158779144287,
+          -4.601047515869141,
+          -9.09681510925293,
+          -7.711836338043213
+        ],
+        &quot;truth_rival_margin&quot;: 0.04428410530090332
+      },
+      &quot;raw_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          2.9315171241760254,
+          -6.892801284790039,
+          2.367291212081909,
+          -2.53366756439209,
+          2.9661178588867188,
+          -4.591168403625488,
+          -9.07628059387207,
+          -7.729053020477295
+        ],
+        &quot;truth_rival_margin&quot;: 0.03460073471069336
+      },
+      &quot;center_joint&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          3.0464069843292236,
+          -7.033433437347412,
+          2.2412726879119873,
+          -2.56912899017334,
+          2.8434739112854004,
+          -4.549050807952881,
+          -9.047097206115723,
+          -7.663057804107666
+        ],
+        &quot;truth_rival_margin&quot;: -0.20293307304382324
+      },
+      &quot;state_vs_saved_baseline&quot;: &quot;harmed&quot;,
+      &quot;state_vs_raw_joint&quot;: &quot;harmed&quot;
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          3.338596820831299,
+          -8.652609825134277,
+          2.626101016998291,
+          -3.781393051147461,
+          -0.05426828935742378,
+          -5.7849016189575195,
+          -9.229982376098633,
+          -6.913931846618652
+        ],
+        &quot;truth_rival_margin&quot;: -3.3928651101887226
+      },
+      &quot;raw_joint&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          3.3586368560791016,
+          -8.701826095581055,
+          2.616218328475952,
+          -3.8009607791900635,
+          -0.11777321994304657,
+          -5.792218208312988,
+          -9.244109153747559,
+          -6.951709270477295
+        ],
+        &quot;truth_rival_margin&quot;: -3.476410076022148
+      },
+      &quot;center_joint&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          3.477388381958008,
+          -8.698420524597168,
+          2.6205856800079346,
+          -3.794663190841675,
+          -0.060178954154253006,
+          -5.631557941436768,
+          -9.051262855529785,
+          -6.851862907409668
+        ],
+        &quot;truth_rival_margin&quot;: -3.537567336112261
+      },
+      &quot;state_vs_saved_baseline&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_joint&quot;: &quot;WW&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;harmed_10407_vv.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;36308&quot;,
+        &quot;23719&quot;,
+        &quot;34478&quot;,
+        &quot;31512&quot;
+      ]
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;harmed_10407_vh.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;36308&quot;,
+        &quot;23719&quot;,
+        &quot;34478&quot;,
+        &quot;31512&quot;
+      ]
+    }
+  },
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ]
+}</pre><h3>VV</h3><img src="harmed_10407_vv.png"><h3>VH</h3><img src="harmed_10407_vh.png"><h2>CC: 2042 / center_joint vs raw_joint</h2><pre>{
+  &quot;id&quot;: &quot;2042&quot;,
+  &quot;label&quot;: 4,
+  &quot;seed&quot;: 17,
+  &quot;state&quot;: &quot;CC&quot;,
+  &quot;old&quot;: 4,
+  &quot;new&quot;: 4,
+  &quot;changed&quot;: false,
+  &quot;rival&quot;: 2,
+  &quot;margin_change&quot;: -0.3991358280181885,
+  &quot;reference&quot;: &quot;raw_joint&quot;,
+  &quot;state_orders&quot;: 3,
+  &quot;dataset&quot;: &quot;private&quot;,
+  &quot;scope&quot;: &quot;development&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;class_name&quot;: &quot;container&quot;,
+  &quot;rival_name&quot;: &quot;general_cargo&quot;,
+  &quot;mmsi&quot;: &quot;235010450&quot;,
+  &quot;pass_group&quot;: &quot;S1A_060692_078D67&quot;,
+  &quot;port&quot;: &quot;Port Klang&quot;,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -1.9905290603637695,
+          -12.57143783569336,
+          -1.0516597032546997,
+          -4.979400157928467,
+          8.397711753845215,
+          -1.8434916734695435,
+          -7.7593817710876465,
+          -18.807201385498047
+        ],
+        &quot;truth_rival_margin&quot;: 9.449371457099915
+      },
+      &quot;raw_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.001413106918335,
+          -12.662050247192383,
+          -1.111388087272644,
+          -4.948227405548096,
+          8.370903968811035,
+          -1.7934811115264893,
+          -7.78363037109375,
+          -18.782222747802734
+        ],
+        &quot;truth_rival_margin&quot;: 9.48229205608368
+      },
+      &quot;center_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.0073318481445312,
+          -12.354951858520508,
+          -0.8636060953140259,
+          -4.918249607086182,
+          8.219550132751465,
+          -1.7454886436462402,
+          -7.661424160003662,
+          -18.503910064697266
+        ],
+        &quot;truth_rival_margin&quot;: 9.08315622806549
+      },
+      &quot;state_vs_saved_baseline&quot;: &quot;CC&quot;,
+      &quot;state_vs_raw_joint&quot;: &quot;CC&quot;
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.466928243637085,
+          -10.868335723876953,
+          -1.6399000883102417,
+          -2.0378832817077637,
+          10.060211181640625,
+          -3.5439069271087646,
+          -6.7458815574646,
+          -17.34202003479004
+        ],
+        &quot;truth_rival_margin&quot;: 11.700111269950867
+      },
+      &quot;raw_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.4534716606140137,
+          -10.940258979797363,
+          -1.6633563041687012,
+          -2.066525936126709,
+          10.048304557800293,
+          -3.552213191986084,
+          -6.794142246246338,
+          -17.32443618774414
+        ],
+        &quot;truth_rival_margin&quot;: 11.711660861968994
+      },
+      &quot;center_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.377431869506836,
+          -10.93911075592041,
+          -1.5877238512039185,
+          -2.057374954223633,
+          10.036874771118164,
+          -3.4713916778564453,
+          -6.5637640953063965,
+          -17.340848922729492
+        ],
+        &quot;truth_rival_margin&quot;: 11.624598622322083
+      },
+      &quot;state_vs_saved_baseline&quot;: &quot;CC&quot;,
+      &quot;state_vs_raw_joint&quot;: &quot;CC&quot;
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -1.6959584951400757,
+          -11.61202621459961,
+          -1.2993868589401245,
+          -3.918948173522949,
+          7.715120792388916,
+          -2.7841689586639404,
+          -7.057129859924316,
+          -16.358583450317383
+        ],
+        &quot;truth_rival_margin&quot;: 9.01450765132904
+      },
+      &quot;raw_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -1.7236071825027466,
+          -11.622391700744629,
+          -1.2958424091339111,
+          -3.8849639892578125,
+          7.697611331939697,
+          -2.8237462043762207,
+          -7.024349212646484,
+          -16.34014892578125
+        ],
+        &quot;truth_rival_margin&quot;: 8.993453741073608
+      },
+      &quot;center_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -1.761962890625,
+          -11.583460807800293,
+          -1.22372567653656,
+          -3.7815303802490234,
+          7.640773296356201,
+          -2.691152572631836,
+          -6.736511707305908,
+          -16.02457618713379
+        ],
+        &quot;truth_rival_margin&quot;: 8.864498972892761
+      },
+      &quot;state_vs_saved_baseline&quot;: &quot;CC&quot;,
+      &quot;state_vs_raw_joint&quot;: &quot;CC&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;CC_2042_vv.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;36308&quot;,
+        &quot;23719&quot;,
+        &quot;6913&quot;,
+        &quot;22755&quot;
+      ]
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;CC_2042_vh.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 1,
+      &quot;shown_reference_ids&quot;: [
+        &quot;36308&quot;,
+        &quot;23719&quot;,
+        &quot;6913&quot;
+      ]
+    }
+  },
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ]
+}</pre><h3>VV</h3><img src="CC_2042_vv.png"><h3>VH</h3><img src="CC_2042_vh.png"><h2>WW: 27525 / center_joint vs raw_joint</h2><pre>{
+  &quot;id&quot;: &quot;27525&quot;,
+  &quot;label&quot;: 0,
+  &quot;seed&quot;: 17,
+  &quot;state&quot;: &quot;WW&quot;,
+  &quot;old&quot;: 4,
+  &quot;new&quot;: 4,
+  &quot;changed&quot;: false,
+  &quot;rival&quot;: 4,
+  &quot;margin_change&quot;: -0.4400064945220947,
+  &quot;reference&quot;: &quot;raw_joint&quot;,
+  &quot;state_orders&quot;: 3,
+  &quot;dataset&quot;: &quot;private&quot;,
+  &quot;scope&quot;: &quot;development&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;class_name&quot;: &quot;bulk_carrier&quot;,
+  &quot;rival_name&quot;: &quot;container&quot;,
+  &quot;mmsi&quot;: &quot;538007954&quot;,
+  &quot;pass_group&quot;: &quot;S1A_060268_077D6F&quot;,
+  &quot;port&quot;: &quot;Singapore&quot;,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.067732095718384,
+          -10.925065040588379,
+          -0.2697944939136505,
+          1.2192620038986206,
+          2.772732973098755,
+          -8.044465065002441,
+          -7.802242279052734,
+          -15.327520370483398
+        ],
+        &quot;truth_rival_margin&quot;: -4.840465068817139
+      },
+      &quot;raw_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.0418379306793213,
+          -10.958463668823242,
+          -0.26146581768989563,
+          1.2096481323242188,
+          2.7341480255126953,
+          -8.070038795471191,
+          -7.81734037399292,
+          -15.38825511932373
+        ],
+        &quot;truth_rival_margin&quot;: -4.775985956192017
+      },
+      &quot;center_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.2170181274414062,
+          -10.916143417358398,
+          -0.32213929295539856,
+          1.32080078125,
+          2.998974323272705,
+          -8.033373832702637,
+          -7.886987686157227,
+          -15.624823570251465
+        ],
+        &quot;truth_rival_margin&quot;: -5.215992450714111
+      },
+      &quot;state_vs_saved_baseline&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_joint&quot;: &quot;WW&quot;
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.6661834716796875,
+          -10.079809188842773,
+          0.6301156282424927,
+          3.0871975421905518,
+          5.0292510986328125,
+          -5.85670804977417,
+          -7.950669765472412,
+          -15.341326713562012
+        ],
+        &quot;truth_rival_margin&quot;: -7.6954345703125
+      },
+      &quot;raw_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.6364083290100098,
+          -10.095582962036133,
+          0.6425871849060059,
+          3.040971040725708,
+          5.029040336608887,
+          -5.840337753295898,
+          -7.965030670166016,
+          -15.294656753540039
+        ],
+        &quot;truth_rival_margin&quot;: -7.6654486656188965
+      },
+      &quot;center_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.6777896881103516,
+          -10.145565032958984,
+          0.6620311141014099,
+          3.09252667427063,
+          5.092085361480713,
+          -5.708269119262695,
+          -7.961869239807129,
+          -15.45781421661377
+        ],
+        &quot;truth_rival_margin&quot;: -7.7698750495910645
+      },
+      &quot;state_vs_saved_baseline&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_joint&quot;: &quot;WW&quot;
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.4681479930877686,
+          -10.969470024108887,
+          0.2422880232334137,
+          3.082435131072998,
+          3.1644628047943115,
+          -5.847373008728027,
+          -7.382392883300781,
+          -14.55582332611084
+        ],
+        &quot;truth_rival_margin&quot;: -5.63261079788208
+      },
+      &quot;raw_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.471296787261963,
+          -10.993118286132812,
+          0.22239255905151367,
+          3.0481815338134766,
+          3.176271438598633,
+          -5.87376070022583,
+          -7.407268047332764,
+          -14.662551879882812
+        ],
+        &quot;truth_rival_margin&quot;: -5.647568225860596
+      },
+      &quot;center_joint&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.3448729515075684,
+          -10.997474670410156,
+          0.36237001419067383,
+          3.0842487812042236,
+          3.228513717651367,
+          -5.653814315795898,
+          -7.339559555053711,
+          -14.530925750732422
+        ],
+        &quot;truth_rival_margin&quot;: -5.5733866691589355
+      },
+      &quot;state_vs_saved_baseline&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_joint&quot;: &quot;WW&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;WW_27525_vv.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;34478&quot;,
+        &quot;31512&quot;,
+        &quot;36308&quot;,
+        &quot;23719&quot;
+      ]
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;WW_27525_vh.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;34478&quot;,
+        &quot;31512&quot;,
+        &quot;36308&quot;,
+        &quot;23719&quot;
+      ]
+    }
+  },
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ]
+}</pre><h3>VV</h3><img src="WW_27525_vv.png"><h3>VH</h3><img src="WW_27525_vh.png">

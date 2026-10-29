@@ -1,0 +1,56 @@
+{
+  "baseline": {
+    "oa": 45.625,
+    "ba": 36.38358070500928,
+    "nll": 2.243899983450496,
+    "brier": 0.8264443571169423
+  },
+  "variants": {
+    "raw_joint_m3_only": {
+      "after": {
+        "oa": 45.0,
+        "ba": 35.73423005565862,
+        "nll": 2.245468941691289,
+        "brier": 0.8288960206183404
+      },
+      "rescued": 0,
+      "harmed": 1,
+      "changed": 2
+    },
+    "raw_joint_live_only": {
+      "after": {
+        "oa": 46.25,
+        "ba": 36.58766233766234,
+        "nll": 2.2438812755113307,
+        "brier": 0.8258682439025045
+      },
+      "rescued": 1,
+      "harmed": 0,
+      "changed": 1
+    },
+    "center_joint_m3_only": {
+      "after": {
+        "oa": 44.375,
+        "ba": 34.39378478664193,
+        "nll": 2.2341218080025427,
+        "brier": 0.8269610255173034
+      },
+      "rescued": 0,
+      "harmed": 2,
+      "changed": 5
+    },
+    "center_joint_live_only": {
+      "after": {
+        "oa": 45.625,
+        "ba": 35.938311688311686,
+        "nll": 2.264577643285418,
+        "brier": 0.8280976834594396
+      },
+      "rescued": 1,
+      "harmed": 1,
+      "changed": 3
+    }
+  },
+  "evaluation_used": false,
+  "role": "development component diagnostic, no parameter sweep"
+}

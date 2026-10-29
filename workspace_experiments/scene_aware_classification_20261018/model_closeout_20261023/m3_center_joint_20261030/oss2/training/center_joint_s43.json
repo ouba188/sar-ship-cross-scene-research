@@ -1,0 +1,190 @@
+{
+  "dataset": "oss2",
+  "arm": "center_joint",
+  "seed": 43,
+  "source_count": 241,
+  "query_count": 228,
+  "steps": 96,
+  "epochs": 6,
+  "lr": 3e-05,
+  "trainable_names": [
+    "backbone.model.layer3.5.conv1.weight",
+    "backbone.model.layer3.5.conv2.weight",
+    "backbone.model.layer3.5.conv3.weight",
+    "m3.0.0.gain",
+    "m3.0.0.output.weight",
+    "m3.0.0.project.weight",
+    "m3.0.1.gain",
+    "m3.0.1.output.weight",
+    "m3.0.1.project.weight"
+  ],
+  "gradients": {
+    "backbone.model.layer3.5.conv1.weight": 4.801258563995361,
+    "backbone.model.layer3.5.conv2.weight": 4.550592422485352,
+    "backbone.model.layer3.5.conv3.weight": 4.721541404724121,
+    "m3.0.0.gain": 0.14418675005435944,
+    "m3.0.0.project.weight": 0.0231313519179821,
+    "m3.0.0.output.weight": 0.14164398610591888,
+    "m3.0.1.gain": 0.08719521760940552,
+    "m3.0.1.project.weight": 0.01725110411643982,
+    "m3.0.1.output.weight": 0.09068131446838379
+  },
+  "frozen_unchanged": true,
+  "calibration": [
+    [
+      {
+        "stream": 0,
+        "shape": [
+          20,
+          1024
+        ],
+        "norm": 182.85728454589844,
+        "empty_slots": 0
+      },
+      {
+        "stream": 1,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 145.5751953125,
+        "empty_slots": 0
+      },
+      {
+        "stream": 2,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 148.17893981933594,
+        "empty_slots": 0
+      },
+      {
+        "stream": 3,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 146.37786865234375,
+        "empty_slots": 0
+      },
+      {
+        "stream": 4,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 145.77249145507812,
+        "empty_slots": 0
+      }
+    ],
+    [
+      {
+        "stream": 0,
+        "shape": [
+          20,
+          1024
+        ],
+        "norm": 192.53062438964844,
+        "empty_slots": 0
+      },
+      {
+        "stream": 1,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 145.94918823242188,
+        "empty_slots": 0
+      },
+      {
+        "stream": 2,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 148.05343627929688,
+        "empty_slots": 0
+      },
+      {
+        "stream": 3,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 146.71202087402344,
+        "empty_slots": 0
+      },
+      {
+        "stream": 4,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 146.13868713378906,
+        "empty_slots": 0
+      }
+    ]
+  ],
+  "teacher_error": 5.7220458984375e-06,
+  "before": {
+    "oa": 58.77192982456141,
+    "ba": 48.44459792575621,
+    "nll": 1.4417029397661618,
+    "brier": 0.6355410773125352
+  },
+  "baseline": {
+    "oa": 59.64912280701754,
+    "ba": 50.948963720387,
+    "nll": 1.3787910427235401,
+    "brier": 0.6106980394860161
+  },
+  "after": {
+    "oa": 59.64912280701754,
+    "ba": 50.948963720387,
+    "nll": 1.3789911703782278,
+    "brier": 0.6107113080546337
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "ce": 1.4054716117680073,
+      "keep": 0.003815155520442204,
+      "floor": 0.06469541936530732
+    },
+    {
+      "epoch": 2,
+      "ce": 1.1373675838112831,
+      "keep": 0.012095643920474686,
+      "floor": 0.03986543358769268
+    },
+    {
+      "epoch": 3,
+      "ce": 1.0770194977521896,
+      "keep": 0.012992389325518161,
+      "floor": 0.03871974964471292
+    },
+    {
+      "epoch": 4,
+      "ce": 0.947014138004306,
+      "keep": 0.0124247414059937,
+      "floor": 0.03639935454702936
+    },
+    {
+      "epoch": 5,
+      "ce": 0.8778097303147661,
+      "keep": 0.01829760692862692,
+      "floor": 0.04058489279123023
+    },
+    {
+      "epoch": 6,
+      "ce": 0.905768234282732,
+      "keep": 0.017778485009330325,
+      "floor": 0.03477237377956044
+    }
+  ],
+  "seconds": 25.059683799976483,
+  "evaluation_used": false,
+  "restore_error": 9.5367431640625e-06,
+  "native_error": 6.67572021484375e-06
+}

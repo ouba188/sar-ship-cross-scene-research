@@ -1,0 +1,56 @@
+{
+  "baseline": {
+    "oa": 57.89473684210527,
+    "ba": 50.123533738748606,
+    "nll": 1.3971815737041264,
+    "brier": 0.6228099265403916
+  },
+  "variants": {
+    "raw_joint_m3_only": {
+      "after": {
+        "oa": 57.01754385964912,
+        "ba": 49.56173598593961,
+        "nll": 1.3972259264483329,
+        "brier": 0.6230994336125978
+      },
+      "rescued": 0,
+      "harmed": 2,
+      "changed": 3
+    },
+    "raw_joint_live_only": {
+      "after": {
+        "oa": 57.89473684210527,
+        "ba": 50.123533738748606,
+        "nll": 1.391608170796322,
+        "brier": 0.621533753200609
+      },
+      "rescued": 0,
+      "harmed": 0,
+      "changed": 0
+    },
+    "center_joint_m3_only": {
+      "after": {
+        "oa": 57.45614035087719,
+        "ba": 49.83617741690952,
+        "nll": 1.3799069612498542,
+        "brier": 0.6172861112048826
+      },
+      "rescued": 1,
+      "harmed": 2,
+      "changed": 5
+    },
+    "center_joint_live_only": {
+      "after": {
+        "oa": 57.89473684210527,
+        "ba": 50.123533738748606,
+        "nll": 1.408933853125577,
+        "brier": 0.6260056581116578
+      },
+      "rescued": 0,
+      "harmed": 0,
+      "changed": 0
+    }
+  },
+  "evaluation_used": false,
+  "role": "development component diagnostic, no parameter sweep"
+}

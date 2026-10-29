@@ -1,0 +1,194 @@
+{
+  "dataset": "oss2",
+  "arm": "center_joint",
+  "seed": 17,
+  "source_count": 241,
+  "query_count": 228,
+  "steps": 96,
+  "epochs": 6,
+  "lr": 3e-05,
+  "trainable_names": [
+    "backbone.model.layer3.5.conv1.weight",
+    "backbone.model.layer3.5.conv2.weight",
+    "backbone.model.layer3.5.conv3.weight",
+    "m3.0.0.gain",
+    "m3.0.0.output.weight",
+    "m3.0.0.project.weight",
+    "m3.0.0.reader2.gain",
+    "m3.0.0.reader3.gain",
+    "m3.0.1.gain",
+    "m3.0.1.output.weight",
+    "m3.0.1.project.weight",
+    "m3.0.1.reader2.gain",
+    "m3.0.1.reader3.gain"
+  ],
+  "gradients": {
+    "backbone.model.layer3.5.conv1.weight": 3.3938372135162354,
+    "backbone.model.layer3.5.conv2.weight": 3.265791177749634,
+    "backbone.model.layer3.5.conv3.weight": 3.433020830154419,
+    "m3.0.0.gain": 0.3693012595176697,
+    "m3.0.0.project.weight": 0.02755449339747429,
+    "m3.0.0.output.weight": 0.17799881100654602,
+    "m3.0.1.gain": 0.32009607553482056,
+    "m3.0.1.project.weight": 0.02230912260711193,
+    "m3.0.1.output.weight": 0.2348308116197586
+  },
+  "frozen_unchanged": true,
+  "calibration": [
+    [
+      {
+        "stream": 0,
+        "shape": [
+          20,
+          1024
+        ],
+        "norm": 182.85728454589844,
+        "empty_slots": 0
+      },
+      {
+        "stream": 1,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 145.5751953125,
+        "empty_slots": 0
+      },
+      {
+        "stream": 2,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 148.17893981933594,
+        "empty_slots": 0
+      },
+      {
+        "stream": 3,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 146.37786865234375,
+        "empty_slots": 0
+      },
+      {
+        "stream": 4,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 145.77249145507812,
+        "empty_slots": 0
+      }
+    ],
+    [
+      {
+        "stream": 0,
+        "shape": [
+          20,
+          1024
+        ],
+        "norm": 192.53062438964844,
+        "empty_slots": 0
+      },
+      {
+        "stream": 1,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 145.94918823242188,
+        "empty_slots": 0
+      },
+      {
+        "stream": 2,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 148.05343627929688,
+        "empty_slots": 0
+      },
+      {
+        "stream": 3,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 146.71202087402344,
+        "empty_slots": 0
+      },
+      {
+        "stream": 4,
+        "shape": [
+          20,
+          512
+        ],
+        "norm": 146.13868713378906,
+        "empty_slots": 0
+      }
+    ]
+  ],
+  "teacher_error": 3.814697265625e-06,
+  "before": {
+    "oa": 57.89473684210527,
+    "ba": 49.91801851883047,
+    "nll": 1.4779163339000603,
+    "brier": 0.6449135808336784
+  },
+  "baseline": {
+    "oa": 57.89473684210527,
+    "ba": 50.123533738748606,
+    "nll": 1.3971815737041264,
+    "brier": 0.6228099265403916
+  },
+  "after": {
+    "oa": 58.333333333333336,
+    "ba": 50.40443261515309,
+    "nll": 1.390506665755446,
+    "brier": 0.620213675993798
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "ce": 1.227243952685967,
+      "keep": 0.0054710021308892465,
+      "floor": 0.06094362691510469
+    },
+    {
+      "epoch": 2,
+      "ce": 1.0618751157307997,
+      "keep": 0.012403649161569774,
+      "floor": 0.08446239621844143
+    },
+    {
+      "epoch": 3,
+      "ce": 0.9822364405263215,
+      "keep": 0.015987239370588213,
+      "floor": 0.05357114838261623
+    },
+    {
+      "epoch": 4,
+      "ce": 1.151713641360402,
+      "keep": 0.02046311169397086,
+      "floor": 0.051928401488112286
+    },
+    {
+      "epoch": 5,
+      "ce": 0.9349924642592669,
+      "keep": 0.02356435830006376,
+      "floor": 0.09346940614341293
+    },
+    {
+      "epoch": 6,
+      "ce": 0.7508757105097175,
+      "keep": 0.021456321330333594,
+      "floor": 0.036830619300644685
+    }
+  ],
+  "seconds": 24.241423400118947,
+  "evaluation_used": false,
+  "restore_error": 5.245208740234375e-06,
+  "native_error": 4.76837158203125e-06
+}
