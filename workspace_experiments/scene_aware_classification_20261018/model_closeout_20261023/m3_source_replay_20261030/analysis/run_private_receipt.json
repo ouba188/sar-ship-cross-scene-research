@@ -1,0 +1,74 @@
+{
+  "status": [
+    {
+      "dataset": "private",
+      "seeds": [
+        17,
+        29,
+        43
+      ],
+      "pending": [],
+      "paired_three_orders_complete": true,
+      "galleries": [
+        {
+          "arm": "adapt_only",
+          "reference": "saved_baseline",
+          "seeds": [
+            17,
+            29,
+            43
+          ],
+          "absent": [],
+          "cases": 4,
+          "panels": 8,
+          "visual_status": "not_reviewed",
+          "rule": "One distinct query/state, ordered by state frequency, absolute fixed-rival margin change, ID, seed. No random sampling.",
+          "references": "Actual fixed reference manifest; exclude identical ID/MMSI; first two same/rival class entries in bank order. No resizing.",
+          "limitation": "Outcome-selected examples are not population proportions. Bank order is not learned attention ranking. No new per-reference attention trace or physical causal evidence."
+        },
+        {
+          "arm": "source_mix",
+          "reference": "saved_baseline",
+          "seeds": [
+            17,
+            29,
+            43
+          ],
+          "absent": [],
+          "cases": 4,
+          "panels": 8,
+          "visual_status": "not_reviewed",
+          "rule": "One distinct query/state, ordered by state frequency, absolute fixed-rival margin change, ID, seed. No random sampling.",
+          "references": "Actual fixed reference manifest; exclude identical ID/MMSI; first two same/rival class entries in bank order. No resizing.",
+          "limitation": "Outcome-selected examples are not population proportions. Bank order is not learned attention ranking. No new per-reference attention trace or physical causal evidence."
+        },
+        {
+          "arm": "source_mix",
+          "reference": "adapt_only",
+          "seeds": [
+            17,
+            29,
+            43
+          ],
+          "absent": [
+            {
+              "state": "harmed",
+              "state_events": 0,
+              "reason": "No events in this state."
+            }
+          ],
+          "cases": 3,
+          "panels": 6,
+          "visual_status": "not_reviewed",
+          "rule": "One distinct query/state, ordered by state frequency, absolute fixed-rival margin change, ID, seed. No random sampling.",
+          "references": "Actual fixed reference manifest; exclude identical ID/MMSI; first two same/rival class entries in bank order. No resizing.",
+          "limitation": "Outcome-selected examples are not population proportions. Bank order is not learned attention ranking. No new per-reference attention trace or physical causal evidence."
+        }
+      ]
+    }
+  ],
+  "cpu_only": true,
+  "torch_imported": false,
+  "final_test_manifests_read": false,
+  "final_test_predictions_read": false
+}

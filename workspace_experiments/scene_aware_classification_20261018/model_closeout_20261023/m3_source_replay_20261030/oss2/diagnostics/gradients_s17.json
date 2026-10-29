@@ -1,0 +1,162 @@
+{
+  "dataset": "oss2",
+  "seed": 17,
+  "parameters": [
+    "m3.0.0.gain",
+    "m3.0.0.project.weight",
+    "m3.0.0.output.weight",
+    "m3.0.1.gain",
+    "m3.0.1.project.weight",
+    "m3.0.1.output.weight"
+  ],
+  "groups": [
+    {
+      "group": "adapt",
+      "label": 0,
+      "observations": 83,
+      "vessels": 81,
+      "nll": 0.7654041231491362,
+      "gradient_norm": 1.1817251443862915
+    },
+    {
+      "group": "adapt",
+      "label": 1,
+      "observations": 26,
+      "vessels": 26,
+      "nll": 1.2124982199703274,
+      "gradient_norm": 2.364509105682373
+    },
+    {
+      "group": "adapt",
+      "label": 2,
+      "observations": 46,
+      "vessels": 46,
+      "nll": 0.584661722590681,
+      "gradient_norm": 0.9285576343536377
+    },
+    {
+      "group": "adapt",
+      "label": 3,
+      "observations": 86,
+      "vessels": 82,
+      "nll": 0.5982358113434548,
+      "gradient_norm": 0.8775432705879211
+    },
+    {
+      "group": "fit",
+      "label": 0,
+      "observations": 138,
+      "vessels": 135,
+      "nll": 0.04721778584505416,
+      "gradient_norm": 0.16798248887062073
+    },
+    {
+      "group": "fit",
+      "label": 1,
+      "observations": 47,
+      "vessels": 45,
+      "nll": 0.03188072729907516,
+      "gradient_norm": 0.11717760562896729
+    },
+    {
+      "group": "fit",
+      "label": 2,
+      "observations": 95,
+      "vessels": 91,
+      "nll": 0.06533584487360614,
+      "gradient_norm": 0.19555938243865967
+    },
+    {
+      "group": "fit",
+      "label": 3,
+      "observations": 198,
+      "vessels": 177,
+      "nll": 0.08524800696931258,
+      "gradient_norm": 0.2459997683763504
+    },
+    {
+      "group": "development",
+      "label": 0,
+      "observations": 87,
+      "vessels": 84,
+      "nll": 1.7278686058136958,
+      "gradient_norm": 1.8980445861816406
+    },
+    {
+      "group": "development",
+      "label": 1,
+      "observations": 23,
+      "vessels": 22,
+      "nll": 2.29469131645949,
+      "gradient_norm": 2.56655216217041
+    },
+    {
+      "group": "development",
+      "label": 2,
+      "observations": 29,
+      "vessels": 29,
+      "nll": 1.2993527312987836,
+      "gradient_norm": 1.3871393203735352
+    },
+    {
+      "group": "development",
+      "label": 3,
+      "observations": 89,
+      "vessels": 88,
+      "nll": 0.8738621997446816,
+      "gradient_norm": 1.2181172370910645
+    }
+  ],
+  "angles": [
+    {
+      "label": 0,
+      "to_adapt": -0.37273097038269043,
+      "to_fit": -0.23618990182876587,
+      "to_development": -0.2868025302886963,
+      "sameclass_fit": 0.9533318281173706,
+      "sameclass_development": 0.9560297131538391
+    },
+    {
+      "label": 1,
+      "to_adapt": 0.9617811441421509,
+      "to_fit": -0.1965530812740326,
+      "to_development": 0.8769139051437378,
+      "sameclass_fit": 0.9847288131713867,
+      "sameclass_development": 0.9824445247650146
+    },
+    {
+      "label": 2,
+      "to_adapt": -0.7475389242172241,
+      "to_fit": -0.1117386519908905,
+      "to_development": -0.5447041988372803,
+      "sameclass_fit": 0.9596489071846008,
+      "sameclass_development": 0.8236702680587769
+    },
+    {
+      "label": 3,
+      "to_adapt": 0.35484421253204346,
+      "to_fit": 0.7475450038909912,
+      "to_development": 0.08877262473106384,
+      "sameclass_fit": 0.9303433895111084,
+      "sameclass_development": 0.9185307621955872
+    }
+  ],
+  "total_cosines": {
+    "adapt_fit": -0.1320662796497345,
+    "adapt_development": 0.9005833864212036,
+    "fit_development": -0.23897358775138855
+  },
+  "matched_classes": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "matched_class_cosines": {
+    "adapt_fit": -0.1320662796497345,
+    "adapt_development": 0.9005833864212036,
+    "fit_development": -0.23897358775138855
+  },
+  "interpretation": "Class-balanced full CE gradients, not actual Adam updates or causal attribution. Development labels diagnose only; no gradient enters training.",
+  "evaluation_used": false
+}
