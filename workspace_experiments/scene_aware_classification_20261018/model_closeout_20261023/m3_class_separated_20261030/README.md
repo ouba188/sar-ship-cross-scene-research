@@ -12,7 +12,7 @@ This is a scoped research experiment, not a new standalone model release. It imp
 Run in the original local environment, with this directory on the import path:
 
 ```powershell
-python -m unittest discover -s . -p test_class_match.py
+python test_class_match.py
 python experiment.py --dataset private --seeds 17 29 43
 python experiment.py --dataset oss2 --seeds 17 29 43
 python evaluate.py --dataset private
