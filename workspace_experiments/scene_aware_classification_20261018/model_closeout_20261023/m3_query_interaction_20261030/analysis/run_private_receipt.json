@@ -1,0 +1,50 @@
+{
+  "status": [
+    {
+      "dataset": "private",
+      "available_by_arm": {
+        "ce": [
+          17
+        ],
+        "query_only": [
+          17
+        ],
+        "ref_only": [
+          17
+        ],
+        "interaction": [
+          17
+        ]
+      },
+      "pending": [],
+      "dependence": {
+        "available_controls": 6,
+        "pending": [],
+        "output": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m3_query_interaction_20261030\\analysis\\private\\dependence"
+      },
+      "shared_shift": {
+        "rows": 3,
+        "output": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m3_query_interaction_20261030\\analysis\\private\\shared_shift.json"
+      },
+      "gallery": {
+        "arm": "interaction",
+        "reference": "ce",
+        "seeds": [
+          17
+        ],
+        "absent": [],
+        "cases": 4,
+        "panels": 8,
+        "visual_status": "not_reviewed",
+        "rule": "One distinct query/state, ordered by state frequency, absolute fixed-rival margin change, ID, seed. No random sampling.",
+        "references": "Actual fixed reference manifest; exclude identical ID/MMSI; first two same/rival class entries in bank order. No resizing.",
+        "limitation": "Outcome-selected examples are not population proportions. Bank order is not learned attention ranking. No new per-reference attention trace or physical causal evidence."
+      }
+    }
+  ],
+  "cpu_only": true,
+  "torch_imported": false,
+  "final_test_manifests_read": false,
+  "final_test_predictions_read": false,
+  "source_predictions_read": false
+}
