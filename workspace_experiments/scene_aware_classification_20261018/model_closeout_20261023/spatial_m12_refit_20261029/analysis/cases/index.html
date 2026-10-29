@@ -1,0 +1,1115 @@
+<!doctype html><html lang='en'><meta charset='utf-8'><title>Matched source-fit cases</title><style>body{font:14px Arial;margin:24px;color:#222}section{border-top:1px solid #aaa;margin-top:24px}h1{font-size:22px}h2{font-size:18px}td,th{border:1px solid #bbb;padding:6px}table{border-collapse:collapse}.image{overflow:auto}img{max-width:none;image-rendering:pixelated}pre{white-space:pre-wrap}</style><h1>Legacy vs spatial M1/M2: native cases</h1><p>Matched source-fit first stage only: legacy vs spatial M1/M2 with explicit M1/M2 frequency branches removed and M3 retained. Protocol: same current init.pt, 1205 source-fit observations, fixed 16 references, 8 epochs, order seeds 17/29/43; fixed 160 historical development queries. This is NOT the full intervention-adapted final system, a fresh test, or test-based selection. Repeated queries/references across seeds are not independent observations. OA/BA are percentages; deltas are percentage points. BA averages present classes only (7 in the complete development cohort). NLL uses natural logs; Brier is the sum over all 8 classes. SD is sample SD across three order seeds, not a sampling confidence interval. Controlled success does not identify a physical cause.</p><p>Requested IDs 37321 (rescue), 6194 and 31779 (harm) take priority when those transitions occur in the final predictions. Then cover each available state and fill toward two distinct queries per state, including CC and WW. Rank by number of seeds in that state, then absolute initial-legacy-fixed-rival margin change, lexical ID and seed; deduplicate queries globally. Include remaining rescue/harm queries before margin-only fill to 8 by absolute margin change if a state is absent. Outcome-selected, not prevalence.</p><p>One image pixel per source pixel, no resizing or contrast stretch. Original 8-bit display chips are not raw radiometry. Clean original, exact model crop/pad, and duplicate crop with target OBB appear side by side. VV/VH are separate. References come from the fixed 16 after the native ID/MMSI pair exclusion; missing polarizations are marked. Automated rendering is not pixel review.</p><section><h2>1. rescued / ID 37321 / selected seed 17</h2><p>Truth: general_cargo; case rival: chemical_tanker. Port: Port Klang; pass: S1A_060692_078D67. Pixels not reviewed. CC/WW are per-seed states; all seed outcomes follow.</p><table><tr><th>Seed</th><th>State</th><th>Legacy prediction</th><th>Spatial prediction</th><th>Legacy truth-rival</th><th>Spatial truth-rival</th></tr><tr><td>17</td><td>rescued</td><td>chemical_tanker</td><td>general_cargo</td><td>-0.025014</td><td>0.043169</td></tr><tr><td>29</td><td>WW</td><td>chemical_tanker</td><td>chemical_tanker</td><td>-0.666496</td><td>-0.656541</td></tr><tr><td>43</td><td>CC</td><td>general_cargo</td><td>general_cargo</td><td>1.822466</td><td>1.898360</td></tr></table><details><summary>Exact logits and reference IDs</summary><pre>{
+  &quot;eligible_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ],
+  &quot;true_reference_ids&quot;: [
+    &quot;6913&quot;,
+    &quot;22755&quot;
+  ],
+  &quot;rival_reference_ids&quot;: [
+    &quot;24527&quot;,
+    &quot;7790&quot;
+  ],
+  &quot;initial_rival_reference_ids&quot;: [],
+  &quot;current_rival_reference_ids&quot;: [],
+  &quot;initial_logits&quot;: {
+    &quot;legacy&quot;: [
+      -0.11467698216438293,
+      -0.30316370725631714,
+      -1.1384268999099731,
+      0.8078727126121521,
+      0.3175799250602722,
+      -0.7560128569602966,
+      0.42866194248199463,
+      -1.1856428384780884
+    ],
+    &quot;spatial&quot;: [
+      -0.11467698216438293,
+      -0.30316370725631714,
+      -1.1384268999099731,
+      0.8078727126121521,
+      0.3175799250602722,
+      -0.7560128569602966,
+      0.42866194248199463,
+      -1.1856428384780884
+    ]
+  },
+  &quot;per_seed&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;state&quot;: &quot;rescued&quot;,
+      &quot;legacy_logits&quot;: [
+        -1.9627430438995361,
+        -3.4028103351593018,
+        1.007595419883728,
+        1.0326098203659058,
+        -5.2311015129089355,
+        -7.3992438316345215,
+        -0.9335811138153076,
+        -9.331644058227539
+      ],
+      &quot;legacy_prediction&quot;: 3,
+      &quot;legacy_case_margin&quot;: -0.025014400482177734,
+      &quot;spatial_logits&quot;: [
+        -1.9800523519515991,
+        -3.494854688644409,
+        0.9891812801361084,
+        0.9460121989250183,
+        -5.319093227386475,
+        -7.2743377685546875,
+        -0.8268043994903564,
+        -9.14934253692627
+      ],
+      &quot;spatial_prediction&quot;: 2,
+      &quot;spatial_case_margin&quot;: 0.04316908121109009
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;state&quot;: &quot;WW&quot;,
+      &quot;legacy_logits&quot;: [
+        -3.1739933490753174,
+        -3.578148126602173,
+        0.6740589737892151,
+        1.3405550718307495,
+        -4.118045806884766,
+        -4.730733394622803,
+        0.8724023699760437,
+        -10.121685981750488
+      ],
+      &quot;legacy_prediction&quot;: 3,
+      &quot;legacy_case_margin&quot;: -0.6664960980415344,
+      &quot;spatial_logits&quot;: [
+        -2.8836467266082764,
+        -3.3827881813049316,
+        0.7490774989128113,
+        1.4056181907653809,
+        -4.065707683563232,
+        -4.580009460449219,
+        0.5756421089172363,
+        -10.26382827758789
+      ],
+      &quot;spatial_prediction&quot;: 3,
+      &quot;spatial_case_margin&quot;: -0.6565406918525696
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;state&quot;: &quot;CC&quot;,
+      &quot;legacy_logits&quot;: [
+        -1.9168888330459595,
+        -4.824722766876221,
+        1.704271674156189,
+        -0.11819401383399963,
+        -4.917033672332764,
+        -5.521202564239502,
+        -0.43977129459381104,
+        -9.5921630859375
+      ],
+      &quot;legacy_prediction&quot;: 2,
+      &quot;legacy_case_margin&quot;: 1.8224656879901886,
+      &quot;spatial_logits&quot;: [
+        -1.871829867362976,
+        -4.863783836364746,
+        1.7261042594909668,
+        -0.17225606739521027,
+        -4.941334247589111,
+        -5.693540096282959,
+        -0.34146079421043396,
+        -9.538477897644043
+      ],
+      &quot;spatial_prediction&quot;: 2,
+      &quot;spatial_case_margin&quot;: 1.898360326886177
+    }
+  ]
+}</pre></details><h3>VV</h3><div class="image"><img src="case_01_vv.png" alt="1. rescued / ID 37321 / selected seed 17 VV"></div><h3>VH</h3><div class="image"><img src="case_01_vh.png" alt="1. rescued / ID 37321 / selected seed 17 VH"></div></section><section><h2>2. harmed / ID 6194 / selected seed 29</h2><p>Truth: chemical_tanker; case rival: general_cargo. Port: Jebel Ali; pass: S1A_058688_074483. Pixels not reviewed. CC/WW are per-seed states; all seed outcomes follow.</p><table><tr><th>Seed</th><th>State</th><th>Legacy prediction</th><th>Spatial prediction</th><th>Legacy truth-rival</th><th>Spatial truth-rival</th></tr><tr><td>17</td><td>CC</td><td>chemical_tanker</td><td>chemical_tanker</td><td>1.972648</td><td>1.810296</td></tr><tr><td>29</td><td>harmed</td><td>chemical_tanker</td><td>general_cargo</td><td>0.080435</td><td>-0.050838</td></tr><tr><td>43</td><td>harmed</td><td>chemical_tanker</td><td>general_cargo</td><td>0.087471</td><td>-0.227678</td></tr></table><details><summary>Exact logits and reference IDs</summary><pre>{
+  &quot;eligible_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ],
+  &quot;true_reference_ids&quot;: [
+    &quot;24527&quot;,
+    &quot;7790&quot;
+  ],
+  &quot;rival_reference_ids&quot;: [
+    &quot;6913&quot;,
+    &quot;22755&quot;
+  ],
+  &quot;initial_rival_reference_ids&quot;: [
+    &quot;12041&quot;,
+    &quot;7429&quot;
+  ],
+  &quot;current_rival_reference_ids&quot;: [],
+  &quot;initial_logits&quot;: {
+    &quot;legacy&quot;: [
+      -0.24528492987155914,
+      -1.0745736360549927,
+      -0.03501001000404358,
+      -0.4641167223453522,
+      -0.117127425968647,
+      -1.5075042247772217,
+      0.6906198263168335,
+      -1.225782036781311
+    ],
+    &quot;spatial&quot;: [
+      -0.24528492987155914,
+      -1.0745736360549927,
+      -0.03501001000404358,
+      -0.4641167223453522,
+      -0.117127425968647,
+      -1.5075042247772217,
+      0.6906198263168335,
+      -1.225782036781311
+    ]
+  },
+  &quot;per_seed&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;state&quot;: &quot;CC&quot;,
+      &quot;legacy_logits&quot;: [
+        -2.302969217300415,
+        -17.774654388427734,
+        -3.8851959705352783,
+        -1.9125484228134155,
+        -5.0700788497924805,
+        -10.453116416931152,
+        -5.2878642082214355,
+        -21.411300659179688
+      ],
+      &quot;legacy_prediction&quot;: 3,
+      &quot;legacy_case_margin&quot;: 1.9726475477218628,
+      &quot;spatial_logits&quot;: [
+        -2.285494089126587,
+        -18.091894149780273,
+        -3.8666024208068848,
+        -2.056306838989258,
+        -5.129915237426758,
+        -10.385364532470703,
+        -5.439431190490723,
+        -21.650989532470703
+      ],
+      &quot;spatial_prediction&quot;: 3,
+      &quot;spatial_case_margin&quot;: 1.810295581817627
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;state&quot;: &quot;harmed&quot;,
+      &quot;legacy_logits&quot;: [
+        -2.5490057468414307,
+        -16.316694259643555,
+        -0.03329239413142204,
+        0.04714232310652733,
+        -3.1474785804748535,
+        -7.558753490447998,
+        -4.435466766357422,
+        -21.730487823486328
+      ],
+      &quot;legacy_prediction&quot;: 3,
+      &quot;legacy_case_margin&quot;: 0.08043471723794937,
+      &quot;spatial_logits&quot;: [
+        -2.141488790512085,
+        -16.3482666015625,
+        0.07015477120876312,
+        0.019316501915454865,
+        -3.235637664794922,
+        -7.576920509338379,
+        -4.661243438720703,
+        -21.810583114624023
+      ],
+      &quot;spatial_prediction&quot;: 2,
+      &quot;spatial_case_margin&quot;: -0.05083826929330826
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;state&quot;: &quot;harmed&quot;,
+      &quot;legacy_logits&quot;: [
+        -2.9778802394866943,
+        -16.497426986694336,
+        -2.5943944454193115,
+        -2.5069236755371094,
+        -3.771088123321533,
+        -9.876635551452637,
+        -3.160149335861206,
+        -20.281850814819336
+      ],
+      &quot;legacy_prediction&quot;: 3,
+      &quot;legacy_case_margin&quot;: 0.08747076988220215,
+      &quot;spatial_logits&quot;: [
+        -2.9586338996887207,
+        -16.580961227416992,
+        -2.460280418395996,
+        -2.687958002090454,
+        -3.8002941608428955,
+        -10.023844718933105,
+        -3.302720308303833,
+        -20.203174591064453
+      ],
+      &quot;spatial_prediction&quot;: 2,
+      &quot;spatial_case_margin&quot;: -0.227677583694458
+    }
+  ]
+}</pre></details><h3>VV</h3><div class="image"><img src="case_02_vv.png" alt="2. harmed / ID 6194 / selected seed 29 VV"></div><h3>VH</h3><div class="image"><img src="case_02_vh.png" alt="2. harmed / ID 6194 / selected seed 29 VH"></div></section><section><h2>3. harmed / ID 31779 / selected seed 29</h2><p>Truth: chemical_tanker; case rival: general_cargo. Port: Singapore; pass: S1A_060268_077D6F. Pixels not reviewed. CC/WW are per-seed states; all seed outcomes follow.</p><table><tr><th>Seed</th><th>State</th><th>Legacy prediction</th><th>Spatial prediction</th><th>Legacy truth-rival</th><th>Spatial truth-rival</th></tr><tr><td>17</td><td>WW</td><td>general_cargo</td><td>general_cargo</td><td>-0.600696</td><td>-0.634439</td></tr><tr><td>29</td><td>harmed</td><td>chemical_tanker</td><td>general_cargo</td><td>0.023548</td><td>-0.256770</td></tr><tr><td>43</td><td>WW</td><td>general_cargo</td><td>general_cargo</td><td>-0.205890</td><td>-0.419191</td></tr></table><details><summary>Exact logits and reference IDs</summary><pre>{
+  &quot;eligible_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ],
+  &quot;true_reference_ids&quot;: [
+    &quot;24527&quot;,
+    &quot;7790&quot;
+  ],
+  &quot;rival_reference_ids&quot;: [
+    &quot;6913&quot;,
+    &quot;22755&quot;
+  ],
+  &quot;initial_rival_reference_ids&quot;: [],
+  &quot;current_rival_reference_ids&quot;: [],
+  &quot;initial_logits&quot;: {
+    &quot;legacy&quot;: [
+      0.23531153798103333,
+      -1.0839775800704956,
+      1.222184181213379,
+      0.041758351027965546,
+      -1.0805938243865967,
+      -1.3483407497406006,
+      0.5021013021469116,
+      -1.1817076206207275
+    ],
+    &quot;spatial&quot;: [
+      0.23531153798103333,
+      -1.0839775800704956,
+      1.222184181213379,
+      0.041758351027965546,
+      -1.0805938243865967,
+      -1.3483407497406006,
+      0.5021013021469116,
+      -1.1817076206207275
+    ]
+  },
+  &quot;per_seed&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;state&quot;: &quot;WW&quot;,
+      &quot;legacy_logits&quot;: [
+        -3.1904137134552,
+        -10.97562313079834,
+        1.6859452724456787,
+        1.0852493047714233,
+        -0.968227744102478,
+        -13.051665306091309,
+        -2.514479875564575,
+        -20.19190216064453
+      ],
+      &quot;legacy_prediction&quot;: 2,
+      &quot;legacy_case_margin&quot;: -0.6006959676742554,
+      &quot;spatial_logits&quot;: [
+        -3.2958571910858154,
+        -11.091262817382812,
+        1.7100715637207031,
+        1.0756325721740723,
+        -1.0267912149429321,
+        -12.96049976348877,
+        -2.410910129547119,
+        -20.303226470947266
+      ],
+      &quot;spatial_prediction&quot;: 2,
+      &quot;spatial_case_margin&quot;: -0.6344389915466309
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;state&quot;: &quot;harmed&quot;,
+      &quot;legacy_logits&quot;: [
+        -4.330041408538818,
+        -8.85715389251709,
+        3.3747177124023438,
+        3.398265838623047,
+        -0.3721359372138977,
+        -10.439702987670898,
+        -1.2519241571426392,
+        -17.875953674316406
+      ],
+      &quot;legacy_prediction&quot;: 3,
+      &quot;legacy_case_margin&quot;: 0.023548126220703125,
+      &quot;spatial_logits&quot;: [
+        -4.086960315704346,
+        -8.937158584594727,
+        3.5261006355285645,
+        3.2693305015563965,
+        -0.3025805652141571,
+        -10.406817436218262,
+        -1.4170671701431274,
+        -17.981718063354492
+      ],
+      &quot;spatial_prediction&quot;: 2,
+      &quot;spatial_case_margin&quot;: -0.25677013397216797
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;state&quot;: &quot;WW&quot;,
+      &quot;legacy_logits&quot;: [
+        -3.0842416286468506,
+        -10.797836303710938,
+        1.6411347389221191,
+        1.4352447986602783,
+        -1.7171566486358643,
+        -13.237929344177246,
+        -2.0590686798095703,
+        -19.607254028320312
+      ],
+      &quot;legacy_prediction&quot;: 2,
+      &quot;legacy_case_margin&quot;: -0.20588994026184082,
+      &quot;spatial_logits&quot;: [
+        -3.0282418727874756,
+        -10.980318069458008,
+        1.7457733154296875,
+        1.3265821933746338,
+        -1.729162335395813,
+        -13.303544998168945,
+        -2.0227155685424805,
+        -19.526050567626953
+      ],
+      &quot;spatial_prediction&quot;: 2,
+      &quot;spatial_case_margin&quot;: -0.4191911220550537
+    }
+  ]
+}</pre></details><h3>VV</h3><div class="image"><img src="case_03_vv.png" alt="3. harmed / ID 31779 / selected seed 29 VV"></div><h3>VH</h3><div class="image"><img src="case_03_vh.png" alt="3. harmed / ID 31779 / selected seed 29 VH"></div></section><section><h2>4. CC / ID 27820 / selected seed 29</h2><p>Truth: crude_oil_tanker; case rival: tug. Port: Jebel Ali; pass: S1A_058688_074483. Pixels not reviewed. CC/WW are per-seed states; all seed outcomes follow.</p><table><tr><th>Seed</th><th>State</th><th>Legacy prediction</th><th>Spatial prediction</th><th>Legacy truth-rival</th><th>Spatial truth-rival</th></tr><tr><td>17</td><td>CC</td><td>crude_oil_tanker</td><td>crude_oil_tanker</td><td>6.563227</td><td>6.693851</td></tr><tr><td>29</td><td>CC</td><td>crude_oil_tanker</td><td>crude_oil_tanker</td><td>6.810457</td><td>7.235962</td></tr><tr><td>43</td><td>CC</td><td>crude_oil_tanker</td><td>crude_oil_tanker</td><td>4.284534</td><td>4.182580</td></tr></table><details><summary>Exact logits and reference IDs</summary><pre>{
+  &quot;eligible_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ],
+  &quot;true_reference_ids&quot;: [
+    &quot;29922&quot;,
+    &quot;2077&quot;
+  ],
+  &quot;rival_reference_ids&quot;: [
+    &quot;12041&quot;,
+    &quot;7429&quot;
+  ],
+  &quot;initial_rival_reference_ids&quot;: [],
+  &quot;current_rival_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;
+  ],
+  &quot;initial_logits&quot;: {
+    &quot;legacy&quot;: [
+      -0.36833563446998596,
+      -0.44119617342948914,
+      -1.2951234579086304,
+      -0.17378707230091095,
+      -0.2866474986076355,
+      -1.0904887914657593,
+      -0.16212151944637299,
+      -1.0695065259933472
+    ],
+    &quot;spatial&quot;: [
+      -0.36833563446998596,
+      -0.44119617342948914,
+      -1.2951234579086304,
+      -0.17378707230091095,
+      -0.2866474986076355,
+      -1.0904887914657593,
+      -0.16212151944637299,
+      -1.0695065259933472
+    ]
+  },
+  &quot;per_seed&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;state&quot;: &quot;CC&quot;,
+      &quot;legacy_logits&quot;: [
+        -1.94679594039917,
+        -14.052007675170898,
+        -10.315205574035645,
+        -2.6508774757385254,
+        -6.7411208152771,
+        0.3284032344818115,
+        -6.234823703765869,
+        -15.099418640136719
+      ],
+      &quot;legacy_prediction&quot;: 5,
+      &quot;legacy_case_margin&quot;: 6.563226938247681,
+      &quot;spatial_logits&quot;: [
+        -2.0436761379241943,
+        -14.099747657775879,
+        -10.378033638000488,
+        -2.8426201343536377,
+        -6.820189952850342,
+        0.45285817980766296,
+        -6.240993022918701,
+        -15.166946411132812
+      ],
+      &quot;spatial_prediction&quot;: 5,
+      &quot;spatial_case_margin&quot;: 6.693851202726364
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;state&quot;: &quot;CC&quot;,
+      &quot;legacy_logits&quot;: [
+        -3.6344521045684814,
+        -13.084566116333008,
+        -10.044711112976074,
+        -3.9665002822875977,
+        -6.902217388153076,
+        1.1487327814102173,
+        -5.66172456741333,
+        -16.44417953491211
+      ],
+      &quot;legacy_prediction&quot;: 5,
+      &quot;legacy_case_margin&quot;: 6.810457348823547,
+      &quot;spatial_logits&quot;: [
+        -3.520504951477051,
+        -13.198836326599121,
+        -10.143067359924316,
+        -3.9795310497283936,
+        -7.053277015686035,
+        1.2153784036636353,
+        -6.020583629608154,
+        -16.637434005737305
+      ],
+      &quot;spatial_prediction&quot;: 5,
+      &quot;spatial_case_margin&quot;: 7.2359620332717896
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;state&quot;: &quot;CC&quot;,
+      &quot;legacy_logits&quot;: [
+        -1.1440045833587646,
+        -15.52415657043457,
+        -8.609617233276367,
+        -3.7900171279907227,
+        -5.411661148071289,
+        0.2570231556892395,
+        -4.027510643005371,
+        -12.50047492980957
+      ],
+      &quot;legacy_prediction&quot;: 5,
+      &quot;legacy_case_margin&quot;: 4.284533798694611,
+      &quot;spatial_logits&quot;: [
+        -1.1499203443527222,
+        -15.550395965576172,
+        -8.489017486572266,
+        -3.7808640003204346,
+        -5.468234062194824,
+        0.21710188686847687,
+        -3.96547794342041,
+        -12.396488189697266
+      ],
+      &quot;spatial_prediction&quot;: 5,
+      &quot;spatial_case_margin&quot;: 4.182579830288887
+    }
+  ]
+}</pre></details><h3>VV</h3><div class="image"><img src="case_04_vv.png" alt="4. CC / ID 27820 / selected seed 29 VV"></div><h3>VH</h3><div class="image"><img src="case_04_vh.png" alt="4. CC / ID 27820 / selected seed 29 VH"></div></section><section><h2>5. WW / ID 23235 / selected seed 43</h2><p>Truth: crude_oil_tanker; case rival: bulk_carrier. Port: Singapore; pass: S1A_060268_077D6F. Pixels not reviewed. CC/WW are per-seed states; all seed outcomes follow.</p><table><tr><th>Seed</th><th>State</th><th>Legacy prediction</th><th>Spatial prediction</th><th>Legacy truth-rival</th><th>Spatial truth-rival</th></tr><tr><td>17</td><td>WW</td><td>bulk_carrier</td><td>bulk_carrier</td><td>-4.984523</td><td>-4.685709</td></tr><tr><td>29</td><td>WW</td><td>bulk_carrier</td><td>bulk_carrier</td><td>-1.490149</td><td>-1.392602</td></tr><tr><td>43</td><td>WW</td><td>bulk_carrier</td><td>bulk_carrier</td><td>-4.489861</td><td>-4.699662</td></tr></table><details><summary>Exact logits and reference IDs</summary><pre>{
+  &quot;eligible_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ],
+  &quot;true_reference_ids&quot;: [
+    &quot;29922&quot;,
+    &quot;2077&quot;
+  ],
+  &quot;rival_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;
+  ],
+  &quot;initial_rival_reference_ids&quot;: [
+    &quot;24527&quot;,
+    &quot;7790&quot;
+  ],
+  &quot;current_rival_reference_ids&quot;: [],
+  &quot;initial_logits&quot;: {
+    &quot;legacy&quot;: [
+      -0.07001438736915588,
+      -1.1757636070251465,
+      -0.1446813941001892,
+      0.830141007900238,
+      -0.0010763788595795631,
+      -1.7284640073776245,
+      -0.2333044558763504,
+      0.14816686511039734
+    ],
+    &quot;spatial&quot;: [
+      -0.07001438736915588,
+      -1.1757636070251465,
+      -0.1446813941001892,
+      0.830141007900238,
+      -0.0010763788595795631,
+      -1.7284640073776245,
+      -0.2333044558763504,
+      0.14816686511039734
+    ]
+  },
+  &quot;per_seed&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;state&quot;: &quot;WW&quot;,
+      &quot;legacy_logits&quot;: [
+        -0.5881339907646179,
+        -9.25403881072998,
+        -7.126612186431885,
+        -3.8276050090789795,
+        -8.557291984558105,
+        -5.572657108306885,
+        -4.3094482421875,
+        -16.1325740814209
+      ],
+      &quot;legacy_prediction&quot;: 0,
+      &quot;legacy_case_margin&quot;: -4.984523117542267,
+      &quot;spatial_logits&quot;: [
+        -0.690507709980011,
+        -9.09300422668457,
+        -7.316432476043701,
+        -3.9613988399505615,
+        -8.531075477600098,
+        -5.376216411590576,
+        -4.258349895477295,
+        -16.286928176879883
+      ],
+      &quot;spatial_prediction&quot;: 0,
+      &quot;spatial_case_margin&quot;: -4.685708701610565
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;state&quot;: &quot;WW&quot;,
+      &quot;legacy_logits&quot;: [
+        -1.7376198768615723,
+        -9.783886909484863,
+        -6.407923221588135,
+        -1.8771185874938965,
+        -7.256387233734131,
+        -3.227768898010254,
+        -3.1820926666259766,
+        -13.763407707214355
+      ],
+      &quot;legacy_prediction&quot;: 0,
+      &quot;legacy_case_margin&quot;: -1.4901490211486816,
+      &quot;spatial_logits&quot;: [
+        -1.6998109817504883,
+        -9.71951961517334,
+        -6.497243881225586,
+        -1.8708487749099731,
+        -7.417426586151123,
+        -3.0924127101898193,
+        -3.2257916927337646,
+        -13.632102012634277
+      ],
+      &quot;spatial_prediction&quot;: 0,
+      &quot;spatial_case_margin&quot;: -1.392601728439331
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;state&quot;: &quot;WW&quot;,
+      &quot;legacy_logits&quot;: [
+        1.433314323425293,
+        -9.133503913879395,
+        -4.602570533752441,
+        -0.7780054211616516,
+        -9.195257186889648,
+        -3.056546688079834,
+        -4.634235382080078,
+        -11.876762390136719
+      ],
+      &quot;legacy_prediction&quot;: 0,
+      &quot;legacy_case_margin&quot;: -4.489861011505127,
+      &quot;spatial_logits&quot;: [
+        1.3599401712417603,
+        -9.223261833190918,
+        -4.515524864196777,
+        -0.6226595640182495,
+        -9.077914237976074,
+        -3.339721441268921,
+        -4.530668258666992,
+        -11.724579811096191
+      ],
+      &quot;spatial_prediction&quot;: 0,
+      &quot;spatial_case_margin&quot;: -4.699661612510681
+    }
+  ]
+}</pre></details><h3>VV</h3><div class="image"><img src="case_05_vv.png" alt="5. WW / ID 23235 / selected seed 43 VV"></div><h3>VH</h3><div class="image"><img src="case_05_vh.png" alt="5. WW / ID 23235 / selected seed 43 VH"></div></section><section><h2>6. CC / ID 3951 / selected seed 17</h2><p>Truth: crude_oil_tanker; case rival: bulk_carrier. Port: Jebel Ali; pass: S1A_058688_074483. Pixels not reviewed. CC/WW are per-seed states; all seed outcomes follow.</p><table><tr><th>Seed</th><th>State</th><th>Legacy prediction</th><th>Spatial prediction</th><th>Legacy truth-rival</th><th>Spatial truth-rival</th></tr><tr><td>17</td><td>CC</td><td>crude_oil_tanker</td><td>crude_oil_tanker</td><td>6.276537</td><td>6.658015</td></tr><tr><td>29</td><td>CC</td><td>crude_oil_tanker</td><td>crude_oil_tanker</td><td>9.196288</td><td>9.182629</td></tr><tr><td>43</td><td>CC</td><td>crude_oil_tanker</td><td>crude_oil_tanker</td><td>7.346936</td><td>7.297901</td></tr></table><details><summary>Exact logits and reference IDs</summary><pre>{
+  &quot;eligible_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ],
+  &quot;true_reference_ids&quot;: [
+    &quot;29922&quot;,
+    &quot;2077&quot;
+  ],
+  &quot;rival_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;
+  ],
+  &quot;initial_rival_reference_ids&quot;: [],
+  &quot;current_rival_reference_ids&quot;: [],
+  &quot;initial_logits&quot;: {
+    &quot;legacy&quot;: [
+      0.4180296063423157,
+      -0.5772613883018494,
+      -0.3030163645744324,
+      0.3872545659542084,
+      -0.2656014561653137,
+      -1.174876093864441,
+      -0.15011408925056458,
+      0.4101157784461975
+    ],
+    &quot;spatial&quot;: [
+      0.4180296063423157,
+      -0.5772613883018494,
+      -0.3030163645744324,
+      0.3872545659542084,
+      -0.2656014561653137,
+      -1.174876093864441,
+      -0.15011408925056458,
+      0.4101157784461975
+    ]
+  },
+  &quot;per_seed&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;state&quot;: &quot;CC&quot;,
+      &quot;legacy_logits&quot;: [
+        0.5664637088775635,
+        -12.361095428466797,
+        -7.980992794036865,
+        -10.276506423950195,
+        -6.970975399017334,
+        6.843000888824463,
+        -8.535993576049805,
+        -14.185914993286133
+      ],
+      &quot;legacy_prediction&quot;: 5,
+      &quot;legacy_case_margin&quot;: 6.276537179946899,
+      &quot;spatial_logits&quot;: [
+        0.41784125566482544,
+        -12.500444412231445,
+        -8.095020294189453,
+        -10.426254272460938,
+        -6.957757949829102,
+        7.0758562088012695,
+        -8.573521614074707,
+        -14.450422286987305
+      ],
+      &quot;spatial_prediction&quot;: 5,
+      &quot;spatial_case_margin&quot;: 6.658014953136444
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;state&quot;: &quot;CC&quot;,
+      &quot;legacy_logits&quot;: [
+        -2.581338405609131,
+        -10.877721786499023,
+        -10.846973419189453,
+        -9.382108688354492,
+        -5.778312683105469,
+        6.614949703216553,
+        -11.3355073928833,
+        -13.578523635864258
+      ],
+      &quot;legacy_prediction&quot;: 5,
+      &quot;legacy_case_margin&quot;: 9.196288108825684,
+      &quot;spatial_logits&quot;: [
+        -2.506018877029419,
+        -10.811967849731445,
+        -10.856066703796387,
+        -9.251401901245117,
+        -5.791879653930664,
+        6.676609992980957,
+        -11.364832878112793,
+        -13.467814445495605
+      ],
+      &quot;spatial_prediction&quot;: 5,
+      &quot;spatial_case_margin&quot;: 9.182628870010376
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;state&quot;: &quot;CC&quot;,
+      &quot;legacy_logits&quot;: [
+        0.34946316480636597,
+        -10.581329345703125,
+        -7.06766414642334,
+        -7.037929058074951,
+        -4.191100597381592,
+        7.696398735046387,
+        -8.288744926452637,
+        -9.349417686462402
+      ],
+      &quot;legacy_prediction&quot;: 5,
+      &quot;legacy_case_margin&quot;: 7.346935570240021,
+      &quot;spatial_logits&quot;: [
+        0.323220819234848,
+        -10.468234062194824,
+        -6.934473991394043,
+        -7.044700622558594,
+        -4.310450077056885,
+        7.621121883392334,
+        -8.064230918884277,
+        -9.19182300567627
+      ],
+      &quot;spatial_prediction&quot;: 5,
+      &quot;spatial_case_margin&quot;: 7.297901064157486
+    }
+  ]
+}</pre></details><h3>VV</h3><div class="image"><img src="case_06_vv.png" alt="6. CC / ID 3951 / selected seed 17 VV"></div><h3>VH</h3><div class="image"><img src="case_06_vh.png" alt="6. CC / ID 3951 / selected seed 17 VH"></div></section><section><h2>7. WW / ID 31141 / selected seed 29</h2><p>Truth: offshore; case rival: bulk_carrier. Port: Singapore; pass: S1A_060268_077D6F. Pixels not reviewed. CC/WW are per-seed states; all seed outcomes follow.</p><table><tr><th>Seed</th><th>State</th><th>Legacy prediction</th><th>Spatial prediction</th><th>Legacy truth-rival</th><th>Spatial truth-rival</th></tr><tr><td>17</td><td>WW</td><td>bulk_carrier</td><td>bulk_carrier</td><td>-10.027727</td><td>-10.214509</td></tr><tr><td>29</td><td>WW</td><td>bulk_carrier</td><td>crude_oil_tanker</td><td>-8.093846</td><td>-8.481902</td></tr><tr><td>43</td><td>WW</td><td>bulk_carrier</td><td>bulk_carrier</td><td>-10.640182</td><td>-10.701185</td></tr></table><details><summary>Exact logits and reference IDs</summary><pre>{
+  &quot;eligible_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ],
+  &quot;true_reference_ids&quot;: [
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ],
+  &quot;rival_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;
+  ],
+  &quot;initial_rival_reference_ids&quot;: [
+    &quot;24527&quot;,
+    &quot;7790&quot;
+  ],
+  &quot;current_rival_reference_ids&quot;: [
+    &quot;29922&quot;,
+    &quot;2077&quot;
+  ],
+  &quot;initial_logits&quot;: {
+    &quot;legacy&quot;: [
+      -0.8561099171638489,
+      -0.8370056748390198,
+      -0.9977154731750488,
+      0.47842979431152344,
+      -0.48419061303138733,
+      -0.5711926817893982,
+      0.0068803830072283745,
+      0.6424249410629272
+    ],
+    &quot;spatial&quot;: [
+      -0.8561099171638489,
+      -0.8370056748390198,
+      -0.9977154731750488,
+      0.47842979431152344,
+      -0.48419061303138733,
+      -0.5711926817893982,
+      0.0068803830072283745,
+      0.6424249410629272
+    ]
+  },
+  &quot;per_seed&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;state&quot;: &quot;WW&quot;,
+      &quot;legacy_logits&quot;: [
+        -0.18449556827545166,
+        -9.626954078674316,
+        -4.1244659423828125,
+        -5.278140544891357,
+        -7.439306735992432,
+        -1.7103030681610107,
+        -11.141742706298828,
+        -10.2122220993042
+      ],
+      &quot;legacy_prediction&quot;: 0,
+      &quot;legacy_case_margin&quot;: -10.027726531028748,
+      &quot;spatial_logits&quot;: [
+        -0.22608496248722076,
+        -9.633577346801758,
+        -4.1826558113098145,
+        -5.411025524139404,
+        -7.294797897338867,
+        -1.6091433763504028,
+        -11.213695526123047,
+        -10.440593719482422
+      ],
+      &quot;spatial_prediction&quot;: 0,
+      &quot;spatial_case_margin&quot;: -10.214508756995201
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;state&quot;: &quot;WW&quot;,
+      &quot;legacy_logits&quot;: [
+        -0.16640731692314148,
+        -8.876810073852539,
+        -5.2504425048828125,
+        -3.078584909439087,
+        -5.005213260650635,
+        -0.249067485332489,
+        -10.710416793823242,
+        -8.260252952575684
+      ],
+      &quot;legacy_prediction&quot;: 0,
+      &quot;legacy_case_margin&quot;: -8.093845635652542,
+      &quot;spatial_logits&quot;: [
+        -0.27206575870513916,
+        -8.797541618347168,
+        -5.27772331237793,
+        -3.1401493549346924,
+        -4.979208469390869,
+        0.1385929137468338,
+        -10.957347869873047,
+        -8.753968238830566
+      ],
+      &quot;spatial_prediction&quot;: 5,
+      &quot;spatial_case_margin&quot;: -8.481902480125427
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;state&quot;: &quot;WW&quot;,
+      &quot;legacy_logits&quot;: [
+        1.7386175394058228,
+        -9.005208015441895,
+        -2.551407814025879,
+        -3.89062762260437,
+        -5.229171276092529,
+        -0.522280216217041,
+        -10.562507629394531,
+        -8.901564598083496
+      ],
+      &quot;legacy_prediction&quot;: 0,
+      &quot;legacy_case_margin&quot;: -10.640182137489319,
+      &quot;spatial_logits&quot;: [
+        1.7364469766616821,
+        -9.023646354675293,
+        -2.572805404663086,
+        -3.9722561836242676,
+        -5.094425678253174,
+        -0.6694580316543579,
+        -10.67988395690918,
+        -8.964737892150879
+      ],
+      &quot;spatial_prediction&quot;: 0,
+      &quot;spatial_case_margin&quot;: -10.701184868812561
+    }
+  ]
+}</pre></details><h3>VV</h3><div class="image"><img src="case_07_vv.png" alt="7. WW / ID 31141 / selected seed 29 VV"></div><h3>VH</h3><div class="image"><img src="case_07_vh.png" alt="7. WW / ID 31141 / selected seed 29 VH"></div></section><section><h2>8. harmed / ID 34278 / selected seed 43</h2><p>Truth: container; case rival: bulk_carrier. Port: Port Klang; pass: S1A_060692_078D67. Pixels not reviewed. CC/WW are per-seed states; all seed outcomes follow.</p><table><tr><th>Seed</th><th>State</th><th>Legacy prediction</th><th>Spatial prediction</th><th>Legacy truth-rival</th><th>Spatial truth-rival</th></tr><tr><td>17</td><td>CC</td><td>container</td><td>container</td><td>0.580030</td><td>0.587899</td></tr><tr><td>29</td><td>CC</td><td>container</td><td>container</td><td>3.954657</td><td>3.856384</td></tr><tr><td>43</td><td>harmed</td><td>container</td><td>bulk_carrier</td><td>0.135765</td><td>-0.020959</td></tr></table><details><summary>Exact logits and reference IDs</summary><pre>{
+  &quot;eligible_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ],
+  &quot;true_reference_ids&quot;: [
+    &quot;36308&quot;,
+    &quot;23719&quot;
+  ],
+  &quot;rival_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;
+  ],
+  &quot;initial_rival_reference_ids&quot;: [
+    &quot;6913&quot;,
+    &quot;22755&quot;
+  ],
+  &quot;current_rival_reference_ids&quot;: [],
+  &quot;initial_logits&quot;: {
+    &quot;legacy&quot;: [
+      0.3148961067199707,
+      -1.6743823289871216,
+      0.6522930860519409,
+      -0.27191153168678284,
+      -0.15098662674427032,
+      -0.9733507633209229,
+      0.2799064815044403,
+      -1.1631295680999756
+    ],
+    &quot;spatial&quot;: [
+      0.3148961067199707,
+      -1.6743823289871216,
+      0.6522930860519409,
+      -0.27191153168678284,
+      -0.15098662674427032,
+      -0.9733507633209229,
+      0.2799064815044403,
+      -1.1631295680999756
+    ]
+  },
+  &quot;per_seed&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;state&quot;: &quot;CC&quot;,
+      &quot;legacy_logits&quot;: [
+        1.260980248451233,
+        -9.876770973205566,
+        -1.0086430311203003,
+        -1.0623936653137207,
+        1.8410099744796753,
+        -8.855630874633789,
+        -3.964881181716919,
+        -12.63939094543457
+      ],
+      &quot;legacy_prediction&quot;: 4,
+      &quot;legacy_case_margin&quot;: 0.5800297260284424,
+      &quot;spatial_logits&quot;: [
+        1.2654051780700684,
+        -9.98002815246582,
+        -1.0907907485961914,
+        -1.1272985935211182,
+        1.8533040285110474,
+        -8.908348083496094,
+        -3.9070849418640137,
+        -12.795361518859863
+      ],
+      &quot;spatial_prediction&quot;: 4,
+      &quot;spatial_case_margin&quot;: 0.587898850440979
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;state&quot;: &quot;CC&quot;,
+      &quot;legacy_logits&quot;: [
+        0.45470938086509705,
+        -9.02719783782959,
+        -0.754016101360321,
+        0.14407694339752197,
+        4.409366607666016,
+        -6.849324703216553,
+        -3.875440835952759,
+        -12.675993919372559
+      ],
+      &quot;legacy_prediction&quot;: 4,
+      &quot;legacy_case_margin&quot;: 3.9546572268009186,
+      &quot;spatial_logits&quot;: [
+        0.5429182052612305,
+        -9.102503776550293,
+        -0.8333204388618469,
+        0.07578857988119125,
+        4.3993024826049805,
+        -6.82161808013916,
+        -4.167858123779297,
+        -12.891989707946777
+      ],
+      &quot;spatial_prediction&quot;: 4,
+      &quot;spatial_case_margin&quot;: 3.85638427734375
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;state&quot;: &quot;harmed&quot;,
+      &quot;legacy_logits&quot;: [
+        2.0031988620758057,
+        -11.285974502563477,
+        -0.998101532459259,
+        -0.788547158241272,
+        2.1389636993408203,
+        -8.232542037963867,
+        -4.609752178192139,
+        -14.92776870727539
+      ],
+      &quot;legacy_prediction&quot;: 4,
+      &quot;legacy_case_margin&quot;: 0.13576483726501465,
+      &quot;spatial_logits&quot;: [
+        2.0847747325897217,
+        -11.441306114196777,
+        -0.9593398571014404,
+        -0.8478273749351501,
+        2.0638158321380615,
+        -8.424675941467285,
+        -4.632620334625244,
+        -14.943198204040527
+      ],
+      &quot;spatial_prediction&quot;: 0,
+      &quot;spatial_case_margin&quot;: -0.020958900451660156
+    }
+  ]
+}</pre></details><h3>VV</h3><div class="image"><img src="case_08_vv.png" alt="8. harmed / ID 34278 / selected seed 43 VV"></div><h3>VH</h3><div class="image"><img src="case_08_vh.png" alt="8. harmed / ID 34278 / selected seed 43 VH"></div></section></html>
