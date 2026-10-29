@@ -1,0 +1,69 @@
+{
+  "arm": "control",
+  "seed": 29,
+  "steps": 36,
+  "source_count": 136,
+  "query_count": 160,
+  "lr": 0.0001,
+  "trainable_names": [
+    "m3.0.0.gain",
+    "m3.0.0.output.weight",
+    "m3.0.0.project.weight",
+    "m3.0.0.reader2.gain",
+    "m3.0.0.reader3.gain",
+    "m3.0.1.gain",
+    "m3.0.1.output.weight",
+    "m3.0.1.project.weight",
+    "m3.0.1.reader2.gain",
+    "m3.0.1.reader3.gain"
+  ],
+  "frozen_parameters_unchanged": true,
+  "gradients": {
+    "m3.0.0.gain": 0.3060818314552307,
+    "m3.0.0.project.weight": 0.02611842378973961,
+    "m3.0.0.output.weight": 0.22064648568630219,
+    "m3.0.1.gain": 0.16912828385829926,
+    "m3.0.1.project.weight": 0.0165258701890707,
+    "m3.0.1.output.weight": 0.22836416959762573
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "loss": 1.7885201970736186
+    },
+    {
+      "epoch": 2,
+      "loss": 1.5698790152867634
+    },
+    {
+      "epoch": 3,
+      "loss": 1.714557369550069
+    },
+    {
+      "epoch": 4,
+      "loss": 1.9666282037893932
+    },
+    {
+      "epoch": 5,
+      "loss": 1.6950583656628926
+    },
+    {
+      "epoch": 6,
+      "loss": 1.860660860935847
+    }
+  ],
+  "baseline": {
+    "oa": 45.625,
+    "ba": 36.38358070500928,
+    "nll": 2.243899983450496,
+    "brier": 0.8264443571169423
+  },
+  "after": {
+    "oa": 43.75,
+    "ba": 35.77133580705009,
+    "nll": 2.255005694835986,
+    "brier": 0.8421987687764035
+  },
+  "seconds": 9.326761599862948,
+  "saved_state_replay_error": 5.7220458984375e-06
+}

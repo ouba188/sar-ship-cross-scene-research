@@ -1,0 +1,277 @@
+{
+  "scope": "final",
+  "version": "anchor_corrected",
+  "dataset": "private",
+  "query_count": 3075,
+  "present_classes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "classes": [
+    "bulk_carrier",
+    "fishing",
+    "general_cargo",
+    "chemical_tanker",
+    "container",
+    "crude_oil_tanker",
+    "tug",
+    "offshore"
+  ],
+  "paired_three_orders_complete": true,
+  "pending": [],
+  "endpoint_means": [
+    {
+      "arm": "raw_source",
+      "orders": 3,
+      "seeds": [
+        17,
+        29,
+        43
+      ],
+      "OA": 47.3170731707317,
+      "BA": 40.402193933300005,
+      "NLL": 2.137044381581919,
+      "Brier": 0.7861883454468144
+    },
+    {
+      "arm": "trained_center",
+      "orders": 3,
+      "seeds": [
+        17,
+        29,
+        43
+      ],
+      "OA": 46.60162601626016,
+      "BA": 40.70548793996502,
+      "NLL": 2.1152072719334725,
+      "Brier": 0.7904931859030112
+    },
+    {
+      "arm": "control",
+      "orders": 3,
+      "seeds": [
+        17,
+        29,
+        43
+      ],
+      "OA": 46.62330623306233,
+      "BA": 40.770557750550985,
+      "NLL": 2.117489229788064,
+      "Brier": 0.7903491277514751
+    }
+  ],
+  "paired_means": [
+    {
+      "arm": "trained_center",
+      "reference": "raw_source",
+      "orders": 3,
+      "seeds": [
+        17,
+        29,
+        43
+      ],
+      "delta_OA": -0.7154471544715454,
+      "sd_OA": 0.2778537803355304,
+      "delta_BA": 0.3032940066650032,
+      "sd_BA": 0.19143942891055882,
+      "delta_NLL": -0.02183710964844643,
+      "sd_NLL": 0.01765410873331418,
+      "delta_Brier": 0.0043048404561967235,
+      "sd_Brier": 0.005134498202264083,
+      "rescued_events": 81,
+      "rescued_queries": 76,
+      "harmed_events": 147,
+      "harmed_queries": 139,
+      "CC_events": 4218,
+      "CC_queries": 1687,
+      "WW_events": 4779,
+      "WW_queries": 1881
+    },
+    {
+      "arm": "control",
+      "reference": "raw_source",
+      "orders": 3,
+      "seeds": [
+        17,
+        29,
+        43
+      ],
+      "delta_OA": -0.6937669376693781,
+      "sd_OA": 0.2932845367689691,
+      "delta_BA": 0.3683638172509755,
+      "sd_BA": 0.14205998382963975,
+      "delta_NLL": -0.019555151793854957,
+      "sd_NLL": 0.017519216115913498,
+      "delta_Brier": 0.004160782304660697,
+      "sd_Brier": 0.004733274253874933,
+      "rescued_events": 85,
+      "rescued_queries": 81,
+      "harmed_events": 149,
+      "harmed_queries": 139,
+      "CC_events": 4216,
+      "CC_queries": 1688,
+      "WW_events": 4775,
+      "WW_queries": 1877
+    },
+    {
+      "arm": "trained_center",
+      "reference": "control",
+      "orders": 3,
+      "seeds": [
+        17,
+        29,
+        43
+      ],
+      "delta_OA": -0.02168021680216725,
+      "sd_OA": 0.018775618510231067,
+      "delta_BA": -0.06506981058597223,
+      "sd_BA": 0.0499221365264547,
+      "delta_NLL": -0.002281957854591473,
+      "sd_NLL": 0.0005522354551738575,
+      "delta_Brier": 0.00014405815153602694,
+      "sd_Brier": 0.0007193346170026219,
+      "rescued_events": 42,
+      "rescued_queries": 41,
+      "harmed_events": 44,
+      "harmed_queries": 44,
+      "CC_events": 4257,
+      "CC_queries": 1700,
+      "WW_events": 4882,
+      "WW_queries": 1912,
+      "rescue_original_correct_events": 27,
+      "rescue_original_wrong_events": 15,
+      "harm_original_correct_events": 25,
+      "harm_original_wrong_events": 19
+    }
+  ],
+  "coverage": [],
+  "relation": [],
+  "receipts": [
+    {
+      "path": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m3_reference_coverage_20261030\\anchor_corrected\\private\\evaluation\\results.json",
+      "records": [
+        {
+          "arm": "control",
+          "seed": 17,
+          "baseline": {
+            "oa": 47.41463414634146,
+            "ba": 39.41097642607774,
+            "nll": 2.1769994254977987,
+            "brier": 0.7909843901553704
+          },
+          "after": {
+            "oa": 46.699186991869915,
+            "ba": 39.63164440040581,
+            "nll": 2.148985163249943,
+            "brier": 0.7940255352214429
+          }
+        },
+        {
+          "arm": "control",
+          "seed": 29,
+          "baseline": {
+            "oa": 46.146341463414636,
+            "ba": 41.53264844858605,
+            "nll": 2.084820478645527,
+            "brier": 0.7860752968962565
+          },
+          "after": {
+            "oa": 45.170731707317074,
+            "ba": 42.03667031990752,
+            "nll": 2.0854088860079587,
+            "brier": 0.7954287904914126
+          }
+        },
+        {
+          "arm": "control",
+          "seed": 43,
+          "baseline": {
+            "oa": 48.390243902439025,
+            "ba": 40.26295692523624,
+            "nll": 2.1493132406024325,
+            "brier": 0.7815053492888162
+          },
+          "after": {
+            "oa": 48.0,
+            "ba": 40.64335853133962,
+            "nll": 2.118073640106291,
+            "brier": 0.7815930575415697
+          }
+        },
+        {
+          "arm": "center",
+          "seed": 17,
+          "baseline": {
+            "oa": 47.41463414634146,
+            "ba": 39.41097642607774,
+            "nll": 2.1769994254977987,
+            "brier": 0.7909843901553704
+          },
+          "after": {
+            "oa": 46.666666666666664,
+            "ba": 39.51971373994178,
+            "nll": 2.146078238086172,
+            "brier": 0.7933820778202272
+          }
+        },
+        {
+          "arm": "center",
+          "seed": 29,
+          "baseline": {
+            "oa": 46.146341463414636,
+            "ba": 41.53264844858605,
+            "nll": 2.084820478645527,
+            "brier": 0.7860752968962565
+          },
+          "after": {
+            "oa": 45.170731707317074,
+            "ba": 42.02410438051133,
+            "nll": 2.0833297491671283,
+            "brier": 0.7961953130695314
+          }
+        },
+        {
+          "arm": "center",
+          "seed": 43,
+          "baseline": {
+            "oa": 48.390243902439025,
+            "ba": 40.26295692523624,
+            "nll": 2.1493132406024325,
+            "brier": 0.7815053492888162
+          },
+          "after": {
+            "oa": 47.96747967479675,
+            "ba": 40.57264569944193,
+            "nll": 2.1162138285471177,
+            "brier": 0.7819021668192747
+          }
+        }
+      ],
+      "native_fresh_checkpoint_errors": {
+        "control_17": 1.1444091796875e-05,
+        "control_29": 3.814697265625e-06,
+        "control_43": 6.67572021484375e-06,
+        "center_17": 1.71661376953125e-05,
+        "center_29": 3.814697265625e-06,
+        "center_43": 1.71661376953125e-05
+      },
+      "seconds": 260.37229600013234,
+      "historical_development_exposure": true,
+      "parameter_selection_on_test": false
+    }
+  ],
+  "baseline_drift": [],
+  "anchor_checks": [],
+  "notes": [
+    "raw_source = historical saved original-model logits; control = freshly evaluated matched value-path training; trained_center = the frozen corrected candidate.",
+    "No final relation traces were saved; development relation measurements are not presented as final measurements.",
+    "Candidate and hyperparameters were frozen before this final evaluation. Cohorts have historical exposure and are not newly blind tests.",
+    "BA averages present classes; three orders share initialization and queries. Rescue/harm events across orders are not independent samples."
+  ]
+}

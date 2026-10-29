@@ -1,0 +1,1407 @@
+<!doctype html><meta charset="utf-8"><title>Corrected center cases</title><style>body{font:14px Arial;margin:24px}pre{white-space:pre-wrap}img{image-rendering:pixelated;max-width:none}</style><h1>Anchor-corrected trained-center cases</h1><p>Native uint8 display chips, exact crop/pad and separate OBB overlay. VV/VH separately. Representative cases are not prevalence. Visual review is recorded in CASE_NOTES_ZH.md.</p><h2>rescued: 37321 against control</h2><pre>{
+  &quot;id&quot;: &quot;37321&quot;,
+  &quot;label&quot;: 2,
+  &quot;seed&quot;: 17,
+  &quot;state&quot;: &quot;rescued&quot;,
+  &quot;old&quot;: 3,
+  &quot;new&quot;: 2,
+  &quot;changed&quot;: true,
+  &quot;rival&quot;: 3,
+  &quot;margin_change&quot;: 0.05234479904174805,
+  &quot;reference&quot;: &quot;control&quot;,
+  &quot;state_orders&quot;: 1,
+  &quot;dataset&quot;: &quot;private&quot;,
+  &quot;version&quot;: &quot;anchor_corrected&quot;,
+  &quot;classes&quot;: [
+    &quot;bulk_carrier&quot;,
+    &quot;fishing&quot;,
+    &quot;general_cargo&quot;,
+    &quot;chemical_tanker&quot;,
+    &quot;container&quot;,
+    &quot;crude_oil_tanker&quot;,
+    &quot;tug&quot;,
+    &quot;offshore&quot;
+  ],
+  &quot;label_name&quot;: &quot;general_cargo&quot;,
+  &quot;rival_name&quot;: &quot;chemical_tanker&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -2.7029213905334473,
+          -3.278409004211426,
+          1.3370444774627686,
+          1.5150741338729858,
+          -4.748814105987549,
+          -6.5902299880981445,
+          0.0779242292046547,
+          -6.262409687042236
+        ],
+        &quot;truth_rival_margin&quot;: -0.17802965641021729
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -2.6745364665985107,
+          -3.1520333290100098,
+          1.358984351158142,
+          1.551572322845459,
+          -4.830738544464111,
+          -6.585920810699463,
+          0.09077069163322449,
+          -6.1550517082214355
+        ],
+        &quot;truth_rival_margin&quot;: -0.1925879716873169
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -3.1232492923736572,
+          -3.2497570514678955,
+          1.3239296674728394,
+          1.3751726150512695,
+          -4.612900257110596,
+          -6.746459007263184,
+          0.23517191410064697,
+          -5.785969257354736
+        ],
+        &quot;truth_rival_margin&quot;: -0.051242947578430176
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          -3.102400064468384,
+          -3.1984996795654297,
+          1.3838757276535034,
+          1.3827738761901855,
+          -4.607759475708008,
+          -6.738392353057861,
+          0.21289953589439392,
+          -5.77931022644043
+        ],
+        &quot;truth_rival_margin&quot;: 0.001101851463317871
+      },
+      &quot;state_vs_control&quot;: &quot;rescued&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;rescued&quot;
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -2.9458186626434326,
+          -2.9691624641418457,
+          0.9091553688049316,
+          1.4370249509811401,
+          -3.6670432090759277,
+          -4.334670543670654,
+          1.8666071891784668,
+          -6.297426223754883
+        ],
+        &quot;truth_rival_margin&quot;: -0.5278695821762085
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -3.049692392349243,
+          -2.8960368633270264,
+          0.9747994542121887,
+          1.4635945558547974,
+          -3.6624221801757812,
+          -4.246464729309082,
+          1.9177193641662598,
+          -6.1643967628479
+        ],
+        &quot;truth_rival_margin&quot;: -0.48879510164260864
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -3.2314906120300293,
+          -3.0489866733551025,
+          0.7888374328613281,
+          1.1661640405654907,
+          -3.7138102054595947,
+          -4.43520975112915,
+          2.2927658557891846,
+          -5.763994216918945
+        ],
+        &quot;truth_rival_margin&quot;: -0.3773266077041626
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -3.19632887840271,
+          -3.0130183696746826,
+          0.8787060379981995,
+          1.2162615060806274,
+          -3.698746919631958,
+          -4.390488624572754,
+          2.257951498031616,
+          -5.7574872970581055
+        ],
+        &quot;truth_rival_margin&quot;: -0.337555468082428
+      },
+      &quot;state_vs_control&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;WW&quot;
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          -2.7081339359283447,
+          -4.1176981925964355,
+          1.7977184057235718,
+          1.2471983432769775,
+          -4.287001132965088,
+          -5.223643779754639,
+          0.9547429084777832,
+          -6.477094650268555
+        ],
+        &quot;truth_rival_margin&quot;: 0.5505200624465942
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          -2.7417500019073486,
+          -4.103670597076416,
+          1.853083848953247,
+          1.300756812095642,
+          -4.27243185043335,
+          -5.1652703285217285,
+          1.0642316341400146,
+          -6.423214912414551
+        ],
+        &quot;truth_rival_margin&quot;: 0.552327036857605
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          -3.0787861347198486,
+          -4.052394390106201,
+          1.6085132360458374,
+          1.2424323558807373,
+          -4.1403961181640625,
+          -5.352694988250732,
+          1.1688095331192017,
+          -6.191774368286133
+        ],
+        &quot;truth_rival_margin&quot;: 0.3660808801651001
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          -3.059826135635376,
+          -4.0441813468933105,
+          1.6532790660858154,
+          1.2330361604690552,
+          -4.124877452850342,
+          -5.379023551940918,
+          1.1793859004974365,
+          -6.193784713745117
+        ],
+        &quot;truth_rival_margin&quot;: 0.42024290561676025
+      },
+      &quot;state_vs_control&quot;: &quot;CC&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;CC&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;rescued_37321_vv.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;6913&quot;,
+        &quot;22755&quot;,
+        &quot;24527&quot;,
+        &quot;7790&quot;
+      ]
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;rescued_37321_vh.png&quot;,
+      &quot;same_class_available&quot;: 1,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;6913&quot;,
+        &quot;24527&quot;,
+        &quot;7790&quot;
+      ]
+    }
+  },
+  &quot;relation&quot;: [
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.5921666622161865,
+      &quot;same_mass&quot;: 0.19415341317653656,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.5874862670898438,
+      &quot;same_mass&quot;: 0.11930014938116074,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 1.7236965894699097,
+      &quot;same_mass&quot;: 0.21606452763080597,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.946096420288086,
+      &quot;same_mass&quot;: 0.2700689733028412,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.5921802520751953,
+      &quot;same_mass&quot;: 0.19414664804935455,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.588820219039917,
+      &quot;same_mass&quot;: 0.11895971745252609,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 1.723550796508789,
+      &quot;same_mass&quot;: 0.2160295695066452,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.945992350578308,
+      &quot;same_mass&quot;: 0.2698504626750946,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.592607259750366,
+      &quot;same_mass&quot;: 0.19400756061077118,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.586921453475952,
+      &quot;same_mass&quot;: 0.11943338066339493,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 1.7234086990356445,
+      &quot;same_mass&quot;: 0.21566210687160492,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;37321&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.946112871170044,
+      &quot;same_mass&quot;: 0.27012380957603455,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    }
+  ],
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ]
+}</pre><h3>VV</h3><img src="rescued_37321_vv.png"><h3>VH</h3><img src="rescued_37321_vh.png"><h2>harmed: 22854 against raw_source</h2><pre>{
+  &quot;id&quot;: &quot;22854&quot;,
+  &quot;label&quot;: 3,
+  &quot;seed&quot;: 29,
+  &quot;state&quot;: &quot;harmed&quot;,
+  &quot;old&quot;: 3,
+  &quot;new&quot;: 6,
+  &quot;changed&quot;: true,
+  &quot;rival&quot;: 6,
+  &quot;margin_change&quot;: -0.565220832824707,
+  &quot;reference&quot;: &quot;raw_source&quot;,
+  &quot;state_orders&quot;: 1,
+  &quot;dataset&quot;: &quot;private&quot;,
+  &quot;version&quot;: &quot;anchor_corrected&quot;,
+  &quot;classes&quot;: [
+    &quot;bulk_carrier&quot;,
+    &quot;fishing&quot;,
+    &quot;general_cargo&quot;,
+    &quot;chemical_tanker&quot;,
+    &quot;container&quot;,
+    &quot;crude_oil_tanker&quot;,
+    &quot;tug&quot;,
+    &quot;offshore&quot;
+  ],
+  &quot;label_name&quot;: &quot;chemical_tanker&quot;,
+  &quot;rival_name&quot;: &quot;tug&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -2.8353524208068848,
+          -6.683995246887207,
+          -1.3259162902832031,
+          2.661079168319702,
+          -6.611874103546143,
+          -8.111149787902832,
+          2.8527302742004395,
+          -4.158315658569336
+        ],
+        &quot;truth_rival_margin&quot;: -0.1916511058807373
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -2.8017678260803223,
+          -6.551218032836914,
+          -1.3407901525497437,
+          2.7058558464050293,
+          -6.66395902633667,
+          -8.07829475402832,
+          2.821741819381714,
+          -4.042088985443115
+        ],
+        &quot;truth_rival_margin&quot;: -0.11588597297668457
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -3.2207186222076416,
+          -6.711240291595459,
+          -1.3603885173797607,
+          2.5356523990631104,
+          -6.468069076538086,
+          -8.256699562072754,
+          2.9879698753356934,
+          -3.7294628620147705
+        ],
+        &quot;truth_rival_margin&quot;: -0.452317476272583
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -3.207444906234741,
+          -6.664680004119873,
+          -1.3283241987228394,
+          2.538968563079834,
+          -6.443363189697266,
+          -8.240954399108887,
+          2.953277111053467,
+          -3.7274389266967773
+        ],
+        &quot;truth_rival_margin&quot;: -0.4143085479736328
+      },
+      &quot;state_vs_control&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;WW&quot;
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -3.0905649662017822,
+          -5.643930912017822,
+          -0.7243493795394897,
+          2.9362776279449463,
+          -4.602267742156982,
+          -5.688884735107422,
+          2.5082571506500244,
+          -4.196523189544678
+        ],
+        &quot;truth_rival_margin&quot;: 0.4280204772949219
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -3.1206283569335938,
+          -5.605376720428467,
+          -0.6884269714355469,
+          2.9606497287750244,
+          -4.610717296600342,
+          -5.60221529006958,
+          2.500931739807129,
+          -4.123425006866455
+        ],
+        &quot;truth_rival_margin&quot;: 0.4597179889678955
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -3.3908352851867676,
+          -5.783640384674072,
+          -0.7934824228286743,
+          2.6674671173095703,
+          -4.623221397399902,
+          -5.7787766456604,
+          2.884734869003296,
+          -3.7305896282196045
+        ],
+        &quot;truth_rival_margin&quot;: -0.21726775169372559
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -3.3007328510284424,
+          -5.760747909545898,
+          -0.7463468313217163,
+          2.6985881328582764,
+          -4.629509925842285,
+          -5.74122428894043,
+          2.8357884883880615,
+          -3.7547433376312256
+        ],
+        &quot;truth_rival_margin&quot;: -0.13720035552978516
+      },
+      &quot;state_vs_control&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;harmed&quot;
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -2.8615596294403076,
+          -7.8258466720581055,
+          -0.3857855796813965,
+          2.72774338722229,
+          -5.635051727294922,
+          -6.802767753601074,
+          2.952518939971924,
+          -4.145374298095703
+        ],
+        &quot;truth_rival_margin&quot;: -0.2247755527496338
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -2.840949535369873,
+          -7.821251392364502,
+          -0.38493749499320984,
+          2.7945971488952637,
+          -5.627852439880371,
+          -6.7133026123046875,
+          3.0019779205322266,
+          -4.110746383666992
+        ],
+        &quot;truth_rival_margin&quot;: -0.2073807716369629
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -3.195971965789795,
+          -7.758058547973633,
+          -0.5634284019470215,
+          2.7339208126068115,
+          -5.510350227355957,
+          -6.9041290283203125,
+          3.134190320968628,
+          -3.8755996227264404
+        ],
+        &quot;truth_rival_margin&quot;: -0.4002695083618164
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 6,
+        &quot;logits&quot;: [
+          -3.1701505184173584,
+          -7.755905628204346,
+          -0.5416615009307861,
+          2.72143816947937,
+          -5.4990386962890625,
+          -6.929384708404541,
+          3.144378423690796,
+          -3.8848910331726074
+        ],
+        &quot;truth_rival_margin&quot;: -0.4229402542114258
+      },
+      &quot;state_vs_control&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;WW&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;harmed_22854_vv.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;24527&quot;,
+        &quot;7790&quot;,
+        &quot;12041&quot;,
+        &quot;7429&quot;
+      ]
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;harmed_22854_vh.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;24527&quot;,
+        &quot;7790&quot;,
+        &quot;12041&quot;,
+        &quot;7429&quot;
+      ]
+    }
+  },
+  &quot;relation&quot;: [
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.603759765625,
+      &quot;same_mass&quot;: 0.16886231303215027,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.5893006324768066,
+      &quot;same_mass&quot;: 0.15879611670970917,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 1.6460376977920532,
+      &quot;same_mass&quot;: 0.16358818113803864,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.9023265838623047,
+      &quot;same_mass&quot;: 0.12740957736968994,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.603780746459961,
+      &quot;same_mass&quot;: 0.16886313259601593,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.5904886722564697,
+      &quot;same_mass&quot;: 0.15881873667240143,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 1.646048903465271,
+      &quot;same_mass&quot;: 0.16358385980129242,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.90447998046875,
+      &quot;same_mass&quot;: 0.12816546857357025,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.6040050983428955,
+      &quot;same_mass&quot;: 0.16881625354290009,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.588823080062866,
+      &quot;same_mass&quot;: 0.1587928831577301,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 1.6444036960601807,
+      &quot;same_mass&quot;: 0.16369731724262238,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;22854&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.9013761281967163,
+      &quot;same_mass&quot;: 0.1270027905702591,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    }
+  ],
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ]
+}</pre><h3>VV</h3><img src="harmed_22854_vv.png"><h3>VH</h3><img src="harmed_22854_vh.png"><h2>CC: 2042 against control</h2><pre>{
+  &quot;id&quot;: &quot;2042&quot;,
+  &quot;label&quot;: 4,
+  &quot;seed&quot;: 17,
+  &quot;state&quot;: &quot;CC&quot;,
+  &quot;old&quot;: 4,
+  &quot;new&quot;: 4,
+  &quot;changed&quot;: false,
+  &quot;rival&quot;: 2,
+  &quot;margin_change&quot;: -0.34592270851135254,
+  &quot;reference&quot;: &quot;control&quot;,
+  &quot;state_orders&quot;: 3,
+  &quot;dataset&quot;: &quot;private&quot;,
+  &quot;version&quot;: &quot;anchor_corrected&quot;,
+  &quot;classes&quot;: [
+    &quot;bulk_carrier&quot;,
+    &quot;fishing&quot;,
+    &quot;general_cargo&quot;,
+    &quot;chemical_tanker&quot;,
+    &quot;container&quot;,
+    &quot;crude_oil_tanker&quot;,
+    &quot;tug&quot;,
+    &quot;offshore&quot;
+  ],
+  &quot;label_name&quot;: &quot;container&quot;,
+  &quot;rival_name&quot;: &quot;general_cargo&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -1.9905290603637695,
+          -12.57143783569336,
+          -1.0516597032546997,
+          -4.979400157928467,
+          8.397711753845215,
+          -1.8434916734695435,
+          -7.7593817710876465,
+          -18.807201385498047
+        ],
+        &quot;truth_rival_margin&quot;: 9.449371457099915
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -1.9458417892456055,
+          -11.881046295166016,
+          -0.7771959900856018,
+          -4.832120895385742,
+          8.211712837219238,
+          -1.7502723932266235,
+          -7.437249660491943,
+          -18.1666259765625
+        ],
+        &quot;truth_rival_margin&quot;: 8.98890882730484
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.375727653503418,
+          -12.535600662231445,
+          -1.0744960308074951,
+          -5.023977756500244,
+          8.439371109008789,
+          -1.9645943641662598,
+          -7.452448844909668,
+          -18.270946502685547
+        ],
+        &quot;truth_rival_margin&quot;: 9.513867139816284
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.280656337738037,
+          -12.01606559753418,
+          -0.8238635063171387,
+          -4.9195170402526855,
+          8.344080924987793,
+          -1.8535488843917847,
+          -7.28817081451416,
+          -17.86153793334961
+        ],
+        &quot;truth_rival_margin&quot;: 9.167944431304932
+      },
+      &quot;state_vs_control&quot;: &quot;CC&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;CC&quot;
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.466928243637085,
+          -10.868335723876953,
+          -1.6399000883102417,
+          -2.0378832817077637,
+          10.060211181640625,
+          -3.5439069271087646,
+          -6.7458815574646,
+          -17.34202003479004
+        ],
+        &quot;truth_rival_margin&quot;: 11.700111269950867
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.46268630027771,
+          -10.569011688232422,
+          -1.3955764770507812,
+          -1.9514508247375488,
+          9.997620582580566,
+          -3.249272108078003,
+          -6.427947998046875,
+          -16.94475555419922
+        ],
+        &quot;truth_rival_margin&quot;: 11.393197059631348
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.7114312648773193,
+          -10.919777870178223,
+          -1.7625004053115845,
+          -2.2240121364593506,
+          9.914027214050293,
+          -3.5694587230682373,
+          -6.358362674713135,
+          -16.78508758544922
+        ],
+        &quot;truth_rival_margin&quot;: 11.676527619361877
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.611053466796875,
+          -10.67661190032959,
+          -1.5257726907730103,
+          -2.1199517250061035,
+          9.903139114379883,
+          -3.3731882572174072,
+          -6.201679706573486,
+          -16.58865737915039
+        ],
+        &quot;truth_rival_margin&quot;: 11.428911805152893
+      },
+      &quot;state_vs_control&quot;: &quot;CC&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;CC&quot;
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -1.6959584951400757,
+          -11.61202621459961,
+          -1.2993868589401245,
+          -3.918948173522949,
+          7.715120792388916,
+          -2.7841689586639404,
+          -7.057129859924316,
+          -16.358583450317383
+        ],
+        &quot;truth_rival_margin&quot;: 9.01450765132904
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -1.8319191932678223,
+          -11.394330024719238,
+          -1.1047664880752563,
+          -3.725231885910034,
+          7.666053771972656,
+          -2.5121567249298096,
+          -6.619497776031494,
+          -15.888985633850098
+        ],
+        &quot;truth_rival_margin&quot;: 8.770820260047913
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.098018169403076,
+          -11.538357734680176,
+          -1.483587384223938,
+          -3.868077039718628,
+          7.798051357269287,
+          -2.890393018722534,
+          -6.739814758300781,
+          -15.992094993591309
+        ],
+        &quot;truth_rival_margin&quot;: 9.281638741493225
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 4,
+        &quot;logits&quot;: [
+          -2.0855982303619385,
+          -11.42654037475586,
+          -1.3333790302276611,
+          -3.769099712371826,
+          7.7379069328308105,
+          -2.7323615550994873,
+          -6.557517051696777,
+          -15.76193904876709
+        ],
+        &quot;truth_rival_margin&quot;: 9.071285963058472
+      },
+      &quot;state_vs_control&quot;: &quot;CC&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;CC&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;CC_2042_vv.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;36308&quot;,
+        &quot;23719&quot;,
+        &quot;6913&quot;,
+        &quot;22755&quot;
+      ]
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;CC_2042_vh.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 1,
+      &quot;shown_reference_ids&quot;: [
+        &quot;36308&quot;,
+        &quot;23719&quot;,
+        &quot;6913&quot;
+      ]
+    }
+  },
+  &quot;relation&quot;: [
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.5908520221710205,
+      &quot;same_mass&quot;: 0.20931287109851837,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.6137607097625732,
+      &quot;same_mass&quot;: 0.1276361495256424,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 1.1823310852050781,
+      &quot;same_mass&quot;: 0.5315525531768799,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.5822209119796753,
+      &quot;same_mass&quot;: 0.3533986508846283,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.5908162593841553,
+      &quot;same_mass&quot;: 0.20931874215602875,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.6139702796936035,
+      &quot;same_mass&quot;: 0.12806209921836853,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 1.182936668395996,
+      &quot;same_mass&quot;: 0.5314943790435791,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.584610939025879,
+      &quot;same_mass&quot;: 0.3504871129989624,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.591402292251587,
+      &quot;same_mass&quot;: 0.20911036431789398,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.613666296005249,
+      &quot;same_mass&quot;: 0.1274392455816269,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 1.1860582828521729,
+      &quot;same_mass&quot;: 0.5305048227310181,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2042&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.5801024436950684,
+      &quot;same_mass&quot;: 0.35528117418289185,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    }
+  ],
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ]
+}</pre><h3>VV</h3><img src="CC_2042_vv.png"><h3>VH</h3><img src="CC_2042_vh.png"><h2>WW: 20328 against control</h2><pre>{
+  &quot;id&quot;: &quot;20328&quot;,
+  &quot;label&quot;: 4,
+  &quot;seed&quot;: 29,
+  &quot;state&quot;: &quot;WW&quot;,
+  &quot;old&quot;: 0,
+  &quot;new&quot;: 0,
+  &quot;changed&quot;: false,
+  &quot;rival&quot;: 0,
+  &quot;margin_change&quot;: 0.3090093731880188,
+  &quot;reference&quot;: &quot;control&quot;,
+  &quot;state_orders&quot;: 3,
+  &quot;dataset&quot;: &quot;private&quot;,
+  &quot;version&quot;: &quot;anchor_corrected&quot;,
+  &quot;classes&quot;: [
+    &quot;bulk_carrier&quot;,
+    &quot;fishing&quot;,
+    &quot;general_cargo&quot;,
+    &quot;chemical_tanker&quot;,
+    &quot;container&quot;,
+    &quot;crude_oil_tanker&quot;,
+    &quot;tug&quot;,
+    &quot;offshore&quot;
+  ],
+  &quot;label_name&quot;: &quot;container&quot;,
+  &quot;rival_name&quot;: &quot;bulk_carrier&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          1.5118772983551025,
+          -11.818493843078613,
+          -3.0809640884399414,
+          -4.361401557922363,
+          -1.781166911125183,
+          -5.949363708496094,
+          -5.642721652984619,
+          -19.9487361907959
+        ],
+        &quot;truth_rival_margin&quot;: -3.2930442094802856
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          1.4149951934814453,
+          -11.150351524353027,
+          -2.766218662261963,
+          -3.9850075244903564,
+          -1.6813114881515503,
+          -5.79862642288208,
+          -5.149519920349121,
+          -19.130857467651367
+        ],
+        &quot;truth_rival_margin&quot;: -3.0963066816329956
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          1.1413698196411133,
+          -11.847234725952148,
+          -3.0979106426239014,
+          -4.448515892028809,
+          -1.6982895135879517,
+          -6.053023815155029,
+          -5.493276596069336,
+          -19.555295944213867
+        ],
+        &quot;truth_rival_margin&quot;: -2.839659333229065
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          1.1584467887878418,
+          -11.33047866821289,
+          -2.84330415725708,
+          -4.130152225494385,
+          -1.6102569103240967,
+          -5.898910999298096,
+          -5.168061256408691,
+          -19.038862228393555
+        ],
+        &quot;truth_rival_margin&quot;: -2.7687036991119385
+      },
+      &quot;state_vs_control&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;WW&quot;
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          1.5435960292816162,
+          -9.924320220947266,
+          -2.2842514514923096,
+          -3.2607228755950928,
+          -1.0754892826080322,
+          -3.4014291763305664,
+          -4.641927719116211,
+          -18.954275131225586
+        ],
+        &quot;truth_rival_margin&quot;: -2.6190853118896484
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          1.3123745918273926,
+          -9.378055572509766,
+          -1.9242639541625977,
+          -2.9661343097686768,
+          -0.8446009755134583,
+          -3.141388416290283,
+          -4.012394905090332,
+          -18.226337432861328
+        ],
+        &quot;truth_rival_margin&quot;: -2.156975567340851
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          1.2418100833892822,
+          -9.958333015441895,
+          -2.372300863265991,
+          -3.4401841163635254,
+          -1.134653091430664,
+          -3.4513797760009766,
+          -4.416993141174316,
+          -18.540996551513672
+        ],
+        &quot;truth_rival_margin&quot;: -2.3764631748199463
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          1.1693235635757446,
+          -9.484174728393555,
+          -2.0267739295959473,
+          -3.1493093967437744,
+          -0.8981302380561829,
+          -3.2581560611724854,
+          -3.9323549270629883,
+          -18.02871322631836
+        ],
+        &quot;truth_rival_margin&quot;: -2.0674538016319275
+      },
+      &quot;state_vs_control&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;WW&quot;
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;raw_source&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          0.9341009855270386,
+          -13.023863792419434,
+          -3.138336658477783,
+          -6.21071195602417,
+          -2.8435750007629395,
+          -5.765367031097412,
+          -6.311948299407959,
+          -20.029315948486328
+        ],
+        &quot;truth_rival_margin&quot;: -3.777675986289978
+      },
+      &quot;direct_center&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          0.800622284412384,
+          -12.627368927001953,
+          -2.7878637313842773,
+          -5.786694526672363,
+          -2.507976770401001,
+          -5.50447416305542,
+          -5.663538932800293,
+          -19.57381820678711
+        ],
+        &quot;truth_rival_margin&quot;: -3.308599054813385
+      },
+      &quot;control&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          0.5798619389533997,
+          -12.914158821105957,
+          -3.2123959064483643,
+          -6.129305839538574,
+          -2.6858348846435547,
+          -5.830129623413086,
+          -6.03551721572876,
+          -19.674232482910156
+        ],
+        &quot;truth_rival_margin&quot;: -3.2656968235969543
+      },
+      &quot;trained_center&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          0.5481414198875427,
+          -12.66969108581543,
+          -2.971626043319702,
+          -5.890378475189209,
+          -2.499311685562134,
+          -5.677922248840332,
+          -5.704852104187012,
+          -19.450565338134766
+        ],
+        &quot;truth_rival_margin&quot;: -3.0474531054496765
+      },
+      &quot;state_vs_control&quot;: &quot;WW&quot;,
+      &quot;state_vs_raw_source&quot;: &quot;WW&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;WW_20328_vv.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;36308&quot;,
+        &quot;23719&quot;,
+        &quot;34478&quot;,
+        &quot;31512&quot;
+      ]
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;WW_20328_vh.png&quot;,
+      &quot;same_class_available&quot;: 2,
+      &quot;rival_available&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;36308&quot;,
+        &quot;23719&quot;,
+        &quot;34478&quot;,
+        &quot;31512&quot;
+      ]
+    }
+  },
+  &quot;relation&quot;: [
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.7039856910705566,
+      &quot;same_mass&quot;: 0.12142331898212433,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.6207282543182373,
+      &quot;same_mass&quot;: 0.14718197286128998,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.028461456298828,
+      &quot;same_mass&quot;: 0.18889352679252625,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.4877904653549194,
+      &quot;same_mass&quot;: 0.4410438537597656,
+      &quot;seed&quot;: 17,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.703979253768921,
+      &quot;same_mass&quot;: 0.1214250698685646,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.6218013763427734,
+      &quot;same_mass&quot;: 0.14711391925811768,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.0293073654174805,
+      &quot;same_mass&quot;: 0.18870854377746582,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.4961992502212524,
+      &quot;same_mass&quot;: 0.43709132075309753,
+      &quot;seed&quot;: 29,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.704110860824585,
+      &quot;same_mass&quot;: 0.12146910279989243,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 2.6202480792999268,
+      &quot;same_mass&quot;: 0.1472015678882599,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;raw_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 0,
+      &quot;entropy&quot;: 2.0309314727783203,
+      &quot;same_mass&quot;: 0.18801306188106537,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;20328&quot;,
+      &quot;pol&quot;: 1,
+      &quot;entropy&quot;: 1.4816973209381104,
+      &quot;same_mass&quot;: 0.4438743591308594,
+      &quot;seed&quot;: 43,
+      &quot;phase&quot;: &quot;centered_relation&quot;
+    }
+  ],
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ]
+}</pre><h3>VV</h3><img src="WW_20328_vv.png"><h3>VH</h3><img src="WW_20328_vh.png">
