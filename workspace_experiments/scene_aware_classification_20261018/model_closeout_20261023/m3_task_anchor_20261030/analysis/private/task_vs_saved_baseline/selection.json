@@ -1,0 +1,14 @@
+{
+  "arm": "task",
+  "reference": "saved_baseline",
+  "seeds": [
+    17
+  ],
+  "absent": [],
+  "cases": 4,
+  "panels": 8,
+  "visual_status": "not_reviewed",
+  "rule": "Seed17 only. One query per original-relative state; prioritize task-vs-CE top1 differences, then absolute task-vs-CE fixed-rival margin change, original-relative margin change and ID. Fill absent-state slots with remaining ranked distinct queries; max4. No random sampling.",
+  "references": "Actual fixed reference manifest; exclude identical ID/MMSI; first two same/rival class entries in bank order. No resizing.",
+  "limitation": "Outcome-selected examples are not population proportions. Bank order is not learned attention ranking. No new per-reference attention trace or physical causal evidence."
+}

@@ -1,0 +1,118 @@
+{
+  "seed": 17,
+  "cpu_only": true,
+  "torch_imported": false,
+  "final_test_read": false,
+  "source_prediction_npz_read": false,
+  "expansion_assumed": false,
+  "results": [
+    {
+      "dataset": "private",
+      "prediction_identity": [
+        {
+          "arm": "frozen",
+          "reference": "saved_baseline",
+          "changed": 0,
+          "max_abs_logit_delta": 0.01904296875,
+          "logits_identical": false
+        },
+        {
+          "arm": "task",
+          "reference": "saved_baseline",
+          "changed": 14,
+          "max_abs_logit_delta": 1.6100540161132812,
+          "logits_identical": false
+        },
+        {
+          "arm": "task",
+          "reference": "ce",
+          "changed": 0,
+          "max_abs_logit_delta": 0.016182899475097656,
+          "logits_identical": false
+        },
+        {
+          "arm": "ce",
+          "reference": "saved_baseline",
+          "changed": 14,
+          "max_abs_logit_delta": 1.6123847961425781,
+          "logits_identical": false
+        },
+        {
+          "arm": "task",
+          "reference": "frozen",
+          "changed": 14,
+          "max_abs_logit_delta": 1.6018600463867188,
+          "logits_identical": false
+        }
+      ],
+      "gallery": {
+        "arm": "task",
+        "reference": "saved_baseline",
+        "seeds": [
+          17
+        ],
+        "absent": [],
+        "cases": 4,
+        "panels": 8,
+        "visual_status": "not_reviewed",
+        "rule": "Seed17 only. One query per original-relative state; prioritize task-vs-CE top1 differences, then absolute task-vs-CE fixed-rival margin change, original-relative margin change and ID. Fill absent-state slots with remaining ranked distinct queries; max4. No random sampling.",
+        "references": "Actual fixed reference manifest; exclude identical ID/MMSI; first two same/rival class entries in bank order. No resizing.",
+        "limitation": "Outcome-selected examples are not population proportions. Bank order is not learned attention ranking. No new per-reference attention trace or physical causal evidence."
+      }
+    },
+    {
+      "dataset": "oss2",
+      "prediction_identity": [
+        {
+          "arm": "frozen",
+          "reference": "saved_baseline",
+          "changed": 0,
+          "max_abs_logit_delta": 0.029977798461914062,
+          "logits_identical": false
+        },
+        {
+          "arm": "task",
+          "reference": "saved_baseline",
+          "changed": 14,
+          "max_abs_logit_delta": 0.8839521408081055,
+          "logits_identical": false
+        },
+        {
+          "arm": "task",
+          "reference": "ce",
+          "changed": 0,
+          "max_abs_logit_delta": 0.014715194702148438,
+          "logits_identical": false
+        },
+        {
+          "arm": "ce",
+          "reference": "saved_baseline",
+          "changed": 14,
+          "max_abs_logit_delta": 0.869236946105957,
+          "logits_identical": false
+        },
+        {
+          "arm": "task",
+          "reference": "frozen",
+          "changed": 14,
+          "max_abs_logit_delta": 0.8539743423461914,
+          "logits_identical": false
+        }
+      ],
+      "gallery": {
+        "arm": "task",
+        "reference": "saved_baseline",
+        "seeds": [
+          17
+        ],
+        "absent": [],
+        "cases": 4,
+        "panels": 8,
+        "visual_status": "not_reviewed",
+        "rule": "Seed17 only. One query per original-relative state; prioritize task-vs-CE top1 differences, then absolute task-vs-CE fixed-rival margin change, original-relative margin change and ID. Fill absent-state slots with remaining ranked distinct queries; max4. No random sampling.",
+        "references": "Actual fixed reference manifest; exclude identical ID/MMSI; first two same/rival class entries in bank order. No resizing.",
+        "limitation": "Outcome-selected examples are not population proportions. Bank order is not learned attention ranking. No new per-reference attention trace or physical causal evidence."
+      }
+    }
+  ]
+}
