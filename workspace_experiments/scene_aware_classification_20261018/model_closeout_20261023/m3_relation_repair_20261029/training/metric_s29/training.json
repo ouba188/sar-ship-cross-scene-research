@@ -1,0 +1,96 @@
+{
+  "arm": "metric",
+  "seed": 29,
+  "checkpoint": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\training\\spatial_s29\\model.pt",
+  "steps": 153,
+  "epochs": 3,
+  "source_count": 1205,
+  "reference_count": 16,
+  "held_count": 160,
+  "comparison_lr": 0.01,
+  "value_lr": 0.001,
+  "trainable": 134518,
+  "only_m3_changed": true,
+  "curve": [
+    {
+      "epoch": 1,
+      "ce": 0.047658951003469674,
+      "auxiliary": 1.586404579527238,
+      "relation": 2.5568427385068406
+    },
+    {
+      "epoch": 2,
+      "ce": 0.044575048537523136,
+      "auxiliary": 1.595673003617455,
+      "relation": 2.5096099259806612
+    },
+    {
+      "epoch": 3,
+      "ce": 0.0414201317300253,
+      "auxiliary": 1.5840554284114463,
+      "relation": 2.4943109563752714
+    }
+  ],
+  "gradients": {
+    "m3.0.0.branch_bias": 0.0001247530453838408,
+    "m3.0.0.gain": 0.0076082791201770306,
+    "m3.0.0.metric_deep": 0.002084087347611785,
+    "m3.0.0.metric_local": 0.0009314077324233949,
+    "m3.0.0.selector.0.weight": 1.0977264537359588e-05,
+    "m3.0.0.selector.0.bias": 1.827857158787083e-05,
+    "m3.0.0.selector.2.weight": 6.72725000185892e-05,
+    "m3.0.0.selector.2.bias": 0.0001247530453838408,
+    "m3.0.0.project.weight": 0.005337072536349297,
+    "m3.0.0.output.weight": 0.06405844539403915,
+    "m3.0.1.branch_bias": 0.0003667370474431664,
+    "m3.0.1.gain": 0.05476577952504158,
+    "m3.0.1.metric_deep": 0.001471168827265501,
+    "m3.0.1.metric_local": 0.0006955032586120069,
+    "m3.0.1.selector.0.weight": 1.3176811080484185e-05,
+    "m3.0.1.selector.0.bias": 7.843162165954709e-06,
+    "m3.0.1.selector.2.weight": 0.0003339799586683512,
+    "m3.0.1.selector.2.bias": 0.0003667370474431664,
+    "m3.0.1.project.weight": 0.004778275731950998,
+    "m3.0.1.output.weight": 0.05928216502070427
+  },
+  "parameter_updates": {
+    "m3.0.0.branch_bias": 0.14655238389968872,
+    "m3.0.0.gain": 0.0016339793801307678,
+    "m3.0.0.metric_deep": 14.881884574890137,
+    "m3.0.0.metric_local": 7.381171703338623,
+    "m3.0.0.selector.0.weight": 1.1936177015304565,
+    "m3.0.0.selector.0.bias": 0.380410760641098,
+    "m3.0.0.selector.2.weight": 1.088720679283142,
+    "m3.0.0.selector.2.bias": 0.19472146034240723,
+    "m3.0.0.project.weight": 1.2495170831680298,
+    "m3.0.0.output.weight": 1.8266435861587524,
+    "m3.0.1.branch_bias": 0.10774435847997665,
+    "m3.0.1.gain": 0.005293712019920349,
+    "m3.0.1.metric_deep": 13.01551628112793,
+    "m3.0.1.metric_local": 8.454977989196777,
+    "m3.0.1.selector.0.weight": 1.3790031671524048,
+    "m3.0.1.selector.0.bias": 0.6052818298339844,
+    "m3.0.1.selector.2.weight": 0.6862354278564453,
+    "m3.0.1.selector.2.bias": 0.15332303941249847,
+    "m3.0.1.project.weight": 0.5451964139938354,
+    "m3.0.1.output.weight": 1.889339804649353
+  },
+  "before": {
+    "oa": 45.625,
+    "ba": 36.38358070500928,
+    "nll": 2.243899933390465,
+    "brier": 0.8264443665261345
+  },
+  "after": {
+    "oa": 40.0,
+    "ba": 31.85327767470625,
+    "nll": 2.5981853370706203,
+    "brier": 0.9041555549538925
+  },
+  "initial_error": 1.811981201171875e-05,
+  "native_error": 1.52587890625e-05,
+  "replay_error": 1.52587890625e-05,
+  "seconds": 60.02517829998396,
+  "validation_selection": false,
+  "optimizer_restarted": true
+}

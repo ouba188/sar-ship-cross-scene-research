@@ -1,0 +1,60 @@
+{
+  "device": "cpu",
+  "dtype": "torch.float64",
+  "seed": 1030,
+  "training_run": false,
+  "identity_errors": {
+    "output": 2.220446049250313e-16,
+    "relation": 3.552713678800501e-15,
+    "attention": 1.1102230246251565e-15
+  },
+  "metric_gradients": {
+    "relation": {
+      "deep": 0.0023386940451809277,
+      "local": 0.003153352219777417
+    },
+    "ce": {
+      "deep": 5.7364147772503654e-05,
+      "local": 8.123293317996113e-05
+    }
+  },
+  "metric_finite_difference_coordinate": 883,
+  "metric_finite_difference_error": 3.728304774283653e-12,
+  "shared_query_reference_max_error": 0.0,
+  "masked_reference_value_gradient_norm": 0.0,
+  "live_reference_value_gradient_norm": 0.12418054664382139,
+  "missing_query_update_norm": 0.0,
+  "masked_relation_loss": 0.3466697551073131,
+  "metric_parameters": 3072,
+  "optimizer_parameter_groups": [
+    [
+      "m3.0.0.branch_bias",
+      "m3.0.0.metric_deep",
+      "m3.0.0.metric_local",
+      "m3.0.0.selector.0.weight",
+      "m3.0.0.selector.0.bias",
+      "m3.0.0.selector.2.weight",
+      "m3.0.0.selector.2.bias",
+      "m3.0.1.branch_bias",
+      "m3.0.1.metric_deep",
+      "m3.0.1.metric_local",
+      "m3.0.1.selector.0.weight",
+      "m3.0.1.selector.0.bias",
+      "m3.0.1.selector.2.weight",
+      "m3.0.1.selector.2.bias"
+    ],
+    [
+      "m3.0.0.gain",
+      "m3.0.0.project.weight",
+      "m3.0.0.output.weight",
+      "m3.0.1.gain",
+      "m3.0.1.project.weight",
+      "m3.0.1.output.weight"
+    ]
+  ],
+  "optimizer_lrs": [
+    0.01,
+    0.001
+  ],
+  "caveat": "Synthetic operator test; no full-network CPU/GPU forward or checkpoint loading."
+}
