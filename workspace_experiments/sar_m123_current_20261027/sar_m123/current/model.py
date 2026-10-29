@@ -4,6 +4,7 @@ from pathlib import Path
 import torch
 
 from ..bottleneck_evidence import BottleneckEvidenceResNet50
+from .spatial_m12 import SpatialM12ResNet50
 from .data import batch, pair_mask, prepare_record
 
 CLASSES = ['bulk_carrier', 'fishing', 'general_cargo', 'chemical_tanker',
@@ -22,16 +23,20 @@ def setup(device='cuda'):
 
 def load_model(path, device='cpu'):
     blob = torch.load(path, map_location='cpu', weights_only=True)
-    if blob.get('architecture') != 'native160_pre3x3_m123':
+    architecture = blob.get('architecture')
+    if architecture == SpatialM12ResNet50.architecture:
+        model = SpatialM12ResNet50(None, position='pre3x3', policy='local', classes=8)
+    elif architecture == 'native160_pre3x3_m123':
+        model = BottleneckEvidenceResNet50(None, position='pre3x3', policy='local', classes=8)
+    else:
         raise ValueError('Expected a complete current-model checkpoint, not an adaptation delta.')
-    model = BottleneckEvidenceResNet50(None, position='pre3x3', policy='local', classes=8)
     model.load_state_dict(blob['state'], strict=True)
     return model.to(device).eval().requires_grad_(False)
 
 
 def save_model(model, path, **metadata):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
-    torch.save(dict(architecture='native160_pre3x3_m123', classes=CLASSES,
+    torch.save(dict(architecture=getattr(model, 'architecture', 'native160_pre3x3_m123'), classes=CLASSES,
         state={k: v.detach().cpu() for k, v in model.state_dict().items()},
         metadata=metadata), path)
 
