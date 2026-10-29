@@ -1,0 +1,2250 @@
+[
+  {
+    "id": "25478",
+    "seed": 17,
+    "label": 3,
+    "class_name": "chemical_tanker",
+    "port": "Port Klang",
+    "pass_group": "S1A_061742_07B768",
+    "mmsi": "533019900",
+    "available": "both",
+    "state": "rescued",
+    "reference_prediction": 2,
+    "alternative_prediction": 3,
+    "fixed_rival": 2,
+    "reference_fixed_margin": -0.044160693883895874,
+    "reference_top_rival_margin": -0.044160693883895874,
+    "reference_NLL": 0.817383076838763,
+    "reference_Brier": 0.5293769374158903,
+    "alternative_fixed_margin": 0.37849653884768486,
+    "alternative_top_rival_margin": 0.37849653884768486,
+    "alternative_NLL": 0.6090699714809642,
+    "alternative_Brier": 0.35016755159296375,
+    "delta_fixed_margin": 0.42265723273158073,
+    "selection_category": "rescued",
+    "net_rescue_seed_events": 1,
+    "state_seed_counts": {
+      "rescued": 1,
+      "WW": 2
+    },
+    "scope": "expanded",
+    "selection_rule": "Expanded final comparison only. Prefer net rescued/harmed across order seeds and all-seed CC/WW, up to two distinct queries each; prioritize available partial-missing coverage in second slots. Rank by absolute net rescue count, then absolute fixed-rival margin change and ID; representative seed has largest absolute margin change within state. Fill unavailable categories by transition then margin. Outcome-selected, not representative prevalence.",
+    "visual_status": "not_reviewed",
+    "rival_classes": [
+      2
+    ],
+    "eligible_reference_ids": [
+      "34478",
+      "31512",
+      "14814",
+      "16401",
+      "6913",
+      "22755",
+      "24527",
+      "7790",
+      "36308",
+      "23719",
+      "29922",
+      "2077",
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "true_reference_ids": [
+      "24527",
+      "7790"
+    ],
+    "rival_reference_ids": [
+      "6913",
+      "22755"
+    ],
+    "panels": {
+      "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_01_vv.png",
+      "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_01_vh.png"
+    },
+    "per_seed": [
+      {
+        "seed": 17,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -2.7372727394104004,
+              -3.6187753677368164,
+              -0.9637407660484314,
+              -1.1769115924835205,
+              -16.3267879486084,
+              -8.45932674407959,
+              -7.218204021453857,
+              -17.372617721557617
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "2": -0.2131708264350891
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -2.735795021057129,
+              -2.3828024864196777,
+              -0.257865846157074,
+              -0.30202654004096985,
+              -14.71566390991211,
+              -7.7937750816345215,
+              -5.366654396057129,
+              -13.37052059173584
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "2": -0.044160693883895874
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -2.6813132762908936,
+              -3.7497310638427734,
+              -1.0174483060836792,
+              -1.0720171928405762,
+              -16.243675231933594,
+              -8.490839004516602,
+              -7.147640705108643,
+              -17.399911880493164
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "2": -0.05456888675689697
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -2.6986632347106934,
+              -2.448153495788574,
+              -0.34989580512046814,
+              0.02860073372721672,
+              -14.6272611618042,
+              -7.942914009094238,
+              -5.475568771362305,
+              -13.457398414611816
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "2": 0.37849653884768486
+            }
+          }
+        }
+      },
+      {
+        "seed": 29,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -1.1961859464645386,
+              -0.38512516021728516,
+              1.0635781288146973,
+              -1.5598580837249756,
+              -14.79481029510498,
+              -3.1036341190338135,
+              -4.389634609222412,
+              -17.224952697753906
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "2": -2.623436212539673
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -1.2752476930618286,
+              0.3345263600349426,
+              1.2131400108337402,
+              -1.5096865892410278,
+              -13.079768180847168,
+              -3.010535717010498,
+              -2.895033121109009,
+              -13.101188659667969
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "2": -2.722826600074768
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -0.8670271039009094,
+              -0.4359782338142395,
+              1.0211308002471924,
+              -1.6480799913406372,
+              -14.68686580657959,
+              -2.8928284645080566,
+              -4.708391189575195,
+              -16.90028190612793
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "2": -2.6692107915878296
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -0.9881991147994995,
+              0.2944595217704773,
+              1.0834718942642212,
+              -1.530691385269165,
+              -12.956512451171875,
+              -2.714137077331543,
+              -3.158421516418457,
+              -12.878888130187988
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "2": -2.6141632795333862
+            }
+          }
+        }
+      },
+      {
+        "seed": 43,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -0.6281864047050476,
+              -2.9975900650024414,
+              0.6646740436553955,
+              -3.5349724292755127,
+              -13.496292114257812,
+              -5.300394058227539,
+              -5.8099446296691895,
+              -16.89090919494629
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "2": -4.199646472930908
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -1.451017141342163,
+              -2.101109027862549,
+              1.1153775453567505,
+              -2.3620457649230957,
+              -12.14404010772705,
+              -4.508952617645264,
+              -4.704212188720703,
+              -13.95999813079834
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "2": -3.477423310279846
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -0.5878875255584717,
+              -3.0086400508880615,
+              0.6070613861083984,
+              -3.574537992477417,
+              -13.544076919555664,
+              -5.478241443634033,
+              -5.7167487144470215,
+              -16.794038772583008
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "2": -4.181599378585815
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -1.3187731504440308,
+              -2.091799736022949,
+              0.8249796032905579,
+              -2.2340545654296875,
+              -12.23405647277832,
+              -4.73266077041626,
+              -4.490165710449219,
+              -13.723865509033203
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "2": -3.0590341687202454
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "11642",
+    "seed": 43,
+    "label": 3,
+    "class_name": "chemical_tanker",
+    "port": "Los Angeles",
+    "pass_group": "S1A_062086_07C4C3",
+    "mmsi": "367353080",
+    "available": "both",
+    "state": "harmed",
+    "reference_prediction": 3,
+    "alternative_prediction": 0,
+    "fixed_rival": 0,
+    "reference_fixed_margin": 0.09747064113616943,
+    "reference_top_rival_margin": 0.09747064113616943,
+    "reference_NLL": 0.655277972343252,
+    "reference_Brier": 0.45302944722629407,
+    "alternative_fixed_margin": -0.03470730781555176,
+    "alternative_top_rival_margin": -0.03470730781555176,
+    "alternative_NLL": 0.7207006602996171,
+    "alternative_Brier": 0.517431970096303,
+    "delta_fixed_margin": -0.1321779489517212,
+    "selection_category": "harmed",
+    "net_rescue_seed_events": -2,
+    "state_seed_counts": {
+      "harmed": 2,
+      "CC": 1
+    },
+    "scope": "expanded",
+    "selection_rule": "Expanded final comparison only. Prefer net rescued/harmed across order seeds and all-seed CC/WW, up to two distinct queries each; prioritize available partial-missing coverage in second slots. Rank by absolute net rescue count, then absolute fixed-rival margin change and ID; representative seed has largest absolute margin change within state. Fill unavailable categories by transition then margin. Outcome-selected, not representative prevalence.",
+    "visual_status": "not_reviewed",
+    "rival_classes": [
+      0
+    ],
+    "eligible_reference_ids": [
+      "34478",
+      "31512",
+      "14814",
+      "16401",
+      "6913",
+      "22755",
+      "24527",
+      "7790",
+      "36308",
+      "23719",
+      "29922",
+      "2077",
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "true_reference_ids": [
+      "24527",
+      "7790"
+    ],
+    "rival_reference_ids": [
+      "34478",
+      "31512"
+    ],
+    "panels": {
+      "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_02_vv.png",
+      "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_02_vh.png"
+    },
+    "per_seed": [
+      {
+        "seed": 17,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              1.4481139183044434,
+              -7.90502405166626,
+              -5.441324710845947,
+              1.1263574361801147,
+              -8.186803817749023,
+              -8.039036750793457,
+              -1.4182473421096802,
+              -5.043396949768066
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -0.3217564821243286
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              1.079024314880371,
+              -8.168756484985352,
+              -5.644787311553955,
+              1.1184943914413452,
+              -8.140249252319336,
+              -6.52667760848999,
+              -0.8816348314285278,
+              -4.776766300201416
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 0.03947007656097412
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              1.4427614212036133,
+              -7.807739734649658,
+              -5.4385986328125,
+              1.0772136449813843,
+              -8.20980167388916,
+              -8.021122932434082,
+              -1.3543438911437988,
+              -4.975369930267334
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -0.365547776222229
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              1.1110060214996338,
+              -8.285696983337402,
+              -5.779221057891846,
+              1.0639382600784302,
+              -8.201305389404297,
+              -6.567830562591553,
+              -0.9232243299484253,
+              -4.7543768882751465
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -0.04706776142120361
+            }
+          }
+        }
+      },
+      {
+        "seed": 29,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              1.2839175462722778,
+              -6.141516208648682,
+              -4.582396030426025,
+              2.1044344902038574,
+              -4.540130138397217,
+              -5.837143421173096,
+              -1.4098448753356934,
+              -3.9333319664001465
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 0.8205169439315796
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              1.575984239578247,
+              -5.722571849822998,
+              -4.630078315734863,
+              1.8931604623794556,
+              -4.935244560241699,
+              -5.367529392242432,
+              -0.7857435345649719,
+              -3.5366873741149902
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 0.3171762228012085
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              1.5081872940063477,
+              -6.265174865722656,
+              -4.596655368804932,
+              2.0566868782043457,
+              -4.648706436157227,
+              -5.77469539642334,
+              -1.6537266969680786,
+              -4.187524318695068
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 0.548499584197998
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              1.7142157554626465,
+              -5.73192024230957,
+              -4.626594543457031,
+              1.940889835357666,
+              -4.886722564697266,
+              -5.293723106384277,
+              -0.9087624549865723,
+              -3.6450963020324707
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 0.22667407989501953
+            }
+          }
+        }
+      },
+      {
+        "seed": 43,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              2.3742005825042725,
+              -9.428041458129883,
+              -4.34028434753418,
+              1.8442354202270508,
+              -7.763564109802246,
+              -5.716390609741211,
+              -3.087646722793579,
+              -5.796152591705322
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -0.5299651622772217
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              1.778708577156067,
+              -9.998941421508789,
+              -4.500162601470947,
+              1.8761792182922363,
+              -7.339466094970703,
+              -4.804868698120117,
+              -2.4754295349121094,
+              -4.075888156890869
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 0.09747064113616943
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              2.3801212310791016,
+              -9.346575736999512,
+              -4.278472423553467,
+              1.778422236442566,
+              -7.672335624694824,
+              -5.801227569580078,
+              -2.954967975616455,
+              -5.769690990447998
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -0.6016989946365356
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              1.8551896810531616,
+              -9.861625671386719,
+              -4.593486785888672,
+              1.8204823732376099,
+              -7.29608678817749,
+              -4.801248550415039,
+              -2.376012086868286,
+              -4.203341960906982
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -0.03470730781555176
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "36312",
+    "seed": 29,
+    "label": 3,
+    "class_name": "chemical_tanker",
+    "port": "Jebel Ali",
+    "pass_group": "S1A_062188_07C8BF",
+    "mmsi": "636024530",
+    "available": "both",
+    "state": "CC",
+    "reference_prediction": 3,
+    "alternative_prediction": 3,
+    "fixed_rival": 0,
+    "reference_fixed_margin": 5.169995442032814,
+    "reference_top_rival_margin": 5.169995442032814,
+    "reference_NLL": 0.008026517256943581,
+    "reference_Brier": 9.761703753652938e-05,
+    "alternative_fixed_margin": 4.596218109130859,
+    "alternative_top_rival_margin": 4.596218109130859,
+    "alternative_NLL": 0.013024110888027993,
+    "alternative_Brier": 0.0002699562966648108,
+    "delta_fixed_margin": -0.5737773329019547,
+    "selection_category": "CC",
+    "net_rescue_seed_events": 0,
+    "state_seed_counts": {
+      "CC": 3
+    },
+    "scope": "expanded",
+    "selection_rule": "Expanded final comparison only. Prefer net rescued/harmed across order seeds and all-seed CC/WW, up to two distinct queries each; prioritize available partial-missing coverage in second slots. Rank by absolute net rescue count, then absolute fixed-rival margin change and ID; representative seed has largest absolute margin change within state. Fill unavailable categories by transition then margin. Outcome-selected, not representative prevalence.",
+    "visual_status": "not_reviewed",
+    "rival_classes": [
+      0
+    ],
+    "eligible_reference_ids": [
+      "34478",
+      "31512",
+      "14814",
+      "16401",
+      "6913",
+      "22755",
+      "24527",
+      "7790",
+      "36308",
+      "23719",
+      "29922",
+      "2077",
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "true_reference_ids": [
+      "24527",
+      "7790"
+    ],
+    "rival_reference_ids": [
+      "34478",
+      "31512"
+    ],
+    "panels": {
+      "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_03_vv.png",
+      "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_03_vh.png"
+    },
+    "per_seed": [
+      {
+        "seed": 17,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              1.011324405670166,
+              -5.997041702270508,
+              -3.2808918952941895,
+              5.234468460083008,
+              -14.864004135131836,
+              -7.870304107666016,
+              -6.783544063568115,
+              -18.05126953125
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 4.223144054412842
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              0.3284442126750946,
+              -4.968556880950928,
+              -3.41306209564209,
+              5.801587104797363,
+              -13.442667007446289,
+              -6.254906177520752,
+              -4.178099155426025,
+              -12.429733276367188
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 5.473142892122269
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              0.9261776804924011,
+              -6.008326053619385,
+              -3.4381520748138428,
+              5.101996898651123,
+              -14.858101844787598,
+              -7.675504684448242,
+              -6.73486852645874,
+              -18.175518035888672
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 4.175819218158722
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              0.21015949547290802,
+              -4.944965362548828,
+              -3.559803009033203,
+              5.835258960723877,
+              -13.51659107208252,
+              -6.28721809387207,
+              -4.137954235076904,
+              -12.499218940734863
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 5.625099465250969
+            }
+          }
+        }
+      },
+      {
+        "seed": 29,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              0.860895037651062,
+              -2.9871320724487305,
+              -2.185011386871338,
+              5.3796515464782715,
+              -12.809480667114258,
+              -2.2983157634735107,
+              -6.336860179901123,
+              -19.437545776367188
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 4.5187565088272095
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              0.14517484605312347,
+              -2.2782182693481445,
+              -2.0256974697113037,
+              5.3151702880859375,
+              -11.47166633605957,
+              -1.479918122291565,
+              -3.8690476417541504,
+              -13.646932601928711
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 5.169995442032814
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              1.343876600265503,
+              -3.1736576557159424,
+              -2.2923190593719482,
+              5.209759712219238,
+              -12.833084106445312,
+              -2.1932437419891357,
+              -6.617442607879639,
+              -19.399818420410156
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 3.8658831119537354
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              0.5511956214904785,
+              -2.29207444190979,
+              -2.0351476669311523,
+              5.147413730621338,
+              -11.266042709350586,
+              -1.304378628730774,
+              -4.121703624725342,
+              -13.480863571166992
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 4.596218109130859
+            }
+          }
+        }
+      },
+      {
+        "seed": 43,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              2.5258591175079346,
+              -6.103066921234131,
+              -1.5387848615646362,
+              5.544075965881348,
+              -13.657495498657227,
+              -4.375726699829102,
+              -6.38786506652832,
+              -16.250539779663086
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 3.018216848373413
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              1.3283108472824097,
+              -5.285127639770508,
+              -2.2032265663146973,
+              6.390460968017578,
+              -12.655011177062988,
+              -2.8519487380981445,
+              -5.134078502655029,
+              -12.516275405883789
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 5.0621501207351685
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              2.563490629196167,
+              -6.051363468170166,
+              -1.5428903102874756,
+              5.38204288482666,
+              -13.671175956726074,
+              -4.56075382232666,
+              -6.367485523223877,
+              -15.993393898010254
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 2.818552255630493
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              1.3383328914642334,
+              -4.950465679168701,
+              -2.165067434310913,
+              6.267074108123779,
+              -12.583380699157715,
+              -2.8712410926818848,
+              -4.904769420623779,
+              -12.023992538452148
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": 4.928741216659546
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "11793",
+    "seed": 29,
+    "label": 6,
+    "class_name": "tug",
+    "port": "Houston",
+    "pass_group": "S1A_062515_07D578",
+    "mmsi": "367564240",
+    "available": "both",
+    "state": "WW",
+    "reference_prediction": 2,
+    "alternative_prediction": 2,
+    "fixed_rival": 0,
+    "reference_fixed_margin": -0.08122548460960388,
+    "reference_top_rival_margin": -1.019429475069046,
+    "reference_NLL": 2.015165437906203,
+    "reference_Brier": 0.9862437828617067,
+    "alternative_fixed_margin": -0.8075636811554432,
+    "alternative_top_rival_margin": -1.5388236232101917,
+    "alternative_NLL": 2.4796666895272335,
+    "alternative_Brier": 1.1021177637996895,
+    "delta_fixed_margin": -0.7263381965458393,
+    "selection_category": "WW",
+    "net_rescue_seed_events": 0,
+    "state_seed_counts": {
+      "WW": 3
+    },
+    "scope": "expanded",
+    "selection_rule": "Expanded final comparison only. Prefer net rescued/harmed across order seeds and all-seed CC/WW, up to two distinct queries each; prioritize available partial-missing coverage in second slots. Rank by absolute net rescue count, then absolute fixed-rival margin change and ID; representative seed has largest absolute margin change within state. Fill unavailable categories by transition then margin. Outcome-selected, not representative prevalence.",
+    "visual_status": "not_reviewed",
+    "rival_classes": [
+      0,
+      2
+    ],
+    "eligible_reference_ids": [
+      "34478",
+      "31512",
+      "14814",
+      "16401",
+      "6913",
+      "22755",
+      "24527",
+      "7790",
+      "36308",
+      "23719",
+      "29922",
+      "2077",
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "true_reference_ids": [
+      "12041",
+      "7429"
+    ],
+    "rival_reference_ids": [
+      "34478",
+      "31512",
+      "6913",
+      "22755"
+    ],
+    "panels": {
+      "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_04_vv.png",
+      "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_04_vh.png"
+    },
+    "per_seed": [
+      {
+        "seed": 17,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              0.38165703415870667,
+              -1.0040873289108276,
+              -1.1623386144638062,
+              -0.5827196836471558,
+              -7.926626205444336,
+              -7.911836624145508,
+              -4.442824840545654,
+              -16.313810348510742
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -4.824481874704361,
+              "2": -3.280486226081848
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              0.2955652177333832,
+              -0.6684723496437073,
+              -1.1840932369232178,
+              -0.5173730850219727,
+              -7.528336048126221,
+              -7.166666507720947,
+              -3.366431713104248,
+              -14.052032470703125
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -3.6619969308376312,
+              "2": -2.1823384761810303
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              0.3197822868824005,
+              -1.1006633043289185,
+              -1.2076694965362549,
+              -0.6367719173431396,
+              -7.852867126464844,
+              -7.782235145568848,
+              -4.299826145172119,
+              -16.254980087280273
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -4.61960843205452,
+              "2": -3.0921566486358643
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              0.2148124724626541,
+              -0.6447718143463135,
+              -1.1662099361419678,
+              -0.46914738416671753,
+              -7.436106204986572,
+              -7.116805076599121,
+              -3.219942092895508,
+              -13.931315422058105
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -3.434754565358162,
+              "2": -2.05373215675354
+            }
+          }
+        }
+      },
+      {
+        "seed": 29,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              0.4986640214920044,
+              -0.4356452524662018,
+              1.907012939453125,
+              1.375484824180603,
+              -7.089016914367676,
+              -5.044164180755615,
+              -0.9089584946632385,
+              -15.571647644042969
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "0": -1.407622516155243,
+              "2": -2.8159714341163635
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              0.5581645369529724,
+              0.05502909794449806,
+              1.4963685274124146,
+              1.162711501121521,
+              -6.420241355895996,
+              -5.141853332519531,
+              0.47693905234336853,
+              -12.468382835388184
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "0": -0.08122548460960388,
+              "2": -1.019429475069046
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              0.7546283006668091,
+              -0.4823840856552124,
+              1.9193412065505981,
+              1.3914984464645386,
+              -7.070737361907959,
+              -4.973574638366699,
+              -1.2647796869277954,
+              -15.519491195678711
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "0": -2.0194079875946045,
+              "2": -3.1841208934783936
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              0.845727801322937,
+              -0.09179069101810455,
+              1.5769877433776855,
+              1.1854033470153809,
+              -6.362945556640625,
+              -5.004530429840088,
+              0.03816412016749382,
+              -12.473213195800781
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "0": -0.8075636811554432,
+              "2": -1.5388236232101917
+            }
+          }
+        }
+      },
+      {
+        "seed": 43,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              2.0624279975891113,
+              -0.8608275055885315,
+              1.8081706762313843,
+              -1.2383480072021484,
+              -7.061426162719727,
+              -6.976123809814453,
+              -2.9221060276031494,
+              -14.955973625183105
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -4.984534025192261,
+              "2": -4.730276703834534
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              1.21455979347229,
+              -0.6075175404548645,
+              1.301461100578308,
+              -0.7014327645301819,
+              -5.956281661987305,
+              -6.050197601318359,
+              -2.3273117542266846,
+              -13.13016128540039
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "0": -3.5418715476989746,
+              "2": -3.6287728548049927
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              1.910861849784851,
+              -0.9928174018859863,
+              1.910179615020752,
+              -1.2654870748519897,
+              -6.965148448944092,
+              -6.986762523651123,
+              -2.8586721420288086,
+              -14.828879356384277
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -4.76953399181366,
+              "2": -4.7688517570495605
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              1.1930650472640991,
+              -0.6633118391036987,
+              1.1996142864227295,
+              -0.6554400324821472,
+              -5.9491987228393555,
+              -6.095710277557373,
+              -2.2154674530029297,
+              -12.940156936645508
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "0": -3.408532500267029,
+              "2": -3.415081739425659
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "26155",
+    "seed": 29,
+    "label": 3,
+    "class_name": "chemical_tanker",
+    "port": "Port Klang",
+    "pass_group": "S1A_062288_07CCA5",
+    "mmsi": "533133131",
+    "available": "vv_only",
+    "state": "rescued",
+    "reference_prediction": 7,
+    "alternative_prediction": 3,
+    "fixed_rival": 6,
+    "reference_fixed_margin": 0.0848379135131836,
+    "reference_top_rival_margin": -0.0144881010055542,
+    "reference_NLL": 1.1005238607528416,
+    "reference_Brier": 0.6527909427512734,
+    "alternative_fixed_margin": 0.26176249980926514,
+    "alternative_top_rival_margin": 0.10972142219543457,
+    "alternative_NLL": 1.006225526201498,
+    "alternative_Brier": 0.5891369393657955,
+    "delta_fixed_margin": 0.17692458629608154,
+    "selection_category": "rescued",
+    "net_rescue_seed_events": 1,
+    "state_seed_counts": {
+      "CC": 2,
+      "rescued": 1
+    },
+    "scope": "expanded",
+    "selection_rule": "Expanded final comparison only. Prefer net rescued/harmed across order seeds and all-seed CC/WW, up to two distinct queries each; prioritize available partial-missing coverage in second slots. Rank by absolute net rescue count, then absolute fixed-rival margin change and ID; representative seed has largest absolute margin change within state. Fill unavailable categories by transition then margin. Outcome-selected, not representative prevalence.",
+    "visual_status": "not_reviewed",
+    "rival_classes": [
+      6,
+      7
+    ],
+    "eligible_reference_ids": [
+      "34478",
+      "31512",
+      "14814",
+      "16401",
+      "6913",
+      "22755",
+      "24527",
+      "7790",
+      "36308",
+      "23719",
+      "29922",
+      "2077",
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "true_reference_ids": [
+      "24527",
+      "7790"
+    ],
+    "rival_reference_ids": [
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "panels": {
+      "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_05_vv.png",
+      "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_05_vh.png"
+    },
+    "per_seed": [
+      {
+        "seed": 17,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -2.0390710830688477,
+              -2.064798593521118,
+              -3.4435596466064453,
+              1.628320574760437,
+              -6.377303600311279,
+              -4.23940896987915,
+              1.313397765159607,
+              0.7421969771385193
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "6": 0.3149228096008301,
+              "7": 0.8861235976219177
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -1.9639030694961548,
+              -2.1187384128570557,
+              -3.1604232788085938,
+              1.888287901878357,
+              -5.872594356536865,
+              -3.5861923694610596,
+              1.3597661256790161,
+              0.8702723383903503
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "6": 0.5285217761993408,
+              "7": 1.0180155634880066
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -2.0711472034454346,
+              -2.008577585220337,
+              -3.426682710647583,
+              1.6244616508483887,
+              -6.419327735900879,
+              -4.199688911437988,
+              1.3290083408355713,
+              0.7045498490333557
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "6": 0.2954533100128174,
+              "7": 0.919911801815033
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -1.9442981481552124,
+              -2.0721347332000732,
+              -3.137730360031128,
+              1.9527175426483154,
+              -5.8842453956604,
+              -3.539287805557251,
+              1.3585851192474365,
+              0.8606863617897034
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "6": 0.5941324234008789,
+              "7": 1.092031180858612
+            }
+          }
+        }
+      },
+      {
+        "seed": 29,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -3.026143789291382,
+              -3.3154428005218506,
+              -3.3124470710754395,
+              1.279516339302063,
+              -4.846320629119873,
+              -2.7581634521484375,
+              1.416251540184021,
+              1.199280023574829
+            ],
+            "prediction": 6,
+            "truth_rival_margins": {
+              "6": -0.136735200881958,
+              "7": 0.08023631572723389
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -2.602576494216919,
+              -3.238574981689453,
+              -2.732710838317871,
+              1.289973258972168,
+              -4.647974967956543,
+              -2.585063934326172,
+              1.2051353454589844,
+              1.3044613599777222
+            ],
+            "prediction": 7,
+            "truth_rival_margins": {
+              "6": 0.0848379135131836,
+              "7": -0.0144881010055542
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -2.937931537628174,
+              -3.2969751358032227,
+              -3.284799337387085,
+              1.321231484413147,
+              -4.890899181365967,
+              -2.7489728927612305,
+              1.319520354270935,
+              1.150550365447998
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "6": 0.001711130142211914,
+              "7": 0.17068111896514893
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -2.5418522357940674,
+              -3.238736629486084,
+              -2.653804302215576,
+              1.3734302520751953,
+              -4.635686874389648,
+              -2.572417736053467,
+              1.1116677522659302,
+              1.2637088298797607
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "6": 0.26176249980926514,
+              "7": 0.10972142219543457
+            }
+          }
+        }
+      },
+      {
+        "seed": 43,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -2.6181421279907227,
+              -3.0693647861480713,
+              -3.86228346824646,
+              1.3383312225341797,
+              -5.673248291015625,
+              -2.642486572265625,
+              0.8068005442619324,
+              0.3482774496078491
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "6": 0.5315306782722473,
+              "7": 0.9900537729263306
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -2.617393732070923,
+              -3.514218807220459,
+              -3.7289464473724365,
+              1.6644442081451416,
+              -5.2353057861328125,
+              -2.430795431137085,
+              0.7598787546157837,
+              0.8576266169548035
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "6": 0.9045654535293579,
+              "7": 0.8068175911903381
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -2.6116113662719727,
+              -3.1673226356506348,
+              -3.858689546585083,
+              1.3181216716766357,
+              -5.677114486694336,
+              -2.6958882808685303,
+              0.8467832207679749,
+              0.3596351146697998
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "6": 0.4713384509086609,
+              "7": 0.9584865570068359
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -2.642199993133545,
+              -3.55308198928833,
+              -3.723400592803955,
+              1.702459692955017,
+              -5.165261268615723,
+              -2.3937418460845947,
+              0.8080704808235168,
+              0.9186365604400635
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "6": 0.8943892121315002,
+              "7": 0.7838231325149536
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "3442",
+    "seed": 43,
+    "label": 2,
+    "class_name": "general_cargo",
+    "port": "Singapore",
+    "pass_group": "S1A_061843_07BB4D",
+    "mmsi": "246460000",
+    "available": "both",
+    "state": "harmed",
+    "reference_prediction": 2,
+    "alternative_prediction": 3,
+    "fixed_rival": 4,
+    "reference_fixed_margin": 0.6220204904675484,
+    "reference_top_rival_margin": 0.0733744204044342,
+    "reference_NLL": 1.0161217278421673,
+    "reference_Brier": 0.5624908104101934,
+    "alternative_fixed_margin": 0.16276590526103973,
+    "alternative_top_rival_margin": -0.16853052377700806,
+    "alternative_NLL": 1.2214349749744042,
+    "alternative_Brier": 0.6861537373151402,
+    "delta_fixed_margin": -0.45925458520650864,
+    "selection_category": "harmed",
+    "net_rescue_seed_events": -1,
+    "state_seed_counts": {
+      "WW": 2,
+      "harmed": 1
+    },
+    "scope": "expanded",
+    "selection_rule": "Expanded final comparison only. Prefer net rescued/harmed across order seeds and all-seed CC/WW, up to two distinct queries each; prioritize available partial-missing coverage in second slots. Rank by absolute net rescue count, then absolute fixed-rival margin change and ID; representative seed has largest absolute margin change within state. Fill unavailable categories by transition then margin. Outcome-selected, not representative prevalence.",
+    "visual_status": "not_reviewed",
+    "rival_classes": [
+      3,
+      4
+    ],
+    "eligible_reference_ids": [
+      "34478",
+      "31512",
+      "14814",
+      "16401",
+      "6913",
+      "22755",
+      "24527",
+      "7790",
+      "36308",
+      "23719",
+      "29922",
+      "2077",
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "true_reference_ids": [
+      "6913",
+      "22755"
+    ],
+    "rival_reference_ids": [
+      "24527",
+      "7790",
+      "36308",
+      "23719"
+    ],
+    "panels": {
+      "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_06_vv.png",
+      "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_06_vh.png"
+    },
+    "per_seed": [
+      {
+        "seed": 17,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -1.6736754179000854,
+              -4.114349365234375,
+              -0.6819690465927124,
+              0.6451115012168884,
+              0.7170263528823853,
+              -5.862305641174316,
+              -3.760806083679199,
+              -2.375694990158081
+            ],
+            "prediction": 4,
+            "truth_rival_margins": {
+              "3": -1.3270805478096008,
+              "4": -1.3989953994750977
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -1.9545596837997437,
+              -3.975353240966797,
+              -0.520510196685791,
+              0.975333034992218,
+              0.692339301109314,
+              -5.0543975830078125,
+              -3.1453020572662354,
+              -1.8547999858856201
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "3": -1.495843231678009,
+              "4": -1.212849497795105
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -1.72092866897583,
+              -4.060786247253418,
+              -0.7070536613464355,
+              0.5657222270965576,
+              0.7182081341743469,
+              -5.757884502410889,
+              -3.7010107040405273,
+              -2.3708434104919434
+            ],
+            "prediction": 4,
+            "truth_rival_margins": {
+              "3": -1.2727758884429932,
+              "4": -1.4252617955207825
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -2.006080389022827,
+              -3.9155209064483643,
+              -0.5017553567886353,
+              0.9495386481285095,
+              0.6297482848167419,
+              -4.888996124267578,
+              -3.084282875061035,
+              -1.8490402698516846
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "3": -1.4512940049171448,
+              "4": -1.1315036416053772
+            }
+          }
+        }
+      },
+      {
+        "seed": 29,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -2.3976316452026367,
+              -3.527280569076538,
+              -0.1437198668718338,
+              0.928905725479126,
+              2.866825819015503,
+              -4.233317852020264,
+              -4.028820514678955,
+              -1.9317600727081299
+            ],
+            "prediction": 4,
+            "truth_rival_margins": {
+              "3": -1.0726255923509598,
+              "4": -3.0105456858873367
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -2.1727681159973145,
+              -3.482065200805664,
+              -0.16288582980632782,
+              0.8974263668060303,
+              2.5879998207092285,
+              -3.8546879291534424,
+              -3.643059492111206,
+              -1.3412154912948608
+            ],
+            "prediction": 4,
+            "truth_rival_margins": {
+              "3": -1.060312196612358,
+              "4": -2.7508856505155563
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -2.4361793994903564,
+              -3.5229456424713135,
+              -0.18169696629047394,
+              0.8045896887779236,
+              2.8203134536743164,
+              -4.114871501922607,
+              -4.027606964111328,
+              -2.0556626319885254
+            ],
+            "prediction": 4,
+            "truth_rival_margins": {
+              "3": -0.9862866550683975,
+              "4": -3.0020104199647903
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -2.245296001434326,
+              -3.4676849842071533,
+              -0.18371759355068207,
+              0.8717136979103088,
+              2.5928797721862793,
+              -3.801578998565674,
+              -3.532156467437744,
+              -1.4154348373413086
+            ],
+            "prediction": 4,
+            "truth_rival_margins": {
+              "3": -1.055431291460991,
+              "4": -2.7765973657369614
+            }
+          }
+        }
+      },
+      {
+        "seed": 43,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -1.2406970262527466,
+              -5.570549964904785,
+              0.260040283203125,
+              -0.387360543012619,
+              -0.16318759322166443,
+              -4.1725687980651855,
+              -4.14481258392334,
+              -2.501638650894165
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "3": 0.647400826215744,
+              "4": 0.42322787642478943
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -1.5279185771942139,
+              -5.235647678375244,
+              0.5284109711647034,
+              0.45503655076026917,
+              -0.093609519302845,
+              -3.7733728885650635,
+              -3.420811414718628,
+              -1.4929587841033936
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "3": 0.0733744204044342,
+              "4": 0.6220204904675484
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -1.2276740074157715,
+              -5.588601589202881,
+              0.2762605547904968,
+              -0.39360886812210083,
+              -0.11756882071495056,
+              -4.243022441864014,
+              -4.1107916831970215,
+              -2.517124652862549
+            ],
+            "prediction": 2,
+            "truth_rival_margins": {
+              "3": 0.6698694229125977,
+              "4": 0.3938293755054474
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -1.6133227348327637,
+              -5.196167945861816,
+              0.36170464754104614,
+              0.5302351713180542,
+              0.1989387422800064,
+              -3.696265935897827,
+              -3.2766261100769043,
+              -1.3956385850906372
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "3": -0.16853052377700806,
+              "4": 0.16276590526103973
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "13183",
+    "seed": 29,
+    "label": 0,
+    "class_name": "bulk_carrier",
+    "port": "Ningbo-Zhoushan",
+    "pass_group": "S1A_062018_07C214",
+    "mmsi": "374780000",
+    "available": "both",
+    "state": "CC",
+    "reference_prediction": 0,
+    "alternative_prediction": 0,
+    "fixed_rival": 6,
+    "reference_fixed_margin": 2.9533209800720215,
+    "reference_top_rival_margin": 2.9533209800720215,
+    "reference_NLL": 0.05477527380336213,
+    "reference_Brier": 0.005285896102682049,
+    "alternative_fixed_margin": 3.4789280891418457,
+    "alternative_top_rival_margin": 3.4789280891418457,
+    "alternative_NLL": 0.03408808886587392,
+    "alternative_Brier": 0.00201668595922386,
+    "delta_fixed_margin": 0.5256071090698242,
+    "selection_category": "CC",
+    "net_rescue_seed_events": 0,
+    "state_seed_counts": {
+      "CC": 3
+    },
+    "scope": "expanded",
+    "selection_rule": "Expanded final comparison only. Prefer net rescued/harmed across order seeds and all-seed CC/WW, up to two distinct queries each; prioritize available partial-missing coverage in second slots. Rank by absolute net rescue count, then absolute fixed-rival margin change and ID; representative seed has largest absolute margin change within state. Fill unavailable categories by transition then margin. Outcome-selected, not representative prevalence.",
+    "visual_status": "not_reviewed",
+    "rival_classes": [
+      6
+    ],
+    "eligible_reference_ids": [
+      "34478",
+      "31512",
+      "14814",
+      "16401",
+      "6913",
+      "22755",
+      "24527",
+      "7790",
+      "36308",
+      "23719",
+      "29922",
+      "2077",
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "true_reference_ids": [
+      "34478",
+      "31512"
+    ],
+    "rival_reference_ids": [
+      "12041",
+      "7429"
+    ],
+    "panels": {
+      "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_07_vv.png",
+      "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_07_vh.png"
+    },
+    "per_seed": [
+      {
+        "seed": 17,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              7.230971813201904,
+              -2.7269997596740723,
+              -4.22378396987915,
+              -3.3443682193756104,
+              -6.52760124206543,
+              -6.490812301635742,
+              0.42450040578842163,
+              -7.9274001121521
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 6.806471407413483
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              7.158971309661865,
+              -2.7853918075561523,
+              -4.470273017883301,
+              -3.454129934310913,
+              -6.286703586578369,
+              -5.973773956298828,
+              0.47938060760498047,
+              -7.28467321395874
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 6.679590702056885
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              7.180224895477295,
+              -2.6721723079681396,
+              -4.153214931488037,
+              -3.3300511837005615,
+              -6.512014389038086,
+              -6.452925205230713,
+              0.5140755772590637,
+              -8.120179176330566
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 6.666149318218231
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              7.155121326446533,
+              -2.705986261367798,
+              -4.508782863616943,
+              -3.3856678009033203,
+              -6.346597671508789,
+              -5.988703727722168,
+              0.5899780988693237,
+              -7.501981735229492
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 6.5651432275772095
+            }
+          }
+        }
+      },
+      {
+        "seed": 29,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              4.939431190490723,
+              -1.852092981338501,
+              -1.4424707889556885,
+              -0.5118396878242493,
+              -3.8712174892425537,
+              -4.953359603881836,
+              2.3928346633911133,
+              -7.780640602111816
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 2.5465965270996094
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              5.305364608764648,
+              -2.0048797130584717,
+              -1.449123740196228,
+              -0.8284367322921753,
+              -4.001701354980469,
+              -4.809089660644531,
+              2.352043628692627,
+              -7.362483501434326
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 2.9533209800720215
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              5.124441623687744,
+              -1.853376030921936,
+              -1.3823446035385132,
+              -0.5784176588058472,
+              -3.6996724605560303,
+              -4.778234958648682,
+              1.9774543046951294,
+              -7.760324001312256
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 3.1469873189926147
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              5.415196895599365,
+              -2.029352903366089,
+              -1.3221720457077026,
+              -0.8425100445747375,
+              -3.745459794998169,
+              -4.68770170211792,
+              1.9362688064575195,
+              -7.229522228240967
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 3.4789280891418457
+            }
+          }
+        }
+      },
+      {
+        "seed": 43,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              7.991310119628906,
+              -3.2184224128723145,
+              -1.8349043130874634,
+              -3.473754644393921,
+              -7.250399112701416,
+              -5.444416522979736,
+              1.2783640623092651,
+              -8.575069427490234
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 6.712946057319641
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              7.86035680770874,
+              -3.7190592288970947,
+              -1.9845679998397827,
+              -3.073002815246582,
+              -6.986267566680908,
+              -4.979447364807129,
+              1.1965973377227783,
+              -7.957932472229004
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 6.663759469985962
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              8.032707214355469,
+              -3.2400591373443604,
+              -1.7795499563217163,
+              -3.439418315887451,
+              -7.274199962615967,
+              -5.5737175941467285,
+              1.4245494604110718,
+              -8.432832717895508
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 6.608157753944397
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              7.847672939300537,
+              -3.6925747394561768,
+              -1.9809861183166504,
+              -2.9890170097351074,
+              -6.992938041687012,
+              -5.122116565704346,
+              1.3369501829147339,
+              -7.905110836029053
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "6": 6.510722756385803
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "22750",
+    "seed": 43,
+    "label": 7,
+    "class_name": "offshore",
+    "port": "Jebel Ali",
+    "pass_group": "S1A_061313_07A641",
+    "mmsi": "470211000",
+    "available": "both",
+    "state": "WW",
+    "reference_prediction": 3,
+    "alternative_prediction": 3,
+    "fixed_rival": 0,
+    "reference_fixed_margin": -10.970176696777344,
+    "reference_top_rival_margin": -11.806002378463745,
+    "reference_NLL": 12.212646324711974,
+    "reference_Brier": 1.5283419952380495,
+    "alternative_fixed_margin": -10.285845756530762,
+    "alternative_top_rival_margin": -11.431472063064575,
+    "alternative_NLL": 11.764050464055586,
+    "alternative_Brier": 1.5686325522735594,
+    "delta_fixed_margin": 0.684330940246582,
+    "selection_category": "WW",
+    "net_rescue_seed_events": 0,
+    "state_seed_counts": {
+      "WW": 3
+    },
+    "scope": "expanded",
+    "selection_rule": "Expanded final comparison only. Prefer net rescued/harmed across order seeds and all-seed CC/WW, up to two distinct queries each; prioritize available partial-missing coverage in second slots. Rank by absolute net rescue count, then absolute fixed-rival margin change and ID; representative seed has largest absolute margin change within state. Fill unavailable categories by transition then margin. Outcome-selected, not representative prevalence.",
+    "visual_status": "not_reviewed",
+    "rival_classes": [
+      0,
+      3
+    ],
+    "eligible_reference_ids": [
+      "34478",
+      "31512",
+      "14814",
+      "16401",
+      "6913",
+      "22755",
+      "24527",
+      "7790",
+      "36308",
+      "23719",
+      "29922",
+      "2077",
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "true_reference_ids": [
+      "13000",
+      "13276"
+    ],
+    "rival_reference_ids": [
+      "34478",
+      "31512",
+      "24527",
+      "7790"
+    ],
+    "panels": {
+      "vv": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_08_vv.png",
+      "vh": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_full_20261029\\analysis\\cases\\case_08_vh.png"
+    },
+    "per_seed": [
+      {
+        "seed": 17,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -3.4856982231140137,
+              -19.72123146057129,
+              -12.581860542297363,
+              -5.293356895446777,
+              -8.790607452392578,
+              -6.513740062713623,
+              -14.824214935302734,
+              -20.720827102661133
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -17.23512887954712,
+              "3": -15.427470207214355
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -3.3603789806365967,
+              -16.38079833984375,
+              -10.457393646240234,
+              -3.1911368370056152,
+              -8.2655611038208,
+              -3.71863055229187,
+              -10.872835159301758,
+              -16.038789749145508
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": -12.678410768508911,
+              "3": -12.847652912139893
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -3.627638816833496,
+              -19.61744499206543,
+              -12.610475540161133,
+              -5.419618606567383,
+              -8.778497695922852,
+              -6.273624897003174,
+              -14.636735916137695,
+              -20.64057159423828
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -17.012932777404785,
+              "3": -15.220952987670898
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -3.525273084640503,
+              -16.503131866455078,
+              -10.478614807128906,
+              -3.389509916305542,
+              -8.206005096435547,
+              -3.557551860809326,
+              -10.806135177612305,
+              -16.118972778320312
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": -12.59369969367981,
+              "3": -12.72946286201477
+            }
+          }
+        }
+      },
+      {
+        "seed": 29,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -4.526166915893555,
+              -18.083023071289062,
+              -11.799423217773438,
+              -4.176267147064209,
+              -6.939420223236084,
+              -6.14627742767334,
+              -16.118371963500977,
+              -20.159854888916016
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": -15.633687973022461,
+              "3": -15.983587741851807
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -4.038623809814453,
+              -15.030966758728027,
+              -9.671456336975098,
+              -2.678784132003784,
+              -6.187315464019775,
+              -4.409270286560059,
+              -11.777435302734375,
+              -15.20190143585205
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": -11.163277626037598,
+              "3": -12.523117303848267
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -4.4142746925354,
+              -18.014850616455078,
+              -11.860261917114258,
+              -4.212831020355225,
+              -7.129591464996338,
+              -5.971929550170898,
+              -16.365196228027344,
+              -20.417219161987305
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": -16.002944469451904,
+              "3": -16.20438814163208
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -4.112349033355713,
+              -14.827202796936035,
+              -9.644590377807617,
+              -2.5107240676879883,
+              -6.257556438446045,
+              -4.139353275299072,
+              -11.767777442932129,
+              -15.37025260925293
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": -11.257903575897217,
+              "3": -12.859528541564941
+            }
+          }
+        }
+      },
+      {
+        "seed": 43,
+        "conditions": {
+          "legacy_before": {
+            "logits": [
+              -2.665351390838623,
+              -21.52412986755371,
+              -10.603046417236328,
+              -3.5819878578186035,
+              -7.659191608428955,
+              -6.819468021392822,
+              -15.635452270507812,
+              -16.633737564086914
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -13.968386173248291,
+              "3": -13.05174970626831
+            }
+          },
+          "legacy_after": {
+            "logits": [
+              -3.0268478393554688,
+              -20.02126693725586,
+              -10.523534774780273,
+              -2.1910221576690674,
+              -7.0187087059021,
+              -5.004802703857422,
+              -12.913908004760742,
+              -13.997024536132812
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": -10.970176696777344,
+              "3": -11.806002378463745
+            }
+          },
+          "spatial_before": {
+            "logits": [
+              -2.8255279064178467,
+              -21.516035079956055,
+              -10.465283393859863,
+              -3.6000730991363525,
+              -7.646032333374023,
+              -6.867198467254639,
+              -15.725214958190918,
+              -16.642789840698242
+            ],
+            "prediction": 0,
+            "truth_rival_margins": {
+              "0": -13.817261934280396,
+              "3": -13.04271674156189
+            }
+          },
+          "spatial_after": {
+            "logits": [
+              -3.2218246459960938,
+              -19.92237663269043,
+              -10.368046760559082,
+              -2.0761983394622803,
+              -6.949152946472168,
+              -4.755660533905029,
+              -12.783842086791992,
+              -13.507670402526855
+            ],
+            "prediction": 3,
+            "truth_rival_margins": {
+              "0": -10.285845756530762,
+              "3": -11.431472063064575
+            }
+          }
+        }
+      }
+    ]
+  }
+]

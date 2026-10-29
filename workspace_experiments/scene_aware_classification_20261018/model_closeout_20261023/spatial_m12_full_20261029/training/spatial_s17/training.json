@@ -1,0 +1,67 @@
+{
+  "stage": "adapt",
+  "source_count": 136,
+  "reference_count": 16,
+  "selected_count": 101,
+  "seed": 17,
+  "completed_epochs": 6,
+  "steps": 54,
+  "coefficient": 0.3683066666126251,
+  "trainable_parameters": 1114112,
+  "curve": [
+    {
+      "epoch": 1,
+      "steps": 9,
+      "ce": 2.956136319372389,
+      "keep": 0.002966785485011848,
+      "floor": 0.1276860586887579
+    },
+    {
+      "epoch": 2,
+      "steps": 18,
+      "ce": 2.8579323755370245,
+      "keep": 0.010104708063105742,
+      "floor": 0.3832812094026142
+    },
+    {
+      "epoch": 3,
+      "steps": 27,
+      "ce": 2.4398617611991034,
+      "keep": 0.012882774023132192,
+      "floor": 0.3932155850860808
+    },
+    {
+      "epoch": 4,
+      "steps": 36,
+      "ce": 2.1104735003577337,
+      "keep": 0.013447516959988408,
+      "floor": 0.3289696044392056
+    },
+    {
+      "epoch": 5,
+      "steps": 45,
+      "ce": 2.0118650098641715,
+      "keep": 0.012875348691725068,
+      "floor": 0.2191319449080361
+    },
+    {
+      "epoch": 6,
+      "steps": 54,
+      "ce": 1.766821950674057,
+      "keep": 0.015538758598268032,
+      "floor": 0.1821675697962443
+    }
+  ],
+  "smoke_only": false,
+  "validation_selection": false,
+  "arm": "spatial",
+  "seconds": 138.3852673000656,
+  "frozen_unchanged": true,
+  "live_updates": {
+    "backbone.model.layer3.5.conv1.weight": 0.1977190375328064,
+    "backbone.model.layer3.5.conv2.weight": 0.3021417260169983,
+    "backbone.model.layer3.5.conv3.weight": 0.20548008382320404
+  },
+  "save_replay_max_error": 0.0,
+  "source_fit_checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_refit_20261029\\training\\spatial_s17\\model.pt"
+}
