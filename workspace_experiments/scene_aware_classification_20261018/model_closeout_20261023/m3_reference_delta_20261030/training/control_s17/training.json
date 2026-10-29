@@ -1,0 +1,63 @@
+{
+  "arm": "control",
+  "seed": 17,
+  "epochs": 3,
+  "steps": 153,
+  "source_count": 1205,
+  "reference_count": 16,
+  "trainable": 131446,
+  "before": {
+    "oa": 45.625,
+    "ba": 34.92810760667903,
+    "nll": 2.532031788086087,
+    "brier": 0.8352585834309709
+  },
+  "after": {
+    "oa": 41.25,
+    "ba": 36.80225726654297,
+    "nll": 2.7478834105667724,
+    "brier": 0.9108515100755511
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "ce": 0.04227438695071375,
+      "keep": 0.006853625198880977
+    },
+    {
+      "epoch": 2,
+      "ce": 0.03853485263957113,
+      "keep": 0.007553517028652862
+    },
+    {
+      "epoch": 3,
+      "ce": 0.03880977981230792,
+      "keep": 0.00838370120390227
+    }
+  ],
+  "gradients": {
+    "m3.0.0.branch_bias": 1.6056902722993982e-06,
+    "m3.0.0.gain": 0.000592424999922514,
+    "m3.0.0.selector.0.weight": 7.451115493495308e-07,
+    "m3.0.0.selector.0.bias": 3.294942132470169e-07,
+    "m3.0.0.selector.2.weight": 1.985126573345042e-06,
+    "m3.0.0.selector.2.bias": 1.6056902722993982e-06,
+    "m3.0.0.project.weight": 0.0028016497381031513,
+    "m3.0.0.output.weight": 0.027132559567689896,
+    "m3.0.1.branch_bias": 5.855049494130071e-06,
+    "m3.0.1.gain": 0.017573222517967224,
+    "m3.0.1.selector.0.weight": 4.851328867516713e-07,
+    "m3.0.1.selector.0.bias": 2.496955460173922e-07,
+    "m3.0.1.selector.2.weight": 8.0046984294313e-06,
+    "m3.0.1.selector.2.bias": 5.855049494130071e-06,
+    "m3.0.1.project.weight": 0.0017153858207166195,
+    "m3.0.1.output.weight": 0.03684308007359505
+  },
+  "initial_error": 0.0,
+  "native_error": 7.62939453125e-06,
+  "nonselected_parameters_unchanged": true,
+  "diagnostic": null,
+  "seconds": 49.15781860006973,
+  "validation_selection": false,
+  "replay_error": 7.62939453125e-06
+}
