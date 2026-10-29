@@ -1,0 +1,69 @@
+{
+  "stage": "adapt",
+  "source_count": 136,
+  "reference_count": 16,
+  "selected_count": 0,
+  "seed": 29,
+  "completed_epochs": 6,
+  "steps": 54,
+  "coefficient": 0.0,
+  "trainable_parameters": 1114112,
+  "curve": [
+    {
+      "epoch": 1,
+      "steps": 9,
+      "ce": 2.9791187511550055,
+      "keep": 0.001490134238208935,
+      "floor": 0.0
+    },
+    {
+      "epoch": 2,
+      "steps": 18,
+      "ce": 2.3086116512616477,
+      "keep": 0.01645483909588721,
+      "floor": 0.0
+    },
+    {
+      "epoch": 3,
+      "steps": 27,
+      "ce": 2.0913210180070667,
+      "keep": 0.0299708049537407,
+      "floor": 0.0
+    },
+    {
+      "epoch": 4,
+      "steps": 36,
+      "ce": 2.307152079211341,
+      "keep": 0.028836198823733464,
+      "floor": 0.0
+    },
+    {
+      "epoch": 5,
+      "steps": 45,
+      "ce": 1.7724994983938005,
+      "keep": 0.03507084140761031,
+      "floor": 0.0
+    },
+    {
+      "epoch": 6,
+      "steps": 54,
+      "ce": 1.8429422709676955,
+      "keep": 0.0367991981200046,
+      "floor": 0.0
+    }
+  ],
+  "smoke_only": false,
+  "validation_selection": false,
+  "seconds": 47.3163424001541,
+  "frozen_unchanged": true,
+  "live_updates": {
+    "backbone.model.layer3.5.conv1.weight": 0.2097291201353073,
+    "backbone.model.layer3.5.conv2.weight": 0.315282940864563,
+    "backbone.model.layer3.5.conv3.weight": 0.21355046331882477
+  },
+  "save_replay_max_error": 0.0,
+  "source_checkpoint": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\spatial_m12_refit_20261029\\training\\spatial_s29\\model.pt",
+  "intervention_outcomes_used": false,
+  "original_teacher_reused": true,
+  "contrast": "guided spatial complete minus matched CE+KL continuation"
+}

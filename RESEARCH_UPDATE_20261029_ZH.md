@@ -1,5 +1,15 @@
 # 2026-10-29：M1/M2去频域后的完整模型补充实验
 
+## 第三批：同预算续训归因对照已完成
+
+[报告](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/intervention_matched_control_20261029/FINDINGS_ZH.md)；[原图审阅](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/intervention_matched_control_20261029/CASE_NOTES_ZH.md)；[后两组准备](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/minimal_supplements_20261029/READINESS_ZH.md)。
+
+从同一源拟合端点，新增三条同136样本/54步CE+.1KL续训，对比既有干预选样margin指导。扩围3075条，普通对照OA45.1274/BA41.0390/NLL1.939647，指导OA47.3171/BA40.4022/NLL2.137044。差值OA+2.1897pp、BA-.6368pp；三个训练顺序均OA正、BA负、NLL更差。OA过境配对95%区间[1.1837,3.2494]pp，BA区间跨0。历史队列、共享初始化，不是新盲测或三个独立初始化。
+
+525个相对救回事件中455个before已正确；323个相对误伤中302个是普通续训纠正而指导未纠正。主要贡献是保护原有判断，并非普遍新增判别能力；散货/化学品获益与海工/拖船退化造成OA/BA取舍。8查询16原生VV/VH面板和实际参考已人工审阅，缺VH明确标示，不能从外观断言物理因果。
+
+三条训练54步、冻结状态、保存重放与原生评估检查均通过。没有新调参或默认权重替换。第一组已完成，第二组基线/模块重训和第三组OSS2四类最终骨干复现仅完成准备，尚未运行；下面前两批的待办表述保留为历史状态。
+
 ## 第二批：完整选样、适配与扩围已完成
 
 [完整报告](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/spatial_m12_full_20261029/FINDINGS_ZH.md)；[原生案例](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/spatial_m12_full_20261029/analysis/cases/index.html)；[逐例审阅](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/spatial_m12_full_20261029/CASE_NOTES_ZH.md)。
