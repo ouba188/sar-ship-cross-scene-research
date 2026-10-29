@@ -1,0 +1,66 @@
+{
+  "stage": "adapt",
+  "source_count": 136,
+  "reference_count": 16,
+  "selected_count": 106,
+  "seed": 17,
+  "completed_epochs": 6,
+  "steps": 54,
+  "coefficient": 0.3683066666126251,
+  "trainable_parameters": 1114112,
+  "curve": [
+    {
+      "epoch": 1,
+      "steps": 9,
+      "ce": 2.937439348962572,
+      "keep": 0.0028420858419744535,
+      "floor": 0.13354312628551712
+    },
+    {
+      "epoch": 2,
+      "steps": 18,
+      "ce": 2.6374879015816584,
+      "keep": 0.008803227541243864,
+      "floor": 0.3377310004499223
+    },
+    {
+      "epoch": 3,
+      "steps": 27,
+      "ce": 2.2110131912761264,
+      "keep": 0.011801513067136208,
+      "floor": 0.3205069311790996
+    },
+    {
+      "epoch": 4,
+      "steps": 36,
+      "ce": 1.8956714471181233,
+      "keep": 0.014859667888635563,
+      "floor": 0.374218822353416
+    },
+    {
+      "epoch": 5,
+      "steps": 45,
+      "ce": 1.723854273557663,
+      "keep": 0.018575147725641727,
+      "floor": 0.20915374077028698
+    },
+    {
+      "epoch": 6,
+      "steps": 54,
+      "ce": 1.49869418475363,
+      "keep": 0.024346073132215276,
+      "floor": 0.20586809929874209
+    }
+  ],
+  "smoke_only": false,
+  "validation_selection": false,
+  "arm": "no_m2",
+  "frozen_unchanged": true,
+  "live_updates": {
+    "backbone.model.layer3.5.conv1.weight": 0.19022899866104126,
+    "backbone.model.layer3.5.conv2.weight": 0.29073116183280945,
+    "backbone.model.layer3.5.conv3.weight": 0.19890834391117096
+  },
+  "save_replay_error": 0.0,
+  "seconds": 40.053754300111905
+}

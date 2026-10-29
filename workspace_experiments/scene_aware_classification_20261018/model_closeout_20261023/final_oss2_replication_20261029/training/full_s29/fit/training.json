@@ -1,0 +1,94 @@
+{
+  "arm": "full",
+  "stage": "fit",
+  "seed": 29,
+  "shared_init": "E:\\临时会话\\sar_m123_current_20261027\\weights\\init.pt",
+  "classes": [
+    "bulk_carrier",
+    "general_cargo",
+    "product_chemical_tanker",
+    "container_ship"
+  ],
+  "class_indices": [
+    0,
+    2,
+    3,
+    4
+  ],
+  "source_count": 478,
+  "reference_count": 32,
+  "steps": 160,
+  "completed_epochs": 8,
+  "batch_size": 24,
+  "coefficient": null,
+  "curve": [
+    {
+      "epoch": 1,
+      "steps": 20,
+      "ce": 1.5004344999790191,
+      "auxiliary": 1.3588080883026123,
+      "relation": 3.3100284576416015
+    },
+    {
+      "epoch": 2,
+      "steps": 40,
+      "ce": 0.7839218273758888,
+      "auxiliary": 1.2751564502716064,
+      "relation": 3.3111869215965273
+    },
+    {
+      "epoch": 3,
+      "steps": 60,
+      "ce": 0.61066884547472,
+      "auxiliary": 1.2150199472904206,
+      "relation": 3.3089578986167907
+    },
+    {
+      "epoch": 4,
+      "steps": 80,
+      "ce": 0.3521977633237839,
+      "auxiliary": 1.16157908141613,
+      "relation": 3.3078394293785096
+    },
+    {
+      "epoch": 5,
+      "steps": 100,
+      "ce": 0.2297530084848404,
+      "auxiliary": 1.1234230786561965,
+      "relation": 3.3081170320510864
+    },
+    {
+      "epoch": 6,
+      "steps": 120,
+      "ce": 0.1494756570085883,
+      "auxiliary": 1.0915699064731599,
+      "relation": 3.309189021587372
+    },
+    {
+      "epoch": 7,
+      "steps": 140,
+      "ce": 0.0967026736587286,
+      "auxiliary": 1.0662017256021499,
+      "relation": 3.306733763217926
+    },
+    {
+      "epoch": 8,
+      "steps": 160,
+      "ce": 0.05485332319512963,
+      "auxiliary": 1.0399711430072784,
+      "relation": 3.305579149723053
+    }
+  ],
+  "selected_count": null,
+  "validation_selection": false,
+  "frozen_unchanged": true,
+  "live_updates": {
+    "backbone.model.layer3.5.conv1.weight": 0.2621780037879944,
+    "backbone.model.layer3.5.conv2.weight": 0.36873283982276917,
+    "backbone.model.layer3.5.conv3.weight": 0.2488752007484436
+  },
+  "trainable_parameters": 2462276,
+  "seconds": 445.3193435999565,
+  "save_replay_error": 3.874301910400391e-06,
+  "native_cache_error": 2.0444393157958984e-05
+}

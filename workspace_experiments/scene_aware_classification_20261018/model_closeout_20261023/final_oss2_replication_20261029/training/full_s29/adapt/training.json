@@ -1,0 +1,80 @@
+{
+  "arm": "full",
+  "stage": "adapt",
+  "seed": 29,
+  "shared_init": "E:\\临时会话\\sar_m123_current_20261027\\weights\\init.pt",
+  "classes": [
+    "bulk_carrier",
+    "general_cargo",
+    "product_chemical_tanker",
+    "container_ship"
+  ],
+  "class_indices": [
+    0,
+    2,
+    3,
+    4
+  ],
+  "source_count": 241,
+  "reference_count": 32,
+  "steps": 96,
+  "completed_epochs": 6,
+  "batch_size": 16,
+  "coefficient": 0.3683066666126251,
+  "curve": [
+    {
+      "epoch": 1,
+      "steps": 16,
+      "ce": 1.4481774866580963,
+      "keep": 0.004263438770579563,
+      "floor": 0.06877059175170312
+    },
+    {
+      "epoch": 2,
+      "steps": 32,
+      "ce": 1.1051621322758365,
+      "keep": 0.004663519860173437,
+      "floor": 0.038839140674099326
+    },
+    {
+      "epoch": 3,
+      "steps": 48,
+      "ce": 1.0199891385855153,
+      "keep": 0.0072231868380185915,
+      "floor": 0.03994900383986533
+    },
+    {
+      "epoch": 4,
+      "steps": 64,
+      "ce": 1.0890691028907895,
+      "keep": 0.011124620461487211,
+      "floor": 0.0550365534145385
+    },
+    {
+      "epoch": 5,
+      "steps": 80,
+      "ce": 0.8435509710470797,
+      "keep": 0.012336731058894657,
+      "floor": 0.03246939265955007
+    },
+    {
+      "epoch": 6,
+      "steps": 96,
+      "ce": 0.8000372324895579,
+      "keep": 0.01579488377319649,
+      "floor": 0.03677113355661277
+    }
+  ],
+  "selected_count": 137,
+  "validation_selection": false,
+  "frozen_unchanged": true,
+  "live_updates": {
+    "backbone.model.layer3.5.conv1.weight": 0.2690889239311218,
+    "backbone.model.layer3.5.conv2.weight": 0.40761494636535645,
+    "backbone.model.layer3.5.conv3.weight": 0.2705453038215637
+  },
+  "trainable_parameters": 1114112,
+  "seconds": 155.16107730008662,
+  "save_replay_error": 0.0,
+  "native_cache_error": 2.09808349609375e-05
+}

@@ -1,5 +1,29 @@
 # 2026-10-29：M1/M2去频域后的完整模型补充实验
 
+## 第四批：最终消融与公开复现完成
+
+[三项最小补充汇总](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/minimal_supplements_20261029/STATUS_ZH.md)；[自建队列配套消融](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/final_module_ablations_20261029/FINDINGS_ZH.md)；[OSS2四类复现](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/final_oss2_replication_20261029/FINDINGS_ZH.md)。本节更新下方历史待办状态。
+
+新增12条自建模型配套训练链与6条公开训练链，各含sourcefit/adapt，合计7080个optimizer step。没有新位置搜索或调参，不替换默认权重。
+
+| 队列/模型 | OA | BA |
+|---|---:|---:|
+| 自建3075条，full | 47.3171 | 40.4022 |
+| 同协议plain R50 | 37.2141 | 35.5525 |
+| no_m1 | 47.0678 | 40.2757 |
+| no_m2整条区域路径 | 41.1274 | 36.6726 |
+| no_m3 | 47.1762 | 40.4290 |
+| OSS2四类378条，full | 61.3757 | 57.6629 |
+| OSS2同协议plain R50 | 55.6437 | 53.5378 |
+
+自建队列M2贡献OA/BA +6.1897/+3.7296pp，三顺序均正；M1+.2493/+.1265很小；M3+.1409/-.0268且概率指标更差，不写三个模块均稳定提点。full/plain最终OA差包含plain适配OA下降；源拟合时差为+4.8997/+3.3249，同后续CE+KL的full_control相对plain仍+7.9133/+5.4865。删除臂自有教师/损失随之变化，属于配套流程贡献，不是纯中间算子因果归因。
+
+OSS2最终full/plain差OA+5.7319、BA+4.1251pp，三顺序均正；五过境组配对区间分别[.3774,9.5351]、[.8482,6.5486]。主要收益来自散货和集装箱，NLL更差，Brier均值改善。sourcefit已有OA/BA+7.2310/+3.9026；full自身adapt为OA-.7937/BA+.3695，不能把最终优势归给新增适配。
+
+自建24面板/12查询与公开16面板/8查询均已主代理查看，附CASE_NOTES_ZH.md及独立VISUAL_REVIEW.json；生成器原not_reviewed收据保持历史状态。公开长面板另直接查看14张有效原PNG，缺极化不是黑色观测。保留持续错误和误伤，不根据外观编造物理原因。
+
+全部训练/分析已结束，冻结/保存/原生重放通过。OSS2首次内部prefix阈值失败已定位为批大小浮点差：原batch重放0、输出4.41e-6；保留失败/诊断记录，最终输出阈值未放宽。两数据集均历史队列，顺序共初始化；自建不是严格留港，公开为四类而非八类/跨库。归档代码、收据、统计及派生图，不含权重、原始数据、特征缓存或完整清单。
+
 ## 第三批：同预算续训归因对照已完成
 
 [报告](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/intervention_matched_control_20261029/FINDINGS_ZH.md)；[原图审阅](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/intervention_matched_control_20261029/CASE_NOTES_ZH.md)；[后两组准备](workspace_experiments/scene_aware_classification_20261018/model_closeout_20261023/minimal_supplements_20261029/READINESS_ZH.md)。

@@ -1,5 +1,7 @@
 # SAR Ship Cross-Scene Research Archive
 
+Final October 29 minimal supplements are complete: [retrained module ablations and OSS2 replication](RESEARCH_UPDATE_20261029_ZH.md). Historical private3075 full OA/BA47.3171/40.4022 versus matched plain37.2141/35.5525; M2's full regional pathway contributes +6.1897/+3.7296pp, M1 is small, and M3 has no clear mean net advantage. OSS2 four-class378 full61.3757/57.6629 versus plain55.6437/53.5378 (+5.7319/+4.1251pp). Benefits largely predate adaptation; probability-quality tradeoffs remain. All three training orders, matched continuation, native-case review and scoped archives are complete. No new tuning/default replacement. These are historical cohorts and shared-initialization orders, not new blind tests. Pending statements below are historical.
+
 Latest October 29 supplement: [matched extra-training control](RESEARCH_UPDATE_20261029_ZH.md). Guided versus equal-step CE+KL continuation on 3075 historical queries gives OA +2.1897pp, BA -0.6368pp and worse NLL across all three training orders. Native cases and prediction timelines show preservation of existing decisions alongside blocked corrections, not universal improvement. Final-model retrained ablations and OSS2 replication are prepared but not yet run. Earlier pending-control statements below are historical.
 
 October 29 full matched training is complete: [own-teacher selection, six adaptations and 3075-query expansion](RESEARCH_UPDATE_20261029_ZH.md). Spatial-only M1/M2 with unchanged spatial-frequency M3 reaches OA47.3171/BA40.4022, versus legacy47.3062/40.3914 over three paired training orders. Final accuracy is essentially unchanged in this historical cohort, not proven statistically equivalent. Adaptation improves the simplified model's own source-fit endpoint by OA0.9648/BA1.7193 percentage points, but this round does not isolate intervention guidance from extra supervised training. Eight native query pairs with actual references were reviewed. All jobs ended; default release weights are unchanged. Public-dataset replication and the matched CE-only continuation remain pending.
@@ -14,7 +16,7 @@ Public research archive of the SAR ship-classification experiments through 2026-
 
 Start with [the latest October 17 supplement](RESEARCH_APPEND_20261017_ZH.md) for frozen-reader results, native-chip tracing, and the completed chip-quality study. [The earlier October 17 update](RESEARCH_UPDATE_20261017_ZH.md) retains the preceding studies and their limitations. Earlier findings are historical evidence, not silently replaced by the newest candidate.
 
-## Current Study
+## Historical Study (October 14-17)
 
 The current strict protocol tests eight-class closed-set recognition across held ports or acquisitions. SAR-R18 self-supervision is limited to legal source chips for each fold. A frozen R50 C4 base and an R50 + SAR-R18 expert each receive source-prior-anchored adaptation from the same small labeled target support set; their probabilities are fused equally. The recent strict experiments use B=16 support examples, not a universal fixed budget.
 
