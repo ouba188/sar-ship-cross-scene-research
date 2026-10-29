@@ -1,0 +1,22 @@
+{
+  "arm": "aligned",
+  "reference": "saved_baseline",
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "absent": [],
+  "cases": 2,
+  "panels": 4,
+  "visual_status": "not_reviewed",
+  "rule": "At most two additional queries per dataset, changed after seed17 but unchanged at seed17, excluding pilot cases.",
+  "references": "Actual fixed reference manifest; exclude identical ID/MMSI; first two same/rival class entries in bank order. No resizing.",
+  "limitation": "Outcome-selected examples are not population proportions. Bank order is not learned attention ranking. No new per-reference attention trace or physical causal evidence.",
+  "selected_ids": [
+    "12741",
+    "24399"
+  ],
+  "prioritization": "aligned-pooled top1 differences, then new-vs-CE differences, absolute margin differences, ID, order; deterministic.",
+  "all_order_logits_in_cases": true
+}

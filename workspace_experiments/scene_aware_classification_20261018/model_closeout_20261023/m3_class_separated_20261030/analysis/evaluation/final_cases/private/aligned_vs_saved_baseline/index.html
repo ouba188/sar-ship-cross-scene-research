@@ -1,0 +1,533 @@
+<!doctype html><meta charset="utf-8"><title>M3 source replay cases</title><style>body{font:14px Arial;margin:24px}pre{white-space:pre-wrap}img{image-rendering:pixelated;max-width:none}</style><h1>private: aligned vs saved_baseline</h1><p>VV/VH separate; original pixels and exact crop/pad; separate OBB overlay. Rendered, not visually reviewed.</p><pre>{
+  &quot;arm&quot;: &quot;aligned&quot;,
+  &quot;reference&quot;: &quot;saved_baseline&quot;,
+  &quot;seeds&quot;: [
+    17,
+    29,
+    43
+  ],
+  &quot;absent&quot;: [],
+  &quot;cases&quot;: 2,
+  &quot;panels&quot;: 4,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;rule&quot;: &quot;At most two new queries/dataset: one rescue and one harm when available; exclude all previous gallery queries. Prefer outside-development, source-offset-unreproduced outcomes, then new-vs-CE, aligned-vs-pooled and margin change. Deterministic.&quot;,
+  &quot;references&quot;: &quot;Actual fixed reference manifest; exclude identical ID/MMSI; first two same/rival class entries in bank order. No resizing.&quot;,
+  &quot;limitation&quot;: &quot;Outcome-selected examples are not population proportions. Bank order is not learned attention ranking. No new per-reference attention trace or physical causal evidence.&quot;
+}</pre><h2>rescued: 35673</h2><pre>{
+  &quot;id&quot;: &quot;35673&quot;,
+  &quot;label&quot;: 2,
+  &quot;seed&quot;: 29,
+  &quot;state&quot;: &quot;rescued&quot;,
+  &quot;old&quot;: 1,
+  &quot;new&quot;: 2,
+  &quot;changed&quot;: true,
+  &quot;rival&quot;: 1,
+  &quot;margin_change&quot;: 0.3945286273956299,
+  &quot;arm&quot;: &quot;aligned&quot;,
+  &quot;reference&quot;: &quot;saved_baseline&quot;,
+  &quot;state_orders&quot;: 1,
+  &quot;new_vs_ce&quot;: true,
+  &quot;aligned_vs_pooled&quot;: false,
+  &quot;ce_prediction&quot;: 1,
+  &quot;pooled_prediction&quot;: 2,
+  &quot;new_ce_margin_delta&quot;: 0.36779165267944336,
+  &quot;aligned_pooled_margin_delta&quot;: -0.010843753814697266,
+  &quot;source_offset_prediction&quot;: 1,
+  &quot;source_offset_reproduces_actual&quot;: false,
+  &quot;outside_development&quot;: true,
+  &quot;dataset&quot;: &quot;private&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;class_name&quot;: &quot;general_cargo&quot;,
+  &quot;rival_name&quot;: &quot;fishing&quot;,
+  &quot;mmsi&quot;: &quot;636022775&quot;,
+  &quot;pass_group&quot;: &quot;S1A_063357_07F51A&quot;,
+  &quot;port&quot;: &quot;Rotterdam&quot;,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          0.7716387510299683,
+          3.1428534984588623,
+          0.9182498455047607,
+          -5.336483001708984,
+          -4.950994491577148,
+          -10.69473648071289,
+          -2.472825288772583,
+          -1.7396388053894043
+        ],
+        &quot;truth_rival_margin&quot;: -2.2246036529541016
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.04988579452037811,
+          2.957958698272705,
+          0.5951700210571289,
+          -5.695592403411865,
+          -4.954653263092041,
+          -11.060127258300781,
+          -1.9795422554016113,
+          -0.7674238681793213
+        ],
+        &quot;truth_rival_margin&quot;: -2.362788677215576
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          0.8467078804969788,
+          3.1187126636505127,
+          1.0478571653366089,
+          -5.364477634429932,
+          -4.879157066345215,
+          -10.819328308105469,
+          -2.6053354740142822,
+          -1.646073579788208
+        ],
+        &quot;truth_rival_margin&quot;: -2.070855498313904
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          0.8419072031974792,
+          3.11798095703125,
+          1.0507004261016846,
+          -5.3641533851623535,
+          -4.875863552093506,
+          -10.828307151794434,
+          -2.607224702835083,
+          -1.6350409984588623
+        ],
+        &quot;truth_rival_margin&quot;: -2.0672805309295654
+      },
+      &quot;state&quot;: &quot;WW&quot;
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          1.2359752655029297,
+          3.7913482189178467,
+          3.460824728012085,
+          -3.1307413578033447,
+          -3.069478750228882,
+          -7.451591968536377,
+          -2.804356575012207,
+          -2.282621383666992
+        ],
+        &quot;truth_rival_margin&quot;: -0.3305234909057617
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          0.5468467473983765,
+          3.5291757583618164,
+          3.225389242172241,
+          -3.7611706256866455,
+          -3.179224967956543,
+          -7.647904872894287,
+          -1.984017014503479,
+          -1.2862638235092163
+        ],
+        &quot;truth_rival_margin&quot;: -0.3037865161895752
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          1.2906806468963623,
+          3.6650161743164062,
+          3.7290213108062744,
+          -3.1144461631774902,
+          -3.025498390197754,
+          -7.50005578994751,
+          -2.988687753677368,
+          -2.2980802059173584
+        ],
+        &quot;truth_rival_margin&quot;: 0.06400513648986816
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          1.2868473529815674,
+          3.660202980041504,
+          3.7350518703460693,
+          -3.116472005844116,
+          -3.024324417114258,
+          -7.502981662750244,
+          -2.9893815517425537,
+          -2.292560338973999
+        ],
+        &quot;truth_rival_margin&quot;: 0.07484889030456543
+      },
+      &quot;state&quot;: &quot;rescued&quot;
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          1.414099931716919,
+          2.891319751739502,
+          3.3655004501342773,
+          -4.698767185211182,
+          -5.978166580200195,
+          -9.806573867797852,
+          -2.474644184112549,
+          -3.069502353668213
+        ],
+        &quot;truth_rival_margin&quot;: 0.4741806983947754
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          0.7251155972480774,
+          2.9141128063201904,
+          2.887967348098755,
+          -4.793691158294678,
+          -5.7762770652771,
+          -10.155977249145508,
+          -2.0838637351989746,
+          -2.556004285812378
+        ],
+        &quot;truth_rival_margin&quot;: -0.026145458221435547
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          1.5539730787277222,
+          2.8766019344329834,
+          3.5458614826202393,
+          -4.718299865722656,
+          -6.063643455505371,
+          -9.794013977050781,
+          -2.640472173690796,
+          -3.0150868892669678
+        ],
+        &quot;truth_rival_margin&quot;: 0.6692595481872559
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          1.5504770278930664,
+          2.8758015632629395,
+          3.5486204624176025,
+          -4.715960502624512,
+          -6.064011096954346,
+          -9.796270370483398,
+          -2.641838788986206,
+          -3.007201671600342
+        ],
+        &quot;truth_rival_margin&quot;: 0.6728188991546631
+      },
+      &quot;state&quot;: &quot;CC&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;rescued_35673_vv.png&quot;,
+      &quot;same_class_candidates&quot;: 2,
+      &quot;rival_candidates&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;6913&quot;,
+        &quot;22755&quot;,
+        &quot;14814&quot;,
+        &quot;16401&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;rescued_35673_vh.png&quot;,
+      &quot;same_class_candidates&quot;: 1,
+      &quot;rival_candidates&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;6913&quot;,
+        &quot;14814&quot;,
+        &quot;16401&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 1,
+      &quot;rival_usable&quot;: 2
+    }
+  },
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ]
+}</pre><h3>VV</h3><img src="rescued_35673_vv.png"><h3>VH</h3><img src="rescued_35673_vh.png"><h2>harmed: 11223</h2><pre>{
+  &quot;id&quot;: &quot;11223&quot;,
+  &quot;label&quot;: 0,
+  &quot;seed&quot;: 29,
+  &quot;state&quot;: &quot;harmed&quot;,
+  &quot;old&quot;: 0,
+  &quot;new&quot;: 3,
+  &quot;changed&quot;: true,
+  &quot;rival&quot;: 3,
+  &quot;margin_change&quot;: -0.09102821350097656,
+  &quot;arm&quot;: &quot;aligned&quot;,
+  &quot;reference&quot;: &quot;saved_baseline&quot;,
+  &quot;state_orders&quot;: 1,
+  &quot;new_vs_ce&quot;: true,
+  &quot;aligned_vs_pooled&quot;: true,
+  &quot;ce_prediction&quot;: 0,
+  &quot;pooled_prediction&quot;: 0,
+  &quot;new_ce_margin_delta&quot;: -0.010801434516906738,
+  &quot;aligned_pooled_margin_delta&quot;: -0.0028513669967651367,
+  &quot;source_offset_prediction&quot;: 0,
+  &quot;source_offset_reproduces_actual&quot;: false,
+  &quot;outside_development&quot;: true,
+  &quot;dataset&quot;: &quot;private&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;class_name&quot;: &quot;bulk_carrier&quot;,
+  &quot;rival_name&quot;: &quot;chemical_tanker&quot;,
+  &quot;mmsi&quot;: &quot;356861000&quot;,
+  &quot;pass_group&quot;: &quot;S1C_005602_00B2DC&quot;,
+  &quot;port&quot;: &quot;Richards Bay&quot;,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          -1.2222373485565186,
+          -14.731674194335938,
+          -4.07253885269165,
+          -2.410311698913574,
+          -4.179189682006836,
+          -3.8442530632019043,
+          -12.448277473449707,
+          -15.199477195739746
+        ],
+        &quot;truth_rival_margin&quot;: 1.1880743503570557
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          -2.042240858078003,
+          -14.752286911010742,
+          -4.719671249389648,
+          -2.815183639526367,
+          -4.472735404968262,
+          -3.921583414077759,
+          -12.131449699401855,
+          -14.385954856872559
+        ],
+        &quot;truth_rival_margin&quot;: 0.7729427814483643
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          -1.343709945678711,
+          -14.673486709594727,
+          -4.160276412963867,
+          -2.4031472206115723,
+          -4.207828521728516,
+          -3.8158679008483887,
+          -12.356209754943848,
+          -15.065303802490234
+        ],
+        &quot;truth_rival_margin&quot;: 1.0594372749328613
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          -1.341653823852539,
+          -14.677019119262695,
+          -4.161410808563232,
+          -2.4045472145080566,
+          -4.206313610076904,
+          -3.8148245811462402,
+          -12.358549118041992,
+          -15.067758560180664
+        ],
+        &quot;truth_rival_margin&quot;: 1.0628933906555176
+      },
+      &quot;state&quot;: &quot;CC&quot;
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          -1.364138126373291,
+          -11.422063827514648,
+          -3.246643543243408,
+          -1.454488754272461,
+          -2.7319042682647705,
+          -1.6687802076339722,
+          -10.474331855773926,
+          -14.30763053894043
+        ],
+        &quot;truth_rival_margin&quot;: 0.09035062789916992
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          -1.9412400722503662,
+          -11.628313064575195,
+          -3.7500686645507812,
+          -1.9513639211654663,
+          -3.041762351989746,
+          -2.001385450363159,
+          -9.706440925598145,
+          -13.169614791870117
+        ],
+        &quot;truth_rival_margin&quot;: 0.010123848915100098
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -1.465748906135559,
+          -11.332736015319824,
+          -3.36777925491333,
+          -1.4650713205337524,
+          -2.725399971008301,
+          -1.6792930364608765,
+          -10.305779457092285,
+          -14.145995140075684
+        ],
+        &quot;truth_rival_margin&quot;: -0.0006775856018066406
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          -1.4645062685012817,
+          -11.337532043457031,
+          -3.366945266723633,
+          -1.4666800498962402,
+          -2.725227117538452,
+          -1.677927851676941,
+          -10.312042236328125,
+          -14.149991035461426
+        ],
+        &quot;truth_rival_margin&quot;: 0.002173781394958496
+      },
+      &quot;state&quot;: &quot;harmed&quot;
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 5,
+        &quot;logits&quot;: [
+          -2.5891928672790527,
+          -14.154945373535156,
+          -4.042105674743652,
+          -3.8048441410064697,
+          -5.310362339019775,
+          -1.3318144083023071,
+          -12.094315528869629,
+          -13.873489379882812
+        ],
+        &quot;truth_rival_margin&quot;: 1.215651273727417
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 5,
+        &quot;logits&quot;: [
+          -3.3408329486846924,
+          -14.192561149597168,
+          -4.694950103759766,
+          -3.882053852081299,
+          -5.209963321685791,
+          -1.7303104400634766,
+          -11.685189247131348,
+          -13.306570053100586
+        ],
+        &quot;truth_rival_margin&quot;: 0.5412209033966064
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 5,
+        &quot;logits&quot;: [
+          -2.778642177581787,
+          -14.127699851989746,
+          -4.194797992706299,
+          -3.781353712081909,
+          -5.218946933746338,
+          -1.390733242034912,
+          -11.965167999267578,
+          -13.817808151245117
+        ],
+        &quot;truth_rival_margin&quot;: 1.002711534500122
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 5,
+        &quot;logits&quot;: [
+          -2.7765839099884033,
+          -14.128385543823242,
+          -4.193474769592285,
+          -3.7835330963134766,
+          -5.218764305114746,
+          -1.3894706964492798,
+          -11.966785430908203,
+          -13.8169527053833
+        ],
+        &quot;truth_rival_margin&quot;: 1.0069491863250732
+      },
+      &quot;state&quot;: &quot;WW&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;harmed_11223_vv.png&quot;,
+      &quot;same_class_candidates&quot;: 2,
+      &quot;rival_candidates&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;34478&quot;,
+        &quot;31512&quot;,
+        &quot;24527&quot;,
+        &quot;7790&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;harmed_11223_vh.png&quot;,
+      &quot;same_class_candidates&quot;: 2,
+      &quot;rival_candidates&quot;: 2,
+      &quot;shown_reference_ids&quot;: [
+        &quot;34478&quot;,
+        &quot;31512&quot;,
+        &quot;24527&quot;,
+        &quot;7790&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    }
+  },
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;34478&quot;,
+    &quot;31512&quot;,
+    &quot;14814&quot;,
+    &quot;16401&quot;,
+    &quot;6913&quot;,
+    &quot;22755&quot;,
+    &quot;24527&quot;,
+    &quot;7790&quot;,
+    &quot;36308&quot;,
+    &quot;23719&quot;,
+    &quot;29922&quot;,
+    &quot;2077&quot;,
+    &quot;12041&quot;,
+    &quot;7429&quot;,
+    &quot;13000&quot;,
+    &quot;13276&quot;
+  ]
+}</pre><h3>VV</h3><img src="harmed_11223_vv.png"><h3>VH</h3><img src="harmed_11223_vh.png">

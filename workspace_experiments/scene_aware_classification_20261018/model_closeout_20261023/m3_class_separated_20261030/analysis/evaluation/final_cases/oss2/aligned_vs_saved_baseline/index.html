@@ -1,0 +1,470 @@
+<!doctype html><meta charset="utf-8"><title>M3 source replay cases</title><style>body{font:14px Arial;margin:24px}pre{white-space:pre-wrap}img{image-rendering:pixelated;max-width:none}</style><h1>oss2: aligned vs saved_baseline</h1><p>VV/VH separate; original pixels and exact crop/pad; separate OBB overlay. Rendered, not visually reviewed.</p><pre>{
+  &quot;arm&quot;: &quot;aligned&quot;,
+  &quot;reference&quot;: &quot;saved_baseline&quot;,
+  &quot;seeds&quot;: [
+    17,
+    29,
+    43
+  ],
+  &quot;absent&quot;: [],
+  &quot;cases&quot;: 2,
+  &quot;panels&quot;: 4,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;rule&quot;: &quot;At most two new queries/dataset: one rescue and one harm when available; exclude all previous gallery queries. Prefer outside-development, source-offset-unreproduced outcomes, then new-vs-CE, aligned-vs-pooled and margin change. Deterministic.&quot;,
+  &quot;references&quot;: &quot;Actual fixed reference manifest; exclude identical ID/MMSI; first two same/rival class entries in bank order. No resizing.&quot;,
+  &quot;limitation&quot;: &quot;Outcome-selected examples are not population proportions. Bank order is not learned attention ranking. No new per-reference attention trace or physical causal evidence.&quot;
+}</pre><h2>rescued: pub2_opensarship2_002283</h2><pre>{
+  &quot;id&quot;: &quot;pub2_opensarship2_002283&quot;,
+  &quot;label&quot;: 1,
+  &quot;seed&quot;: 43,
+  &quot;state&quot;: &quot;rescued&quot;,
+  &quot;old&quot;: 2,
+  &quot;new&quot;: 1,
+  &quot;changed&quot;: true,
+  &quot;rival&quot;: 2,
+  &quot;margin_change&quot;: 0.05970501899719238,
+  &quot;arm&quot;: &quot;aligned&quot;,
+  &quot;reference&quot;: &quot;saved_baseline&quot;,
+  &quot;state_orders&quot;: 1,
+  &quot;new_vs_ce&quot;: true,
+  &quot;aligned_vs_pooled&quot;: false,
+  &quot;ce_prediction&quot;: 2,
+  &quot;pooled_prediction&quot;: 1,
+  &quot;new_ce_margin_delta&quot;: 0.07071876525878906,
+  &quot;aligned_pooled_margin_delta&quot;: -0.003991603851318359,
+  &quot;source_offset_prediction&quot;: 2,
+  &quot;source_offset_reproduces_actual&quot;: false,
+  &quot;outside_development&quot;: true,
+  &quot;dataset&quot;: &quot;oss2&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;class_name&quot;: &quot;general_cargo&quot;,
+  &quot;rival_name&quot;: &quot;product_chemical_tanker&quot;,
+  &quot;mmsi&quot;: &quot;422036100&quot;,
+  &quot;pass_group&quot;: &quot;S1A_009518_00DD1D&quot;,
+  &quot;port&quot;: null,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.6778451800346375,
+          2.419363498687744,
+          1.7355867624282837,
+          -3.453880548477173
+        ],
+        &quot;truth_rival_margin&quot;: 0.6837767362594604
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.9669205546379089,
+          2.966257333755493,
+          1.2312034368515015,
+          -3.2006921768188477
+        ],
+        &quot;truth_rival_margin&quot;: 1.7350538969039917
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.6640058159828186,
+          2.4653379917144775,
+          1.595819115638733,
+          -3.349086046218872
+        ],
+        &quot;truth_rival_margin&quot;: 0.8695188760757446
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.6650756001472473,
+          2.4685840606689453,
+          1.5895777940750122,
+          -3.3440403938293457
+        ],
+        &quot;truth_rival_margin&quot;: 0.8790062665939331
+      },
+      &quot;state&quot;: &quot;CC&quot;
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          -0.6740078926086426,
+          1.370975136756897,
+          2.2815983295440674,
+          -4.3548903465271
+        ],
+        &quot;truth_rival_margin&quot;: -0.9106231927871704
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          -1.1410096883773804,
+          1.8789926767349243,
+          2.3371617794036865,
+          -4.704069137573242
+        ],
+        &quot;truth_rival_margin&quot;: -0.4581691026687622
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          -0.6660431623458862,
+          1.4154176712036133,
+          2.166483163833618,
+          -4.277604579925537
+        ],
+        &quot;truth_rival_margin&quot;: -0.7510654926300049
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          -0.667300283908844,
+          1.418989658355713,
+          2.1636688709259033,
+          -4.277655601501465
+        ],
+        &quot;truth_rival_margin&quot;: -0.7446792125701904
+      },
+      &quot;state&quot;: &quot;WW&quot;
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          -0.6275132894515991,
+          2.2664809226989746,
+          2.293980836868286,
+          -4.605775833129883
+        ],
+        &quot;truth_rival_margin&quot;: -0.027499914169311523
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 2,
+        &quot;logits&quot;: [
+          -0.8576499223709106,
+          2.350353717803955,
+          2.3888673782348633,
+          -4.655967712402344
+        ],
+        &quot;truth_rival_margin&quot;: -0.0385136604309082
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.5960028171539307,
+          2.262852907180786,
+          2.2306478023529053,
+          -4.554863452911377
+        ],
+        &quot;truth_rival_margin&quot;: 0.03220510482788086
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.5958690047264099,
+          2.263716697692871,
+          2.227519989013672,
+          -4.552707195281982
+        ],
+        &quot;truth_rival_margin&quot;: 0.03619670867919922
+      },
+      &quot;state&quot;: &quot;rescued&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;rescued_pub2_opensarship2_002283_vv.png&quot;,
+      &quot;same_class_candidates&quot;: 7,
+      &quot;rival_candidates&quot;: 7,
+      &quot;shown_reference_ids&quot;: [
+        &quot;pub2_opensarship2_004017&quot;,
+        &quot;pub2_opensarship2_005079&quot;,
+        &quot;pub2_opensarship2_006746&quot;,
+        &quot;pub2_opensarship2_005117&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;rescued_pub2_opensarship2_002283_vh.png&quot;,
+      &quot;same_class_candidates&quot;: 7,
+      &quot;rival_candidates&quot;: 7,
+      &quot;shown_reference_ids&quot;: [
+        &quot;pub2_opensarship2_004017&quot;,
+        &quot;pub2_opensarship2_005079&quot;,
+        &quot;pub2_opensarship2_006746&quot;,
+        &quot;pub2_opensarship2_005117&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    }
+  },
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;pub2_opensarship2_006462&quot;,
+    &quot;pub2_opensarship2_006477&quot;,
+    &quot;pub2_opensarship2_005133&quot;,
+    &quot;pub2_opensarship2_005089&quot;,
+    &quot;pub2_opensarship2_006482&quot;,
+    &quot;pub2_opensarship2_005188&quot;,
+    &quot;pub2_opensarship2_000754&quot;,
+    &quot;pub2_opensarship2_000709&quot;,
+    &quot;pub2_opensarship2_004017&quot;,
+    &quot;pub2_opensarship2_005079&quot;,
+    &quot;pub2_opensarship2_001548&quot;,
+    &quot;pub2_opensarship2_006543&quot;,
+    &quot;pub2_opensarship2_000731&quot;,
+    &quot;pub2_opensarship2_001413&quot;,
+    &quot;pub2_opensarship2_006655&quot;,
+    &quot;pub2_opensarship2_004357&quot;,
+    &quot;pub2_opensarship2_006746&quot;,
+    &quot;pub2_opensarship2_005117&quot;,
+    &quot;pub2_opensarship2_006629&quot;,
+    &quot;pub2_opensarship2_006719&quot;,
+    &quot;pub2_opensarship2_005072&quot;,
+    &quot;pub2_opensarship2_006559&quot;,
+    &quot;pub2_opensarship2_004836&quot;,
+    &quot;pub2_opensarship2_006554&quot;,
+    &quot;pub2_opensarship2_005219&quot;,
+    &quot;pub2_opensarship2_001541&quot;,
+    &quot;pub2_opensarship2_004205&quot;,
+    &quot;pub2_opensarship2_000699&quot;,
+    &quot;pub2_opensarship2_006762&quot;,
+    &quot;pub2_opensarship2_003963&quot;,
+    &quot;pub2_opensarship2_001877&quot;,
+    &quot;pub2_opensarship2_005167&quot;
+  ]
+}</pre><h3>VV</h3><img src="rescued_pub2_opensarship2_002283_vv.png"><h3>VH</h3><img src="rescued_pub2_opensarship2_002283_vh.png"><h2>harmed: pub2_opensarship2_002401</h2><pre>{
+  &quot;id&quot;: &quot;pub2_opensarship2_002401&quot;,
+  &quot;label&quot;: 1,
+  &quot;seed&quot;: 29,
+  &quot;state&quot;: &quot;harmed&quot;,
+  &quot;old&quot;: 1,
+  &quot;new&quot;: 3,
+  &quot;changed&quot;: true,
+  &quot;rival&quot;: 3,
+  &quot;margin_change&quot;: -0.04075592756271362,
+  &quot;arm&quot;: &quot;aligned&quot;,
+  &quot;reference&quot;: &quot;saved_baseline&quot;,
+  &quot;state_orders&quot;: 1,
+  &quot;new_vs_ce&quot;: true,
+  &quot;aligned_vs_pooled&quot;: false,
+  &quot;ce_prediction&quot;: 1,
+  &quot;pooled_prediction&quot;: 3,
+  &quot;new_ce_margin_delta&quot;: -0.7921663075685501,
+  &quot;aligned_pooled_margin_delta&quot;: -0.0032095611095428467,
+  &quot;source_offset_prediction&quot;: 1,
+  &quot;source_offset_reproduces_actual&quot;: false,
+  &quot;outside_development&quot;: true,
+  &quot;dataset&quot;: &quot;oss2&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;class_name&quot;: &quot;general_cargo&quot;,
+  &quot;rival_name&quot;: &quot;container_ship&quot;,
+  &quot;mmsi&quot;: &quot;304010228&quot;,
+  &quot;pass_group&quot;: &quot;S1A_009518_00DD1D&quot;,
+  &quot;port&quot;: null,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.5622965097427368,
+          1.5223276615142822,
+          -0.6061275601387024,
+          0.47025689482688904
+        ],
+        &quot;truth_rival_margin&quot;: 1.0520707666873932
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.8577322363853455,
+          2.0321879386901855,
+          -1.0044001340866089,
+          0.6830779314041138
+        ],
+        &quot;truth_rival_margin&quot;: 1.3491100072860718
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.5431748032569885,
+          1.5615129470825195,
+          -0.7352660298347473,
+          0.5662881135940552
+        ],
+        &quot;truth_rival_margin&quot;: 0.9952248334884644
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.5441151857376099,
+          1.5646882057189941,
+          -0.7422683238983154,
+          0.572222113609314
+        ],
+        &quot;truth_rival_margin&quot;: 0.9924660921096802
+      },
+      &quot;state&quot;: &quot;CC&quot;
+    },
+    {
+      &quot;seed&quot;: 29,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.06697995960712433,
+          0.4295903146266937,
+          -0.4636705815792084,
+          0.4058641791343689
+        ],
+        &quot;truth_rival_margin&quot;: 0.02372613549232483
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.49180927872657776,
+          0.8863925337791443,
+          -0.4224031865596771,
+          0.11125601828098297
+        ],
+        &quot;truth_rival_margin&quot;: 0.7751365154981613
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -0.048518192023038864,
+          0.4648301303386688,
+          -0.5785059332847595,
+          0.4818599224090576
+        ],
+        &quot;truth_rival_margin&quot;: -0.017029792070388794
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -0.049242641776800156,
+          0.4683218002319336,
+          -0.5821313858032227,
+          0.48214203119277954
+        ],
+        &quot;truth_rival_margin&quot;: -0.013820230960845947
+      },
+      &quot;state&quot;: &quot;harmed&quot;
+    },
+    {
+      &quot;seed&quot;: 43,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.788620114326477,
+          1.6187511682510376,
+          -1.0034323930740356,
+          0.2665071487426758
+        ],
+        &quot;truth_rival_margin&quot;: 1.3522440195083618
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.9833361506462097,
+          1.6983792781829834,
+          -0.9251410961151123,
+          0.21984446048736572
+        ],
+        &quot;truth_rival_margin&quot;: 1.4785348176956177
+      },
+      &quot;aligned&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.7307758331298828,
+          1.6069388389587402,
+          -1.0579479932785034,
+          0.3000733256340027
+        ],
+        &quot;truth_rival_margin&quot;: 1.3068655133247375
+      },
+      &quot;pooled&quot;: {
+        &quot;prediction&quot;: 1,
+        &quot;logits&quot;: [
+          -0.7291357517242432,
+          1.6069897413253784,
+          -1.0607343912124634,
+          0.3018924295902252
+        ],
+        &quot;truth_rival_margin&quot;: 1.3050973117351532
+      },
+      &quot;state&quot;: &quot;CC&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;harmed_pub2_opensarship2_002401_vv.png&quot;,
+      &quot;same_class_candidates&quot;: 7,
+      &quot;rival_candidates&quot;: 8,
+      &quot;shown_reference_ids&quot;: [
+        &quot;pub2_opensarship2_004017&quot;,
+        &quot;pub2_opensarship2_005079&quot;,
+        &quot;pub2_opensarship2_005219&quot;,
+        &quot;pub2_opensarship2_001541&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;harmed_pub2_opensarship2_002401_vh.png&quot;,
+      &quot;same_class_candidates&quot;: 7,
+      &quot;rival_candidates&quot;: 8,
+      &quot;shown_reference_ids&quot;: [
+        &quot;pub2_opensarship2_004017&quot;,
+        &quot;pub2_opensarship2_005079&quot;,
+        &quot;pub2_opensarship2_005219&quot;,
+        &quot;pub2_opensarship2_001541&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    }
+  },
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;pub2_opensarship2_006462&quot;,
+    &quot;pub2_opensarship2_006477&quot;,
+    &quot;pub2_opensarship2_005133&quot;,
+    &quot;pub2_opensarship2_005089&quot;,
+    &quot;pub2_opensarship2_006482&quot;,
+    &quot;pub2_opensarship2_005188&quot;,
+    &quot;pub2_opensarship2_000754&quot;,
+    &quot;pub2_opensarship2_000709&quot;,
+    &quot;pub2_opensarship2_004017&quot;,
+    &quot;pub2_opensarship2_005079&quot;,
+    &quot;pub2_opensarship2_001548&quot;,
+    &quot;pub2_opensarship2_006543&quot;,
+    &quot;pub2_opensarship2_000731&quot;,
+    &quot;pub2_opensarship2_001413&quot;,
+    &quot;pub2_opensarship2_006655&quot;,
+    &quot;pub2_opensarship2_004357&quot;,
+    &quot;pub2_opensarship2_006746&quot;,
+    &quot;pub2_opensarship2_005117&quot;,
+    &quot;pub2_opensarship2_006629&quot;,
+    &quot;pub2_opensarship2_006719&quot;,
+    &quot;pub2_opensarship2_005072&quot;,
+    &quot;pub2_opensarship2_006559&quot;,
+    &quot;pub2_opensarship2_004836&quot;,
+    &quot;pub2_opensarship2_006554&quot;,
+    &quot;pub2_opensarship2_005219&quot;,
+    &quot;pub2_opensarship2_001541&quot;,
+    &quot;pub2_opensarship2_004205&quot;,
+    &quot;pub2_opensarship2_000699&quot;,
+    &quot;pub2_opensarship2_006762&quot;,
+    &quot;pub2_opensarship2_003963&quot;,
+    &quot;pub2_opensarship2_001877&quot;,
+    &quot;pub2_opensarship2_005167&quot;
+  ]
+}</pre><h3>VV</h3><img src="harmed_pub2_opensarship2_002401_vv.png"><h3>VH</h3><img src="harmed_pub2_opensarship2_002401_vh.png">
