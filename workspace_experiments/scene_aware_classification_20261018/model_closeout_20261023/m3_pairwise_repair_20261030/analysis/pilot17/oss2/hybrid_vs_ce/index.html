@@ -1,0 +1,410 @@
+<!doctype html><meta charset="utf-8"><title>M3 pairwise cases</title><style>body{font:14px Arial;margin:24px}pre{white-space:pre-wrap}img{image-rendering:pixelated;max-width:none}</style><h1>oss2: hybrid vs ce</h1><p>VV/VH separate; original pixels and exact crop/pad; separate OBB overlay. Rendered, not visually reviewed.</p><pre>{
+  &quot;arm&quot;: &quot;hybrid&quot;,
+  &quot;reference&quot;: &quot;ce&quot;,
+  &quot;seeds&quot;: [
+    17
+  ],
+  &quot;absent&quot;: [
+    {
+      &quot;state&quot;: &quot;harmed&quot;,
+      &quot;state_events&quot;: 0,
+      &quot;reason&quot;: &quot;No events in this state.&quot;
+    }
+  ],
+  &quot;cases&quot;: 3,
+  &quot;panels&quot;: 6,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;rule&quot;: &quot;One distinct query/state, ordered by state frequency, absolute fixed-rival margin change, ID, seed. No random sampling.&quot;,
+  &quot;references&quot;: &quot;Actual fixed reference manifest; exclude identical ID/MMSI; first two same/rival class entries in bank order. No resizing.&quot;,
+  &quot;limitation&quot;: &quot;Outcome-selected examples are not population proportions. Bank order is not learned attention ranking. No new per-reference attention trace or physical causal evidence.&quot;
+}</pre><h2>rescued: pub2_opensarship2_003623</h2><pre>{
+  &quot;id&quot;: &quot;pub2_opensarship2_003623&quot;,
+  &quot;label&quot;: 0,
+  &quot;seed&quot;: 17,
+  &quot;state&quot;: &quot;rescued&quot;,
+  &quot;old&quot;: 3,
+  &quot;new&quot;: 0,
+  &quot;changed&quot;: true,
+  &quot;rival&quot;: 3,
+  &quot;margin_change&quot;: 0.06698572635650635,
+  &quot;arm&quot;: &quot;hybrid&quot;,
+  &quot;reference&quot;: &quot;ce&quot;,
+  &quot;state_orders&quot;: 1,
+  &quot;dataset&quot;: &quot;oss2&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;class_name&quot;: &quot;bulk_carrier&quot;,
+  &quot;rival_name&quot;: &quot;container_ship&quot;,
+  &quot;mmsi&quot;: &quot;413941000&quot;,
+  &quot;pass_group&quot;: &quot;S1A_010218_00F169&quot;,
+  &quot;port&quot;: null,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          1.6691268682479858,
+          -4.500441074371338,
+          -1.6040745973587036,
+          1.1037029027938843
+        ],
+        &quot;truth_rival_margin&quot;: 0.5654239654541016
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          1.33388352394104,
+          -3.9639058113098145,
+          -1.996564269065857,
+          1.3604910373687744
+        ],
+        &quot;truth_rival_margin&quot;: -0.026607513427734375
+      },
+      &quot;rank&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          1.5647304058074951,
+          -4.517203330993652,
+          -1.6412571668624878,
+          1.1442763805389404
+        ],
+        &quot;truth_rival_margin&quot;: 0.4204540252685547
+      },
+      &quot;hybrid&quot;: {
+        &quot;prediction&quot;: 0,
+        &quot;logits&quot;: [
+          1.3598716259002686,
+          -4.049243927001953,
+          -1.9662933349609375,
+          1.3194934129714966
+        ],
+        &quot;truth_rival_margin&quot;: 0.04037821292877197
+      },
+      &quot;state&quot;: &quot;rescued&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;rescued_pub2_opensarship2_003623_vv.png&quot;,
+      &quot;same_class_candidates&quot;: 7,
+      &quot;rival_candidates&quot;: 8,
+      &quot;shown_reference_ids&quot;: [
+        &quot;pub2_opensarship2_006462&quot;,
+        &quot;pub2_opensarship2_006477&quot;,
+        &quot;pub2_opensarship2_005219&quot;,
+        &quot;pub2_opensarship2_001541&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;rescued_pub2_opensarship2_003623_vh.png&quot;,
+      &quot;same_class_candidates&quot;: 8,
+      &quot;rival_candidates&quot;: 8,
+      &quot;shown_reference_ids&quot;: [
+        &quot;pub2_opensarship2_006462&quot;,
+        &quot;pub2_opensarship2_006477&quot;,
+        &quot;pub2_opensarship2_005219&quot;,
+        &quot;pub2_opensarship2_001541&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    }
+  },
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;pub2_opensarship2_006462&quot;,
+    &quot;pub2_opensarship2_006477&quot;,
+    &quot;pub2_opensarship2_005133&quot;,
+    &quot;pub2_opensarship2_005089&quot;,
+    &quot;pub2_opensarship2_006482&quot;,
+    &quot;pub2_opensarship2_005188&quot;,
+    &quot;pub2_opensarship2_000754&quot;,
+    &quot;pub2_opensarship2_000709&quot;,
+    &quot;pub2_opensarship2_004017&quot;,
+    &quot;pub2_opensarship2_005079&quot;,
+    &quot;pub2_opensarship2_001548&quot;,
+    &quot;pub2_opensarship2_006543&quot;,
+    &quot;pub2_opensarship2_000731&quot;,
+    &quot;pub2_opensarship2_001413&quot;,
+    &quot;pub2_opensarship2_006655&quot;,
+    &quot;pub2_opensarship2_004357&quot;,
+    &quot;pub2_opensarship2_006746&quot;,
+    &quot;pub2_opensarship2_005117&quot;,
+    &quot;pub2_opensarship2_006629&quot;,
+    &quot;pub2_opensarship2_006719&quot;,
+    &quot;pub2_opensarship2_005072&quot;,
+    &quot;pub2_opensarship2_006559&quot;,
+    &quot;pub2_opensarship2_004836&quot;,
+    &quot;pub2_opensarship2_006554&quot;,
+    &quot;pub2_opensarship2_005219&quot;,
+    &quot;pub2_opensarship2_001541&quot;,
+    &quot;pub2_opensarship2_004205&quot;,
+    &quot;pub2_opensarship2_000699&quot;,
+    &quot;pub2_opensarship2_006762&quot;,
+    &quot;pub2_opensarship2_003963&quot;,
+    &quot;pub2_opensarship2_001877&quot;,
+    &quot;pub2_opensarship2_005167&quot;
+  ]
+}</pre><h3>VV</h3><img src="rescued_pub2_opensarship2_003623_vv.png"><h3>VH</h3><img src="rescued_pub2_opensarship2_003623_vh.png"><h2>CC: pub2_opensarship2_000938</h2><pre>{
+  &quot;id&quot;: &quot;pub2_opensarship2_000938&quot;,
+  &quot;label&quot;: 3,
+  &quot;seed&quot;: 17,
+  &quot;state&quot;: &quot;CC&quot;,
+  &quot;old&quot;: 3,
+  &quot;new&quot;: 3,
+  &quot;changed&quot;: false,
+  &quot;rival&quot;: 0,
+  &quot;margin_change&quot;: 0.13294720649719238,
+  &quot;arm&quot;: &quot;hybrid&quot;,
+  &quot;reference&quot;: &quot;ce&quot;,
+  &quot;state_orders&quot;: 1,
+  &quot;dataset&quot;: &quot;oss2&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;class_name&quot;: &quot;container_ship&quot;,
+  &quot;rival_name&quot;: &quot;bulk_carrier&quot;,
+  &quot;mmsi&quot;: &quot;636014557&quot;,
+  &quot;pass_group&quot;: &quot;S1A_007768_00ACD0&quot;,
+  &quot;port&quot;: null,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -1.8809725046157837,
+          -7.841740131378174,
+          -2.821169376373291,
+          7.581882953643799
+        ],
+        &quot;truth_rival_margin&quot;: 9.462855458259583
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -2.0269670486450195,
+          -7.162250518798828,
+          -3.0247654914855957,
+          7.541903972625732
+        ],
+        &quot;truth_rival_margin&quot;: 9.568871021270752
+      },
+      &quot;rank&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -2.012279987335205,
+          -7.793166637420654,
+          -2.8447186946868896,
+          7.734672546386719
+        ],
+        &quot;truth_rival_margin&quot;: 9.746952533721924
+      },
+      &quot;hybrid&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          -2.065068483352661,
+          -7.272576332092285,
+          -3.046372413635254,
+          7.636749744415283
+        ],
+        &quot;truth_rival_margin&quot;: 9.701818227767944
+      },
+      &quot;state&quot;: &quot;CC&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;CC_pub2_opensarship2_000938_vv.png&quot;,
+      &quot;same_class_candidates&quot;: 8,
+      &quot;rival_candidates&quot;: 7,
+      &quot;shown_reference_ids&quot;: [
+        &quot;pub2_opensarship2_005219&quot;,
+        &quot;pub2_opensarship2_001541&quot;,
+        &quot;pub2_opensarship2_006462&quot;,
+        &quot;pub2_opensarship2_006477&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;CC_pub2_opensarship2_000938_vh.png&quot;,
+      &quot;same_class_candidates&quot;: 8,
+      &quot;rival_candidates&quot;: 8,
+      &quot;shown_reference_ids&quot;: [
+        &quot;pub2_opensarship2_005219&quot;,
+        &quot;pub2_opensarship2_001541&quot;,
+        &quot;pub2_opensarship2_006462&quot;,
+        &quot;pub2_opensarship2_006477&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    }
+  },
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;pub2_opensarship2_006462&quot;,
+    &quot;pub2_opensarship2_006477&quot;,
+    &quot;pub2_opensarship2_005133&quot;,
+    &quot;pub2_opensarship2_005089&quot;,
+    &quot;pub2_opensarship2_006482&quot;,
+    &quot;pub2_opensarship2_005188&quot;,
+    &quot;pub2_opensarship2_000754&quot;,
+    &quot;pub2_opensarship2_000709&quot;,
+    &quot;pub2_opensarship2_004017&quot;,
+    &quot;pub2_opensarship2_005079&quot;,
+    &quot;pub2_opensarship2_001548&quot;,
+    &quot;pub2_opensarship2_006543&quot;,
+    &quot;pub2_opensarship2_000731&quot;,
+    &quot;pub2_opensarship2_001413&quot;,
+    &quot;pub2_opensarship2_006655&quot;,
+    &quot;pub2_opensarship2_004357&quot;,
+    &quot;pub2_opensarship2_006746&quot;,
+    &quot;pub2_opensarship2_005117&quot;,
+    &quot;pub2_opensarship2_006629&quot;,
+    &quot;pub2_opensarship2_006719&quot;,
+    &quot;pub2_opensarship2_005072&quot;,
+    &quot;pub2_opensarship2_006559&quot;,
+    &quot;pub2_opensarship2_004836&quot;,
+    &quot;pub2_opensarship2_006554&quot;,
+    &quot;pub2_opensarship2_005219&quot;,
+    &quot;pub2_opensarship2_001541&quot;,
+    &quot;pub2_opensarship2_004205&quot;,
+    &quot;pub2_opensarship2_000699&quot;,
+    &quot;pub2_opensarship2_006762&quot;,
+    &quot;pub2_opensarship2_003963&quot;,
+    &quot;pub2_opensarship2_001877&quot;,
+    &quot;pub2_opensarship2_005167&quot;
+  ]
+}</pre><h3>VV</h3><img src="CC_pub2_opensarship2_000938_vv.png"><h3>VH</h3><img src="CC_pub2_opensarship2_000938_vh.png"><h2>WW: pub2_opensarship2_000913</h2><pre>{
+  &quot;id&quot;: &quot;pub2_opensarship2_000913&quot;,
+  &quot;label&quot;: 0,
+  &quot;seed&quot;: 17,
+  &quot;state&quot;: &quot;WW&quot;,
+  &quot;old&quot;: 3,
+  &quot;new&quot;: 3,
+  &quot;changed&quot;: false,
+  &quot;rival&quot;: 3,
+  &quot;margin_change&quot;: -0.16928768157958984,
+  &quot;arm&quot;: &quot;hybrid&quot;,
+  &quot;reference&quot;: &quot;ce&quot;,
+  &quot;state_orders&quot;: 1,
+  &quot;dataset&quot;: &quot;oss2&quot;,
+  &quot;visual_status&quot;: &quot;not_reviewed&quot;,
+  &quot;class_name&quot;: &quot;bulk_carrier&quot;,
+  &quot;rival_name&quot;: &quot;container_ship&quot;,
+  &quot;mmsi&quot;: &quot;441635000&quot;,
+  &quot;pass_group&quot;: &quot;S1A_007768_00ACD0&quot;,
+  &quot;port&quot;: null,
+  &quot;orders&quot;: [
+    {
+      &quot;seed&quot;: 17,
+      &quot;saved_baseline&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          2.9336843490600586,
+          -9.181415557861328,
+          -2.631343364715576,
+          3.3000004291534424
+        ],
+        &quot;truth_rival_margin&quot;: -0.3663160800933838
+      },
+      &quot;ce&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          2.897749662399292,
+          -8.322182655334473,
+          -2.8331284523010254,
+          3.278064250946045
+        ],
+        &quot;truth_rival_margin&quot;: -0.38031458854675293
+      },
+      &quot;rank&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          2.781505823135376,
+          -9.207306861877441,
+          -2.681286334991455,
+          3.457679033279419
+        ],
+        &quot;truth_rival_margin&quot;: -0.676173210144043
+      },
+      &quot;hybrid&quot;: {
+        &quot;prediction&quot;: 3,
+        &quot;logits&quot;: [
+          2.817340612411499,
+          -8.52454662322998,
+          -2.8551597595214844,
+          3.366942882537842
+        ],
+        &quot;truth_rival_margin&quot;: -0.5496022701263428
+      },
+      &quot;state&quot;: &quot;WW&quot;
+    }
+  ],
+  &quot;panels&quot;: {
+    &quot;vv&quot;: {
+      &quot;file&quot;: &quot;WW_pub2_opensarship2_000913_vv.png&quot;,
+      &quot;same_class_candidates&quot;: 7,
+      &quot;rival_candidates&quot;: 8,
+      &quot;shown_reference_ids&quot;: [
+        &quot;pub2_opensarship2_006462&quot;,
+        &quot;pub2_opensarship2_006477&quot;,
+        &quot;pub2_opensarship2_005219&quot;,
+        &quot;pub2_opensarship2_001541&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    },
+    &quot;vh&quot;: {
+      &quot;file&quot;: &quot;WW_pub2_opensarship2_000913_vh.png&quot;,
+      &quot;same_class_candidates&quot;: 8,
+      &quot;rival_candidates&quot;: 8,
+      &quot;shown_reference_ids&quot;: [
+        &quot;pub2_opensarship2_006462&quot;,
+        &quot;pub2_opensarship2_006477&quot;,
+        &quot;pub2_opensarship2_005219&quot;,
+        &quot;pub2_opensarship2_001541&quot;
+      ],
+      &quot;query_available&quot;: true,
+      &quot;same_class_usable&quot;: 2,
+      &quot;rival_usable&quot;: 2
+    }
+  },
+  &quot;all_legal_reference_ids&quot;: [
+    &quot;pub2_opensarship2_006462&quot;,
+    &quot;pub2_opensarship2_006477&quot;,
+    &quot;pub2_opensarship2_005133&quot;,
+    &quot;pub2_opensarship2_005089&quot;,
+    &quot;pub2_opensarship2_006482&quot;,
+    &quot;pub2_opensarship2_005188&quot;,
+    &quot;pub2_opensarship2_000754&quot;,
+    &quot;pub2_opensarship2_000709&quot;,
+    &quot;pub2_opensarship2_004017&quot;,
+    &quot;pub2_opensarship2_005079&quot;,
+    &quot;pub2_opensarship2_001548&quot;,
+    &quot;pub2_opensarship2_006543&quot;,
+    &quot;pub2_opensarship2_000731&quot;,
+    &quot;pub2_opensarship2_001413&quot;,
+    &quot;pub2_opensarship2_006655&quot;,
+    &quot;pub2_opensarship2_004357&quot;,
+    &quot;pub2_opensarship2_006746&quot;,
+    &quot;pub2_opensarship2_005117&quot;,
+    &quot;pub2_opensarship2_006629&quot;,
+    &quot;pub2_opensarship2_006719&quot;,
+    &quot;pub2_opensarship2_005072&quot;,
+    &quot;pub2_opensarship2_006559&quot;,
+    &quot;pub2_opensarship2_004836&quot;,
+    &quot;pub2_opensarship2_006554&quot;,
+    &quot;pub2_opensarship2_005219&quot;,
+    &quot;pub2_opensarship2_001541&quot;,
+    &quot;pub2_opensarship2_004205&quot;,
+    &quot;pub2_opensarship2_000699&quot;,
+    &quot;pub2_opensarship2_006762&quot;,
+    &quot;pub2_opensarship2_003963&quot;,
+    &quot;pub2_opensarship2_001877&quot;,
+    &quot;pub2_opensarship2_005167&quot;
+  ]
+}</pre><h3>VV</h3><img src="WW_pub2_opensarship2_000913_vv.png"><h3>VH</h3><img src="WW_pub2_opensarship2_000913_vh.png">

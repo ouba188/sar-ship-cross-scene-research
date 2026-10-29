@@ -1,0 +1,419 @@
+[
+  {
+    "id": "33658",
+    "label": 0,
+    "seed": 17,
+    "state": "harmed",
+    "old": 0,
+    "new": 1,
+    "changed": true,
+    "rival": 1,
+    "margin_change": -0.24318422377109528,
+    "arm": "rank",
+    "reference": "saved_baseline",
+    "state_orders": 1,
+    "dataset": "private",
+    "visual_status": "not_reviewed",
+    "class_name": "bulk_carrier",
+    "rival_name": "fishing",
+    "mmsi": "636017268",
+    "pass_group": "S1A_060268_077D6F",
+    "port": "Singapore",
+    "orders": [
+      {
+        "seed": 17,
+        "saved_baseline": {
+          "prediction": 0,
+          "logits": [
+            0.33368706703186035,
+            0.21689119935035706,
+            -0.18774642050266266,
+            -2.009294271469116,
+            -2.1813971996307373,
+            -1.268961787223816,
+            -1.4487354755401611,
+            -2.5468297004699707
+          ],
+          "truth_rival_margin": 0.1167958676815033
+        },
+        "ce": {
+          "prediction": 1,
+          "logits": [
+            0.04231184720993042,
+            0.1459634006023407,
+            -0.4207981526851654,
+            -2.05256986618042,
+            -2.130396842956543,
+            -1.3417142629623413,
+            -1.1608697175979614,
+            -2.1290385723114014
+          ],
+          "truth_rival_margin": -0.10365155339241028
+        },
+        "rank": {
+          "prediction": 1,
+          "logits": [
+            0.24671970307826996,
+            0.37310805916786194,
+            -0.10655970126390457,
+            -1.971848487854004,
+            -2.1211774349212646,
+            -1.2260013818740845,
+            -1.5467907190322876,
+            -2.6553549766540527
+          ],
+          "truth_rival_margin": -0.12638835608959198
+        },
+        "hybrid": {
+          "prediction": 1,
+          "logits": [
+            0.04394035041332245,
+            0.2128310352563858,
+            -0.36948585510253906,
+            -2.0337259769439697,
+            -2.1282787322998047,
+            -1.3013198375701904,
+            -1.2280844449996948,
+            -2.2463810443878174
+          ],
+          "truth_rival_margin": -0.16889068484306335
+        },
+        "state": "harmed"
+      }
+    ],
+    "panels": {
+      "vv": {
+        "file": "harmed_33658_vv.png",
+        "same_class_candidates": 2,
+        "rival_candidates": 2,
+        "shown_reference_ids": [
+          "34478",
+          "31512",
+          "14814",
+          "16401"
+        ],
+        "query_available": true,
+        "same_class_usable": 2,
+        "rival_usable": 2
+      },
+      "vh": {
+        "file": "harmed_33658_vh.png",
+        "same_class_candidates": 2,
+        "rival_candidates": 2,
+        "shown_reference_ids": [
+          "34478",
+          "31512",
+          "14814",
+          "16401"
+        ],
+        "query_available": false,
+        "same_class_usable": 2,
+        "rival_usable": 2
+      }
+    },
+    "all_legal_reference_ids": [
+      "34478",
+      "31512",
+      "14814",
+      "16401",
+      "6913",
+      "22755",
+      "24527",
+      "7790",
+      "36308",
+      "23719",
+      "29922",
+      "2077",
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "score_increment_diagnostics": [
+      {
+        "seed": 17,
+        "total_truth_rival_change": -0.24318422377109528,
+        "common_truth_rival_change": -0.11858755081193521,
+        "residual_truth_rival_change": -0.12459667295916005
+      }
+    ]
+  },
+  {
+    "id": "10777",
+    "label": 0,
+    "seed": 17,
+    "state": "CC",
+    "old": 0,
+    "new": 0,
+    "changed": false,
+    "rival": 4,
+    "margin_change": -0.31277787685394287,
+    "arm": "rank",
+    "reference": "saved_baseline",
+    "state_orders": 1,
+    "dataset": "private",
+    "visual_status": "not_reviewed",
+    "class_name": "bulk_carrier",
+    "rival_name": "container",
+    "mmsi": "354879000",
+    "pass_group": "S1A_060268_077D6F",
+    "port": "Singapore",
+    "orders": [
+      {
+        "seed": 17,
+        "saved_baseline": {
+          "prediction": 0,
+          "logits": [
+            -0.8170978426933289,
+            -9.489409446716309,
+            -4.533668041229248,
+            -4.465005874633789,
+            -2.48533034324646,
+            -4.585960388183594,
+            -8.845537185668945,
+            -6.881280899047852
+          ],
+          "truth_rival_margin": 1.668232500553131
+        },
+        "ce": {
+          "prediction": 0,
+          "logits": [
+            -1.6432675123214722,
+            -9.593352317810059,
+            -4.875413417816162,
+            -4.799247741699219,
+            -2.4563586711883545,
+            -4.934525012969971,
+            -8.42890453338623,
+            -5.992676258087158
+          ],
+          "truth_rival_margin": 0.8130911588668823
+        },
+        "rank": {
+          "prediction": 0,
+          "logits": [
+            -0.9745374321937561,
+            -9.376008987426758,
+            -4.430693626403809,
+            -4.4636616706848145,
+            -2.3299920558929443,
+            -4.664370536804199,
+            -9.012221336364746,
+            -6.795666694641113
+          ],
+          "truth_rival_margin": 1.3554546236991882
+        },
+        "hybrid": {
+          "prediction": 0,
+          "logits": [
+            -1.5878888368606567,
+            -9.533875465393066,
+            -4.789206504821777,
+            -4.748441696166992,
+            -2.4062085151672363,
+            -4.871739387512207,
+            -8.538247108459473,
+            -6.113604545593262
+          ],
+          "truth_rival_margin": 0.8183196783065796
+        },
+        "state": "CC"
+      }
+    ],
+    "panels": {
+      "vv": {
+        "file": "CC_10777_vv.png",
+        "same_class_candidates": 2,
+        "rival_candidates": 2,
+        "shown_reference_ids": [
+          "34478",
+          "31512",
+          "36308",
+          "23719"
+        ],
+        "query_available": true,
+        "same_class_usable": 2,
+        "rival_usable": 2
+      },
+      "vh": {
+        "file": "CC_10777_vh.png",
+        "same_class_candidates": 2,
+        "rival_candidates": 2,
+        "shown_reference_ids": [
+          "34478",
+          "31512",
+          "36308",
+          "23719"
+        ],
+        "query_available": true,
+        "same_class_usable": 2,
+        "rival_usable": 2
+      }
+    },
+    "all_legal_reference_ids": [
+      "34478",
+      "31512",
+      "14814",
+      "16401",
+      "6913",
+      "22755",
+      "24527",
+      "7790",
+      "36308",
+      "23719",
+      "29922",
+      "2077",
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "score_increment_diagnostics": [
+      {
+        "seed": 17,
+        "total_truth_rival_change": -0.31277787685394287,
+        "common_truth_rival_change": -0.21824544939445334,
+        "residual_truth_rival_change": -0.09453242745948953
+      }
+    ]
+  },
+  {
+    "id": "1088",
+    "label": 4,
+    "seed": 17,
+    "state": "WW",
+    "old": 0,
+    "new": 0,
+    "changed": false,
+    "rival": 0,
+    "margin_change": 0.30976080894470215,
+    "arm": "rank",
+    "reference": "saved_baseline",
+    "state_orders": 1,
+    "dataset": "private",
+    "visual_status": "not_reviewed",
+    "class_name": "container",
+    "rival_name": "bulk_carrier",
+    "mmsi": "215381000",
+    "pass_group": "S1A_060692_078D67",
+    "port": "Port Klang",
+    "orders": [
+      {
+        "seed": 17,
+        "saved_baseline": {
+          "prediction": 0,
+          "logits": [
+            3.078416585922241,
+            -7.988783359527588,
+            -4.491457939147949,
+            -1.4161245822906494,
+            -3.7609145641326904,
+            -4.438204288482666,
+            -12.294334411621094,
+            -15.355816841125488
+          ],
+          "truth_rival_margin": -6.839331150054932
+        },
+        "ce": {
+          "prediction": 0,
+          "logits": [
+            2.3848252296447754,
+            -7.860207557678223,
+            -4.554869651794434,
+            -1.6021981239318848,
+            -3.753092050552368,
+            -4.666430950164795,
+            -11.629520416259766,
+            -14.364779472351074
+          ],
+          "truth_rival_margin": -6.1379172801971436
+        },
+        "rank": {
+          "prediction": 0,
+          "logits": [
+            2.8942089080810547,
+            -8.03037166595459,
+            -4.451347827911377,
+            -1.3884707689285278,
+            -3.635361433029175,
+            -4.567281723022461,
+            -12.349185943603516,
+            -15.458550453186035
+          ],
+          "truth_rival_margin": -6.5295703411102295
+        },
+        "hybrid": {
+          "prediction": 0,
+          "logits": [
+            2.409496545791626,
+            -7.927545547485352,
+            -4.557625770568848,
+            -1.573289155960083,
+            -3.7084691524505615,
+            -4.665543556213379,
+            -11.749340057373047,
+            -14.612667083740234
+          ],
+          "truth_rival_margin": -6.1179656982421875
+        },
+        "state": "WW"
+      }
+    ],
+    "panels": {
+      "vv": {
+        "file": "WW_1088_vv.png",
+        "same_class_candidates": 2,
+        "rival_candidates": 2,
+        "shown_reference_ids": [
+          "36308",
+          "23719",
+          "34478",
+          "31512"
+        ],
+        "query_available": true,
+        "same_class_usable": 2,
+        "rival_usable": 2
+      },
+      "vh": {
+        "file": "WW_1088_vh.png",
+        "same_class_candidates": 2,
+        "rival_candidates": 2,
+        "shown_reference_ids": [
+          "36308",
+          "23719",
+          "34478",
+          "31512"
+        ],
+        "query_available": true,
+        "same_class_usable": 2,
+        "rival_usable": 2
+      }
+    },
+    "all_legal_reference_ids": [
+      "34478",
+      "31512",
+      "14814",
+      "16401",
+      "6913",
+      "22755",
+      "24527",
+      "7790",
+      "36308",
+      "23719",
+      "29922",
+      "2077",
+      "12041",
+      "7429",
+      "13000",
+      "13276"
+    ],
+    "score_increment_diagnostics": [
+      {
+        "seed": 17,
+        "total_truth_rival_change": 0.30976080894470215,
+        "common_truth_rival_change": 0.21824544939445334,
+        "residual_truth_rival_change": 0.09151535955024882
+      }
+    ]
+  }
+]

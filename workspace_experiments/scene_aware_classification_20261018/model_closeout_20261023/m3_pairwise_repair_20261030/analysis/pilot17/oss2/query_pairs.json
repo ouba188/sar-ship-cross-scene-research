@@ -1,0 +1,511 @@
+{
+  "manifest": "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\final_oss2_replication_20261029\\manifests",
+  "query_count": 228,
+  "queries_missing_ship_or_pass": 0,
+  "weighting": "Equal over available class pairs; uniform over legal query pairs within each class pair.",
+  "definition": "softplus(-((z_i,a-z_i,b)-(z_j,a-z_j,b))); rank accuracy uses gap>0; ties are incorrect.",
+  "scope": "Development diagnostic only; labels organize evaluation, never training or sample selection. Pairs share queries and are not independent evidence.",
+  "common_bias": "Query-common class offsets cancel exactly in pair gaps; parameter updates may still introduce such offsets.",
+  "coverage": [
+    {
+      "a": 0,
+      "b": 1,
+      "class_a": "bulk_carrier",
+      "class_b": "general_cargo",
+      "pairs": 1237,
+      "missing": false,
+      "reason": null
+    },
+    {
+      "a": 0,
+      "b": 2,
+      "class_a": "bulk_carrier",
+      "class_b": "product_chemical_tanker",
+      "pairs": 1493,
+      "missing": false,
+      "reason": null
+    },
+    {
+      "a": 0,
+      "b": 3,
+      "class_a": "bulk_carrier",
+      "class_b": "container_ship",
+      "pairs": 4361,
+      "missing": false,
+      "reason": null
+    },
+    {
+      "a": 1,
+      "b": 2,
+      "class_a": "general_cargo",
+      "class_b": "product_chemical_tanker",
+      "pairs": 414,
+      "missing": false,
+      "reason": null
+    },
+    {
+      "a": 1,
+      "b": 3,
+      "class_a": "general_cargo",
+      "class_b": "container_ship",
+      "pairs": 1215,
+      "missing": false,
+      "reason": null
+    },
+    {
+      "a": 2,
+      "b": 3,
+      "class_a": "product_chemical_tanker",
+      "class_b": "container_ship",
+      "pairs": 1478,
+      "missing": false,
+      "reason": null
+    }
+  ],
+  "endpoints": [
+    {
+      "arm": "ce",
+      "seed": 17,
+      "evaluated_class_pairs": 6,
+      "missing_class_pairs": 0,
+      "legal_query_pairs": 10198,
+      "pair_logistic": 0.5509989614904176,
+      "pair_rank_accuracy": 0.8396325157224713
+    },
+    {
+      "arm": "hybrid",
+      "seed": 17,
+      "evaluated_class_pairs": 6,
+      "missing_class_pairs": 0,
+      "legal_query_pairs": 10198,
+      "pair_logistic": 0.5488211667722661,
+      "pair_rank_accuracy": 0.840178307507025
+    },
+    {
+      "arm": "rank",
+      "seed": 17,
+      "evaluated_class_pairs": 6,
+      "missing_class_pairs": 0,
+      "legal_query_pairs": 10198,
+      "pair_logistic": 0.5422092903182127,
+      "pair_rank_accuracy": 0.8397540680164691
+    },
+    {
+      "arm": "saved_baseline",
+      "seed": 17,
+      "evaluated_class_pairs": 6,
+      "missing_class_pairs": 0,
+      "legal_query_pairs": 10198,
+      "pair_logistic": 0.5473356561275037,
+      "pair_rank_accuracy": 0.8404607297405741
+    }
+  ],
+  "paired": [
+    {
+      "arm": "ce",
+      "reference": "saved_baseline",
+      "seed": 17,
+      "delta_pair_logistic": 0.0036633053629139267,
+      "delta_pair_rank_accuracy": -0.0008282140181027353
+    },
+    {
+      "arm": "rank",
+      "reference": "saved_baseline",
+      "seed": 17,
+      "delta_pair_logistic": -0.005126365809290934,
+      "delta_pair_rank_accuracy": -0.00070666172410494
+    },
+    {
+      "arm": "hybrid",
+      "reference": "saved_baseline",
+      "seed": 17,
+      "delta_pair_logistic": 0.0014855106447624333,
+      "delta_pair_rank_accuracy": -0.00028242223354901785
+    },
+    {
+      "arm": "rank",
+      "reference": "ce",
+      "seed": 17,
+      "delta_pair_logistic": -0.00878967117220486,
+      "delta_pair_rank_accuracy": 0.00012155229399779532
+    },
+    {
+      "arm": "hybrid",
+      "reference": "ce",
+      "seed": 17,
+      "delta_pair_logistic": -0.0021777947181514934,
+      "delta_pair_rank_accuracy": 0.0005457917845537175
+    }
+  ],
+  "paired_means": [
+    {
+      "arm": "ce",
+      "reference": "saved_baseline",
+      "seeds": [
+        17
+      ],
+      "delta_pair_logistic": 0.0036633053629139267,
+      "sd_pair_logistic": null,
+      "delta_pair_rank_accuracy": -0.0008282140181027353,
+      "sd_pair_rank_accuracy": null
+    },
+    {
+      "arm": "rank",
+      "reference": "saved_baseline",
+      "seeds": [
+        17
+      ],
+      "delta_pair_logistic": -0.005126365809290934,
+      "sd_pair_logistic": null,
+      "delta_pair_rank_accuracy": -0.00070666172410494,
+      "sd_pair_rank_accuracy": null
+    },
+    {
+      "arm": "hybrid",
+      "reference": "saved_baseline",
+      "seeds": [
+        17
+      ],
+      "delta_pair_logistic": 0.0014855106447624333,
+      "sd_pair_logistic": null,
+      "delta_pair_rank_accuracy": -0.00028242223354901785,
+      "sd_pair_rank_accuracy": null
+    },
+    {
+      "arm": "rank",
+      "reference": "ce",
+      "seeds": [
+        17
+      ],
+      "delta_pair_logistic": -0.00878967117220486,
+      "sd_pair_logistic": null,
+      "delta_pair_rank_accuracy": 0.00012155229399779532,
+      "sd_pair_rank_accuracy": null
+    },
+    {
+      "arm": "hybrid",
+      "reference": "ce",
+      "seeds": [
+        17
+      ],
+      "delta_pair_logistic": -0.0021777947181514934,
+      "sd_pair_logistic": null,
+      "delta_pair_rank_accuracy": 0.0005457917845537175,
+      "sd_pair_rank_accuracy": null
+    }
+  ],
+  "class_pair_metrics": [
+    {
+      "arm": "ce",
+      "seed": 17,
+      "a": 0,
+      "b": 1,
+      "class_a": "bulk_carrier",
+      "class_b": "general_cargo",
+      "pairs": 1237,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.5210823056437311,
+      "pair_rank_accuracy": 0.8771220695230396
+    },
+    {
+      "arm": "ce",
+      "seed": 17,
+      "a": 0,
+      "b": 2,
+      "class_a": "bulk_carrier",
+      "class_b": "product_chemical_tanker",
+      "pairs": 1493,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.7693734924785041,
+      "pair_rank_accuracy": 0.8037508372404555
+    },
+    {
+      "arm": "ce",
+      "seed": 17,
+      "a": 0,
+      "b": 3,
+      "class_a": "bulk_carrier",
+      "class_b": "container_ship",
+      "pairs": 4361,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.45039874848181494,
+      "pair_rank_accuracy": 0.8610410456317359
+    },
+    {
+      "arm": "ce",
+      "seed": 17,
+      "a": 1,
+      "b": 2,
+      "class_a": "general_cargo",
+      "class_b": "product_chemical_tanker",
+      "pairs": 414,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.8980625661339893,
+      "pair_rank_accuracy": 0.6884057971014492
+    },
+    {
+      "arm": "ce",
+      "seed": 17,
+      "a": 1,
+      "b": 3,
+      "class_a": "general_cargo",
+      "class_b": "container_ship",
+      "pairs": 1215,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.4811684292786097,
+      "pair_rank_accuracy": 0.8724279835390947
+    },
+    {
+      "arm": "ce",
+      "seed": 17,
+      "a": 2,
+      "b": 3,
+      "class_a": "product_chemical_tanker",
+      "class_b": "container_ship",
+      "pairs": 1478,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.1859082269258561,
+      "pair_rank_accuracy": 0.9350473612990527
+    },
+    {
+      "arm": "hybrid",
+      "seed": 17,
+      "a": 0,
+      "b": 1,
+      "class_a": "bulk_carrier",
+      "class_b": "general_cargo",
+      "pairs": 1237,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.5162204548397239,
+      "pair_rank_accuracy": 0.8771220695230396
+    },
+    {
+      "arm": "hybrid",
+      "seed": 17,
+      "a": 0,
+      "b": 2,
+      "class_a": "bulk_carrier",
+      "class_b": "product_chemical_tanker",
+      "pairs": 1493,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.773159669592386,
+      "pair_rank_accuracy": 0.8024112525117214
+    },
+    {
+      "arm": "hybrid",
+      "seed": 17,
+      "a": 0,
+      "b": 3,
+      "class_a": "bulk_carrier",
+      "class_b": "container_ship",
+      "pairs": 4361,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.451707237671517,
+      "pair_rank_accuracy": 0.8624168768631048
+    },
+    {
+      "arm": "hybrid",
+      "seed": 17,
+      "a": 1,
+      "b": 2,
+      "class_a": "general_cargo",
+      "class_b": "product_chemical_tanker",
+      "pairs": 414,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.8869305942394983,
+      "pair_rank_accuracy": 0.6908212560386473
+    },
+    {
+      "arm": "hybrid",
+      "seed": 17,
+      "a": 1,
+      "b": 3,
+      "class_a": "general_cargo",
+      "class_b": "container_ship",
+      "pairs": 1215,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.4784784656427411,
+      "pair_rank_accuracy": 0.8732510288065843
+    },
+    {
+      "arm": "hybrid",
+      "seed": 17,
+      "a": 2,
+      "b": 3,
+      "class_a": "product_chemical_tanker",
+      "class_b": "container_ship",
+      "pairs": 1478,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.18643057864772966,
+      "pair_rank_accuracy": 0.9350473612990527
+    },
+    {
+      "arm": "rank",
+      "seed": 17,
+      "a": 0,
+      "b": 1,
+      "class_a": "bulk_carrier",
+      "class_b": "general_cargo",
+      "pairs": 1237,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.5051668512244714,
+      "pair_rank_accuracy": 0.8771220695230396
+    },
+    {
+      "arm": "rank",
+      "seed": 17,
+      "a": 0,
+      "b": 2,
+      "class_a": "bulk_carrier",
+      "class_b": "product_chemical_tanker",
+      "pairs": 1493,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.7841241167393265,
+      "pair_rank_accuracy": 0.7997320830542531
+    },
+    {
+      "arm": "rank",
+      "seed": 17,
+      "a": 0,
+      "b": 3,
+      "class_a": "bulk_carrier",
+      "class_b": "container_ship",
+      "pairs": 4361,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.4560679384976266,
+      "pair_rank_accuracy": 0.8608117404265077
+    },
+    {
+      "arm": "rank",
+      "seed": 17,
+      "a": 1,
+      "b": 2,
+      "class_a": "general_cargo",
+      "class_b": "product_chemical_tanker",
+      "pairs": 414,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.8516110863867581,
+      "pair_rank_accuracy": 0.6932367149758454
+    },
+    {
+      "arm": "rank",
+      "seed": 17,
+      "a": 1,
+      "b": 3,
+      "class_a": "general_cargo",
+      "class_b": "container_ship",
+      "pairs": 1215,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.468312547266841,
+      "pair_rank_accuracy": 0.8732510288065843
+    },
+    {
+      "arm": "rank",
+      "seed": 17,
+      "a": 2,
+      "b": 3,
+      "class_a": "product_chemical_tanker",
+      "class_b": "container_ship",
+      "pairs": 1478,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.18797320179425275,
+      "pair_rank_accuracy": 0.9343707713125846
+    },
+    {
+      "arm": "saved_baseline",
+      "seed": 17,
+      "a": 0,
+      "b": 1,
+      "class_a": "bulk_carrier",
+      "class_b": "general_cargo",
+      "pairs": 1237,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.5136012650490444,
+      "pair_rank_accuracy": 0.8779304769603881
+    },
+    {
+      "arm": "saved_baseline",
+      "seed": 17,
+      "a": 0,
+      "b": 2,
+      "class_a": "bulk_carrier",
+      "class_b": "product_chemical_tanker",
+      "pairs": 1493,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.7848464560719729,
+      "pair_rank_accuracy": 0.8010716677829873
+    },
+    {
+      "arm": "saved_baseline",
+      "seed": 17,
+      "a": 0,
+      "b": 3,
+      "class_a": "bulk_carrier",
+      "class_b": "container_ship",
+      "pairs": 4361,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.45786809963993325,
+      "pair_rank_accuracy": 0.8596652144003669
+    },
+    {
+      "arm": "saved_baseline",
+      "seed": 17,
+      "a": 1,
+      "b": 2,
+      "class_a": "general_cargo",
+      "class_b": "product_chemical_tanker",
+      "pairs": 414,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.8661551887215291,
+      "pair_rank_accuracy": 0.6956521739130435
+    },
+    {
+      "arm": "saved_baseline",
+      "seed": 17,
+      "a": 1,
+      "b": 3,
+      "class_a": "general_cargo",
+      "class_b": "container_ship",
+      "pairs": 1215,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.47258159817185036,
+      "pair_rank_accuracy": 0.8740740740740741
+    },
+    {
+      "arm": "saved_baseline",
+      "seed": 17,
+      "a": 2,
+      "b": 3,
+      "class_a": "product_chemical_tanker",
+      "class_b": "container_ship",
+      "pairs": 1478,
+      "missing": false,
+      "reason": null,
+      "pair_logistic": 0.18896132911069244,
+      "pair_rank_accuracy": 0.9343707713125846
+    }
+  ]
+}
