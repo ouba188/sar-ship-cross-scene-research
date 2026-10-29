@@ -1,0 +1,188 @@
+{
+  "dataset": "oss2",
+  "requested": [
+    17
+  ],
+  "query_count": 228,
+  "pending": [],
+  "metrics": [
+    {
+      "arm": "saved_baseline",
+      "seed": 17,
+      "n": 228,
+      "OA": 57.89473684210527,
+      "BA": 50.123533738748606,
+      "NLL": 1.3971815737041262,
+      "Brier": 0.6228099265403916
+    },
+    {
+      "arm": "ce",
+      "seed": 17,
+      "n": 228,
+      "OA": 57.01754385964912,
+      "BA": 48.61136847306684,
+      "NLL": 1.4037664251027921,
+      "Brier": 0.6167056193637391
+    },
+    {
+      "arm": "fixed_alt",
+      "seed": 17,
+      "n": 228,
+      "OA": 57.01754385964912,
+      "BA": 48.61136847306684,
+      "NLL": 1.4037823617735072,
+      "Brier": 0.6167236326454779
+    },
+    {
+      "arm": "episodic",
+      "seed": 17,
+      "n": 228,
+      "OA": 57.01754385964912,
+      "BA": 48.61136847306684,
+      "NLL": 1.4041357098930425,
+      "Brier": 0.6168154068209838
+    }
+  ],
+  "paired_means": [
+    {
+      "arm": "fixed_alt",
+      "reference": "saved_baseline",
+      "seeds": [
+        17
+      ],
+      "delta_OA": -0.877192982456144,
+      "sd_OA": null,
+      "delta_BA": -1.512165265681766,
+      "sd_BA": null,
+      "delta_NLL": 0.006600788069381025,
+      "sd_NLL": null,
+      "delta_Brier": -0.006086293894913664,
+      "sd_Brier": null,
+      "rescued": 4,
+      "harmed": 6,
+      "CC": 126,
+      "WW": 92
+    },
+    {
+      "arm": "fixed_alt",
+      "reference": "ce",
+      "seeds": [
+        17
+      ],
+      "delta_OA": 0.0,
+      "sd_OA": null,
+      "delta_BA": 0.0,
+      "sd_BA": null,
+      "delta_NLL": 1.5936670715088752e-05,
+      "sd_NLL": null,
+      "delta_Brier": 1.801328173878236e-05,
+      "sd_Brier": null,
+      "rescued": 0,
+      "harmed": 0,
+      "CC": 130,
+      "WW": 98
+    },
+    {
+      "arm": "episodic",
+      "reference": "saved_baseline",
+      "seeds": [
+        17
+      ],
+      "delta_OA": -0.877192982456144,
+      "sd_OA": null,
+      "delta_BA": -1.512165265681766,
+      "sd_BA": null,
+      "delta_NLL": 0.006954136188916271,
+      "sd_NLL": null,
+      "delta_Brier": -0.005994519719407787,
+      "sd_Brier": null,
+      "rescued": 4,
+      "harmed": 6,
+      "CC": 126,
+      "WW": 92
+    },
+    {
+      "arm": "episodic",
+      "reference": "ce",
+      "seeds": [
+        17
+      ],
+      "delta_OA": 0.0,
+      "sd_OA": null,
+      "delta_BA": 0.0,
+      "sd_BA": null,
+      "delta_NLL": 0.0003692847902503349,
+      "sd_NLL": null,
+      "delta_Brier": 0.00010978745724465888,
+      "sd_Brier": null,
+      "rescued": 0,
+      "harmed": 0,
+      "CC": 130,
+      "WW": 98
+    },
+    {
+      "arm": "episodic",
+      "reference": "fixed_alt",
+      "seeds": [
+        17
+      ],
+      "delta_OA": 0.0,
+      "sd_OA": null,
+      "delta_BA": 0.0,
+      "sd_BA": null,
+      "delta_NLL": 0.00035334811953524614,
+      "sd_NLL": null,
+      "delta_Brier": 9.177417550587652e-05,
+      "sd_Brier": null,
+      "rescued": 0,
+      "harmed": 0,
+      "CC": 130,
+      "WW": 98
+    }
+  ],
+  "prediction_identity": [
+    {
+      "arm": "episodic",
+      "reference": "fixed_alt",
+      "seed": 17,
+      "changed": 0,
+      "logits_identical": false,
+      "max_abs_logit_delta": 0.006676197052001953,
+      "rms_logit_delta": 0.0021125173872627388
+    },
+    {
+      "arm": "episodic",
+      "reference": "ce",
+      "seed": 17,
+      "changed": 0,
+      "logits_identical": false,
+      "max_abs_logit_delta": 0.005489706993103027,
+      "rms_logit_delta": 0.0016676802517947213
+    },
+    {
+      "arm": "fixed_alt",
+      "reference": "ce",
+      "seed": 17,
+      "changed": 0,
+      "logits_identical": false,
+      "max_abs_logit_delta": 0.003596782684326172,
+      "rms_logit_delta": 0.0009703959855606059
+    }
+  ],
+  "input_paths": [
+    "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m3_pairwise_repair_20261030\\oss2\\training\\ce_s17.json",
+    "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m3_pairwise_repair_20261030\\oss2\\predictions\\ce_s17.npz",
+    "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m3_reference_episode_20261030\\oss2\\training\\fixed_alt_s17.json",
+    "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m3_reference_episode_20261030\\oss2\\predictions\\fixed_alt_s17.npz",
+    "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m3_reference_episode_20261030\\oss2\\training\\episodic_s17.json",
+    "E:\\临时会话\\scene_aware_classification_20261018\\model_closeout_20261023\\m3_reference_episode_20261030\\oss2\\predictions\\episodic_s17.npz"
+  ],
+  "notes": [
+    "Completed seed17 pilot; expansion explicitly stopped, not pending.",
+    "OA/BA differences are percentage points; NLL/Brier differences are unscaled.",
+    "BA uses present classes; one-order SD is null. Query-order events are not independent ships.",
+    "Saved baseline logits match exactly after ID alignment across CE and both new arms.",
+    "Reference counts and query schedules are matched; unique training reference exposure differs.",
+    "No dependence-control files, source predictions or final-test manifests are loaded."
+  ]
+}
