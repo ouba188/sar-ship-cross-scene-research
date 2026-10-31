@@ -1,0 +1,177 @@
+{
+  "query": "24470",
+  "port": "Jebel Ali",
+  "pass_group": "S1A_058688_074483",
+  "candidate": "N_level_pattern",
+  "seed": 43,
+  "base_checkpoint": "E:\\临时会话\\sar_m123_current_20261027\\weights\\selected_s17.pt",
+  "candidate_checkpoint": "E:\\临时会话\\m3_frequency_increment_20261028\\joint_m3_readout\\training\\N_level_pattern_43\\m3.pt",
+  "scope": "Historical cached feature replay, no retraining or formal-model changes.",
+  "replay_error": 3.814697265625e-06,
+  "downstream_error": 0.0,
+  "removal_error": 0.0,
+  "references": [
+    {
+      "id": "34478",
+      "label": 0,
+      "category": "散货",
+      "port": "Shanghai",
+      "pass_group": "S1A_057293_070C89"
+    },
+    {
+      "id": "31512",
+      "label": 0,
+      "category": "散货",
+      "port": "Jebel Ali",
+      "pass_group": "S1A_058338_073664"
+    },
+    {
+      "id": "14814",
+      "label": 1,
+      "category": "渔船",
+      "port": "Ningbo-Zhoushan",
+      "pass_group": "S1A_058693_0744B4"
+    },
+    {
+      "id": "16401",
+      "label": 1,
+      "category": "渔船",
+      "port": "Ningbo-Zhoushan",
+      "pass_group": "S1A_060968_07985B"
+    },
+    {
+      "id": "6913",
+      "label": 2,
+      "category": "普通货船",
+      "port": "Tanger Med",
+      "pass_group": "S1C_003825_007A14"
+    },
+    {
+      "id": "22755",
+      "label": 2,
+      "category": "普通货船",
+      "port": "Jebel Ali",
+      "pass_group": "S1A_058338_073664"
+    },
+    {
+      "id": "24527",
+      "label": 3,
+      "category": "化学品/成品油轮",
+      "port": "Jebel Ali",
+      "pass_group": "S1A_059038_0752B2"
+    },
+    {
+      "id": "7790",
+      "label": 3,
+      "category": "化学品/成品油轮",
+      "port": "Jebel Ali",
+      "pass_group": "S1A_057288_070C5C"
+    },
+    {
+      "id": "36308",
+      "label": 4,
+      "category": "集装箱",
+      "port": "Port Klang",
+      "pass_group": "S1A_060713_078E34"
+    },
+    {
+      "id": "23719",
+      "label": 4,
+      "category": "集装箱",
+      "port": "Jebel Ali",
+      "pass_group": "S1A_057288_070C5C"
+    },
+    {
+      "id": "29922",
+      "label": 5,
+      "category": "原油轮",
+      "port": "Jebel Ali",
+      "pass_group": "S1A_060963_07982C"
+    },
+    {
+      "id": "2077",
+      "label": 5,
+      "category": "原油轮",
+      "port": "Singapore",
+      "pass_group": "S1A_060793_079162"
+    },
+    {
+      "id": "12041",
+      "label": 6,
+      "category": "拖船",
+      "port": "Houston",
+      "pass_group": "S1C_002064_004470"
+    },
+    {
+      "id": "7429",
+      "label": 6,
+      "category": "拖船",
+      "port": "New York",
+      "pass_group": "S1A_059780_076C81"
+    },
+    {
+      "id": "13000",
+      "label": 7,
+      "category": "海工",
+      "port": "Port Said",
+      "pass_group": "S1A_061132_079EF0"
+    },
+    {
+      "id": "13276",
+      "label": 7,
+      "category": "海工",
+      "port": "Jebel Ali",
+      "pass_group": "S1A_058338_073664"
+    }
+  ],
+  "conditions": [
+    {
+      "condition": "historical_full",
+      "prediction": 3,
+      "predicted_class": "化学品/成品油轮",
+      "margin": 0.006962239742279053,
+      "logits": [
+        -2.089897871017456,
+        -10.040181159973145,
+        0.8763211369514465,
+        0.8832833766937256,
+        -8.341972351074219,
+        -11.449666023254395,
+        -1.3608993291854858,
+        -5.515330791473389
+      ]
+    },
+    {
+      "condition": "frequency_off",
+      "prediction": 2,
+      "predicted_class": "普通货船",
+      "margin": -0.010142624378204346,
+      "logits": [
+        -2.087266445159912,
+        -10.063298225402832,
+        0.8874725103378296,
+        0.8773298859596252,
+        -8.33217716217041,
+        -11.463119506835938,
+        -1.3703296184539795,
+        -5.5463151931762695
+      ]
+    },
+    {
+      "condition": "all_m3_writeback_off",
+      "prediction": 3,
+      "predicted_class": "化学品/成品油轮",
+      "margin": 1.024971604347229,
+      "logits": [
+        -2.097583770751953,
+        -9.141581535339355,
+        0.20902200043201447,
+        1.233993649482727,
+        -9.023032188415527,
+        -10.838882446289062,
+        -0.8450722098350525,
+        -4.208087921142578
+      ]
+    }
+  ]
+}
