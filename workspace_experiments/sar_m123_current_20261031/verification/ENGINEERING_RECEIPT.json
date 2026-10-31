@@ -1,0 +1,109 @@
+{
+  "scope": "Engineering integration only; no OA/BA claim.",
+  "queries": [
+    "12457",
+    "30167",
+    "31141",
+    "34278"
+  ],
+  "reference_count": 16,
+  "layer1_reference_cache": [
+    16,
+    2,
+    256,
+    40,
+    40
+  ],
+  "query_m2_update_l1": [
+    6623.88037109375,
+    7626.6083984375
+  ],
+  "reference_m2_update_l1": [
+    17392.6796875,
+    16638.068359375
+  ],
+  "disabled_vs_previous_max_error": 0.0,
+  "enabled_vs_disabled_max_difference": 1.5675077438354492,
+  "frequency_input_max_error": 0.0,
+  "native_vs_cached_max_error": 0.0,
+  "reload_max_error": 0.0,
+  "cases": [
+    {
+      "id": "12457",
+      "label": 0,
+      "previous_prediction": 3,
+      "integrated_prediction": 0,
+      "max_logit_change": 0.9337987899780273
+    },
+    {
+      "id": "30167",
+      "label": 4,
+      "previous_prediction": 4,
+      "integrated_prediction": 4,
+      "max_logit_change": 0.7427845001220703
+    },
+    {
+      "id": "31141",
+      "label": 7,
+      "previous_prediction": 5,
+      "integrated_prediction": 5,
+      "max_logit_change": 1.5675077438354492
+    },
+    {
+      "id": "34278",
+      "label": 4,
+      "previous_prediction": 4,
+      "integrated_prediction": 0,
+      "max_logit_change": 1.2653141021728516
+    }
+  ],
+  "fit_smoke": {
+    "stage": "fit",
+    "source_count": 2,
+    "reference_count": 16,
+    "selected_count": null,
+    "seed": 17,
+    "completed_epochs": 1,
+    "steps": 1,
+    "coefficient": null,
+    "trainable_parameters": 2689808,
+    "curve": [
+      {
+        "epoch": 1,
+        "steps": 1,
+        "ce": 0.011876996606588364,
+        "auxiliary": 0.39368492364883423,
+        "relation": 0.5716809630393982
+      }
+    ],
+    "smoke_only": true,
+    "validation_selection": false
+  },
+  "selection_smoke": {
+    "count": 2,
+    "useful": 2
+  },
+  "adapt_smoke": {
+    "stage": "adapt",
+    "source_count": 2,
+    "reference_count": 16,
+    "selected_count": 2,
+    "seed": 17,
+    "completed_epochs": 1,
+    "steps": 1,
+    "coefficient": 0.3683066666126251,
+    "trainable_parameters": 1114112,
+    "curve": [
+      {
+        "epoch": 1,
+        "steps": 1,
+        "ce": 2.125486373901367,
+        "keep": 1.2211501143610803e-08,
+        "floor": 6.248411510423324e-11
+      }
+    ],
+    "smoke_only": true,
+    "validation_selection": false
+  },
+  "status": "passed"
+}

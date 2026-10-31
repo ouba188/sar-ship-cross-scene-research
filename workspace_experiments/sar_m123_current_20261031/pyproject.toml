@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sar-m123-current"
+version = "0.3.0"
+description = "Backbone-internal SAR M1/M2/M3 with source intervention selection"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.7,<2.8", "torchvision>=0.22,<0.23", "numpy>=2.0,<3", "scipy>=1.14,<2", "Pillow>=11,<12"]
+
+[project.scripts]
+sar-m123-current = "sar_m123.current.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["sar_m123*"]
