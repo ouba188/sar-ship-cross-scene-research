@@ -8,7 +8,9 @@ class Backbone(nn.Module):
     def __init__(self, weight_path, device='cpu'):
         super().__init__()
         self.model = resnet50(weights=None)
-        self.model.load_state_dict(torch.load(weight_path, map_location='cpu', weights_only=True))
+        # Complete model checkpoints restore these weights after construction.
+        if weight_path is not None:
+            self.model.load_state_dict(torch.load(weight_path, map_location='cpu', weights_only=True))
         self.register_buffer('mean', torch.tensor([.485, .456, .406])[None, :, None, None])
         self.register_buffer('std', torch.tensor([.229, .224, .225])[None, :, None, None])
         self.to(device).eval().requires_grad_(False)

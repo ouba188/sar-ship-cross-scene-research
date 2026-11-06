@@ -1,0 +1,266 @@
+<html><meta charset="utf-8"><title>M1 role-separation pilot</title>
+<style>body{font-family:Arial;margin:24px}img{max-width:100%}td,th{padding:6px;border:1px solid #bbb}table{border-collapse:collapse}</style>
+<h1>M1 role-separation pilot</h1><p>OSS2 four classes. Historical development228, seed17, fixed epoch4. M2/M3/head/backbone frozen. Not independent confirmation.</p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>arm</th>
+      <th>oa</th>
+      <th>ba</th>
+      <th>nll</th>
+      <th>balanced_nll</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>anchor</td>
+      <td>58.771930</td>
+      <td>50.691789</td>
+      <td>1.295766</td>
+      <td>1.466535</td>
+    </tr>
+    <tr>
+      <td>additive</td>
+      <td>59.210526</td>
+      <td>51.553858</td>
+      <td>1.297969</td>
+      <td>1.466005</td>
+    </tr>
+    <tr>
+      <td>bounded_add</td>
+      <td>59.210526</td>
+      <td>51.553858</td>
+      <td>1.295720</td>
+      <td>1.465709</td>
+    </tr>
+    <tr>
+      <td>class_gate</td>
+      <td>59.210526</td>
+      <td>51.553858</td>
+      <td>1.294505</td>
+      <td>1.465611</td>
+    </tr>
+    <tr>
+      <td>mean_gate</td>
+      <td>59.210526</td>
+      <td>51.553858</td>
+      <td>1.294459</td>
+      <td>1.465486</td>
+    </tr>
+  </tbody>
+</table>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>candidate</th>
+      <th>control</th>
+      <th>rescues</th>
+      <th>harms</th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+      <th>changed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>class_gate</td>
+      <td>anchor</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>-0.001261</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>class_gate</td>
+      <td>additive</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.003464</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>class_gate</td>
+      <td>bounded_add</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001215</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>class_gate</td>
+      <td>mean_gate</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000047</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>class_gate</td>
+      <td>class_gate_off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.003823</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>class_gate</td>
+      <td>class_gate_spatial_mean</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000245</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>class_gate</td>
+      <td>class_gate_vv_only</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.002702</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>class_gate</td>
+      <td>class_gate_vh_only</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001142</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>additive</td>
+      <td>additive_off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.007286</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>bounded_add</td>
+      <td>bounded_add_off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.005038</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>mean_gate</td>
+      <td>mean_gate_off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.003776</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>References shown are legal bank examples chosen by pooled cosine, not maximum learned attention. Maps show feature updates, not physical causality.</p>
+<h2>vs_anchor_rescue pub2_opensarship2_001090</h2>
+<img src="vs_anchor_rescue_791.png">
+<img src="vs_anchor_rescue_modulation.png">
+<pre>{
+  &quot;anchor&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.010207176208496094
+  },
+  &quot;additive&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.06965434551239014
+  },
+  &quot;bounded_add&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.041996777057647705
+  },
+  &quot;class_gate&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.04648435115814209
+  },
+  &quot;mean_gate&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.06116187572479248
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.010207176208496094
+  }
+}</pre>
+<h2>stable_correct pub2_opensarship2_003469</h2>
+<img src="stable_correct_843.png">
+<img src="stable_correct_modulation.png">
+<pre>{
+  &quot;anchor&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 5.301856517791748
+  },
+  &quot;additive&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 5.239504337310791
+  },
+  &quot;bounded_add&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 5.241741180419922
+  },
+  &quot;class_gate&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 5.348686218261719
+  },
+  &quot;mean_gate&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 5.2912187576293945
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 5.301856517791748
+  }
+}</pre>
+<h2>stable_wrong pub2_opensarship2_001130</h2>
+<img src="stable_wrong_799.png">
+<img src="stable_wrong_modulation.png">
+<pre>{
+  &quot;anchor&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -3.1328415870666504
+  },
+  &quot;additive&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -3.1650733947753906
+  },
+  &quot;bounded_add&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -3.1454973220825195
+  },
+  &quot;class_gate&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -3.1562347412109375
+  },
+  &quot;mean_gate&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -3.134343385696411
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -3.1328415870666504
+  }
+}</pre>
+</html>

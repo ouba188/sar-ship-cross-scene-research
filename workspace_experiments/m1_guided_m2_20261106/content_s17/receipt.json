@@ -1,0 +1,67 @@
+{
+  "arm": "content",
+  "seed": 17,
+  "steps": 180,
+  "n_train": 719,
+  "examples": 4320,
+  "upstream_seed": 17,
+  "trainable": 229388,
+  "metrics": {
+    "validation": {
+      "oa": 61.40350877192983,
+      "ba": 55.16455255518308,
+      "nll": 1.2410901687509723,
+      "balanced_nll": 1.3882358060932374
+    },
+    "validation_off": {
+      "oa": 61.8421052631579,
+      "ba": 54.05822369714019,
+      "nll": 1.2535722808298129,
+      "balanced_nll": 1.4369137457276726
+    },
+    "evaluation": {
+      "oa": 60.84656084656085,
+      "ba": 57.28204149352245,
+      "nll": 1.1524967425208863,
+      "balanced_nll": 1.2105407384232776
+    },
+    "evaluation_off": {
+      "oa": 62.16931216931217,
+      "ba": 58.763709577732094,
+      "nll": 1.1433090457674562,
+      "balanced_nll": 1.2169718486386902
+    }
+  },
+  "gradients": [
+    {
+      "step": 1,
+      "norms": {
+        "value.0.weight": 0.0,
+        "value.1.weight": 0.0,
+        "output.0.weight": 0.015487117692828178,
+        "output.1.weight": 0.013558823615312576,
+        "scorer.0.weight": 0.0,
+        "scorer.1.weight": 0.0,
+        "head.weight": 4.768258571624756,
+        "head.bias": 0.0577392540872097
+      }
+    },
+    {
+      "step": 2,
+      "norms": {
+        "value.0.weight": 0.009182456880807877,
+        "value.1.weight": 0.007592720910906792,
+        "output.0.weight": 0.013799753971397877,
+        "output.1.weight": 0.013120472431182861,
+        "scorer.0.weight": 0.0027378539089113474,
+        "scorer.1.weight": 0.0006793251959607005,
+        "head.weight": 4.369606018066406,
+        "head.bias": 0.05349031835794449
+      }
+    }
+  ],
+  "seconds": 2.2658643999966444,
+  "reload_error": 0.0,
+  "checkpoint_selection": "fixed180",
+  "formal_changed": false
+}

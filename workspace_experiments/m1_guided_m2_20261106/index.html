@@ -1,0 +1,593 @@
+<html><meta charset="utf-8"><title>M1 guided M2</title><style>body{font-family:Arial;margin:24px}img{max-width:100%}td,th{padding:5px;border:1px solid #ccc}table{border-collapse:collapse}</style>
+<h1>M1 responses guiding M2 regional pooling</h1><p>Frozen upstream seed17; 3 readout-training seeds; source719/dev228/evaluation378. Historical evaluation, not blind. No formal replacement.</p>
+<p><a href="FINDINGS_ZH.md">Findings</a> | <a href="PROTOCOL.md">Protocol</a></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">oa</th>
+      <th colspan="2" halign="left">ba</th>
+      <th colspan="2" halign="left">nll</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+    </tr>
+    <tr>
+      <th>split</th>
+      <th>arm</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="8" valign="top">evaluation</th>
+      <th>class</th>
+      <td>62.345679</td>
+      <td>0.152738</td>
+      <td>59.780840</td>
+      <td>0.220312</td>
+      <td>1.140046</td>
+      <td>0.005809</td>
+    </tr>
+    <tr>
+      <th>class_off</th>
+      <td>62.169312</td>
+      <td>0.264550</td>
+      <td>58.796372</td>
+      <td>0.244260</td>
+      <td>1.141161</td>
+      <td>0.003157</td>
+    </tr>
+    <tr>
+      <th>class_shuffle</th>
+      <td>60.758377</td>
+      <td>0.404107</td>
+      <td>57.296852</td>
+      <td>0.788816</td>
+      <td>1.148926</td>
+      <td>0.006607</td>
+    </tr>
+    <tr>
+      <th>class_uniform</th>
+      <td>61.463845</td>
+      <td>0.152738</td>
+      <td>57.753112</td>
+      <td>0.401883</td>
+      <td>1.148017</td>
+      <td>0.005045</td>
+    </tr>
+    <tr>
+      <th>content</th>
+      <td>61.463845</td>
+      <td>0.665770</td>
+      <td>58.050068</td>
+      <td>0.673525</td>
+      <td>1.144598</td>
+      <td>0.007686</td>
+    </tr>
+    <tr>
+      <th>content_off</th>
+      <td>62.257496</td>
+      <td>0.152738</td>
+      <td>58.822233</td>
+      <td>0.107407</td>
+      <td>1.140264</td>
+      <td>0.002656</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>61.463845</td>
+      <td>0.305476</td>
+      <td>58.232909</td>
+      <td>0.710010</td>
+      <td>1.142765</td>
+      <td>0.006369</td>
+    </tr>
+    <tr>
+      <th>mean_off</th>
+      <td>62.257496</td>
+      <td>0.152738</td>
+      <td>58.822233</td>
+      <td>0.107407</td>
+      <td>1.139831</td>
+      <td>0.002809</td>
+    </tr>
+    <tr>
+      <th rowspan="8" valign="top">validation</th>
+      <th>class</th>
+      <td>62.280702</td>
+      <td>0.438596</td>
+      <td>55.730655</td>
+      <td>0.284134</td>
+      <td>1.233370</td>
+      <td>0.003918</td>
+    </tr>
+    <tr>
+      <th>class_off</th>
+      <td>62.719298</td>
+      <td>0.438596</td>
+      <td>55.619802</td>
+      <td>0.595601</td>
+      <td>1.252083</td>
+      <td>0.003254</td>
+    </tr>
+    <tr>
+      <th>class_shuffle</th>
+      <td>61.695906</td>
+      <td>0.253224</td>
+      <td>54.693533</td>
+      <td>0.295744</td>
+      <td>1.246642</td>
+      <td>0.006810</td>
+    </tr>
+    <tr>
+      <th>class_uniform</th>
+      <td>62.426901</td>
+      <td>0.669967</td>
+      <td>55.824288</td>
+      <td>0.922389</td>
+      <td>1.239820</td>
+      <td>0.003789</td>
+    </tr>
+    <tr>
+      <th>content</th>
+      <td>62.280702</td>
+      <td>0.759671</td>
+      <td>55.730655</td>
+      <td>0.490259</td>
+      <td>1.231934</td>
+      <td>0.009604</td>
+    </tr>
+    <tr>
+      <th>content_off</th>
+      <td>62.426901</td>
+      <td>0.506448</td>
+      <td>54.895165</td>
+      <td>0.733482</td>
+      <td>1.251550</td>
+      <td>0.002457</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>62.280702</td>
+      <td>0.438596</td>
+      <td>55.730655</td>
+      <td>0.284134</td>
+      <td>1.234208</td>
+      <td>0.003856</td>
+    </tr>
+    <tr>
+      <th>mean_off</th>
+      <td>62.573099</td>
+      <td>0.669967</td>
+      <td>55.257484</td>
+      <td>1.124482</td>
+      <td>1.250853</td>
+      <td>0.003115</td>
+    </tr>
+  </tbody>
+</table>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+      <th>rescues</th>
+      <th>harms</th>
+    </tr>
+    <tr>
+      <th>split</th>
+      <th>comparison</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="10" valign="top">evaluation</th>
+      <th>class_vs_class_off</th>
+      <td>1.763668e-01</td>
+      <td>9.844680e-01</td>
+      <td>-0.001115</td>
+      <td>4.333333</td>
+      <td>3.666667</td>
+    </tr>
+    <tr>
+      <th>class_vs_class_shuffle</th>
+      <td>1.587302e+00</td>
+      <td>2.483987e+00</td>
+      <td>-0.008881</td>
+      <td>6.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>class_vs_class_uniform</th>
+      <td>8.818342e-01</td>
+      <td>2.027727e+00</td>
+      <td>-0.007972</td>
+      <td>3.333333</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>class_vs_content</th>
+      <td>8.818342e-01</td>
+      <td>1.730772e+00</td>
+      <td>-0.004553</td>
+      <td>5.666667</td>
+      <td>2.333333</td>
+    </tr>
+    <tr>
+      <th>class_vs_frozen</th>
+      <td>-8.818342e-02</td>
+      <td>6.250394e-02</td>
+      <td>-0.007771</td>
+      <td>4.333333</td>
+      <td>4.666667</td>
+    </tr>
+    <tr>
+      <th>class_vs_mean</th>
+      <td>8.818342e-01</td>
+      <td>1.547931e+00</td>
+      <td>-0.002720</td>
+      <td>3.333333</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>content_vs_content_off</th>
+      <td>-7.936508e-01</td>
+      <td>-7.721646e-01</td>
+      <td>0.004334</td>
+      <td>4.666667</td>
+      <td>7.666667</td>
+    </tr>
+    <tr>
+      <th>content_vs_frozen</th>
+      <td>-9.700176e-01</td>
+      <td>-1.668268e+00</td>
+      <td>-0.003218</td>
+      <td>5.666667</td>
+      <td>9.333333</td>
+    </tr>
+    <tr>
+      <th>mean_vs_frozen</th>
+      <td>-9.700176e-01</td>
+      <td>-1.485427e+00</td>
+      <td>-0.005051</td>
+      <td>4.000000</td>
+      <td>7.666667</td>
+    </tr>
+    <tr>
+      <th>mean_vs_mean_off</th>
+      <td>-7.936508e-01</td>
+      <td>-5.893237e-01</td>
+      <td>0.002934</td>
+      <td>3.333333</td>
+      <td>6.333333</td>
+    </tr>
+    <tr>
+      <th rowspan="10" valign="top">validation</th>
+      <th>class_vs_class_off</th>
+      <td>-4.385965e-01</td>
+      <td>1.108528e-01</td>
+      <td>-0.018714</td>
+      <td>1.666667</td>
+      <td>2.666667</td>
+    </tr>
+    <tr>
+      <th>class_vs_class_shuffle</th>
+      <td>5.847953e-01</td>
+      <td>1.037122e+00</td>
+      <td>-0.013273</td>
+      <td>3.000000</td>
+      <td>1.666667</td>
+    </tr>
+    <tr>
+      <th>class_vs_class_uniform</th>
+      <td>-1.461988e-01</td>
+      <td>-9.363296e-02</td>
+      <td>-0.006450</td>
+      <td>0.333333</td>
+      <td>0.666667</td>
+    </tr>
+    <tr>
+      <th>class_vs_content</th>
+      <td>4.736952e-15</td>
+      <td>4.736952e-15</td>
+      <td>0.001436</td>
+      <td>0.333333</td>
+      <td>0.333333</td>
+    </tr>
+    <tr>
+      <th>class_vs_frozen</th>
+      <td>4.385965e-01</td>
+      <td>1.104176e+00</td>
+      <td>-0.034945</td>
+      <td>4.666667</td>
+      <td>3.666667</td>
+    </tr>
+    <tr>
+      <th>class_vs_mean</th>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>-0.000838</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>content_vs_content_off</th>
+      <td>-1.461988e-01</td>
+      <td>8.354905e-01</td>
+      <td>-0.019617</td>
+      <td>2.333333</td>
+      <td>2.666667</td>
+    </tr>
+    <tr>
+      <th>content_vs_frozen</th>
+      <td>4.385965e-01</td>
+      <td>1.104176e+00</td>
+      <td>-0.036382</td>
+      <td>4.666667</td>
+      <td>3.666667</td>
+    </tr>
+    <tr>
+      <th>mean_vs_frozen</th>
+      <td>4.385965e-01</td>
+      <td>1.104176e+00</td>
+      <td>-0.034107</td>
+      <td>4.666667</td>
+      <td>3.666667</td>
+    </tr>
+    <tr>
+      <th>mean_vs_mean_off</th>
+      <td>-2.923977e-01</td>
+      <td>4.731717e-01</td>
+      <td>-0.016645</td>
+      <td>2.000000</td>
+      <td>2.666667</td>
+    </tr>
+  </tbody>
+</table>
+<h2>content_rescue_s29 pub2_opensarship2_002628</h2>
+<img src="content_rescue_s29_1325.png"><img src="content_rescue_s29_attention.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.3531508445739746
+  },
+  &quot;content&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.09257236123085022
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.3567694127559662
+  },
+  &quot;class_off&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.4436207413673401
+  },
+  &quot;class_uniform&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.28391745686531067
+  },
+  &quot;class_shuffle&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.16557127237319946
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.3531508445739746
+  }
+}</pre>
+<h2>content_harm_s17 pub2_opensarship2_002527</h2>
+<img src="content_harm_s17_1311.png"><img src="content_harm_s17_attention.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.1718893051147461
+  },
+  &quot;content&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.1423039436340332
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.25356578826904297
+  },
+  &quot;class_off&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.5381383895874023
+  },
+  &quot;class_uniform&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.2716708183288574
+  },
+  &quot;class_shuffle&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.33991217613220215
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.1718893051147461
+  }
+}</pre>
+<h2>mean_rescue_s29 pub2_opensarship2_000133</h2>
+<img src="mean_rescue_s29_1142.png"><img src="mean_rescue_s29_attention.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.06155109405517578
+  },
+  &quot;content&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.13750767707824707
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.22819995880126953
+  },
+  &quot;class_off&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.048767805099487305
+  },
+  &quot;class_uniform&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.06187009811401367
+  },
+  &quot;class_shuffle&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.1356499195098877
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.06155109405517578
+  }
+}</pre>
+<h2>direct_rescue_s43 pub2_opensarship2_002299</h2>
+<img src="direct_rescue_s43_1241.png"><img src="direct_rescue_s43_attention.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.3089587688446045
+  },
+  &quot;content&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.35337233543395996
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.29122400283813477
+  },
+  &quot;class_off&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.18660402297973633
+  },
+  &quot;class_uniform&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.17385458946228027
+  },
+  &quot;class_shuffle&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.09249043464660645
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.3089587688446045
+  }
+}</pre>
+<h2>direct_harm_s17 pub2_opensarship2_002394</h2>
+<img src="direct_harm_s17_1279.png"><img src="direct_harm_s17_attention.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.5881540179252625
+  },
+  &quot;content&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.5374579429626465
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.547231912612915
+  },
+  &quot;class_off&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.14139807224273682
+  },
+  &quot;class_uniform&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.5412534475326538
+  },
+  &quot;class_shuffle&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.480194628238678
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.5881540179252625
+  }
+}</pre>
+<h2>stable_correct_s17 pub2_opensarship2_000258</h2>
+<img src="stable_correct_s17_1171.png"><img src="stable_correct_s17_attention.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 2.764155626296997
+  },
+  &quot;content&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.231905460357666
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 2.688596248626709
+  },
+  &quot;class_off&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 2.602384328842163
+  },
+  &quot;class_uniform&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 2.65311861038208
+  },
+  &quot;class_shuffle&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 2.7327263355255127
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 2.764155626296997
+  }
+}</pre>
+<h2>stable_wrong_s29 pub2_opensarship2_002281</h2>
+<img src="stable_wrong_s29_1227.png"><img src="stable_wrong_s29_attention.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -4.7079033851623535
+  },
+  &quot;content&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -5.059265613555908
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -4.602060317993164
+  },
+  &quot;class_off&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -4.219463348388672
+  },
+  &quot;class_uniform&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -4.712562084197998
+  },
+  &quot;class_shuffle&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -4.553727626800537
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -4.7079033851623535
+  }
+}</pre>
+</html>

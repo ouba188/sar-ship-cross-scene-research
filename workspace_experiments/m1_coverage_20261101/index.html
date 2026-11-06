@@ -1,0 +1,963 @@
+<html><meta charset="utf-8"><title>M1 coverage and covariance replacement</title>
+<style>body{font-family:Arial;margin:24px}img{max-width:100%;height:auto}td,th{padding:5px;border:1px solid #bbb}table{border-collapse:collapse}</style>
+<h1>M1: 719 vs 913 source observations</h1>
+<p>Three seeds, fixed180 steps, native160 crop/pad, fixed32 source references. Historical selection194 reassigned to training. Evaluation378 is historically exposed, not a new blind test. No formal-model replacement.</p>
+<p><a href="FINDINGS_ZH.md">Findings</a> | <a href="PROTOCOL.md">Protocol</a></p>
+<img src="coverage_results.png">
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">oa</th>
+      <th colspan="2" halign="left">ba</th>
+      <th colspan="2" halign="left">nll</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+    </tr>
+    <tr>
+      <th>split</th>
+      <th>cohort</th>
+      <th>arm</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="6" valign="top">evaluation</th>
+      <th rowspan="3" valign="top">expanded</th>
+      <th>class</th>
+      <td>60.493827</td>
+      <td>0.550705</td>
+      <td>58.464991</td>
+      <td>0.329770</td>
+      <td>1.097715</td>
+      <td>0.011740</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>61.552028</td>
+      <td>0.404107</td>
+      <td>60.376927</td>
+      <td>0.941128</td>
+      <td>1.117250</td>
+      <td>0.010464</td>
+    </tr>
+    <tr>
+      <th>no_cov</th>
+      <td>60.493827</td>
+      <td>0.550705</td>
+      <td>58.464991</td>
+      <td>0.329770</td>
+      <td>1.099347</td>
+      <td>0.012393</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">small</th>
+      <th>class</th>
+      <td>62.610229</td>
+      <td>0.152738</td>
+      <td>59.580305</td>
+      <td>0.407458</td>
+      <td>1.141297</td>
+      <td>0.006458</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>62.433862</td>
+      <td>0.458214</td>
+      <td>60.116680</td>
+      <td>0.666224</td>
+      <td>1.146049</td>
+      <td>0.004455</td>
+    </tr>
+    <tr>
+      <th>no_cov</th>
+      <td>62.522046</td>
+      <td>0.152738</td>
+      <td>59.259792</td>
+      <td>0.407458</td>
+      <td>1.141787</td>
+      <td>0.006874</td>
+    </tr>
+    <tr>
+      <th rowspan="6" valign="top">validation</th>
+      <th rowspan="3" valign="top">expanded</th>
+      <th>class</th>
+      <td>60.526316</td>
+      <td>0.759671</td>
+      <td>53.188668</td>
+      <td>0.712914</td>
+      <td>1.203272</td>
+      <td>0.015444</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>59.795322</td>
+      <td>0.669967</td>
+      <td>52.516017</td>
+      <td>0.431237</td>
+      <td>1.238261</td>
+      <td>0.006185</td>
+    </tr>
+    <tr>
+      <th>no_cov</th>
+      <td>60.526316</td>
+      <td>0.759671</td>
+      <td>53.188668</td>
+      <td>0.712914</td>
+      <td>1.206120</td>
+      <td>0.014863</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">small</th>
+      <th>class</th>
+      <td>62.134503</td>
+      <td>0.506448</td>
+      <td>54.282830</td>
+      <td>0.411460</td>
+      <td>1.264954</td>
+      <td>0.003281</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>61.111111</td>
+      <td>0.253224</td>
+      <td>53.429371</td>
+      <td>0.151135</td>
+      <td>1.270919</td>
+      <td>0.002321</td>
+    </tr>
+    <tr>
+      <th>no_cov</th>
+      <td>61.842105</td>
+      <td>0.759671</td>
+      <td>54.091260</td>
+      <td>0.478638</td>
+      <td>1.266368</td>
+      <td>0.003654</td>
+    </tr>
+  </tbody>
+</table>
+<h2>Paired differences</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+    </tr>
+    <tr>
+      <th>split</th>
+      <th>cohort</th>
+      <th>comparison</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="7" valign="top">evaluation</th>
+      <th rowspan="2" valign="top">expanded</th>
+      <th>class_vs_mean</th>
+      <td>-1.058201</td>
+      <td>-1.911936</td>
+      <td>-0.019535</td>
+    </tr>
+    <tr>
+      <th>class_vs_no_cov</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001632</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">expanded_minus_small</th>
+      <th>class</th>
+      <td>-2.116402</td>
+      <td>-1.115314</td>
+      <td>-0.043581</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>-0.881834</td>
+      <td>0.260247</td>
+      <td>-0.028799</td>
+    </tr>
+    <tr>
+      <th>no_cov</th>
+      <td>-2.028219</td>
+      <td>-0.794801</td>
+      <td>-0.042440</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">small</th>
+      <th>class_vs_mean</th>
+      <td>0.176367</td>
+      <td>-0.536375</td>
+      <td>-0.004752</td>
+    </tr>
+    <tr>
+      <th>class_vs_no_cov</th>
+      <td>0.088183</td>
+      <td>0.320513</td>
+      <td>-0.000490</td>
+    </tr>
+    <tr>
+      <th rowspan="7" valign="top">validation</th>
+      <th rowspan="2" valign="top">expanded</th>
+      <th>class_vs_mean</th>
+      <td>0.730994</td>
+      <td>0.672651</td>
+      <td>-0.034988</td>
+    </tr>
+    <tr>
+      <th>class_vs_no_cov</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.002848</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">expanded_minus_small</th>
+      <th>class</th>
+      <td>-1.608187</td>
+      <td>-1.094163</td>
+      <td>-0.061682</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>-1.315789</td>
+      <td>-0.913354</td>
+      <td>-0.032659</td>
+    </tr>
+    <tr>
+      <th>no_cov</th>
+      <td>-1.315789</td>
+      <td>-0.902592</td>
+      <td>-0.060248</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">small</th>
+      <th>class_vs_mean</th>
+      <td>1.023392</td>
+      <td>0.853459</td>
+      <td>-0.005965</td>
+    </tr>
+    <tr>
+      <th>class_vs_no_cov</th>
+      <td>0.292398</td>
+      <td>0.191571</td>
+      <td>-0.001413</td>
+    </tr>
+  </tbody>
+</table>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cohort</th>
+      <th>seed</th>
+      <th>split</th>
+      <th>comparison</th>
+      <th>rescues</th>
+      <th>harms</th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>expanded</td>
+      <td>17</td>
+      <td>validation</td>
+      <td>class_vs_mean</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>0.293814</td>
+      <td>-0.026526</td>
+    </tr>
+    <tr>
+      <td>expanded</td>
+      <td>17</td>
+      <td>validation</td>
+      <td>class_vs_no_cov</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.003046</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>17</td>
+      <td>validation</td>
+      <td>class</td>
+      <td>4</td>
+      <td>6</td>
+      <td>-0.877193</td>
+      <td>-1.348483</td>
+      <td>-0.053979</td>
+    </tr>
+    <tr>
+      <td>expanded</td>
+      <td>17</td>
+      <td>evaluation</td>
+      <td>class_vs_mean</td>
+      <td>0</td>
+      <td>6</td>
+      <td>-1.587302</td>
+      <td>-2.653004</td>
+      <td>-0.013522</td>
+    </tr>
+    <tr>
+      <td>expanded</td>
+      <td>17</td>
+      <td>evaluation</td>
+      <td>class_vs_no_cov</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.002714</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>17</td>
+      <td>evaluation</td>
+      <td>class</td>
+      <td>7</td>
+      <td>15</td>
+      <td>-2.116402</td>
+      <td>-1.009318</td>
+      <td>-0.050225</td>
+    </tr>
+    <tr>
+      <td>expanded</td>
+      <td>29</td>
+      <td>validation</td>
+      <td>class_vs_mean</td>
+      <td>4</td>
+      <td>0</td>
+      <td>1.754386</td>
+      <td>1.717680</td>
+      <td>-0.032868</td>
+    </tr>
+    <tr>
+      <td>expanded</td>
+      <td>29</td>
+      <td>validation</td>
+      <td>class_vs_no_cov</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001852</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>29</td>
+      <td>validation</td>
+      <td>class</td>
+      <td>3</td>
+      <td>5</td>
+      <td>-0.877193</td>
+      <td>0.025830</td>
+      <td>-0.054937</td>
+    </tr>
+    <tr>
+      <td>expanded</td>
+      <td>29</td>
+      <td>evaluation</td>
+      <td>class_vs_mean</td>
+      <td>1</td>
+      <td>5</td>
+      <td>-1.058201</td>
+      <td>-1.397173</td>
+      <td>-0.019816</td>
+    </tr>
+    <tr>
+      <td>expanded</td>
+      <td>29</td>
+      <td>evaluation</td>
+      <td>class_vs_no_cov</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001716</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>29</td>
+      <td>evaluation</td>
+      <td>class</td>
+      <td>8</td>
+      <td>18</td>
+      <td>-2.645503</td>
+      <td>-1.810993</td>
+      <td>-0.031654</td>
+    </tr>
+    <tr>
+      <td>expanded</td>
+      <td>43</td>
+      <td>validation</td>
+      <td>class_vs_mean</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.006457</td>
+      <td>-0.045571</td>
+    </tr>
+    <tr>
+      <td>expanded</td>
+      <td>43</td>
+      <td>validation</td>
+      <td>class_vs_no_cov</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.003645</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>43</td>
+      <td>validation</td>
+      <td>class</td>
+      <td>2</td>
+      <td>9</td>
+      <td>-3.070175</td>
+      <td>-1.959835</td>
+      <td>-0.076131</td>
+    </tr>
+    <tr>
+      <td>expanded</td>
+      <td>43</td>
+      <td>evaluation</td>
+      <td>class_vs_mean</td>
+      <td>5</td>
+      <td>7</td>
+      <td>-0.529101</td>
+      <td>-1.685631</td>
+      <td>-0.025266</td>
+    </tr>
+    <tr>
+      <td>expanded</td>
+      <td>43</td>
+      <td>evaluation</td>
+      <td>class_vs_no_cov</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000465</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>43</td>
+      <td>evaluation</td>
+      <td>class</td>
+      <td>9</td>
+      <td>15</td>
+      <td>-1.587302</td>
+      <td>-0.525631</td>
+      <td>-0.048864</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>17</td>
+      <td>validation</td>
+      <td>mean</td>
+      <td>3</td>
+      <td>4</td>
+      <td>-0.438596</td>
+      <td>-0.499329</td>
+      <td>-0.032369</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>17</td>
+      <td>evaluation</td>
+      <td>mean</td>
+      <td>8</td>
+      <td>9</td>
+      <td>-0.264550</td>
+      <td>1.172746</td>
+      <td>-0.038947</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>29</td>
+      <td>validation</td>
+      <td>mean</td>
+      <td>1</td>
+      <td>5</td>
+      <td>-1.754386</td>
+      <td>-1.123596</td>
+      <td>-0.028217</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>29</td>
+      <td>evaluation</td>
+      <td>mean</td>
+      <td>7</td>
+      <td>11</td>
+      <td>-1.058201</td>
+      <td>0.069866</td>
+      <td>-0.017500</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>43</td>
+      <td>validation</td>
+      <td>mean</td>
+      <td>2</td>
+      <td>6</td>
+      <td>-1.754386</td>
+      <td>-1.117138</td>
+      <td>-0.037390</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>43</td>
+      <td>evaluation</td>
+      <td>mean</td>
+      <td>8</td>
+      <td>13</td>
+      <td>-1.322751</td>
+      <td>-0.461873</td>
+      <td>-0.029950</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>17</td>
+      <td>validation</td>
+      <td>no_cov</td>
+      <td>4</td>
+      <td>5</td>
+      <td>-0.438596</td>
+      <td>-1.061127</td>
+      <td>-0.052681</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>17</td>
+      <td>evaluation</td>
+      <td>no_cov</td>
+      <td>7</td>
+      <td>15</td>
+      <td>-2.116402</td>
+      <td>-1.009318</td>
+      <td>-0.048423</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>29</td>
+      <td>validation</td>
+      <td>no_cov</td>
+      <td>4</td>
+      <td>5</td>
+      <td>-0.438596</td>
+      <td>0.313186</td>
+      <td>-0.054579</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>29</td>
+      <td>evaluation</td>
+      <td>no_cov</td>
+      <td>9</td>
+      <td>18</td>
+      <td>-2.380952</td>
+      <td>-0.849455</td>
+      <td>-0.030418</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>43</td>
+      <td>validation</td>
+      <td>no_cov</td>
+      <td>2</td>
+      <td>9</td>
+      <td>-3.070175</td>
+      <td>-1.959835</td>
+      <td>-0.073484</td>
+    </tr>
+    <tr>
+      <td>expanded_minus_small</td>
+      <td>43</td>
+      <td>evaluation</td>
+      <td>no_cov</td>
+      <td>9</td>
+      <td>15</td>
+      <td>-1.587302</td>
+      <td>-0.525631</td>
+      <td>-0.048479</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>17</td>
+      <td>validation</td>
+      <td>class_vs_mean</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0.877193</td>
+      <td>1.142968</td>
+      <td>-0.004916</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>17</td>
+      <td>validation</td>
+      <td>class_vs_no_cov</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.438596</td>
+      <td>0.287356</td>
+      <td>-0.001748</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>17</td>
+      <td>evaluation</td>
+      <td>class_vs_mean</td>
+      <td>3</td>
+      <td>2</td>
+      <td>0.264550</td>
+      <td>-0.470940</td>
+      <td>-0.002244</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>17</td>
+      <td>evaluation</td>
+      <td>class_vs_no_cov</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000912</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>29</td>
+      <td>validation</td>
+      <td>class_vs_mean</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0.877193</td>
+      <td>0.568255</td>
+      <td>-0.006148</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>29</td>
+      <td>validation</td>
+      <td>class_vs_no_cov</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.438596</td>
+      <td>0.287356</td>
+      <td>-0.001494</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>29</td>
+      <td>evaluation</td>
+      <td>class_vs_mean</td>
+      <td>4</td>
+      <td>2</td>
+      <td>0.529101</td>
+      <td>0.483687</td>
+      <td>-0.005662</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>29</td>
+      <td>evaluation</td>
+      <td>class_vs_no_cov</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.264550</td>
+      <td>0.961538</td>
+      <td>-0.000480</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>43</td>
+      <td>validation</td>
+      <td>class_vs_mean</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1.315789</td>
+      <td>0.849154</td>
+      <td>-0.006830</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>43</td>
+      <td>validation</td>
+      <td>class_vs_no_cov</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000998</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>43</td>
+      <td>evaluation</td>
+      <td>class_vs_mean</td>
+      <td>2</td>
+      <td>3</td>
+      <td>-0.264550</td>
+      <td>-1.621872</td>
+      <td>-0.006351</td>
+    </tr>
+    <tr>
+      <td>small</td>
+      <td>43</td>
+      <td>evaluation</td>
+      <td>class_vs_no_cov</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000080</td>
+    </tr>
+  </tbody>
+</table>
+<h2>evaluation_mean_rescue_s43 pub2_opensarship2_000266</h2>
+<img src="evaluation_mean_rescue_s43_1177.png">
+<pre>{
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.43651941418647766
+  },
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.17379367351531982
+  },
+  &quot;no_cov&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.43256890773773193
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.17379367351531982
+  },
+  &quot;small_class&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.11102839559316635
+  }
+}</pre>
+<h2>evaluation_mean_harm_s43 pub2_opensarship2_002283</h2>
+<img src="evaluation_mean_harm_s43_1228.png">
+<pre>{
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.15292716026306152
+  },
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.25574398040771484
+  },
+  &quot;no_cov&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.09573125839233398
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.25574398040771484
+  },
+  &quot;small_class&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.3170665502548218
+  }
+}</pre>
+<h2>evaluation_stable_correct_s29 pub2_opensarship2_002999</h2>
+<img src="evaluation_stable_correct_s29_1402.png">
+<pre>{
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 2.061275005340576
+  },
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 1.3549085855484009
+  },
+  &quot;no_cov&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 2.059597969055176
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 1.3549085855484009
+  },
+  &quot;small_class&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 2.778890609741211
+  }
+}</pre>
+<h2>evaluation_stable_wrong_s29 pub2_opensarship2_002509</h2>
+<img src="evaluation_stable_wrong_s29_1308.png">
+<pre>{
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -4.979502201080322
+  },
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -5.747844696044922
+  },
+  &quot;no_cov&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -4.980598449707031
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -5.747844696044922
+  },
+  &quot;small_class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -6.979727745056152
+  }
+}</pre>
+<h2>validation_mean_rescue_s43 pub2_opensarship2_001083</h2>
+<img src="validation_mean_rescue_s43_787.png">
+<pre>{
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.35485440492630005
+  },
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.02475053071975708
+  },
+  &quot;no_cov&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.33108818531036377
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.02475053071975708
+  },
+  &quot;small_class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.08050060272216797
+  }
+}</pre>
+<h2>validation_mean_harm_s43 pub2_opensarship2_000916</h2>
+<img src="validation_mean_harm_s43_751.png">
+<pre>{
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.12022292613983154
+  },
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.1089850664138794
+  },
+  &quot;no_cov&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.13067567348480225
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.1089850664138794
+  },
+  &quot;small_class&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 1.2064849138259888
+  }
+}</pre>
+<h2>validation_stable_correct_s29 pub2_opensarship2_003832</h2>
+<img src="validation_stable_correct_s29_932.png">
+<pre>{
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 3.443011522293091
+  },
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 2.3439154624938965
+  },
+  &quot;no_cov&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 3.4799752235412598
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 2.3439154624938965
+  },
+  &quot;small_class&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 2.397758722305298
+  }
+}</pre>
+<h2>validation_stable_wrong_s29 pub2_opensarship2_002880</h2>
+<img src="validation_stable_wrong_s29_818.png">
+<pre>{
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -3.8049755096435547
+  },
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -4.787993907928467
+  },
+  &quot;no_cov&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -3.8181440830230713
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -4.787993907928467
+  },
+  &quot;small_class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -6.0388007164001465
+  }
+}</pre>
+<h2>small_cov_rescue_s29 pub2_opensarship2_000132</h2>
+<img src="small_cov_rescue_s29_1141.png">
+<pre>{
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.003927946090698242
+  },
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.09452295303344727
+  },
+  &quot;no_cov&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.027960538864135742
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.09452295303344727
+  }
+}</pre>
+</html>

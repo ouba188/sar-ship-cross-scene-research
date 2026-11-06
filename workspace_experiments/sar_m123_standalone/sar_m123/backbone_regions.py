@@ -15,7 +15,7 @@ from .backbone import Backbone
 class RegionFeedback(nn.Module):
     """Pool region tokens, then return content-gated updates to their regions."""
 
-    def __init__(self, channels, hidden=32, regions=3, temperature=1., gate_mode='dot'):
+    def __init__(self, channels, hidden=32, regions=3, temperature=1., gate_mode='dot', update_mode='broadcast'):
         super().__init__()
         self.channels, self.regions = channels, regions
         if temperature <= 0:
@@ -24,6 +24,9 @@ class RegionFeedback(nn.Module):
         if gate_mode not in ('dot', 'fixed', 'cosine'):
             raise ValueError(gate_mode)
         self.gate_mode = gate_mode
+        if update_mode not in ('broadcast', 'local', 'additive', 'modulate'):
+            raise ValueError(update_mode)
+        self.update_mode = update_mode
         self.query = nn.Conv2d(channels, hidden, 1, bias=False)
         self.key = nn.Linear(channels, hidden, bias=False)
         if gate_mode == 'fixed':
@@ -58,7 +61,18 @@ class RegionFeedback(nn.Module):
             gates = torch.sigmoid(logits)
         weights = gates * masks / masks.sum(1, keepdim=True).clamp_min(1)
         values = torch.einsum('brd,rde->bre', self.value(tokens), self.region_value)
-        update = self.output(torch.einsum('brhw,brd->bdhw', weights, values))
+        if self.update_mode == 'broadcast':
+            mixed = torch.einsum('brhw,brd->bdhw', weights, values)
+        else:
+            local = F.conv2d(z, self.value.weight[..., None, None])
+            local = torch.einsum('bdhw,rde->brehw', local, self.region_value)
+            condition = .5 * torch.tanh(values)[..., None, None]
+            if self.update_mode == 'additive':
+                local = local + condition
+            elif self.update_mode == 'modulate':
+                local = local * (1 + condition)
+            mixed = torch.einsum('brhw,brdhw->bdhw', weights, local)
+        update = self.output(mixed)
         out = x + self.gain * update
         if return_details:
             return out, dict(weights=weights, mass=mass, update=self.gain * update, gates=gates)
@@ -72,7 +86,7 @@ class RegionResNet50(nn.Module):
     downstream stages remain enabled. No reference bank or M1/M3 is used here.
     """
 
-    def __init__(self, weight_path, classes=8, stages=(2,), mode='regional', hidden=32, temperature=1., gate_mode='dot'):
+    def __init__(self, weight_path, classes=8, stages=(2,), mode='regional', hidden=32, temperature=1., gate_mode='dot', update_mode='broadcast'):
         super().__init__()
         if mode not in ('regional', 'merged', 'none'):
             raise ValueError(mode)
@@ -82,7 +96,7 @@ class RegionResNet50(nn.Module):
         self.mode = mode
         self.stages = tuple(sorted(set(stages))) if mode != 'none' else ()
         channels = {1: 256, 2: 512, 3: 1024, 4: 2048}
-        self.blocks = nn.ModuleDict({f'{p}_{s}': RegionFeedback(channels[s], hidden, temperature=temperature, gate_mode=gate_mode)
+        self.blocks = nn.ModuleDict({f'{p}_{s}': RegionFeedback(channels[s], hidden, temperature=temperature, gate_mode=gate_mode, update_mode=update_mode)
                                     for s in self.stages for p in range(2)})
         self.head = nn.Linear(4098, classes)
 

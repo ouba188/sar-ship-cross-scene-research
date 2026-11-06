@@ -1,0 +1,3867 @@
+{
+  "selection": {
+    "mean": {
+      "run": "early_mean_g1_s17",
+      "position": "early",
+      "gain": 0.1,
+      "epoch": 5,
+      "metrics": {
+        "oa": 60.96491228070175,
+        "ba": 53.48351105346203,
+        "nll": 1.2628775513087143,
+        "balanced_nll": 1.451683495146666
+      }
+    },
+    "second": {
+      "run": "early_second_g1_s17",
+      "position": "early",
+      "gain": 0.1,
+      "epoch": 6,
+      "metrics": {
+        "oa": 60.96491228070175,
+        "ba": 53.48351105346203,
+        "nll": 1.2684316172892995,
+        "balanced_nll": 1.4517360207473842
+      }
+    },
+    "class": {
+      "run": "early_class_g3_s17",
+      "position": "early",
+      "gain": 0.3,
+      "epoch": 6,
+      "metrics": {
+        "oa": 61.8421052631579,
+        "ba": 54.0517662517056,
+        "nll": 1.263736179160116,
+        "balanced_nll": 1.4524026858614045
+      }
+    }
+  },
+  "groups": [
+    {
+      "group": "rescue_mean",
+      "n": 2,
+      "selected": 42
+    },
+    {
+      "group": "harm_mean",
+      "n": 0,
+      "selected": null
+    },
+    {
+      "group": "relation_rescue",
+      "n": 1,
+      "selected": 189
+    },
+    {
+      "group": "relation_harm",
+      "n": 0,
+      "selected": null
+    },
+    {
+      "group": "rescue_second",
+      "n": 2,
+      "selected": 128
+    },
+    {
+      "group": "harm_second",
+      "n": 0,
+      "selected": null
+    },
+    {
+      "group": "rescue_anchor",
+      "n": 8,
+      "selected": 72
+    },
+    {
+      "group": "harm_anchor",
+      "n": 1,
+      "selected": 177
+    },
+    {
+      "group": "stable_correct",
+      "n": 139,
+      "selected": 26
+    },
+    {
+      "group": "stable_wrong",
+      "n": 87,
+      "selected": 34
+    }
+  ],
+  "cases": [
+    {
+      "group": "rescue_mean",
+      "id": "pub2_opensarship2_000932",
+      "index": 761,
+      "label": 0,
+      "image": "rescue_mean_761.png",
+      "records": [
+        {
+          "role": "Query",
+          "record": {
+            "id": "pub2_opensarship2_000932",
+            "label": 0,
+            "class_name": "bulk_carrier",
+            "original_class_id": 0,
+            "mmsi": "412212000",
+            "pass_group": "S1A_007768_00ACD0",
+            "scene_id": "S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804",
+            "role": "fit_validation",
+            "split": "validation",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 372,
+              "target_manifest_row": 931,
+              "manifest_position": 372,
+              "obs_id": 372,
+              "table_index": 520,
+              "row_index": 520,
+              "up_index": 520
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804\\Patch_Uint8\\Visual_Cargo_x19809_y10089_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804\\Patch_Uint8\\Visual_Cargo_x19809_y10089_vh.tif"
+            },
+            "native_size": [
+              81,
+              81
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_000932.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      40.998523312188645,
+                      28.346658772043728
+                    ],
+                    [
+                      48.904198270786644,
+                      31.61292969253501
+                    ],
+                    [
+                      39.363598269842605,
+                      54.704976970143775
+                    ],
+                    [
+                      31.45792331124461,
+                      51.438706049652495
+                    ]
+                  ],
+                  "confidence": 0.8298519849777222
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  40.181060791015625,
+                  41.52581787109375
+                ],
+                "length_px": 24.985309600830078,
+                "width_px": 8.553842544555664,
+                "angle": 1.9625917673110962
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                40.181060791015625,
+                41.52581787109375,
+                8.553842544555664,
+                24.985309600830078,
+                0.39179539680480957
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_000932.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      39.110271400717764,
+                      21.472891995517926
+                    ],
+                    [
+                      48.30680805567627,
+                      23.246300052770493
+                    ],
+                    [
+                      41.920856528969736,
+                      56.36255722323207
+                    ],
+                    [
+                      32.72431987401123,
+                      54.58914916597951
+                    ]
+                  ],
+                  "confidence": 0.7709184885025024
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  40.51556396484375,
+                  38.917724609375
+                ],
+                "length_px": 33.72635269165039,
+                "width_px": 9.365962982177734,
+                "angle": 1.7612924575805664
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                40.51556396484375,
+                38.917724609375,
+                9.365962982177734,
+                33.72635269165039,
+                0.19049610197544098
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 1",
+          "record": {
+            "id": "pub2_opensarship2_005133",
+            "label": 0,
+            "class_name": "bulk_carrier",
+            "original_class_id": 0,
+            "mmsi": "566678000",
+            "pass_group": "S1A_010918_0105DD",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1960,
+              "target_manifest_row": 5132,
+              "manifest_position": 1960,
+              "obs_id": 1960,
+              "table_index": 301,
+              "row_index": 301,
+              "up_index": 301
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Cargo_x21620_y12208_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Cargo_x21620_y12208_vh.tif"
+            },
+            "native_size": [
+              113,
+              113
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005133.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      57.55549509328284,
+                      41.3860421715089
+                    ],
+                    [
+                      67.21656793919888,
+                      72.91148735760058
+                    ],
+                    [
+                      59.04252736765466,
+                      75.4164480628661
+                    ],
+                    [
+                      49.38145452173862,
+                      43.89100287677443
+                    ]
+                  ],
+                  "confidence": 0.8102734684944153
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  58.29901123046875,
+                  58.4012451171875
+                ],
+                "length_px": 32.972564697265625,
+                "width_px": 8.54925537109375,
+                "angle": 1.2734297513961792
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                58.29901123046875,
+                58.4012451171875,
+                32.972564697265625,
+                8.54925537109375,
+                1.2734297513961792
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005133.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      57.500460227981485,
+                      40.05563232403377
+                    ],
+                    [
+                      66.94664271070543,
+                      74.9850081247418
+                    ],
+                    [
+                      59.111966529831015,
+                      77.10379150409122
+                    ],
+                    [
+                      49.665784047107074,
+                      42.17441570338321
+                    ]
+                  ],
+                  "confidence": 0.7826764583587646
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  58.30621337890625,
+                  58.5797119140625
+                ],
+                "length_px": 36.18413543701172,
+                "width_px": 8.116119384765625,
+                "angle": 1.3066775798797607
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                58.30621337890625,
+                58.5797119140625,
+                36.18413543701172,
+                8.116119384765625,
+                1.3066775798797607
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 2",
+          "record": {
+            "id": "pub2_opensarship2_005188",
+            "label": 0,
+            "class_name": "bulk_carrier",
+            "original_class_id": 0,
+            "mmsi": "259002000",
+            "pass_group": "S1A_010918_0105DD",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1995,
+              "target_manifest_row": 5187,
+              "manifest_position": 1995,
+              "obs_id": 1995,
+              "table_index": 329,
+              "row_index": 329,
+              "up_index": 329
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Cargo_x19341_y8421_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Cargo_x19341_y8421_vh.tif"
+            },
+            "native_size": [
+              77,
+              77
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005188.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      39.220094122582815,
+                      27.847205989270133
+                    ],
+                    [
+                      45.25277994686643,
+                      47.75128013509233
+                    ],
+                    [
+                      37.954771600073435,
+                      49.96321881541736
+                    ],
+                    [
+                      31.92208577578982,
+                      30.059144669595174
+                    ]
+                  ],
+                  "confidence": 0.678616464138031
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  38.587432861328125,
+                  38.90521240234375
+                ],
+                "length_px": 20.798208236694336,
+                "width_px": 7.625850677490234,
+                "angle": 1.2765089273452759
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                38.587432861328125,
+                38.90521240234375,
+                20.798208236694336,
+                7.625850677490234,
+                1.2765089273452759
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005188.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      39.84894026622784,
+                      28.52440305590259
+                    ],
+                    [
+                      45.13605484761834,
+                      49.60487264230847
+                    ],
+                    [
+                      37.49761735095966,
+                      51.52064088940991
+                    ],
+                    [
+                      32.21050276956916,
+                      30.44017130300403
+                    ]
+                  ],
+                  "confidence": 0.6326344013214111
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  38.67327880859375,
+                  40.02252197265625
+                ],
+                "length_px": 21.733379364013672,
+                "width_px": 7.875017166137695,
+                "angle": 1.325058937072754
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                38.67327880859375,
+                40.02252197265625,
+                21.733379364013672,
+                7.875017166137695,
+                1.325058937072754
+              ]
+            }
+          }
+        },
+        {
+          "role": "Confusing class ref",
+          "record": {
+            "id": "pub2_opensarship2_001877",
+            "label": 3,
+            "class_name": "container_ship",
+            "original_class_id": 4,
+            "mmsi": "219018271",
+            "pass_group": "S1A_008235_00B97C",
+            "scene_id": "S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 691,
+              "target_manifest_row": 1876,
+              "manifest_position": 691,
+              "obs_id": 691,
+              "table_index": 86,
+              "row_index": 86,
+              "up_index": 86
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9\\Patch_Uint8\\Visual_Cargo_x3557_y7452_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9\\Patch_Uint8\\Visual_Cargo_x3557_y7452_vh.tif"
+            },
+            "native_size": [
+              161,
+              161
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_001877.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      85.9285816699066,
+                      64.27161274190097
+                    ],
+                    [
+                      95.5197171949157,
+                      68.81312806237916
+                    ],
+                    [
+                      77.8377757519684,
+                      106.15526714091153
+                    ],
+                    [
+                      68.2466402269593,
+                      101.61375182043334
+                    ]
+                  ],
+                  "confidence": 0.7779417634010315
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  81.8831787109375,
+                  85.21343994140625
+                ],
+                "length_px": 41.31690216064453,
+                "width_px": 10.612032890319824,
+                "angle": 2.0130298137664795
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                81.8831787109375,
+                85.21343994140625,
+                10.612032890319824,
+                41.31690216064453,
+                0.4422333538532257
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_001877.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      85.22783426025683,
+                      60.25461941477466
+                    ],
+                    [
+                      96.75677276942281,
+                      65.60741137530965
+                    ],
+                    [
+                      78.20514913818067,
+                      105.56422824147535
+                    ],
+                    [
+                      66.67621062901469,
+                      100.21143628094035
+                    ]
+                  ],
+                  "confidence": 0.8528192043304443
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  81.71649169921875,
+                  82.909423828125
+                ],
+                "length_px": 44.053489685058594,
+                "width_px": 12.71097183227539,
+                "angle": 2.005471706390381
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                81.71649169921875,
+                82.909423828125,
+                12.71097183227539,
+                44.053489685058594,
+                0.4346752464771271
+              ]
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "mean": {
+          "prediction": 3,
+          "margin": -0.4867894649505615
+        },
+        "second": {
+          "prediction": 3,
+          "margin": -0.3753044605255127
+        },
+        "class": {
+          "prediction": 0,
+          "margin": 0.026113510131835938
+        },
+        "baseline": {
+          "prediction": 3,
+          "margin": -0.9676241874694824
+        },
+        "previous_best_mean": {
+          "prediction": 3,
+          "margin": -0.9103372097015381
+        },
+        "off": {
+          "prediction": 3,
+          "margin": -0.7008355855941772
+        },
+        "relation_off": {
+          "prediction": 0,
+          "margin": 0.10196399688720703
+        },
+        "merged": {
+          "prediction": 0,
+          "margin": 0.07311904430389404
+        },
+        "spatial_mean": {
+          "prediction": 0,
+          "margin": 0.003915905952453613
+        },
+        "vv_only": {
+          "prediction": 3,
+          "margin": -0.9597066640853882
+        },
+        "vh_only": {
+          "prediction": 0,
+          "margin": 0.2849850654602051
+        },
+        "covariance_zero": {
+          "prediction": 0,
+          "margin": 0.07373178005218506
+        }
+      },
+      "reference_selection": "Nearest two same-class and nearest confusing-class legal fixed-bank cases under raw pooled cosine; NOT actual attention maximum",
+      "preprocessing": "Native160 crop/pad, VV/VH separate; no image resizing"
+    },
+    {
+      "group": "relation_rescue",
+      "id": "pub2_opensarship2_003638",
+      "index": 908,
+      "label": 2,
+      "image": "relation_rescue_908.png",
+      "records": [
+        {
+          "role": "Query",
+          "record": {
+            "id": "pub2_opensarship2_003638",
+            "label": 2,
+            "class_name": "product_chemical_tanker",
+            "original_class_id": 3,
+            "mmsi": "229079000",
+            "pass_group": "S1A_010218_00F169",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160304T095420_20160304T095445_010218_00F169_8B68",
+            "role": "fit_validation",
+            "split": "validation",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1286,
+              "target_manifest_row": 3637,
+              "manifest_position": 1286,
+              "obs_id": 1286,
+              "table_index": 667,
+              "row_index": 667,
+              "up_index": 667
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160304T095420_20160304T095445_010218_00F169_8B68\\Patch_Uint8\\Visual_Tanker_x20917_y11849_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160304T095420_20160304T095445_010218_00F169_8B68\\Patch_Uint8\\Visual_Tanker_x20917_y11849_vh.tif"
+            },
+            "native_size": [
+              101,
+              101
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_003638.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      49.46817461061155,
+                      38.96857177386076
+                    ],
+                    [
+                      56.99625920781792,
+                      40.011647072705514
+                    ],
+                    [
+                      53.86580976438845,
+                      62.60473144879549
+                    ],
+                    [
+                      46.33772516718208,
+                      61.561656149950736
+                    ]
+                  ],
+                  "confidence": 0.8086265921592712
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  51.6669921875,
+                  50.786651611328125
+                ],
+                "length_px": 22.808927536010742,
+                "width_px": 7.600004196166992,
+                "angle": 1.7084776163101196
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                51.6669921875,
+                50.786651611328125,
+                7.600004196166992,
+                22.808927536010742,
+                0.137681245803833
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_003638.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      49.12829441211714,
+                      39.27452067413247
+                    ],
+                    [
+                      57.1796436191043,
+                      40.15875675993514
+                    ],
+                    [
+                      54.64636379100786,
+                      63.22535725555503
+                    ],
+                    [
+                      46.5950145840207,
+                      62.34112116975236
+                    ]
+                  ],
+                  "confidence": 0.7981545925140381
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  51.8873291015625,
+                  51.24993896484375
+                ],
+                "length_px": 23.205291748046875,
+                "width_px": 8.099759101867676,
+                "angle": 1.6801825761795044
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                51.8873291015625,
+                51.24993896484375,
+                8.099759101867676,
+                23.205291748046875,
+                0.10938620567321777
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 1",
+          "record": {
+            "id": "pub2_opensarship2_005072",
+            "label": 2,
+            "class_name": "product_chemical_tanker",
+            "original_class_id": 3,
+            "mmsi": "311012800",
+            "pass_group": "S1A_010918_0105DD",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1914,
+              "target_manifest_row": 5071,
+              "manifest_position": 1914,
+              "obs_id": 1914,
+              "table_index": 262,
+              "row_index": 262,
+              "up_index": 262
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Tanker_x20190_y10768_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Tanker_x20190_y10768_vh.tif"
+            },
+            "native_size": [
+              53,
+              53
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005072.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      25.107994457375508,
+                      16.049343903837993
+                    ],
+                    [
+                      34.69419024613874,
+                      33.70122671711766
+                    ],
+                    [
+                      27.988074878561992,
+                      37.34311215084951
+                    ],
+                    [
+                      18.401879089798758,
+                      19.691229337569837
+                    ]
+                  ],
+                  "confidence": 0.7560954093933105
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  26.54803466796875,
+                  26.69622802734375
+                ],
+                "length_px": 20.0869140625,
+                "width_px": 7.631206512451172,
+                "angle": 1.0732897520065308
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                26.54803466796875,
+                26.69622802734375,
+                20.0869140625,
+                7.631206512451172,
+                1.0732897520065308
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005072.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      26.256972049674946,
+                      14.840061499990275
+                    ],
+                    [
+                      34.65609261479909,
+                      34.2488901850707
+                    ],
+                    [
+                      26.683518672981304,
+                      37.69900100000972
+                    ],
+                    [
+                      18.284398107857154,
+                      18.2901723149293
+                    ]
+                  ],
+                  "confidence": 0.744666337966919
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  26.470245361328125,
+                  26.26953125
+                ],
+                "length_px": 21.148235321044922,
+                "width_px": 8.687070846557617,
+                "angle": 1.162381887435913
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                26.470245361328125,
+                26.26953125,
+                21.148235321044922,
+                8.687070846557617,
+                1.162381887435913
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 2",
+          "record": {
+            "id": "pub2_opensarship2_006719",
+            "label": 2,
+            "class_name": "product_chemical_tanker",
+            "original_class_id": 3,
+            "mmsi": "636091389",
+            "pass_group": "S1A_011990_012809",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 2694,
+              "target_manifest_row": 6718,
+              "manifest_position": 2694,
+              "obs_id": 2694,
+              "table_index": 458,
+              "row_index": 458,
+              "up_index": 458
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1\\Patch_Uint8\\Visual_Tanker_x13291_y14806_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1\\Patch_Uint8\\Visual_Tanker_x13291_y14806_vh.tif"
+            },
+            "native_size": [
+              65,
+              65
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_006719.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      40.45861855054046,
+                      23.418070537739776
+                    ],
+                    [
+                      45.10389611562601,
+                      30.008212993625218
+                    ],
+                    [
+                      27.128539652584543,
+                      42.67873122007272
+                    ],
+                    [
+                      22.483262087498993,
+                      36.08858876418728
+                    ]
+                  ],
+                  "confidence": 0.820805549621582
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  33.7935791015625,
+                  33.04840087890625
+                ],
+                "length_px": 21.992168426513672,
+                "width_px": 8.062789916992188,
+                "angle": 2.527597188949585
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                33.7935791015625,
+                33.04840087890625,
+                8.062789916992188,
+                21.992168426513672,
+                0.9568008780479431
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_006719.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      40.82841581692036,
+                      23.46247635905454
+                    ],
+                    [
+                      45.468925344340015,
+                      29.84220150449885
+                    ],
+                    [
+                      28.122511917454638,
+                      42.45970381672671
+                    ],
+                    [
+                      23.482002390034985,
+                      36.079978671282404
+                    ]
+                  ],
+                  "confidence": 0.8287621736526489
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  34.4754638671875,
+                  32.961090087890625
+                ],
+                "length_px": 21.449928283691406,
+                "width_px": 7.888930320739746,
+                "angle": 2.512723684310913
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                34.4754638671875,
+                32.961090087890625,
+                7.888930320739746,
+                21.449928283691406,
+                0.9419273138046265
+              ]
+            }
+          }
+        },
+        {
+          "role": "Confusing class ref",
+          "record": {
+            "id": "pub2_opensarship2_005188",
+            "label": 0,
+            "class_name": "bulk_carrier",
+            "original_class_id": 0,
+            "mmsi": "259002000",
+            "pass_group": "S1A_010918_0105DD",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1995,
+              "target_manifest_row": 5187,
+              "manifest_position": 1995,
+              "obs_id": 1995,
+              "table_index": 329,
+              "row_index": 329,
+              "up_index": 329
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Cargo_x19341_y8421_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Cargo_x19341_y8421_vh.tif"
+            },
+            "native_size": [
+              77,
+              77
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005188.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      39.220094122582815,
+                      27.847205989270133
+                    ],
+                    [
+                      45.25277994686643,
+                      47.75128013509233
+                    ],
+                    [
+                      37.954771600073435,
+                      49.96321881541736
+                    ],
+                    [
+                      31.92208577578982,
+                      30.059144669595174
+                    ]
+                  ],
+                  "confidence": 0.678616464138031
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  38.587432861328125,
+                  38.90521240234375
+                ],
+                "length_px": 20.798208236694336,
+                "width_px": 7.625850677490234,
+                "angle": 1.2765089273452759
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                38.587432861328125,
+                38.90521240234375,
+                20.798208236694336,
+                7.625850677490234,
+                1.2765089273452759
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005188.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      39.84894026622784,
+                      28.52440305590259
+                    ],
+                    [
+                      45.13605484761834,
+                      49.60487264230847
+                    ],
+                    [
+                      37.49761735095966,
+                      51.52064088940991
+                    ],
+                    [
+                      32.21050276956916,
+                      30.44017130300403
+                    ]
+                  ],
+                  "confidence": 0.6326344013214111
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  38.67327880859375,
+                  40.02252197265625
+                ],
+                "length_px": 21.733379364013672,
+                "width_px": 7.875017166137695,
+                "angle": 1.325058937072754
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                38.67327880859375,
+                40.02252197265625,
+                21.733379364013672,
+                7.875017166137695,
+                1.325058937072754
+              ]
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "mean": {
+          "prediction": 2,
+          "margin": 0.09458649158477783
+        },
+        "second": {
+          "prediction": 2,
+          "margin": 0.14958035945892334
+        },
+        "class": {
+          "prediction": 2,
+          "margin": 0.006859421730041504
+        },
+        "baseline": {
+          "prediction": 2,
+          "margin": 0.3471970558166504
+        },
+        "previous_best_mean": {
+          "prediction": 2,
+          "margin": 0.19412624835968018
+        },
+        "off": {
+          "prediction": 2,
+          "margin": 0.2975531816482544
+        },
+        "relation_off": {
+          "prediction": 0,
+          "margin": -0.016242027282714844
+        },
+        "merged": {
+          "prediction": 2,
+          "margin": 0.0018543004989624023
+        },
+        "spatial_mean": {
+          "prediction": 2,
+          "margin": 0.005070686340332031
+        },
+        "vv_only": {
+          "prediction": 2,
+          "margin": 0.11256980895996094
+        },
+        "vh_only": {
+          "prediction": 2,
+          "margin": 0.19184255599975586
+        },
+        "covariance_zero": {
+          "prediction": 2,
+          "margin": 0.0010677576065063477
+        }
+      },
+      "reference_selection": "Nearest two same-class and nearest confusing-class legal fixed-bank cases under raw pooled cosine; NOT actual attention maximum",
+      "preprocessing": "Native160 crop/pad, VV/VH separate; no image resizing"
+    },
+    {
+      "group": "rescue_second",
+      "id": "pub2_opensarship2_003491",
+      "index": 847,
+      "label": 3,
+      "image": "rescue_second_847.png",
+      "records": [
+        {
+          "role": "Query",
+          "record": {
+            "id": "pub2_opensarship2_003491",
+            "label": 3,
+            "class_name": "container_ship",
+            "original_class_id": 4,
+            "mmsi": "564305000",
+            "pass_group": "S1A_010218_00F169",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160304T095420_20160304T095445_010218_00F169_8B68",
+            "role": "fit_validation",
+            "split": "validation",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1210,
+              "target_manifest_row": 3490,
+              "manifest_position": 1210,
+              "obs_id": 1210,
+              "table_index": 606,
+              "row_index": 606,
+              "up_index": 606
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160304T095420_20160304T095445_010218_00F169_8B68\\Patch_Uint8\\Visual_Cargo_x19381_y4595_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160304T095420_20160304T095445_010218_00F169_8B68\\Patch_Uint8\\Visual_Cargo_x19381_y4595_vh.tif"
+            },
+            "native_size": [
+              73,
+              73
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_003491.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      43.557799680541265,
+                      24.4075134943134
+                    ],
+                    [
+                      49.29226782755558,
+                      29.433237674002676
+                    ],
+                    [
+                      33.021668092896235,
+                      47.9983702947491
+                    ],
+                    [
+                      27.287199945881927,
+                      42.972646115059824
+                    ]
+                  ],
+                  "confidence": 0.7801206707954407
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  38.28973388671875,
+                  36.20294189453125
+                ],
+                "length_px": 24.685958862304688,
+                "width_px": 7.625092029571533,
+                "angle": 2.2904224395751953
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                38.28973388671875,
+                36.20294189453125,
+                7.625092029571533,
+                24.685958862304688,
+                0.7196259498596191
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_003491.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      43.71060229153535,
+                      23.416440354712947
+                    ],
+                    [
+                      50.5954148560874,
+                      29.376215600198577
+                    ],
+                    [
+                      33.16952466158965,
+                      49.5068384538808
+                    ],
+                    [
+                      26.2847120970376,
+                      43.54706320839517
+                    ]
+                  ],
+                  "confidence": 0.8448662757873535
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  38.4400634765625,
+                  36.461639404296875
+                ],
+                "length_px": 26.625244140625,
+                "width_px": 9.10601806640625,
+                "angle": 2.2843010425567627
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                38.4400634765625,
+                36.461639404296875,
+                9.10601806640625,
+                26.625244140625,
+                0.7135046124458313
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 1",
+          "record": {
+            "id": "pub2_opensarship2_001877",
+            "label": 3,
+            "class_name": "container_ship",
+            "original_class_id": 4,
+            "mmsi": "219018271",
+            "pass_group": "S1A_008235_00B97C",
+            "scene_id": "S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 691,
+              "target_manifest_row": 1876,
+              "manifest_position": 691,
+              "obs_id": 691,
+              "table_index": 86,
+              "row_index": 86,
+              "up_index": 86
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9\\Patch_Uint8\\Visual_Cargo_x3557_y7452_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9\\Patch_Uint8\\Visual_Cargo_x3557_y7452_vh.tif"
+            },
+            "native_size": [
+              161,
+              161
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_001877.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      85.9285816699066,
+                      64.27161274190097
+                    ],
+                    [
+                      95.5197171949157,
+                      68.81312806237916
+                    ],
+                    [
+                      77.8377757519684,
+                      106.15526714091153
+                    ],
+                    [
+                      68.2466402269593,
+                      101.61375182043334
+                    ]
+                  ],
+                  "confidence": 0.7779417634010315
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  81.8831787109375,
+                  85.21343994140625
+                ],
+                "length_px": 41.31690216064453,
+                "width_px": 10.612032890319824,
+                "angle": 2.0130298137664795
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                81.8831787109375,
+                85.21343994140625,
+                10.612032890319824,
+                41.31690216064453,
+                0.4422333538532257
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_001877.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      85.22783426025683,
+                      60.25461941477466
+                    ],
+                    [
+                      96.75677276942281,
+                      65.60741137530965
+                    ],
+                    [
+                      78.20514913818067,
+                      105.56422824147535
+                    ],
+                    [
+                      66.67621062901469,
+                      100.21143628094035
+                    ]
+                  ],
+                  "confidence": 0.8528192043304443
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  81.71649169921875,
+                  82.909423828125
+                ],
+                "length_px": 44.053489685058594,
+                "width_px": 12.71097183227539,
+                "angle": 2.005471706390381
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                81.71649169921875,
+                82.909423828125,
+                12.71097183227539,
+                44.053489685058594,
+                0.4346752464771271
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 2",
+          "record": {
+            "id": "pub2_opensarship2_006762",
+            "label": 3,
+            "class_name": "container_ship",
+            "original_class_id": 4,
+            "mmsi": "565567000",
+            "pass_group": "S1A_011990_012809",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 2730,
+              "target_manifest_row": 6761,
+              "manifest_position": 2730,
+              "obs_id": 2730,
+              "table_index": 474,
+              "row_index": 474,
+              "up_index": 474
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1\\Patch_Uint8\\Visual_Cargo_x14867_y15310_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1\\Patch_Uint8\\Visual_Cargo_x14867_y15310_vh.tif"
+            },
+            "native_size": [
+              81,
+              81
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_006762.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      33.68998376922336,
+                      28.159640157435067
+                    ],
+                    [
+                      52.941953979363376,
+                      48.25121789289386
+                    ],
+                    [
+                      47.28206212921414,
+                      53.674588358189936
+                    ],
+                    [
+                      28.030091919074124,
+                      33.583010622731145
+                    ]
+                  ],
+                  "confidence": 0.8374776244163513
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  40.48602294921875,
+                  40.9171142578125
+                ],
+                "length_px": 27.82642364501953,
+                "width_px": 7.838834285736084,
+                "angle": 0.8067353367805481
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                40.48602294921875,
+                40.9171142578125,
+                27.82642364501953,
+                7.838834285736084,
+                0.8067353367805481
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_006762.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      33.84444805959155,
+                      28.10222712974253
+                    ],
+                    [
+                      52.5924176321545,
+                      47.244507393072624
+                    ],
+                    [
+                      46.87820819040845,
+                      52.84101017494497
+                    ],
+                    [
+                      28.130238617845496,
+                      33.69872991161487
+                    ]
+                  ],
+                  "confidence": 0.8508405685424805
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  40.361328125,
+                  40.47161865234375
+                ],
+                "length_px": 26.793903350830078,
+                "width_px": 7.998314380645752,
+                "angle": 0.7958044409751892
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                40.361328125,
+                40.47161865234375,
+                26.793903350830078,
+                7.998314380645752,
+                0.7958044409751892
+              ]
+            }
+          }
+        },
+        {
+          "role": "Confusing class ref",
+          "record": {
+            "id": "pub2_opensarship2_006719",
+            "label": 2,
+            "class_name": "product_chemical_tanker",
+            "original_class_id": 3,
+            "mmsi": "636091389",
+            "pass_group": "S1A_011990_012809",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 2694,
+              "target_manifest_row": 6718,
+              "manifest_position": 2694,
+              "obs_id": 2694,
+              "table_index": 458,
+              "row_index": 458,
+              "up_index": 458
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1\\Patch_Uint8\\Visual_Tanker_x13291_y14806_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1\\Patch_Uint8\\Visual_Tanker_x13291_y14806_vh.tif"
+            },
+            "native_size": [
+              65,
+              65
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_006719.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      40.45861855054046,
+                      23.418070537739776
+                    ],
+                    [
+                      45.10389611562601,
+                      30.008212993625218
+                    ],
+                    [
+                      27.128539652584543,
+                      42.67873122007272
+                    ],
+                    [
+                      22.483262087498993,
+                      36.08858876418728
+                    ]
+                  ],
+                  "confidence": 0.820805549621582
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  33.7935791015625,
+                  33.04840087890625
+                ],
+                "length_px": 21.992168426513672,
+                "width_px": 8.062789916992188,
+                "angle": 2.527597188949585
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                33.7935791015625,
+                33.04840087890625,
+                8.062789916992188,
+                21.992168426513672,
+                0.9568008780479431
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_006719.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      40.82841581692036,
+                      23.46247635905454
+                    ],
+                    [
+                      45.468925344340015,
+                      29.84220150449885
+                    ],
+                    [
+                      28.122511917454638,
+                      42.45970381672671
+                    ],
+                    [
+                      23.482002390034985,
+                      36.079978671282404
+                    ]
+                  ],
+                  "confidence": 0.8287621736526489
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  34.4754638671875,
+                  32.961090087890625
+                ],
+                "length_px": 21.449928283691406,
+                "width_px": 7.888930320739746,
+                "angle": 2.512723684310913
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                34.4754638671875,
+                32.961090087890625,
+                7.888930320739746,
+                21.449928283691406,
+                0.9419273138046265
+              ]
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "mean": {
+          "prediction": 2,
+          "margin": -0.30301934480667114
+        },
+        "second": {
+          "prediction": 2,
+          "margin": -0.37844133377075195
+        },
+        "class": {
+          "prediction": 3,
+          "margin": 0.08806562423706055
+        },
+        "baseline": {
+          "prediction": 2,
+          "margin": -0.9250620007514954
+        },
+        "previous_best_mean": {
+          "prediction": 2,
+          "margin": -1.149322271347046
+        },
+        "off": {
+          "prediction": 2,
+          "margin": -0.7396519780158997
+        },
+        "relation_off": {
+          "prediction": 3,
+          "margin": 0.05807387828826904
+        },
+        "merged": {
+          "prediction": 3,
+          "margin": 0.06800317764282227
+        },
+        "spatial_mean": {
+          "prediction": 3,
+          "margin": 0.029367506504058838
+        },
+        "vv_only": {
+          "prediction": 3,
+          "margin": 0.0035734176635742188
+        },
+        "vh_only": {
+          "prediction": 2,
+          "margin": -0.6551597118377686
+        },
+        "covariance_zero": {
+          "prediction": 3,
+          "margin": 0.06860607862472534
+        }
+      },
+      "reference_selection": "Nearest two same-class and nearest confusing-class legal fixed-bank cases under raw pooled cosine; NOT actual attention maximum",
+      "preprocessing": "Native160 crop/pad, VV/VH separate; no image resizing"
+    },
+    {
+      "group": "rescue_anchor",
+      "id": "pub2_opensarship2_001090",
+      "index": 791,
+      "label": 2,
+      "image": "rescue_anchor_791.png",
+      "records": [
+        {
+          "role": "Query",
+          "record": {
+            "id": "pub2_opensarship2_001090",
+            "label": 2,
+            "class_name": "product_chemical_tanker",
+            "original_class_id": 3,
+            "mmsi": "636015142",
+            "pass_group": "S1A_007768_00ACD0",
+            "scene_id": "S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804",
+            "role": "fit_validation",
+            "split": "validation",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 436,
+              "target_manifest_row": 1089,
+              "manifest_position": 436,
+              "obs_id": 436,
+              "table_index": 550,
+              "row_index": 550,
+              "up_index": 550
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804\\Patch_Uint8\\Visual_Tanker_x21428_y7008_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804\\Patch_Uint8\\Visual_Tanker_x21428_y7008_vh.tif"
+            },
+            "native_size": [
+              49,
+              49
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_001090.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      18.309834443119115,
+                      17.470292428400295
+                    ],
+                    [
+                      35.288735152390615,
+                      26.43157138055177
+                    ],
+                    [
+                      32.027812041255885,
+                      32.6100298372247
+                    ],
+                    [
+                      15.048911331984378,
+                      23.64875088507323
+                    ]
+                  ],
+                  "confidence": 0.7526852488517761
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  25.1688232421875,
+                  25.0401611328125
+                ],
+                "length_px": 19.19863510131836,
+                "width_px": 6.986198425292969,
+                "angle": 0.48563095927238464
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                25.1688232421875,
+                25.0401611328125,
+                19.19863510131836,
+                6.986198425292969,
+                0.48563095927238464
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_001090.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      18.854208655718747,
+                      17.70856578216548
+                    ],
+                    [
+                      36.95588536711583,
+                      25.987717380409755
+                    ],
+                    [
+                      33.77640657865626,
+                      32.93938343658452
+                    ],
+                    [
+                      15.674729867259165,
+                      24.660231838340245
+                    ]
+                  ],
+                  "confidence": 0.7661093473434448
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  26.3153076171875,
+                  25.323974609375
+                ],
+                "length_px": 19.9051513671875,
+                "width_px": 7.644262313842773,
+                "angle": 0.42896533012390137
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                26.3153076171875,
+                25.323974609375,
+                19.9051513671875,
+                7.644262313842773,
+                0.42896533012390137
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 1",
+          "record": {
+            "id": "pub2_opensarship2_006629",
+            "label": 2,
+            "class_name": "product_chemical_tanker",
+            "original_class_id": 3,
+            "mmsi": "538003313",
+            "pass_group": "S1A_011990_012809",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 2625,
+              "target_manifest_row": 6628,
+              "manifest_position": 2625,
+              "obs_id": 2625,
+              "table_index": 421,
+              "row_index": 421,
+              "up_index": 421
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1\\Patch_Uint8\\Visual_Tanker_x11720_y14256_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1\\Patch_Uint8\\Visual_Tanker_x11720_y14256_vh.tif"
+            },
+            "native_size": [
+              53,
+              53
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_006629.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      19.485009803495814,
+                      21.647392105922926
+                    ],
+                    [
+                      34.97325545223636,
+                      27.250990837430855
+                    ],
+                    [
+                      32.795873985566686,
+                      33.269233870639574
+                    ],
+                    [
+                      17.30762833682614,
+                      27.665635139131645
+                    ]
+                  ],
+                  "confidence": 0.6987804770469666
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  26.14044189453125,
+                  27.45831298828125
+                ],
+                "length_px": 16.47076416015625,
+                "width_px": 6.400018692016602,
+                "angle": 0.3471453785896301
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                26.14044189453125,
+                27.45831298828125,
+                16.47076416015625,
+                6.400018692016602,
+                0.3471453785896301
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_006629.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      20.318068733705314,
+                      21.54564007058245
+                    ],
+                    [
+                      34.79406894113371,
+                      27.58751127986575
+                    ],
+                    [
+                      32.54472423504469,
+                      32.97682086691755
+                    ],
+                    [
+                      18.068724027616287,
+                      26.93494965763425
+                    ]
+                  ],
+                  "confidence": 0.6332947611808777
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  26.431396484375,
+                  27.26123046875
+                ],
+                "length_px": 15.686261177062988,
+                "width_px": 5.83988094329834,
+                "angle": 0.3953916132450104
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                26.431396484375,
+                27.26123046875,
+                15.686261177062988,
+                5.83988094329834,
+                0.3953916132450104
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 2",
+          "record": {
+            "id": "pub2_opensarship2_005072",
+            "label": 2,
+            "class_name": "product_chemical_tanker",
+            "original_class_id": 3,
+            "mmsi": "311012800",
+            "pass_group": "S1A_010918_0105DD",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1914,
+              "target_manifest_row": 5071,
+              "manifest_position": 1914,
+              "obs_id": 1914,
+              "table_index": 262,
+              "row_index": 262,
+              "up_index": 262
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Tanker_x20190_y10768_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Tanker_x20190_y10768_vh.tif"
+            },
+            "native_size": [
+              53,
+              53
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005072.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      25.107994457375508,
+                      16.049343903837993
+                    ],
+                    [
+                      34.69419024613874,
+                      33.70122671711766
+                    ],
+                    [
+                      27.988074878561992,
+                      37.34311215084951
+                    ],
+                    [
+                      18.401879089798758,
+                      19.691229337569837
+                    ]
+                  ],
+                  "confidence": 0.7560954093933105
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  26.54803466796875,
+                  26.69622802734375
+                ],
+                "length_px": 20.0869140625,
+                "width_px": 7.631206512451172,
+                "angle": 1.0732897520065308
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                26.54803466796875,
+                26.69622802734375,
+                20.0869140625,
+                7.631206512451172,
+                1.0732897520065308
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005072.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      26.256972049674946,
+                      14.840061499990275
+                    ],
+                    [
+                      34.65609261479909,
+                      34.2488901850707
+                    ],
+                    [
+                      26.683518672981304,
+                      37.69900100000972
+                    ],
+                    [
+                      18.284398107857154,
+                      18.2901723149293
+                    ]
+                  ],
+                  "confidence": 0.744666337966919
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  26.470245361328125,
+                  26.26953125
+                ],
+                "length_px": 21.148235321044922,
+                "width_px": 8.687070846557617,
+                "angle": 1.162381887435913
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                26.470245361328125,
+                26.26953125,
+                21.148235321044922,
+                8.687070846557617,
+                1.162381887435913
+              ]
+            }
+          }
+        },
+        {
+          "role": "Confusing class ref",
+          "record": {
+            "id": "pub2_opensarship2_000709",
+            "label": 0,
+            "class_name": "bulk_carrier",
+            "original_class_id": 0,
+            "mmsi": "414707000",
+            "pass_group": "S1A_007710_00AB4B",
+            "scene_id": "S1A_IW_GRDH_1SDV_20150914T102506_20150914T102535_007710_00AB4B_C8F8",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 255,
+              "target_manifest_row": 708,
+              "manifest_position": 255,
+              "obs_id": 255,
+              "table_index": 3,
+              "row_index": 3,
+              "up_index": 3
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150914T102506_20150914T102535_007710_00AB4B_C8F8\\Patch_Uint8\\Visual_Cargo_x10750_y2219_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150914T102506_20150914T102535_007710_00AB4B_C8F8\\Patch_Uint8\\Visual_Cargo_x10750_y2219_vh.tif"
+            },
+            "native_size": [
+              81,
+              81
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_000709.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      31.221638168561597,
+                      34.90937460731903
+                    ],
+                    [
+                      51.79525259033266,
+                      39.50688431649754
+                    ],
+                    [
+                      50.413127456438396,
+                      45.69182168174347
+                    ],
+                    [
+                      29.83951303466734,
+                      41.09431197256496
+                    ]
+                  ],
+                  "confidence": 0.6744215488433838
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  40.8173828125,
+                  40.30059814453125
+                ],
+                "length_px": 21.081050872802734,
+                "width_px": 6.337485313415527,
+                "angle": 0.2198541760444641
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                40.8173828125,
+                40.30059814453125,
+                21.081050872802734,
+                6.337485313415527,
+                0.2198541760444641
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_000709.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      31.36254345206095,
+                      35.24196707316893
+                    ],
+                    [
+                      52.399557233894285,
+                      38.97927861934715
+                    ],
+                    [
+                      51.18530811043905,
+                      45.81418527058107
+                    ],
+                    [
+                      30.14829432860571,
+                      42.07687372440285
+                    ]
+                  ],
+                  "confidence": 0.6645396947860718
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  41.27392578125,
+                  40.528076171875
+                ],
+                "length_px": 21.366409301757812,
+                "width_px": 6.941926956176758,
+                "angle": 0.17581972479820251
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                41.27392578125,
+                40.528076171875,
+                21.366409301757812,
+                6.941926956176758,
+                0.17581972479820251
+              ]
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "mean": {
+          "prediction": 2,
+          "margin": 0.25543010234832764
+        },
+        "second": {
+          "prediction": 2,
+          "margin": 0.41877347230911255
+        },
+        "class": {
+          "prediction": 2,
+          "margin": 0.7094521522521973
+        },
+        "baseline": {
+          "prediction": 0,
+          "margin": -0.010207176208496094
+        },
+        "previous_best_mean": {
+          "prediction": 2,
+          "margin": 0.10074204206466675
+        },
+        "off": {
+          "prediction": 2,
+          "margin": 0.38061004877090454
+        },
+        "relation_off": {
+          "prediction": 2,
+          "margin": 0.6369527578353882
+        },
+        "merged": {
+          "prediction": 2,
+          "margin": 0.6704943776130676
+        },
+        "spatial_mean": {
+          "prediction": 2,
+          "margin": 0.5853637456893921
+        },
+        "vv_only": {
+          "prediction": 2,
+          "margin": 0.5949706435203552
+        },
+        "vh_only": {
+          "prediction": 2,
+          "margin": 0.4950915575027466
+        },
+        "covariance_zero": {
+          "prediction": 2,
+          "margin": 0.6706133484840393
+        }
+      },
+      "reference_selection": "Nearest two same-class and nearest confusing-class legal fixed-bank cases under raw pooled cosine; NOT actual attention maximum",
+      "preprocessing": "Native160 crop/pad, VV/VH separate; no image resizing"
+    },
+    {
+      "group": "harm_anchor",
+      "id": "pub2_opensarship2_003623",
+      "index": 896,
+      "label": 0,
+      "image": "harm_anchor_896.png",
+      "records": [
+        {
+          "role": "Query",
+          "record": {
+            "id": "pub2_opensarship2_003623",
+            "label": 0,
+            "class_name": "bulk_carrier",
+            "original_class_id": 0,
+            "mmsi": "413941000",
+            "pass_group": "S1A_010218_00F169",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160304T095420_20160304T095445_010218_00F169_8B68",
+            "role": "fit_validation",
+            "split": "validation",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1272,
+              "target_manifest_row": 3622,
+              "manifest_position": 1272,
+              "obs_id": 1272,
+              "table_index": 655,
+              "row_index": 655,
+              "up_index": 655
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160304T095420_20160304T095445_010218_00F169_8B68\\Patch_Uint8\\Visual_Cargo_x19281_y11821_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160304T095420_20160304T095445_010218_00F169_8B68\\Patch_Uint8\\Visual_Cargo_x19281_y11821_vh.tif"
+            },
+            "native_size": [
+              81,
+              81
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_003623.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      29.665097703630764,
+                      35.427993240691045
+                    ],
+                    [
+                      52.765805065511145,
+                      38.871376748261234
+                    ],
+                    [
+                      51.707766065900486,
+                      45.969467696808955
+                    ],
+                    [
+                      28.607058704020105,
+                      42.526084189238766
+                    ]
+                  ],
+                  "confidence": 0.4057075083255768
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  40.686431884765625,
+                  40.69873046875
+                ],
+                "length_px": 23.355932235717773,
+                "width_px": 7.176513195037842,
+                "angle": 0.14797016978263855
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                40.686431884765625,
+                40.69873046875,
+                23.355932235717773,
+                7.176513195037842,
+                0.14797016978263855
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_003623.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      30.123200990835183,
+                      34.988754901648484
+                    ],
+                    [
+                      52.76845673342785,
+                      39.06379877007472
+                    ],
+                    [
+                      51.40255584510232,
+                      46.654189434289016
+                    ],
+                    [
+                      28.75730010250965,
+                      42.57914556586278
+                    ]
+                  ],
+                  "confidence": 0.44094720482826233
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  40.76287841796875,
+                  40.82147216796875
+                ],
+                "length_px": 23.008989334106445,
+                "width_px": 7.71230936050415,
+                "angle": 0.17804579436779022
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                40.76287841796875,
+                40.82147216796875,
+                23.008989334106445,
+                7.71230936050415,
+                0.17804579436779022
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 1",
+          "record": {
+            "id": "pub2_opensarship2_000754",
+            "label": 0,
+            "class_name": "bulk_carrier",
+            "original_class_id": 0,
+            "mmsi": "477555000",
+            "pass_group": "S1A_007710_00AB4B",
+            "scene_id": "S1A_IW_GRDH_1SDV_20150914T102506_20150914T102535_007710_00AB4B_C8F8",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 281,
+              "target_manifest_row": 753,
+              "manifest_position": 281,
+              "obs_id": 281,
+              "table_index": 16,
+              "row_index": 16,
+              "up_index": 16
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150914T102506_20150914T102535_007710_00AB4B_C8F8\\Patch_Uint8\\Visual_Cargo_x311_y4174_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150914T102506_20150914T102535_007710_00AB4B_C8F8\\Patch_Uint8\\Visual_Cargo_x311_y4174_vh.tif"
+            },
+            "native_size": [
+              65,
+              65
+            ],
+            "vv": null,
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_000754.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      22.833889031867525,
+                      27.665291539975406
+                    ],
+                    [
+                      40.6928443582041,
+                      27.955367083737904
+                    ],
+                    [
+                      40.55289075328872,
+                      36.57183004205584
+                    ],
+                    [
+                      22.693935426952148,
+                      36.281754498293346
+                    ]
+                  ],
+                  "confidence": 0.25718921422958374
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  31.693389892578125,
+                  32.118560791015625
+                ],
+                "length_px": 17.861310958862305,
+                "width_px": 8.617599487304688,
+                "angle": 0.016241153702139854
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                31.693389892578125,
+                32.118560791015625,
+                17.861310958862305,
+                8.617599487304688,
+                0.016241153702139854
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 2",
+          "record": {
+            "id": "pub2_opensarship2_006477",
+            "label": 0,
+            "class_name": "bulk_carrier",
+            "original_class_id": 0,
+            "mmsi": "257972000",
+            "pass_group": "S1A_011640_011CF2",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160609T224735_20160609T224804_011640_011CF2_48EC",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 2517,
+              "target_manifest_row": 6476,
+              "manifest_position": 2517,
+              "obs_id": 2517,
+              "table_index": 363,
+              "row_index": 363,
+              "up_index": 363
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160609T224735_20160609T224804_011640_011CF2_48EC\\Patch_Uint8\\Visual_Cargo_x11777_y13800_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160609T224735_20160609T224804_011640_011CF2_48EC\\Patch_Uint8\\Visual_Cargo_x11777_y13800_vh.tif"
+            },
+            "native_size": [
+              81,
+              81
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_006477.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      30.98452825598508,
+                      35.451711563838266
+                    ],
+                    [
+                      53.75044297415813,
+                      41.93576744625205
+                    ],
+                    [
+                      51.91647272057742,
+                      48.374948592411734
+                    ],
+                    [
+                      29.15055800240437,
+                      41.89089270999795
+                    ]
+                  ],
+                  "confidence": 0.8374148607254028
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  41.45050048828125,
+                  41.913330078125
+                ],
+                "length_px": 23.671287536621094,
+                "width_px": 6.6952595710754395,
+                "angle": 0.2774673104286194
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                41.45050048828125,
+                41.913330078125,
+                23.671287536621094,
+                6.6952595710754395,
+                0.2774673104286194
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_006477.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      31.408593609056833,
+                      35.20777392200317
+                    ],
+                    [
+                      54.2755135807963,
+                      42.14701356517709
+                    ],
+                    [
+                      52.28598646906816,
+                      48.70311474987183
+                    ],
+                    [
+                      29.419066497328703,
+                      41.76387510669791
+                    ]
+                  ],
+                  "confidence": 0.8250946998596191
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  41.8472900390625,
+                  41.9554443359375
+                ],
+                "length_px": 23.89663314819336,
+                "width_px": 6.851326942443848,
+                "angle": 0.294629842042923
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                41.8472900390625,
+                41.9554443359375,
+                23.89663314819336,
+                6.851326942443848,
+                0.294629842042923
+              ]
+            }
+          }
+        },
+        {
+          "role": "Confusing class ref",
+          "record": {
+            "id": "pub2_opensarship2_004205",
+            "label": 3,
+            "class_name": "container_ship",
+            "original_class_id": 4,
+            "mmsi": "414760000",
+            "pass_group": "S1A_010510_00F9BF",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160324T102458_20160324T102527_010510_00F9BF_9F22",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1531,
+              "target_manifest_row": 4204,
+              "manifest_position": 1531,
+              "obs_id": 1531,
+              "table_index": 171,
+              "row_index": 171,
+              "up_index": 171
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160324T102458_20160324T102527_010510_00F9BF_9F22\\Patch_Uint8\\Visual_Cargo_x1363_y5802_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160324T102458_20160324T102527_010510_00F9BF_9F22\\Patch_Uint8\\Visual_Cargo_x1363_y5802_vh.tif"
+            },
+            "native_size": [
+              101,
+              101
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_004205.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      39.207454914021454,
+                      45.889377244005765
+                    ],
+                    [
+                      63.314894397390574,
+                      49.18334746942586
+                    ],
+                    [
+                      62.294132000041046,
+                      56.653957716931735
+                    ],
+                    [
+                      38.186692516671926,
+                      53.35998749151164
+                    ]
+                  ],
+                  "confidence": 0.37770047783851624
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  50.75079345703125,
+                  51.27166748046875
+                ],
+                "length_px": 24.331438064575195,
+                "width_px": 7.540024757385254,
+                "angle": 0.13579615950584412
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                50.75079345703125,
+                51.27166748046875,
+                24.331438064575195,
+                7.540024757385254,
+                0.13579615950584412
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_004205.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      38.9408372507275,
+                      45.41755997572025
+                    ],
+                    [
+                      64.84801446446362,
+                      49.57108369272143
+                    ],
+                    [
+                      63.64766372583501,
+                      57.05814803209225
+                    ],
+                    [
+                      37.74048651209888,
+                      52.90462431509107
+                    ]
+                  ],
+                  "confidence": 0.5046314597129822
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  51.29425048828125,
+                  51.23785400390625
+                ],
+                "length_px": 26.238018035888672,
+                "width_px": 7.582675933837891,
+                "angle": 0.15897046029567719
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                51.29425048828125,
+                51.23785400390625,
+                26.238018035888672,
+                7.582675933837891,
+                0.15897046029567719
+              ]
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "mean": {
+          "prediction": 3,
+          "margin": -0.18500864505767822
+        },
+        "second": {
+          "prediction": 3,
+          "margin": -0.29091644287109375
+        },
+        "class": {
+          "prediction": 3,
+          "margin": -0.7743903994560242
+        },
+        "baseline": {
+          "prediction": 0,
+          "margin": 0.4066762924194336
+        },
+        "previous_best_mean": {
+          "prediction": 0,
+          "margin": 0.0655508041381836
+        },
+        "off": {
+          "prediction": 0,
+          "margin": 0.13679635524749756
+        },
+        "relation_off": {
+          "prediction": 3,
+          "margin": -0.7140293717384338
+        },
+        "merged": {
+          "prediction": 3,
+          "margin": -0.7414065003395081
+        },
+        "spatial_mean": {
+          "prediction": 3,
+          "margin": -0.6009471416473389
+        },
+        "vv_only": {
+          "prediction": 3,
+          "margin": -0.26762211322784424
+        },
+        "vh_only": {
+          "prediction": 3,
+          "margin": -0.3699719309806824
+        },
+        "covariance_zero": {
+          "prediction": 3,
+          "margin": -0.7404893040657043
+        }
+      },
+      "reference_selection": "Nearest two same-class and nearest confusing-class legal fixed-bank cases under raw pooled cosine; NOT actual attention maximum",
+      "preprocessing": "Native160 crop/pad, VV/VH separate; no image resizing"
+    },
+    {
+      "group": "stable_correct",
+      "id": "pub2_opensarship2_000908",
+      "index": 745,
+      "label": 2,
+      "image": "stable_correct_745.png",
+      "records": [
+        {
+          "role": "Query",
+          "record": {
+            "id": "pub2_opensarship2_000908",
+            "label": 2,
+            "class_name": "product_chemical_tanker",
+            "original_class_id": 3,
+            "mmsi": "477733800",
+            "pass_group": "S1A_007768_00ACD0",
+            "scene_id": "S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804",
+            "role": "fit_validation",
+            "split": "validation",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 352,
+              "target_manifest_row": 907,
+              "manifest_position": 352,
+              "obs_id": 352,
+              "table_index": 504,
+              "row_index": 504,
+              "up_index": 504
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804\\Patch_Uint8\\Visual_Tanker_x22614_y7733_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804\\Patch_Uint8\\Visual_Tanker_x22614_y7733_vh.tif"
+            },
+            "native_size": [
+              61,
+              61
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_000908.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      33.15719966624168,
+                      19.478997201785102
+                    ],
+                    [
+                      40.111555318092314,
+                      24.54289334995193
+                    ],
+                    [
+                      28.753566935320823,
+                      40.14105895055865
+                    ],
+                    [
+                      21.79921128347019,
+                      35.07716280239182
+                    ]
+                  ],
+                  "confidence": 0.8015246391296387
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  30.95538330078125,
+                  29.810028076171875
+                ],
+                "length_px": 19.295249938964844,
+                "width_px": 8.602680206298828,
+                "angle": 2.200173854827881
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                30.95538330078125,
+                29.810028076171875,
+                8.602680206298828,
+                19.295249938964844,
+                0.629377543926239
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_000908.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      31.426729558877874,
+                      18.70147060955965
+                    ],
+                    [
+                      39.582925106849586,
+                      23.836309621681494
+                    ],
+                    [
+                      29.430875421590883,
+                      39.96185946856535
+                    ],
+                    [
+                      21.274679873619164,
+                      34.827020456443506
+                    ]
+                  ],
+                  "confidence": 0.7711388468742371
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  30.428802490234375,
+                  29.3316650390625
+                ],
+                "length_px": 19.055116653442383,
+                "width_px": 9.637950897216797,
+                "angle": 2.1326701641082764
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                30.428802490234375,
+                29.3316650390625,
+                9.637950897216797,
+                19.055116653442383,
+                0.5618738532066345
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 1",
+          "record": {
+            "id": "pub2_opensarship2_005072",
+            "label": 2,
+            "class_name": "product_chemical_tanker",
+            "original_class_id": 3,
+            "mmsi": "311012800",
+            "pass_group": "S1A_010918_0105DD",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1914,
+              "target_manifest_row": 5071,
+              "manifest_position": 1914,
+              "obs_id": 1914,
+              "table_index": 262,
+              "row_index": 262,
+              "up_index": 262
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Tanker_x20190_y10768_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Tanker_x20190_y10768_vh.tif"
+            },
+            "native_size": [
+              53,
+              53
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005072.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      25.107994457375508,
+                      16.049343903837993
+                    ],
+                    [
+                      34.69419024613874,
+                      33.70122671711766
+                    ],
+                    [
+                      27.988074878561992,
+                      37.34311215084951
+                    ],
+                    [
+                      18.401879089798758,
+                      19.691229337569837
+                    ]
+                  ],
+                  "confidence": 0.7560954093933105
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  26.54803466796875,
+                  26.69622802734375
+                ],
+                "length_px": 20.0869140625,
+                "width_px": 7.631206512451172,
+                "angle": 1.0732897520065308
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                26.54803466796875,
+                26.69622802734375,
+                20.0869140625,
+                7.631206512451172,
+                1.0732897520065308
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005072.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      26.256972049674946,
+                      14.840061499990275
+                    ],
+                    [
+                      34.65609261479909,
+                      34.2488901850707
+                    ],
+                    [
+                      26.683518672981304,
+                      37.69900100000972
+                    ],
+                    [
+                      18.284398107857154,
+                      18.2901723149293
+                    ]
+                  ],
+                  "confidence": 0.744666337966919
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  26.470245361328125,
+                  26.26953125
+                ],
+                "length_px": 21.148235321044922,
+                "width_px": 8.687070846557617,
+                "angle": 1.162381887435913
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                26.470245361328125,
+                26.26953125,
+                21.148235321044922,
+                8.687070846557617,
+                1.162381887435913
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 2",
+          "record": {
+            "id": "pub2_opensarship2_006719",
+            "label": 2,
+            "class_name": "product_chemical_tanker",
+            "original_class_id": 3,
+            "mmsi": "636091389",
+            "pass_group": "S1A_011990_012809",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 2694,
+              "target_manifest_row": 6718,
+              "manifest_position": 2694,
+              "obs_id": 2694,
+              "table_index": 458,
+              "row_index": 458,
+              "up_index": 458
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1\\Patch_Uint8\\Visual_Tanker_x13291_y14806_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160703T224737_20160703T224806_011990_012809_27B1\\Patch_Uint8\\Visual_Tanker_x13291_y14806_vh.tif"
+            },
+            "native_size": [
+              65,
+              65
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_006719.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      40.45861855054046,
+                      23.418070537739776
+                    ],
+                    [
+                      45.10389611562601,
+                      30.008212993625218
+                    ],
+                    [
+                      27.128539652584543,
+                      42.67873122007272
+                    ],
+                    [
+                      22.483262087498993,
+                      36.08858876418728
+                    ]
+                  ],
+                  "confidence": 0.820805549621582
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  33.7935791015625,
+                  33.04840087890625
+                ],
+                "length_px": 21.992168426513672,
+                "width_px": 8.062789916992188,
+                "angle": 2.527597188949585
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                33.7935791015625,
+                33.04840087890625,
+                8.062789916992188,
+                21.992168426513672,
+                0.9568008780479431
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_006719.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      40.82841581692036,
+                      23.46247635905454
+                    ],
+                    [
+                      45.468925344340015,
+                      29.84220150449885
+                    ],
+                    [
+                      28.122511917454638,
+                      42.45970381672671
+                    ],
+                    [
+                      23.482002390034985,
+                      36.079978671282404
+                    ]
+                  ],
+                  "confidence": 0.8287621736526489
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  34.4754638671875,
+                  32.961090087890625
+                ],
+                "length_px": 21.449928283691406,
+                "width_px": 7.888930320739746,
+                "angle": 2.512723684310913
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                34.4754638671875,
+                32.961090087890625,
+                7.888930320739746,
+                21.449928283691406,
+                0.9419273138046265
+              ]
+            }
+          }
+        },
+        {
+          "role": "Confusing class ref",
+          "record": {
+            "id": "pub2_opensarship2_001877",
+            "label": 3,
+            "class_name": "container_ship",
+            "original_class_id": 4,
+            "mmsi": "219018271",
+            "pass_group": "S1A_008235_00B97C",
+            "scene_id": "S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 691,
+              "target_manifest_row": 1876,
+              "manifest_position": 691,
+              "obs_id": 691,
+              "table_index": 86,
+              "row_index": 86,
+              "up_index": 86
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9\\Patch_Uint8\\Visual_Cargo_x3557_y7452_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9\\Patch_Uint8\\Visual_Cargo_x3557_y7452_vh.tif"
+            },
+            "native_size": [
+              161,
+              161
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_001877.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      85.9285816699066,
+                      64.27161274190097
+                    ],
+                    [
+                      95.5197171949157,
+                      68.81312806237916
+                    ],
+                    [
+                      77.8377757519684,
+                      106.15526714091153
+                    ],
+                    [
+                      68.2466402269593,
+                      101.61375182043334
+                    ]
+                  ],
+                  "confidence": 0.7779417634010315
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  81.8831787109375,
+                  85.21343994140625
+                ],
+                "length_px": 41.31690216064453,
+                "width_px": 10.612032890319824,
+                "angle": 2.0130298137664795
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                81.8831787109375,
+                85.21343994140625,
+                10.612032890319824,
+                41.31690216064453,
+                0.4422333538532257
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_001877.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      85.22783426025683,
+                      60.25461941477466
+                    ],
+                    [
+                      96.75677276942281,
+                      65.60741137530965
+                    ],
+                    [
+                      78.20514913818067,
+                      105.56422824147535
+                    ],
+                    [
+                      66.67621062901469,
+                      100.21143628094035
+                    ]
+                  ],
+                  "confidence": 0.8528192043304443
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  81.71649169921875,
+                  82.909423828125
+                ],
+                "length_px": 44.053489685058594,
+                "width_px": 12.71097183227539,
+                "angle": 2.005471706390381
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                81.71649169921875,
+                82.909423828125,
+                12.71097183227539,
+                44.053489685058594,
+                0.4346752464771271
+              ]
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "mean": {
+          "prediction": 2,
+          "margin": 3.012505531311035
+        },
+        "second": {
+          "prediction": 2,
+          "margin": 3.2093546390533447
+        },
+        "class": {
+          "prediction": 2,
+          "margin": 3.6660499572753906
+        },
+        "baseline": {
+          "prediction": 2,
+          "margin": 2.8484883308410645
+        },
+        "previous_best_mean": {
+          "prediction": 2,
+          "margin": 3.0723278522491455
+        },
+        "off": {
+          "prediction": 2,
+          "margin": 3.0169224739074707
+        },
+        "relation_off": {
+          "prediction": 2,
+          "margin": 3.6567952632904053
+        },
+        "merged": {
+          "prediction": 2,
+          "margin": 3.665898323059082
+        },
+        "spatial_mean": {
+          "prediction": 2,
+          "margin": 3.586862087249756
+        },
+        "vv_only": {
+          "prediction": 2,
+          "margin": 3.296739339828491
+        },
+        "vh_only": {
+          "prediction": 2,
+          "margin": 3.386232852935791
+        },
+        "covariance_zero": {
+          "prediction": 2,
+          "margin": 3.6659507751464844
+        }
+      },
+      "reference_selection": "Nearest two same-class and nearest confusing-class legal fixed-bank cases under raw pooled cosine; NOT actual attention maximum",
+      "preprocessing": "Native160 crop/pad, VV/VH separate; no image resizing"
+    },
+    {
+      "group": "stable_wrong",
+      "id": "pub2_opensarship2_000918",
+      "index": 753,
+      "label": 0,
+      "image": "stable_wrong_753.png",
+      "records": [
+        {
+          "role": "Query",
+          "record": {
+            "id": "pub2_opensarship2_000918",
+            "label": 0,
+            "class_name": "bulk_carrier",
+            "original_class_id": 0,
+            "mmsi": "636014995",
+            "pass_group": "S1A_007768_00ACD0",
+            "scene_id": "S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804",
+            "role": "fit_validation",
+            "split": "validation",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 361,
+              "target_manifest_row": 917,
+              "manifest_position": 361,
+              "obs_id": 361,
+              "table_index": 512,
+              "row_index": 512,
+              "up_index": 512
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804\\Patch_Uint8\\Visual_Cargo_x20934_y8590_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804\\Patch_Uint8\\Visual_Cargo_x20934_y8590_vh.tif"
+            },
+            "native_size": [
+              105,
+              105
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_000918.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      53.85850955509351,
+                      36.85859756637023
+                    ],
+                    [
+                      61.37005204391797,
+                      39.82443872037175
+                    ],
+                    [
+                      50.52119015193774,
+                      67.30119247269228
+                    ],
+                    [
+                      43.00964766311328,
+                      64.33535131869075
+                    ]
+                  ],
+                  "confidence": 0.8364145159721375
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  52.189849853515625,
+                  52.07989501953125
+                ],
+                "length_px": 29.540985107421875,
+                "width_px": 8.075858116149902,
+                "angle": 1.9468446969985962
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                52.189849853515625,
+                52.07989501953125,
+                8.075858116149902,
+                29.540985107421875,
+                0.37604832649230957
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_000918.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      53.07298909551281,
+                      35.79350633216423
+                    ],
+                    [
+                      61.28800189683588,
+                      38.882389437745346
+                    ],
+                    [
+                      50.78180826776844,
+                      66.82404737877327
+                    ],
+                    [
+                      42.56679546644537,
+                      63.735164273192154
+                    ]
+                  ],
+                  "confidence": 0.8215879201889038
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  51.927398681640625,
+                  51.30877685546875
+                ],
+                "length_px": 29.851572036743164,
+                "width_px": 8.776538848876953,
+                "angle": 1.9304475784301758
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                51.927398681640625,
+                51.30877685546875,
+                8.776538848876953,
+                29.851572036743164,
+                0.3596511781215668
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 1",
+          "record": {
+            "id": "pub2_opensarship2_005188",
+            "label": 0,
+            "class_name": "bulk_carrier",
+            "original_class_id": 0,
+            "mmsi": "259002000",
+            "pass_group": "S1A_010918_0105DD",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1995,
+              "target_manifest_row": 5187,
+              "manifest_position": 1995,
+              "obs_id": 1995,
+              "table_index": 329,
+              "row_index": 329,
+              "up_index": 329
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Cargo_x19341_y8421_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Cargo_x19341_y8421_vh.tif"
+            },
+            "native_size": [
+              77,
+              77
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005188.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      39.220094122582815,
+                      27.847205989270133
+                    ],
+                    [
+                      45.25277994686643,
+                      47.75128013509233
+                    ],
+                    [
+                      37.954771600073435,
+                      49.96321881541736
+                    ],
+                    [
+                      31.92208577578982,
+                      30.059144669595174
+                    ]
+                  ],
+                  "confidence": 0.678616464138031
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  38.587432861328125,
+                  38.90521240234375
+                ],
+                "length_px": 20.798208236694336,
+                "width_px": 7.625850677490234,
+                "angle": 1.2765089273452759
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                38.587432861328125,
+                38.90521240234375,
+                20.798208236694336,
+                7.625850677490234,
+                1.2765089273452759
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005188.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      39.84894026622784,
+                      28.52440305590259
+                    ],
+                    [
+                      45.13605484761834,
+                      49.60487264230847
+                    ],
+                    [
+                      37.49761735095966,
+                      51.52064088940991
+                    ],
+                    [
+                      32.21050276956916,
+                      30.44017130300403
+                    ]
+                  ],
+                  "confidence": 0.6326344013214111
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  38.67327880859375,
+                  40.02252197265625
+                ],
+                "length_px": 21.733379364013672,
+                "width_px": 7.875017166137695,
+                "angle": 1.325058937072754
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                38.67327880859375,
+                40.02252197265625,
+                21.733379364013672,
+                7.875017166137695,
+                1.325058937072754
+              ]
+            }
+          }
+        },
+        {
+          "role": "Same class ref 2",
+          "record": {
+            "id": "pub2_opensarship2_005133",
+            "label": 0,
+            "class_name": "bulk_carrier",
+            "original_class_id": 0,
+            "mmsi": "566678000",
+            "pass_group": "S1A_010918_0105DD",
+            "scene_id": "S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 1960,
+              "target_manifest_row": 5132,
+              "manifest_position": 1960,
+              "obs_id": 1960,
+              "table_index": 301,
+              "row_index": 301,
+              "up_index": 301
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Cargo_x21620_y12208_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20160421T095422_20160421T095447_010918_0105DD_19CF\\Patch_Uint8\\Visual_Cargo_x21620_y12208_vh.tif"
+            },
+            "native_size": [
+              113,
+              113
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_005133.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      57.55549509328284,
+                      41.3860421715089
+                    ],
+                    [
+                      67.21656793919888,
+                      72.91148735760058
+                    ],
+                    [
+                      59.04252736765466,
+                      75.4164480628661
+                    ],
+                    [
+                      49.38145452173862,
+                      43.89100287677443
+                    ]
+                  ],
+                  "confidence": 0.8102734684944153
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  58.29901123046875,
+                  58.4012451171875
+                ],
+                "length_px": 32.972564697265625,
+                "width_px": 8.54925537109375,
+                "angle": 1.2734297513961792
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                58.29901123046875,
+                58.4012451171875,
+                32.972564697265625,
+                8.54925537109375,
+                1.2734297513961792
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_005133.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      57.500460227981485,
+                      40.05563232403377
+                    ],
+                    [
+                      66.94664271070543,
+                      74.9850081247418
+                    ],
+                    [
+                      59.111966529831015,
+                      77.10379150409122
+                    ],
+                    [
+                      49.665784047107074,
+                      42.17441570338321
+                    ]
+                  ],
+                  "confidence": 0.7826764583587646
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  58.30621337890625,
+                  58.5797119140625
+                ],
+                "length_px": 36.18413543701172,
+                "width_px": 8.116119384765625,
+                "angle": 1.3066775798797607
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                58.30621337890625,
+                58.5797119140625,
+                36.18413543701172,
+                8.116119384765625,
+                1.3066775798797607
+              ]
+            }
+          }
+        },
+        {
+          "role": "Confusing class ref",
+          "record": {
+            "id": "pub2_opensarship2_001877",
+            "label": 3,
+            "class_name": "container_ship",
+            "original_class_id": 4,
+            "mmsi": "219018271",
+            "pass_group": "S1A_008235_00B97C",
+            "scene_id": "S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9",
+            "role": "fit_train",
+            "split": "source_fit",
+            "input_scale": 1.0,
+            "canvas_size": 160,
+            "indices": {
+              "legacy_row_index": 691,
+              "target_manifest_row": 1876,
+              "manifest_position": 691,
+              "obs_id": 691,
+              "table_index": 86,
+              "row_index": 86,
+              "up_index": 86
+            },
+            "source_paths": {
+              "vv": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9\\Patch_Uint8\\Visual_Cargo_x3557_y7452_vv.tif",
+              "vh": "D:\\Documents\\project_root\\project_data\\OpenSARShip_2\\S1A_IW_GRDH_1SDV_20151020T102506_20151020T102535_008235_00B97C_D3E9\\Patch_Uint8\\Visual_Cargo_x3557_y7452_vh.tif"
+            },
+            "native_size": [
+              161,
+              161
+            ],
+            "vv": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vv\\pub2_opensarship2_001877.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      85.9285816699066,
+                      64.27161274190097
+                    ],
+                    [
+                      95.5197171949157,
+                      68.81312806237916
+                    ],
+                    [
+                      77.8377757519684,
+                      106.15526714091153
+                    ],
+                    [
+                      68.2466402269593,
+                      101.61375182043334
+                    ]
+                  ],
+                  "confidence": 0.7779417634010315
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  81.8831787109375,
+                  85.21343994140625
+                ],
+                "length_px": 41.31690216064453,
+                "width_px": 10.612032890319824,
+                "angle": 2.0130298137664795
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                81.8831787109375,
+                85.21343994140625,
+                10.612032890319824,
+                41.31690216064453,
+                0.4422333538532257
+              ]
+            },
+            "vh": {
+              "image": "D:\\Documents\\project_root\\project_data\\public_opensarship2\\opensarship2\\chips\\vh\\pub2_opensarship2_001877.png",
+              "detections": [
+                {
+                  "corners": [
+                    [
+                      85.22783426025683,
+                      60.25461941477466
+                    ],
+                    [
+                      96.75677276942281,
+                      65.60741137530965
+                    ],
+                    [
+                      78.20514913818067,
+                      105.56422824147535
+                    ],
+                    [
+                      66.67621062901469,
+                      100.21143628094035
+                    ]
+                  ],
+                  "confidence": 0.8528192043304443
+                }
+              ],
+              "target_index": 0,
+              "ship_axis": {
+                "center": [
+                  81.71649169921875,
+                  82.909423828125
+                ],
+                "length_px": 44.053489685058594,
+                "width_px": 12.71097183227539,
+                "angle": 2.005471706390381
+              },
+              "radar_axis_rad": null,
+              "raw_xywhr": [
+                81.71649169921875,
+                82.909423828125,
+                12.71097183227539,
+                44.053489685058594,
+                0.4346752464771271
+              ]
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "mean": {
+          "prediction": 3,
+          "margin": -2.948448657989502
+        },
+        "second": {
+          "prediction": 3,
+          "margin": -2.9738457202911377
+        },
+        "class": {
+          "prediction": 3,
+          "margin": -3.6735610961914062
+        },
+        "baseline": {
+          "prediction": 3,
+          "margin": -2.766596555709839
+        },
+        "previous_best_mean": {
+          "prediction": 3,
+          "margin": -2.865701198577881
+        },
+        "off": {
+          "prediction": 3,
+          "margin": -2.455850839614868
+        },
+        "relation_off": {
+          "prediction": 3,
+          "margin": -3.6797432899475098
+        },
+        "merged": {
+          "prediction": 3,
+          "margin": -3.674215793609619
+        },
+        "spatial_mean": {
+          "prediction": 3,
+          "margin": -3.6554975509643555
+        },
+        "vv_only": {
+          "prediction": 3,
+          "margin": -2.7286899089813232
+        },
+        "vh_only": {
+          "prediction": 3,
+          "margin": -3.400722026824951
+        },
+        "covariance_zero": {
+          "prediction": 3,
+          "margin": -3.67411208152771
+        }
+      },
+      "reference_selection": "Nearest two same-class and nearest confusing-class legal fixed-bank cases under raw pooled cosine; NOT actual attention maximum",
+      "preprocessing": "Native160 crop/pad, VV/VH separate; no image resizing"
+    }
+  ],
+  "orders_equal": true
+}

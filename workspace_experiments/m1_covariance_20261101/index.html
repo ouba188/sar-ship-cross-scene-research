@@ -1,0 +1,1365 @@
+<html><meta charset="utf-8"><title>M1 class-competitive covariance pilot</title>
+<style>body{font-family:Arial;margin:24px}img{max-width:100%;height:auto}td,th{padding:5px;border:1px solid #bbb}table{border-collapse:collapse}</style>
+<h1>M1: mean vs low-rank second-order vs class-competitive relation</h1>
+<p>OSS2 four-class source719 / historical development228 / fixed32 source references. Development-selected results, not independent confirmation. M1 + position-specific conv3 + head trained; M2/M3 frozen. VV/VH separate. No explicit frequency.</p>
+<p><a href="FINDINGS_ZH.md">Findings and mechanism boundaries</a> | <a href="repeat_gallery.html">Seeds29/43 native rescue/harm gallery</a></p>
+<pre>{
+  &quot;mean&quot;: {
+    &quot;run&quot;: &quot;early_mean_g1_s17&quot;,
+    &quot;position&quot;: &quot;early&quot;,
+    &quot;gain&quot;: 0.1,
+    &quot;epoch&quot;: 5,
+    &quot;metrics&quot;: {
+      &quot;oa&quot;: 60.96491228070175,
+      &quot;ba&quot;: 53.48351105346203,
+      &quot;nll&quot;: 1.2628775513087143,
+      &quot;balanced_nll&quot;: 1.451683495146666
+    }
+  },
+  &quot;second&quot;: {
+    &quot;run&quot;: &quot;early_second_g1_s17&quot;,
+    &quot;position&quot;: &quot;early&quot;,
+    &quot;gain&quot;: 0.1,
+    &quot;epoch&quot;: 6,
+    &quot;metrics&quot;: {
+      &quot;oa&quot;: 60.96491228070175,
+      &quot;ba&quot;: 53.48351105346203,
+      &quot;nll&quot;: 1.2684316172892995,
+      &quot;balanced_nll&quot;: 1.4517360207473842
+    }
+  },
+  &quot;class&quot;: {
+    &quot;run&quot;: &quot;early_class_g3_s17&quot;,
+    &quot;position&quot;: &quot;early&quot;,
+    &quot;gain&quot;: 0.3,
+    &quot;epoch&quot;: 6,
+    &quot;metrics&quot;: {
+      &quot;oa&quot;: 61.8421052631579,
+      &quot;ba&quot;: 54.0517662517056,
+      &quot;nll&quot;: 1.263736179160116,
+      &quot;balanced_nll&quot;: 1.4524026858614045
+    }
+  }
+}</pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>run</th>
+      <th>position</th>
+      <th>kind</th>
+      <th>gain</th>
+      <th>seed</th>
+      <th>epoch</th>
+      <th>ce</th>
+      <th>auxiliary_ce</th>
+      <th>vv_update</th>
+      <th>vh_update</th>
+      <th>oa</th>
+      <th>ba</th>
+      <th>nll</th>
+      <th>balanced_nll</th>
+      <th>last_oa</th>
+      <th>last_ba</th>
+      <th>seconds</th>
+      <th>trainable</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>early_class_g1_s17</td>
+      <td>early</td>
+      <td>class</td>
+      <td>0.1</td>
+      <td>17</td>
+      <td>6</td>
+      <td>0.374271</td>
+      <td>1.257377</td>
+      <td>0.020265</td>
+      <td>0.022091</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.268696</td>
+      <td>1.452882</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>61.403086</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>early_class_g3_s17</td>
+      <td>early</td>
+      <td>class</td>
+      <td>0.3</td>
+      <td>17</td>
+      <td>6</td>
+      <td>0.360232</td>
+      <td>1.282930</td>
+      <td>0.044793</td>
+      <td>0.050376</td>
+      <td>61.842105</td>
+      <td>54.051766</td>
+      <td>1.263736</td>
+      <td>1.452403</td>
+      <td>61.842105</td>
+      <td>54.051766</td>
+      <td>55.191738</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>early_class_g3_s29</td>
+      <td>early</td>
+      <td>class</td>
+      <td>0.3</td>
+      <td>29</td>
+      <td>6</td>
+      <td>0.358859</td>
+      <td>1.292469</td>
+      <td>0.040168</td>
+      <td>0.047739</td>
+      <td>61.842105</td>
+      <td>54.632936</td>
+      <td>1.258460</td>
+      <td>1.438296</td>
+      <td>61.842105</td>
+      <td>54.632936</td>
+      <td>45.952415</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>early_class_g3_s43</td>
+      <td>early</td>
+      <td>class</td>
+      <td>0.3</td>
+      <td>43</td>
+      <td>6</td>
+      <td>0.366308</td>
+      <td>1.287474</td>
+      <td>0.043289</td>
+      <td>0.043450</td>
+      <td>61.842105</td>
+      <td>54.058224</td>
+      <td>1.258247</td>
+      <td>1.445999</td>
+      <td>61.842105</td>
+      <td>54.058224</td>
+      <td>51.399719</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>early_mean_g1_s17</td>
+      <td>early</td>
+      <td>mean</td>
+      <td>0.1</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.384577</td>
+      <td>1.306475</td>
+      <td>0.022063</td>
+      <td>0.023961</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.262878</td>
+      <td>1.451683</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>68.115119</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>early_mean_g1_s29</td>
+      <td>early</td>
+      <td>mean</td>
+      <td>0.1</td>
+      <td>29</td>
+      <td>5</td>
+      <td>0.383031</td>
+      <td>1.318512</td>
+      <td>0.022009</td>
+      <td>0.023416</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.263379</td>
+      <td>1.448479</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>51.292798</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>early_mean_g1_s43</td>
+      <td>early</td>
+      <td>mean</td>
+      <td>0.1</td>
+      <td>43</td>
+      <td>5</td>
+      <td>0.390615</td>
+      <td>1.318088</td>
+      <td>0.021328</td>
+      <td>0.024048</td>
+      <td>61.403509</td>
+      <td>53.196155</td>
+      <td>1.260956</td>
+      <td>1.463247</td>
+      <td>61.403509</td>
+      <td>53.770867</td>
+      <td>51.150776</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>early_mean_g3_s17</td>
+      <td>early</td>
+      <td>mean</td>
+      <td>0.3</td>
+      <td>17</td>
+      <td>4</td>
+      <td>0.387171</td>
+      <td>1.337226</td>
+      <td>0.037709</td>
+      <td>0.037358</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.270837</td>
+      <td>1.453969</td>
+      <td>60.964912</td>
+      <td>52.902341</td>
+      <td>45.765241</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>early_second_g1_s17</td>
+      <td>early</td>
+      <td>second</td>
+      <td>0.1</td>
+      <td>17</td>
+      <td>6</td>
+      <td>0.373745</td>
+      <td>1.252724</td>
+      <td>0.020210</td>
+      <td>0.021870</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.268432</td>
+      <td>1.451736</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>61.303211</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>early_second_g1_s29</td>
+      <td>early</td>
+      <td>second</td>
+      <td>0.1</td>
+      <td>29</td>
+      <td>6</td>
+      <td>0.373466</td>
+      <td>1.265866</td>
+      <td>0.017803</td>
+      <td>0.021190</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.267609</td>
+      <td>1.446486</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>48.572964</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>early_second_g1_s43</td>
+      <td>early</td>
+      <td>second</td>
+      <td>0.1</td>
+      <td>43</td>
+      <td>6</td>
+      <td>0.377060</td>
+      <td>1.259670</td>
+      <td>0.019513</td>
+      <td>0.021614</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.265528</td>
+      <td>1.451258</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>44.713633</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>early_second_g3_s17</td>
+      <td>early</td>
+      <td>second</td>
+      <td>0.3</td>
+      <td>17</td>
+      <td>4</td>
+      <td>0.387165</td>
+      <td>1.342246</td>
+      <td>0.028020</td>
+      <td>0.030947</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.270744</td>
+      <td>1.451322</td>
+      <td>61.403509</td>
+      <td>53.189697</td>
+      <td>44.579890</td>
+      <td>131668</td>
+    </tr>
+    <tr>
+      <td>late_class_g1_s17</td>
+      <td>late</td>
+      <td>class</td>
+      <td>0.1</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.379109</td>
+      <td>1.101713</td>
+      <td>0.021813</td>
+      <td>0.016788</td>
+      <td>59.210526</td>
+      <td>51.553858</td>
+      <td>1.279364</td>
+      <td>1.458176</td>
+      <td>58.333333</td>
+      <td>50.979145</td>
+      <td>25.946844</td>
+      <td>353876</td>
+    </tr>
+    <tr>
+      <td>late_class_g3_s17</td>
+      <td>late</td>
+      <td>class</td>
+      <td>0.3</td>
+      <td>17</td>
+      <td>6</td>
+      <td>0.349507</td>
+      <td>1.099612</td>
+      <td>0.060774</td>
+      <td>0.053806</td>
+      <td>58.333333</td>
+      <td>51.785203</td>
+      <td>1.295673</td>
+      <td>1.467422</td>
+      <td>58.333333</td>
+      <td>51.785203</td>
+      <td>25.741704</td>
+      <td>353876</td>
+    </tr>
+    <tr>
+      <td>late_mean_g1_s17</td>
+      <td>late</td>
+      <td>mean</td>
+      <td>0.1</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.377552</td>
+      <td>1.084822</td>
+      <td>0.026757</td>
+      <td>0.022922</td>
+      <td>59.210526</td>
+      <td>51.553858</td>
+      <td>1.280384</td>
+      <td>1.459987</td>
+      <td>58.333333</td>
+      <td>50.979145</td>
+      <td>28.418119</td>
+      <td>353876</td>
+    </tr>
+    <tr>
+      <td>late_mean_g3_s17</td>
+      <td>late</td>
+      <td>mean</td>
+      <td>0.3</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.362527</td>
+      <td>1.102758</td>
+      <td>0.065997</td>
+      <td>0.058172</td>
+      <td>59.649123</td>
+      <td>52.647272</td>
+      <td>1.285026</td>
+      <td>1.467918</td>
+      <td>58.333333</td>
+      <td>51.785203</td>
+      <td>24.338197</td>
+      <td>353876</td>
+    </tr>
+    <tr>
+      <td>late_second_g1_s17</td>
+      <td>late</td>
+      <td>second</td>
+      <td>0.1</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.378967</td>
+      <td>1.120428</td>
+      <td>0.022056</td>
+      <td>0.015490</td>
+      <td>59.210526</td>
+      <td>51.553858</td>
+      <td>1.279087</td>
+      <td>1.458091</td>
+      <td>58.333333</td>
+      <td>50.979145</td>
+      <td>25.653534</td>
+      <td>353876</td>
+    </tr>
+    <tr>
+      <td>late_second_g3_s17</td>
+      <td>late</td>
+      <td>second</td>
+      <td>0.3</td>
+      <td>17</td>
+      <td>6</td>
+      <td>0.348242</td>
+      <td>1.146176</td>
+      <td>0.061029</td>
+      <td>0.052221</td>
+      <td>58.333333</td>
+      <td>51.785203</td>
+      <td>1.295804</td>
+      <td>1.467673</td>
+      <td>58.333333</td>
+      <td>51.785203</td>
+      <td>25.275910</td>
+      <td>353876</td>
+    </tr>
+  </tbody>
+</table>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>candidate</th>
+      <th>control</th>
+      <th>scope</th>
+      <th>rescues</th>
+      <th>harms</th>
+      <th>changes</th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>early_class_g1_s17</td>
+      <td>early_mean_g1_s17</td>
+      <td>matched_selected</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.005819</td>
+    </tr>
+    <tr>
+      <td>early_class_g1_s17</td>
+      <td>early_mean_g1_s17</td>
+      <td>matched_last</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001251</td>
+    </tr>
+    <tr>
+      <td>early_class_g1_s17</td>
+      <td>early_second_g1_s17</td>
+      <td>matched_selected</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000265</td>
+    </tr>
+    <tr>
+      <td>early_class_g1_s17</td>
+      <td>early_second_g1_s17</td>
+      <td>matched_last</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000265</td>
+    </tr>
+    <tr>
+      <td>early_class_g3_s17</td>
+      <td>early_mean_g3_s17</td>
+      <td>matched_selected</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>0.877193</td>
+      <td>0.568255</td>
+      <td>-0.007101</td>
+    </tr>
+    <tr>
+      <td>early_class_g3_s17</td>
+      <td>early_mean_g3_s17</td>
+      <td>matched_last</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>0.877193</td>
+      <td>1.149425</td>
+      <td>-0.001996</td>
+    </tr>
+    <tr>
+      <td>early_class_g3_s17</td>
+      <td>early_second_g3_s17</td>
+      <td>matched_selected</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>0.877193</td>
+      <td>0.568255</td>
+      <td>-0.007008</td>
+    </tr>
+    <tr>
+      <td>early_class_g3_s17</td>
+      <td>early_second_g3_s17</td>
+      <td>matched_last</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.001335</td>
+    </tr>
+    <tr>
+      <td>late_class_g1_s17</td>
+      <td>late_mean_g1_s17</td>
+      <td>matched_selected</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001020</td>
+    </tr>
+    <tr>
+      <td>late_class_g1_s17</td>
+      <td>late_mean_g1_s17</td>
+      <td>matched_last</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001230</td>
+    </tr>
+    <tr>
+      <td>late_class_g1_s17</td>
+      <td>late_second_g1_s17</td>
+      <td>matched_selected</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000277</td>
+    </tr>
+    <tr>
+      <td>late_class_g1_s17</td>
+      <td>late_second_g1_s17</td>
+      <td>matched_last</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000087</td>
+    </tr>
+    <tr>
+      <td>late_class_g3_s17</td>
+      <td>late_mean_g3_s17</td>
+      <td>matched_selected</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+      <td>-1.315789</td>
+      <td>-0.862069</td>
+      <td>0.010647</td>
+    </tr>
+    <tr>
+      <td>late_class_g3_s17</td>
+      <td>late_mean_g3_s17</td>
+      <td>matched_last</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000682</td>
+    </tr>
+    <tr>
+      <td>late_class_g3_s17</td>
+      <td>late_second_g3_s17</td>
+      <td>matched_selected</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000131</td>
+    </tr>
+    <tr>
+      <td>late_class_g3_s17</td>
+      <td>late_second_g3_s17</td>
+      <td>matched_last</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000131</td>
+    </tr>
+    <tr>
+      <td>early_class_g3_s17</td>
+      <td>early_mean_g1_s17</td>
+      <td>independently_tuned_best</td>
+      <td>2</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.877193</td>
+      <td>0.568255</td>
+      <td>0.000859</td>
+    </tr>
+    <tr>
+      <td>early_class_g3_s17</td>
+      <td>early_second_g1_s17</td>
+      <td>independently_tuned_best</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>0.877193</td>
+      <td>0.568255</td>
+      <td>-0.004695</td>
+    </tr>
+    <tr>
+      <td>early_class_g3_s17</td>
+      <td>baseline</td>
+      <td>historical_reference</td>
+      <td>8</td>
+      <td>1</td>
+      <td>12</td>
+      <td>3.070175</td>
+      <td>3.359977</td>
+      <td>-0.032030</td>
+    </tr>
+    <tr>
+      <td>early_class_g3_s17</td>
+      <td>previous_best_mean</td>
+      <td>historical_reference</td>
+      <td>6</td>
+      <td>2</td>
+      <td>11</td>
+      <td>1.754386</td>
+      <td>1.123596</td>
+      <td>-0.033894</td>
+    </tr>
+  </tbody>
+</table>
+<h2>Frozen-choice training repeats</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>seed</th>
+      <th>kind</th>
+      <th>run</th>
+      <th>epoch</th>
+      <th>oa</th>
+      <th>ba</th>
+      <th>nll</th>
+      <th>balanced_nll</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>17</td>
+      <td>mean</td>
+      <td>early_mean_g1_s17</td>
+      <td>5</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.262878</td>
+      <td>1.451683</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>second</td>
+      <td>early_second_g1_s17</td>
+      <td>6</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.268432</td>
+      <td>1.451736</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>class</td>
+      <td>early_class_g3_s17</td>
+      <td>6</td>
+      <td>61.842105</td>
+      <td>54.051766</td>
+      <td>1.263736</td>
+      <td>1.452403</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>mean</td>
+      <td>early_mean_g1_s29</td>
+      <td>5</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.263379</td>
+      <td>1.448479</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>second</td>
+      <td>early_second_g1_s29</td>
+      <td>6</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.267609</td>
+      <td>1.446486</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>class</td>
+      <td>early_class_g3_s29</td>
+      <td>6</td>
+      <td>61.842105</td>
+      <td>54.632936</td>
+      <td>1.258460</td>
+      <td>1.438296</td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>mean</td>
+      <td>early_mean_g1_s43</td>
+      <td>5</td>
+      <td>61.403509</td>
+      <td>53.196155</td>
+      <td>1.260956</td>
+      <td>1.463247</td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>second</td>
+      <td>early_second_g1_s43</td>
+      <td>6</td>
+      <td>60.964912</td>
+      <td>53.483511</td>
+      <td>1.265528</td>
+      <td>1.451258</td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>class</td>
+      <td>early_class_g3_s43</td>
+      <td>6</td>
+      <td>61.842105</td>
+      <td>54.058224</td>
+      <td>1.258247</td>
+      <td>1.445999</td>
+    </tr>
+  </tbody>
+</table>
+<p>The class candidate beats the mean on OA/BA in all three seeds. However, covariance-zero and merged-class inference diagnostics have zero top-1 changes in all three: package-level gain does not establish unique covariance necessity.</p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>seed</th>
+      <th>control</th>
+      <th>rescues</th>
+      <th>harms</th>
+      <th>changes</th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>17</td>
+      <td>mean</td>
+      <td>2</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.877193</td>
+      <td>0.568255</td>
+      <td>0.000859</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>second</td>
+      <td>2</td>
+      <td>0</td>
+      <td>4</td>
+      <td>0.877193</td>
+      <td>0.568255</td>
+      <td>-0.004695</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>off</td>
+      <td>7</td>
+      <td>1</td>
+      <td>10</td>
+      <td>2.631579</td>
+      <td>2.497908</td>
+      <td>-0.016787</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>relation_off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>-0.000865</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>merged</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001091</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>spatial_mean</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.003295</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>covariance_zero</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001074</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>mean</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0.877193</td>
+      <td>1.149425</td>
+      <td>-0.004919</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>second</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0.877193</td>
+      <td>1.149425</td>
+      <td>-0.009148</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>off</td>
+      <td>7</td>
+      <td>1</td>
+      <td>8</td>
+      <td>2.631579</td>
+      <td>3.079078</td>
+      <td>-0.024952</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>relation_off</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001915</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>merged</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001646</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>spatial_mean</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>-0.005029</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>covariance_zero</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001620</td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>mean</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>-0.002709</td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>second</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.877193</td>
+      <td>0.574713</td>
+      <td>-0.007282</td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>off</td>
+      <td>6</td>
+      <td>1</td>
+      <td>8</td>
+      <td>2.192982</td>
+      <td>2.217009</td>
+      <td>-0.016779</td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>relation_off</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000992</td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>merged</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000951</td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>spatial_mean</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.003294</td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>covariance_zero</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000940</td>
+    </tr>
+  </tbody>
+</table>
+<h2>rescue_mean pub2_opensarship2_000932</h2>
+<img src="rescue_mean_761.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.4867894649505615
+  },
+  &quot;second&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.3753044605255127
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.026113510131835938
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.9676241874694824
+  },
+  &quot;previous_best_mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.9103372097015381
+  },
+  &quot;off&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.7008355855941772
+  },
+  &quot;relation_off&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.10196399688720703
+  },
+  &quot;merged&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.07311904430389404
+  },
+  &quot;spatial_mean&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.003915905952453613
+  },
+  &quot;vv_only&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.9597066640853882
+  },
+  &quot;vh_only&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.2849850654602051
+  },
+  &quot;covariance_zero&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.07373178005218506
+  }
+}</pre>
+<h2>relation_rescue pub2_opensarship2_003638</h2>
+<img src="relation_rescue_908.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.09458649158477783
+  },
+  &quot;second&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.14958035945892334
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.006859421730041504
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.3471970558166504
+  },
+  &quot;previous_best_mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.19412624835968018
+  },
+  &quot;off&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.2975531816482544
+  },
+  &quot;relation_off&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.016242027282714844
+  },
+  &quot;merged&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.0018543004989624023
+  },
+  &quot;spatial_mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.005070686340332031
+  },
+  &quot;vv_only&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.11256980895996094
+  },
+  &quot;vh_only&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.19184255599975586
+  },
+  &quot;covariance_zero&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.0010677576065063477
+  }
+}</pre>
+<h2>rescue_second pub2_opensarship2_003491</h2>
+<img src="rescue_second_847.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.30301934480667114
+  },
+  &quot;second&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.37844133377075195
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.08806562423706055
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.9250620007514954
+  },
+  &quot;previous_best_mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -1.149322271347046
+  },
+  &quot;off&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.7396519780158997
+  },
+  &quot;relation_off&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.05807387828826904
+  },
+  &quot;merged&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.06800317764282227
+  },
+  &quot;spatial_mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.029367506504058838
+  },
+  &quot;vv_only&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.0035734176635742188
+  },
+  &quot;vh_only&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.6551597118377686
+  },
+  &quot;covariance_zero&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.06860607862472534
+  }
+}</pre>
+<h2>rescue_anchor pub2_opensarship2_001090</h2>
+<img src="rescue_anchor_791.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.25543010234832764
+  },
+  &quot;second&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.41877347230911255
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.7094521522521973
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.010207176208496094
+  },
+  &quot;previous_best_mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.10074204206466675
+  },
+  &quot;off&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.38061004877090454
+  },
+  &quot;relation_off&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.6369527578353882
+  },
+  &quot;merged&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.6704943776130676
+  },
+  &quot;spatial_mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.5853637456893921
+  },
+  &quot;vv_only&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.5949706435203552
+  },
+  &quot;vh_only&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.4950915575027466
+  },
+  &quot;covariance_zero&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.6706133484840393
+  }
+}</pre>
+<h2>harm_anchor pub2_opensarship2_003623</h2>
+<img src="harm_anchor_896.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.18500864505767822
+  },
+  &quot;second&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.29091644287109375
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.7743903994560242
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.4066762924194336
+  },
+  &quot;previous_best_mean&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.0655508041381836
+  },
+  &quot;off&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.13679635524749756
+  },
+  &quot;relation_off&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.7140293717384338
+  },
+  &quot;merged&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.7414065003395081
+  },
+  &quot;spatial_mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.6009471416473389
+  },
+  &quot;vv_only&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.26762211322784424
+  },
+  &quot;vh_only&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.3699719309806824
+  },
+  &quot;covariance_zero&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.7404893040657043
+  }
+}</pre>
+<h2>stable_correct pub2_opensarship2_000908</h2>
+<img src="stable_correct_745.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.012505531311035
+  },
+  &quot;second&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.2093546390533447
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.6660499572753906
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 2.8484883308410645
+  },
+  &quot;previous_best_mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.0723278522491455
+  },
+  &quot;off&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.0169224739074707
+  },
+  &quot;relation_off&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.6567952632904053
+  },
+  &quot;merged&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.665898323059082
+  },
+  &quot;spatial_mean&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.586862087249756
+  },
+  &quot;vv_only&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.296739339828491
+  },
+  &quot;vh_only&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.386232852935791
+  },
+  &quot;covariance_zero&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.6659507751464844
+  }
+}</pre>
+<h2>stable_wrong pub2_opensarship2_000918</h2>
+<img src="stable_wrong_753.png">
+<pre>{
+  &quot;mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -2.948448657989502
+  },
+  &quot;second&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -2.9738457202911377
+  },
+  &quot;class&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -3.6735610961914062
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -2.766596555709839
+  },
+  &quot;previous_best_mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -2.865701198577881
+  },
+  &quot;off&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -2.455850839614868
+  },
+  &quot;relation_off&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -3.6797432899475098
+  },
+  &quot;merged&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -3.674215793609619
+  },
+  &quot;spatial_mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -3.6554975509643555
+  },
+  &quot;vv_only&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -2.7286899089813232
+  },
+  &quot;vh_only&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -3.400722026824951
+  },
+  &quot;covariance_zero&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -3.67411208152771
+  }
+}</pre>
+</html>

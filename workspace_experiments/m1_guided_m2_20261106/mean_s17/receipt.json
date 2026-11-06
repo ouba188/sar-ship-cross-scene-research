@@ -1,0 +1,63 @@
+{
+  "arm": "mean",
+  "seed": 17,
+  "steps": 180,
+  "n_train": 719,
+  "examples": 4320,
+  "upstream_seed": 17,
+  "trainable": 225292,
+  "metrics": {
+    "validation": {
+      "oa": 61.8421052631579,
+      "ba": 55.44545143158758,
+      "nll": 1.2382076555939105,
+      "balanced_nll": 1.3932907805401096
+    },
+    "validation_off": {
+      "oa": 61.8421052631579,
+      "ba": 54.05822369714019,
+      "nll": 1.252760807982919,
+      "balanced_nll": 1.4367444232134223
+    },
+    "evaluation": {
+      "oa": 61.64021164021164,
+      "ba": 57.850223311704276,
+      "nll": 1.149964344085915,
+      "balanced_nll": 1.2083622803927931
+    },
+    "evaluation_off": {
+      "oa": 62.16931216931217,
+      "ba": 58.763709577732094,
+      "nll": 1.1423757126487806,
+      "balanced_nll": 1.217143356383402
+    }
+  },
+  "gradients": [
+    {
+      "step": 1,
+      "norms": {
+        "value.0.weight": 0.0,
+        "value.1.weight": 0.0,
+        "output.0.weight": 0.015424111858010292,
+        "output.1.weight": 0.013511404395103455,
+        "head.weight": 4.768258571624756,
+        "head.bias": 0.0577392540872097
+      }
+    },
+    {
+      "step": 2,
+      "norms": {
+        "value.0.weight": 0.009231595322489738,
+        "value.1.weight": 0.007555323652923107,
+        "output.0.weight": 0.01374597754329443,
+        "output.1.weight": 0.013117298483848572,
+        "head.weight": 4.3696794509887695,
+        "head.bias": 0.053491488099098206
+      }
+    }
+  ],
+  "seconds": 2.136610399997153,
+  "reload_error": 0.0,
+  "checkpoint_selection": "fixed180",
+  "formal_changed": false
+}

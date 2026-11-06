@@ -1,0 +1,703 @@
+<html><meta charset="utf-8"><title>M1 design and placement</title>
+<style>body{font-family:Arial;margin:24px}img{max-width:100%}table{border-collapse:collapse}td,th{border:1px solid #bbb;padding:5px}</style>
+<h1>M1 design x placement: OSS2</h1><p>Four classes, source719/development228, fixed32 references. Seed17, final epoch4. Historical development, not blind confirmation.</p>
+<p>M2/M3/head fixed; full M1 and final bottleneck conv3 trained. Only M1 moves. Native VV/VH crop/pad, no resizing of model inputs.</p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>arm</th>
+      <th>oa</th>
+      <th>ba</th>
+      <th>nll</th>
+      <th>balanced_nll</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>anchor</td>
+      <td>58.771930</td>
+      <td>50.691789</td>
+      <td>1.295766</td>
+      <td>1.466535</td>
+    </tr>
+    <tr>
+      <td>none</td>
+      <td>58.771930</td>
+      <td>50.691789</td>
+      <td>1.299978</td>
+      <td>1.456836</td>
+    </tr>
+    <tr>
+      <td>pre_additive</td>
+      <td>58.771930</td>
+      <td>51.266502</td>
+      <td>1.307244</td>
+      <td>1.459031</td>
+    </tr>
+    <tr>
+      <td>post_additive</td>
+      <td>58.333333</td>
+      <td>50.404433</td>
+      <td>1.304204</td>
+      <td>1.456191</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>58.771930</td>
+      <td>51.266502</td>
+      <td>1.306303</td>
+      <td>1.460901</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>58.771930</td>
+      <td>51.266502</td>
+      <td>1.304892</td>
+      <td>1.461265</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate</td>
+      <td>58.771930</td>
+      <td>51.266502</td>
+      <td>1.306042</td>
+      <td>1.460710</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate</td>
+      <td>58.771930</td>
+      <td>51.266502</td>
+      <td>1.305024</td>
+      <td>1.461318</td>
+    </tr>
+  </tbody>
+</table>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>candidate</th>
+      <th>control</th>
+      <th>rescues</th>
+      <th>harms</th>
+      <th>changes</th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pre_additive</td>
+      <td>none</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.007266</td>
+    </tr>
+    <tr>
+      <td>post_additive</td>
+      <td>none</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-0.438596</td>
+      <td>-0.287356</td>
+      <td>0.004226</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>none</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.006325</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>none</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.004914</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate</td>
+      <td>none</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.006064</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate</td>
+      <td>none</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.005046</td>
+    </tr>
+    <tr>
+      <td>none</td>
+      <td>anchor</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.004212</td>
+    </tr>
+    <tr>
+      <td>pre_additive</td>
+      <td>anchor</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.011478</td>
+    </tr>
+    <tr>
+      <td>post_additive</td>
+      <td>anchor</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-0.438596</td>
+      <td>-0.287356</td>
+      <td>0.008438</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>anchor</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.010537</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>anchor</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.009126</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate</td>
+      <td>anchor</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.010276</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate</td>
+      <td>anchor</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.009258</td>
+    </tr>
+    <tr>
+      <td>post_additive</td>
+      <td>pre_additive</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-0.438596</td>
+      <td>-0.862069</td>
+      <td>-0.003041</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>pre_class_gate</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001411</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate</td>
+      <td>pre_mean_gate</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001019</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_additive</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000942</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_mean_gate</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000260</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_class_gate_off</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.007129</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_class_gate_vv_only</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.004665</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_class_gate_vh_only</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-0.438596</td>
+      <td>-0.287356</td>
+      <td>0.002513</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_class_gate_uniform_context</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000268</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_class_gate_spatial_mean</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000719</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_additive</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.000688</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_mean_gate</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000132</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_class_gate_off</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.006504</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_class_gate_vv_only</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>-0.000536</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_class_gate_vh_only</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.006960</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_class_gate_uniform_context</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000156</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_class_gate_spatial_mean</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000997</td>
+    </tr>
+    <tr>
+      <td>pre_additive</td>
+      <td>pre_additive_off</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.008684</td>
+    </tr>
+    <tr>
+      <td>post_additive</td>
+      <td>post_additive_off</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-0.438596</td>
+      <td>-0.287356</td>
+      <td>0.005780</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate</td>
+      <td>pre_mean_gate_off</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.007107</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate</td>
+      <td>post_mean_gate_off</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.006787</td>
+    </tr>
+  </tbody>
+</table>
+<p>Reference panels: two legal same-class and one confusing-class case selected by pooled cosine, not maximum learned attention.</p>
+<h2>post_vs_none_rescue pub2_opensarship2_001090</h2>
+<img src="post_vs_none_rescue_791.png">
+<pre>{
+  &quot;evidence&quot;: {
+    &quot;anchor&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.010207176208496094
+    },
+    &quot;none&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.06550580263137817
+    },
+    &quot;pre_additive&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.04854738712310791
+    },
+    &quot;post_additive&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.12009382247924805
+    },
+    &quot;pre_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.07596367597579956
+    },
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.025206565856933594
+    },
+    &quot;pre_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.09201401472091675
+    },
+    &quot;post_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.03342396020889282
+    },
+    &quot;baseline&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.010207176208496094
+    }
+  },
+  &quot;pathways&quot;: {
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.025206565856933594
+    },
+    &quot;post_class_gate_off&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.0863301157951355
+    },
+    &quot;post_class_gate_vv_only&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.055634140968322754
+    },
+    &quot;post_class_gate_vh_only&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.0054895877838134766
+    },
+    &quot;post_class_gate_uniform_context&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.025161802768707275
+    },
+    &quot;post_class_gate_spatial_mean&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.021865546703338623
+    }
+  }
+}</pre>
+<h2>post_vs_none_harm pub2_opensarship2_000931</h2>
+<img src="post_vs_none_harm_760.png">
+<pre>{
+  &quot;evidence&quot;: {
+    &quot;anchor&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 0.17113304138183594
+    },
+    &quot;none&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 0.015214920043945312
+    },
+    &quot;pre_additive&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.062184929847717285
+    },
+    &quot;post_additive&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.06555980443954468
+    },
+    &quot;pre_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.03717523813247681
+    },
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.026021480560302734
+    },
+    &quot;pre_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.03212994337081909
+    },
+    &quot;post_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.028000712394714355
+    },
+    &quot;baseline&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 0.17113304138183594
+    }
+  },
+  &quot;pathways&quot;: {
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.026021480560302734
+    },
+    &quot;post_class_gate_off&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 0.03398090600967407
+    },
+    &quot;post_class_gate_vv_only&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.0432625412940979
+    },
+    &quot;post_class_gate_vh_only&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 0.05122256278991699
+    },
+    &quot;post_class_gate_uniform_context&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.029836058616638184
+    },
+    &quot;post_class_gate_spatial_mean&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.017626583576202393
+    }
+  }
+}</pre>
+<h2>stable_correct pub2_opensarship2_000478</h2>
+<img src="stable_correct_730.png">
+<pre>{
+  &quot;evidence&quot;: {
+    &quot;anchor&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 2.158195734024048
+    },
+    &quot;none&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.853081226348877
+    },
+    &quot;pre_additive&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.6962189674377441
+    },
+    &quot;post_additive&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.4756760597229004
+    },
+    &quot;pre_class_gate&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.7337007522583008
+    },
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.4728727340698242
+    },
+    &quot;pre_mean_gate&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.7338154315948486
+    },
+    &quot;post_mean_gate&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.4681448936462402
+    },
+    &quot;baseline&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 2.158195734024048
+    }
+  },
+  &quot;pathways&quot;: {
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.4728727340698242
+    },
+    &quot;post_class_gate_off&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.8643286228179932
+    },
+    &quot;post_class_gate_vv_only&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.6394596099853516
+    },
+    &quot;post_class_gate_vh_only&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.6977415084838867
+    },
+    &quot;post_class_gate_uniform_context&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.4751390218734741
+    },
+    &quot;post_class_gate_spatial_mean&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.55442214012146
+    }
+  }
+}</pre>
+<h2>stable_wrong pub2_opensarship2_000418</h2>
+<img src="stable_wrong_725.png">
+<pre>{
+  &quot;evidence&quot;: {
+    &quot;anchor&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.38889288902282715
+    },
+    &quot;none&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.5342900156974792
+    },
+    &quot;pre_additive&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.7287701368331909
+    },
+    &quot;post_additive&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.6231310963630676
+    },
+    &quot;pre_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.6896175146102905
+    },
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.831114649772644
+    },
+    &quot;pre_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.6621683835983276
+    },
+    &quot;post_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.8321905732154846
+    },
+    &quot;baseline&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.38889288902282715
+    }
+  },
+  &quot;pathways&quot;: {
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.831114649772644
+    },
+    &quot;post_class_gate_off&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.50283282995224
+    },
+    &quot;post_class_gate_vv_only&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.8206172585487366
+    },
+    &quot;post_class_gate_vh_only&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.5133305788040161
+    },
+    &quot;post_class_gate_uniform_context&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.8306454420089722
+    },
+    &quot;post_class_gate_spatial_mean&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.7693547606468201
+    }
+  }
+}</pre>
+</html>

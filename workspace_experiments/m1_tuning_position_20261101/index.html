@@ -1,0 +1,934 @@
+<html><meta charset="utf-8"><title>M1 tuning and position</title>
+<style>body{font-family:Arial;margin:24px}img{max-width:100%}td,th{padding:5px;border:1px solid #bbb}table{border-collapse:collapse}</style>
+<h1>M1: jointly tune position and optimization</h1>
+<p>OSS2 source719 / historical development228 / fixed32 references. Development-selected results, NOT independent validation. M2/M3/head fixed; M3 message cached.</p>
+<pre>{
+  &quot;class_gate&quot;: {
+    &quot;run&quot;: &quot;post_class_gate_task_lr_17&quot;,
+    &quot;position&quot;: &quot;post&quot;,
+    &quot;config&quot;: &quot;task_lr&quot;,
+    &quot;epoch&quot;: 5,
+    &quot;metrics&quot;: {
+      &quot;oa&quot;: 59.64912280701754,
+      &quot;ba&quot;: 52.647271869683145,
+      &quot;nll&quot;: 1.2975702194740442,
+      &quot;balanced_nll&quot;: 1.460060572414455
+    }
+  },
+  &quot;mean_gate&quot;: {
+    &quot;run&quot;: &quot;post_mean_gate_task_lr_17&quot;,
+    &quot;position&quot;: &quot;post&quot;,
+    &quot;config&quot;: &quot;task_lr&quot;,
+    &quot;epoch&quot;: 5,
+    &quot;metrics&quot;: {
+      &quot;oa&quot;: 60.08771929824561,
+      &quot;ba&quot;: 52.92817074608763,
+      &quot;nll&quot;: 1.2976306245156768,
+      &quot;balanced_nll&quot;: 1.4624263410097837
+    }
+  }
+}</pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>run</th>
+      <th>position</th>
+      <th>design</th>
+      <th>config</th>
+      <th>seed</th>
+      <th>epoch</th>
+      <th>ce</th>
+      <th>auxiliary_ce</th>
+      <th>vv_update</th>
+      <th>vh_update</th>
+      <th>oa</th>
+      <th>ba</th>
+      <th>nll</th>
+      <th>balanced_nll</th>
+      <th>last_oa</th>
+      <th>last_ba</th>
+      <th>seconds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>post_class_gate_extended_17</td>
+      <td>post</td>
+      <td>class_gate</td>
+      <td>extended</td>
+      <td>17</td>
+      <td>6</td>
+      <td>0.388081</td>
+      <td>0.999135</td>
+      <td>0.029559</td>
+      <td>0.029800</td>
+      <td>59.210526</td>
+      <td>52.359916</td>
+      <td>1.305472</td>
+      <td>1.455790</td>
+      <td>59.210526</td>
+      <td>52.359916</td>
+      <td>43.593882</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_gain_17</td>
+      <td>post</td>
+      <td>class_gate</td>
+      <td>gain</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.382254</td>
+      <td>1.000779</td>
+      <td>0.061329</td>
+      <td>0.062942</td>
+      <td>59.649123</td>
+      <td>52.640814</td>
+      <td>1.302113</td>
+      <td>1.463193</td>
+      <td>58.771930</td>
+      <td>52.072559</td>
+      <td>29.608962</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_sharp_17</td>
+      <td>post</td>
+      <td>class_gate</td>
+      <td>sharp</td>
+      <td>17</td>
+      <td>4</td>
+      <td>0.393632</td>
+      <td>1.003157</td>
+      <td>0.047449</td>
+      <td>0.046012</td>
+      <td>59.649123</td>
+      <td>52.640814</td>
+      <td>1.305623</td>
+      <td>1.465797</td>
+      <td>58.771930</td>
+      <td>52.072559</td>
+      <td>49.443464</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_task_lr_17</td>
+      <td>post</td>
+      <td>class_gate</td>
+      <td>task_lr</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.374739</td>
+      <td>0.990137</td>
+      <td>0.083725</td>
+      <td>0.086461</td>
+      <td>59.649123</td>
+      <td>52.647272</td>
+      <td>1.297570</td>
+      <td>1.460061</td>
+      <td>57.456140</td>
+      <td>52.023005</td>
+      <td>52.449171</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate_extended_17</td>
+      <td>post</td>
+      <td>mean_gate</td>
+      <td>extended</td>
+      <td>17</td>
+      <td>6</td>
+      <td>0.388153</td>
+      <td>0.999190</td>
+      <td>0.029693</td>
+      <td>0.029851</td>
+      <td>59.210526</td>
+      <td>52.359916</td>
+      <td>1.305869</td>
+      <td>1.455788</td>
+      <td>59.210526</td>
+      <td>52.359916</td>
+      <td>54.155003</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate_gain_17</td>
+      <td>post</td>
+      <td>mean_gate</td>
+      <td>gain</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.382557</td>
+      <td>1.000864</td>
+      <td>0.061796</td>
+      <td>0.062787</td>
+      <td>59.649123</td>
+      <td>52.640814</td>
+      <td>1.301659</td>
+      <td>1.462118</td>
+      <td>58.333333</td>
+      <td>51.791660</td>
+      <td>33.638531</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate_task_lr_17</td>
+      <td>post</td>
+      <td>mean_gate</td>
+      <td>task_lr</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.376048</td>
+      <td>0.989800</td>
+      <td>0.086362</td>
+      <td>0.091754</td>
+      <td>60.087719</td>
+      <td>52.928171</td>
+      <td>1.297631</td>
+      <td>1.462426</td>
+      <td>57.456140</td>
+      <td>51.223405</td>
+      <td>38.272889</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_extended_17</td>
+      <td>pre</td>
+      <td>class_gate</td>
+      <td>extended</td>
+      <td>17</td>
+      <td>3</td>
+      <td>0.416705</td>
+      <td>0.871734</td>
+      <td>0.003921</td>
+      <td>0.005307</td>
+      <td>59.210526</td>
+      <td>51.553858</td>
+      <td>1.302792</td>
+      <td>1.462831</td>
+      <td>58.771930</td>
+      <td>51.266502</td>
+      <td>41.104147</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_gain_17</td>
+      <td>pre</td>
+      <td>class_gate</td>
+      <td>gain</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.394181</td>
+      <td>0.870979</td>
+      <td>0.023861</td>
+      <td>0.028977</td>
+      <td>59.649123</td>
+      <td>51.834757</td>
+      <td>1.312665</td>
+      <td>1.462874</td>
+      <td>58.771930</td>
+      <td>51.266502</td>
+      <td>37.922369</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_sharp_17</td>
+      <td>pre</td>
+      <td>class_gate</td>
+      <td>sharp</td>
+      <td>17</td>
+      <td>2</td>
+      <td>0.421623</td>
+      <td>0.871400</td>
+      <td>0.006721</td>
+      <td>0.008291</td>
+      <td>59.210526</td>
+      <td>51.553858</td>
+      <td>1.301507</td>
+      <td>1.465014</td>
+      <td>58.771930</td>
+      <td>51.266502</td>
+      <td>35.318945</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_task_lr_17</td>
+      <td>pre</td>
+      <td>class_gate</td>
+      <td>task_lr</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.384275</td>
+      <td>0.869334</td>
+      <td>0.044572</td>
+      <td>0.044577</td>
+      <td>59.210526</td>
+      <td>52.353458</td>
+      <td>1.312122</td>
+      <td>1.464032</td>
+      <td>58.771930</td>
+      <td>52.066102</td>
+      <td>37.950310</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate_extended_17</td>
+      <td>pre</td>
+      <td>mean_gate</td>
+      <td>extended</td>
+      <td>17</td>
+      <td>2</td>
+      <td>0.424053</td>
+      <td>0.871395</td>
+      <td>0.001740</td>
+      <td>0.001888</td>
+      <td>59.210526</td>
+      <td>51.553858</td>
+      <td>1.297926</td>
+      <td>1.462780</td>
+      <td>58.333333</td>
+      <td>50.985603</td>
+      <td>30.647166</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate_gain_17</td>
+      <td>pre</td>
+      <td>mean_gate</td>
+      <td>gain</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.396822</td>
+      <td>0.871003</td>
+      <td>0.023169</td>
+      <td>0.025015</td>
+      <td>59.649123</td>
+      <td>51.834757</td>
+      <td>1.315249</td>
+      <td>1.465662</td>
+      <td>58.771930</td>
+      <td>51.266502</td>
+      <td>31.413812</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate_task_lr_17</td>
+      <td>pre</td>
+      <td>mean_gate</td>
+      <td>task_lr</td>
+      <td>17</td>
+      <td>5</td>
+      <td>0.388089</td>
+      <td>0.868993</td>
+      <td>0.050557</td>
+      <td>0.044495</td>
+      <td>59.210526</td>
+      <td>52.353458</td>
+      <td>1.319069</td>
+      <td>1.469495</td>
+      <td>58.771930</td>
+      <td>52.066102</td>
+      <td>39.244274</td>
+    </tr>
+  </tbody>
+</table>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>candidate</th>
+      <th>control</th>
+      <th>rescues</th>
+      <th>harms</th>
+      <th>changes</th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+      <th>comparison</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>post_class_gate_extended_17</td>
+      <td>post_mean_gate_extended_17</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000397</td>
+      <td>matched_config_selected</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_extended_17</td>
+      <td>post_mean_gate_extended_17</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000397</td>
+      <td>matched_config_last</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_extended_17</td>
+      <td>off</td>
+      <td>3</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0.877193</td>
+      <td>2.530196</td>
+      <td>0.008912</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_extended_17</td>
+      <td>uniform_context</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000118</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_extended_17</td>
+      <td>spatial_mean</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>1.086957</td>
+      <td>0.001976</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_gain_17</td>
+      <td>post_mean_gate_gain_17</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000454</td>
+      <td>matched_config_selected</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_gain_17</td>
+      <td>post_mean_gate_gain_17</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>0.280899</td>
+      <td>0.000019</td>
+      <td>matched_config_last</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_gain_17</td>
+      <td>off</td>
+      <td>3</td>
+      <td>0</td>
+      <td>5</td>
+      <td>1.315789</td>
+      <td>2.811094</td>
+      <td>0.008116</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_gain_17</td>
+      <td>uniform_context</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000049</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_gain_17</td>
+      <td>spatial_mean</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.002332</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_sharp_17</td>
+      <td>post_mean_gate_gain_17</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.003964</td>
+      <td>matched_config_selected</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_sharp_17</td>
+      <td>post_mean_gate_gain_17</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.438596</td>
+      <td>0.280899</td>
+      <td>-0.000758</td>
+      <td>matched_config_last</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_sharp_17</td>
+      <td>off</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0.877193</td>
+      <td>1.949025</td>
+      <td>0.010169</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_sharp_17</td>
+      <td>uniform_context</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000277</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_sharp_17</td>
+      <td>spatial_mean</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>1.086957</td>
+      <td>0.002463</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_task_lr_17</td>
+      <td>post_mean_gate_task_lr_17</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-0.438596</td>
+      <td>-0.280899</td>
+      <td>-0.000060</td>
+      <td>matched_config_selected</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_task_lr_17</td>
+      <td>post_mean_gate_task_lr_17</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.799600</td>
+      <td>-0.000364</td>
+      <td>matched_config_last</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_task_lr_17</td>
+      <td>off</td>
+      <td>4</td>
+      <td>1</td>
+      <td>7</td>
+      <td>1.315789</td>
+      <td>2.817552</td>
+      <td>0.003362</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_task_lr_17</td>
+      <td>uniform_context</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001390</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_task_lr_17</td>
+      <td>spatial_mean</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.003658</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_extended_17</td>
+      <td>pre_mean_gate_extended_17</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.004866</td>
+      <td>matched_config_selected</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_extended_17</td>
+      <td>pre_mean_gate_extended_17</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>0.280899</td>
+      <td>-0.000443</td>
+      <td>matched_config_last</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_extended_17</td>
+      <td>off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.004137</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_extended_17</td>
+      <td>uniform_context</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000588</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_extended_17</td>
+      <td>spatial_mean</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000770</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_gain_17</td>
+      <td>pre_mean_gate_gain_17</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.002584</td>
+      <td>matched_config_selected</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_gain_17</td>
+      <td>pre_mean_gate_gain_17</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.003049</td>
+      <td>matched_config_last</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_gain_17</td>
+      <td>off</td>
+      <td>3</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1.315789</td>
+      <td>2.005037</td>
+      <td>0.017769</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_gain_17</td>
+      <td>uniform_context</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000663</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_gain_17</td>
+      <td>spatial_mean</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001810</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_sharp_17</td>
+      <td>pre_mean_gate_gain_17</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>-0.438596</td>
+      <td>-0.280899</td>
+      <td>-0.013742</td>
+      <td>matched_config_selected</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_sharp_17</td>
+      <td>pre_mean_gate_gain_17</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.005228</td>
+      <td>matched_config_last</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_sharp_17</td>
+      <td>off</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.005655</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_sharp_17</td>
+      <td>uniform_context</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001189</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_sharp_17</td>
+      <td>spatial_mean</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001564</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_task_lr_17</td>
+      <td>pre_mean_gate_task_lr_17</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.006947</td>
+      <td>matched_config_selected</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_task_lr_17</td>
+      <td>pre_mean_gate_task_lr_17</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.004743</td>
+      <td>matched_config_last</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_task_lr_17</td>
+      <td>off</td>
+      <td>4</td>
+      <td>2</td>
+      <td>7</td>
+      <td>0.877193</td>
+      <td>2.523738</td>
+      <td>0.020071</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_task_lr_17</td>
+      <td>uniform_context</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.799600</td>
+      <td>-0.001724</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate_task_lr_17</td>
+      <td>spatial_mean</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.799600</td>
+      <td>0.000777</td>
+      <td>same_weights</td>
+    </tr>
+    <tr>
+      <td>post_class_gate_task_lr_17</td>
+      <td>post_mean_gate_task_lr_17</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-0.438596</td>
+      <td>-0.280899</td>
+      <td>-0.000060</td>
+      <td>independently_tuned_best</td>
+    </tr>
+  </tbody>
+</table>
+<h2>class_harm_mean pub2_opensarship2_003648</h2>
+<img src="class_harm_mean_917.png">
+<pre>{
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.40032318234443665
+  },
+  &quot;tuned_class&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.011548638343811035
+  },
+  &quot;tuned_mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.06019604206085205
+  },
+  &quot;off&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.09159532189369202
+  },
+  &quot;uniform_context&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.0065756142139434814
+  },
+  &quot;spatial_mean&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.01302570104598999
+  },
+  &quot;vv_only&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.38360294699668884
+  },
+  &quot;vh_only&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.30355626344680786
+  }
+}</pre>
+<h2>rescue_anchor pub2_opensarship2_001100</h2>
+<img src="rescue_anchor_796.png">
+<pre>{
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.38485580682754517
+  },
+  &quot;tuned_class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.057980477809906006
+  },
+  &quot;tuned_mean&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.11736398935317993
+  },
+  &quot;off&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.41075724363327026
+  },
+  &quot;uniform_context&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.08739984035491943
+  },
+  &quot;spatial_mean&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.0061492919921875
+  },
+  &quot;vv_only&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.389462411403656
+  },
+  &quot;vh_only&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.0366857647895813
+  }
+}</pre>
+<h2>stable_correct pub2_opensarship2_003639</h2>
+<img src="stable_correct_909.png">
+<pre>{
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 4.055864334106445
+  },
+  &quot;tuned_class&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 4.447704315185547
+  },
+  &quot;tuned_mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 4.270725727081299
+  },
+  &quot;off&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 4.065423965454102
+  },
+  &quot;uniform_context&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 4.325942516326904
+  },
+  &quot;spatial_mean&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 4.293494701385498
+  },
+  &quot;vv_only&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 4.41233491897583
+  },
+  &quot;vh_only&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 4.100793361663818
+  }
+}</pre>
+<h2>stable_wrong pub2_opensarship2_003630</h2>
+<img src="stable_wrong_902.png">
+<pre>{
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.6760067939758301
+  },
+  &quot;tuned_class&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.5978639125823975
+  },
+  &quot;tuned_mean&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.7378971576690674
+  },
+  &quot;off&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.5930335521697998
+  },
+  &quot;uniform_context&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.6695926189422607
+  },
+  &quot;spatial_mean&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.6585304737091064
+  },
+  &quot;vv_only&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.3729374408721924
+  },
+  &quot;vh_only&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: -0.8179600238800049
+  }
+}</pre>
+</html>

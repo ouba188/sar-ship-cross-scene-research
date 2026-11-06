@@ -1,0 +1,49 @@
+{
+  "position": "pre",
+  "design": "mean_gate",
+  "config": "task_lr",
+  "parameters": {
+    "gamma": 0.3,
+    "temperature": 0.5,
+    "inner_lr": 0.0003,
+    "aux": 0.02
+  },
+  "seed": 17,
+  "epochs": 6,
+  "selected": {
+    "epoch": 5,
+    "ce": 0.381739650045832,
+    "auxiliary_ce": 0.869001160065333,
+    "vv_update": 0.05895710363984108,
+    "vh_update": 0.05578673630952835,
+    "oa": 59.210526315789465,
+    "ba": 52.35345810240947,
+    "nll": 1.3125922819875044,
+    "balanced_nll": 1.4670743174464898
+  },
+  "last": {
+    "epoch": 6,
+    "ce": 0.3672176813085874,
+    "auxiliary_ce": 0.8680449604988099,
+    "vv_update": 0.07307261228561401,
+    "vh_update": 0.07485560327768326,
+    "oa": 58.77192982456141,
+    "ba": 52.066101780570385,
+    "nll": 1.32282010793339,
+    "balanced_nll": 1.4715858833710622
+  },
+  "selection": "development BA/OA/NLL",
+  "fixed_epoch": null,
+  "source": {
+    "oa": 92.76773296244785,
+    "ba": 91.88911493984646,
+    "nll": 0.23210970084702598,
+    "balanced_nll": 0.24678917140122647
+  },
+  "trainable": 319488,
+  "steps": 180,
+  "seconds": 28.53703510016203,
+  "reload_error": 0.0,
+  "clipped_steps": 10,
+  "max_gradient_norm": 6.793331146240234
+}

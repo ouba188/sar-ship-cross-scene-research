@@ -1,0 +1,70 @@
+{
+  "arm": "pre_additive",
+  "seed": 17,
+  "steps": 120,
+  "final": {
+    "oa": 58.77192982456141,
+    "ba": 51.26650158067033,
+    "nll": 1.3072444778624523,
+    "balanced_nll": 1.4590305534373575
+  },
+  "source": {
+    "oa": 91.93324061196105,
+    "ba": 90.99213754289484,
+    "nll": 0.24678894078674918,
+    "balanced_nll": 0.2637140000805701
+  },
+  "trainable_parameters": 303104,
+  "gradient_checks": [
+    {
+      "step": 0,
+      "norms": {
+        "base.backbone.model.layer3.5.conv3.weight": 1.6332515478134155,
+        "m1.0.reader.weight": 0.02838868834078312,
+        "m1.0.value.weight": 0.0,
+        "m1.0.transforms.0.weight": 0.0,
+        "m1.0.transforms.1.weight": 0.0,
+        "m1.0.transforms.2.weight": 0.0,
+        "m1.0.output.weight": 0.011303151957690716,
+        "m1.1.reader.weight": 0.06841745227575302,
+        "m1.1.value.weight": 0.0,
+        "m1.1.transforms.0.weight": 0.0,
+        "m1.1.transforms.1.weight": 0.0,
+        "m1.1.transforms.2.weight": 0.0,
+        "m1.1.output.weight": 0.010972646065056324
+      }
+    },
+    {
+      "step": 1,
+      "norms": {
+        "base.backbone.model.layer3.5.conv3.weight": 1.3719192743301392,
+        "m1.0.reader.weight": 0.062227118760347366,
+        "m1.0.value.weight": 0.000400036689825356,
+        "m1.0.transforms.0.weight": 6.591373676201329e-05,
+        "m1.0.transforms.1.weight": 5.271759073366411e-05,
+        "m1.0.transforms.2.weight": 5.297009556670673e-05,
+        "m1.0.output.weight": 0.006792762316763401,
+        "m1.1.reader.weight": 0.029580330476164818,
+        "m1.1.value.weight": 0.0005592643283307552,
+        "m1.1.transforms.0.weight": 7.699180423514917e-05,
+        "m1.1.transforms.1.weight": 9.86406157608144e-05,
+        "m1.1.transforms.2.weight": 9.328608575742692e-05,
+        "m1.1.output.weight": 0.009539827704429626
+      }
+    }
+  ],
+  "reload_error": 0.0,
+  "seconds": 21.577298799995333,
+  "gradient_norm_max": 6.831542491912842,
+  "clipped_steps": 5,
+  "checkpoint_selection": "fixed epoch4",
+  "source719": true,
+  "references32": true,
+  "frozen_m2_m3_head_bn": true,
+  "initial": {
+    "oa": 58.77192982456141,
+    "ba": 50.691788936992175,
+    "nll": 1.2906824251600717,
+    "balanced_nll": 1.4632627943645726
+  }
+}

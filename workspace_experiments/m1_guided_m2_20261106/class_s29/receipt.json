@@ -1,0 +1,87 @@
+{
+  "arm": "class",
+  "seed": 29,
+  "steps": 180,
+  "n_train": 719,
+  "examples": 4320,
+  "upstream_seed": 17,
+  "trainable": 225292,
+  "metrics": {
+    "validation": {
+      "oa": 62.28070175438597,
+      "ba": 55.73280775342666,
+      "nll": 1.233478016637199,
+      "balanced_nll": 1.4007306374245136
+    },
+    "validation_off": {
+      "oa": 63.1578947368421,
+      "ba": 56.288148060801056,
+      "nll": 1.253868754405272,
+      "balanced_nll": 1.4404166191887284
+    },
+    "validation_uniform": {
+      "oa": 63.1578947368421,
+      "ba": 56.87577559534839,
+      "nll": 1.2417018014229861,
+      "balanced_nll": 1.402529440238893
+    },
+    "validation_shuffle": {
+      "oa": 61.8421052631579,
+      "ba": 54.86428134247483,
+      "nll": 1.2500666755803362,
+      "balanced_nll": 1.407489806918369
+    },
+    "evaluation": {
+      "oa": 62.43386243386243,
+      "ba": 59.84397110672284,
+      "nll": 1.1396282151989396,
+      "balanced_nll": 1.2000489783374786
+    },
+    "evaluation_off": {
+      "oa": 62.43386243386243,
+      "ba": 59.058002209440076,
+      "nll": 1.141614102399242,
+      "balanced_nll": 1.2190992742860942
+    },
+    "evaluation_uniform": {
+      "oa": 61.37566137566137,
+      "ba": 58.09754125480535,
+      "nll": 1.1491375616394686,
+      "balanced_nll": 1.2058128305443327
+    },
+    "evaluation_shuffle": {
+      "oa": 60.84656084656085,
+      "ba": 57.177142801208404,
+      "nll": 1.1468882829301466,
+      "balanced_nll": 1.2000992076901362
+    }
+  },
+  "gradients": [
+    {
+      "step": 1,
+      "norms": {
+        "value.0.weight": 0.0,
+        "value.1.weight": 0.0,
+        "output.0.weight": 0.02059783600270748,
+        "output.1.weight": 0.023888714611530304,
+        "head.weight": 8.716841697692871,
+        "head.bias": 0.018169354647397995
+      }
+    },
+    {
+      "step": 2,
+      "norms": {
+        "value.0.weight": 0.03217879310250282,
+        "value.1.weight": 0.036799106746912,
+        "output.0.weight": 0.04743342101573944,
+        "output.1.weight": 0.04487025737762451,
+        "head.weight": 18.343137741088867,
+        "head.bias": 0.2505395710468292
+      }
+    }
+  ],
+  "seconds": 3.472817699999723,
+  "reload_error": 0.0,
+  "checkpoint_selection": "fixed180",
+  "formal_changed": false
+}

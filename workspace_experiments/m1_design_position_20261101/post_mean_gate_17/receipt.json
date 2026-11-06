@@ -1,0 +1,70 @@
+{
+  "arm": "post_mean_gate",
+  "seed": 17,
+  "steps": 120,
+  "final": {
+    "oa": 58.77192982456141,
+    "ba": 51.26650158067033,
+    "nll": 1.3050236529094703,
+    "balanced_nll": 1.4613176913679196
+  },
+  "source": {
+    "oa": 92.35048678720446,
+    "ba": 91.51065963434768,
+    "nll": 0.24384739099977595,
+    "balanced_nll": 0.26133844876859075
+  },
+  "trainable_parameters": 303104,
+  "gradient_checks": [
+    {
+      "step": 0,
+      "norms": {
+        "base.backbone.model.layer3.5.conv3.weight": 1.6332515478134155,
+        "m1.0.reader.weight": 0.5672628879547119,
+        "m1.0.value.weight": 0.0,
+        "m1.0.transforms.0.weight": 0.0,
+        "m1.0.transforms.1.weight": 0.0,
+        "m1.0.transforms.2.weight": 0.0,
+        "m1.0.output.weight": 0.01894906535744667,
+        "m1.1.reader.weight": 0.6442704796791077,
+        "m1.1.value.weight": 0.0,
+        "m1.1.transforms.0.weight": 0.0,
+        "m1.1.transforms.1.weight": 0.0,
+        "m1.1.transforms.2.weight": 0.0,
+        "m1.1.output.weight": 0.019452055916190147
+      }
+    },
+    {
+      "step": 1,
+      "norms": {
+        "base.backbone.model.layer3.5.conv3.weight": 1.3731106519699097,
+        "m1.0.reader.weight": 0.235465869307518,
+        "m1.0.value.weight": 0.0001488863053964451,
+        "m1.0.transforms.0.weight": 3.823412043857388e-05,
+        "m1.0.transforms.1.weight": 3.823412043857388e-05,
+        "m1.0.transforms.2.weight": 3.823412043857388e-05,
+        "m1.0.output.weight": 0.015128771774470806,
+        "m1.1.reader.weight": 0.30913999676704407,
+        "m1.1.value.weight": 0.0006758205126971006,
+        "m1.1.transforms.0.weight": 0.0002090781053993851,
+        "m1.1.transforms.1.weight": 0.0002090781053993851,
+        "m1.1.transforms.2.weight": 0.0002090781053993851,
+        "m1.1.output.weight": 0.02196716144680977
+      }
+    }
+  ],
+  "reload_error": 0.0,
+  "seconds": 17.95593719999306,
+  "gradient_norm_max": 6.852939128875732,
+  "clipped_steps": 6,
+  "checkpoint_selection": "fixed epoch4",
+  "source719": true,
+  "references32": true,
+  "frozen_m2_m3_head_bn": true,
+  "initial": {
+    "oa": 58.77192982456141,
+    "ba": 50.691788936992175,
+    "nll": 1.2906824251600717,
+    "balanced_nll": 1.4632627943645726
+  }
+}

@@ -1,0 +1,602 @@
+<html><meta charset="utf-8"><title>M1 source-reader repair</title>
+<style>body{font-family:Arial;margin:24px}img{max-width:100%}table{border-collapse:collapse}td,th{padding:5px;border:1px solid #bbb}</style>
+<h1>Source-only reader calibration: matched M1 positions</h1>
+<p>Source719 calibration only; historical development228; seed17; fixed epoch4. No final-test selection. Native VV/VH; reference examples are pooled-cosine selections, not maximum attention.</p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>arm</th>
+      <th>oa</th>
+      <th>ba</th>
+      <th>nll</th>
+      <th>balanced_nll</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>anchor</td>
+      <td>58.77193</td>
+      <td>50.691789</td>
+      <td>1.295766</td>
+      <td>1.466535</td>
+    </tr>
+    <tr>
+      <td>none</td>
+      <td>58.77193</td>
+      <td>50.691789</td>
+      <td>1.299978</td>
+      <td>1.456836</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>58.77193</td>
+      <td>51.266502</td>
+      <td>1.305887</td>
+      <td>1.460425</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>58.77193</td>
+      <td>51.266502</td>
+      <td>1.304605</td>
+      <td>1.461135</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate</td>
+      <td>58.77193</td>
+      <td>51.266502</td>
+      <td>1.306018</td>
+      <td>1.460680</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate</td>
+      <td>58.77193</td>
+      <td>51.266502</td>
+      <td>1.305053</td>
+      <td>1.461365</td>
+    </tr>
+  </tbody>
+</table>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>candidate</th>
+      <th>control</th>
+      <th>rescues</th>
+      <th>harms</th>
+      <th>changes</th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>none</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.005909</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>anchor</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.010121</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_class_gate_uncalibrated</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000416</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_class_gate_off</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.006694</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>none</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.004627</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>anchor</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.008839</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_class_gate_uncalibrated</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000287</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_class_gate_off</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.006431</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate</td>
+      <td>none</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.006040</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate</td>
+      <td>anchor</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.010252</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate</td>
+      <td>pre_mean_gate_uncalibrated</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000025</td>
+    </tr>
+    <tr>
+      <td>pre_mean_gate</td>
+      <td>pre_mean_gate_off</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.007112</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate</td>
+      <td>none</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.005075</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate</td>
+      <td>anchor</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.009287</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate</td>
+      <td>post_mean_gate_uncalibrated</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000029</td>
+    </tr>
+    <tr>
+      <td>post_mean_gate</td>
+      <td>post_mean_gate_off</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.574713</td>
+      <td>0.006789</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_mean_gate</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000131</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_class_gate_uniform_context</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000876</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_class_gate_spatial_mean</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001109</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_class_gate_vv_only</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.004348</td>
+    </tr>
+    <tr>
+      <td>pre_class_gate</td>
+      <td>pre_class_gate_vh_only</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-0.438596</td>
+      <td>-0.287356</td>
+      <td>0.002399</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_mean_gate</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000448</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_class_gate_uniform_context</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000020</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_class_gate_spatial_mean</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.001124</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_class_gate_vv_only</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>-0.000634</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>post_class_gate_vh_only</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-0.438596</td>
+      <td>-0.287356</td>
+      <td>0.006974</td>
+    </tr>
+    <tr>
+      <td>post_class_gate</td>
+      <td>pre_class_gate</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001282</td>
+    </tr>
+  </tbody>
+</table>
+<h2>rescue pub2_opensarship2_001090</h2>
+<img src="rescue_791.png">
+<pre>{
+  &quot;evidence&quot;: {
+    &quot;anchor&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.010207176208496094
+    },
+    &quot;none&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.06550580263137817
+    },
+    &quot;pre_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.050684332847595215
+    },
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.030591309070587158
+    },
+    &quot;pre_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.09266781806945801
+    },
+    &quot;post_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.03150737285614014
+    },
+    &quot;baseline&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.010207176208496094
+    }
+  },
+  &quot;pathways&quot;: {
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.030591309070587158
+    },
+    &quot;post_class_gate_off&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.08554297685623169
+    },
+    &quot;post_class_gate_vv_only&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: -0.05533677339553833
+    },
+    &quot;post_class_gate_vh_only&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.0003852248191833496
+    },
+    &quot;post_class_gate_uniform_context&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.0314863920211792
+    },
+    &quot;post_class_gate_spatial_mean&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.02681148052215576
+    },
+    &quot;post_class_gate_uncalibrated&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: 0.025206565856933594
+    }
+  }
+}</pre>
+<h2>harm pub2_opensarship2_000931</h2>
+<img src="harm_760.png">
+<pre>{
+  &quot;evidence&quot;: {
+    &quot;anchor&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 0.17113304138183594
+    },
+    &quot;none&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 0.015214920043945312
+    },
+    &quot;pre_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.03850740194320679
+    },
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.028996646404266357
+    },
+    &quot;pre_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.031606972217559814
+    },
+    &quot;post_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.02943432331085205
+    },
+    &quot;baseline&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 0.17113304138183594
+    }
+  },
+  &quot;pathways&quot;: {
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.028996646404266357
+    },
+    &quot;post_class_gate_off&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 0.03515148162841797
+    },
+    &quot;post_class_gate_vv_only&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.04253721237182617
+    },
+    &quot;post_class_gate_vh_only&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 0.04869204759597778
+    },
+    &quot;post_class_gate_uniform_context&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.02943861484527588
+    },
+    &quot;post_class_gate_spatial_mean&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.01698821783065796
+    },
+    &quot;post_class_gate_uncalibrated&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.026021480560302734
+    }
+  }
+}</pre>
+<h2>stable_correct pub2_opensarship2_000478</h2>
+<img src="stable_correct_730.png">
+<pre>{
+  &quot;evidence&quot;: {
+    &quot;anchor&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 2.158195734024048
+    },
+    &quot;none&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.853081226348877
+    },
+    &quot;pre_class_gate&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.7220263481140137
+    },
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.4769097566604614
+    },
+    &quot;pre_mean_gate&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.7337000370025635
+    },
+    &quot;post_mean_gate&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.469486951828003
+    },
+    &quot;baseline&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 2.158195734024048
+    }
+  },
+  &quot;pathways&quot;: {
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.4769097566604614
+    },
+    &quot;post_class_gate_off&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.8682875633239746
+    },
+    &quot;post_class_gate_vv_only&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.6440885066986084
+    },
+    &quot;post_class_gate_vh_only&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.7011088132858276
+    },
+    &quot;post_class_gate_uniform_context&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.480618953704834
+    },
+    &quot;post_class_gate_spatial_mean&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.5600930452346802
+    },
+    &quot;post_class_gate_uncalibrated&quot;: {
+      &quot;prediction&quot;: 0,
+      &quot;margin&quot;: 1.4728727340698242
+    }
+  }
+}</pre>
+<h2>stable_wrong pub2_opensarship2_000418</h2>
+<img src="stable_wrong_725.png">
+<pre>{
+  &quot;evidence&quot;: {
+    &quot;anchor&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.38889288902282715
+    },
+    &quot;none&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.5342900156974792
+    },
+    &quot;pre_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.6985974311828613
+    },
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.8270775079727173
+    },
+    &quot;pre_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.6615149974822998
+    },
+    &quot;post_mean_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.8327797055244446
+    },
+    &quot;baseline&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.38889288902282715
+    }
+  },
+  &quot;pathways&quot;: {
+    &quot;post_class_gate&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.8270775079727173
+    },
+    &quot;post_class_gate_off&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.49962759017944336
+    },
+    &quot;post_class_gate_vv_only&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.8163948059082031
+    },
+    &quot;post_class_gate_vh_only&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.5103102922439575
+    },
+    &quot;post_class_gate_uniform_context&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.8268284201622009
+    },
+    &quot;post_class_gate_spatial_mean&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.7640867829322815
+    },
+    &quot;post_class_gate_uncalibrated&quot;: {
+      &quot;prediction&quot;: 2,
+      &quot;margin&quot;: -0.831114649772644
+    }
+  }
+}</pre>
+</html>
