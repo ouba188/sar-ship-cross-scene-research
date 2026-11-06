@@ -1,0 +1,18 @@
+{
+  "version": "m1_guided_m2_joint_head_20261106",
+  "status": "user_selected_working_version",
+  "arm": "class",
+  "freeze_head": false,
+  "default_seed": 17,
+  "seeds": [17, 29, 43],
+  "checkpoint_pattern": "class_s{seed}/final.pt",
+  "upstream_checkpoint": "../m1_coverage_20261101/small_class_s17/final.pt",
+  "dataset": "OpenSARShip2",
+  "classes": ["bulk_carrier", "general_cargo", "chemical_tanker", "container"],
+  "source_examples": 719,
+  "references": 32,
+  "training_steps": 180,
+  "head_learning_rate": 0.00001,
+  "default_seed_reason": "Keep the existing seed17 convention; not selected by evaluation ranking.",
+  "scope": "Shallow regional readout on the existing public carrier; not an eight-class checkpoint conversion."
+}

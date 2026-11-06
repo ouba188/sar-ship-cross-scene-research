@@ -1,5 +1,15 @@
 # 2026-11-06：同步实际研究中的 M1/M2 代码
 
+## 随后确定的工作版本
+
+用户已选择“类别引导区域读出＋分类头小学习率联合更新”为当前M1/M2工作版。
+入口：[current_model.py](workspace_experiments/m1_guided_m2_20261106/current_model.py)，
+配置：[current_version.json](workspace_experiments/m1_guided_m2_20261106/current_version.json)。
+默认采用既有种子17，保留17/29/43；不按评价集挑最佳种子。
+选择现成实现和检查点，不重新训练，不采用冻结头分支，也不修改M3。
+当前可直接使用的权重属于OSS2四分类，旧八分类工程单独保留，不作不兼容覆盖。
+这一使用决定不改变下面记录的收益与局限。
+
 ## 本机与仓库是否一致
 
 同步前并不完全一致：
