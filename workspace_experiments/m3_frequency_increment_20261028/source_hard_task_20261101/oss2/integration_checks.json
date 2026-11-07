@@ -1,0 +1,135 @@
+{
+  "source_ids": [
+    "pub2_opensarship2_000699",
+    "pub2_opensarship2_000730",
+    "pub2_opensarship2_000775",
+    "pub2_opensarship2_001393"
+  ],
+  "eight_class_default_unchanged": true,
+  "four_class_output": true,
+  "candidate_same_init": true,
+  "zero_writeback_equal_none": true,
+  "checks": [
+    {
+      "arm": "none",
+      "gradients": {
+        "base.head.weight": 43.76140594482422,
+        "base.head.bias": 0.628480851650238
+      },
+      "output_shape": [
+        4,
+        4
+      ]
+    },
+    {
+      "arm": "aggregate",
+      "gradients": {
+        "base.head.weight": 43.76140594482422,
+        "base.head.bias": 0.628480851650238,
+        "matcher.shallow.0.weight": 0.0,
+        "matcher.shallow.1.weight": 0.0,
+        "matcher.shallow_norm.0.weight": 0.0,
+        "matcher.shallow_norm.0.bias": 0.0,
+        "matcher.shallow_norm.1.weight": 0.0,
+        "matcher.shallow_norm.1.bias": 0.0,
+        "matcher.deep.0.weight": 0.0,
+        "matcher.deep.1.weight": 0.0,
+        "matcher.deep_norm.0.weight": 0.0,
+        "matcher.deep_norm.0.bias": 0.0,
+        "matcher.deep_norm.1.weight": 0.0,
+        "matcher.deep_norm.1.bias": 0.0,
+        "matcher.key.0.weight": 0.0,
+        "matcher.key.1.weight": 0.0,
+        "matcher.key_norm.0.weight": 0.0,
+        "matcher.key_norm.0.bias": 0.0,
+        "matcher.key_norm.1.weight": 0.0,
+        "matcher.key_norm.1.bias": 0.0,
+        "matcher.value.0.weight": 0.0,
+        "matcher.value.1.weight": 0.0,
+        "matcher.value_norm.0.weight": 0.0,
+        "matcher.value_norm.0.bias": 0.0,
+        "matcher.value_norm.1.weight": 0.0,
+        "matcher.value_norm.1.bias": 0.0,
+        "matcher.metric.0.weight": 0.0,
+        "matcher.metric.0.bias": 0.0,
+        "matcher.metric.2.weight": 0.0,
+        "matcher.metric.2.bias": 0.0,
+        "matcher.output.0.weight": 0.30675992369651794,
+        "matcher.output.1.weight": 0.23159435391426086
+      },
+      "output_shape": [
+        4,
+        4
+      ]
+    },
+    {
+      "arm": "competitive",
+      "gradients": {
+        "base.head.weight": 43.76140594482422,
+        "base.head.bias": 0.628480851650238,
+        "matcher.shallow.0.weight": 0.0,
+        "matcher.shallow.1.weight": 0.0,
+        "matcher.shallow_norm.0.weight": 0.0,
+        "matcher.shallow_norm.0.bias": 0.0,
+        "matcher.shallow_norm.1.weight": 0.0,
+        "matcher.shallow_norm.1.bias": 0.0,
+        "matcher.deep.0.weight": 0.0,
+        "matcher.deep.1.weight": 0.0,
+        "matcher.deep_norm.0.weight": 0.0,
+        "matcher.deep_norm.0.bias": 0.0,
+        "matcher.deep_norm.1.weight": 0.0,
+        "matcher.deep_norm.1.bias": 0.0,
+        "matcher.key.0.weight": 0.0,
+        "matcher.key.1.weight": 0.0,
+        "matcher.key_norm.0.weight": 0.0,
+        "matcher.key_norm.0.bias": 0.0,
+        "matcher.key_norm.1.weight": 0.0,
+        "matcher.key_norm.1.bias": 0.0,
+        "matcher.value.0.weight": 0.0,
+        "matcher.value.1.weight": 0.0,
+        "matcher.value_norm.0.weight": 0.0,
+        "matcher.value_norm.0.bias": 0.0,
+        "matcher.value_norm.1.weight": 0.0,
+        "matcher.value_norm.1.bias": 0.0,
+        "matcher.metric.0.weight": 0.0,
+        "matcher.metric.0.bias": 0.0,
+        "matcher.metric.2.weight": 0.0,
+        "matcher.metric.2.bias": 0.0,
+        "matcher.output.0.weight": 0.35935452580451965,
+        "matcher.output.1.weight": 0.37071990966796875
+      },
+      "output_shape": [
+        4,
+        4
+      ]
+    },
+    {
+      "arm": "original",
+      "gradients": {
+        "base.head.weight": 44.80667495727539,
+        "base.head.bias": 0.655631959438324,
+        "matcher.0.branch_bias": 0.0014150143833830953,
+        "matcher.0.gain": 0.5944179892539978,
+        "matcher.0.selector.0.weight": 0.00034131508436985314,
+        "matcher.0.selector.0.bias": 0.0003281351237092167,
+        "matcher.0.selector.2.weight": 0.0018886298639699817,
+        "matcher.0.selector.2.bias": 0.0014150143833830953,
+        "matcher.0.project.weight": 0.04376194253563881,
+        "matcher.0.output.weight": 0.9059654474258423,
+        "matcher.1.branch_bias": 0.0012785275466740131,
+        "matcher.1.gain": 0.25747013092041016,
+        "matcher.1.selector.0.weight": 0.00015925780462566763,
+        "matcher.1.selector.0.bias": 0.00013778579887002707,
+        "matcher.1.selector.2.weight": 0.00121731823310256,
+        "matcher.1.selector.2.bias": 0.0012785275466740131,
+        "matcher.1.project.weight": 0.03032248094677925,
+        "matcher.1.output.weight": 1.092023253440857
+      },
+      "output_shape": [
+        4,
+        4
+      ]
+    }
+  ],
+  "fits": 0
+}

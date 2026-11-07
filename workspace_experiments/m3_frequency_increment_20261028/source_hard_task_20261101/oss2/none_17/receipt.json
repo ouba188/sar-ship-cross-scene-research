@@ -1,0 +1,57 @@
+{
+  "arm": "none",
+  "seed": 17,
+  "source_train": 719,
+  "hard": 112,
+  "validation": 228,
+  "classes": 4,
+  "frequency": false,
+  "backbone_frozen": true,
+  "selected_epoch": 0,
+  "selection": "BA then OA; earliest tied epoch; zero eligible",
+  "initial": {
+    "oa": 59.210526315789465,
+    "ba": 50.972687813396675,
+    "nll": 1.3435774675385996,
+    "balanced_nll": 1.5088772370085808
+  },
+  "results": {
+    "train": {
+      "oa": 90.82058414464534,
+      "ba": 89.05481305839099,
+      "nll": 0.29066292303010827,
+      "balanced_nll": 0.31628497319336335
+    },
+    "validation": {
+      "oa": 59.210526315789465,
+      "ba": 50.972687813396675,
+      "nll": 1.3435774675385996,
+      "balanced_nll": 1.5088772370085808
+    }
+  },
+  "steps": 120,
+  "trainable": {
+    "base.head.weight": 28680,
+    "base.head.bias": 4
+  },
+  "first_gradients": [
+    {
+      "step": 0,
+      "loss": 0.24939808249473572,
+      "gradients": {
+        "base.head.weight": 6.15372896194458,
+        "base.head.bias": 0.08404204994440079
+      }
+    },
+    {
+      "step": 1,
+      "loss": 0.24200448393821716,
+      "gradients": {
+        "base.head.weight": 5.383253574371338,
+        "base.head.bias": 0.05891833081841469
+      }
+    }
+  ],
+  "reload_error": 0.0,
+  "seconds": 9.423513100016862
+}

@@ -11,6 +11,17 @@
   "classes": ["bulk_carrier", "general_cargo", "chemical_tanker", "container"],
   "source_examples": 719,
   "references": 32,
+  "m3": {
+    "variant": "class_evidence_aggregate",
+    "implementation": "../m3_frequency_increment_20261028/source_hard_task_20261101/oss2/model_task.py",
+    "operator": "MaskedCostLocalMatch",
+    "arm": "aggregate",
+    "checkpoint": "../m3_frequency_increment_20261028/source_hard_task_20261101/oss2/aggregate_17/last.pt",
+    "frequency": false,
+    "placement": "after layer3, before layer4 and deep regional readout",
+    "execution_in_this_study": "fixed cached residual from the existing M3; not jointly retrained with the selected M1/M2",
+    "notes": "Provenance only; current_model.py remains the existing readout replay entry. Weights and caches are local, not distributed."
+  },
   "training_steps": 180,
   "head_learning_rate": 0.00001,
   "default_seed_reason": "Keep the existing seed17 convention; not selected by evaluation ranking.",
