@@ -2,6 +2,7 @@
 from pathlib import Path
 import json
 import re
+import sys
 from html.parser import HTMLParser
 import fitz
 from PIL import Image, ImageDraw
@@ -20,7 +21,8 @@ class ImageLinks(HTMLParser):
 
 
 def main():
-    qa = ROOT / "qa"
+    ieee = "--ieee" in sys.argv
+    qa = ROOT / ("qa_ieee" if ieee else "qa")
     qa.mkdir(exist_ok=True)
     page = ImageLinks()
     html = (ROOT / "index.html").read_text(encoding="utf-8")
@@ -28,7 +30,7 @@ def main():
     missing = [s for s in page.images if not (ROOT / s).exists()]
     assert not missing, missing
     assert html.count('<math') >= 18, "Equation conversion missing"
-    document = fitz.open(ROOT / "manuscript_review.pdf")
+    document = fitz.open(ROOT / ("manuscript_ieee.pdf" if ieee else "manuscript_review.pdf"))
     all_text = ""
     pages = []
     for i, pdf_page in enumerate(document):
@@ -54,7 +56,8 @@ def main():
             sheet.paste(im, (x, y))
             draw.text((x, y-18), f"Page {start+offset+1}", fill="black")
         sheet.save(qa / f"contact_{start//8+1}.png")
-    log = (ROOT / "_build/manuscript.log").read_text(encoding="utf-8", errors="replace")
+    log_path = "_build_ieee/manuscript_ieee.log" if ieee else "_build/manuscript.log"
+    log = (ROOT / log_path).read_text(encoding="utf-8", errors="replace")
     record = dict(pages=len(document), images=len(page.images),
                   equation_count=18, html_math_elements=html.count("<math"),
                   overfull=len(re.findall("Overfull", log)),
