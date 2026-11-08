@@ -29,7 +29,10 @@ def main():
     page.feed(html)
     missing = [s for s in page.images if not (ROOT / s).exists()]
     assert not missing, missing
-    assert html.count('<math') >= 18, "Equation conversion missing"
+    manuscript = (ROOT / "MANUSCRIPT_ZH.md").read_text(encoding="utf-8")
+    equations = [int(n) for n in re.findall(r"\\tag\{(\d+)\}", manuscript)]
+    assert len(equations) == len(set(equations)), "Duplicate equation number"
+    assert html.count('<math') >= len(equations), "Equation conversion missing"
     document = fitz.open(ROOT / ("manuscript_ieee.pdf" if ieee else "manuscript_review.pdf"))
     all_text = ""
     pages = []
@@ -43,7 +46,7 @@ def main():
                    if b[0] < 10 or b[2] > pdf_page.rect.width - 10
                    or b[1] < 5 or b[3] > pdf_page.rect.height - 5]
         pages.append(dict(page=i+1, text_characters=len(text), outside=outside))
-    for number in range(1, 19):
+    for number in equations:
         assert f"({number})" in all_text, f"Missing equation {number}"
     assert not any(p["outside"] for p in pages), pages
     for start in range(0, len(document), 8):
@@ -59,7 +62,7 @@ def main():
     log_path = "_build_ieee/manuscript_ieee.log" if ieee else "_build/manuscript.log"
     log = (ROOT / log_path).read_text(encoding="utf-8", errors="replace")
     record = dict(pages=len(document), images=len(page.images),
-                  equation_count=18, html_math_elements=html.count("<math"),
+                  equation_count=len(equations), html_math_elements=html.count("<math"),
                   overfull=len(re.findall("Overfull", log)),
                   missing_characters=len(re.findall("Missing character", log)),
                   page_checks=pages)

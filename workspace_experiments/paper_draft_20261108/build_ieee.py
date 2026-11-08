@@ -55,7 +55,10 @@ def figure(number, caption, path=None):
     out = [r"\begin{figure*}[!t]", r"\centering",
            rf"\setcounter{{figure}}{{{number-1}}}"]
     if path:
-        height = ".34" if number in {1, 2} else ".21"
+        if "author_20261109/" in path:
+            path = str(Path(path).with_suffix(".pdf")).replace("\\", "/")
+        height = {1: ".34", 2: ".34", 3: ".48", 4: ".32",
+                  5: ".33", 6: ".28", 7: ".40"}.get(number, ".21")
         out.append(r"\includegraphics[width=.96\textwidth,height=" +
                    height + r"\textheight,keepaspectratio]{" + path + "}")
     else:
@@ -64,65 +67,6 @@ def figure(number, caption, path=None):
     out += [r"\caption{" + caption + "}", rf"\label{{fig:{number}}}",
             r"\end{figure*}"]
     return "\n".join(out)
-
-
-def wrap_equations(tex):
-    # Break long expressions without changing the controlling mathematical content.
-    replacements = {
-        1: r"""\begin{aligned}
-m_{y,c^\star}(x)&=T_y(x)-T_{c^\star}(x),\\
-\Delta m_a&=m_{y,c^\star}(x_a^I)-m_{y,c^\star}(x).
-\end{aligned}""",
-        2: r"""\begin{aligned}
-D_f(I)&=I-G_1(I),\\
-D_m(I)&=G_1(I)-G_2(I).
-\end{aligned}""",
-        6: r"""\begin{aligned}
-t_r(F)&=\frac{\sum_u m_r(u)F(u)}{\sum_u m_r(u)},\\
-r&\in\{\mathrm{body,end,side}\}.
-\end{aligned}""",
-        7: r"""\begin{aligned}
-F^{+}(u)&=F(u)+\sum_r\widetilde m_r(u)\phi_r(t_r(F)),\\
-\widetilde m_r(u)&=\frac{m_r(u)}{\max(1,\sum_jm_j(u))}.
-\end{aligned}""",
-        9: r"""\begin{aligned}
-\delta_{p,r}
-&=0.1\,\operatorname{stopgrad}\!\left(
- \operatorname{RMS}(t_r(F_2))\right)\\
-&\quad{}\cdot\tanh\!\left(W_p[t_{r,0};t_{r,1};\ldots;t_{r,K}]\right).
-\end{aligned}""",
-        11: r"""\begin{aligned}
-\widetilde T^j_{ab}&=\frac{\rho_a^j\kappa_b^j}{M^j},\\
-\bar v^j_a&=\frac{\sum_b\widetilde T^j_{ab}v_{j,b}}{\rho^j_a}.
-\end{aligned}""",
-        14: r"""\begin{aligned}
-E_c(u)&=\sum_a\eta_a(u)\widetilde e_{c,a},\\
-F_3^{+}(u)&=F_3(u)+0.1W_p^{\mathrm{out}}E(u).
-\end{aligned}""",
-        15: r"""\begin{aligned}
-z_{p,r}={}&t_r(F_{2,p})+P_p^{\mathrm{deep}}t_r(F_{3,p}^{+})\\
-&+\delta_{p,r}.
-\end{aligned}""",
-        17: r"""\begin{aligned}
-\ell_i&=\frac{1}{K-1}\sum_{c\ne y_i}
- \left[b_{i,c}-(z_{i,y_i}-z_{i,c})\right]_+^2,\\
-\mathcal L_{\mathrm{floor}}
- &=\frac{\sum_i w_i u_i\ell_i}{\sum_i w_i}.
-\end{aligned}""",
-        18: r"""\begin{aligned}
-\mathcal L_{\mathrm{adapt}}={}&\mathcal L_{\mathrm{CE}}
- +0.1\mathcal L_{\mathrm{KL,correct}}\\
-&+\lambda\mathcal L_{\mathrm{floor}}.
-\end{aligned}""",
-    }
-    for n, expression in replacements.items():
-        pattern = r"(?<!\\)\\\[(?:(?!\\\]).)*?\\tag\{" + str(n) + r"\}\\\]"
-        tex, count = re.subn(pattern,
-                            lambda _: "\\[\n" + expression + rf"\tag{{{n}}}" + "\n\\]",
-                            tex, flags=re.S)
-        if count != 1:
-            raise ValueError(f"Equation {n}: expected one display, found {count}")
-    return tex
 
 
 def main():
@@ -195,9 +139,9 @@ def main():
                 table_caption = (int(caption[1]), caption[2])
             else:
                 body.append(rendered)
-    content = wrap_equations("\n\n".join(body))
+    content = "\n\n".join(body)
     tex = (ROOT / "ieee_header.tex").read_text(encoding="utf-8") + "\n" + content
-    tex += "\n\\IEEEtriggeratref{7}\n\\begin{thebibliography}{99}\n" + "\n\n".join(bib)
+    tex += "\n\\IEEEtriggeratref{15}\n\\begin{thebibliography}{99}\n" + "\n\n".join(bib)
     tex += "\n\\end{thebibliography}\n\\end{document}\n"
     (ROOT / "manuscript_ieee.tex").write_text(tex, encoding="utf-8")
     engine = shutil.which("xelatex")

@@ -1,4 +1,4 @@
-"""Render the manuscript without modifying experiments or drawing diagrams."""
+"""Render the manuscript using archived evidence and author-supplied diagrams."""
 from pathlib import Path
 import csv
 import re
@@ -28,16 +28,21 @@ def main():
     (ROOT / "_build").mkdir(exist_ok=True)
     for name, source in FIGURES.items():
         target = ROOT / "figures" / name
-        if source.exists():
+        if not target.exists() and source.exists():
             shutil.copy2(source, target)
         elif not target.exists():
             raise FileNotFoundError(source)
     with (ROOT / "figure_sources.csv").open("w", encoding="utf-8-sig", newline="") as stream:
         writer = csv.writer(stream)
         writer.writerow(["figure", "archived_file", "source"])
-        writer.writerows((name.split("_")[0], "figures/" + name, str(source)) for name, source in FIGURES.items())
+        numbers = [1, 2, 8, 9]
+        writer.writerows((number, "figures/" + name, str(source))
+                         for number, (name, source) in zip(numbers, FIGURES.items()))
+        writer.writerows((i+3, f"figures/author_20261109/fig{i+3}_author.pdf",
+                          f"sources_20261109/author_flowcharts.pptx; slide {i+1}; corrected paper copy")
+                         for i in range(5))
     source = (ROOT / "MANUSCRIPT_ZH.md").read_text(encoding="utf-8")
-    # Keep manual figure numbering: the three author-drawn flowcharts are placeholders.
+    # Keep the same manual figure numbering as the IEEE edition.
     rendered = re.sub(r"^!\[([^\n]+)\]\(([^)]+)\)(\{[^\n]*\})?$",
                       lambda m: "![](" + m[2] + ")" + (m[3] or "") + "\n\n" + m[1],
                       source, flags=re.M)
