@@ -4,8 +4,8 @@ import torch
 from scipy.ndimage import gaussian_filter, distance_transform_edt
 from PIL import Image, ImageDraw
 
-from .. import frequency, tokens
-from .data import FREQUENCY_KEYS, batch, energy_for, pair_mask, prepare_record, assert_source
+from .. import frequency
+from .data import batch, pair_mask, prepare_record, assert_source
 from .model import forward_batch, reference_bank
 
 
@@ -62,9 +62,6 @@ def variants(record):
         for kind, raw in (('structure', altered), ('mean_control', level)):
             item = {k: v.copy() for k, v in original.items()}
             item['images'][p, 0] = frequency.place(raw, views[p]['placement'])
-            slots = tokens.slots(views[p]['geometry'], views[p]['footprint'])
-            for key, value in energy_for(raw*255, views[p], slots).items():
-                item[key][p] = value
             items.append(item)
             meta.append(dict(kind=kind, pol=('vv', 'vh')[p], region=region, band=band,
                              l2=float(np.linalg.norm(raw-im)), mean_delta=float((raw-im).mean())))
@@ -111,13 +108,8 @@ def select_records(model, records, references, device, progress=None):
         scores = np.concatenate(scores)
         y = record['label']
         choice = select_teacher(scores, meta, y)
-        altered = {k: v.copy() for k, v in items[choice['chosen_index']].items()}
-        # Confirm the useful change through image features, keeping explicit
-        # Gabor inputs at their original values (the measured E1/K0/F0 path).
-        for key in FREQUENCY_KEYS:
-            altered[key] = items[0][key]
-        score = forward_batch(model, batch([altered], device), bank,
-                              pair_mask([record], references, device))[0].cpu()
+        # Image-only variants already have scores; retain the strongest-rival check.
+        score = torch.tensor(scores[choice['chosen_index']])
         clean = torch.tensor(scores[0])
         def margin(s):
             competitors = s.clone()

@@ -2,13 +2,15 @@
 import unittest
 from pathlib import Path
 import tempfile
+from unittest.mock import patch
 
 import numpy as np
 import torch
 from PIL import Image
 
+from sar_m123.current import data, interventions
 from sar_m123.current.data import assert_source, pair_mask
-from sar_m123.current.interventions import select_teacher, variants
+from sar_m123.current.interventions import select_teacher, select_records, variants
 from sar_m123.current.training import adaptation_loss, margin_floor
 
 
@@ -59,10 +61,32 @@ class CurrentProtocolTests(unittest.TestCase):
             spec = dict(image=str(path), target_index=0,
                 detections=[dict(corners=[[17, 27], [47, 27], [47, 37], [17, 37]], confidence=.9)],
                 ship_axis=dict(center=[32, 32], length_px=30, width_px=10, angle=0.))
-            _, metadata = variants(dict(vv=spec, vh=None))
+            with patch.object(data.frequency, 'extract', wraps=data.frequency.extract) as extract:
+                items, metadata = variants(dict(vv=spec, vh=None))
+            self.assertEqual(extract.call_count, 1)  # Original input only.
+            for item in items[1:]:
+                for key in data.FREQUENCY_KEYS:
+                    np.testing.assert_array_equal(item[key], items[0][key])
+                self.assertGreater(float(abs(item['images']-items[0]['images']).max()), 0.)
         bands = {m['band'] for m in metadata if m['kind'] == 'structure'}
         self.assertEqual(bands, {'fine', 'middle'})
         self.assertTrue(any(m['kind'] == 'mean_control' for m in metadata))
+
+    def test_selection_reuses_scores_and_checks_new_strongest_rival(self):
+        meta = [dict(kind=k, pol='vv', region='body', band='fine')
+                for k in ('original', 'structure', 'mean_control')]
+        record = dict(id='query', label=0, split='source_adapt')
+        for changed, expected in (([2., 1., 1.], True), ([2., 1., 3.1], False)):
+            scores = torch.tensor([[0., 1., 1.], changed, [0., 1., 1.]])
+            self.assertTrue(select_teacher(scores.numpy(), meta, 0)['useful'])
+            with patch.object(interventions, 'variants', return_value=([{}, {}, {}], meta)), \
+                 patch.object(interventions, 'reference_bank', return_value={}), \
+                 patch.object(interventions, 'batch', side_effect=lambda group, device: group), \
+                 patch.object(interventions, 'forward_batch', return_value=scores) as forward:
+                result = select_records(None, [record], [dict(id='reference')], 'cpu')
+            self.assertEqual(forward.call_count, 1)
+            self.assertEqual(result[0]['useful'], expected)
+            self.assertEqual(result[0]['altered'], scores[1].tolist())
 
     def test_query_labels_cannot_authorize_source_selection(self):
         with self.assertRaises(ValueError):
