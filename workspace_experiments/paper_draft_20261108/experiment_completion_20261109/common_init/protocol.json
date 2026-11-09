@@ -1,0 +1,24 @@
+{
+  "arms": [
+    "plain",
+    "full",
+    "no_m1",
+    "no_m2",
+    "no_m3"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "steps": 360,
+  "source": 719,
+  "references": 32,
+  "pretrain": "C:\\Users\\25791\\.cache\\torch\\hub\\checkpoints\\resnet50-11ad3fa6.pth",
+  "initialization": "ImageNet backbone plus fresh modules and head",
+  "query_labels": "loss and reporting only",
+  "anchor": "frozen ImageNet layer1/layer2 descriptors",
+  "reference_exclusion": "same MMSI or same platform orbit",
+  "optimization": "joint CE + 0.02 M1 auxiliary; fixed BN; four common conv weights trainable",
+  "scope": "new unified-optimization pilot; does not replace current staged working version"
+}
