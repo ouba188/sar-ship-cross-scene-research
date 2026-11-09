@@ -32,10 +32,11 @@ def table(block, number, caption):
     c = block["c"]
     head = c[3][1]
     rows = [row for body in c[4] for row in body[3]]
-    wide = number in {2, 3, 4, 9, 10}
+    wide = number in {2, 3, 4, 7, 12, 13}
     env = "table*" if wide else "table"
-    specs = {1: "LCCCC", 2: "LCCC", 3: "LLLC", 4: "LCCCCC",
-             5: "LCCC", 6: "LCC", 7: "LCC", 8: "LLCC", 9: "LLCCC", 10: "LLCCC"}
+    specs = {1: "LCCCC", 2: "LCCC", 3: "LLLC", 4: "LLLL",
+             5: "LCCC", 6: "LCC", 7: "LCCCCC", 8: "LCCC",
+             9: "LCC", 10: "LCC", 11: "LLCC", 12: "LLCCC", 13: "LLCCC"}
     out = [rf"\begin{{{env}}}[!t]", r"\centering\footnotesize",
            rf"\setcounter{{table}}{{{number-1}}}",
            r"\caption{" + caption + "}", rf"\label{{tab:{number}}}",
@@ -52,20 +53,21 @@ def table(block, number, caption):
 
 
 def figure(number, caption, path=None):
-    out = [r"\begin{figure*}[!t]", r"\centering",
+    env = "figure" if number == 7 else "figure*"
+    out = [rf"\begin{{{env}}}[!t]", r"\centering",
            rf"\setcounter{{figure}}{{{number-1}}}"]
     if path:
         if "author_20261109/" in path:
             path = str(Path(path).with_suffix(".pdf")).replace("\\", "/")
         height = {1: ".34", 2: ".34", 3: ".48", 4: ".32",
-                  5: ".33", 6: ".28", 7: ".40"}.get(number, ".21")
-        out.append(r"\includegraphics[width=.96\textwidth,height=" +
+                  5: ".28", 6: ".28", 7: ".40"}.get(number, ".21")
+        out.append(r"\includegraphics[width=.96\linewidth,height=" +
                    height + r"\textheight,keepaspectratio]{" + path + "}")
     else:
         out.append(r"\fbox{\parbox[c][20mm][c]{.92\textwidth}{\centering " +
                    "流程图预留位置（由作者绘制）" + "}}")
     out += [r"\caption{" + caption + "}", rf"\label{{fig:{number}}}",
-            r"\end{figure*}"]
+            rf"\end{{{env}}}"]
     return "\n".join(out)
 
 
@@ -156,8 +158,13 @@ def main():
         if result.returncode:
             raise RuntimeError((result.stdout + result.stderr)[-4000:])
         print(f"IEEE pass {n} OK", flush=True)
-    shutil.copy2(BUILD / "manuscript_ieee.pdf", ROOT / "manuscript_ieee.pdf")
-    print("DELIVERED", ROOT / "manuscript_ieee.pdf", flush=True)
+    output = ROOT / "manuscript_ieee.pdf"
+    try:
+        shutil.copy2(BUILD / "manuscript_ieee.pdf", output)
+    except PermissionError:
+        output = ROOT / "manuscript_ieee_20261109_cross_scene.pdf"
+        shutil.copy2(BUILD / "manuscript_ieee.pdf", output)
+    print("DELIVERED", output, flush=True)
 
 
 if __name__ == "__main__":

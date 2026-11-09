@@ -33,7 +33,9 @@ def main():
     equations = [int(n) for n in re.findall(r"\\tag\{(\d+)\}", manuscript)]
     assert len(equations) == len(set(equations)), "Duplicate equation number"
     assert html.count('<math') >= len(equations), "Equation conversion missing"
-    document = fitz.open(ROOT / ("manuscript_ieee.pdf" if ieee else "manuscript_review.pdf"))
+    pdf_path = (Path(sys.argv[sys.argv.index("--pdf") + 1]) if "--pdf" in sys.argv
+                else ROOT / ("manuscript_ieee.pdf" if ieee else "manuscript_review.pdf"))
+    document = fitz.open(pdf_path)
     all_text = ""
     pages = []
     for i, pdf_page in enumerate(document):
@@ -61,7 +63,7 @@ def main():
         sheet.save(qa / f"contact_{start//8+1}.png")
     log_path = "_build_ieee/manuscript_ieee.log" if ieee else "_build/manuscript.log"
     log = (ROOT / log_path).read_text(encoding="utf-8", errors="replace")
-    record = dict(pages=len(document), images=len(page.images),
+    record = dict(pdf=str(pdf_path.resolve()), pages=len(document), images=len(page.images),
                   equation_count=len(equations), html_math_elements=html.count("<math"),
                   overfull=len(re.findall("Overfull", log)),
                   missing_characters=len(re.findall("Missing character", log)),
