@@ -9,6 +9,7 @@
 \setCJKmonofont{SimSun}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx,booktabs,array,tabularx}
+\usepackage{float,stfloats,placeins,balance}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
@@ -19,4 +20,17 @@
 \renewcommand{\tablename}{表}
 \renewcommand{\refname}{参考文献}
 \emergencystretch=1em
+\linespread{0.98}
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setcounter{topnumber}{3}
+\setcounter{dbltopnumber}{3}
+\renewcommand{\topfraction}{.90}
+\renewcommand{\dbltopfraction}{.90}
+\renewcommand{\textfraction}{.08}
+\renewcommand{\floatpagefraction}{.80}
+\raggedbottom
 \begin{document}

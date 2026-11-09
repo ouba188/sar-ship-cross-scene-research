@@ -32,19 +32,38 @@ def table(block, number, caption):
     c = block["c"]
     head = c[3][1]
     rows = [row for body in c[4] for row in body[3]]
-    wide = number in {2, 3, 4, 7, 12, 13}
+    wide = number in {3, 4}
     env = "table*" if wide else "table"
-    specs = {1: "LCCCC", 2: "LCCC", 3: "LLLC", 4: "LLLL",
-             5: "LCCC", 6: "LCC", 7: "LCCCCC", 8: "LCCC",
-             9: "LCC", 10: "LCC", 11: "LLCC", 12: "LLCCC", 13: "LLCCC"}
-    out = [rf"\begin{{{env}}}[!t]", r"\centering\footnotesize",
+    specs = {1: "LCCCC", 2: "LCCC", 3: "LLL", 4: "LCCCLCCC",
+             5: "LCC", 6: "LCCCCC", 7: "LCCC", 8: "LCC",
+             9: "LCC", 10: "LCCC"}
+    placement = "!b" if number == 3 else ("!tb" if wide else "!htb")
+    out = [rf"\begin{{{env}}}[{placement}]", r"\centering\footnotesize",
            rf"\setcounter{{table}}{{{number-1}}}",
            r"\caption{" + caption + "}", rf"\label{{tab:{number}}}",
            r"\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}",
            r"\begin{tabularx}{\linewidth}{" + specs[number] + "}",
            r"\toprule"]
+    if number == 4:
+        headings = [convert(cell[4]) for cell in head[0][1]]
+        out += [" & ".join(headings + headings) + r" \\", r"\midrule"]
+        port_rows = [[convert(cell[4]) for cell in row[1]] for row in rows]
+        ports, total = port_rows[:-1], port_rows[-1]
+        for left, right in zip(ports[:12], ports[12:]):
+            out.append(" & ".join(left + right) + r" \\")
+        out += [r"\midrule", " & ".join(total + ["", "", "", ""]) + r" \\",
+                r"\bottomrule", r"\end{tabularx}", rf"\end{{{env}}}"]
+        return "\n".join(out)
+    group = None
     for i, row in enumerate(head + rows):
         cells = [convert(cell[4]).replace("\n", " ") for cell in row[1]]
+        if number == 10:
+            label, cells = cells[0], cells[1:]
+            if i >= len(head) and label != group:
+                if group is not None:
+                    out.append(r"\midrule")
+                out.append(r"\multicolumn{4}{l}{\textit{" + label + r"}} \\")
+                group = label
         out.append(" & ".join(cells) + r" \\")
         if i == len(head) - 1:
             out.append(r"\midrule")
@@ -53,15 +72,16 @@ def table(block, number, caption):
 
 
 def figure(number, caption, path=None):
-    env = "figure" if number == 7 else "figure*"
-    out = [rf"\begin{{{env}}}[!t]", r"\centering",
+    env = "figure*" if number in {3, 6} else "figure"
+    placement = "!htb" if env == "figure" else "!tb"
+    out = [rf"\begin{{{env}}}[{placement}]", r"\centering",
            rf"\setcounter{{figure}}{{{number-1}}}"]
     if path:
         if "author_20261109/" in path:
             path = str(Path(path).with_suffix(".pdf")).replace("\\", "/")
-        height = {1: ".34", 2: ".34", 3: ".48", 4: ".32",
-                  5: ".28", 6: ".28", 7: ".40"}.get(number, ".21")
-        out.append(r"\includegraphics[width=.96\linewidth,height=" +
+        height = {1: ".38", 2: ".36", 3: ".42", 4: ".28",
+                  5: ".25", 6: ".28", 7: ".30"}.get(number, ".28")
+        out.append(r"\includegraphics[width=\linewidth,height=" +
                    height + r"\textheight,keepaspectratio]{" + path + "}")
     else:
         out.append(r"\fbox{\parbox[c][20mm][c]{.92\textwidth}{\centering " +
@@ -80,6 +100,11 @@ def main():
     document = json.loads(proc.stdout)
     API = document["pandoc-api-version"]
     title = plain({"t": "Para", "c": document["meta"]["title"]["c"]})
+    def metadata(name):
+        return convert([{"t": "Plain", "c": document["meta"][name]["c"]}])
+    authors = metadata("author").replace("Member, IEEE", r"\IEEEmembership{Member,~IEEE}")
+    author_block = (r"\author{" + authors + r"\thanks{" + metadata("funding") +
+                    r"}\thanks{" + metadata("affiliation") + "}}")
     blocks = document["blocks"]
     body = []
     bib = []
@@ -91,7 +116,11 @@ def main():
             text = plain({"t": "Para", "c": block["c"][2]})
             section = text
             if text in {"摘要", "Abstract", "参考文献"}:
+                if text == "参考文献":
+                    body.append(r"\FloatBarrier")
                 continue
+            if block["c"][0] == 1 and text.startswith(("5 ", "6 ")):
+                body.append(r"\FloatBarrier")
             block["c"][2][0]["c"] = re.sub(
                 r"^\d+(?:\.\d+)*\s*", "", block["c"][2][0]["c"])
             if block["c"][2][0]["c"] == "":
@@ -102,7 +131,23 @@ def main():
             match = re.match(r"\[(\d+)\]", block["c"][0].get("c", ""))
             if match:
                 block["c"] = block["c"][2:]
-                bib.append(r"\bibitem{ref" + match[1] + "}" + convert([block]))
+                entry = convert([block])
+                venue_names = {
+                    "IEEE Transactions on Geoscience and Remote Sensing": "IEEE Trans. Geosci. Remote Sens.",
+                    "IEEE Transactions on Pattern Analysis and Machine Intelligence": "IEEE Trans. Pattern Anal. Mach. Intell.",
+                    "IEEE Transactions on Automation Science and Engineering": "IEEE Trans. Autom. Sci. Eng.",
+                    "IEEE Transactions on Circuits and Systems for Video Technology": "IEEE Trans. Circuits Syst. Video Technol.",
+                    "IEEE Transactions on Image Processing": "IEEE Trans. Image Process.",
+                    "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition": "Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit.",
+                    "Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition": "Proc. IEEE Conf. Comput. Vis. Pattern Recognit.",
+                    "Proceedings of the IEEE/CVF International Conference on Computer Vision Workshops": "Proc. IEEE/CVF Int. Conf. Comput. Vis. Workshops",
+                    "Proceedings of the IEEE/CVF International Conference on Computer Vision": "Proc. IEEE/CVF Int. Conf. Comput. Vis.",
+                    "Advances in Neural Information Processing Systems": "Adv. Neural Inf. Process. Syst.",
+                    "Proceedings of the AAAI Conference on Artificial Intelligence": "Proc. AAAI Conf. Artif. Intell.",
+                }
+                for full, short in venue_names.items():
+                    entry = entry.replace(full, short)
+                bib.append(r"\bibitem{ref" + match[1] + "}" + entry)
             continue
         if kind == "Para" and block["c"] and block["c"][0]["t"] == "Image":
             image = block["c"][0]["c"]
@@ -124,7 +169,7 @@ def main():
         if not section:
             english_title = re.sub(r"^\\textbf\{英文题目：\}\s*", "", rendered)
             body.append(r"\title{" + title + r"\\[0.6em]{\large " +
-                        english_title + r"}}\author{}\maketitle")
+                        english_title + "}}" + author_block + r"\maketitle")
         elif section == "摘要":
             if rendered.startswith(r"\textbf{关键词"):
                 keywords = re.sub(r"^\\textbf\{关键词：\}\s*", "", rendered)
@@ -143,7 +188,7 @@ def main():
                 body.append(rendered)
     content = "\n\n".join(body)
     tex = (ROOT / "ieee_header.tex").read_text(encoding="utf-8") + "\n" + content
-    tex += "\n\\begin{thebibliography}{99}\n" + "\n\n".join(bib)
+    tex += "\n\\balance\n\\begin{thebibliography}{99}\n" + "\n\n".join(bib)
     tex += "\n\\end{thebibliography}\n\\end{document}\n"
     (ROOT / "manuscript_ieee.tex").write_text(tex, encoding="utf-8")
     engine = shutil.which("xelatex")
@@ -162,7 +207,7 @@ def main():
     try:
         shutil.copy2(BUILD / "manuscript_ieee.pdf", output)
     except PermissionError:
-        output = ROOT / "manuscript_ieee_20261109_cross_scene.pdf"
+        output = ROOT / "manuscript_ieee_20261109_revised.pdf"
         shutil.copy2(BUILD / "manuscript_ieee.pdf", output)
     print("DELIVERED", output, flush=True)
 
