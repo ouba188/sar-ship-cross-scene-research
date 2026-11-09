@@ -143,7 +143,7 @@ def main():
                 body.append(rendered)
     content = "\n\n".join(body)
     tex = (ROOT / "ieee_header.tex").read_text(encoding="utf-8") + "\n" + content
-    tex += "\n\\IEEEtriggeratref{15}\n\\begin{thebibliography}{99}\n" + "\n\n".join(bib)
+    tex += "\n\\begin{thebibliography}{99}\n" + "\n\n".join(bib)
     tex += "\n\\end{thebibliography}\n\\end{document}\n"
     (ROOT / "manuscript_ieee.tex").write_text(tex, encoding="utf-8")
     engine = shutil.which("xelatex")

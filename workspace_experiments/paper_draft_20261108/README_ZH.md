@@ -4,7 +4,7 @@
 
 ## 阅读入口
 
-- manuscript_ieee_20261109_cross_scene.pdf：本轮IEEE双栏稿，任务统一为跨场景，仅保留中文摘要；图7为单栏。
+- manuscript_ieee_20261109_recent_refs.pdf：当前IEEE双栏稿，补入近期相关研究；跨场景任务、中文摘要和图7单栏保持不变。
 - manuscript_ieee.tex：由主稿生成的可编译LaTeX源文件。
 - index.html：离线图文版，使用原生MathML显示公式。
 - MANUSCRIPT_ZH.md：唯一正文编辑源。
@@ -12,6 +12,8 @@
 - author_flowcharts_paper_revision.pptx：作者五页流程图的论文修订副本；原文件未覆盖。
 - FORMULA_FIGURE_ALIGNMENT_ZH.md：图、公式、说明文档与实现的核对结果。
 - literature_20261109/REFERENCES_ADDITIONS_ZH.md：13篇新增原始论文的方法阅读与差异。
+- literature_20261109/RECENT_REFERENCES_UPDATE_ZH.md：本轮9篇2023–2025年补充文献、阅读范围与M1–M3/干预训练的比较。
+- literature_20261109/RECENT_SAR_READING_ZH.md：4篇近期SAR分类期刊论文的来源及具体差异。
 - literature_20261109/CITATION_NUMBER_MAP_ZH.md：按首次引用顺序重排的正文编号。
 - EDITOR_NOTES_ZH.md：实验版本、结果来源和投稿前关键缺口。
 - CHIP_LOCATIONS_ZH.md：正文案例与图中参考船的原始chip本地链接。
@@ -19,6 +21,8 @@
 - DATASET_PROFILE_ZH.md：数据集与实验子集的详细统计来源。
 
 ## 本轮完成
+
+参考文献由27篇增至36篇，其中14篇发表于2023–2026年。新增来源包括TGRS、TASE、TPAMI、TCSVT、TIP及ICCV，已补入引言和相关研究的具体比较；经典基础方法保留。所有编号按首次引用顺序更新，不把只读到摘要的工作记作方法全文精读，不改变模型和实验结论。
 
 论文统一以跨场景SAR船舶分类为任务，保留干预选样和判别优势约束，同时保留其追加适配的真实实验结果。本轮删除英文摘要，将图7改为单栏，并增补数据集概况、自建24港逐港组成及类别分布表。正文保留8节、18组编号公式、9幅图；表号和正文引用同步调整。
 
