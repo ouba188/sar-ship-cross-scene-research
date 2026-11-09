@@ -1,0 +1,574 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><title>源端早停验证</title>
+<style>body{font-family:Arial;max-width:1350px;margin:24px auto;padding:16px}img{max-width:100%}table{border-collapse:collapse}td,th{padding:5px;border:1px solid #ccc}</style>
+<h1>适配阶段源过境留出：早停与小步更新</h1><p>源留出105条、训练130条；教师历史见过源数据。只用源balanced NLL选学习率和轮次；目标只在锁定后评价。</p>
+<p>当前两组均选第0轮，数值相同来自同一权重，不是重复训练的稳定提升。earlystop_protection比较保留模型与强行训练末轮，不能称为干预选样的额外收益。</p>
+<img src="source_earlystop_curves.png">
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">oa</th>
+      <th colspan="2" halign="left">ba</th>
+      <th colspan="2" halign="left">nll</th>
+      <th colspan="2" halign="left">brier</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+    </tr>
+    <tr>
+      <th>split</th>
+      <th>arm</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">evaluation</th>
+      <th>initial</th>
+      <td>62.433862</td>
+      <td>NaN</td>
+      <td>59.962694</td>
+      <td>NaN</td>
+      <td>1.146052</td>
+      <td>NaN</td>
+      <td>0.556159</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>intervention</th>
+      <td>62.433862</td>
+      <td>0.000000</td>
+      <td>59.962694</td>
+      <td>0.000000</td>
+      <td>1.146052</td>
+      <td>0.000000</td>
+      <td>0.556159</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>intervention_last</th>
+      <td>60.846561</td>
+      <td>0.699934</td>
+      <td>58.253452</td>
+      <td>0.607843</td>
+      <td>1.160480</td>
+      <td>0.006873</td>
+      <td>0.564977</td>
+      <td>0.002654</td>
+    </tr>
+    <tr>
+      <th>ordinary</th>
+      <td>62.433862</td>
+      <td>0.000000</td>
+      <td>59.962694</td>
+      <td>0.000000</td>
+      <td>1.146052</td>
+      <td>0.000000</td>
+      <td>0.556159</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>ordinary_last</th>
+      <td>61.199295</td>
+      <td>0.763691</td>
+      <td>58.543247</td>
+      <td>0.685028</td>
+      <td>1.157255</td>
+      <td>0.007818</td>
+      <td>0.563855</td>
+      <td>0.003078</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">source_hold</th>
+      <th>initial</th>
+      <td>90.476190</td>
+      <td>NaN</td>
+      <td>88.869617</td>
+      <td>NaN</td>
+      <td>0.404422</td>
+      <td>NaN</td>
+      <td>0.185048</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>intervention</th>
+      <td>90.476190</td>
+      <td>0.000000</td>
+      <td>88.869617</td>
+      <td>0.000000</td>
+      <td>0.404422</td>
+      <td>0.000000</td>
+      <td>0.185048</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>intervention_last</th>
+      <td>89.523810</td>
+      <td>0.000000</td>
+      <td>88.112041</td>
+      <td>0.000000</td>
+      <td>0.418866</td>
+      <td>0.002981</td>
+      <td>0.191361</td>
+      <td>0.001980</td>
+    </tr>
+    <tr>
+      <th>ordinary</th>
+      <td>90.476190</td>
+      <td>0.000000</td>
+      <td>88.869617</td>
+      <td>0.000000</td>
+      <td>0.404422</td>
+      <td>0.000000</td>
+      <td>0.185048</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>ordinary_last</th>
+      <td>89.523810</td>
+      <td>0.000000</td>
+      <td>88.112041</td>
+      <td>0.000000</td>
+      <td>0.418247</td>
+      <td>0.003482</td>
+      <td>0.191512</td>
+      <td>0.002283</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">source_train</th>
+      <th>initial</th>
+      <td>87.692308</td>
+      <td>NaN</td>
+      <td>87.213954</td>
+      <td>NaN</td>
+      <td>0.408403</td>
+      <td>NaN</td>
+      <td>0.205020</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>intervention</th>
+      <td>87.692308</td>
+      <td>0.000000</td>
+      <td>87.213954</td>
+      <td>0.000000</td>
+      <td>0.408403</td>
+      <td>0.000000</td>
+      <td>0.205020</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>intervention_last</th>
+      <td>90.000000</td>
+      <td>0.000000</td>
+      <td>89.796862</td>
+      <td>0.000000</td>
+      <td>0.325263</td>
+      <td>0.002919</td>
+      <td>0.154807</td>
+      <td>0.001866</td>
+    </tr>
+    <tr>
+      <th>ordinary</th>
+      <td>87.692308</td>
+      <td>0.000000</td>
+      <td>87.213954</td>
+      <td>0.000000</td>
+      <td>0.408403</td>
+      <td>0.000000</td>
+      <td>0.205020</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>ordinary_last</th>
+      <td>90.000000</td>
+      <td>0.000000</td>
+      <td>89.796862</td>
+      <td>0.000000</td>
+      <td>0.325432</td>
+      <td>0.003414</td>
+      <td>0.154921</td>
+      <td>0.002008</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">validation</th>
+      <th>initial</th>
+      <td>61.842105</td>
+      <td>NaN</td>
+      <td>55.445451</td>
+      <td>NaN</td>
+      <td>1.237232</td>
+      <td>NaN</td>
+      <td>0.579080</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>intervention</th>
+      <td>61.842105</td>
+      <td>0.000000</td>
+      <td>55.445451</td>
+      <td>0.000000</td>
+      <td>1.237232</td>
+      <td>0.000000</td>
+      <td>0.579080</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>intervention_last</th>
+      <td>60.964912</td>
+      <td>0.000000</td>
+      <td>54.104455</td>
+      <td>0.663621</td>
+      <td>1.248405</td>
+      <td>0.009290</td>
+      <td>0.582090</td>
+      <td>0.001916</td>
+    </tr>
+    <tr>
+      <th>ordinary</th>
+      <td>61.842105</td>
+      <td>0.000000</td>
+      <td>55.445451</td>
+      <td>0.000000</td>
+      <td>1.237232</td>
+      <td>0.000000</td>
+      <td>0.579080</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>ordinary_last</th>
+      <td>61.111111</td>
+      <td>0.253224</td>
+      <td>54.202393</td>
+      <td>0.827668</td>
+      <td>1.245500</td>
+      <td>0.010907</td>
+      <td>0.581587</td>
+      <td>0.002392</td>
+    </tr>
+  </tbody>
+</table>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>split</th>
+      <th>seed</th>
+      <th>candidate</th>
+      <th>control</th>
+      <th>rescues</th>
+      <th>harms</th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+      <th>delta_brier</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>evaluation</td>
+      <td>17</td>
+      <td>ordinary</td>
+      <td>initial</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-1.021455e-08</td>
+      <td>-6.332478e-09</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>17</td>
+      <td>intervention</td>
+      <td>initial</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-1.021455e-08</td>
+      <td>-6.332478e-09</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>17</td>
+      <td>intervention</td>
+      <td>ordinary</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>17</td>
+      <td>ordinary</td>
+      <td>ordinary_last</td>
+      <td>5</td>
+      <td>2</td>
+      <td>0.793651</td>
+      <td>0.917439</td>
+      <td>-8.048136e-03</td>
+      <td>-6.574955e-03</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>17</td>
+      <td>intervention</td>
+      <td>intervention_last</td>
+      <td>6</td>
+      <td>2</td>
+      <td>1.058201</td>
+      <td>1.218644</td>
+      <td>-9.974295e-03</td>
+      <td>-7.251386e-03</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>29</td>
+      <td>ordinary</td>
+      <td>initial</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-1.021455e-08</td>
+      <td>-6.332478e-09</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>29</td>
+      <td>intervention</td>
+      <td>initial</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-1.021455e-08</td>
+      <td>-6.332478e-09</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>29</td>
+      <td>intervention</td>
+      <td>ordinary</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>29</td>
+      <td>ordinary</td>
+      <td>ordinary_last</td>
+      <td>5</td>
+      <td>2</td>
+      <td>0.793651</td>
+      <td>1.141061</td>
+      <td>-5.455438e-03</td>
+      <td>-5.336646e-03</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>29</td>
+      <td>intervention</td>
+      <td>intervention_last</td>
+      <td>7</td>
+      <td>2</td>
+      <td>1.322751</td>
+      <td>1.519848</td>
+      <td>-1.096570e-02</td>
+      <td>-7.320537e-03</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>43</td>
+      <td>ordinary</td>
+      <td>initial</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-1.021455e-08</td>
+      <td>-6.332478e-09</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>43</td>
+      <td>intervention</td>
+      <td>initial</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-1.021455e-08</td>
+      <td>-6.332478e-09</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>43</td>
+      <td>intervention</td>
+      <td>ordinary</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>43</td>
+      <td>ordinary</td>
+      <td>ordinary_last</td>
+      <td>10</td>
+      <td>2</td>
+      <td>2.116402</td>
+      <td>2.199841</td>
+      <td>-2.010505e-02</td>
+      <td>-1.117832e-02</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>43</td>
+      <td>intervention</td>
+      <td>intervention_last</td>
+      <td>11</td>
+      <td>2</td>
+      <td>2.380952</td>
+      <td>2.389235</td>
+      <td>-2.234269e-02</td>
+      <td>-1.188257e-02</td>
+    </tr>
+  </tbody>
+</table>
+<h2>stable_correct_s43 pub2_opensarship2_000133</h2><img src="stable_correct_s43_1142.png">
+<pre>{
+  &quot;initial&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.015225648880004883
+  },
+  &quot;ordinary&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.015225648880004883
+  },
+  &quot;ordinary_last&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.34155893325805664
+  },
+  &quot;intervention&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.015225648880004883
+  },
+  &quot;intervention_last&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.3274497985839844
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.015225648880004883
+  }
+}</pre>
+<h2>stable_wrong_s43 pub2_opensarship2_002765</h2><img src="stable_wrong_s43_1342.png">
+<pre>{
+  &quot;initial&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -9.167280197143555
+  },
+  &quot;ordinary&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -9.167280197143555
+  },
+  &quot;ordinary_last&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -9.691978454589844
+  },
+  &quot;intervention&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -9.167280197143555
+  },
+  &quot;intervention_last&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -9.733119010925293
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -9.167280197143555
+  }
+}</pre>
+<h2>earlystop_protection_s43 pub2_opensarship2_000214</h2><img src="earlystop_protection_s43_1158.png">
+<pre>{
+  &quot;initial&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.11340785026550293
+  },
+  &quot;ordinary&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.11340785026550293
+  },
+  &quot;ordinary_last&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.4445328712463379
+  },
+  &quot;intervention&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 0.11340785026550293
+  },
+  &quot;intervention_last&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.4549679756164551
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.4549679756164551
+  }
+}</pre>
+<h2>forgone_training_rescue_s17 pub2_opensarship2_000266</h2><img src="forgone_training_rescue_s17_1177.png">
+<pre>{
+  &quot;initial&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.30665910243988037
+  },
+  &quot;ordinary&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.30665910243988037
+  },
+  &quot;ordinary_last&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.2276490032672882
+  },
+  &quot;intervention&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: -0.30665910243988037
+  },
+  &quot;intervention_last&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.21302595734596252
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.21302595734596252
+  }
+}</pre>
+</html>
