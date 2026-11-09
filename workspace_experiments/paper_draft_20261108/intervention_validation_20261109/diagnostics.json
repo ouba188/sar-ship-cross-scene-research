@@ -1,0 +1,94 @@
+{
+  "source_composition": [
+    {
+      "group": "all",
+      "n": 241,
+      "vessels": 235,
+      "passes": 4,
+      "counts": {
+        "0": 83,
+        "1": 26,
+        "2": 46,
+        "3": 86
+      },
+      "teacher_metrics": {
+        "oa": 88.79668049792531,
+        "ba": 87.691272205568,
+        "nll": 0.4060872920078182,
+        "balanced_nll": 0.42474630966186,
+        "brier": 0.1967322508200338
+      }
+    },
+    {
+      "group": "selected",
+      "n": 128,
+      "vessels": 125,
+      "passes": 4,
+      "counts": {
+        "0": 38,
+        "1": 18,
+        "2": 34,
+        "3": 38
+      },
+      "teacher_metrics": {
+        "oa": 82.03125,
+        "ba": 82.36584107327141,
+        "nll": 0.6498622368072671,
+        "balanced_nll": 0.6318110529204135,
+        "brier": 0.3266841731305552
+      }
+    },
+    {
+      "group": "not_selected",
+      "n": 113,
+      "vessels": 112,
+      "passes": 4,
+      "counts": {
+        "0": 45,
+        "1": 8,
+        "2": 12,
+        "3": 48
+      },
+      "teacher_metrics": {
+        "oa": 96.46017699115043,
+        "ba": 92.67361111111111,
+        "nll": 0.12995284126153997,
+        "balanced_nll": 0.1954225702090636,
+        "brier": 0.04953007333554933
+      }
+    }
+  ],
+  "reload_checks": [
+    {
+      "arm": "ordinary",
+      "seed": 17,
+      "reload_error": 0.0
+    },
+    {
+      "arm": "intervention",
+      "seed": 17,
+      "reload_error": 0.0
+    },
+    {
+      "arm": "ordinary",
+      "seed": 29,
+      "reload_error": 0.0
+    },
+    {
+      "arm": "intervention",
+      "seed": 29,
+      "reload_error": 0.0
+    },
+    {
+      "arm": "ordinary",
+      "seed": 43,
+      "reload_error": 0.0
+    },
+    {
+      "arm": "intervention",
+      "seed": 43,
+      "reload_error": 0.0
+    }
+  ],
+  "interpretation": "Source metrics diagnose optimization versus transfer; not causal attribution to a specific image factor."
+}

@@ -1,0 +1,337 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><title>新版干预训练对照</title>
+<style>body{font-family:Arial,sans-serif;max-width:1300px;margin:24px auto;padding:16px}img{max-width:100%}table{border-collapse:collapse}td,th{border:1px solid #ccc;padding:6px}</style>
+<h1>当前完整模型：干预引导与同配额普通选样</h1>
+<p>OSS2四分类；固定当前教师seed17；三种子仅改变后续适配顺序和普通组抽样。未改模块、未按目标结果选参数。</p>
+<p>所有241条源原图参与训练；只在选中样本加原教师判别分差下界。NLL/Brier负差更好。参考图是固定合法库中的案例，不是注意力最大值。</p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">oa</th>
+      <th colspan="2" halign="left">ba</th>
+      <th colspan="2" halign="left">nll</th>
+      <th colspan="2" halign="left">brier</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+    </tr>
+    <tr>
+      <th>split</th>
+      <th>arm</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">evaluation</th>
+      <th>before_adaptation</th>
+      <td>62.433862</td>
+      <td>NaN</td>
+      <td>59.962694</td>
+      <td>NaN</td>
+      <td>1.146052</td>
+      <td>NaN</td>
+      <td>0.556159</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>intervention</th>
+      <td>59.523810</td>
+      <td>0.264550</td>
+      <td>55.484876</td>
+      <td>0.541915</td>
+      <td>1.171363</td>
+      <td>0.003464</td>
+      <td>0.571825</td>
+      <td>0.001582</td>
+    </tr>
+    <tr>
+      <th>ordinary</th>
+      <td>59.611993</td>
+      <td>0.404107</td>
+      <td>55.327896</td>
+      <td>0.661290</td>
+      <td>1.173037</td>
+      <td>0.004774</td>
+      <td>0.571907</td>
+      <td>0.002312</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">validation</th>
+      <th>before_adaptation</th>
+      <td>61.842105</td>
+      <td>NaN</td>
+      <td>55.445451</td>
+      <td>NaN</td>
+      <td>1.237232</td>
+      <td>NaN</td>
+      <td>0.579080</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>intervention</th>
+      <td>60.672515</td>
+      <td>1.103777</td>
+      <td>53.910732</td>
+      <td>1.354349</td>
+      <td>1.243163</td>
+      <td>0.008704</td>
+      <td>0.571358</td>
+      <td>0.002338</td>
+    </tr>
+    <tr>
+      <th>ordinary</th>
+      <td>60.818713</td>
+      <td>1.409890</td>
+      <td>54.195936</td>
+      <td>1.471033</td>
+      <td>1.245406</td>
+      <td>0.004785</td>
+      <td>0.571104</td>
+      <td>0.001951</td>
+    </tr>
+  </tbody>
+</table>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>split</th>
+      <th>seed</th>
+      <th>control</th>
+      <th>rescues</th>
+      <th>harms</th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+      <th>delta_brier</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>validation</td>
+      <td>17</td>
+      <td>ordinary</td>
+      <td>1</td>
+      <td>3</td>
+      <td>-0.877193</td>
+      <td>-1.142968</td>
+      <td>0.000208</td>
+      <td>0.000778</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>17</td>
+      <td>before_adaptation</td>
+      <td>3</td>
+      <td>6</td>
+      <td>-1.315789</td>
+      <td>-2.011494</td>
+      <td>0.010115</td>
+      <td>-0.007031</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>29</td>
+      <td>ordinary</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.438596</td>
+      <td>0.287356</td>
+      <td>-0.000098</td>
+      <td>0.000306</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>29</td>
+      <td>before_adaptation</td>
+      <td>3</td>
+      <td>8</td>
+      <td>-2.192982</td>
+      <td>-2.586207</td>
+      <td>0.011753</td>
+      <td>-0.005807</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>43</td>
+      <td>ordinary</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.006838</td>
+      <td>-0.000322</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>43</td>
+      <td>before_adaptation</td>
+      <td>4</td>
+      <td>4</td>
+      <td>0.000000</td>
+      <td>-0.006457</td>
+      <td>-0.004074</td>
+      <td>-0.010327</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>17</td>
+      <td>ordinary</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.264550</td>
+      <td>0.961538</td>
+      <td>-0.000225</td>
+      <td>0.000556</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>17</td>
+      <td>before_adaptation</td>
+      <td>3</td>
+      <td>13</td>
+      <td>-2.645503</td>
+      <td>-4.427083</td>
+      <td>0.024231</td>
+      <td>0.014716</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>29</td>
+      <td>ordinary</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0.264550</td>
+      <td>0.189394</td>
+      <td>-0.003305</td>
+      <td>-0.000909</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>29</td>
+      <td>before_adaptation</td>
+      <td>3</td>
+      <td>14</td>
+      <td>-2.910053</td>
+      <td>-3.963055</td>
+      <td>0.029186</td>
+      <td>0.017492</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>43</td>
+      <td>ordinary</td>
+      <td>0</td>
+      <td>3</td>
+      <td>-0.793651</td>
+      <td>-0.679993</td>
+      <td>-0.001493</td>
+      <td>0.000107</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>43</td>
+      <td>before_adaptation</td>
+      <td>3</td>
+      <td>15</td>
+      <td>-3.174603</td>
+      <td>-5.043317</td>
+      <td>0.022514</td>
+      <td>0.014791</td>
+    </tr>
+  </tbody>
+</table>
+<h2>rescue_s17 pub2_opensarship2_002251</h2><img src="rescue_s17_1217.png">
+<pre>{
+  &quot;before_adaptation&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.34607529640197754
+  },
+  &quot;ordinary&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.05945324897766113
+  },
+  &quot;intervention&quot;: {
+    &quot;prediction&quot;: 1,
+    &quot;margin&quot;: 0.013567447662353516
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.05945324897766113
+  }
+}</pre>
+<h2>harm_s43 pub2_opensarship2_002146</h2><img src="harm_s43_1206.png">
+<pre>{
+  &quot;before_adaptation&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.4680386185646057
+  },
+  &quot;ordinary&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.10230076313018799
+  },
+  &quot;intervention&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -0.02317070960998535
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.10230076313018799
+  }
+}</pre>
+<h2>stable_correct_s17 pub2_opensarship2_003128</h2><img src="stable_correct_s17_1438.png">
+<pre>{
+  &quot;before_adaptation&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 6.2166337966918945
+  },
+  &quot;ordinary&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 5.908827781677246
+  },
+  &quot;intervention&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 5.508016109466553
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 5.908827781677246
+  }
+}</pre>
+<h2>stable_wrong_s43 pub2_opensarship2_000138</h2><img src="stable_wrong_s43_1143.png">
+<pre>{
+  &quot;before_adaptation&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -7.864881992340088
+  },
+  &quot;ordinary&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -7.714573383331299
+  },
+  &quot;intervention&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -7.501410484313965
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -7.714573383331299
+  }
+}</pre>
+</html>

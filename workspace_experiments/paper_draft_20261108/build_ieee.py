@@ -32,10 +32,10 @@ def table(block, number, caption):
     c = block["c"]
     head = c[3][1]
     rows = [row for body in c[4] for row in body[3]]
-    wide = number in {2, 3, 4, 9}
+    wide = number in {2, 3, 4, 9, 10}
     env = "table*" if wide else "table"
     specs = {1: "LCCCC", 2: "LCCC", 3: "LLLC", 4: "LCCCCC",
-             5: "LCCC", 6: "LCC", 7: "LCC", 8: "LLCC", 9: "LLCCC"}
+             5: "LCCC", 6: "LCC", 7: "LCC", 8: "LLCC", 9: "LLCCC", 10: "LLCCC"}
     out = [rf"\begin{{{env}}}[!t]", r"\centering\footnotesize",
            rf"\setcounter{{table}}{{{number-1}}}",
            r"\caption{" + caption + "}", rf"\label{{tab:{number}}}",
