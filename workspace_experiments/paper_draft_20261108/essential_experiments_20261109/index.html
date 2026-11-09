@@ -1,0 +1,516 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><title>当前模型最小补实验</title>
+<style>body{font-family:Arial,sans-serif;max-width:1300px;margin:24px auto;padding:16px}img{max-width:100%}table{border-collapse:collapse}td,th{border:1px solid #ccc;padding:6px}</style>
+<h1>当前组合：M3末阶段配套对照</h1><p>OSS2四分类；固定上游seed17；新增三个读出/分类头训练种子，不是全网络从头消融。</p>
+<p>正差表示完整组合更好；NLL/Brier负差更好。参考图来自固定参考库，但不是声称其注意力最大。</p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">oa</th>
+      <th colspan="2" halign="left">ba</th>
+      <th colspan="2" halign="left">nll</th>
+      <th colspan="2" halign="left">brier</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>mean</th>
+      <th>std</th>
+    </tr>
+    <tr>
+      <th>split</th>
+      <th>arm</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">evaluation</th>
+      <th>content_readout</th>
+      <td>61.463845</td>
+      <td>0.665770</td>
+      <td>58.050068</td>
+      <td>0.673525</td>
+      <td>1.144598</td>
+      <td>0.007686</td>
+      <td>0.552987</td>
+      <td>0.003667</td>
+    </tr>
+    <tr>
+      <th>full</th>
+      <td>62.345679</td>
+      <td>0.152738</td>
+      <td>59.780840</td>
+      <td>0.220312</td>
+      <td>1.140046</td>
+      <td>0.005809</td>
+      <td>0.554006</td>
+      <td>0.002563</td>
+    </tr>
+    <tr>
+      <th>mean_readout</th>
+      <td>61.463845</td>
+      <td>0.305476</td>
+      <td>58.232909</td>
+      <td>0.710010</td>
+      <td>1.142765</td>
+      <td>0.006369</td>
+      <td>0.555030</td>
+      <td>0.002997</td>
+    </tr>
+    <tr>
+      <th>without_m3_refit</th>
+      <td>61.992945</td>
+      <td>0.808214</td>
+      <td>59.020464</td>
+      <td>0.951425</td>
+      <td>1.149672</td>
+      <td>0.004375</td>
+      <td>0.553932</td>
+      <td>0.001735</td>
+    </tr>
+    <tr>
+      <th>without_m3_same_weights</th>
+      <td>61.728395</td>
+      <td>0.929070</td>
+      <td>57.911051</td>
+      <td>1.213563</td>
+      <td>1.190364</td>
+      <td>0.006508</td>
+      <td>0.561635</td>
+      <td>0.002775</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">validation</th>
+      <th>content_readout</th>
+      <td>62.280702</td>
+      <td>0.759671</td>
+      <td>55.730655</td>
+      <td>0.490259</td>
+      <td>1.231934</td>
+      <td>0.009604</td>
+      <td>0.575607</td>
+      <td>0.004763</td>
+    </tr>
+    <tr>
+      <th>full</th>
+      <td>62.280702</td>
+      <td>0.438596</td>
+      <td>55.730655</td>
+      <td>0.284134</td>
+      <td>1.233370</td>
+      <td>0.003918</td>
+      <td>0.576026</td>
+      <td>0.003255</td>
+    </tr>
+    <tr>
+      <th>mean_readout</th>
+      <td>62.280702</td>
+      <td>0.438596</td>
+      <td>55.730655</td>
+      <td>0.284134</td>
+      <td>1.234208</td>
+      <td>0.003856</td>
+      <td>0.575923</td>
+      <td>0.003363</td>
+    </tr>
+    <tr>
+      <th>without_m3_refit</th>
+      <td>61.403509</td>
+      <td>0.438596</td>
+      <td>54.581230</td>
+      <td>0.287381</td>
+      <td>1.235671</td>
+      <td>0.004436</td>
+      <td>0.579203</td>
+      <td>0.003756</td>
+    </tr>
+    <tr>
+      <th>without_m3_same_weights</th>
+      <td>61.257310</td>
+      <td>0.669967</td>
+      <td>54.205996</td>
+      <td>0.880754</td>
+      <td>1.268286</td>
+      <td>0.001996</td>
+      <td>0.580903</td>
+      <td>0.001390</td>
+    </tr>
+  </tbody>
+</table>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>split</th>
+      <th>seed</th>
+      <th>control</th>
+      <th>rescues</th>
+      <th>harms</th>
+      <th>delta_oa</th>
+      <th>delta_ba</th>
+      <th>delta_nll</th>
+      <th>delta_brier</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>validation</td>
+      <td>17</td>
+      <td>without_m3_refit</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0.877193</td>
+      <td>1.149425</td>
+      <td>-0.003476</td>
+      <td>-0.004112</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>17</td>
+      <td>without_m3_same_weights</td>
+      <td>5</td>
+      <td>2</td>
+      <td>1.315789</td>
+      <td>2.242839</td>
+      <td>-0.033355</td>
+      <td>-0.003258</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>17</td>
+      <td>mean_readout</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000976</td>
+      <td>0.000010</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>17</td>
+      <td>content_readout</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.438596</td>
+      <td>0.280899</td>
+      <td>-0.003858</td>
+      <td>-0.001817</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>29</td>
+      <td>without_m3_refit</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.438596</td>
+      <td>0.862069</td>
+      <td>0.001129</td>
+      <td>-0.002287</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>29</td>
+      <td>without_m3_same_weights</td>
+      <td>4</td>
+      <td>3</td>
+      <td>0.438596</td>
+      <td>0.881441</td>
+      <td>-0.033768</td>
+      <td>-0.004413</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>29</td>
+      <td>mean_readout</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.000422</td>
+      <td>0.000077</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>29</td>
+      <td>content_readout</td>
+      <td>0</td>
+      <td>1</td>
+      <td>-0.438596</td>
+      <td>-0.280899</td>
+      <td>0.000706</td>
+      <td>0.002129</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>43</td>
+      <td>without_m3_refit</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1.315789</td>
+      <td>1.436782</td>
+      <td>-0.004557</td>
+      <td>-0.003133</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>43</td>
+      <td>without_m3_same_weights</td>
+      <td>5</td>
+      <td>2</td>
+      <td>1.315789</td>
+      <td>1.449697</td>
+      <td>-0.037625</td>
+      <td>-0.006960</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>43</td>
+      <td>mean_readout</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-0.001116</td>
+      <td>0.000222</td>
+    </tr>
+    <tr>
+      <td>validation</td>
+      <td>43</td>
+      <td>content_readout</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.007461</td>
+      <td>0.000944</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>17</td>
+      <td>without_m3_refit</td>
+      <td>6</td>
+      <td>1</td>
+      <td>1.322751</td>
+      <td>1.817101</td>
+      <td>-0.008263</td>
+      <td>0.000224</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>17</td>
+      <td>without_m3_same_weights</td>
+      <td>10</td>
+      <td>4</td>
+      <td>1.587302</td>
+      <td>3.452797</td>
+      <td>-0.051567</td>
+      <td>-0.008292</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>17</td>
+      <td>mean_readout</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0.793651</td>
+      <td>2.112471</td>
+      <td>-0.003912</td>
+      <td>-0.001752</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>17</td>
+      <td>content_readout</td>
+      <td>8</td>
+      <td>2</td>
+      <td>1.587302</td>
+      <td>2.680653</td>
+      <td>-0.006444</td>
+      <td>-0.000455</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>29</td>
+      <td>without_m3_refit</td>
+      <td>4</td>
+      <td>5</td>
+      <td>-0.264550</td>
+      <td>-0.189394</td>
+      <td>-0.005998</td>
+      <td>0.001739</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>29</td>
+      <td>without_m3_same_weights</td>
+      <td>9</td>
+      <td>6</td>
+      <td>0.793651</td>
+      <td>1.214691</td>
+      <td>-0.048805</td>
+      <td>-0.006862</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>29</td>
+      <td>mean_readout</td>
+      <td>5</td>
+      <td>0</td>
+      <td>1.322751</td>
+      <td>2.047635</td>
+      <td>-0.000839</td>
+      <td>-0.000563</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>29</td>
+      <td>content_readout</td>
+      <td>5</td>
+      <td>1</td>
+      <td>1.058201</td>
+      <td>1.515896</td>
+      <td>-0.004526</td>
+      <td>0.001623</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>43</td>
+      <td>without_m3_refit</td>
+      <td>3</td>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.653421</td>
+      <td>-0.014618</td>
+      <td>-0.001740</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>43</td>
+      <td>without_m3_same_weights</td>
+      <td>5</td>
+      <td>7</td>
+      <td>-0.529101</td>
+      <td>0.941879</td>
+      <td>-0.050584</td>
+      <td>-0.007732</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>43</td>
+      <td>mean_readout</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0.529101</td>
+      <td>0.483687</td>
+      <td>-0.003408</td>
+      <td>-0.000758</td>
+    </tr>
+    <tr>
+      <td>evaluation</td>
+      <td>43</td>
+      <td>content_readout</td>
+      <td>4</td>
+      <td>4</td>
+      <td>0.000000</td>
+      <td>0.995766</td>
+      <td>-0.002687</td>
+      <td>0.001890</td>
+    </tr>
+  </tbody>
+</table>
+<h2>rescue_s17 pub2_opensarship2_002950</h2>
+<img src="rescue_s17_1379.png">
+<pre>{
+  &quot;full&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: 0.369828462600708
+  },
+  &quot;without_m3_refit&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.07493090629577637
+  },
+  &quot;without_m3_same_weights&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.06290555000305176
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.07493090629577637
+  }
+}</pre>
+<h2>harm_s29 pub2_opensarship2_000694</h2>
+<img src="harm_s29_1202.png">
+<pre>{
+  &quot;full&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: -0.14626891911029816
+  },
+  &quot;without_m3_refit&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.19387809932231903
+  },
+  &quot;without_m3_same_weights&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.13105148077011108
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 0,
+    &quot;margin&quot;: 0.19387809932231903
+  }
+}</pre>
+<h2>stable_correct_s17 pub2_opensarship2_002400</h2>
+<img src="stable_correct_s17_1281.png">
+<pre>{
+  &quot;full&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 2.425947427749634
+  },
+  &quot;without_m3_refit&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.2776622772216797
+  },
+  &quot;without_m3_same_weights&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.435173988342285
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 2,
+    &quot;margin&quot;: 3.2776622772216797
+  }
+}</pre>
+<h2>stable_wrong_s43 pub2_opensarship2_002744</h2>
+<img src="stable_wrong_s43_1333.png">
+<pre>{
+  &quot;full&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -2.2918636798858643
+  },
+  &quot;without_m3_refit&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -3.0284385681152344
+  },
+  &quot;without_m3_same_weights&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -3.693068027496338
+  },
+  &quot;baseline&quot;: {
+    &quot;prediction&quot;: 3,
+    &quot;margin&quot;: -3.0284385681152344
+  }
+}</pre>
+</html>
