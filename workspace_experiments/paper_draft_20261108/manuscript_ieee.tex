@@ -35,15 +35,15 @@
 \raggedbottom
 \begin{document}
 
-\title{受控干预启发的极化与区域证据学习用于跨场景SAR船舶分类\\[0.6em]{\large Intervention-Informed Polarization and Region Evidence Learning for Cross-Scene SAR Ship Classification}}\author{Mo Yu, Xiangguang Leng, \IEEEmembership{Member,~IEEE}, Qihao Huang, Jilong Li, and Kefeng Ji, \IEEEmembership{Member,~IEEE}\thanks{This work was supported in part by the National Natural Science Foundation of China under Grant 62471475, in part by Hunan Provincial Natural Science Foundation of China under Grant 2024JJ4045, and in part by the Science and Technology Innovation Program of Hunan Province under Grant 2024RC3124.}\thanks{M. Yu, X. Leng, Q. Huang, J. Li, and K. Ji are with the College of Electronic Science and Technology, National University of Defense Technology, Changsha 410073, China. Corresponding author: Xiangguang Leng (e-mail: luckight@163.com).}}\maketitle
+\title{受控干预启发的极化与区域证据学习用于跨场景SAR船舶分类}\author{Mo Yu, Xiangguang Leng, \IEEEmembership{Member,~IEEE}, Qihao Huang, Jilong Li, and Kefeng Ji, \IEEEmembership{Member,~IEEE}\thanks{This work was supported in part by the National Natural Science Foundation of China under Grant 62471475, in part by Hunan Provincial Natural Science Foundation of China under Grant 2024JJ4045, and in part by the Science and Technology Innovation Program of Hunan Province under Grant 2024RC3124.}\thanks{M. Yu, X. Leng, Q. Huang, J. Li, and K. Ji are with the College of Electronic Science and Technology, National University of Defense Technology, Changsha 410073, China. Corresponding author: Xiangguang Leng (e-mail: luckight@163.com).}}\maketitle
 
-\renewcommand{\abstractname}{摘要}\begin{abstract}跨场景SAR船舶分类面临采集场景变化引起的局部判别证据迁移。在中低分辨率图像中，同一船只的局部响应排列会随观测改变，邻域信息也可能补充或干扰船型判断。本文通过重复船舶观测、区域输入对照和受控图像干预，发现局部尺度响应的判别作用依赖极化、区域及联合读出方式，部分纠错来自削弱竞争类别。基于这些发现，提出共享ResNet-50骨干的极化与区域证据网络：类别响应反馈模块保留均值上下文并利用相对类别响应调节局部特征；响应引导区域池化模块在目标几何区域内组织多层判别证据；参考类别证据回写模块将查询与源参考的比较转化为中间层类别证据场。训练框架同时提供受控干预选样与判别优势保护约束。在OpenSARShip 2.0四分类的378条评价观测上，响应引导读出相对配套均值读出提高OA 0.882、BA 1.548个百分点；当前组合相对移除参考回写后配套训练的模型提高OA 0.353、BA 0.760个百分点，均为三次末阶段训练的平均结果。实验表明，保留极化与区域身份、以类别竞争组织局部响应，可以改善限定跨场景任务中的证据利用。\end{abstract}
+\renewcommand{\abstractname}{摘要}\begin{abstract}跨场景SAR船舶分类面临局部判别证据随场景变化而改变的问题。在中低分辨率图像中，同一船只的局部响应排列会随观测改变，邻域信息也可能补充或干扰船型判断。本文通过重复船舶观测、区域输入对照和受控图像干预，发现局部尺度响应的判别作用依赖极化、区域及联合读出方式，部分纠错来自削弱竞争类别。基于这些发现，提出共享ResNet-50骨干的极化与区域证据网络：类别响应反馈模块保留均值上下文并利用相对类别响应调节局部特征；响应引导区域池化模块在目标几何区域内组织多层判别证据；参考类别证据回写模块将查询与源参考的比较转化为中间层类别证据场。训练采用受控干预选样与判别优势保护约束。在OpenSARShip 1.0和2.0四分类任务中，完整模型相对同协议普通骨干的三种子平均OA分别提高10.053和5.115个百分点，BA分别提高4.985和3.454个百分点。OpenSARShip 2.0的配套消融表明，区域池化带来OA 4.762、BA 3.466个百分点的增量；局部替换与原图案例进一步揭示类别响应和参考回写参与决策的方式。结果支持通过保留极化与区域身份、组织类别竞争证据改善跨场景分类。\end{abstract}
 
 \begin{IEEEkeywords}SAR船舶分类；跨场景泛化；双极化；区域池化；参考证据；受控干预\end{IEEEkeywords}
 
 \section{引言}\label{ux5f15ux8a00}
 
-SAR船舶分类位于目标检测之后，依据有限的船体外形、局部响应和周围结构区分外观相近的船型。OpenSARShip等资源推动了Sentinel-1船舶解译研究{[}1{]}。然而，训练与应用数据来自不同过境或水域时，同类乃至同一艘船的可见证据也会改变。本文研究已定位目标的跨场景闭集分类，以采集过境、地理水域及相关成像条件描述场景，涵盖同港不同采集和不同港口／水域之间的迁移。实验通过产品元数据确定过境组，并同时隔离船舶身份。
+SAR船舶分类位于目标检测之后，依据有限的船体外形、局部响应和周围结构区分外观相近的船型。OpenSARShip等资源推动了Sentinel-1船舶解译研究{[}1{]}。然而，训练与应用数据来自不同过境或水域时，同类乃至同一艘船的可见证据也会改变。本文研究包含不同采集时相、观测条件及港口水域的跨场景SAR船舶分类，评价模型在上述因素共同变化时的识别能力。场景由采集产品所属过境、成像条件和地理水域共同描述，涵盖同港不同采集和不同港口／水域之间的迁移。实验通过产品元数据确定过境组，并同时隔离船舶身份；该划分评价实际场景差异下的识别能力，不将混合变化归因于单一港口或角度因素。
 
 图1展示三艘船在不同场景中的方向、强响应排列与VV/VH差异。其中化学品/成品油轮的两次观测来自同港、同平台，表明同港采集之间也存在显著变化。同船诊断进一步显示，原油轮较多出现一次正确、一次错误，普通货船则更多持续混淆。这些差异提示应结合类别与实际局部响应研究失效机制。
 
@@ -113,7 +113,7 @@ Contrastive-ACE利用特征对标签的平均干预效应稳定性组织跨域�
 
 同船诊断使用自建24港语料中的4744次观测、2973个船舶身份、18港及八个输出类别。对每艘具有重复观测的船选择日期跨度最大的一对，得到910艘船的1820次观测，覆盖七类。表1给出三种代表性船型的三种子平均状态比例。
 
-\begin{table}[!htb]
+\begin{table}[H]
 \centering\footnotesize
 \setcounter{table}{0}
 \caption{同船重复观测的分类状态，三种子平均。}
@@ -155,7 +155,7 @@ m_{y,c^\star}(x)&=T_y(x)-T_{c^\star}(x),\\
 
 在自建24港语料的104艘船、209次观测、31个过境和6港干预队列中，VH框内细尺度削弱平均损害正确类别优势，VH侧向中尺度削弱平均改善优势，同一侧向中尺度操作在VV中则为负。表2以诊断器分差报告效应及船级95\%区间。
 
-\begin{table}[!htb]
+\begin{table}[H]
 \centering\footnotesize
 \setcounter{table}{1}
 \caption{极化与区域干预的船均分差变化。}
@@ -239,13 +239,13 @@ X'_1(u)=X_1(u)+0.3X_1(u)\odot G_{\mathrm{CRFB}}(u).
 
 输出映射零初始化，使训练从原特征路径开始。类别辅助读出利用源标签约束候选响应。\(X'_1\)经过该block的conv3、归一化与残差相加形成layer2输出 \(F_2\)；类别响应保留给后续区域读出使用。
 
-\begin{figure}[!htb]
+\begin{figure*}[!tb]
 \centering
 \setcounter{figure}{3}
-\includegraphics[width=\linewidth,height=.28\textheight,keepaspectratio]{figures/author_20261109/fig4_author.pdf}
+\includegraphics[width=\linewidth,height=.42\textheight,keepaspectratio]{figures/author_20261109/fig4_author.pdf}
 \caption{CRFB。内容均值与类别响应---内容交叉统计 \(C_k\) 分别变换，形成局部门控。反馈增益为0.3，有效面积占比屏蔽补零位置。}
 \label{fig:4}
-\end{figure}
+\end{figure*}
 
 均值支路保留整体上下文，式（4）进一步表示响应偏离与局部内容的共同变化，使门控随类别证据的空间分布而变化。
 
@@ -375,9 +375,9 @@ F_3^{+}(u)=F_3(u)+0.1W_p^{\mathrm{out}}E(u).
 
 \subsection{分阶段优化及干预指导约束}\label{ux5206ux9636ux6bb5ux4f18ux5316ux53caux5e72ux9884ux6307ux5bfcux7ea6ux675f}
 
-网络采用分阶段优化。首先固定骨干与CRFB/RGRP，通过分类交叉熵训练参考模块及分类头；随后更新CRFB、相邻conv3与分类头，并以0.02权重加入类别响应辅助交叉熵；最后固定上游，训练响应引导区域补充及分类头。所有阶段仅使用源标签。
+网络采用分阶段优化。首先从ImageNet预训练权重出发，在源训练子集上更新RGRP、分类头及layer3末块的三层卷积，建立区域证据表征；随后在另一源子集上执行干预指导适配，仅更新上述三层卷积。合并两个源子集后，依次训练RCEW及分类头、CRFB及相邻conv3和分类头、响应引导区域补充及分类头。CRFB阶段以0.02权重加入类别响应辅助交叉熵。所有阶段仅使用源标签，未参与当前阶段优化的部分保持固定。
 
-源样本权重按类别内独立船数和同船观测次数修正，并对固定上游分差小于1的源难例乘2。最后阶段在同一源样本流上训练180步，batch为24；输出映射、值投影、分类头的学习率分别为 \(10^{-3},3\times10^{-4},10^{-5}\)，AdamW权重衰减0.01，梯度裁剪阈值5。BN统计不更新。三次重复改变新增读出的初始化与样本顺序，保留同一上游。
+源样本权重按类别内独立船数和同船观测次数修正，参考训练及其后阶段对阶段起点分差小于1的源难例乘2。区域补充阶段训练180步，batch为24；输出映射、值投影、分类头的基础学习率分别为 \(10^{-3},3\times10^{-4},10^{-5}\)。各阶段使用AdamW，权重衰减0.01、梯度裁剪阈值5，BN统计不更新。完整模型比较从共同预训练起点重复全部阶段；算子机制实验则固定同一上游，仅重复待比较阶段，两类结果分别报告。
 
 训练框架还包含干预指导约束。对源样本，以式（1）固定竞争类，要求结构操作同时降低交叉熵、提高竞争类分差，并优于匹配均值控制，三个初筛阈值均为0.01。随后复核正确类概率与 \(m_{\max}\) 均提高，将通过样本标记为 \(u_n=1\)。筛选直接使用干预图的教师预测。
 
@@ -392,7 +392,7 @@ F_3^{+}(u)=F_3(u)+0.1W_p^{\mathrm{out}}E(u).
 
 \[\mathcal L_{\mathrm{adapt}}=\mathcal L_{\mathrm{CE},w}+0.1\mathcal L_{\mathrm{KL,correct},w}+\lambda\mathcal L_{\mathrm{guide},w}.\tag{18}\]
 
-教师量均停止梯度。该约束保护原图教师分差，预测时输入原始SAR图像，不执行依赖真实类别的干预筛选。第6节报告模块组合的分阶段训练结果；干预选样作为训练框架保留，未计为该组合的额外准确率增益。
+教师量均停止梯度。该约束保护原图教师分差，预测时输入原始SAR图像，不执行依赖真实类别的干预筛选。完整模型及配套对照均由各自的源端教师生成筛选标记，并采用相同的适配规则。
 
 \FloatBarrier
 
@@ -402,7 +402,7 @@ F_3^{+}(u)=F_3(u)+0.1W_p^{\mathrm{out}}E(u).
 
 本文使用OpenSARShip 1.0（OSS1）、OpenSARShip 2.0（OSS2）和自建24港数据集。表3汇总实际整理的数据规模；公开数据数量按本研究解析清单统计。每条观测对应一个船舶目标，VV/VH为其两种极化视图。
 
-\begin{table*}[!b]
+\begin{table}[H]
 \centering\footnotesize
 \setcounter{table}{2}
 \caption{数据集组成。}
@@ -412,14 +412,14 @@ F_3^{+}(u)=F_3(u)+0.1W_p^{\mathrm{out}}E(u).
 \toprule
 数据集 & 观测规模 & 类别与采集 \\
 \midrule
-OSS1 & 3,030条GRDH记录；兼容子集1,349条、1,110艘船 & 兼容子集8类、22个GRDH产品 \\
+OSS1 & 3,030条GRDH记录；兼容子集1,349条、1,110艘船 & 分类取4类；源527、开发89、评价63条 \\
 OSS2 & 9,120条记录：6,780条GRDH、2,340条SLC & 本文分类取4类GRDH；源719、开发228、评价378条 \\
 自建24港 & 38,091条观测；18,766个非空MMSI & 8类、24港、841个IW-GRDH产品 \\
 \bottomrule
 \end{tabularx}
-\end{table*}
+\end{table}
 
-\textbf{公开数据集。} OSS1与OSS2沿用原生船舶裁片及元数据。细粒度标签仅保留与任务类别一致的记录，笼统Cargo和Tanker标签不直接映射为普通货船或原油轮。OSS1八类兼容子集以散货船为主（816／1,349），用于输入干预及联合读出分析。OSS2分类实验采用散货船、普通货船、化学品／成品油轮和集装箱船四类GRDH图像，以保证各类参考与输入覆盖。
+\textbf{公开数据集。} OSS1与OSS2沿用原生船舶裁片及元数据。细粒度标签仅保留与任务类别一致的记录，笼统Cargo和Tanker标签不直接映射为普通货船或原油轮。OSS1八类兼容子集以散货船为主（816／1,349），用于输入干预及联合读出分析；两个公开集的分类比较均采用散货船、普通货船、化学品／成品油轮和集装箱船四类GRDH图像，以保证各类参考与输入覆盖。
 
 公开集各极化分别执行固定OBB定位，检测置信度达到0.25且几何有效时进入对应分支。在OSS2源、开发和评价集合中，分别有48、22和30条观测仅一个极化满足条件；这些观测的另一极化原始文件仍存在。模型通过式（16）的可用性标记处理该情况，符合检测后分类中某一极化定位不成功、另一极化仍可用于识别的输入条件。
 
@@ -427,37 +427,48 @@ OSS2 & 9,120条记录：6,780条GRDH、2,340条SLC & 本文分类取4类GRDH；�
 
 表4列出24港的观测规模与诊断覆盖。各港含64至5,756条观测，实际覆盖3至8类；类别分布差异较大，因此同时采用OA、BA及逐类分析。198条记录缺失MMSI，同船分析仅使用可核查的非空身份。
 
-\begin{table*}[!tb]
+\begin{table}[H]
 \centering\footnotesize
 \setcounter{table}{3}
 \caption{自建24港逐港组成及诊断覆盖。}
 \label{tab:4}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\linewidth}{LCCCLCCC}
+\begin{tabularx}{\linewidth}{>{\hsize=1.6\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C}
 \toprule
-港口 & 总库观测 & 实际类别数 & 诊断观测 & 港口 & 总库观测 & 实际类别数 & 诊断观测 \\
+港口 & 总库观测 & 实际类别数 & 诊断观测 \\
 \midrule
-Antwerp-Bruges & 886 & 3 & 0 & Ningbo-Zhoushan & 5,756 & 3 & 292 \\
-Busan & 871 & 3 & 48 & Port Hedland & 859 & 6 & 53 \\
-Callao & 476 & 8 & 14 & Port Klang & 3,425 & 8 & 1,238 \\
-Fujairah & 1,158 & 3 & 178 & Port Said & 1,895 & 8 & 150 \\
-Hamburg & 1,619 & 3 & 0 & Qingdao & 1,981 & 3 & 0 \\
-Houston & 804 & 8 & 9 & Richards Bay & 744 & 8 & 241 \\
-Jebel Ali & 4,602 & 8 & 1,046 & Rotterdam & 573 & 3 & 36 \\
-Los Angeles & 583 & 8 & 158 & Santos & 1,658 & 8 & 325 \\
-Melbourne & 64 & 3 & 0 & Shanghai & 2,390 & 3 & 0 \\
-Mombasa & 149 & 7 & 12 & Singapore & 5,259 & 8 & 821 \\
-New York & 470 & 8 & 0 & Sydney Botany & 304 & 8 & 10 \\
-Newcastle & 299 & 7 & 25 & Tanger Med & 1,266 & 8 & 88 \\
-\midrule
-合计 & 38,091 & 合计8类 & 4,744 &  &  &  &  \\
+Antwerp-Bruges & 886 & 3 & 0 \\
+Busan & 871 & 3 & 48 \\
+Callao & 476 & 8 & 14 \\
+Fujairah & 1,158 & 3 & 178 \\
+Hamburg & 1,619 & 3 & 0 \\
+Houston & 804 & 8 & 9 \\
+Jebel Ali & 4,602 & 8 & 1,046 \\
+Los Angeles & 583 & 8 & 158 \\
+Melbourne & 64 & 3 & 0 \\
+Mombasa & 149 & 7 & 12 \\
+New York & 470 & 8 & 0 \\
+Newcastle & 299 & 7 & 25 \\
+Ningbo-Zhoushan & 5,756 & 3 & 292 \\
+Port Hedland & 859 & 6 & 53 \\
+Port Klang & 3,425 & 8 & 1,238 \\
+Port Said & 1,895 & 8 & 150 \\
+Qingdao & 1,981 & 3 & 0 \\
+Richards Bay & 744 & 8 & 241 \\
+Rotterdam & 573 & 3 & 36 \\
+Santos & 1,658 & 8 & 325 \\
+Shanghai & 2,390 & 3 & 0 \\
+Singapore & 5,259 & 8 & 821 \\
+Sydney Botany & 304 & 8 & 10 \\
+Tanger Med & 1,266 & 8 & 88 \\
+合计 & 38,091 & 合计8类 & 4,744 \\
 \bottomrule
 \end{tabularx}
-\end{table*}
+\end{table}
 
 表5给出八类组成。诊断队列包含4,744条观测、2,973艘船和18港；同船最大日期跨度配对子集包含910艘船、1,820条观测，覆盖13港和7类。受控干预队列按第3.3节的条件另行组织。
 
-\begin{table}[!htb]
+\begin{table}[H]
 \centering\footnotesize
 \setcounter{table}{4}
 \caption{自建数据集类别分布。}
@@ -482,9 +493,9 @@ Newcastle & 299 & 7 & 25 & Tanger Med & 1,266 & 8 & 88 \\
 
 \subsection{跨场景划分与参考设置}\label{ux8de8ux573aux666fux5212ux5206ux4e0eux53c2ux8003ux8bbeux7f6e}
 
-OSS2根据产品元数据恢复平台与绝对轨道，合并同次过境的相邻产品切片，再划分源训练、开发与评价集合（表6）。同时隔离船舶身份，以检验不同采集场景中的未见船舶分类。
+根据产品元数据恢复平台与绝对轨道，合并同次过境的相邻产品切片，再划分源训练、开发与评价集合。训练和评价同时隔离船舶身份及过境组，查询不使用目标标签。该协议以未见船舶和未见过境组织跨场景测试，地理水域随实际产品覆盖变化，不要求训练与评价来自完全不同的港口。自建24港的场景描述同时保留港口归属，以分析同港和异港条件下的观测差异。表6给出OSS2类别组成。
 
-\begin{table}[!htb]
+\begin{table}[H]
 \centering\footnotesize
 \setcounter{table}{5}
 \caption{OSS2四分类划分。括号内为独立船数。}
@@ -501,27 +512,88 @@ OSS2根据产品元数据恢复平台与绝对轨道，合并同次过境的相�
 \end{tabularx}
 \end{table}
 
-三组在观测ID、船舶身份和过境组上隔离。32个源参考每类8个，训练参考模块时按类别和独立船抽取并排除无效连接。两目标队列均有前期研发暴露，本文结果属于既有数据上的受控跨场景验证。
+OSS2源数据进一步分为478条表征训练观测和241条干预适配观测。OSS1相应使用405条和122条，合计527条、502艘船、13个过境；开发集为89条、87艘船、3个过境，评价集为63条不同船舶、1个过境。OSS1源数据的四类数量依次为359、41、44和83，评价集为15、7、10和31。两个公开集的源、开发与评价集合均隔离船舶身份和过境组；每个任务固定32个源参考，每类8个，参考来自表征训练子集。OSS1评价覆盖单个过境，反映该目标场景的结果，OSS2则覆盖五个评价过境。
 
 \subsection{评价与对照原则}\label{ux8bc4ux4ef7ux4e0eux5bf9ux7167ux539fux5219}
 
 OA为总体正确率，BA为纳入类别的召回率平均；四分类评价覆盖全部四类。同时报告NLL、纠错与误伤事件及极化／区域贡献。重复训练给出均值与样本标准差，同一观测在不同种子中的翻转分别计为事件，独立船舶数量另行统计。
 
-配套训练对照固定数据、训练步数和可更新部位，用于比较算子效用；同权重替换仅改变读出或回写关系，用于定位当前预测所依赖的证据。参考模块独立训练与完整组合末阶段训练分别报告，三次末阶段重复共享固定上游。
+完整模型与普通骨干、匹配位置的SE{[}15{]}对照从同一ImageNet起点训练，均使用双极化输入、相同源划分和训练策略。SE以压缩比16插入layer2与layer3末块的残差相加前。表征学习、干预适配和参考训练分别为8、6和4轮，类别反馈与区域补充各180步；移除组件时保留相应阶段的分类头训练。除各模块外，骨干可更新范围为layer3末块的三层卷积及layer2末块的conv3，其余卷积固定。
+
+完整模型、普通骨干和SE分别在OSS2开发集上比较基础学习率倍率1.0和0.3，以BA、OA、NLL依次选择，完整模型与普通骨干选择1.0，SE选择0.3。删除组件的模型继承完整模型倍率，OSS1沿用已确定设置。完整训练使用种子17、29和43。配对区间按船舶重采样，保留同船各观测及种子的对应关系。
+
+算子机制实验固定上游表征，比较区域读出、参考消息形式及末阶段优化；同权重替换仅改变取证或回写关系，定位当前预测所依赖的证据。这些结果用于解释模块作用，与共同起点的完整训练结果分开分析。
 
 \FloatBarrier
 
 \section{结果与分析}\label{ux7ed3ux679cux4e0eux5206ux6790}
 
+\subsection{公开数据集的完整模型比较}\label{ux516cux5f00ux6570ux636eux96c6ux7684ux5b8cux6574ux6a21ux578bux6bd4ux8f83}
+
+表7比较共同起点和相同训练策略下的完整模型、普通骨干及匹配位置SE。各数据集分别使用自身源数据训练，参考库仅由源样本组成。
+
+\begin{table}[H]
+\centering\footnotesize
+\setcounter{table}{6}
+\caption{公开数据集四分类结果，三次完整训练的均值与标准差。}
+\label{tab:7}
+\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{LCC}
+\toprule
+方法 & OA（\%） & BA（\%） \\
+\midrule
+\multicolumn{3}{l}{\textit{OSS1}} \\
+普通骨干 & 50.794 ± 4.200 & 46.752 ± 4.127 \\
+匹配位置SE & \textbf{64.550 ± 2.425} & \textbf{60.154 ± 0.642} \\
+本文完整模型 & 60.847 ± 3.304 & 51.737 ± 2.800 \\
+\midrule
+\multicolumn{3}{l}{\textit{OSS2}} \\
+普通骨干 & 55.908 ± 1.332 & 52.176 ± 1.506 \\
+匹配位置SE & 54.233 ± 0.954 & 53.497 ± 1.802 \\
+本文完整模型 & \textbf{61.023 ± 2.610} & \textbf{55.630 ± 3.498} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+完整模型相对普通骨干在OSS1和OSS2上的平均OA分别提高10.053和5.115个百分点，BA提高4.985和3.454个百分点。OSS2相对普通骨干和SE的OA增量船级95\%区间分别为{[}1.422,8.642{]}和{[}2.814,10.908{]}个百分点，BA增量区间包含零。区间采用类别分层的配对船级bootstrap，共3000次；其刻画当前评价船舶上的抽样不确定性。
+
+OSS1中，完整模型相对普通骨干的OA与BA在三个种子中均提高，其中散货船召回达到71.11\%；SE取得该队列最高的总体OA与BA。结合OSS2结果，证据组织的收益体现在不同目标场景中的类别识别改善，而非对所有注意机制和类别的一致优势。
+
+\subsection{完整训练的组件消融}\label{ux5b8cux6574ux8badux7ec3ux7684ux7ec4ux4ef6ux6d88ux878d}
+
+表8在OSS2中分别移除一个组件，保留其余结构、共同起点和训练阶段，并重新训练。删除RGRP同时取消相应区域读出及引导接口，删除CRFB或RCEW则移除对应反馈或参考路径。
+
+\begin{table}[H]
+\centering\footnotesize
+\setcounter{table}{7}
+\caption{OSS2完整训练消融，三种子均值与标准差。}
+\label{tab:8}
+\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{LCC}
+\toprule
+配置 & OA（\%） & BA（\%） \\
+\midrule
+无CRFB & 60.670 ± 1.305 & \textbf{56.554 ± 1.239} \\
+无RGRP & 56.261 ± 0.666 & 52.164 ± 0.744 \\
+无RCEW & \textbf{61.023 ± 0.929} & 56.477 ± 0.991 \\
+完整模型 & \textbf{61.023 ± 2.610} & 55.630 ± 3.498 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+RGRP的贡献最明确：完整模型相对无RGRP的OA/BA提高4.762/3.466个百分点，三个种子均为正，OA船级95\%区间为{[}1.046,8.444{]}个百分点。化学品／成品油轮和集装箱船召回分别提高6.827和6.569个百分点，表明区域取证有效补充了这两类的判别信息。
+
+CRFB和RCEW的完整重训增量较小，二者的作用进一步通过对应关系替换及消息形式比较分析。对同一完整模型开启RCEW，OSS2平均OA变化为+1.235个百分点、BA为−0.136个百分点，合计40次纠错和26次误伤；OSS1为+1.587/+1.371个百分点，预测翻转集中于一个种子。路径贡献与删除后重训的差别表明，需要结合具体证据利用过程解释组件效用。
+
 \subsection{响应引导区域池化}\label{ux54cdux5e94ux5f15ux5bfcux533aux57dfux6c60ux5316}
 
 保持上游、参考库和样本流一致，比较区域均值补充、从局部内容新学习注意的补充、以及复用CRFB类别响应的补充。均值对照重复四份均值摘要以匹配接口，内容注意另有4096个评分参数；其有效表达能力和初始化来源仍有差别，比较首先检验已有类别响应是否值得复用。
 
-\begin{table}[!htb]
+\begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{6}
-\caption{OSS2评价集上的区域读出比较，三次末阶段训练。}
-\label{tab:7}
+\setcounter{table}{8}
+\caption{OSS2评价集上的区域读出比较，固定上游、三次末阶段训练。}
+\label{tab:9}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LCCC}
 \toprule
@@ -541,11 +613,11 @@ CRFB响应引导RGRP补充 & \textbf{62.346 ± 0.153} & \textbf{59.781 ± 0.220}
 
 在响应引导模型权重固定时，将区域内部权重改成均匀值，或反向置换非空位置的权重。均匀替换保持归一化总量但改变权重分布；位置置换同时保持总量与直方图，仅改变权重与局部特征的对应。
 
-\begin{table}[!htb]
+\begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{7}
-\caption{同权重取证方式替换，OSS2扩围评价378条。}
-\label{tab:8}
+\setcounter{table}{9}
+\caption{同权重取证方式替换，OSS2评价378条。}
+\label{tab:10}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LCC}
 \toprule
@@ -571,17 +643,15 @@ CRFB响应引导RGRP补充 & \textbf{62.346 ± 0.153} & \textbf{59.781 ± 0.220}
 \label{fig:8}
 \end{figure}
 
-相对同模型关闭新增读出，也存在负向贡献：样本002394的真实类分差由+0.14140降至−0.54723。区域权重与特征的正确对应有助于取证，但其贡献仍受样本类别关系影响。
-
 \subsection{参考证据的消息形式}\label{ux53c2ux8003ux8bc1ux636eux7684ux6d88ux606fux5f62ux5f0f}
 
-在固定前端的独立RCEW实验中，三组配对训练使用相同源数据、查询／参考episode和120步预算，仅更新相应参考模块及分类头。表9采用固定末轮，避免按某一评价结果选择不同训练长度。
+在固定前端的独立RCEW实验中，三组配对训练使用相同源数据、查询／参考episode和120步预算，仅更新相应参考模块及分类头。表11采用相同训练长度下的末轮结果。
 
-\begin{table}[!htb]
+\begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{8}
-\caption{RCEW独立训练的开发集比较，三种子平均。}
-\label{tab:9}
+\setcounter{table}{10}
+\caption{RCEW独立训练的开发集比较，固定前端、三种子平均。}
+\label{tab:11}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LCC}
 \toprule
@@ -607,17 +677,15 @@ CRFB响应引导RGRP补充 & \textbf{62.346 ± 0.153} & \textbf{59.781 ± 0.220}
 
 对精细对应模型保持权重并改用边际聚合，三个种子、228条查询的预测均不变；配套训练的聚合版平均表现更好。保留类别关系与参考选择后，区域聚合已能提供有效的回写消息。
 
-在同一RCEW独立训练设置下，相对普通参考特征回写，125条跨过境扩围观测的OA/BA差为+0.533/+0.589个百分点，而378条评价观测为−0.970/−0.622个百分点。后者的主要净损失来自化学品／成品油轮。该结果表明消息形式的收益依赖前端表征与评价队列；下面在响应引导区域读出组成的完整模型中检验参考模块增量。
+\subsection{固定上游下的参考与读出协同}\label{ux56faux5b9aux4e0aux6e38ux4e0bux7684ux53c2ux8003ux4e0eux8bfbux51faux534fux540c}
 
-\subsection{完整组合中的参考证据增量}\label{ux5b8cux6574ux7ec4ux5408ux4e2dux7684ux53c2ux8003ux8bc1ux636eux589eux91cf}
+固定相同上游，移除RCEW残差后重新计算layer4与深层区域摘要，再以相同初始化、源样本顺序和180步预算训练区域补充及分类头。保留RCEW的组合沿用表9结果。此对照比较固定上游条件下、有无参考证据时的配套末阶段优化，不等同于表8的共同起点完整重训。
 
-固定相同上游，移除RCEW残差后重新计算layer4与深层区域摘要，再以相同初始化、源样本顺序和180步预算训练区域补充及分类头。完整模型沿用表7结果。此对照比较固定上游条件下、有无参考证据时的配套末阶段优化。
-
-\begin{table}[!htb]
+\begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{9}
-\caption{完整模型与移除RCEW的配套训练比较。}
-\label{tab:10}
+\setcounter{table}{11}
+\caption{固定上游下有无RCEW的末阶段配套训练比较。}
+\label{tab:12}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LCCC}
 \toprule
@@ -625,26 +693,53 @@ CRFB响应引导RGRP补充 & \textbf{62.346 ± 0.153} & \textbf{59.781 ± 0.220}
 \midrule
 \multicolumn{4}{l}{\textit{开发228}} \\
 无RCEW配套训练 & 61.404 ± 0.439 & 54.581 ± 0.287 & 1.23567 \\
-当前组合 & 62.281 ± 0.439 & 55.731 ± 0.284 & 1.23337 \\
+保留RCEW & 62.281 ± 0.439 & 55.731 ± 0.284 & 1.23337 \\
 \midrule
 \multicolumn{4}{l}{\textit{评价378}} \\
 无RCEW配套训练 & 61.993 ± 0.808 & 59.020 ± 0.951 & 1.14967 \\
-当前组合 & 62.346 ± 0.153 & 59.781 ± 0.220 & 1.14005 \\
+保留RCEW & 62.346 ± 0.153 & 59.781 ± 0.220 & 1.14005 \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-RCEW在开发与评价队列上的平均OA/BA增量分别为+0.877/+1.149和+0.353/+0.760个百分点。评价集三种子的OA增量为+1.323、−0.265和0.000，BA增量为+1.817、−0.189和+0.653；NLL均下降，平均降低0.00963，Brier基本持平（0.553932与0.554006）。
+RCEW在开发与评价队列上的平均OA/BA增量分别为+0.877/+1.149和+0.353/+0.760个百分点。评价集三个种子的NLL均下降，平均降低0.00963，说明在该固定上游和配套读出设置下，参考证据能提供小幅净收益。
 
-评价集三次训练合计13次纠错与9次误伤，涉及8艘与6艘船。集装箱船002950在seed17下的真实类分差由无RCEW配套模型的−0.07493提高至+0.36983，同权重关闭回写亦会误判；散货船000694则在三个种子中均被误伤。这些配对结果将参考模块的净收益落实到可追溯的预测变化。
+评价集三次训练合计13次纠错与9次误伤，涉及8艘与6艘船。集装箱船002950在seed17下的真实类分差由无RCEW配套模型的−0.07493提高至+0.36983，同权重关闭回写亦会误判。这一案例将参考证据的作用落实为正确类相对竞争类的优势恢复。
+
+\subsection{计算成本与推理加速}\label{ux8ba1ux7b97ux6210ux672cux4e0eux63a8ux7406ux52a0ux901f}
+
+计算成本在RTX 5050 Laptop GPU（8 GB）上测量，采用FP32、关闭TF32，输入为双极化 \(160\times160\) chip。计时覆盖GPU上的图像及掩膜到分类分数的完整前向，不含检测、文件读取和CPU预处理。完整模型缓存32个源参考的描述子；单张延迟经预热后进行三组、每组15次测量，取中位数。
+
+\begin{table}[H]
+\centering\footnotesize
+\setcounter{table}{12}
+\caption{四分类模型的在线计算成本。运算量仅统计卷积与矩阵乘，一次乘加计两次操作。}
+\label{tab:13}
+\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{LCCCC}
+\toprule
+方法 & 参数（M） & 运算量（G） & 延迟（ms） & 显存（MiB） \\
+\midrule
+普通骨干 & 23.524 & 8.342 & 6.51 & 158.7 \\
+匹配位置SE & 23.690 & 8.343 & 7.50 & 161.5 \\
+本文完整模型 & 25.053 & 8.673 & 129.47 & 174.0 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+参数量统计实际执行的网络参数，显存为PyTorch在线分配峰值。完整模型增加6.50\%的执行参数和3.96\%的卷积／矩阵乘运算量；后者未覆盖归一化及传输迭代等操作。同权重关闭RCEW后延迟降至19.06 ms，说明参考路径是主要耗时来源。参考缓存占3.755 MiB，一次构建耗时43.43 ms。
+
+进一步将RCEW固定形状的60步传输迭代捕获为CUDA Graph，保持权重、FP32精度及32个参考不变。独立配对计时中，完整前向的单张中位延迟由134.17降至49.37 ms，加速2.72倍；批量8的整批延迟由138.70降至63.87 ms，吞吐达125.3张/s。OSS2同一种子的378条预测类别全部保持一致。该稳态加速不含一次性图捕获开销，且仅比较同一完整模型优化前后的执行效率。
 
 \section{讨论}\label{ux8ba8ux8bba}
 
-固定源参考及分阶段训练下的结果支持限定任务中的小幅净收益。参考规模、类内观测覆盖和前端表征会影响回写效用，外围响应的物理来源仍需更精细标注。干预筛选保留为训练框架的一部分；配套追加训练尚未超越所选权重，因此准确率结论由模块及读出对照支撑。进一步的独立采集与同协议强基线比较可检验更广范围的跨场景适用性。
+公开集比较与机制实验形成了相互补充的证据链：完整训练检验证据组织的整体效用，区域消融定位主要收益来源，权重置换检验类别响应与位置对应的必要性，参考案例展示竞争类别优势如何被修正。三类模块分别承担特征反馈、区域汇总和跨样本比较，局部机制贡献与完整训练增量不作简单相加。
+
+参考规模、类内观测覆盖及前端表征共同影响回写效用，外围响应的物理来源可结合更精细标注继续研究。干预选样为训练提供样本级判别保护，公平比较中的各方法采用相同规则。不同港口、时相与成像条件构成联合场景变化，本文以可追溯的局部证据处理提升分类能力，不要求将所有变化压缩为单一不变表征。
 
 \section{结论}\label{ux7ed3ux8bba}
 
-本文从同船跨场景变化和受控图像干预出发，发现局部响应的判别作用依赖极化、区域及类别竞争，并据此构建CRFB、RGRP与RCEW三类证据处理模块。共享骨干上的专属极化处理保留响应差异，类别响应指导区域取证，源参考比较形成可回写的类别证据场。在OSS2四分类评价中，响应引导读出优于配套均值及内容注意对照，参考回写在完整组合中提供小幅平均增益。原图案例、位置替换和配套训练共同支持按证据来源及判别关系组织信息，为中低分辨率SAR船舶跨场景分类提供了可解释的实现路径。
+本文从同船跨场景变化和受控图像干预出发，发现局部响应的判别作用依赖极化、区域及类别竞争，并据此构建CRFB、RGRP与RCEW三类证据处理模块。共享骨干上的专属极化处理保留响应差异，类别响应指导区域取证，源参考比较形成可回写的类别证据场。两个公开集上的完整训练均优于普通骨干，OSS2消融显示RGRP具有明确的净收益；内部替换与原图案例进一步解释了类别响应和参考回写的条件性作用。通过将跨场景分类问题落实到证据来源、区域组织及类别竞争，本文提供了可追溯的模型设计与实验路径。
 
 \FloatBarrier
 \balance

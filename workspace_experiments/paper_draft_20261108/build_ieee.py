@@ -32,37 +32,29 @@ def table(block, number, caption):
     c = block["c"]
     head = c[3][1]
     rows = [row for body in c[4] for row in body[3]]
-    wide = number in {3, 4}
-    env = "table*" if wide else "table"
-    specs = {1: "LCCCC", 2: "LCCC", 3: "LLL", 4: "LCCCLCCC",
-             5: "LCC", 6: "LCCCCC", 7: "LCCC", 8: "LCC",
-             9: "LCC", 10: "LCCC"}
-    placement = "!b" if number == 3 else ("!tb" if wide else "!htb")
+    env = "table"
+    specs = {1: "LCCCC", 2: "LCCC", 3: "LLL",
+             4: r">{\hsize=1.6\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
+             5: "LCC", 6: "LCCCCC", 7: "LCC", 8: "LCC",
+             9: "LCCC", 10: "LCC", 11: "LCC", 12: "LCCC",
+             13: "LCCCC"}
+    placement = "H"
     out = [rf"\begin{{{env}}}[{placement}]", r"\centering\footnotesize",
            rf"\setcounter{{table}}{{{number-1}}}",
            r"\caption{" + caption + "}", rf"\label{{tab:{number}}}",
            r"\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}",
            r"\begin{tabularx}{\linewidth}{" + specs[number] + "}",
            r"\toprule"]
-    if number == 4:
-        headings = [convert(cell[4]) for cell in head[0][1]]
-        out += [" & ".join(headings + headings) + r" \\", r"\midrule"]
-        port_rows = [[convert(cell[4]) for cell in row[1]] for row in rows]
-        ports, total = port_rows[:-1], port_rows[-1]
-        for left, right in zip(ports[:12], ports[12:]):
-            out.append(" & ".join(left + right) + r" \\")
-        out += [r"\midrule", " & ".join(total + ["", "", "", ""]) + r" \\",
-                r"\bottomrule", r"\end{tabularx}", rf"\end{{{env}}}"]
-        return "\n".join(out)
     group = None
     for i, row in enumerate(head + rows):
         cells = [convert(cell[4]).replace("\n", " ") for cell in row[1]]
-        if number == 10:
+        if number in {7, 12}:
             label, cells = cells[0], cells[1:]
             if i >= len(head) and label != group:
                 if group is not None:
                     out.append(r"\midrule")
-                out.append(r"\multicolumn{4}{l}{\textit{" + label + r"}} \\")
+                columns = 3 if number == 7 else 4
+                out.append(r"\multicolumn{" + str(columns) + r"}{l}{\textit{" + label + r"}} \\")
                 group = label
         out.append(" & ".join(cells) + r" \\")
         if i == len(head) - 1:
@@ -72,14 +64,14 @@ def table(block, number, caption):
 
 
 def figure(number, caption, path=None):
-    env = "figure*" if number in {3, 6} else "figure"
+    env = "figure*" if number in {3, 4, 6} else "figure"
     placement = "!htb" if env == "figure" else "!tb"
     out = [rf"\begin{{{env}}}[{placement}]", r"\centering",
            rf"\setcounter{{figure}}{{{number-1}}}"]
     if path:
         if "author_20261109/" in path:
             path = str(Path(path).with_suffix(".pdf")).replace("\\", "/")
-        height = {1: ".38", 2: ".36", 3: ".42", 4: ".28",
+        height = {1: ".38", 2: ".36", 3: ".42", 4: ".42",
                   5: ".25", 6: ".28", 7: ".30"}.get(number, ".28")
         out.append(r"\includegraphics[width=\linewidth,height=" +
                    height + r"\textheight,keepaspectratio]{" + path + "}")
@@ -106,7 +98,7 @@ def main():
     author_block = (r"\author{" + authors + r"\thanks{" + metadata("funding") +
                     r"}\thanks{" + metadata("affiliation") + "}}")
     blocks = document["blocks"]
-    body = []
+    body = [r"\title{" + title + "}" + author_block + r"\maketitle"]
     bib = []
     table_caption = None
     section = ""
@@ -166,11 +158,7 @@ def main():
             table_caption = None
             continue
         rendered = convert([block])
-        if not section:
-            english_title = re.sub(r"^\\textbf\{英文题目：\}\s*", "", rendered)
-            body.append(r"\title{" + title + r"\\[0.6em]{\large " +
-                        english_title + "}}" + author_block + r"\maketitle")
-        elif section == "摘要":
+        if section == "摘要":
             if rendered.startswith(r"\textbf{关键词"):
                 keywords = re.sub(r"^\\textbf\{关键词：\}\s*", "", rendered)
                 body.append(r"\begin{IEEEkeywords}" + keywords + r"\end{IEEEkeywords}")
@@ -207,7 +195,7 @@ def main():
     try:
         shutil.copy2(BUILD / "manuscript_ieee.pdf", output)
     except PermissionError:
-        output = ROOT / "manuscript_ieee_20261109_revised.pdf"
+        output = ROOT / "manuscript_ieee_20261110_revised.pdf"
         shutil.copy2(BUILD / "manuscript_ieee.pdf", output)
     print("DELIVERED", output, flush=True)
 

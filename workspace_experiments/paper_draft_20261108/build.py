@@ -49,8 +49,7 @@ def main():
                       source, flags=re.M)
     funding = re.search(r'^funding: "(.*)"$', source, re.M).group(1)
     affiliation = re.search(r'^affiliation: "(.*)"$', source, re.M).group(1)
-    rendered = re.sub(r"(?m)^(\*\*英文题目：\*\*[^\n]+)$",
-                      r"\1[^author-details]", rendered)
+    rendered = rendered.replace("# 摘要", "[^author-details]\n\n# 摘要", 1)
     rendered += "\n\n[^author-details]: " + funding + " " + affiliation + "\n"
     (ROOT / "_build/rendered.md").write_text(rendered, encoding="utf-8")
     pandoc = shutil.which("pandoc")
