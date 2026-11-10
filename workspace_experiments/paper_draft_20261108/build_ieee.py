@@ -32,13 +32,13 @@ def table(block, number, caption):
     c = block["c"]
     head = c[3][1]
     rows = [row for body in c[4] for row in body[3]]
-    env = "table"
-    specs = {1: "LCCCC", 2: "LCCC", 3: "LLL",
-             4: r">{\hsize=1.6\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
-             5: "LCC", 6: "LCCCCC", 7: "LCC", 8: "LCC",
-             9: "LCCC", 10: "LCC", 11: "LCC", 12: "LCCC",
-             13: "LCCCC"}
-    placement = "H"
+    env = "table*" if number == 5 else "table"
+    specs = {1: "LL", 2: "LCCCC", 3: "LCCC", 4: "LLL", 5: "LLLL",
+             6: r">{\hsize=1.6\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
+             7: "LCC", 8: "LCCCCC", 9: "LCC", 10: "LCC",
+             11: "LCCC", 12: "LCC", 13: "LCC", 14: "LCCC",
+             15: "LCCCC"}
+    placement = "!t" if env == "table*" else ("!htbp" if number in {6, 7, 8} else "H")
     out = [rf"\begin{{{env}}}[{placement}]", r"\centering\footnotesize",
            rf"\setcounter{{table}}{{{number-1}}}",
            r"\caption{" + caption + "}", rf"\label{{tab:{number}}}",
@@ -48,12 +48,12 @@ def table(block, number, caption):
     group = None
     for i, row in enumerate(head + rows):
         cells = [convert(cell[4]).replace("\n", " ") for cell in row[1]]
-        if number in {7, 12}:
+        if number in {9, 14}:
             label, cells = cells[0], cells[1:]
             if i >= len(head) and label != group:
                 if group is not None:
                     out.append(r"\midrule")
-                columns = 3 if number == 7 else 4
+                columns = 3 if number == 9 else 4
                 out.append(r"\multicolumn{" + str(columns) + r"}{l}{\textit{" + label + r"}} \\")
                 group = label
         out.append(" & ".join(cells) + r" \\")
@@ -64,7 +64,7 @@ def table(block, number, caption):
 
 
 def figure(number, caption, path=None):
-    env = "figure*" if number in {3, 4, 6, 8, 9, 12} else "figure"
+    env = "figure*" if number in {3, 4, 6, 8, 9} else "figure"
     placement = "!htb" if env == "figure" else "!tb"
     out = [rf"\begin{{{env}}}[{placement}]", r"\centering",
            rf"\setcounter{{figure}}{{{number-1}}}"]
@@ -73,12 +73,12 @@ def figure(number, caption, path=None):
             path = str(Path(path).with_suffix(".pdf")).replace("\\", "/")
         height = {1: ".38", 2: ".36", 3: ".42", 4: ".42",
                   5: ".25", 6: ".28", 7: ".30", 8: ".44",
-                  9: ".42", 12: ".42"}.get(number, ".28")
+                  9: ".42", 12: ".28"}.get(number, ".28")
         out.append(r"\includegraphics[width=\linewidth,height=" +
                    height + r"\textheight,keepaspectratio]{" + path + "}")
     else:
-        out.append(r"\fbox{\parbox[c][20mm][c]{.92\textwidth}{\centering " +
-                   "流程图预留位置（由作者绘制）" + "}}")
+        out.append(r"\fbox{\parbox[c][20mm][c]{.92\linewidth}{\centering " +
+                   "图位预留" + "}}")
     out += [r"\caption{" + caption + "}", rf"\label{{fig:{number}}}",
             rf"\end{{{env}}}"]
     return "\n".join(out)
