@@ -1,0 +1,76 @@
+{
+  "arm": "se",
+  "classes": 8,
+  "references": 0,
+  "checkpoint": null,
+  "scope": "eight-class architecture only; no restored trained weights",
+  "registered_parameters": 25755296,
+  "training": {
+    "carrier": 1312376,
+    "intervention": 1114112,
+    "reference": 32792,
+    "feedback": 131640,
+    "readout": 32792,
+    "unique_updated_parameters": 1377912
+  },
+  "reference_cache_mib": 0.0,
+  "conv_matmul_gflops": 8.343076128,
+  "conv_matmul_gmacs": 4.171538064,
+  "flop_ops": {
+    "aten::conv2d": 8341749760,
+    "aten::bmm": 1260800,
+    "aten::addmm": 65568
+  },
+  "executed_parameters": 23706296,
+  "inactive_parameters": [
+    "net.base.backbone.model.fc.weight",
+    "net.base.backbone.model.fc.bias",
+    "anchor_conv.weight",
+    "anchor_bn.weight",
+    "anchor_bn.bias"
+  ],
+  "batch1": {
+    "median_ms": 7.1557999472133815,
+    "p90_ms": 7.62571997474879,
+    "mean_ms": 7.230526662897319,
+    "round_medians_ms": [
+      7.0813000202178955,
+      7.204500027000904,
+      7.20059999730438
+    ],
+    "gpu_event_median_ms": 7.113279819488525,
+    "measured_calls": 45,
+    "resident_allocated_mib": 121.9501953125,
+    "peak_allocated_mib": 173.9111328125,
+    "incremental_peak_mib": 51.9609375
+  },
+  "batch8": {
+    "median_ms": 17.298799997661263,
+    "p90_ms": 17.409640015102923,
+    "mean_ms": 17.303760008265574,
+    "round_medians_ms": [
+      17.257400031667203,
+      17.17170001938939,
+      17.373899987433106
+    ],
+    "gpu_event_median_ms": 17.245824813842773,
+    "measured_calls": 15,
+    "resident_allocated_mib": 122.0595703125,
+    "peak_allocated_mib": 216.74072265625,
+    "incremental_peak_mib": 94.68115234375
+  },
+  "cached_suffix_batch1": {
+    "median_ms": 5.034700036048889,
+    "p90_ms": 5.206579971127212,
+    "mean_ms": 5.058606659683089,
+    "round_medians_ms": [
+      5.034700036048889,
+      4.965099971741438,
+      5.128999997396022
+    ],
+    "gpu_event_median_ms": 5.003007888793945,
+    "measured_calls": 15
+  },
+  "frozen_descriptor_conv_parameters": 0,
+  "frozen_descriptor_bn_parameters": 0
+}

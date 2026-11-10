@@ -1,0 +1,21 @@
+{
+  "torch": "2.7.1+cu128",
+  "cuda": "12.8",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU",
+  "gpu_total_mib": 8150.5625,
+  "threads": 2,
+  "dtype": "float32",
+  "batch_sizes": [
+    1,
+    8
+  ],
+  "seed": 17,
+  "cudnn_benchmark": false,
+  "cudnn_deterministic": false,
+  "cudnn_tf32": false,
+  "matmul_tf32": false,
+  "timing": "GPU-resident preprocessed chips + OBB masks; cached source reference descriptors; synchronized host wall time",
+  "excluded": "disk IO, CPU native160/mask preparation, detection, training and initial model loading",
+  "flops": "conv2d/mm/bmm/addmm only, multiply-add=2; other ops excluded, not full arithmetic FLOPs"
+}

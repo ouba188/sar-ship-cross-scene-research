@@ -1,0 +1,76 @@
+{
+  "arm": "plain",
+  "classes": 8,
+  "references": 0,
+  "checkpoint": null,
+  "scope": "eight-class architecture only; no restored trained weights",
+  "registered_parameters": 25589824,
+  "training": {
+    "carrier": 1146904,
+    "intervention": 1114112,
+    "reference": 32792,
+    "feedback": 98328,
+    "readout": 32792,
+    "unique_updated_parameters": 1212440
+  },
+  "reference_cache_mib": 0.0,
+  "conv_matmul_gflops": 8.342420768,
+  "conv_matmul_gmacs": 4.171210384,
+  "flop_ops": {
+    "aten::conv2d": 8341094400,
+    "aten::bmm": 1260800,
+    "aten::addmm": 65568
+  },
+  "executed_parameters": 23540824,
+  "inactive_parameters": [
+    "net.base.backbone.model.fc.weight",
+    "net.base.backbone.model.fc.bias",
+    "anchor_conv.weight",
+    "anchor_bn.weight",
+    "anchor_bn.bias"
+  ],
+  "batch1": {
+    "median_ms": 6.833899999037385,
+    "p90_ms": 7.197340007405728,
+    "mean_ms": 6.891235552676436,
+    "round_medians_ms": [
+      6.847499986179173,
+      6.853399972897023,
+      6.662599975243211
+    ],
+    "gpu_event_median_ms": 6.805952072143555,
+    "measured_calls": 45,
+    "resident_allocated_mib": 121.318359375,
+    "peak_allocated_mib": 173.279296875,
+    "incremental_peak_mib": 51.9609375
+  },
+  "batch8": {
+    "median_ms": 17.24580000154674,
+    "p90_ms": 17.576799995731562,
+    "mean_ms": 17.276266671251506,
+    "round_medians_ms": [
+      17.28460000595078,
+      17.103999969549477,
+      17.254000005777925
+    ],
+    "gpu_event_median_ms": 17.19113540649414,
+    "measured_calls": 15,
+    "resident_allocated_mib": 121.427734375,
+    "peak_allocated_mib": 216.10888671875,
+    "incremental_peak_mib": 94.68115234375
+  },
+  "cached_suffix_batch1": {
+    "median_ms": 4.754599998705089,
+    "p90_ms": 4.828800039831549,
+    "mean_ms": 4.765326665559162,
+    "round_medians_ms": [
+      4.742699966300279,
+      4.766799975186586,
+      4.759999981615692
+    ],
+    "gpu_event_median_ms": 4.719456195831299,
+    "measured_calls": 15
+  },
+  "frozen_descriptor_conv_parameters": 0,
+  "frozen_descriptor_bn_parameters": 0
+}

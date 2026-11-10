@@ -1,0 +1,78 @@
+{
+  "arm": "se",
+  "classes": 4,
+  "references": 0,
+  "checkpoint": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\paper_draft_20261108\\staged_ablation_20261109\\se_s17_lr0.3\\readout\\final.pt",
+  "scope": "trained OSS2 seed17",
+  "registered_parameters": 25738900,
+  "training": {
+    "carrier": 1295980,
+    "intervention": 1114112,
+    "reference": 16396,
+    "feedback": 115244,
+    "readout": 16396,
+    "unique_updated_parameters": 1361516
+  },
+  "reference_cache_mib": 0.0,
+  "raw_cache_max_logit_error": 0.0,
+  "saved_prediction_max_logit_error": 0.0,
+  "conv_matmul_gflops": 8.343043344,
+  "conv_matmul_gmacs": 4.171521672,
+  "flop_ops": {
+    "aten::conv2d": 8341749760,
+    "aten::bmm": 1260800,
+    "aten::addmm": 32784
+  },
+  "executed_parameters": 23689900,
+  "inactive_parameters": [
+    "net.base.backbone.model.fc.weight",
+    "net.base.backbone.model.fc.bias",
+    "anchor_conv.weight",
+    "anchor_bn.weight",
+    "anchor_bn.bias"
+  ],
+  "batch1": {
+    "median_ms": 7.4961999780498445,
+    "p90_ms": 8.509840024635196,
+    "mean_ms": 7.579408888705075,
+    "round_medians_ms": [
+      7.7815999975427985,
+      7.526599976699799,
+      7.151900033932179
+    ],
+    "gpu_event_median_ms": 7.455615997314453,
+    "measured_calls": 45,
+    "resident_allocated_mib": 129.03173828125,
+    "peak_allocated_mib": 180.98095703125,
+    "incremental_peak_mib": 51.94921875
+  },
+  "batch8": {
+    "median_ms": 17.69479998620227,
+    "p90_ms": 17.930979968514293,
+    "mean_ms": 17.7457799979796,
+    "round_medians_ms": [
+      17.615700024180114,
+      17.853699973784387,
+      17.720300005748868
+    ],
+    "gpu_event_median_ms": 17.626239776611328,
+    "measured_calls": 15,
+    "resident_allocated_mib": 129.14111328125,
+    "peak_allocated_mib": 222.787109375,
+    "incremental_peak_mib": 93.64599609375
+  },
+  "cached_suffix_batch1": {
+    "median_ms": 5.0941999652422965,
+    "p90_ms": 5.285779980476946,
+    "mean_ms": 5.134979992484053,
+    "round_medians_ms": [
+      5.133799975737929,
+      5.245300009846687,
+      5.0817999872379005
+    ],
+    "gpu_event_median_ms": 5.055359840393066,
+    "measured_calls": 15
+  },
+  "frozen_descriptor_conv_parameters": 0,
+  "frozen_descriptor_bn_parameters": 0
+}

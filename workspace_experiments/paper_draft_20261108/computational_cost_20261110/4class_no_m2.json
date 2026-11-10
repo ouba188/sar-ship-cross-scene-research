@@ -1,0 +1,100 @@
+{
+  "arm": "no_m2",
+  "classes": 4,
+  "references": 32,
+  "checkpoint": "E:\\\u4e34\u65f6\u4f1a\u8bdd\\paper_draft_20261108\\staged_ablation_20261109\\no_m2_s17_lr1\\readout\\final.pt",
+  "scope": "trained OSS2 seed17",
+  "registered_parameters": 25679020,
+  "training": {
+    "carrier": 1130508,
+    "intervention": 1114112,
+    "reference": 84540,
+    "feedback": 119380,
+    "readout": 16396,
+    "unique_updated_parameters": 1301636
+  },
+  "reference_cache_mib": 3.755126953125,
+  "raw_cache_max_logit_error": 1.811981201171875e-05,
+  "saved_prediction_max_logit_error": 2.8371810913085938e-05,
+  "conv_matmul_gflops": 8.616952336,
+  "conv_matmul_gmacs": 4.308476168,
+  "flop_ops": {
+    "aten::conv2d": 8461533184,
+    "aten::bmm": 63186944,
+    "aten::mm": 92078080,
+    "aten::addmm": 154128
+  },
+  "executed_parameters": 23696580,
+  "inactive_parameters": [
+    "net.base.backbone.model.fc.weight",
+    "net.base.backbone.model.fc.bias"
+  ],
+  "batch1": {
+    "median_ms": 134.46420000400394,
+    "p90_ms": 156.11923999385908,
+    "mean_ms": 139.24830444803877,
+    "round_medians_ms": [
+      141.2945000338368,
+      134.6674000378698,
+      132.91390001541004
+    ],
+    "gpu_event_median_ms": 134.4281005859375,
+    "measured_calls": 45,
+    "resident_allocated_mib": 132.58251953125,
+    "peak_allocated_mib": 189.720703125,
+    "incremental_peak_mib": 57.13818359375
+  },
+  "batch8": {
+    "median_ms": 137.15269998647273,
+    "p90_ms": 146.544199984055,
+    "mean_ms": 138.0288066652914,
+    "round_medians_ms": [
+      137.22709997091442,
+      132.53760000225157,
+      137.15389999561012
+    ],
+    "gpu_event_median_ms": 137.07810974121094,
+    "measured_calls": 15,
+    "resident_allocated_mib": 132.69189453125,
+    "peak_allocated_mib": 244.16259765625,
+    "incremental_peak_mib": 111.470703125
+  },
+  "cached_suffix_batch1": {
+    "median_ms": 126.39190000481904,
+    "p90_ms": 134.32204002747312,
+    "mean_ms": 129.71048665543398,
+    "round_medians_ms": [
+      121.34369998238981,
+      125.81649998901412,
+      133.67680000374094
+    ],
+    "gpu_event_median_ms": 126.35533142089844,
+    "measured_calls": 15
+  },
+  "reference_build": {
+    "median_ms": 49.309799971524626,
+    "p90_ms": 49.50866000726819,
+    "mean_ms": 49.37741111239625,
+    "round_medians_ms": [
+      49.34640001738444,
+      49.309799971524626,
+      49.301100021693856
+    ],
+    "gpu_event_median_ms": 49.269344329833984,
+    "measured_calls": 9
+  },
+  "same_weight_m3_off_batch1": {
+    "median_ms": 10.442900005728006,
+    "p90_ms": 12.55959999980405,
+    "mean_ms": 10.792146665820232,
+    "round_medians_ms": [
+      9.98299999628216,
+      10.65290003316477,
+      10.512300010304898
+    ],
+    "gpu_event_median_ms": 10.41267204284668,
+    "measured_calls": 15
+  },
+  "frozen_descriptor_conv_parameters": 65536,
+  "frozen_descriptor_bn_parameters": 1024
+}
