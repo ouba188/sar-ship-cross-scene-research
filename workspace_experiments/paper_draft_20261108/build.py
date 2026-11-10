@@ -1,6 +1,7 @@
 """Render the manuscript using archived evidence and author-supplied diagrams."""
 from pathlib import Path
 import csv
+import json
 import re
 import shutil
 import subprocess
@@ -31,18 +32,14 @@ def main():
             shutil.copy2(source, target)
         elif not target.exists():
             raise FileNotFoundError(source)
+    source = (ROOT / "MANUSCRIPT_ZH.md").read_text(encoding="utf-8")
+    manifest = json.loads((ROOT / "figures/author_20261110/manifest.json").read_text(encoding="utf-8"))
     with (ROOT / "figure_sources.csv").open("w", encoding="utf-8-sig", newline="") as stream:
         writer = csv.writer(stream)
         writer.writerow(["figure", "archived_file", "source"])
-        writer.writerow([1, "figures/author_20261109/fig1_author.pdf",
-                         "sources_20261109/author_fig1.pptx; slide 1; author replacement"])
-        numbers = [2, 8, 9]
-        writer.writerows((number, "figures/" + name, str(source))
-                         for number, (name, source) in zip(numbers, FIGURES.items()))
-        writer.writerows((i+3, f"figures/author_20261109/fig{i+3}_author.pdf",
-                          f"sources_20261109/author_flowcharts.pptx; slide {i+1}; corrected paper copy")
-                         for i in range(5))
-    source = (ROOT / "MANUSCRIPT_ZH.md").read_text(encoding="utf-8")
+        for number, path in re.findall(r"^!\[图(\d+) [^\n]+\]\(([^)]+)\)", source, re.M):
+            origin = manifest[path]["source"] if path in manifest else str(FIGURES[Path(path).name])
+            writer.writerow([number, path, origin])
     # Keep the same manual figure numbering as the IEEE edition.
     rendered = re.sub(r"^!\[([^\n]+)\]\(([^)]+)\)(\{[^\n]*\})?$",
                       lambda m: "![](" + m[2] + ")" + (m[3] or "") + "\n\n" + m[1],
@@ -51,12 +48,26 @@ def main():
     affiliation = re.search(r'^affiliation: "(.*)"$', source, re.M).group(1)
     rendered = rendered.replace("# 摘要", "[^author-details]\n\n# 摘要", 1)
     rendered += "\n\n[^author-details]: " + funding + " " + affiliation + "\n"
+    html_rendered = rendered
+    for path, info in manifest.items():
+        width, height = info["size"]
+        x0, y0, x1, y1 = info["viewport"]
+        cw, ch = x1 - x0, y1 - y0
+        viewport = (f'<div style="position:relative;width:100%;aspect-ratio:{cw}/{ch};overflow:hidden">'
+                    f'<img src="{path}" alt="图{info["figure"]}" '
+                    f'style="position:absolute;max-width:none;width:{100*width/cw:.6f}%;'
+                    f'height:auto;left:{-100*x0/cw:.6f}%;top:{-100*y0/ch:.6f}%;margin:0" /></div>')
+        html_rendered = re.sub(r"!\[\]\(" + re.escape(path) + r"\)(\{[^\n]*\})?", lambda m: viewport, html_rendered)
+        rendered = rendered.replace("(" + path + ")", "(" + str(Path(path).with_suffix(".pdf")).replace("\\", "/") + ")")
     (ROOT / "_build/rendered.md").write_text(rendered, encoding="utf-8")
+    (ROOT / "_build/rendered_html.md").write_text(html_rendered, encoding="utf-8")
     pandoc = shutil.which("pandoc")
     if not pandoc:
         raise RuntimeError("Existing Pandoc installation was not found")
     common = [pandoc, "_build/rendered.md", "-f", "markdown-implicit_figures", "--standalone", "--resource-path=."]
-    run(common + ["--mathml", "--toc", "--toc-depth=2", "--css=style.css", "-o", "index.html"], "html")
+    html_args = common.copy()
+    html_args[1] = "_build/rendered_html.md"
+    run(html_args + ["--mathml", "--toc", "--toc-depth=2", "--css=style.css", "-o", "index.html"], "html")
     latex = common + ["-t", "latex", "-V", "CJKmainfont=SimSun", "-V", "mainfont=Times New Roman",
                       "-V", "sansfont=Arial", "-V", "monofont=Consolas", "-V", "fontsize=11pt",
                       "-V", "geometry:margin=24mm", "-V", "papersize=a4", "-V", "colorlinks=false",
