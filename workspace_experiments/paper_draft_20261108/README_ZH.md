@@ -4,6 +4,8 @@
 
 ## 阅读入口
 
+- manuscript_ieee_20261110_preprocessing.pdf：最新稿，在作者摘要修订版基础上，表1补充数据集预处理因素，引言与表5的具体预处理说明衔接。
+
 - manuscript_ieee_20261110_abstract_revision.pdf：最新稿，按作者“摘要.docx”的问题与方法主线修订摘要、引言、设计依据及模块解释；保留当前公式、图表和待补实验位。
 - ABSTRACT_REVISION_20261110.md：作者版本采纳范围，以及旧OSS1、OSS2产品范围、训练与公式口径的保留说明。
 
