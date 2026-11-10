@@ -65,6 +65,8 @@ def table(block, number, caption):
         if i == len(head) - 1:
             out.append(r"\midrule")
     out += [r"\bottomrule", r"\end{tabularx}", rf"\end{{{env}}}"]
+    if number in {6, 7, 8}:
+        out.insert(0, r"\FloatBarrier")
     return "\n".join(out)
 
 
