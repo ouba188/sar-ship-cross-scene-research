@@ -35,10 +35,15 @@ def table(block, number, caption):
     env = "table*" if number == 5 else "table"
     specs = {1: "LL", 2: "LCCCC", 3: "LCCC", 4: "LLL", 5: "LLLL",
              6: r">{\hsize=1.6\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
-             7: "LCC", 8: "LCCCCC", 9: "LCC", 10: "LCC",
+             7: "LCC", 8: "LCCCCC", 9: "LCCC", 10: "LCC",
              11: "LCCC", 12: "LCC", 13: "LCC", 14: "LCCC",
-             15: "LCCCC"}
-    placement = "!t" if env == "table*" else ("!htbp" if number in {6, 7, 8} else "H")
+             15: "LCCCC",
+             16: r">{\hsize=.6\hsize}L>{\hsize=1.8\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
+             17: r">{\hsize=.8\hsize}L>{\hsize=1.6\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
+             18: "LCCCC", 19: "LLCC", 20: "LCCC", 21: "LCCCL", 22: "LLCC",
+             23: r">{\hsize=1.2\hsize}L>{\hsize=1.6\hsize}L>{\hsize=.6\hsize}L>{\hsize=.6\hsize}L",
+             24: "LCCC"}
+    placement = "!t" if env == "table*" else ("!htbp" if number in {6, 7, 8, 9} else "H")
     out = [rf"\begin{{{env}}}[{placement}]", r"\centering\footnotesize",
            rf"\setcounter{{table}}{{{number-1}}}",
            r"\caption{" + caption + "}", rf"\label{{tab:{number}}}",
@@ -48,12 +53,12 @@ def table(block, number, caption):
     group = None
     for i, row in enumerate(head + rows):
         cells = [convert(cell[4]).replace("\n", " ") for cell in row[1]]
-        if number in {9, 14}:
+        if number in {9, 10, 14, 18, 20}:
             label, cells = cells[0], cells[1:]
             if i >= len(head) and label != group:
                 if group is not None:
                     out.append(r"\midrule")
-                columns = 3 if number == 9 else 4
+                columns = len(cells)
                 out.append(r"\multicolumn{" + str(columns) + r"}{l}{\textit{" + label + r"}} \\")
                 group = label
         out.append(" & ".join(cells) + r" \\")
