@@ -1,0 +1,71 @@
+{
+  "scope": "full",
+  "lr": 0.0001,
+  "seed": 29,
+  "module_lr": 0.0001,
+  "epochs_max": 30,
+  "epochs_min": 12,
+  "patience": 8,
+  "batch": 24,
+  "microbatch": 12,
+  "initialization": "staged Full seed29, five stages already trained",
+  "optimizer": "AdamW wd=.01, warmup2 cosine .05, clip5",
+  "loss": "class/vessel balanced CE + .02 M1 auxiliary CE",
+  "augmentation": "paired rot90/flip; native region masks transformed and re-integrated",
+  "references": "32 fixed legal source records; current shared-prefix features each batch",
+  "bn": "running statistics fixed; affine trainable in scope",
+  "intervention": "retained checkpoint training history; no new teacher selection",
+  "selection": "validation BA, OA, -NLL; epoch0 is eligible",
+  "inference": "all M1 M2 M3 active; no spectral module; no feature/delta cache",
+  "input_policy": "cross-polarization recovery in training, references and queries",
+  "matched_rng": true,
+  "hyperparameter_search": false,
+  "baseline": "E:\\临时会话\\paper_draft_20261108\\full_finetune_20261111\\selected_s29",
+  "epochs": 12,
+  "steps": 360,
+  "best": {
+    "epoch": 0,
+    "key": [
+      62.441953180713014,
+      66.22807017543859,
+      -1.4625838994979858
+    ],
+    "metrics": {
+      "oa": 66.22807017543859,
+      "ba": 62.441953180713014,
+      "macro_f1": 59.76195726747036,
+      "nll": 1.4625838994979858,
+      "confusion": [
+        [
+          53,
+          4,
+          13,
+          17
+        ],
+        [
+          4,
+          10,
+          5,
+          4
+        ],
+        [
+          3,
+          5,
+          20,
+          1
+        ],
+        [
+          5,
+          8,
+          8,
+          68
+        ]
+      ]
+    }
+  },
+  "seconds": 311.9389633000246,
+  "stop_reason": "validation_patience",
+  "trainable": 24985988,
+  "peak_gib": 3.6550941467285156,
+  "test_read": false
+}
