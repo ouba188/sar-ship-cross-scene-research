@@ -1,0 +1,23 @@
+{
+  "scope": "full",
+  "lr": 0.0001,
+  "seed": 17,
+  "head_lr": 0.001,
+  "weight_decay": 0.01,
+  "batch": 24,
+  "epochs_max": 60,
+  "epochs_min": 30,
+  "patience": 15,
+  "optimizer": "AdamW",
+  "schedule": "2 epoch warmup then cosine to 0.05 at epoch60",
+  "selection": "validation BA then OA then lower NLL",
+  "normalization": "Full-compatible /255, gray replicated RGB, ImageNet mean/std",
+  "augmentation": "paired 90-degree rotations and horizontal flip; native scale unchanged",
+  "loss": "class and vessel balanced CE, same source-weight rule as Full",
+  "bn": "all running statistics frozen; affine trainable only within late/full scopes",
+  "input": "same native160; valid-area global pooling; availability-masked concatenation",
+  "backbone": "shared ResNet50 ImageNet V2",
+  "modules": "none",
+  "references": "none",
+  "precision": "bfloat16 convolution training; float32 pooling/head and evaluation"
+}

@@ -1,0 +1,72 @@
+{
+  "scope": "full",
+  "lr": 0.0001,
+  "seed": 17,
+  "head_lr": 0.001,
+  "weight_decay": 0.01,
+  "batch": 24,
+  "epochs_max": 60,
+  "epochs_min": 30,
+  "patience": 15,
+  "optimizer": "AdamW",
+  "schedule": "2 epoch warmup then cosine to 0.05 at epoch60",
+  "selection": "validation BA then OA then lower NLL",
+  "normalization": "Full-compatible /255, gray replicated RGB, ImageNet mean/std",
+  "augmentation": "paired 90-degree rotations and horizontal flip; native scale unchanged",
+  "loss": "class and vessel balanced CE, same source-weight rule as Full",
+  "bn": "all running statistics frozen; affine trainable only within late/full scopes",
+  "input": "same native160; valid-area global pooling; availability-masked concatenation",
+  "backbone": "shared ResNet50 ImageNet V2",
+  "modules": "none",
+  "references": "none",
+  "precision": "bfloat16 convolution training; float32 pooling/head and evaluation",
+  "epochs": 46,
+  "steps": 1380,
+  "exposures": 33074,
+  "best": {
+    "epoch": 31,
+    "key": [
+      62.64957408935982,
+      64.91228070175438,
+      -1.7006019353866577
+    ],
+    "metrics": {
+      "oa": 64.91228070175438,
+      "ba": 62.64957408935982,
+      "macro_f1": 60.47605458147449,
+      "nll": 1.7006019353866577,
+      "confusion": [
+        [
+          56,
+          9,
+          7,
+          15
+        ],
+        [
+          1,
+          12,
+          6,
+          4
+        ],
+        [
+          6,
+          3,
+          19,
+          1
+        ],
+        [
+          16,
+          11,
+          1,
+          61
+        ]
+      ]
+    }
+  },
+  "seconds": 153.7668749000295,
+  "stop_reason": "validation_patience",
+  "parameters": 23524428,
+  "trainable": 23524428,
+  "peak_gib": 1.450453758239746,
+  "test_read": false
+}
