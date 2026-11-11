@@ -1,0 +1,99 @@
+{
+  "parent": {
+    "status": "frozen_before_first_training",
+    "pretrain": "C:/Users/25791/.cache/torch/hub/checkpoints/resnet50-11ad3fa6.pth",
+    "scope": "surviving-current-operator staged retraining; not exact replay of historical replaced operators",
+    "arms": [
+      "full",
+      "plain",
+      "se",
+      "no_m1",
+      "no_m2",
+      "no_m3"
+    ],
+    "seeds": [
+      17,
+      29,
+      43
+    ],
+    "scout_scales": [
+      1.0,
+      0.3
+    ],
+    "selection": "full/plain/SE seed17 development BA then OA then NLL; deletions inherit full scale; evaluation withheld",
+    "phases": [
+      {
+        "name": "carrier",
+        "phase": 0,
+        "cohort": "source_fit",
+        "epochs": 8,
+        "batch": 24,
+        "backbone_lr": 3e-05,
+        "head_lr": 0.001,
+        "module_lr": 0.001
+      },
+      {
+        "name": "intervention",
+        "phase": -1,
+        "cohort": "source_adapt",
+        "epochs": 6,
+        "batch": 16,
+        "backbone_lr": 3e-05
+      },
+      {
+        "name": "reference",
+        "phase": 1,
+        "cohort": "small",
+        "epochs": 4,
+        "batch": 24,
+        "head_lr": 1e-05,
+        "module_lr": 0.001,
+        "output_lr": 0.0001,
+        "hard": true
+      },
+      {
+        "name": "feedback",
+        "phase": 2,
+        "cohort": "small",
+        "steps": 180,
+        "batch": 24,
+        "backbone_lr": 1e-05,
+        "head_lr": 1e-05,
+        "hard": true
+      },
+      {
+        "name": "readout",
+        "phase": 3,
+        "cohort": "small",
+        "steps": 180,
+        "batch": 24,
+        "continuous": true,
+        "head_lr": 1e-05,
+        "hard": true
+      }
+    ]
+  },
+  "arms": [
+    "merged_readout",
+    "merged_all"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "data": {
+    "source_fit": 478,
+    "source_adapt": 241,
+    "validation": 228,
+    "selection": 194,
+    "evaluation": 378,
+    "references": 32,
+    "small": 719,
+    "expanded": 913
+  },
+  "scope": "matched full five-stage retraining from common initialization; Full reused",
+  "intervention": "arm-specific teacher and source-hard weights under unchanged rules",
+  "geometry": "M2 soft union preserved; equal thirds remove region identity; M3 original geometry unchanged",
+  "selection": "inherited full scale1; no new tuning; test previously used in development"
+}
