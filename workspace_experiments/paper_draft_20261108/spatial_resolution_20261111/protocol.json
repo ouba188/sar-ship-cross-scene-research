@@ -1,0 +1,35 @@
+{
+  "arms": [
+    "standard_current",
+    "dense_current",
+    "standard_mean",
+    "dense_mean"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "steps": 96,
+  "batch": 8,
+  "microbatch": 4,
+  "groups": {
+    "source_fit": 478,
+    "source_adapt": 241,
+    "validation": 228,
+    "selection": 194,
+    "evaluation": 378,
+    "references": 32,
+    "small": 719,
+    "expanded": 913
+  },
+  "input": "unchanged native160; no resize/recrop",
+  "initial": "same seed-specific full readout checkpoint for all four variants",
+  "change": "layer3 stride 2 to 1; subsequent 3x3 dilation2; layer4 keeps stride2",
+  "grid": "layer2 unchanged20; layer3 10->20; layer4 5->10",
+  "m3": "same frozen layer1/layer2 comparison descriptors and 32 references; writer uses native grid occupancy",
+  "simple": "area-mean per reference, equal legal references per class, unit squared value distance; no metric/bias/transport",
+  "optimization": "96 paired joint continuation updates; source class/vessel weights, CE only, fixed BN/M1/prefix",
+  "intervention": "inherited in starting weights; no new teacher selection or intervention pass",
+  "scope": "small continuation pilot, not fresh end-to-end training or independent test; no model promotion"
+}
