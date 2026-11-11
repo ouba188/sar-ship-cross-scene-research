@@ -1,0 +1,131 @@
+{
+  "new_full_tuned_search_and_confirm": {
+    "unique_runs": 8,
+    "scout_runs": 6,
+    "selected_seed17_reused": true,
+    "epochs": 162,
+    "max_peak_gpu_gib": 4.094626426696777,
+    "optimizer_steps": 4860,
+    "query_exposures": 116478,
+    "fit_seconds": 5492.801854200021
+  },
+  "new_full_tuned_selected_runs": {
+    "optimizer_steps": 1920,
+    "query_exposures": 46016,
+    "fit_seconds": 1771.0394678000011
+  },
+  "inherited_full_selected_three_seeds": {
+    "phases": 15,
+    "optimizer_steps": 2208,
+    "query_exposures": 50340,
+    "fit_seconds": 294.50976080005057
+  },
+  "full_tuned_search_plus_inherited_unique_cost": {
+    "optimizer_steps": 7068,
+    "query_exposures": 166818,
+    "fit_seconds": 5787.3116150000715
+  },
+  "historical_plain_selected_three_seeds": {
+    "optimizer_steps": 2208,
+    "query_exposures": 50340,
+    "fit_seconds": 96.47438689990668
+  },
+  "historical_r50_search_and_confirm": {
+    "unique_runs": 8,
+    "optimizer_steps": 10200,
+    "query_exposures": 244460,
+    "fit_seconds": 918.4597228000639
+  },
+  "r50_runs": [
+    {
+      "path": "E:\\临时会话\\paper_draft_20261108\\r50_tuned_20261111\\scout_local_lr1e-05_s17",
+      "seed": 17,
+      "epochs": 60,
+      "best_epoch": 50,
+      "optimizer_steps": 1800,
+      "query_exposures": 43140,
+      "fit_seconds": 108.48251260002144,
+      "peak_gpu_gib": 2.7427873611450195
+    },
+    {
+      "path": "E:\\临时会话\\paper_draft_20261108\\r50_tuned_20261111\\scout_local_lr0.0001_s17",
+      "seed": 17,
+      "epochs": 38,
+      "best_epoch": 23,
+      "optimizer_steps": 1140,
+      "query_exposures": 27322,
+      "fit_seconds": 67.36815809999825,
+      "peak_gpu_gib": 0.5595231056213379
+    },
+    {
+      "path": "E:\\临时会话\\paper_draft_20261108\\r50_tuned_20261111\\scout_late_lr1e-05_s17",
+      "seed": 17,
+      "epochs": 34,
+      "best_epoch": 19,
+      "optimizer_steps": 1020,
+      "query_exposures": 24446,
+      "fit_seconds": 79.01610629999777,
+      "peak_gpu_gib": 0.8536462783813477
+    },
+    {
+      "path": "E:\\临时会话\\paper_draft_20261108\\r50_tuned_20261111\\scout_late_lr0.0001_s17",
+      "seed": 17,
+      "epochs": 30,
+      "best_epoch": 12,
+      "optimizer_steps": 900,
+      "query_exposures": 21570,
+      "fit_seconds": 67.66649520001374,
+      "peak_gpu_gib": 0.7106103897094727
+    },
+    {
+      "path": "E:\\临时会话\\paper_draft_20261108\\r50_tuned_20261111\\scout_full_lr1e-05_s17",
+      "seed": 17,
+      "epochs": 30,
+      "best_epoch": 13,
+      "optimizer_steps": 900,
+      "query_exposures": 21570,
+      "fit_seconds": 102.95001609995961,
+      "peak_gpu_gib": 1.456892490386963
+    },
+    {
+      "path": "E:\\临时会话\\paper_draft_20261108\\r50_tuned_20261111\\scout_full_lr0.0001_s17",
+      "seed": 17,
+      "epochs": 46,
+      "best_epoch": 31,
+      "optimizer_steps": 1380,
+      "query_exposures": 33074,
+      "fit_seconds": 153.7668749000295,
+      "peak_gpu_gib": 1.450453758239746
+    },
+    {
+      "path": "E:\\临时会话\\paper_draft_20261108\\r50_tuned_20261111\\selected_s29",
+      "seed": 29,
+      "epochs": 49,
+      "best_epoch": 34,
+      "optimizer_steps": 1470,
+      "query_exposures": 35231,
+      "fit_seconds": 162.50142280000728,
+      "peak_gpu_gib": 1.451857566833496
+    },
+    {
+      "path": "E:\\临时会话\\paper_draft_20261108\\r50_tuned_20261111\\selected_s43",
+      "seed": 43,
+      "epochs": 53,
+      "best_epoch": 38,
+      "optimizer_steps": 1590,
+      "query_exposures": 38107,
+      "fit_seconds": 176.7081368000363,
+      "peak_gpu_gib": 1.453200340270996
+    }
+  ],
+  "notes": [
+    "Full-Tuned starts from each seed's already-trained five-stage Full checkpoint.",
+    "Seed17 is copied from one scout and counted once, not as another fit.",
+    "Best epoch 0 is valid; attempted training after epoch 0 still incurs its full cost.",
+    "Query exposures count repeated query presentations, not independent observations.",
+    "Reference forward/backward exposures are not included in query exposures.",
+    "Historical costs cover the three reused checkpoints, not all prior research/search.",
+    "Receipt seconds exclude some preparation, evaluation and initialization work;",
+    "inherited and continuation costs are separately reported, not equal-start ablations."
+  ]
+}

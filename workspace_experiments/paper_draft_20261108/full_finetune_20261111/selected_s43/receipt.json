@@ -1,0 +1,67 @@
+{
+  "scope": "full",
+  "lr": 0.0001,
+  "seed": 43,
+  "module_lr": 0.0001,
+  "epochs_max": 30,
+  "epochs_min": 12,
+  "patience": 8,
+  "batch": 24,
+  "microbatch": 12,
+  "initialization": "staged Full seed43, five stages already trained",
+  "optimizer": "AdamW wd=.01, warmup2 cosine .05, clip5",
+  "loss": "class/vessel balanced CE + .02 M1 auxiliary CE",
+  "augmentation": "paired rot90/flip; native region masks transformed and re-integrated",
+  "references": "32 fixed legal source records; current shared-prefix features each batch",
+  "bn": "running statistics fixed; affine trainable in scope",
+  "intervention": "retained checkpoint training history; no new teacher selection",
+  "selection": "validation BA, OA, -NLL; epoch0 is eligible",
+  "inference": "all M1 M2 M3 active; no spectral module; no feature/delta cache",
+  "epochs": 22,
+  "steps": 660,
+  "best": {
+    "epoch": 14,
+    "key": [
+      61.311900229660445,
+      62.71929824561403,
+      -1.2852517366409302
+    ],
+    "metrics": {
+      "oa": 62.71929824561403,
+      "ba": 61.311900229660445,
+      "macro_f1": 57.16532851385069,
+      "nll": 1.2852517366409302,
+      "confusion": [
+        [
+          46,
+          10,
+          15,
+          16
+        ],
+        [
+          1,
+          10,
+          8,
+          4
+        ],
+        [
+          4,
+          3,
+          22,
+          0
+        ],
+        [
+          9,
+          9,
+          6,
+          65
+        ]
+      ]
+    }
+  },
+  "seconds": 621.623689799977,
+  "stop_reason": "validation_patience",
+  "trainable": 24985988,
+  "peak_gib": 3.651440143585205,
+  "test_read": false
+}
