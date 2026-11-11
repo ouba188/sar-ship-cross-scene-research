@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "check": "round26_polarization_coverage fixed-pair delta reconstructed from saved scores",
+      "comparisons": 56208,
+      "max_absolute_error": 1.6653345369377348e-16,
+      "tolerance": 1e-12
+    },
+    {
+      "check": "round22_classification_coverage fixed-pair delta reconstructed from saved scores",
+      "comparisons": 5592,
+      "max_absolute_error": 5.551115123125783e-17,
+      "tolerance": 1e-12
+    },
+    {
+      "check": "same observation, operation, L2 and fixed rival across readouts",
+      "pairs": 28104,
+      "passed": true
+    },
+    {
+      "check": "round26 all 288 high-dose class/readout cells vs class_detail.csv",
+      "comparisons": 1440,
+      "max_absolute_error": 6.418476861114186e-17,
+      "tolerance": 1e-12
+    },
+    {
+      "check": "round22 all 336 class cells vs by_class.csv",
+      "comparisons": 1344,
+      "max_absolute_error": 6.591949208711867e-17,
+      "tolerance": 1e-12
+    },
+    {
+      "check": "round22 overall means vs summary.csv (includes E06 report anchors)",
+      "comparisons": 96,
+      "max_absolute_error": 2.2985086056692694e-17,
+      "tolerance": 1e-12
+    }
+  ],
+  "round26_report_section3_anchors": [
+    {
+      "class_name": "bulk_carrier",
+      "observations": 774,
+      "ships": 628,
+      "joint": -0.002731225022850447,
+      "single": -0.00322096756992886,
+      "joint_minus_single": 0.000489742547078413
+    },
+    {
+      "class_name": "product_chemical_tanker",
+      "observations": 92,
+      "ships": 76,
+      "joint": -0.0017013773366297029,
+      "single": 1.0680989737697497e-05,
+      "joint_minus_single": -0.0017120583263674004
+    },
+    {
+      "class_name": "container_ship",
+      "observations": 203,
+      "ships": 175,
+      "joint": 0.001596336235759018,
+      "single": -0.0007000869824461242,
+      "joint_minus_single": 0.002296423218205142
+    },
+    {
+      "class_name": "general_cargo",
+      "observations": 80,
+      "ships": 75,
+      "joint": 0.004015975641833102,
+      "single": 0.004448866051151284,
+      "joint_minus_single": -0.0004328904093181818
+    },
+    {
+      "class_name": "crude_oil_tanker",
+      "observations": 12,
+      "ships": 11,
+      "joint": 0.002334832130706134,
+      "single": 0.006086118150808079,
+      "joint_minus_single": -0.0037512860201019452
+    },
+    {
+      "class_name": "fishing_vessel",
+      "observations": 4,
+      "ships": 4,
+      "joint": -0.0018391304833176025,
+      "single": -0.0030818667494875857,
+      "joint_minus_single": 0.0012427362661699831
+    }
+  ],
+  "action_on_failure": "Stop export and correct selection, weights or margin field; never rerun a model."
+}
