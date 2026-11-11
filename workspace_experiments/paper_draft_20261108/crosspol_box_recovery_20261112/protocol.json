@@ -1,0 +1,25 @@
+{
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "weights": "Full-Tuned selected checkpoints",
+  "train": false,
+  "query_only": true,
+  "references": "unchanged original 32",
+  "target_rule": "borrow only when exactly one view absent; matching original crop/product and pixels",
+  "alignment_requirement": "source provenance audit must confirm common VV/VH grid before inference",
+  "tuning": false,
+  "held_out_labels_used_for_recovery": false,
+  "splits": {
+    "small": 719,
+    "validation": 228,
+    "evaluation": 378
+  },
+  "recovery_counts": {
+    "small": 48,
+    "validation": 22,
+    "evaluation": 30
+  }
+}
