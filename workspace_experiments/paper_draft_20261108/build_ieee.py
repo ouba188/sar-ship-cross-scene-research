@@ -1,5 +1,6 @@
 """Render the controlling manuscript using IEEEtran journal two-column layout."""
 from pathlib import Path
+import argparse
 import json
 import re
 import shutil
@@ -8,6 +9,7 @@ import subprocess
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / "_build_ieee"
 PANDOC = shutil.which("pandoc")
+SUPPLEMENT = False
 
 
 def convert(blocks):
@@ -33,33 +35,36 @@ def table(block, number, caption):
     head = c[3][1]
     rows = [row for body in c[4] for row in body[3]]
     env = "table"
-    specs = {1: "LL", 2: "LCCCC", 3: "LCCC", 4: "LLL",
-             5: r">{\hsize=.7\hsize}L>{\hsize=1.0\hsize}L>{\hsize=1.3\hsize}L",
-             6: r">{\hsize=1.6\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
-             7: "LCC", 8: "LCCCCC", 9: "LCCC", 10: "LCC",
-             11: "LCCC", 12: "LCC", 13: "LCC", 14: "LCCC",
-             15: "LCCCC",
-             16: r">{\hsize=.6\hsize}L>{\hsize=1.8\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
-             17: r">{\hsize=.8\hsize}L>{\hsize=1.6\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
-             18: "LCCCC",
-             19: r">{\hsize=.9\hsize}L>{\hsize=1.1\hsize}L>{\hsize=1.4\hsize}C>{\hsize=.6\hsize}C",
-             20: "LCCCL",
-             21: r">{\hsize=.6\hsize}L>{\hsize=1.1\hsize}L>{\hsize=1.7\hsize}C>{\hsize=.6\hsize}C",
-             22: r">{\hsize=1.1\hsize}L>{\hsize=.9\hsize}L>{\hsize=.9\hsize}C>{\hsize=1.1\hsize}C",
-             23: "LCC"}
-    placement = "!t" if env == "table*" else ("!htbp" if number in {6, 7, 8, 9} else "H")
+    if SUPPLEMENT:
+        columns = len(head[0][1])
+        spec = "L" + "C" * (columns - 1)
+        if columns >= 5 and number != 13:
+            env = "table*"
+        if columns in {2, 3}:
+            spec = "L" * columns
+        if number == 18:
+            spec = r">{\hsize=.8\hsize}L>{\hsize=1.0\hsize}C>{\hsize=1.4\hsize}C>{\hsize=.8\hsize}C"
+    else:
+        specs = {1: "LCCC", 2: "LLL",
+                 3: r">{\hsize=.7\hsize}L>{\hsize=1.0\hsize}L>{\hsize=1.3\hsize}L",
+                 4: "LCC", 5: "LCCCCC", 6: "LCC", 7: "LCCC", 8: "LCC",
+                 9: r">{\hsize=.6\hsize}L>{\hsize=1.8\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
+                 10: "LCC", 11: "LLCC", 12: "LCCCC", 13: "LLCC",
+                 14: "LCCCL", 15: "LLCC", 16: "LCCCC"}
+        spec = specs[number]
+    placement = "!t" if env == "table*" else "H"
     out = [rf"\begin{{{env}}}[{placement}]", r"\centering\footnotesize",
            rf"\setcounter{{table}}{{{number-1}}}",
            r"\caption{" + caption + "}", rf"\label{{tab:{number}}}",
            r"\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}",
-           r"\begin{tabularx}{\linewidth}{" + specs[number] + "}",
+           r"\begin{tabularx}{\linewidth}{" + spec + "}",
            r"\toprule"]
     group = None
     for i, row in enumerate(head + rows):
         cells = [convert(cell[4]).replace("\n", " ") for cell in row[1]]
-        if number == 21 and i >= len(head) and "；" in cells[2]:
+        if SUPPLEMENT and len(cells) >= 3 and i >= len(head) and "；" in cells[2]:
             cells[2] = r"\shortstack{" + cells[2].replace("；", r"\\") + "}"
-        if number in {9, 10, 14, 18}:
+        if not SUPPLEMENT and number in {7, 12}:
             label, cells = cells[0], cells[1:]
             if i >= len(head) and label != group:
                 if group is not None:
@@ -71,13 +76,14 @@ def table(block, number, caption):
         if i == len(head) - 1:
             out.append(r"\midrule")
     out += [r"\bottomrule", r"\end{tabularx}", rf"\end{{{env}}}"]
-    if number in {6, 7, 8}:
-        out.insert(0, r"\FloatBarrier")
     return "\n".join(out)
 
 
 def figure(number, caption, path=None):
-    env = "figure*" if number in {2, 4, 5, 7, 9, 10, 14, 15} else "figure"
+    wide = number in {2, 4, 5, 7, 9, 10, 11, 12}
+    if SUPPLEMENT:
+        wide = bool(path and any(x in path for x in ("fig3_author", "fig4_author", "fig6_author", "fig8_author", "results_20261112/")))
+    env = "figure*" if wide else "figure"
     placement = "!htb" if env == "figure" else "!tb"
     out = [rf"\begin{{{env}}}[{placement}]", r"\centering",
            rf"\setcounter{{figure}}{{{number-1}}}"]
@@ -86,7 +92,9 @@ def figure(number, caption, path=None):
             path = str(Path(path).with_suffix(".pdf")).replace("\\", "/")
         height = {1: ".38", 2: ".53", 3: ".36", 4: ".42", 5: ".42",
                   6: ".25", 7: ".28", 8: ".30", 9: ".44",
-                  10: ".36", 13: ".28", 14: ".38", 15: ".42"}.get(number, ".28")
+                  10: ".36", 11: ".38", 12: ".42"}.get(number, ".28")
+        if SUPPLEMENT:
+            height = ".40" if wide else ".30"
         out.append(r"\includegraphics[width=\linewidth,height=" +
                    height + r"\textheight,keepaspectratio]{" + path + "}")
     else:
@@ -98,9 +106,16 @@ def figure(number, caption, path=None):
 
 
 def main():
-    global API
+    global API, BUILD, SUPPLEMENT
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--supplement", action="store_true")
+    args = parser.parse_args()
+    SUPPLEMENT = args.supplement
+    source = "SUPPLEMENT_ZH.md" if SUPPLEMENT else "MANUSCRIPT_ZH.md"
+    stem = "supplement_ieee" if SUPPLEMENT else "manuscript_ieee"
+    BUILD = ROOT / ("_build_supplement" if SUPPLEMENT else "_build_ieee")
     BUILD.mkdir(exist_ok=True)
-    proc = subprocess.run([PANDOC, "MANUSCRIPT_ZH.md", "-f", "markdown-implicit_figures", "-t", "json"],
+    proc = subprocess.run([PANDOC, source, "-f", "markdown-implicit_figures", "-t", "json"],
                           cwd=ROOT, capture_output=True, text=True,
                           encoding="utf-8", check=True)
     document = json.loads(proc.stdout)
@@ -190,14 +205,16 @@ def main():
                 body.append(rendered)
     content = "\n\n".join(body)
     tex = (ROOT / "ieee_header.tex").read_text(encoding="utf-8") + "\n" + content
-    tex += "\n\\balance\n\\begin{thebibliography}{99}\n" + "\n\n".join(bib)
-    tex += "\n\\end{thebibliography}\n\\end{document}\n"
-    (ROOT / "manuscript_ieee.tex").write_text(tex, encoding="utf-8")
+    if bib:
+        tex += "\n\\balance\n\\begin{thebibliography}{99}\n" + "\n\n".join(bib)
+        tex += "\n\\end{thebibliography}\n"
+    tex += "\n\\end{document}\n"
+    (ROOT / f"{stem}.tex").write_text(tex, encoding="utf-8")
     engine = shutil.which("xelatex")
     for n in (1, 2):
         result = subprocess.run(
             [engine, "-interaction=nonstopmode", "-halt-on-error",
-             "-output-directory=_build_ieee", "manuscript_ieee.tex"],
+             f"-output-directory={BUILD.name}", f"{stem}.tex"],
             cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
             errors="replace")
         (BUILD / f"pass{n}.log").write_text(result.stdout + result.stderr,
@@ -205,12 +222,12 @@ def main():
         if result.returncode:
             raise RuntimeError((result.stdout + result.stderr)[-4000:])
         print(f"IEEE pass {n} OK", flush=True)
-    output = ROOT / "manuscript_ieee.pdf"
+    output = ROOT / f"{stem}.pdf"
     try:
-        shutil.copy2(BUILD / "manuscript_ieee.pdf", output)
+        shutil.copy2(BUILD / f"{stem}.pdf", output)
     except PermissionError:
-        output = ROOT / "manuscript_ieee_20261110_revised.pdf"
-        shutil.copy2(BUILD / "manuscript_ieee.pdf", output)
+        output = ROOT / f"{stem}_revised.pdf"
+        shutil.copy2(BUILD / f"{stem}.pdf", output)
     print("DELIVERED", output, flush=True)
 
 

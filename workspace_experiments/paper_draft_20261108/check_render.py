@@ -22,19 +22,23 @@ class ImageLinks(HTMLParser):
 
 def main():
     ieee = "--ieee" in sys.argv
-    qa = ROOT / ("qa_ieee" if ieee else "qa")
+    supplement = "--supplement" in sys.argv
+    qa = ROOT / ("qa_supplement" if supplement else "qa_ieee" if ieee else "qa")
     qa.mkdir(exist_ok=True)
     page = ImageLinks()
     html = (ROOT / "index.html").read_text(encoding="utf-8")
     page.feed(html)
+    manuscript = (ROOT / ("SUPPLEMENT_ZH.md" if supplement else "MANUSCRIPT_ZH.md")).read_text(encoding="utf-8")
+    if supplement:
+        page.images = re.findall(r"^!\[[^\n]+\]\(([^)]+)\)", manuscript, re.M)
     missing = [s for s in page.images if not (ROOT / s).exists()]
     assert not missing, missing
-    manuscript = (ROOT / "MANUSCRIPT_ZH.md").read_text(encoding="utf-8")
     equations = [int(n) for n in re.findall(r"\\tag\{(\d+)\}", manuscript)]
     assert len(equations) == len(set(equations)), "Duplicate equation number"
-    assert html.count('<math') >= len(equations), "Equation conversion missing"
+    if not supplement:
+        assert html.count('<math') >= len(equations), "Equation conversion missing"
     pdf_path = (Path(sys.argv[sys.argv.index("--pdf") + 1]) if "--pdf" in sys.argv
-                else ROOT / ("manuscript_ieee.pdf" if ieee else "manuscript_review.pdf"))
+                else ROOT / ("supplement_ieee.pdf" if supplement else "manuscript_ieee.pdf" if ieee else "manuscript_review.pdf"))
     document = fitz.open(pdf_path)
     all_text = ""
     pages = []
@@ -61,10 +65,11 @@ def main():
             sheet.paste(im, (x, y))
             draw.text((x, y-18), f"Page {start+offset+1}", fill="black")
         sheet.save(qa / f"contact_{start//8+1}.png")
-    log_path = "_build_ieee/manuscript_ieee.log" if ieee else "_build/manuscript.log"
+    log_path = ("_build_supplement/supplement_ieee.log" if supplement else
+                "_build_ieee/manuscript_ieee.log" if ieee else "_build/manuscript.log")
     log = (ROOT / log_path).read_text(encoding="utf-8", errors="replace")
     record = dict(pdf=str(pdf_path.resolve()), pages=len(document), images=len(page.images),
-                  equation_count=len(equations), html_math_elements=html.count("<math"),
+                  equation_count=len(equations), html_math_elements=None if supplement else html.count("<math"),
                   overfull=len(re.findall("Overfull", log)),
                   missing_characters=len(re.findall("Missing character", log)),
                   page_checks=pages)
