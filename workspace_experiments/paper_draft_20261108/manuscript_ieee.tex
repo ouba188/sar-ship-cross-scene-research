@@ -621,15 +621,48 @@ SCRC-Net {[}16{]} & --- & --- & --- \\
 
 自建24港的OA、BA和宏F1分别达到52.076\%、48.970\%和46.520\%，相对Baseline提高9.149、8.798和8.135个百分点。更细的八类划分与更广的水域覆盖下，模型仍取得整体增益。不同方法的优化预算并不完全相同，故系统收益不直接分配给某一模块；配套组件删除、区域取证替换及极化参数对照汇总于独立补充材料。
 
-\subsection{完整模型的组件贡献}\label{ux5b8cux6574ux6a21ux578bux7684ux7ec4ux4ef6ux8d21ux732e}
+\subsection{跨数据集泛化}\label{ux8de8ux6570ux636eux96c6ux6cdbux5316}
 
-表8比较在相同全骨干微调协议下移除CRFB、RGRP或RCEW后的识别结果。各配置保持划分、训练预算与参考权限一致，保留组件及其后续网络重新优化；删除RGRP同时移除其区域读出与响应引导接口。独立补充材料中的受限骨干消融作为机制证据保留，本表对应当前完整模型的配套实验。
+跨数据集评价采用OpenSARShip 2.0与自建24港共同覆盖的散货船、普通货船、化学品／成品油轮和集装箱船四类，分别执行OSS2训练至24港测试及反向迁移。源训练、验证和参考库均不使用目标数据；划分时排除源端与目标测试之间重复的船舶身份及采集过境。查询标签只用于最终评价，每类选取8张源参考，共32张。
+
+表8采用与当前完整模型一致的全骨干微调方案，各方法使用相同的源训练、验证及目标测试队列，超参数和检查点仅由源验证集确定。24港与OSS2目标测试队列分别包含2,412和378条共同四类观测；分类输出均为四类，不将24港八分类结果直接折算为四分类。正文数值对应当前模型配置，已完成的受限骨干跨数据集对照单独列于补充材料。
 
 \begin{table}[H]
 \centering\footnotesize
 \setcounter{table}{7}
-\caption{全骨干微调协议下的组件删除对照。单元格为三种子平均OA／BA（\%）。}
+\caption{双向跨数据集分类性能。单元格为三个训练种子的均值与标准差；箭头表示训练数据集至测试数据集，``---''为待补结果。}
 \label{tab:8}
+\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{LCCC}
+\toprule
+方法 & OA（\%） & BA（\%） & 宏F1（\%） \\
+\midrule
+\multicolumn{4}{l}{\textit{OSS2 → 自建24港}} \\
+Baseline & --- & --- & --- \\
+SE & --- & --- & --- \\
+CPINet {[}2{]} & --- & --- & --- \\
+SCRC-Net {[}16{]} & --- & --- & --- \\
+本文 & --- & --- & --- \\
+\midrule
+\multicolumn{4}{l}{\textit{自建24港 → OSS2}} \\
+Baseline & --- & --- & --- \\
+SE & --- & --- & --- \\
+CPINet {[}2{]} & --- & --- & --- \\
+SCRC-Net {[}16{]} & --- & --- & --- \\
+本文 & --- & --- & --- \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{完整模型的组件贡献}\label{ux5b8cux6574ux6a21ux578bux7684ux7ec4ux4ef6ux8d21ux732e}
+
+表9比较在相同全骨干微调协议下移除CRFB、RGRP或RCEW后的识别结果。各配置保持划分、训练预算与参考权限一致，保留组件及其后续网络重新优化；删除RGRP同时移除其区域读出与响应引导接口。独立补充材料中的受限骨干消融作为机制证据保留，本表对应当前完整模型的配套实验。
+
+\begin{table}[H]
+\centering\footnotesize
+\setcounter{table}{8}
+\caption{全骨干微调协议下的组件删除对照。单元格为三种子平均OA／BA（\%）。}
+\label{tab:9}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LCC}
 \toprule
@@ -645,13 +678,13 @@ SCRC-Net {[}16{]} & --- & --- & --- \\
 
 \subsection{核心设计的替换比较}\label{ux6838ux5fc3ux8bbeux8ba1ux7684ux66ffux6362ux6bd4ux8f83}
 
-表9围绕类别反馈、区域身份和参考类别消息设置替换对照。比较保持输入覆盖及模块接入位置不变，仅替换指定计算；相应可训练路径按同一优化协议重新训练，区别于后文固定权重的证据路径撤除。
+表10围绕类别反馈、区域身份和参考类别消息设置替换对照。比较保持输入覆盖及模块接入位置不变，仅替换指定计算；相应可训练路径按同一优化协议重新训练，区别于后文固定权重的证据路径撤除。
 
 \begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{8}
+\setcounter{table}{9}
 \caption{当前完整模型的核心算子替换。单元格为三种子平均OA／BA（\%）。}
-\label{tab:9}
+\label{tab:10}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{>{\hsize=.6\hsize}L>{\hsize=1.8\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C}
 \toprule
@@ -677,13 +710,13 @@ RCEW & 单位度量、保留竞争偏置 & --- & --- \\
 
 \subsection{参考类别证据如何改变决策}\label{ux53c2ux8003ux7c7bux522bux8bc1ux636eux5982ux4f55ux6539ux53d8ux51b3ux7b56}
 
-在最终OSS2完整模型上固定权重、原图及32个源参考，比较实际回写、关闭回写与简单类别均值替代（表10）。实际回写相对简单均值平均提高OA 0.617、BA 0.732个百分点，表明查询相关的参考选择与类别证据组织在这组权重下具有增量。与完全关闭回写相比，OA小幅提高、BA小幅降低，说明参考补充对各类别并非等量作用。
+在最终OSS2完整模型上固定权重、原图及32个源参考，比较实际回写、关闭回写与简单类别均值替代（表11）。实际回写相对简单均值平均提高OA 0.617、BA 0.732个百分点，表明查询相关的参考选择与类别证据组织在这组权重下具有增量。与完全关闭回写相比，OA小幅提高、BA小幅降低，说明参考补充对各类别并非等量作用。
 
 \begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{9}
+\setcounter{table}{10}
 \caption{最终完整模型的同权重参考路径比较，三种子平均。}
-\label{tab:10}
+\label{tab:11}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LCC}
 \toprule
@@ -702,13 +735,13 @@ RCEW类别证据回写 & 64.727 & 59.396 \\
 
 \subsection{极化处理与部署输入}\label{ux6781ux5316ux5904ux7406ux4e0eux90e8ux7f72ux8f93ux5165}
 
-表11对照极化参数组织与输入方式。参数共享实验保持骨干、模块位置和优化流程一致；单极化及早期融合使用相同测试观测范围，并分别训练对应模型。
+表12对照极化参数组织与输入方式。参数共享实验保持骨干、模块位置和优化流程一致；单极化及早期融合使用相同测试观测范围，并分别训练对应模型。
 
 \begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{10}
+\setcounter{table}{11}
 \caption{当前完整模型的极化处理对照。单元格为三种子平均OA／BA（\%）。}
-\label{tab:11}
+\label{tab:12}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LLCC}
 \toprule
@@ -729,13 +762,13 @@ VV/VH堆叠 & 早期融合 & --- & --- \\
 
 \subsection{源参考库规模}\label{ux6e90ux53c2ux8003ux5e93ux89c4ux6a21}
 
-表12固定完整模型权重与查询集合，按每类独立船数改变源参考预算，每个预算进行五次配对抽样。不同预算保持源候选池与测试集不变，避免将样本组成变化误作参考数量收益；抽样标准差与训练种子标准差分别报告。
+表13固定完整模型权重与查询集合，按每类独立船数改变源参考预算，每个预算进行五次配对抽样。不同预算保持源候选池与测试集不变，避免将样本组成变化误作参考数量收益；抽样标准差与训练种子标准差分别报告。
 
 \begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{11}
+\setcounter{table}{12}
 \caption{源参考库规模敏感性。OA、BA为五次参考抽样的均值与标准差。}
-\label{tab:12}
+\label{tab:13}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LCCCC}
 \toprule
@@ -760,13 +793,13 @@ VV/VH堆叠 & 早期融合 & --- & --- \\
 
 \subsection{干预指导的训练贡献}\label{ux5e72ux9884ux6307ux5bfcux7684ux8badux7ec3ux8d21ux732e}
 
-表13比较干预有效性选样、类内等配额随机选样与无分差保护。各组使用相同原图、初始化训练预算及后续全骨干微调配置，只改变保护对象及额外分差约束。无保护组仍保留原图分类监督与教师正确样本的分布保持，随机组与干预组按类别匹配保护数量。
+表14比较干预有效性选样、类内等配额随机选样与无分差保护。各组使用相同原图、初始化训练预算及后续全骨干微调配置，只改变保护对象及额外分差约束。无保护组仍保留原图分类监督与教师正确样本的分布保持，随机组与干预组按类别匹配保护数量。
 
 \begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{12}
+\setcounter{table}{13}
 \caption{干预指导对最终完整模型的影响。单元格为三种子平均OA／BA（\%）。}
-\label{tab:13}
+\label{tab:14}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LLCC}
 \toprule
@@ -781,13 +814,13 @@ VV/VH堆叠 & 早期融合 & --- & --- \\
 
 \subsection{场景表现与定位鲁棒性}\label{ux573aux666fux8868ux73b0ux4e0eux5b9aux4f4dux9c81ux68d2ux6027}
 
-表14按过境与港口汇总当前模型相对Baseline的表现，分组BA只对该组实际存在的类别取平均。表15固定查询图像、标签及模型权重，分别扰动OBB中心、长宽与角度，并重新生成所有依赖该框的查询区域，考察完整模型的几何输入敏感性。
+表15按过境与港口汇总当前模型相对Baseline的表现，分组BA只对该组实际存在的类别取平均。表16固定查询图像、标签及模型权重，分别扰动OBB中心、长宽与角度，并重新生成所有依赖该框的查询区域，考察完整模型的几何输入敏感性。
 
 \begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{13}
+\setcounter{table}{14}
 \caption{当前模型的场景级性能增量。增量单位为百分点。}
-\label{tab:14}
+\label{tab:15}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LCCCL}
 \toprule
@@ -802,9 +835,9 @@ OSS2／过境 & 5 & --- & --- & --- \\
 
 \begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{14}
+\setcounter{table}{15}
 \caption{当前完整模型的目标框扰动。单元格为OA／BA（\%）；正负方向分别评价。}
-\label{tab:15}
+\label{tab:16}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LLCC}
 \toprule
@@ -828,9 +861,9 @@ OSS2／过境 & 5 & --- & --- & --- \\
 
 \begin{table}[H]
 \centering\footnotesize
-\setcounter{table}{15}
+\setcounter{table}{16}
 \caption{当前模型及基线的计算成本。运算量为卷积及矩阵乘统计，延迟为单张稳态前向。}
-\label{tab:16}
+\label{tab:17}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{LCCCC}
 \toprule

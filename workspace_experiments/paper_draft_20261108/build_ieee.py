@@ -47,10 +47,10 @@ def table(block, number, caption):
     else:
         specs = {1: "LCCC", 2: "LLL",
                  3: r">{\hsize=.7\hsize}L>{\hsize=1.0\hsize}L>{\hsize=1.3\hsize}L",
-                 4: "LCC", 5: "LCCCCC", 6: "LCC", 7: "LCCC", 8: "LCC",
-                 9: r">{\hsize=.6\hsize}L>{\hsize=1.8\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
-                 10: "LCC", 11: "LLCC", 12: "LCCCC", 13: "LLCC",
-                 14: "LCCCL", 15: "LLCC", 16: "LCCCC"}
+                 4: "LCC", 5: "LCCCCC", 6: "LCC", 7: "LCCC", 8: "LCCC", 9: "LCC",
+                 10: r">{\hsize=.6\hsize}L>{\hsize=1.8\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
+                 11: "LCC", 12: "LLCC", 13: "LCCCC", 14: "LLCC",
+                 15: "LCCCL", 16: "LLCC", 17: "LCCCC"}
         spec = specs[number]
     placement = "!t" if env == "table*" else "H"
     out = [rf"\begin{{{env}}}[{placement}]", r"\centering\footnotesize",
@@ -64,7 +64,7 @@ def table(block, number, caption):
         cells = [convert(cell[4]).replace("\n", " ") for cell in row[1]]
         if SUPPLEMENT and len(cells) >= 3 and i >= len(head) and "；" in cells[2]:
             cells[2] = r"\shortstack{" + cells[2].replace("；", r"\\") + "}"
-        if not SUPPLEMENT and number in {7, 12}:
+        if not SUPPLEMENT and number in {7, 8, 13}:
             label, cells = cells[0], cells[1:]
             if i >= len(head) and label != group:
                 if group is not None:
