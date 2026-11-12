@@ -288,7 +288,7 @@ X'_1(u)=X_1(u)+0.3X_1(u)\odot G_{\mathrm{CRFB}}(u).
 \label{fig:2}
 \end{figure*}
 
-式（4）中的交叉统计同时包含内容偏离和类别响应偏离，反馈因而不只依赖某个位置的激活大小。相比CAM的类别激活定位{[}14{]}与GSoP的特征统计重标定{[}17{]}，这里将候选类别相对响应与中心化局部内容关联起来，形成位置相关的中间层更新。CRFB输出的类别响应还继续用于RGRP，在特征反馈与区域取证之间共享判别依据。
+式（4）中的交叉统计同时包含内容偏离和类别响应偏离，反馈因而不只依赖某个位置的激活大小。相比CAM的类别激活定位{[}13{]}与GSoP的特征统计重标定{[}14{]}，这里将候选类别相对响应与中心化局部内容关联起来，形成位置相关的中间层更新。CRFB输出的类别响应还继续用于RGRP，在特征反馈与区域取证之间共享判别依据。
 
 \subsection{响应引导区域池化（RGRP）}\label{ux54cdux5e94ux5f15ux5bfcux533aux57dfux6c60ux5316rgrp}
 
@@ -457,7 +457,7 @@ F_3^{+}(u)=F_3(u)+0.1W_p^{\mathrm{out}}E(u).
 
 OSS2微调使用AdamW、权重衰减0.01、有效batch 24、梯度裁剪5以及两轮预热后的余弦学习率。骨干和模块的选定学习率均为\(10^{-4}\)；损失为类别／船舶平衡交叉熵与权重0.02的类别响应辅助监督。最多训练30轮，至少12轮后允许连续8轮验证性能不改善时早停。解冻范围与学习率先在seed17验证集上比较六组配置，再固定全骨干、\(10^{-4}\)的组合复核seed29、43。自建24港沿用该优化方案，从各自的24港分阶段检查点出发，遍历20,653条训练观测，不转移OSS2训练权重，也不重新搜索超参数。微调继承已完成的干预指导训练，不在此阶段重新生成筛选标记。
 
-充分训练的普通ResNet-50（R50-Tuned）从ImageNet起点独立训练，骨干与分类头学习率分别为\(10^{-4}\)和\(10^{-3}\)，最多60轮，至少30轮后按15轮耐心值早停。CPINet采用适配本任务输入与标签的独立实现，从随机初始化训练300轮，在验证集选择学习率。二者与完整模型共享数据划分和评价对象，但初始化、损失和实际训练预算不同，属于系统性能比较而非等预算模块消融。
+CPINet采用适配本任务输入与标签的独立实现，从随机初始化训练300轮，在验证集选择学习率。该方法与完整模型共享数据划分和评价对象，但初始化、损失和实际训练预算不同，属于系统性能比较而非等预算模块消融。
 
 \FloatBarrier
 
@@ -465,7 +465,7 @@ OSS2微调使用AdamW、权重衰减0.01、有效batch 24、梯度裁剪5以及�
 
 \subsection{跨场景分类与强基线比较}\label{ux8de8ux573aux666fux5206ux7c7bux4e0eux5f3aux57faux7ebfux6bd4ux8f83}
 
-表7包含两类比较。分阶段完整模型、普通骨干与匹配位置SE采用共同预训练起点和配套优化，用于检验整体证据组织的作用；R50-Tuned、CPINet{[}4{]}与完整模型微调版采用本文件优化配置中的相应训练方案，用于比较相同数据权限下的系统性能。所有已列结果采用相同测试观测与原始极化可用性，不把输入恢复后的结果混入本表。优化范围与成本进一步见本文件训练成本部分。
+表7包含两类比较。分阶段完整模型、普通骨干与匹配位置SE采用共同预训练起点和配套优化，用于检验整体证据组织的作用；CPINet{[}4{]}与完整模型微调版采用本文件优化配置中的相应训练方案，用于比较相同数据权限下的系统性能。所有已列结果采用相同测试观测与原始极化可用性，不把输入恢复后的结果混入本表。优化范围与成本进一步见本文件训练成本部分。
 
 \begin{table*}[!t]
 \centering\footnotesize
@@ -477,13 +477,12 @@ OSS2微调使用AdamW、权重衰减0.01、有效batch 24、梯度裁剪5以及�
 \toprule
 数据集 & 方法 & OA（\%） & BA（\%） & 宏F1（\%） \\
 \midrule
-OSS2 & 普通骨干（分阶段） & 55.908 ± 1.332 & 52.176 ± 1.506 & 50.173 ± 1.359 \\
+OSS2 & 基础模型（Baseline，分阶段） & 55.908 ± 1.332 & 52.176 ± 1.506 & 50.173 ± 1.359 \\
 OSS2 & SE（分阶段） & 54.233 ± 0.954 & 53.497 ± 1.802 & 49.862 ± 1.323 \\
-OSS2 & CPINet {[}4{]}，独立复现 & 56.261 ± 1.986 & 56.988 ± 0.960 & 52.413 ± 1.482 \\
-OSS2 & R50-Tuned & 63.051 ± 2.138 & 57.631 ± 2.625 & 55.929 ± 1.862 \\
+OSS2 & CPINet {[}2{]}，独立复现 & 56.261 ± 1.986 & 56.988 ± 0.960 & 52.413 ± 1.482 \\
 OSS2 & 本文（分阶段） & 61.023 ± 2.610 & 55.630 ± 3.498 & 54.020 ± 3.267 \\
 OSS2 & 本文（全骨干微调） & \textbf{64.727 ± 2.702} & \textbf{59.396 ± 3.831} & \textbf{57.693 ± 3.187} \\
-自建24港 & 普通骨干（分阶段） & 42.927 ± 0.620 & 40.172 ± 1.041 & 38.385 ± 0.784 \\
+自建24港 & 基础模型（Baseline，分阶段） & 42.927 ± 0.620 & 40.172 ± 1.041 & 38.385 ± 0.784 \\
 自建24港 & SE（分阶段） & 42.309 ± 0.523 & 41.218 ± 0.668 & 38.742 ± 0.693 \\
 自建24港 & 本文（分阶段） & 48.412 ± 1.203 & 43.902 ± 0.654 & 42.459 ± 0.937 \\
 自建24港 & 本文（全骨干微调） & \textbf{52.076 ± 0.244} & \textbf{48.970 ± 0.808} & \textbf{46.520 ± 0.637} \\
@@ -493,7 +492,7 @@ OSS2 & 本文（全骨干微调） & \textbf{64.727 ± 2.702} & \textbf{59.396 �
 
 在共同起点的分阶段比较中，完整模型在OSS2中相对普通骨干的平均OA提高5.115个百分点，BA提高3.454个百分点。相对普通骨干和SE的OA增量船级95\%区间分别为{[}1.422,8.642{]}和{[}2.814,10.908{]}个百分点，BA增量区间包含零。区间采用类别分层的配对船级bootstrap，共3000次，刻画测试船舶上的抽样不确定性。
 
-扩大可训练范围后，OSS2完整模型的OA和BA达到64.727\%和59.396\%，相对其分阶段版本提高3.704和3.766个百分点。相对R50-Tuned平均提高OA 1.675、BA 1.765个百分点，三个种子的OA均更高；两项增量的船级95\%区间分别为{[}−1.243,4.674{]}和{[}−1.558,5.177{]}个百分点。结果说明骨干与证据模块联合优化后仍具有平均净收益，但系统间差异同时包含训练历史与损失设计，组件归因由后续配套消融承担。
+扩大可训练范围后，OSS2完整模型的OA和BA达到64.727\%和59.396\%，相对其分阶段版本提高3.704和3.766个百分点。结果说明骨干与证据模块联合优化后仍具有平均净收益，但系统间差异同时包含训练历史与损失设计，组件归因由后续配套消融承担。
 
 在自建24港八分类任务中，分阶段完整模型相对普通骨干的OA、BA和宏F1分别提高5.485、3.730和4.074个百分点，相对SE分别提高6.103、2.684和3.716个百分点。三个训练种子的OA和BA均优于两种对照，说明完整证据组织方式的收益能够延续到类别更细、场景覆盖更广的自建数据。以MMSI为簇对配对差进行1000次重采样，分阶段完整模型相对普通骨干的OA与BA增量95\%区间分别为{[}3.98,7.03{]}和{[}1.87,5.44{]}个百分点，相对SE分别为{[}4.66,7.66{]}和{[}1.08,4.53{]}个百分点。
 
@@ -831,89 +830,92 @@ OSS2／过境 & 5 & +5.199 & +7.322 & 4／0／1 \\
 配置 & 初始化 & 实际轮数 & 验证OA／BA \\
 \midrule
 OSS2分阶段版 & ImageNet & 五阶段固定预算 & 63.304／57.582 \\
-OSS2 R50-Tuned & ImageNet & 46／49／53 & 64.035／61.110 \\
 OSS2本文微调 & 对应分阶段终点 & 23／19／22 & 65.936／61.224 \\
 24港本文微调 & 对应分阶段终点 & 30／27／22 & 46.250／45.037 \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-OSS2完整模型三个微调运行共新增1,920次更新，连同继承的三次分阶段训练合计4,128次；R50-Tuned三个运行共4,440次更新。两者的源图像暴露次数分别为96,356和106,412，均为重复训练暴露而非独立样本数。自建24港微调共新增68,019次更新，三个种子的最佳检查点分别位于第29、19和14轮；其验证BA针对实际出现的七类计算，测试BA针对八类计算。完整模型还包含参考前向、辅助监督与历史分阶段学习，更新次数不能直接换算为相同计算量。这些预算与表13的稳态推理延迟分别报告，以区分训练投入和部署开销。
+OSS2完整模型三个微调运行共新增1,920次更新，连同继承的三次分阶段训练合计4,128次，源图像暴露次数为96,356，属于重复训练暴露而非独立样本数。自建24港微调共新增68,019次更新，三个种子的最佳检查点分别位于第29、19和14轮；其验证BA针对实际出现的七类计算，测试BA针对八类计算。完整模型还包含参考前向、辅助监督与历史分阶段学习，更新次数不能直接换算为相同计算量。这些预算与表13的稳态推理延迟分别报告，以区分训练投入和部署开销。
 
 \FloatBarrier
 \balance
 \begin{thebibliography}{99}
 \bibitem{ref1}L. Huang, B. Liu, B. Li, W. Guo, W. Yu, Z. Zhang, and W. Yu. OpenSARShip: A Dataset Dedicated to Sentinel-1 Ship Interpretation. \emph{IEEE JSTARS}, 11(1):195--208, 2018. doi:10.1109/JSTARS.2017.2755672.
 
-\bibitem{ref2}H. Xie, J. He, Z. Lu, and J. Hu. Two-Level Feature-Fusion Ship Recognition Strategy Combining HOG Features with Dual-Polarized Data in SAR Images. \emph{Remote Sensing}, 15(18):4393, 2023. doi:10.3390/rs15184393.
+\bibitem{ref2}J. He et al.~CPINet: Towards A Novel Cross-Polarimetric Interaction Network for Dual-Polarized SAR Ship Classification. \emph{Remote Sensing}, 16(18):3479, 2024. doi:10.3390/rs16183479.
 
-\bibitem{ref3}Z. Shao, T. Zhang, and X. Ke. A Dual-Polarization Information-Guided Network for SAR Ship Classification. \emph{Remote Sensing}, 15(8):2138, 2023. doi:10.3390/rs15082138.
+\bibitem{ref3}H. Xie, J. He, Z. Lu, and J. Hu. Two-Level Feature-Fusion Ship Recognition Strategy Combining HOG Features with Dual-Polarized Data in SAR Images. \emph{Remote Sensing}, 15(18):4393, 2023. doi:10.3390/rs15184393.
 
-\bibitem{ref4}J. He et al.~CPINet: Towards A Novel Cross-Polarimetric Interaction Network for Dual-Polarized SAR Ship Classification. \emph{Remote Sensing}, 16(18):3479, 2024. doi:10.3390/rs16183479.
+\bibitem{ref4}Z. Shao, T. Zhang, and X. Ke. A Dual-Polarization Information-Guided Network for SAR Ship Classification. \emph{Remote Sensing}, 15(8):2138, 2023. doi:10.3390/rs15082138.
 
-\bibitem{ref5}N. Xie, T. Zhang, W. Guo, Z. Zhang, and W. Yu. Dual Branch Deep Network for Ship Classification of Dual-Polarized SAR Images. \emph{IEEE Trans. Geosci. Remote Sens.}, 62:1--15, 2024. doi:10.1109/TGRS.2024.3372021.
+\bibitem{ref5}J. Pearl, ``The Seven Tools of Causal Inference, with Reflections on Machine Learning,'' \emph{Communications of the ACM}, vol.~62, no. 3, pp.~54--60, 2019.
 
-\bibitem{ref6}Z. Liu, K. Li, L. Wang, and Z. Zhang. Multi-Scale Alignment Domain Adaptation for Ship Classification in Multi-Resolution SAR Images. \emph{IEEE Trans. Autom. Sci. Eng.}, 22:4051--4062, 2025. doi:10.1109/TASE.2024.3407130.
+\bibitem{ref6}X. Wang, Z. Guan, W. Qian, C. Wang, and R. Ma, ``Multi-Modal Image Fusion via Intervention-Stable Feature Learning,'' in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), 2026, pp.~33827--33837.
 
-\bibitem{ref7}L. Chen, J. Li, H. Zhong, H. Shi, Z. Yang, and W. Li. PGMNet: A Prototype-Guided Multimodal Network for Ship Recognition in SAR Images. \emph{IEEE Trans. Geosci. Remote Sens.}, 63:5215517, 2025. doi:10.1109/TGRS.2025.3583282.
+\bibitem{ref7}K. He, X. Zhang, S. Ren, and J. Sun. Deep Residual Learning for Image Recognition. \emph{CVPR}, 770--778, 2016.
 
-\bibitem{ref8}R. C. Fong and A. Vedaldi. Interpretable Explanations of Black Boxes by Meaningful Perturbation. \emph{ICCV}, 3449--3457, 2017. doi:10.1109/ICCV.2017.371.
+\bibitem{ref8}X. Hou, W. Ao, Q. Song, J. Lai, H. Wang, and F. Xu. FUSAR-Ship: Building a High-Resolution SAR-AIS Matchup Dataset of Gaofen-3 for Ship Detection and Recognition. \emph{Science China Information Sciences}, 63:140303, 2020. doi:10.1007/s11432-019-2772-5.
 
-\bibitem{ref9}S. Hooker, D. Erhan, P.-J. Kindermans, and B. Kim. A Benchmark for Interpretability Methods in Deep Neural Networks. \emph{NeurIPS}, 32, 2019.
+\bibitem{ref9}S. Zhao and H. Lang. Improving Deep Subdomain Adaptation by Dual-Branch Network Embedding Attention Module for SAR Ship Classification. \emph{IEEE JSTARS}, 15:8038--8048, 2022. doi:10.1109/JSTARS.2022.3206753.
 
-\bibitem{ref10}X. Hou, W. Ao, Q. Song, J. Lai, H. Wang, and F. Xu. FUSAR-Ship: Building a High-Resolution SAR-AIS Matchup Dataset of Gaofen-3 for Ship Detection and Recognition. \emph{Science China Information Sciences}, 63:140303, 2020. doi:10.1007/s11432-019-2772-5.
+\bibitem{ref10}Z. Liu, K. Li, L. Wang, and Z. Zhang. Multi-Scale Alignment Domain Adaptation for Ship Classification in Multi-Resolution SAR Images. \emph{IEEE Trans. Autom. Sci. Eng.}, 22:4051--4062, 2025. doi:10.1109/TASE.2024.3407130.
 
-\bibitem{ref11}S. Zhao and H. Lang. Improving Deep Subdomain Adaptation by Dual-Branch Network Embedding Attention Module for SAR Ship Classification. \emph{IEEE JSTARS}, 15:8038--8048, 2022. doi:10.1109/JSTARS.2022.3206753.
+\bibitem{ref11}Y. Shi, L. Du, Y. Guo, Y. Du, and Y. Li. Unsupervised Domain Adaptation for Ship Classification via Progressive Feature Alignment: From Optical to SAR Images. \emph{IEEE Trans. Geosci. Remote Sens.}, 62:1--17, 2024. doi:10.1109/TGRS.2024.3458937.
 
-\bibitem{ref12}Y. Shi, L. Du, Y. Guo, Y. Du, and Y. Li. Unsupervised Domain Adaptation for Ship Classification via Progressive Feature Alignment: From Optical to SAR Images. \emph{IEEE Trans. Geosci. Remote Sens.}, 62:1--17, 2024. doi:10.1109/TGRS.2024.3458937.
+\bibitem{ref12}N. Xie, T. Zhang, W. Guo, Z. Zhang, and W. Yu. Dual Branch Deep Network for Ship Classification of Dual-Polarized SAR Images. \emph{IEEE Trans. Geosci. Remote Sens.}, 62:1--15, 2024. doi:10.1109/TGRS.2024.3372021.
 
-\bibitem{ref13}Y. Qi, L. Wang, C. Zhao, P. T. Mathiopoulos, T. Ohtsuki, and F. Adachi. SCRC-Net: A Structure-Constrained and Representation-Consistent Network for SAR Ship Classification. \emph{Pattern Recognition}, 180:114294, 2026. doi:10.1016/j.patcog.2026.114294.
+\bibitem{ref13}B. Zhou, A. Khosla, A. Lapedriza, A. Oliva, and A. Torralba, ``Learning Deep Features for Discriminative Localization,'' in Proc. IEEE Conf. Comput. Vis. Pattern Recognit. (CVPR), 2016, pp.~2921-2929, doi: 10.1109/CVPR.2016.319.
 
-\bibitem{ref14}B. Zhou, A. Khosla, A. Lapedriza, A. Oliva, and A. Torralba, ``Learning Deep Features for Discriminative Localization,'' in Proc. IEEE Conf. Comput. Vis. Pattern Recognit. (CVPR), 2016, pp.~2921-2929, doi: 10.1109/CVPR.2016.319.
+\bibitem{ref14}Z. Gao, J. Xie, Q. Wang, and P. Li, ``Global Second-Order Pooling Convolutional Networks,'' in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), 2019, pp.~3024-3033, doi: 10.1109/CVPR.2019.00314.
 
-\bibitem{ref15}J. Hu, L. Shen, and G. Sun, ``Squeeze-and-Excitation Networks,'' in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), 2018, pp.~7132-7141, doi: 10.1109/CVPR.2018.00745.
+\bibitem{ref15}Y. Cao, J. Xu, S. Lin, F. Wei, and H. Hu, ``GCNet: Non-Local Networks Meet Squeeze-Excitation Networks and Beyond,'' in Proc. IEEE/CVF Int. Conf. Comput. Vis. Workshops (ICCVW), 2019, pp.~1971-1980, doi: 10.1109/ICCVW.2019.00246.
 
-\bibitem{ref16}H. Lee, H.-E. Kim, and H. Nam, ``SRM: A Style-Based Recalibration Module for Convolutional Neural Networks,'' in Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV), 2019, pp.~1854-1862, doi: 10.1109/ICCV.2019.00194.
+\bibitem{ref16}Y. Qi, L. Wang, C. Zhao, P. T. Mathiopoulos, T. Ohtsuki, and F. Adachi. SCRC-Net: A Structure-Constrained and Representation-Consistent Network for SAR Ship Classification. \emph{Pattern Recognition}, 180:114294, 2026. doi:10.1016/j.patcog.2026.114294.
 
-\bibitem{ref17}Z. Gao, J. Xie, Q. Wang, and P. Li, ``Global Second-Order Pooling Convolutional Networks,'' in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), 2019, pp.~3024-3033, doi: 10.1109/CVPR.2019.00314.
+\bibitem{ref17}L. Chen, J. Li, H. Zhong, H. Shi, Z. Yang, and W. Li. PGMNet: A Prototype-Guided Multimodal Network for Ship Recognition in SAR Images. \emph{IEEE Trans. Geosci. Remote Sens.}, 63:5215517, 2025. doi:10.1109/TGRS.2025.3583282.
 
-\bibitem{ref18}Y. Chen, Y. Kalantidis, J. Li, S. Yan, and J. Feng, ``A\^{}2-Nets: Double Attention Networks,'' in Adv. Neural Inf. Process. Syst., vol.~31, 2018, pp.~352-361.
+\bibitem{ref18}J. Hu, L. Shen, and G. Sun, ``Squeeze-and-Excitation Networks,'' in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), 2018, pp.~7132-7141, doi: 10.1109/CVPR.2018.00745.
 
-\bibitem{ref19}Y. Cao, J. Xu, S. Lin, F. Wei, and H. Hu, ``GCNet: Non-Local Networks Meet Squeeze-Excitation Networks and Beyond,'' in Proc. IEEE/CVF Int. Conf. Comput. Vis. Workshops (ICCVW), 2019, pp.~1971-1980, doi: 10.1109/ICCVW.2019.00246.
+\bibitem{ref19}H. Lee, H.-E. Kim, and H. Nam, ``SRM: A Style-Based Recalibration Module for Convolutional Neural Networks,'' in Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV), 2019, pp.~1854-1862, doi: 10.1109/ICCV.2019.00194.
 
-\bibitem{ref20}J. Dai, Y. Li, K. He, and J. Sun, ``R-FCN: Object Detection via Region-based Fully Convolutional Networks,'' in Adv. Neural Inf. Process. Syst., vol.~29, 2016, pp.~379-387.
+\bibitem{ref20}Y. Chen, Y. Kalantidis, J. Li, S. Yan, and J. Feng, ``A\^{}2-Nets: Double Attention Networks,'' in Adv. Neural Inf. Process. Syst., vol.~31, 2018, pp.~352-361.
 
-\bibitem{ref21}X. Li, X. Wang, R. Zhu, Z. Ma, J. Cao, and J.-H. Xue. Selectively Augmented Attention Network for Few-Shot Image Classification. \emph{IEEE Trans. Circuits Syst. Video Technol.}, 35(2):1180--1192, 2025. doi:10.1109/TCSVT.2024.3480279.
+\bibitem{ref21}J. Dai, Y. Li, K. He, and J. Sun, ``R-FCN: Object Detection via Region-based Fully Convolutional Networks,'' in Adv. Neural Inf. Process. Syst., vol.~29, 2016, pp.~379-387.
 
-\bibitem{ref22}J. Snell, K. Swersky, and R. Zemel, ``Prototypical Networks for Few-shot Learning,'' in Adv. Neural Inf. Process. Syst., vol.~30, 2017, pp.~4077-4087.
+\bibitem{ref22}X. Li, X. Wang, R. Zhu, Z. Ma, J. Cao, and J.-H. Xue. Selectively Augmented Attention Network for Few-Shot Image Classification. \emph{IEEE Trans. Circuits Syst. Video Technol.}, 35(2):1180--1192, 2025. doi:10.1109/TCSVT.2024.3480279.
 
-\bibitem{ref23}W. Li, L. Wang, J. Xu, J. Huo, Y. Gao, and J. Luo, ``Revisiting Local Descriptor Based Image-To-Class Measure for Few-Shot Learning,'' in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), 2019, pp.~7260-7268, doi: 10.1109/CVPR.2019.00743.
+\bibitem{ref23}J. Snell, K. Swersky, and R. Zemel, ``Prototypical Networks for Few-shot Learning,'' in Adv. Neural Inf. Process. Syst., vol.~30, 2017, pp.~4077-4087.
 
-\bibitem{ref24}R. Hou, H. Chang, B. Ma, S. Shan, and X. Chen, ``Cross Attention Network for Few-shot Classification,'' in Adv. Neural Inf. Process. Syst., vol.~32, 2019, pp.~4003-4014.
+\bibitem{ref24}W. Li, L. Wang, J. Xu, J. Huo, Y. Gao, and J. Luo, ``Revisiting Local Descriptor Based Image-To-Class Measure for Few-Shot Learning,'' in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), 2019, pp.~7260-7268, doi: 10.1109/CVPR.2019.00743.
 
-\bibitem{ref25}C. Zhang, Y. Cai, G. Lin, and C. Shen. DeepEMD: Few-Shot Image Classification With Differentiable Earth Mover's Distance and Structured Classifiers. \emph{CVPR}, 12203--12213, 2020.
+\bibitem{ref25}R. Hou, H. Chang, B. Ma, S. Shan, and X. Chen, ``Cross Attention Network for Few-shot Classification,'' in Adv. Neural Inf. Process. Syst., vol.~32, 2019, pp.~4003-4014.
 
-\bibitem{ref26}D. Wertheimer, L. Tang, and B. Hariharan, ``Few-Shot Classification With Feature Map Reconstruction Networks,'' in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), 2021, pp.~8012-8021, doi: 10.1109/CVPR46437.2021.00792.
+\bibitem{ref26}J. Wu, D. Chang, A. Sain, X. Li, Z. Ma, J. Cao, J. Guo, and Y.-Z. Song. Bi-Directional Ensemble Feature Reconstruction Network for Few-Shot Fine-Grained Classification. \emph{IEEE Trans. Pattern Anal. Mach. Intell.}, 46(9):6082--6096, 2024. doi:10.1109/TPAMI.2024.3376686.
 
-\bibitem{ref27}J. Wu, D. Chang, A. Sain, X. Li, Z. Ma, J. Cao, J. Guo, and Y.-Z. Song. Bi-Directional Ensemble Feature Reconstruction Network for Few-Shot Fine-Grained Classification. \emph{IEEE Trans. Pattern Anal. Mach. Intell.}, 46(9):6082--6096, 2024. doi:10.1109/TPAMI.2024.3376686.
+\bibitem{ref27}C. Zhang, Y. Cai, G. Lin, and C. Shen. DeepEMD: Few-Shot Image Classification With Differentiable Earth Mover's Distance and Structured Classifiers. \emph{CVPR}, 12203--12213, 2020.
 
-\bibitem{ref28}W. Li, W. Yang, L. Liu, W. Zhang, and Y. Liu. Discovering and Explaining the Noncausality of Deep Learning in SAR ATR. \emph{IEEE GRSL}, 20:1--5, 2023. doi:10.1109/LGRS.2023.3266493.
+\bibitem{ref28}D. Wertheimer, L. Tang, and B. Hariharan, ``Few-Shot Classification With Feature Map Reconstruction Networks,'' in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), 2021, pp.~8012-8021, doi: 10.1109/CVPR46437.2021.00792.
 
-\bibitem{ref29}D. Yin, R. G. Lopes, J. Shlens, E. D. Cubuk, and J. Gilmer. A Fourier Perspective on Model Robustness in Computer Vision. \emph{NeurIPS}, 32, 2019.
+\bibitem{ref29}R. C. Fong and A. Vedaldi. Interpretable Explanations of Black Boxes by Meaningful Perturbation. \emph{ICCV}, 3449--3457, 2017. doi:10.1109/ICCV.2017.371.
 
-\bibitem{ref30}A. S. Ross, M. C. Hughes, and F. Doshi-Velez. Right for the Right Reasons: Training Differentiable Models by Constraining Their Explanations. \emph{IJCAI}, 2017.
+\bibitem{ref30}S. Hooker, D. Erhan, P.-J. Kindermans, and B. Kim. A Benchmark for Interpretability Methods in Deep Neural Networks. \emph{NeurIPS}, 32, 2019.
 
-\bibitem{ref31}Z. Huang, H. Wang, E. P. Xing, and D. Huang, ``Self-challenging Improves Cross-Domain Generalization,'' in Computer Vision - ECCV 2020, Lecture Notes in Computer Science, vol.~12347, 2020, pp.~124-140, doi: 10.1007/978-3-030-58536-5\_8.
+\bibitem{ref31}A. S. Ross, M. C. Hughes, and F. Doshi-Velez. Right for the Right Reasons: Training Differentiable Models by Constraining Their Explanations. \emph{IJCAI}, 2017.
 
-\bibitem{ref32}A. S. Ross and F. Doshi-Velez, ``Improving the Adversarial Robustness and Interpretability of Deep Neural Networks by Regularizing Their Input Gradients,'' in Proc. AAAI Conf. Artif. Intell., vol.~32, no. 1, 2018, pp.~1660-1669, doi: 10.1609/aaai.v32i1.11504.
+\bibitem{ref32}W. Li, W. Yang, L. Liu, W. Zhang, and Y. Liu. Discovering and Explaining the Noncausality of Deep Learning in SAR ATR. \emph{IEEE GRSL}, 20:1--5, 2023. doi:10.1109/LGRS.2023.3266493.
 
-\bibitem{ref33}P. Chattopadhyay, K. Sarangmath, V. Vijaykumar, and J. Hoffman. PASTA: Proportional Amplitude Spectrum Training Augmentation for Syn-to-Real Domain Generalization. \emph{ICCV}, 19288--19300, 2023.
+\bibitem{ref33}D. Yin, R. G. Lopes, J. Shlens, E. D. Cubuk, and J. Gilmer. A Fourier Perspective on Model Robustness in Computer Vision. \emph{NeurIPS}, 32, 2019.
 
-\bibitem{ref34}H. Cheng, S. Yang, J. T. Zhou, L. Guo, and B. Wen. Frequency Guidance Matters in Few-Shot Learning. \emph{ICCV}, 11814--11824, 2023.
+\bibitem{ref34}Z. Huang, H. Wang, E. P. Xing, and D. Huang, ``Self-challenging Improves Cross-Domain Generalization,'' in Computer Vision - ECCV 2020, Lecture Notes in Computer Science, vol.~12347, 2020, pp.~124-140, doi: 10.1007/978-3-030-58536-5\_8.
 
-\bibitem{ref35}Y. Wang, F. Liu, Z. Chen, Y.-C. Wu, J. Hao, G. Chen, and P.-A. Heng. Contrastive-ACE: Domain Generalization Through Alignment of Causal Mechanisms. \emph{IEEE Trans. Image Process.}, 32:235--250, 2023. doi:10.1109/TIP.2022.3227457.
+\bibitem{ref35}A. S. Ross and F. Doshi-Velez, ``Improving the Adversarial Robustness and Interpretability of Deep Neural Networks by Regularizing Their Input Gradients,'' in Proc. AAAI Conf. Artif. Intell., vol.~32, no. 1, 2018, pp.~1660-1669, doi: 10.1609/aaai.v32i1.11504.
 
-\bibitem{ref36}K. He, X. Zhang, S. Ren, and J. Sun. Deep Residual Learning for Image Recognition. \emph{CVPR}, 770--778, 2016.
+\bibitem{ref36}P. Chattopadhyay, K. Sarangmath, V. Vijaykumar, and J. Hoffman. PASTA: Proportional Amplitude Spectrum Training Augmentation for Syn-to-Real Domain Generalization. \emph{ICCV}, 19288--19300, 2023.
+
+\bibitem{ref37}H. Cheng, S. Yang, J. T. Zhou, L. Guo, and B. Wen. Frequency Guidance Matters in Few-Shot Learning. \emph{ICCV}, 11814--11824, 2023.
+
+\bibitem{ref38}Y. Wang, F. Liu, Z. Chen, Y.-C. Wu, J. Hao, G. Chen, and P.-A. Heng. Contrastive-ACE: Domain Generalization Through Alignment of Causal Mechanisms. \emph{IEEE Trans. Image Process.}, 32:235--250, 2023. doi:10.1109/TIP.2022.3227457.
 \end{thebibliography}
 
 \end{document}

@@ -9,7 +9,7 @@ import subprocess
 ROOT = Path(__file__).resolve().parent
 WORK = ROOT.parent
 FIGURES = {
-    "fig2_evidence_framework.jpg": Path("E:/Program_documents/Weixin/xwechat_files/wxid_mjwmzhlgjh6222_f9ca/temp/RWTemp/2026-11/924bcb2c8402d46c5235f48a939e86f7/f65592b940c5f898a413074f64ff266d.jpg"),
+    "fig2_evidence_framework_20261112.png": Path("E:/Program_documents/Weixin/xwechat_files/wxid_mjwmzhlgjh6222_f9ca/temp/RWTemp/2026-11/924bcb2c8402d46c5235f48a939e86f7/4926d90e36012b74f5fe951176e4edcc.png"),
     "fig2_intervention_case.png": WORK / "paper_evidence_20261027/full_model_interventions_20261027/figures/case_10488.png",
     "fig6_m1_m2_case.png": WORK / "m1_guided_m2_20261106/mean_rescue_s29_1142.png",
     "fig7_m3_case.png": WORK / "m3_frequency_increment_20261028/source_hard_task_20261101/oss2/internal_contribution/writer_review/evidence_vs_feature_rescue_s17_735.png",

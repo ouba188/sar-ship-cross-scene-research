@@ -19,7 +19,7 @@ def main():
         methods = results[key]["methods"]
         x = np.arange(len(spec["names"]))
         for offset, method, label, color in (
-            (-0.17, "Plain", "Plain", "#91979e"),
+            (-0.17, "Plain", "Baseline", "#91979e"),
             (0.17, "Full-Tuned", "Ours", "#c86b42"),
         ):
             values = methods[method]
@@ -42,7 +42,7 @@ def main():
         fig, axes = plt.subplots(1, 2, figsize=(8.3, 4.2), layout="constrained")
         im = heatmap(axes[0], full, spec["names"], f"{spec['title']}: Ours")
         fig.colorbar(im, ax=axes[0], shrink=.70, label="Row-normalized (%)")
-        im = heatmap(axes[1], delta, spec["names"], "Ours minus Plain", True, 22)
+        im = heatmap(axes[1], delta, spec["names"], "Ours minus Baseline", True, 22)
         fig.colorbar(im, ax=axes[1], shrink=.70, label="Difference (pp)")
         save(fig, f"{key}_full_delta_plain_current")
 

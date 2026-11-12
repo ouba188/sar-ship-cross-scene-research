@@ -8,13 +8,13 @@ affiliation: "M. Yu, X. Leng, Q. Huang, J. Li, and K. Ji are with the College of
 
 # 摘要
 
-跨场景合成孔径雷达（SAR）船舶分类面临观测条件变化与局部判别证据利用不足的双重挑战。同一船舶在不同极化、空间区域及观测条件下可能呈现不同响应，而这些响应对不同船型的判别作用并不一致。为此，本文结合自然观测分析与受控输入干预，研究局部响应对正确类别及竞争类别的影响，并提出一种受控干预启发的极化与区域证据学习网络。该网络以共享ResNet-50为骨干，通过类别响应反馈模块（CRFB）、响应引导区域池化模块（RGRP）和参考类别证据回写模块（RCEW），分别实现类别相关特征调节、目标相对区域取证及跨样本类别证据引入；同时，利用干预响应筛选训练样本，并通过原图判别优势保护约束辅助优化。在OpenSARShip 2.0四分类和自建24港八分类跨场景任务中，完整模型的三种子平均总体准确率分别达到64.727%和52.076%，平衡准确率分别达到59.396%和48.970%。逐类结果与混淆分析表明，所提方法能够减少多个船型之间的误判，验证了极化与区域证据学习对跨场景分类的有效性。
+SAR 船舶图像受船体结构、极化方式、观测几何及海面环境等多种因素共同影响，使不同船型可能呈现相似的局部散射特征，同一船型也可能表现出明显差异。现有方法侧重整体特征融合与局部增强，对不同来源响应的类别判别作用仍缺乏针对性组织。受因果层级分析思想启发，本文从观测关联、输入干预和替代证据比较出发，分析局部响应与船舶分类决策之间的关系。基于上述分析，提出一种极化与区域证据学习网络，采用共享 ResNet-50 骨干，通过类别响应反馈模块（CRFB）、响应引导区域池化模块（RGRP）和参考类别证据回写模块（RCEW），分别实现类别相关特征调节、结构化区域取证和跨样本类别证据引入。同时，设计受控干预引导的训练策略，利用干预响应筛选训练样本，并通过教师原图判别优势保护约束辅助优化。在 OpenSARShip 2.0 四分类和自建24港八分类任务上，模型的平均总体准确率（OA）分别达到64.727%和52.076%，平衡准确率（BA）分别达到59.396%和48.970%。实验结果表明，结合极化、空间区域与类别竞争关系组织局部判别证据，有助于改善跨场景 SAR 船舶分类。
 
 **关键词：** SAR船舶分类；跨场景泛化；双极化；区域池化；参考证据；受控干预
 
 # 1 引言
 
-合成孔径雷达（Synthetic Aperture Radar，SAR）能够在不同光照和天气条件下获取海面目标信息，为海洋监测与船舶识别提供观测手段。船舶分类作为目标检测后的重要环节，依据船体外形、局部响应与空间结构识别船舶类型，服务于海上交通监测与港口管理。OpenSARShip等数据资源推动了Sentinel-1船舶解译研究[1]。然而，SAR图像中的船舶表征不仅取决于目标自身结构，还随观测几何、极化方式和成像环境变化。同一船舶在不同场景下可能呈现明显不同的局部响应，不同船型也可能具有相似外观，使训练场景之外的识别面临困难。
+合成孔径雷达（Synthetic Aperture Radar，SAR）船舶分类为海上交通监测、港口管理和海洋活动分析提供重要信息。然而，SAR 船舶图像受船体结构、极化方式、观测几何及海面环境等多种因素共同影响，使不同船型可能呈现相似的局部散射特征，同一船型也可能表现出明显差异。当训练与应用数据来自不同采集时相或港口水域时，模型不仅需要应对图像表征的变化，还需要从相似的局部响应中提取能够区分船型的信息[1,2]。
 
 本文研究包含不同采集时相、观测条件及港口水域的跨场景SAR船舶分类，评价模型在上述因素共同变化时的识别能力。场景由采集产品所属过境、成像条件和地理水域共同描述，涵盖同港不同采集和不同港口／水域中的观测变化。实验通过产品元数据确定过境组，并同时隔离船舶身份，以考察未见船舶与未见场景下的识别能力。
 
@@ -24,71 +24,91 @@ Sentinel-1船舶影像同时受目标结构、成像几何、极化、海面环�
 
 ![图1 24港数据中三艘船的配对观测。三行依次为散货船、化学品/成品油轮和原油轮；每行展示同一船舶在两次过境中的VV/VH图像，标注对应港口、日期、卫星平台与MMSI。](figures/author_20261110/fig1_author.png){width=95%}
 
-近年来，深度学习研究从极化信息利用、目标结构表达和分布适应等方面改善SAR船舶分类。现有双极化方法通过共享特征提取、多尺度融合与极化交互增强VV和VH的互补表示[2,3,4]；结合极化与纹理的表示学习[5]、多尺度域对齐[6]及目标区域引导的多模态融合[7]进一步拓展了可用信息。然而，完成特征融合或区域增强，并不直接回答其中哪些局部响应有助于区分当前竞争类别。本文关注不同来源的局部证据如何参与类别判别，以及其作用如何随极化、目标区域和空间尺度变化。
+现有研究主要通过特征提取、双极化融合和局部增强改善船舶表示。例如，极化引导和跨极化交互方法利用不同极化的信息互补性，多尺度特征与统计注意机制进一步增强目标的判别表达。这些方法提升了信息利用能力，但整体特征的融合或局部响应的增强，并不直接说明这些信息如何影响具体类别的判断[2,3,4]。 对于包含船体及邻近区域的 SAR 图像，外围响应可能提供补充线索，也可能引入混淆；局部高响应可能支持正确类别，也可能强化竞争类别。因此，仅依赖整体表征或统一的局部增强策略，仍难以充分反映不同来源信息的判别作用。
 
-对于中低分辨率SAR图像，这一问题尤为突出。一方面，目标框内与外围并非始终具有相同的信息价值：直接裁除外围可能损失补充线索，不加区分地汇总又可能混入误导性响应。另一方面，局部响应的价值不仅取决于强弱，还取决于它所在的极化、区域及其对不同类别的影响。即使对同一类局部结构执行相同操作，正确类别和竞争类别的分数也可能以不同方向变化。因此，有必要在极化融合与空间汇总之外，显式组织局部内容与类别竞争之间的联系。
+因果层级分析为理解这一问题提供了一个视角：观测关联描述变量如何共同变化，干预分析考察主动改变某项条件后的结果，反事实分析则进一步追问给定事实下另一种条件可能产生的结果。这些问题所需的信息并不相同，观测中的相关性不能直接替代对操作效应的检验[5]。 近期多模态图像融合研究借鉴这一思想，通过受控扰动检验模态间依赖，并学习在干预下保持稳定的特征[6]。 对 SAR 船舶分类而言，这一视角启发我们从"哪些响应与船型相关"进一步追问"改变这些响应后，模型对不同船型的判断如何变化"。由此，本文关注的核心问题是：**如何辨别不同极化与空间区域中局部响应的类别判别作用，并将这些差异转化为有效的证据组织方式？**
 
-为分析这一问题，本文结合自然观测与受控输入干预开展研究。首先，通过同船重复观测考察跨场景分类变化；随后，在固定模型参数和参考条件下，分别改变输入的极化、目标相对区域及空间尺度，并设置匹配均值变化的对照，追踪正确类别与竞争类别分差。实验发现，局部操作的判别效应依赖极化和区域，并受到类别差异的调节，部分纠错来自对错误竞争类的削弱。这些发现支持按证据来源与类别关系组织信息，而非统一增强强响应或抑制外围响应。依据输入敏感性与训练后信息价值的区别[8,9]，本文进一步通过配套训练和算子替换检验这些线索的分类效用。
+围绕这一问题，本文从观测关联、输入干预和替代证据比较展开分析。首先，利用同船重复观测考察类别身份不变时，局部响应与分类结果在不同场景中的变化。随后，固定诊断模型、目标定位及参考条件，对指定极化、目标相对区域和空间尺度施加受控操作，追踪正确类别与竞争类别的分差变化，并设置匹配均值对照，检验平均强度变化能否解释所观察到的效应。进一步，在同一查询和固定模型下替换参考聚合方式或撤除局部回写路径，分析不同证据配置对决策的影响。这里的替代证据比较借鉴反事实提问方式，分析对象限定为分类系统内部的信息依赖，而非真实成像过程的反事实重建。
 
-基于上述发现，本文提出受控干预启发的极化与区域证据学习网络。网络采用共享ResNet-50骨干，并针对不同极化设置专属证据处理参数。类别响应反馈模块（Class-Response Feedback Block，CRFB）通过相对类别响应与局部内容的交叉统计生成位置相关反馈；响应引导区域池化模块（Response-Guided Regional Pooling，RGRP）保留框内、轴端和侧向的区域身份，利用类别响应指导区域内部取证；参考类别证据回写模块（Reference-Class Evidence Writeback，RCEW）将查询相对于源参考类别的比较结果转化为空间证据场，参与后续特征提取。此外，训练利用受控干预筛选源样本，并以教师分差约束保护原图上的判别优势。预测阶段使用原始SAR图像、目标几何及固定源参考，无需查询标签或在线干预。
+上述分析表明，局部响应的判别作用具有条件性。相同类型的局部削弱操作，在不同极化、区域或船型中可能产生相反的作用；分类改善既可能来自正确类别分数提高，也可能来自竞争类别受到更强抑制。因此，场景相关的响应变化不宜被统一视为需要消除的干扰，局部响应也不宜仅按强弱进行增强或抑制。更合适的处理方式，是在保留整体上下文的基础上，结合响应的极化来源、目标相对位置及类别比较关系组织判别信息。
+
+基于上述分析，本文提出一种极化与区域证据学习网络，面向检测定位后、固定类别集合下的 SAR 船舶分类。网络采用共享 ResNet-50 骨干[7]，并为不同极化设置专属证据处理参数。类别响应反馈模块（Class-Response Feedback Block，CRFB）通过相对类别响应与局部内容的交叉统计形成位置相关反馈，在保留均值上下文的同时调节中间特征。响应引导区域池化模块（Response-Guided Regional Pooling，RGRP）依据定向边界框（Oriented Bounding Box，OBB）组织框内、轴端和侧向区域，通过区域上下文回写与类别响应引导读出汇总局部信息。参考类别证据回写模块（Reference-Class Evidence Writeback，RCEW）进一步比较查询与不同类别源参考之间的局部关系，将比较结果转化为空间类别证据并回写至中间特征，使参考信息参与后续特征提取。三个模块分别处理单图类别响应、目标相对区域及跨样本类别关系，共同构成差异化的证据组织框架。
+
+此外，本文将干预分析用于训练阶段的判别保护分配。所有源样本均参与原图分类学习，通过干预筛选的样本额外接受教师原图类别分差的下界约束，从而将输入操作揭示的判别信息引入优化过程，而不要求预测阶段执行相同干预。最终模型通过全骨干微调联合优化特征表征与证据模块，并在 OpenSARShip 2.0 四分类和自建24港八分类任务上，采用船舶身份与采集过境隔离的协议进行评价，结合整体性能、机制替换及逐类、逐场景分析考察方法的有效性与适用范围。
 
 本文的主要贡献如下：
 
-1. 结合同船重复观测、区域输入对照和极化—区域—尺度受控干预，分析局部响应对正确类别与竞争类别的不同作用，为差异化组织判别证据提供实验依据。
-2. 提出CRFB、RGRP和RCEW，从单图类别响应反馈、结构化区域取证和跨样本类别证据回写三个层次组织信息，建立类别响应、目标几何与源参考之间的联系。
-3. 构建受控干预选样与判别优势保护训练策略，并结合完整训练对比、模块消融、空间对应替换和真实船舶案例，评价整体分类效果及各类证据的利用方式。
+1. **受因果层级启发的局部判别证据分析。** 结合同船重复观测、极化—区域—尺度受控干预及替代证据比较，分析局部响应对正确类别与竞争类别的不同作用，为差异化证据组织提供实验依据。
+
+2. **极化与区域证据学习网络。** 通过 CRFB、RGRP 和 RCEW，将类别响应反馈、结构化区域取证与源参考类别证据回写相结合，使不同来源的局部信息能够参与中间特征更新与最终分类。
+
+3. **受控干预引导的判别保护策略。** 利用源样本的干预响应选择额外保护对象，以教师原图的类别分差约束学生学习，并结合全骨干微调，在不增加在线干预步骤的条件下优化分类模型。
 
 # 2 相关研究
 
-## 2.1 SAR船舶分类与跨场景泛化
+## 2.1 SAR船舶分类与跨场景学习
 
-SAR船舶分类需要从目标散射响应和空间结构中提取具有类别区分能力的表示。OpenSARShip面向Sentinel-1船舶解译建立开放数据资源[1]；FUSAR-Ship基于高分三号SAR与AIS匹配支持检测和识别[10]。不同资源在传感器、分辨率、类别体系和样本组织上存在差异，促使研究从固定分布下的识别拓展至分布适应。针对这一问题，已有研究将双分支注意与深度子域适应用于SAR船型分类[11]。
+SAR船舶分类需要从目标散射响应和空间结构中提取具有类别区分能力的表示。OpenSARShip面向Sentinel-1船舶解译建立开放数据资源[1]；FUSAR-Ship基于高分三号SAR与AIS匹配支持检测和识别[8]。不同资源在传感器、分辨率、类别体系和样本组织上存在差异，促使研究从固定分布下的识别拓展至分布适应。针对这一问题，已有研究将双分支注意与深度子域适应用于SAR船型分类[9]。
 
-MSADAN结合尺度感知特征、多层双线性融合驱动的对抗对齐及类别对比约束，处理多分辨率SAR船型跨域分类[6]。Shi等在有标签光学源域到无标签SAR目标域的迁移中联合域级校准与类级对齐[12]。这些方法分别关注分辨率变化和跨模态适配。本文从局部判别证据组织出发，关注类别不变但响应发生变化时，极化、区域及参考类别关系如何参与判断，以补充分布对齐视角，并采用船舶身份与过境组隔离的跨场景评价。
+双极化信息利用是 SAR 船舶分类的重要研究方向。DPIG-Net [4] 通过极化交叉注意与残差密集学习，引导不同极化信息的特征提取和融合。CPINet [2] 进一步结合多尺度表示、混合阶统计注意和因子化双线性编码，利用一个极化的特征统计引导另一极化的表示学习。这些方法通过自适应交互增强双极化信息的互补表达，为船舶分类提供了比单极化输入更丰富的特征来源。
 
-## 2.2 双极化、类别响应与分层证据
+针对不同数据来源之间的分布差异，相关研究从域适应角度改善船舶识别。Liu 等提出多尺度对齐域适应网络，通过尺度感知特征提取、多层双线性融合及对抗学习处理不同分辨率 SAR 图像之间的偏移，并采用类别对比约束改善类间区分 [10]。Shi 等则研究从有标签光学图像到无标签 SAR 图像的迁移，通过渐进式特征对齐缓解跨模态差异 [11]。这些研究分别从尺度变化和模态差异出发，提高目标域上的识别能力。
 
-HOG-SiamShipCLSNet采用共享骨干提取VV/VH特征，并在不同深度结合组双线性池化及HOG描述[2]。DPIG-Net使用VV引导VH与极化乘积幅度分支，通过交叉注意及残差融合组织极化信息[3]。CPINet结合多尺度融合、混合阶统计注意与因子化双线性编码[4]。这些研究表明共享或专属处理、跨极化交互和高阶统计均已有方法基础。
+HOG-SiamShipCLSNet采用共享骨干提取VV/VH特征，并在不同深度结合组双线性池化及HOG描述[3]。DPIG-Net使用VV引导VH与极化乘积幅度分支，通过交叉注意及残差融合组织极化信息[4]。CPINet结合多尺度融合、混合阶统计注意与因子化双线性编码[2]。这些研究表明共享或专属处理、跨极化交互和高阶统计均已有方法基础。
 
-DBDN构造极化特征引导和纹理特征引导的两种伪RGB图像，进行双分支提取与融合分类[5]。本文采用逐极化前向与共享卷积，并以极化专属类别响应连接中间特征处理和区域取证。
+DBDN构造极化特征引导和纹理特征引导的两种伪RGB图像，进行双分支提取与融合分类[12]。本文采用逐极化前向与共享卷积，并以极化专属类别响应连接中间特征处理和区域取证。
 
-SCRC-Net的结构约束融合模块从特征预测采样网格的长宽、共同旋转角与局部伸缩，以适应细长船体结构[13]。本文利用检测OBB定义目标相对区域，保持框内、轴端与侧向的证据身份，再由类别响应指导区域内汇总。两者分别从采样几何和证据读出组织结构信息。
+与上述研究侧重极化交互或域间对齐不同，本文关注不同来源的局部响应如何参与具体类别判别。在仅使用源端标注数据的设置下，本文保留极化与目标相对区域的组织关系，并通过局部类别响应和源参考比较辅助分类。该研究侧重判别证据的利用方式，以补充特征融合与分布适应的研究视角。
 
-PGMNet从SAR图像生成目标掩膜，以掩膜引导视觉特征对齐，并融合船舶尺寸描述的文本表征[7]。本文RGRP保留船体与不同方向外围的区域身份，RCEW引入带类别的源参考，使目标几何与跨样本判别关系分别承担区域定位和类别比较的作用。
+## 2.2 类别响应与结构化区域表示
 
-类别响应与统计反馈方面，CAM将线性分类权重投射到末层卷积图，生成类别相关空间响应[14]；SENet以全局均值生成通道权重[15]，SRM联合均值和标准差完成重标定[16]，GSoP将通道或位置二阶统计嵌入中间层反馈[17]。本文CRFB保留均值支路，通过相对候选类别响应与局部值的交叉统计产生位置相关反馈，并将响应继续传递给RGRP，用于区域内部取证。
+类别响应、特征统计与上下文建模为局部信息利用提供了不同途径。类别激活映射（Class Activation Mapping，CAM）利用分类权重与卷积特征生成类别相关的空间响应，用于定位判别区域 [13]。全局二阶池化（Global Second-Order Pooling，GSoP）将通道或位置之间的二阶统计引入网络中间层，增强特征间依赖建模 [14]；GCNet 则通过全局上下文汇总、变换与反馈，为局部特征补充长程信息 [15]。因此，类别相关定位、高阶统计和中间层上下文反馈均已有相应的方法基础。
 
-区域上下文方面，A2-Nets将注意汇总的全局描述按位置重新分配[18]；GCNet通过瓶颈变换将全局上下文反馈至特征图[19]；R-FCN以位置敏感得分图与RoI网格编码类别及相对位置[20]。RGRP以OBB框内、轴端和侧向限定证据来源，分别进行区域回写与多层读出，并复用CRFB响应指导浅层取证。
+面向 SAR 船舶的结构特点，SCRC-Net [16] 通过旋转矩形采样使感受区域适应船舶几何轮廓，并结合特征解耦和多尺度协同改善表示的一致性。该类研究表明，局部特征的采样与组织可以结合船舶形态，而不局限于固定图像网格上的处理。
 
-SAA从原图及随机裁剪中选择查询—支持最匹配的特征，联合估计空间和通道注意后进行原型分类[21]。本文在目标几何区域内复用候选类别响应，检验类别相关评分相对一般内容注意的取证效用。
+PGMNet从SAR图像生成目标掩膜，以掩膜引导视觉特征对齐，并融合船舶尺寸描述的文本表征[17]。本文RGRP保留船体与不同方向外围的区域身份，RCEW引入带类别的源参考，使目标几何与跨样本判别关系分别承担区域定位和类别比较的作用。
 
-## 2.3 局部参考比较与类别证据
+类别响应与统计反馈方面，CAM将线性分类权重投射到末层卷积图，生成类别相关空间响应[13]；SENet以全局均值生成通道权重[18]，SRM联合均值和标准差完成重标定[19]，GSoP将通道或位置二阶统计嵌入中间层反馈[14]。本文CRFB保留均值支路，通过相对候选类别响应与局部值的交叉统计产生位置相关反馈，并将响应继续传递给RGRP，用于区域内部取证。
 
-Prototypical Networks依据查询到类内支持均值原型的距离分类[22]；DN4将同类参考组成局部描述池，累加查询的近邻相似度[23]；CAN通过类参考与查询的相关性生成交叉注意，比较加权表示[24]。这些工作分别提供全局原型、局部到类度量与查询相关取证的依据。
+区域上下文方面，A2-Nets将注意汇总的全局描述按位置重新分配[20]；GCNet通过瓶颈变换将全局上下文反馈至特征图[15]；R-FCN以位置敏感得分图与RoI网格编码类别及相对位置[21]。RGRP以OBB框内、轴端和侧向限定证据来源，分别进行区域回写与多层读出，并复用CRFB响应指导浅层取证。
 
-DeepEMD通过交叉参考机制为密集表示中的结构元素赋权，并以局部匹配完成少样本分类[25]；FRN使用类内参考局部特征重构查询图，以岭回归重构误差形成类别分数[26]。两者为局部参考利用提供了不同途径。本文借鉴关系算子，在已知类别和固定源参考库的闭集任务中研究中间层证据回写。
+SAA从原图及随机裁剪中选择查询—支持最匹配的特征，联合估计空间和通道注意后进行原型分类[22]。本文在目标几何区域内复用候选类别响应，检验类别相关评分相对一般内容注意的取证效用。
 
-BiEnFRN联合支持—查询双向重构、自重构与快照集成，提高细粒度少样本分类的区分能力[27]。与SAA的联合注意[21]和重构式分类相比，本文RCEW将查询相对于各参考类别的距离转化为类别证据场，回写至中间特征，由后续骨干继续处理。
+本文进一步将类别响应与目标相对区域联系起来。CRFB 计算中心化局部内容与相对类别响应的交叉统计，形成位置相关的特征反馈；RGRP 则在 OBB 定义的框内、轴端及侧向区域中组织上下文，并复用类别响应进行区域内部读取。两者分别作用于特征更新和区域汇总，使类别信息能够在不同空间处理环节中被利用。其侧重点不是单独增加空间权重，而是建立类别响应、局部内容与几何区域之间的联系。
 
-RCEW保留参考权重、区域身份和类别组织，以传输边际聚合参考值，再形成查询相关的类间证据。回写消息显式包含类别比较结果，使后续网络直接处理参考提供的判别信息。其与普通参考特征回写、精细局部对应的差异通过内部替换实验检验。
+## 2.3 局部参考匹配与类别证据学习
 
-## 2.4 受控扰动与解释约束
+参考样本能够为查询分类提供显式的类别比较依据。Prototypical Networks 通过支持样本构建类别原型，并依据查询与原型之间的距离进行分类 [23]。DN4 则保留局部描述子，将查询图像与同类参考描述池进行近邻比较，形成图像到类别的度量 [24]。两者分别从整体类别表示和局部特征匹配角度利用参考信息。
 
-Li等在SAR自动目标识别中量化目标、阴影与杂波的贡献及交互，并通过背景重标度研究非目标区域依赖[28]。Meaningful Perturbation通过显式输入操作研究固定模型的重要区域[8]；ROAR在训练和测试数据中一致移除信息后重新训练，强调区分模型敏感性与信息价值[9]。Fourier Perspective通过范数受控的频率扰动分析鲁棒性，说明高频或低频的作用不能一概而论[29]。Right for the Right Reasons则将解释约束纳入可微训练[30]。
+CAN通过类参考与查询的相关性生成交叉注意，比较加权表示[25]；BiEnFRN联合支持—查询双向重构、自重构与快照集成，提高细粒度少样本分类的区分能力[26]。
 
-本文将受控输入分析细化为极化、目标相对区域和空间尺度，并同时记录正确类与竞争类变化。源端干预响应用于筛选判别优势保护对象，使训练约束与样本实际响应相联系。
+进一步地，DeepEMD 将查询与支持图像之间的局部匹配建模为可微分运输问题，通过地球移动距离比较密集特征表示 [27]。特征图重构网络（Feature Map Reconstruction Network，FRN）利用某一类别的支持特征重构查询特征，并以重构误差衡量类别匹配程度 [28]。这些方法表明，参考信息的利用不仅可以通过全局原型实现，也可以建立在局部对应及特征重构之上。
 
-在训练端，RSC依据真实类梯度抑制主导隐藏特征，鼓励网络利用其他证据[31]；输入梯度正则直接约束分类损失对输入的局部敏感性[32]。本文比较有限幅度的区域尺度操作与匹配均值控制，对通过判别改善筛选的源样本施加教师分差下界保护。
+本文借鉴局部比较与类别度量的思路，但研究对象是固定类别集合与源参考库下的跨场景分类。RCEW 在极化和几何区域内建立查询—参考关系，利用传输边际聚合参考内容，再将查询相对于各参考类别的距离转化为空间类别证据，回写至主干中间特征。由此，参考比较结果不仅用于类别评分，还能够参与后续卷积与区域读出，将跨样本关系与查询表征学习相连接。
 
-PASTA依据合成与真实图像的幅度谱差异，对较高空间频率施加相对更强的乘性扰动，以扩大训练分布覆盖[33]。FGFL根据少样本任务产生DCT频率掩膜，转换回图像后结合三元组与对比目标学习表示[34]。本文的尺度操作同样发生于图像，但以极化、区域和类别竞争的操作效应确定保护对象；预测路径仅使用空间特征。
+## 2.4 因果层级启发与受控干预学习
 
-Contrastive-ACE利用特征对标签的平均干预效应稳定性组织跨域学习[35]。本文从可追溯的输入操作出发，以正确类—竞争类分差刻画响应变化，并将其用于样本级判别保护。
+Pearl 的因果层级区分关联、干预和反事实三类问题，强调观察变量之间的关系、主动改变变量以及在给定事实下推断替代结果，需要不同的信息与建模条件 [5]。这一视角启发视觉研究从特征与预测的相关性出发，进一步检验输入变化及信息移除对模型决策的作用。
+
+在模型解释方面，Meaningful Perturbation 通过受约束的输入修改识别影响分类决策的图像区域 [29]。移除并重训（Remove and Retrain，ROAR）进一步在训练集与测试集中一致移除特征，并重新训练模型，以区分信息移除的影响和扰动引入的分布偏移 [30]。在训练约束方面，*Right for the Right Reasons* 将输入梯度惩罚纳入优化过程，引导模型减少对非期望特征的依赖 [31]。这些工作分别从预测依赖分析、解释评估和训练干预三个方面研究特征的实际作用。
+
+近期，Wang 等在多模态图像融合中提出受干预稳定性驱动的特征学习方法 [6]。该方法通过互补遮挡、同位置随机遮挡和模态丢弃，分别检验跨模态补偿、局部信息充分性及模态贡献，并利用自适应门控优先整合在不同干预下保持作用的特征。其重点在于通过主动扰动学习可靠的跨模态依赖，而非仅依据观测中的共现关系进行融合。
+
+本文同样借鉴因果层级的分析思路，但关注局部响应对类别竞争的条件性作用，而非以干预稳定性作为主要学习目标。通过极化、目标相对区域及空间尺度的受控操作，本文考察正确类别与竞争类别的分差变化，并将干预响应用于额外判别保护对象的选择。学生仍在原图上学习，保护目标来自教师原图的类别分差，而不是要求其复现干预后的输出。替代证据比较则用于检验固定分类系统中的信息依赖，分析范围限定于模型输入及证据处理路径。
+
+Li等在SAR自动目标识别中量化目标、阴影与杂波的贡献及交互，并通过背景重标度研究非目标区域依赖[32]。Meaningful Perturbation通过显式输入操作研究固定模型的重要区域[29]；ROAR在训练和测试数据中一致移除信息后重新训练，强调区分模型敏感性与信息价值[30]。Fourier Perspective通过范数受控的频率扰动分析鲁棒性，说明高频或低频的作用不能一概而论[33]。Right for the Right Reasons则将解释约束纳入可微训练[31]。
+
+在训练端，RSC依据真实类梯度抑制主导隐藏特征，鼓励网络利用其他证据[34]；输入梯度正则直接约束分类损失对输入的局部敏感性[35]。本文比较有限幅度的区域尺度操作与匹配均值控制，对通过判别改善筛选的源样本施加教师分差下界保护。
+
+PASTA依据合成与真实图像的幅度谱差异，对较高空间频率施加相对更强的乘性扰动，以扩大训练分布覆盖[36]。FGFL根据少样本任务产生DCT频率掩膜，转换回图像后结合三元组与对比目标学习表示[37]。本文的尺度操作同样发生于图像，但以极化、区域和类别竞争的操作效应确定保护对象；预测路径仅使用空间特征。
+
+Contrastive-ACE利用特征对标签的平均干预效应稳定性组织跨域学习[38]。本文从可追溯的输入操作出发，以正确类—竞争类分差刻画响应变化，并将其用于样本级判别保护。
 
 # 3 问题发现与受控干预证据
 
 为了系统分析跨场景条件下的判别证据，本文构建了一个受观测、干预与替代证据比较启发的分层分析框架。如图2所示，自然观测用于揭示局部响应的场景依赖性，受控干预用于检验局部证据对类别竞争的影响，而替代证据比较进一步分析不同证据配置如何改变分类决策。基于此，本文进一步提出证据引导的学习框架。
 
-![图2 跨场景SAR船舶分类的分层判别证据分析框架。L1展示同船跨场景观测中的极化响应与预测差异；L2展示指定极化、区域和尺度的受控图像变化；L3通过参考证据与回写路径的替代比较，分析分类决策的变化。下方给出证据分析与CRFB、RGRP、RCEW及干预引导训练的设计联系。](figures/fig2_evidence_framework.jpg){width=100%}
+![图2 跨场景SAR船舶分类的分层判别证据分析框架。L1展示同船跨场景观测中的极化响应与预测差异；L2展示指定极化、区域和尺度的受控图像变化；L3通过参考证据与回写路径的替代比较，分析分类决策的变化。下方给出证据分析与CRFB、RGRP、RCEW及干预引导训练的设计联系。](figures/fig2_evidence_framework_20261112.png){width=100%}
 
 ## 3.1 从自然不稳定到可检验问题
 
@@ -175,7 +195,7 @@ X'_1(u)=X_1(u)+0.3X_1(u)\odot G_{\mathrm{CRFB}}(u).
 
 ![图5 CRFB。当前类相对其他类均值的响应经标准化，与内容形成交叉统计 $C_k$，再与内容均值分别变换并生成局部门控。输出投影恢复128通道，反馈增益为0.3，有效面积占比屏蔽补零位置。](figures/author_20261110/fig4_author.png){width=100%}
 
-式（2）中的交叉统计同时包含内容偏离和类别响应偏离，反馈因而不只依赖某个位置的激活大小。相比CAM的类别激活定位[14]与GSoP的特征统计重标定[17]，这里将候选类别相对响应与中心化局部内容关联起来，形成位置相关的中间层更新。CRFB输出的类别响应还继续用于RGRP，在特征反馈与区域取证之间共享判别依据。
+式（2）中的交叉统计同时包含内容偏离和类别响应偏离，反馈因而不只依赖某个位置的激活大小。相比CAM的类别激活定位[13]与GSoP的特征统计重标定[14]，这里将候选类别相对响应与中心化局部内容关联起来，形成位置相关的中间层更新。CRFB输出的类别响应还继续用于RGRP，在特征反馈与区域取证之间共享判别依据。
 
 ## 4.3 响应引导区域池化（RGRP）
 
@@ -376,7 +396,7 @@ $$\mathcal L_{\mathrm{adapt}}=\mathcal L_{\mathrm{CE},w}+0.1\mathcal L_{\mathrm{
 
 在OSS2验证集选择优化范围与学习率后，将相同配方用于自建24港，不迁移OSS2训练权重。所有结果采用种子17、29和43，报告均值与样本标准差。
 
-比较包括普通双极化ResNet-50（Plain）、匹配位置SE[15]、CPINet[4]独立复现版及充分微调的R50-Tuned。Plain与SE采用ImageNet初始化及受限骨干更新；R50-Tuned从ImageNet初始化独立微调整个骨干；CPINet从随机初始化训练。各方法使用相同训练、验证、测试划分和原始极化可用性，并在验证集选择超参数；具体初始化、预处理和预算见独立补充材料。这些比较评价系统识别性能，组件增量另由配套训练和固定权重替换分析。表中“—”表示相应实验尚未完成。
+比较包括普通双极化ResNet-50基础模型（Baseline）、匹配位置SE[15]和CPINet[4]独立复现版。Baseline与SE采用ImageNet初始化及受限骨干更新，均不包含本文提出的三个证据模块；CPINet从随机初始化训练。各方法使用相同训练、验证、测试划分和原始极化可用性，并在验证集选择超参数；具体初始化、预处理和预算见独立补充材料。这些比较评价系统识别性能，组件增量另由配套训练和固定权重替换分析。表中“—”表示相应实验尚未完成。
 
 ## 5.4 评价指标
 
@@ -386,9 +406,9 @@ $$\mathcal L_{\mathrm{adapt}}=\mathcal L_{\mathrm{CE},w}+0.1\mathcal L_{\mathrm{
 
 ## 6.1 逐类识别与混淆关系
 
-表6首先给出两个数据集的逐类识别结果，本文模型均为全骨干微调后的完整模型。OSS2中的散货船和化学品／成品油轮相对Plain分别提高16.16和10.04个百分点；普通货船的平均召回不变。自建24港中七类取得平均召回增益，其中原油轮、集装箱船和普通货船分别提高21.88、15.60和14.62个百分点。
+表6首先给出两个数据集的逐类识别结果，本文模型均为全骨干微调后的完整模型。OSS2中的散货船和化学品／成品油轮相对Baseline分别提高16.16和10.04个百分点；普通货船的平均召回不变。自建24港中七类取得平均召回增益，其中原油轮、集装箱船和普通货船分别提高21.88、15.60和14.62个百分点。
 
-**表6 全骨干微调完整模型的逐类召回。单元格为三种子平均召回率（%）及相对Plain的增量（百分点）。**
+**表6 全骨干微调完整模型的逐类召回。单元格为三种子平均召回率（%）及相对Baseline的增量（百分点）。**
 
 | 船型 | OSS2 | 自建24港 |
 |---|---:|---:|
@@ -402,38 +422,36 @@ $$\mathcal L_{\mathrm{adapt}}=\mathcal L_{\mathrm{CE},w}+0.1\mathcal L_{\mathrm{
 | 海工补给船 | 不适用 | 35.93（+6.79） |
 
 
-图10显示，OSS2散货船误判为集装箱船的比例下降14.39个百分点，化学品／成品油轮误判为散货船与集装箱船分别下降6.02和5.62个百分点。普通货船误判为油轮的比例下降11.54个百分点，但误判为集装箱船相应增加，表明总体召回不变仍可能伴随竞争类别转移。相对R50-Tuned，完整模型在散货船、普通货船与集装箱船上的召回分别提高3.03、3.85和2.19个百分点，在化学品／成品油轮上降低2.01个百分点。
+图10显示，OSS2散货船误判为集装箱船的比例下降14.39个百分点，化学品／成品油轮误判为散货船与集装箱船分别下降6.02和5.62个百分点。普通货船误判为油轮的比例下降11.54个百分点，但误判为集装箱船相应增加，表明总体召回不变仍可能伴随竞争类别转移。
 
-![图10 OSS2完整模型的混淆矩阵（左）及相对Plain的差值（右）。行和列分别为真实与预测类别，数值为三种子的行归一化均值。差值单位为百分点：对角线增加表示召回提高，非对角线减少表示相应混淆降低。](figures/results_20261112/oss2_full_delta_plain_current.png){width=100%}
+![图10 OSS2完整模型的混淆矩阵（左）及相对Baseline的差值（右）。行和列分别为真实与预测类别，数值为三种子的行归一化均值。差值单位为百分点：对角线增加表示召回提高，非对角线减少表示相应混淆降低。](figures/results_20261112/oss2_full_delta_plain_current.png){width=100%}
 
 在自建24港中，原油轮误判为散货船、化学品／成品油轮分别下降11.85和6.25个百分点，集装箱船误判为散货船下降8.68个百分点（图11）。收益覆盖多个类别对，并非仅由样本最多的散货船贡献。拖轮／拖带船召回降低2.42个百分点，仍是主要混淆类别之一。
 
-![图11 自建24港完整模型的混淆矩阵（左）及相对Plain的差值（右）。采用与图10相同的统计方式和色标。BC、FV、GC、PT、CS、CT、TT、OS分别为散货船、渔船、普通货船、化学品／成品油轮、集装箱船、原油轮、拖轮／拖带船和海工补给船。](figures/results_20261112/ports24_full_delta_plain_current.png){width=100%}
+![图11 自建24港完整模型的混淆矩阵（左）及相对Baseline的差值（右）。采用与图10相同的统计方式和色标。BC、FV、GC、PT、CS、CT、TT、OS分别为散货船、渔船、普通货船、化学品／成品油轮、集装箱船、原油轮、拖轮／拖带船和海工补给船。](figures/results_20261112/ports24_full_delta_plain_current.png){width=100%}
 
 ## 6.2 整体性能比较
 
-表7汇总相同测试集合与输入可用性下的系统性能。完整模型在OSS2取得64.727%的OA和59.396%的BA，相对R50-Tuned平均提高1.675和1.765个百分点，三个种子的OA均更高。相应船级95%增量区间为[−1.243,4.674]和[−1.558,5.177]个百分点，反映公开集有限测试船舶上的不确定性。
+表7汇总相同测试集合与输入可用性下的系统性能。完整模型在OSS2取得64.727%的OA和59.396%的BA，相对基础模型分别提高8.819和7.220个百分点，宏F1提高7.520个百分点。
 
 **表7 两个数据集上的分类性能，三种子均值与标准差。训练配置见第5.3节及独立补充材料。**
 
 | 数据集 | 方法 | OA（%） | BA（%） | 宏F1（%） |
 |---|---|---:|---:|---:|
-| OSS2 | Plain | 55.908 ± 1.332 | 52.176 ± 1.506 | 50.173 ± 1.359 |
+| OSS2 | Baseline | 55.908 ± 1.332 | 52.176 ± 1.506 | 50.173 ± 1.359 |
 | OSS2 | SE | 54.233 ± 0.954 | 53.497 ± 1.802 | 49.862 ± 1.323 |
-| OSS2 | CPINet [4] | 56.261 ± 1.986 | 56.988 ± 0.960 | 52.413 ± 1.482 |
-| OSS2 | SCRC-Net [13] | — | — | — |
+| OSS2 | CPINet [2] | 56.261 ± 1.986 | 56.988 ± 0.960 | 52.413 ± 1.482 |
+| OSS2 | SCRC-Net [16] | — | — | — |
 | OSS2 | 同源参考类原型 | — | — | — |
-| OSS2 | R50-Tuned | 63.051 ± 2.138 | 57.631 ± 2.625 | 55.929 ± 1.862 |
 | OSS2 | 本文 | **64.727 ± 2.702** | **59.396 ± 3.831** | **57.693 ± 3.187** |
-| 自建24港 | Plain | 42.927 ± 0.620 | 40.172 ± 1.041 | 38.385 ± 0.784 |
+| 自建24港 | Baseline | 42.927 ± 0.620 | 40.172 ± 1.041 | 38.385 ± 0.784 |
 | 自建24港 | SE | 42.309 ± 0.523 | 41.218 ± 0.668 | 38.742 ± 0.693 |
-| 自建24港 | CPINet [4] | — | — | — |
-| 自建24港 | SCRC-Net [13] | — | — | — |
-| 自建24港 | R50-Tuned | — | — | — |
+| 自建24港 | CPINet [2] | — | — | — |
+| 自建24港 | SCRC-Net [16] | — | — | — |
 | 自建24港 | 同源参考类原型 | — | — | — |
 | 自建24港 | 本文 | **52.076 ± 0.244** | **48.970 ± 0.808** | **46.520 ± 0.637** |
 
-自建24港的OA、BA和宏F1分别达到52.076%、48.970%和46.520%，相对Plain提高9.149、8.798和8.135个百分点。更细的八类划分与更广的水域覆盖下，模型仍取得整体增益。不同方法的优化预算并不完全相同，故系统收益不直接分配给某一模块；配套组件删除、区域取证替换及极化参数对照汇总于独立补充材料。
+自建24港的OA、BA和宏F1分别达到52.076%、48.970%和46.520%，相对Baseline提高9.149、8.798和8.135个百分点。更细的八类划分与更广的水域覆盖下，模型仍取得整体增益。不同方法的优化预算并不完全相同，故系统收益不直接分配给某一模块；配套组件删除、区域取证替换及极化参数对照汇总于独立补充材料。
 
 ## 6.3 完整模型的组件贡献
 
@@ -540,7 +558,7 @@ $$\mathcal L_{\mathrm{adapt}}=\mathcal L_{\mathrm{CE},w}+0.1\mathcal L_{\mathrm{
 
 ## 6.9 场景表现与定位鲁棒性
 
-表14按过境与港口汇总当前模型相对Plain的表现，分组BA只对该组实际存在的类别取平均。表15固定查询图像、标签及模型权重，分别扰动OBB中心、长宽与角度，并重新生成所有依赖该框的查询区域，考察完整模型的几何输入敏感性。
+表14按过境与港口汇总当前模型相对Baseline的表现，分组BA只对该组实际存在的类别取平均。表15固定查询图像、标签及模型权重，分别扰动OBB中心、长宽与角度，并重新生成所有依赖该框的查询区域，考察完整模型的几何输入敏感性。
 
 **表14 当前模型的场景级性能增量。增量单位为百分点。**
 
@@ -572,16 +590,15 @@ $$\mathcal L_{\mathrm{adapt}}=\mathcal L_{\mathrm{CE},w}+0.1\mathcal L_{\mathrm{
 
 | 配置 | 参数（M） | 运算量（G） | 延迟（ms） | 显存（MiB） |
 |---|---:|---:|---:|---:|
-| OSS2 Plain | 23.524 | 8.342 | — | — |
+| OSS2 Baseline | 23.524 | 8.342 | — | — |
 | OSS2 SE | 23.690 | 8.343 | — | — |
-| OSS2 R50-Tuned | — | — | — | — |
 | OSS2 CPINet | — | — | — | — |
 | OSS2 SCRC-Net | — | — | — | — |
 | OSS2类原型 | — | — | — | — |
 | OSS2本文 | 25.053 | 8.673 | — | — |
 | 24港本文 | 25.233 | 8.640 | — | — |
 
-相对相同输入的Plain，OSS2完整模型执行参数增加6.50%，卷积／矩阵乘运算量增加3.96%。源参考由固定模型离线编码，在线阶段复用其描述，避免逐查询重复执行参考图像骨干。独立补充材料给出计数范围及固定权重推理加速实现的计时结果。
+相对相同输入的Baseline，OSS2完整模型执行参数增加6.50%，卷积／矩阵乘运算量增加3.96%。源参考由固定模型离线编码，在线阶段复用其描述，避免逐查询重复执行参考图像骨干。独立补充材料给出计数范围及固定权重推理加速实现的计时结果。
 
 # 7 讨论
 
@@ -597,72 +614,76 @@ $$\mathcal L_{\mathrm{adapt}}=\mathcal L_{\mathrm{CE},w}+0.1\mathcal L_{\mathrm{
 
 [1] L. Huang, B. Liu, B. Li, W. Guo, W. Yu, Z. Zhang, and W. Yu. OpenSARShip: A Dataset Dedicated to Sentinel-1 Ship Interpretation. *IEEE JSTARS*, 11(1):195–208, 2018. doi:10.1109/JSTARS.2017.2755672.
 
-[2] H. Xie, J. He, Z. Lu, and J. Hu. Two-Level Feature-Fusion Ship Recognition Strategy Combining HOG Features with Dual-Polarized Data in SAR Images. *Remote Sensing*, 15(18):4393, 2023. doi:10.3390/rs15184393.
+[2] J. He et al. CPINet: Towards A Novel Cross-Polarimetric Interaction Network for Dual-Polarized SAR Ship Classification. *Remote Sensing*, 16(18):3479, 2024. doi:10.3390/rs16183479.
 
-[3] Z. Shao, T. Zhang, and X. Ke. A Dual-Polarization Information-Guided Network for SAR Ship Classification. *Remote Sensing*, 15(8):2138, 2023. doi:10.3390/rs15082138.
+[3] H. Xie, J. He, Z. Lu, and J. Hu. Two-Level Feature-Fusion Ship Recognition Strategy Combining HOG Features with Dual-Polarized Data in SAR Images. *Remote Sensing*, 15(18):4393, 2023. doi:10.3390/rs15184393.
 
-[4] J. He et al. CPINet: Towards A Novel Cross-Polarimetric Interaction Network for Dual-Polarized SAR Ship Classification. *Remote Sensing*, 16(18):3479, 2024. doi:10.3390/rs16183479.
+[4] Z. Shao, T. Zhang, and X. Ke. A Dual-Polarization Information-Guided Network for SAR Ship Classification. *Remote Sensing*, 15(8):2138, 2023. doi:10.3390/rs15082138.
 
-[5] N. Xie, T. Zhang, W. Guo, Z. Zhang, and W. Yu. Dual Branch Deep Network for Ship Classification of Dual-Polarized SAR Images. *IEEE Transactions on Geoscience and Remote Sensing*, 62:1–15, 2024. doi:10.1109/TGRS.2024.3372021.
+[5] J. Pearl, "The Seven Tools of Causal Inference, with Reflections on Machine Learning," *Communications of the ACM*, vol. 62, no. 3, pp. 54–60, 2019.
 
-[6] Z. Liu, K. Li, L. Wang, and Z. Zhang. Multi-Scale Alignment Domain Adaptation for Ship Classification in Multi-Resolution SAR Images. *IEEE Transactions on Automation Science and Engineering*, 22:4051–4062, 2025. doi:10.1109/TASE.2024.3407130.
+[6] X. Wang, Z. Guan, W. Qian, C. Wang, and R. Ma, "Multi-Modal Image Fusion via Intervention-Stable Feature Learning," in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2026, pp. 33827–33837.
 
-[7] L. Chen, J. Li, H. Zhong, H. Shi, Z. Yang, and W. Li. PGMNet: A Prototype-Guided Multimodal Network for Ship Recognition in SAR Images. *IEEE Transactions on Geoscience and Remote Sensing*, 63:5215517, 2025. doi:10.1109/TGRS.2025.3583282.
+[7] K. He, X. Zhang, S. Ren, and J. Sun. Deep Residual Learning for Image Recognition. *CVPR*, 770–778, 2016.
 
-[8] R. C. Fong and A. Vedaldi. Interpretable Explanations of Black Boxes by Meaningful Perturbation. *ICCV*, 3449–3457, 2017. doi:10.1109/ICCV.2017.371.
+[8] X. Hou, W. Ao, Q. Song, J. Lai, H. Wang, and F. Xu. FUSAR-Ship: Building a High-Resolution SAR-AIS Matchup Dataset of Gaofen-3 for Ship Detection and Recognition. *Science China Information Sciences*, 63:140303, 2020. doi:10.1007/s11432-019-2772-5.
 
-[9] S. Hooker, D. Erhan, P.-J. Kindermans, and B. Kim. A Benchmark for Interpretability Methods in Deep Neural Networks. *NeurIPS*, 32, 2019.
+[9] S. Zhao and H. Lang. Improving Deep Subdomain Adaptation by Dual-Branch Network Embedding Attention Module for SAR Ship Classification. *IEEE JSTARS*, 15:8038–8048, 2022. doi:10.1109/JSTARS.2022.3206753.
 
-[10] X. Hou, W. Ao, Q. Song, J. Lai, H. Wang, and F. Xu. FUSAR-Ship: Building a High-Resolution SAR-AIS Matchup Dataset of Gaofen-3 for Ship Detection and Recognition. *Science China Information Sciences*, 63:140303, 2020. doi:10.1007/s11432-019-2772-5.
+[10] Z. Liu, K. Li, L. Wang, and Z. Zhang. Multi-Scale Alignment Domain Adaptation for Ship Classification in Multi-Resolution SAR Images. *IEEE Transactions on Automation Science and Engineering*, 22:4051–4062, 2025. doi:10.1109/TASE.2024.3407130.
 
-[11] S. Zhao and H. Lang. Improving Deep Subdomain Adaptation by Dual-Branch Network Embedding Attention Module for SAR Ship Classification. *IEEE JSTARS*, 15:8038–8048, 2022. doi:10.1109/JSTARS.2022.3206753.
+[11] Y. Shi, L. Du, Y. Guo, Y. Du, and Y. Li. Unsupervised Domain Adaptation for Ship Classification via Progressive Feature Alignment: From Optical to SAR Images. *IEEE Transactions on Geoscience and Remote Sensing*, 62:1–17, 2024. doi:10.1109/TGRS.2024.3458937.
 
-[12] Y. Shi, L. Du, Y. Guo, Y. Du, and Y. Li. Unsupervised Domain Adaptation for Ship Classification via Progressive Feature Alignment: From Optical to SAR Images. *IEEE Transactions on Geoscience and Remote Sensing*, 62:1–17, 2024. doi:10.1109/TGRS.2024.3458937.
+[12] N. Xie, T. Zhang, W. Guo, Z. Zhang, and W. Yu. Dual Branch Deep Network for Ship Classification of Dual-Polarized SAR Images. *IEEE Transactions on Geoscience and Remote Sensing*, 62:1–15, 2024. doi:10.1109/TGRS.2024.3372021.
 
-[13] Y. Qi, L. Wang, C. Zhao, P. T. Mathiopoulos, T. Ohtsuki, and F. Adachi. SCRC-Net: A Structure-Constrained and Representation-Consistent Network for SAR Ship Classification. *Pattern Recognition*, 180:114294, 2026. doi:10.1016/j.patcog.2026.114294.
+[13] B. Zhou, A. Khosla, A. Lapedriza, A. Oliva, and A. Torralba, "Learning Deep Features for Discriminative Localization," in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2016, pp. 2921-2929, doi: 10.1109/CVPR.2016.319.
 
-[14] B. Zhou, A. Khosla, A. Lapedriza, A. Oliva, and A. Torralba, "Learning Deep Features for Discriminative Localization," in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2016, pp. 2921-2929, doi: 10.1109/CVPR.2016.319.
+[14] Z. Gao, J. Xie, Q. Wang, and P. Li, "Global Second-Order Pooling Convolutional Networks," in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2019, pp. 3024-3033, doi: 10.1109/CVPR.2019.00314.
 
-[15] J. Hu, L. Shen, and G. Sun, "Squeeze-and-Excitation Networks," in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2018, pp. 7132-7141, doi: 10.1109/CVPR.2018.00745.
+[15] Y. Cao, J. Xu, S. Lin, F. Wei, and H. Hu, "GCNet: Non-Local Networks Meet Squeeze-Excitation Networks and Beyond," in Proceedings of the IEEE/CVF International Conference on Computer Vision Workshops (ICCVW), 2019, pp. 1971-1980, doi: 10.1109/ICCVW.2019.00246.
 
-[16] H. Lee, H.-E. Kim, and H. Nam, "SRM: A Style-Based Recalibration Module for Convolutional Neural Networks," in Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV), 2019, pp. 1854-1862, doi: 10.1109/ICCV.2019.00194.
+[16] Y. Qi, L. Wang, C. Zhao, P. T. Mathiopoulos, T. Ohtsuki, and F. Adachi. SCRC-Net: A Structure-Constrained and Representation-Consistent Network for SAR Ship Classification. *Pattern Recognition*, 180:114294, 2026. doi:10.1016/j.patcog.2026.114294.
 
-[17] Z. Gao, J. Xie, Q. Wang, and P. Li, "Global Second-Order Pooling Convolutional Networks," in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2019, pp. 3024-3033, doi: 10.1109/CVPR.2019.00314.
+[17] L. Chen, J. Li, H. Zhong, H. Shi, Z. Yang, and W. Li. PGMNet: A Prototype-Guided Multimodal Network for Ship Recognition in SAR Images. *IEEE Transactions on Geoscience and Remote Sensing*, 63:5215517, 2025. doi:10.1109/TGRS.2025.3583282.
 
-[18] Y. Chen, Y. Kalantidis, J. Li, S. Yan, and J. Feng, "A^2-Nets: Double Attention Networks," in Advances in Neural Information Processing Systems, vol. 31, 2018, pp. 352-361.
+[18] J. Hu, L. Shen, and G. Sun, "Squeeze-and-Excitation Networks," in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2018, pp. 7132-7141, doi: 10.1109/CVPR.2018.00745.
 
-[19] Y. Cao, J. Xu, S. Lin, F. Wei, and H. Hu, "GCNet: Non-Local Networks Meet Squeeze-Excitation Networks and Beyond," in Proceedings of the IEEE/CVF International Conference on Computer Vision Workshops (ICCVW), 2019, pp. 1971-1980, doi: 10.1109/ICCVW.2019.00246.
+[19] H. Lee, H.-E. Kim, and H. Nam, "SRM: A Style-Based Recalibration Module for Convolutional Neural Networks," in Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV), 2019, pp. 1854-1862, doi: 10.1109/ICCV.2019.00194.
 
-[20] J. Dai, Y. Li, K. He, and J. Sun, "R-FCN: Object Detection via Region-based Fully Convolutional Networks," in Advances in Neural Information Processing Systems, vol. 29, 2016, pp. 379-387.
+[20] Y. Chen, Y. Kalantidis, J. Li, S. Yan, and J. Feng, "A^2-Nets: Double Attention Networks," in Advances in Neural Information Processing Systems, vol. 31, 2018, pp. 352-361.
 
-[21] X. Li, X. Wang, R. Zhu, Z. Ma, J. Cao, and J.-H. Xue. Selectively Augmented Attention Network for Few-Shot Image Classification. *IEEE Transactions on Circuits and Systems for Video Technology*, 35(2):1180–1192, 2025. doi:10.1109/TCSVT.2024.3480279.
+[21] J. Dai, Y. Li, K. He, and J. Sun, "R-FCN: Object Detection via Region-based Fully Convolutional Networks," in Advances in Neural Information Processing Systems, vol. 29, 2016, pp. 379-387.
 
-[22] J. Snell, K. Swersky, and R. Zemel, "Prototypical Networks for Few-shot Learning," in Advances in Neural Information Processing Systems, vol. 30, 2017, pp. 4077-4087.
+[22] X. Li, X. Wang, R. Zhu, Z. Ma, J. Cao, and J.-H. Xue. Selectively Augmented Attention Network for Few-Shot Image Classification. *IEEE Transactions on Circuits and Systems for Video Technology*, 35(2):1180–1192, 2025. doi:10.1109/TCSVT.2024.3480279.
 
-[23] W. Li, L. Wang, J. Xu, J. Huo, Y. Gao, and J. Luo, "Revisiting Local Descriptor Based Image-To-Class Measure for Few-Shot Learning," in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2019, pp. 7260-7268, doi: 10.1109/CVPR.2019.00743.
+[23] J. Snell, K. Swersky, and R. Zemel, "Prototypical Networks for Few-shot Learning," in Advances in Neural Information Processing Systems, vol. 30, 2017, pp. 4077-4087.
 
-[24] R. Hou, H. Chang, B. Ma, S. Shan, and X. Chen, "Cross Attention Network for Few-shot Classification," in Advances in Neural Information Processing Systems, vol. 32, 2019, pp. 4003-4014.
+[24] W. Li, L. Wang, J. Xu, J. Huo, Y. Gao, and J. Luo, "Revisiting Local Descriptor Based Image-To-Class Measure for Few-Shot Learning," in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2019, pp. 7260-7268, doi: 10.1109/CVPR.2019.00743.
 
-[25] C. Zhang, Y. Cai, G. Lin, and C. Shen. DeepEMD: Few-Shot Image Classification With Differentiable Earth Mover's Distance and Structured Classifiers. *CVPR*, 12203–12213, 2020.
+[25] R. Hou, H. Chang, B. Ma, S. Shan, and X. Chen, "Cross Attention Network for Few-shot Classification," in Advances in Neural Information Processing Systems, vol. 32, 2019, pp. 4003-4014.
 
-[26] D. Wertheimer, L. Tang, and B. Hariharan, "Few-Shot Classification With Feature Map Reconstruction Networks," in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2021, pp. 8012-8021, doi: 10.1109/CVPR46437.2021.00792.
+[26] J. Wu, D. Chang, A. Sain, X. Li, Z. Ma, J. Cao, J. Guo, and Y.-Z. Song. Bi-Directional Ensemble Feature Reconstruction Network for Few-Shot Fine-Grained Classification. *IEEE Transactions on Pattern Analysis and Machine Intelligence*, 46(9):6082–6096, 2024. doi:10.1109/TPAMI.2024.3376686.
 
-[27] J. Wu, D. Chang, A. Sain, X. Li, Z. Ma, J. Cao, J. Guo, and Y.-Z. Song. Bi-Directional Ensemble Feature Reconstruction Network for Few-Shot Fine-Grained Classification. *IEEE Transactions on Pattern Analysis and Machine Intelligence*, 46(9):6082–6096, 2024. doi:10.1109/TPAMI.2024.3376686.
+[27] C. Zhang, Y. Cai, G. Lin, and C. Shen. DeepEMD: Few-Shot Image Classification With Differentiable Earth Mover's Distance and Structured Classifiers. *CVPR*, 12203–12213, 2020.
 
-[28] W. Li, W. Yang, L. Liu, W. Zhang, and Y. Liu. Discovering and Explaining the Noncausality of Deep Learning in SAR ATR. *IEEE GRSL*, 20:1–5, 2023. doi:10.1109/LGRS.2023.3266493.
+[28] D. Wertheimer, L. Tang, and B. Hariharan, "Few-Shot Classification With Feature Map Reconstruction Networks," in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2021, pp. 8012-8021, doi: 10.1109/CVPR46437.2021.00792.
 
-[29] D. Yin, R. G. Lopes, J. Shlens, E. D. Cubuk, and J. Gilmer. A Fourier Perspective on Model Robustness in Computer Vision. *NeurIPS*, 32, 2019.
+[29] R. C. Fong and A. Vedaldi. Interpretable Explanations of Black Boxes by Meaningful Perturbation. *ICCV*, 3449–3457, 2017. doi:10.1109/ICCV.2017.371.
 
-[30] A. S. Ross, M. C. Hughes, and F. Doshi-Velez. Right for the Right Reasons: Training Differentiable Models by Constraining Their Explanations. *IJCAI*, 2017.
+[30] S. Hooker, D. Erhan, P.-J. Kindermans, and B. Kim. A Benchmark for Interpretability Methods in Deep Neural Networks. *NeurIPS*, 32, 2019.
 
-[31] Z. Huang, H. Wang, E. P. Xing, and D. Huang, "Self-challenging Improves Cross-Domain Generalization," in Computer Vision - ECCV 2020, Lecture Notes in Computer Science, vol. 12347, 2020, pp. 124-140, doi: 10.1007/978-3-030-58536-5_8.
+[31] A. S. Ross, M. C. Hughes, and F. Doshi-Velez. Right for the Right Reasons: Training Differentiable Models by Constraining Their Explanations. *IJCAI*, 2017.
 
-[32] A. S. Ross and F. Doshi-Velez, "Improving the Adversarial Robustness and Interpretability of Deep Neural Networks by Regularizing Their Input Gradients," in Proceedings of the AAAI Conference on Artificial Intelligence, vol. 32, no. 1, 2018, pp. 1660-1669, doi: 10.1609/aaai.v32i1.11504.
+[32] W. Li, W. Yang, L. Liu, W. Zhang, and Y. Liu. Discovering and Explaining the Noncausality of Deep Learning in SAR ATR. *IEEE GRSL*, 20:1–5, 2023. doi:10.1109/LGRS.2023.3266493.
 
-[33] P. Chattopadhyay, K. Sarangmath, V. Vijaykumar, and J. Hoffman. PASTA: Proportional Amplitude Spectrum Training Augmentation for Syn-to-Real Domain Generalization. *ICCV*, 19288–19300, 2023.
+[33] D. Yin, R. G. Lopes, J. Shlens, E. D. Cubuk, and J. Gilmer. A Fourier Perspective on Model Robustness in Computer Vision. *NeurIPS*, 32, 2019.
 
-[34] H. Cheng, S. Yang, J. T. Zhou, L. Guo, and B. Wen. Frequency Guidance Matters in Few-Shot Learning. *ICCV*, 11814–11824, 2023.
+[34] Z. Huang, H. Wang, E. P. Xing, and D. Huang, "Self-challenging Improves Cross-Domain Generalization," in Computer Vision - ECCV 2020, Lecture Notes in Computer Science, vol. 12347, 2020, pp. 124-140, doi: 10.1007/978-3-030-58536-5_8.
 
-[35] Y. Wang, F. Liu, Z. Chen, Y.-C. Wu, J. Hao, G. Chen, and P.-A. Heng. Contrastive-ACE: Domain Generalization Through Alignment of Causal Mechanisms. *IEEE Transactions on Image Processing*, 32:235–250, 2023. doi:10.1109/TIP.2022.3227457.
+[35] A. S. Ross and F. Doshi-Velez, "Improving the Adversarial Robustness and Interpretability of Deep Neural Networks by Regularizing Their Input Gradients," in Proceedings of the AAAI Conference on Artificial Intelligence, vol. 32, no. 1, 2018, pp. 1660-1669, doi: 10.1609/aaai.v32i1.11504.
 
-[36] K. He, X. Zhang, S. Ren, and J. Sun. Deep Residual Learning for Image Recognition. *CVPR*, 770–778, 2016.
+[36] P. Chattopadhyay, K. Sarangmath, V. Vijaykumar, and J. Hoffman. PASTA: Proportional Amplitude Spectrum Training Augmentation for Syn-to-Real Domain Generalization. *ICCV*, 19288–19300, 2023.
+
+[37] H. Cheng, S. Yang, J. T. Zhou, L. Guo, and B. Wen. Frequency Guidance Matters in Few-Shot Learning. *ICCV*, 11814–11824, 2023.
+
+[38] Y. Wang, F. Liu, Z. Chen, Y.-C. Wu, J. Hao, G. Chen, and P.-A. Heng. Contrastive-ACE: Domain Generalization Through Alignment of Causal Mechanisms. *IEEE Transactions on Image Processing*, 32:235–250, 2023. doi:10.1109/TIP.2022.3227457.
