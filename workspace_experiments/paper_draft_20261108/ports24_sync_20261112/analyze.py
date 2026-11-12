@@ -660,7 +660,7 @@ def main(argv=None):
                         wrong_to_wrong_flips=int(((a[k].argmax(-1)!=b[k].argmax(-1))&states['stable_wrong'][k]).sum())))
                 if dimension in ('all','availability'):
                     for ci in cluster_intervals(truth,ships[mask],a,b,args.bootstrap,args.bootstrap_seed):
-                        intervals.append(dict(candidate=after, baseline=before, purpose=purpose, **meta, **ci))
+                        intervals.append(dict(candidate=after, baseline=before, purpose=purpose, **(meta | ci)))
                 if dimension == 'all':
                     for k, seed in enumerate(SEEDS):
                         ap, bp = a[k].argmax(-1), b[k].argmax(-1)
