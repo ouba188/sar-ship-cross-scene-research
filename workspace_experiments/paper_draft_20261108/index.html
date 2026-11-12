@@ -228,6 +228,11 @@ for the Right Reasons则将解释约束纳入可微训练[30]。</p>
 <p>PASTA依据合成与真实图像的幅度谱差异，对较高空间频率施加相对更强的乘性扰动，以扩大训练分布覆盖[33]。FGFL根据少样本任务产生DCT频率掩膜，转换回图像后结合三元组与对比目标学习表示[34]。本文的尺度操作同样发生于图像，但以极化、区域和类别竞争的操作效应确定保护对象；预测路径仅使用空间特征。</p>
 <p>Contrastive-ACE利用特征对标签的平均干预效应稳定性组织跨域学习[35]。本文从可追溯的输入操作出发，以正确类—竞争类分差刻画响应变化，并将其用于样本级判别保护。</p>
 <h1 id="问题发现与受控干预证据">3 问题发现与受控干预证据</h1>
+<p>为了系统分析跨场景条件下的判别证据，本文构建了一个受观测、干预与替代证据比较启发的分层分析框架。如图2所示，自然观测用于揭示局部响应的场景依赖性，受控干预用于检验局部证据对类别竞争的影响，而替代证据比较进一步分析不同证据配置如何改变分类决策。基于此，本文进一步提出证据引导的学习框架。</p>
+<p><img src="figures/fig2_evidence_framework.jpg"
+style="width:100.0%" /></p>
+<p>图2
+跨场景SAR船舶分类的分层判别证据分析框架。L1展示同船跨场景观测中的极化响应与预测差异；L2展示指定极化、区域和尺度的受控图像变化；L3通过参考证据与回写路径的替代比较，分析分类决策的变化。下方给出证据分析与CRFB、RGRP、RCEW及干预引导训练的设计联系。</p>
 <h2 id="从自然不稳定到可检验问题">3.1 从自然不稳定到可检验问题</h2>
 <p>同船诊断使用自建24港语料中的4744次观测、2973个船舶身份、18港及八个输出类别。对每艘具有重复观测的船选择日期跨度最大的一对，得到910艘船的1820次观测，覆盖七类。表2给出三种代表性船型的三种子平均状态比例。</p>
 <p><strong>表2 同船重复观测的分类状态，三种子平均。</strong></p>
@@ -337,12 +342,12 @@ m_{y,c^\star}(x)&amp;=T_y(x)-T_{c^\star}(x),\\
 </table>
 <p>类别进一步调节操作效应：VH侧向中尺度削弱在9艘集装箱船上的平均分差变化为+0.008422，在7艘散货船上为−0.008180。相反的作用方向支持保留极化和区域身份，并依据类别响应学习取证方式。</p>
 <h2 id="类别竞争的案例分析">3.4 类别竞争的案例分析</h2>
-<p>图2的散货船10488展示了类别竞争的变化。仅削弱VH框内细尺度后，散货分数增加0.11492，错误原油轮分数下降0.16278，分差提高0.27769；均值控制仍误判。对照案例化学品船26628则同时降低正确类并抬高海工竞争类，产生误伤。局部证据的效用因此需落实到正确类与竞争类的相对变化。</p>
+<p>图3的散货船10488展示了类别竞争的变化。仅削弱VH框内细尺度后，散货分数增加0.11492，错误原油轮分数下降0.16278，分差提高0.27769；均值控制仍误判。对照案例化学品船26628则同时降低正确类并抬高海工竞争类，产生误伤。局部证据的效用因此需落实到正确类与竞争类的相对变化。</p>
 <div
 style="position:relative;width:100%;aspect-ratio:1552/1229;overflow:hidden">
-<img src="figures/author_20261110/fig2_author.png" alt="图2" style="position:absolute;max-width:none;width:309.278351%;height:auto;left:-85.953608%;top:-24.654190%;margin:0" />
+<img src="figures/author_20261110/fig2_author.png" alt="图3" style="position:absolute;max-width:none;width:309.278351%;height:auto;left:-85.953608%;top:-24.654190%;margin:0" />
 </div>
-<p>图2
+<p>图3
 散货船10488的受控干预与实际参考。上两行依次展示VV和VH，各列为原图、像素变化图、干预后图像及匹配均值控制；下方为实际同类与混淆类参考。VV保持不变，VH框内细尺度削弱改变类别竞争，均值控制仍误判。结果来自固定诊断模型。</p>
 <h2 id="判别机制与设计依据">3.5 判别机制与设计依据</h2>
 <p>自然观测和受控干预共同表明，局部证据的判别作用具有条件性：不同极化、区域和尺度中的响应可能改变不同的类别竞争关系。固定模型上的输入操作建立了“局部响应变化—类别竞争变化”的可追溯联系，其效应对应分类系统对指定操作的依赖。基于这些证据，本文从三个层次组织模型设计。</p>
@@ -362,9 +367,9 @@ style="position:relative;width:100%;aspect-ratio:1552/1229;overflow:hidden">
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>160</mn><mo>×</mo><mn>160</mn></mrow><annotation encoding="application/x-tex">160\times160</annotation></semantics></math>，保留已有chip的像素尺度，有效范围掩膜排除补零。VV与VH分别前向并共享ResNet-50[36]卷积权重；CRFB、RGRP及RCEW的投影与回写使用极化专属参数，生成通道度量的小网络共享。各极化依据检测框有效性确定是否进入分类：某一极化未通过目标定位或置信度要求时，仅屏蔽该分支，仍使用另一有效极化。这对应检测后分类中部分极化定位失败的情况，原始影像本身可同时具备VV和VH。</p>
 <div
 style="position:relative;width:100%;aspect-ratio:4241/2700;overflow:hidden">
-<img src="figures/author_20261110/fig3_author.png" alt="图3" style="position:absolute;max-width:none;width:113.180854%;height:auto;left:-4.527234%;top:0.000000%;margin:0" />
+<img src="figures/author_20261110/fig3_author.png" alt="图4" style="position:absolute;max-width:none;width:113.180854%;height:auto;left:-4.527234%;top:0.000000%;margin:0" />
 </div>
-<p>图3
+<p>图4
 整体结构及受控训练路径。图中展开单极化路径，两极化共享骨干、使用专属证据处理参数；同一区域的多层摘要先相加，再将三区域与全局描述拼接。RCEW读取源参考。下部为干预适配阶段的选样和判别保护路径，KL保护作用于教师原本判对的样本，预测时仅执行上部网络。</p>
 <p>CRFB位于layer2末块的conv2激活之后；RGRP在layer3末块的conv1激活后执行区域池化回写，并从layer2输出和RCEW更新后的layer3输出读取区域摘要；RCEW位于layer3与layer4之间。各极化分别执行上述处理，全局描述来自layer4。区域池化保持特征图空间尺寸，与骨干下采样各司其职。</p>
 <h2 id="类别响应反馈模块crfb">4.2 类别响应反馈模块（CRFB）</h2>
@@ -402,9 +407,9 @@ X&#39;_1(u)=X_1(u)+0.3X_1(u)\odot G_{\mathrm{CRFB}}(u).
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>F</mi><mn>2</mn></msub><annotation encoding="application/x-tex">F_2</annotation></semantics></math>；类别响应保留给后续区域读出使用。</p>
 <div
 style="position:relative;width:100%;aspect-ratio:4604/1457;overflow:hidden">
-<img src="figures/author_20261110/fig4_author.png" alt="图4" style="position:absolute;max-width:none;width:104.257168%;height:auto;left:-1.281494%;top:-44.474949%;margin:0" />
+<img src="figures/author_20261110/fig4_author.png" alt="图5" style="position:absolute;max-width:none;width:104.257168%;height:auto;left:-1.281494%;top:-44.474949%;margin:0" />
 </div>
-<p>图4 CRFB。当前类相对其他类均值的响应经标准化，与内容形成交叉统计
+<p>图5 CRFB。当前类相对其他类均值的响应经标准化，与内容形成交叉统计
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>k</mi></msub><annotation encoding="application/x-tex">C_k</annotation></semantics></math>，再与内容均值分别变换并生成局部门控。输出投影恢复128通道，反馈增益为0.3，有效面积占比屏蔽补零位置。</p>
 <p>式（4）中的交叉统计同时包含内容偏离和类别响应偏离，反馈因而不只依赖某个位置的激活大小。相比CAM的类别激活定位[14]与GSoP的特征统计重标定[17]，这里将候选类别相对响应与中心化局部内容关联起来，形成位置相关的中间层更新。CRFB输出的类别响应还继续用于RGRP，在特征反馈与区域取证之间共享判别依据。</p>
 <h2 id="响应引导区域池化rgrp">4.3 响应引导区域池化（RGRP）</h2>
@@ -456,9 +461,9 @@ t_{r,k}&amp;=\sum_u\alpha_{r,k}(u)V_2(u).
 维映射回512维，四分类时输入为160维，八分类时为288维；该映射零初始化，同一极化的三区域共享。所有候选类别同时参与，既不输入查询真值，也不按当前预测的单一类别硬路由。输出仍位于原有区域槽位，保留均值信息，并用有界残差限制新增路径的幅度。式（8）回答“在这一几何区域内哪些位置更有助于类别区分”，式（6）回答“该区域总体包含什么”。</p>
 <div
 style="position:relative;width:100%;aspect-ratio:3349/1799;overflow:hidden">
-<img src="figures/author_20261110/fig5_author.png" alt="图5" style="position:absolute;max-width:none;width:143.326366%;height:auto;left:-20.692744%;top:-22.901612%;margin:0" />
+<img src="figures/author_20261110/fig5_author.png" alt="图6" style="position:absolute;max-width:none;width:143.326366%;height:auto;left:-20.692744%;top:-22.901612%;margin:0" />
 </div>
-<p>图5 CRFB引导的RGRP浅层读出，以四分类为例。类别响应
+<p>图6 CRFB引导的RGRP浅层读出，以四分类为例。类别响应
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">A(u)</annotation></semantics></math>
 与内容投影
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">V_2(u)</annotation></semantics></math>
@@ -497,9 +502,9 @@ S_{sij}=\cos(\sqrt{w_{y_s}}\odot k_i^q,\sqrt{w_{y_s}}\odot k_{sj}^{\mathrm{ref}}
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi>s</mi></msub><annotation encoding="application/x-tex">T_s</annotation></semantics></math>，非法位置在归一化前屏蔽。通道与空间分支因此是耦合的比较步骤，而不是两个结果直接相加的独立分支。</p>
 <div
 style="position:relative;width:100%;aspect-ratio:3863/940;overflow:hidden">
-<img src="figures/author_20261110/fig6_author.png" alt="图6" style="position:absolute;max-width:none;width:124.255760%;height:auto;left:-11.597204%;top:-87.659574%;margin:0" />
+<img src="figures/author_20261110/fig6_author.png" alt="图7" style="position:absolute;max-width:none;width:124.255760%;height:auto;left:-11.597204%;top:-87.659574%;margin:0" />
 </div>
-<p>图6
+<p>图7
 RCEW比较、类别聚合与证据回写。通道度量参与空间相似度，本类最佳相似度相对其他类最佳相似度均值的优势调节传输。比较路径保留原传输，值路径采用边际外积聚合。行边际
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ρ</mi><mrow><mi>s</mi><mi>i</mi></mrow></msub><annotation encoding="application/x-tex">\rho_{si}</annotation></semantics></math>
 对应查询槽位，列边际
@@ -540,15 +545,15 @@ F_3^{+}(u)=F_3(u)+0.1W_p^{\mathrm{out}}E(u).
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>F</mi><mn>3</mn><mo>+</mo></msubsup><annotation encoding="application/x-tex">F_3^{+}</annotation></semantics></math>，深层RGRP从该特征读取区域摘要。RCEW由此将跨样本的类间关系引入特征流，补充CRFB的单图调节和RGRP的区域汇总。</p>
 <div
 style="position:relative;width:100%;aspect-ratio:1700/1562;overflow:hidden">
-<img src="figures/author_20261110/fig7_author.png" alt="图7" style="position:absolute;max-width:none;width:282.352941%;height:auto;left:-85.176471%;top:-29.385403%;margin:0" />
+<img src="figures/author_20261110/fig7_author.png" alt="图8" style="position:absolute;max-width:none;width:282.352941%;height:auto;left:-85.176471%;top:-29.385403%;margin:0" />
 </div>
-<p>图7 RCEW的通道与空间比较分支。类内／类外参考统计经
+<p>图8 RCEW的通道与空间比较分支。类内／类外参考统计经
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>+</mo><mn>0.5</mn><mrow><mi mathvariant="normal">tanh</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">1+0.5\tanh(\cdot)</annotation></semantics></math>
 生成正通道度量
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mi>c</mi></msub><annotation encoding="application/x-tex">w_c</annotation></semantics></math>，同时作用于局部键相似度
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mrow><mi>s</mi><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">S_{sij}</annotation></semantics></math>
 和值距离
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>D</mi><mrow><mi>i</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">D_{ic}</annotation></semantics></math>；空间相似度进一步用于图6的类别相对优势与匹配。</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>D</mi><mrow><mi>i</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">D_{ic}</annotation></semantics></math>；空间相似度进一步用于图7的类别相对优势与匹配。</p>
 <p>最后的区域读出优化固定参考路径，式（14）实现为
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>F</mi><mn>3</mn><mo>+</mo></msubsup><mo>=</mo><msubsup><mi>F</mi><mn>3</mn><mrow><mi mathvariant="normal">l</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">v</mi><mi mathvariant="normal">e</mi></mrow></msubsup><mo>+</mo><mi mathvariant="normal">Δ</mi><msubsup><mi>F</mi><mn>3</mn><mrow><mi mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">r</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">F_3^{+}=F_3^{\mathrm{live}}+\Delta F_3^{\mathrm{anchor}}</annotation></semantics></math>，其中锚点残差由已训练的RCEW产生。</p>
 <h2 id="多层融合与最终分类">4.5 多层融合与最终分类</h2>
@@ -686,12 +691,12 @@ m像素间距不等同于传感器空间分辨率。</p>
 </tr>
 </tbody>
 </table>
-<p>图8展示24港的地理位置与港区观测分布。表6列出各港的观测规模与诊断覆盖。各港含64至5,756条观测，实际覆盖3至8类；类别分布差异较大，因此同时采用OA、BA及逐类分析。198条记录缺失MMSI，同船分析仅使用可核查的非空身份。</p>
+<p>图9展示24港的地理位置与港区观测分布。表6列出各港的观测规模与诊断覆盖。各港含64至5,756条观测，实际覆盖3至8类；类别分布差异较大，因此同时采用OA、BA及逐类分析。198条记录缺失MMSI，同船分析仅使用可核查的非空身份。</p>
 <div
 style="position:relative;width:100%;aspect-ratio:4514/2700;overflow:hidden">
-<img src="figures/author_20261110/fig8_author.png" alt="图8" style="position:absolute;max-width:none;width:106.335844%;height:auto;left:-1.550731%;top:0.000000%;margin:0" />
+<img src="figures/author_20261110/fig8_author.png" alt="图9" style="position:absolute;max-width:none;width:106.335844%;height:auto;left:-1.550731%;top:0.000000%;margin:0" />
 </div>
-<p>图8
+<p>图9
 自建24港数据集的地理位置及港区观测分布。世界地图中的字母标记与周围同字母港区子图对应，底部列出港口名称。</p>
 <p><strong>表6 自建24港逐港组成及诊断覆盖。</strong></p>
 <table>
@@ -1116,7 +1121,7 @@ style="position:relative;width:100%;aspect-ratio:4514/2700;overflow:hidden">
 1.765个百分点，三个种子的OA均更高；两项增量的船级95%区间分别为[−1.243,4.674]和[−1.558,5.177]个百分点。结果说明骨干与证据模块联合优化后仍具有平均净收益，但系统间差异同时包含训练历史与损失设计，组件归因由后续配套消融承担。</p>
 <p>在自建24港八分类任务中，完整模型相对普通骨干的OA、BA和宏F1分别提高5.485、3.730和4.074个百分点，相对SE分别提高6.103、2.684和3.716个百分点。三个训练种子的OA和BA均优于两种对照，说明完整证据组织方式的收益能够延续到类别更细、场景覆盖更广的自建数据。以MMSI为簇对配对差进行1000次重采样，完整模型相对普通骨干的OA与BA增量95%区间分别为[3.98,7.03]和[1.87,5.44]个百分点，相对SE分别为[4.66,7.66]和[1.08,4.53]个百分点。上述区间保留同船重复观测的关联，描述固定模型在当前测试船舶上的抽样不确定性。</p>
 <blockquote>
-<p>图9占位：完整模型纠错案例。</p>
+<p>图10占位：完整模型纠错案例。</p>
 </blockquote>
 <h2 id="分阶段训练的组件消融">6.2 分阶段训练的组件消融</h2>
 <p>表10在OSS2中分别移除一个组件，保留其余结构、共同起点和训练阶段，并重新训练。删除RGRP同时取消相应区域读出及引导接口，删除CRFB或RCEW则移除对应反馈或参考路径。</p>
@@ -1267,9 +1272,9 @@ OSS2测试集上的区域读出比较，固定上游、三次末阶段训练。<
 </table>
 <p>正确响应相对位置置换平均提高OA 1.587、BA
 2.484个百分点，表明该测试队列中的正确权重—特征对应实际参与分类。响应引导相对配套均值模型共有10次纠错、0次误伤，涉及7条观测、7艘船和3个过境；其中9次在增加读出前已正确，所以主要作用是减少不合适读出适配造成的损失。</p>
-<p>图10中普通货船000133的真实类分差，在均值读出下为−0.06155，响应引导下为+0.22820；同权重均匀替换和位置置换后分别为−0.06187与−0.13565。该样本关闭新增读出时仍正确，说明优势来自更合适的区域取证。线性分解中，VV框内、轴端与侧向对普通货船相对油轮的优势贡献分别约+0.0860、+0.0449和+0.1778，VH三项为负，体现了极化及区域作用的差异。</p>
+<p>图11中普通货船000133的真实类分差，在均值读出下为−0.06155，响应引导下为+0.22820；同权重均匀替换和位置置换后分别为−0.06187与−0.13565。该样本关闭新增读出时仍正确，说明优势来自更合适的区域取证。线性分解中，VV框内、轴端与侧向对普通货船相对油轮的优势贡献分别约+0.0860、+0.0449和+0.1778，VH三项为负，体现了极化及区域作用的差异。</p>
 <p><img src="figures/fig6_m1_m2_case.png" style="width:95.0%" /></p>
-<p>图10
+<p>图11
 普通货船000133及合法参考的VV/VH图像。baseline为均值读出对照；Missing表示该极化未通过输入有效性筛选。图像按原生尺度裁剪或补零。</p>
 <h2 id="参考证据的消息形式">6.5 参考证据的消息形式</h2>
 <p>在固定前端的独立RCEW实验中，三组配对训练使用相同源数据、查询／参考episode和120步预算，仅更新相应参考模块及分类头。表13采用相同训练长度下的末轮结果。</p>
@@ -1307,23 +1312,23 @@ RCEW独立训练的验证集比较，固定前端、三种子平均。</strong><
 </tbody>
 </table>
 <p>聚合证据回写相对无RCEW提高OA/BA
-2.632/3.495个百分点，相对普通参考特征回写提高2.485/3.392个百分点。普通参考特征回写仍保留类别、区域和极化组织，因此这一比较不只是“有类别信息”对“完全无组织信息”。图11的集装箱船000867在三个种子中均被类别证据回写判对，而普通参考回写、无RCEW和其自身关闭回写均错。seed17的真实类分差由无RCEW的−0.334、参考特征回写的−0.286变为+0.275，构成直接路径案例。</p>
+2.632/3.495个百分点，相对普通参考特征回写提高2.485/3.392个百分点。普通参考特征回写仍保留类别、区域和极化组织，因此这一比较不只是“有类别信息”对“完全无组织信息”。图12的集装箱船000867在三个种子中均被类别证据回写判对，而普通参考回写、无RCEW和其自身关闭回写均错。seed17的真实类分差由无RCEW的−0.334、参考特征回写的−0.286变为+0.275，构成直接路径案例。</p>
 <p><img src="figures/fig7_m3_case.png" style="width:95.0%" /></p>
-<p>图11
+<p>图12
 集装箱船000867及同类、混淆类参考。full为类别证据回写，none为关闭参考模块，baseline为图示原始基线。样本在三次训练中均由类别证据回写判对。</p>
-<p>图12进一步呈现参考信息进入查询特征的空间路径。在早期空间回写配置的八分类、16源参考诊断中，Jebel
+<p>图13进一步呈现参考信息进入查询特征的空间路径。在早期空间回写配置的八分类、16源参考诊断中，Jebel
 Ali散货船12457的真实类分差由关闭回写时的−0.836变为+0.138；移除VH整路回写后降至−0.486，单独移除VH框内回写后为−0.250。该路径干预将分类变化定位到实际回写响应，而非仅凭匹配热图解释。</p>
 <div
 style="position:relative;width:100%;aspect-ratio:2519/1607;overflow:hidden">
-<img src="figures/author_20261110/fig12_author.png" alt="图12" style="position:absolute;max-width:none;width:190.551806%;height:auto;left:-37.236999%;top:-36.838830%;margin:0" />
+<img src="figures/author_20261110/fig12_author.png" alt="图13" style="position:absolute;max-width:none;width:190.551806%;height:auto;left:-37.236999%;top:-36.838830%;margin:0" />
 </div>
-<p>图12
-空间参考回写的路径诊断。上方为散货船12457、同类参考31512与混淆类参考13000的VH图像及区域位置，下方为局部软对应、16个参考的聚合权重和查询回写强度。该图取自早期空间回写配置，展示参考比较至特征更新的过程；当前类别证据回写的效果见图11。</p>
+<p>图13
+空间参考回写的路径诊断。上方为散货船12457、同类参考31512与混淆类参考13000的VH图像及区域位置，下方为局部软对应、16个参考的聚合权重和查询回写强度。该图取自早期空间回写配置，展示参考比较至特征更新的过程；当前类别证据回写的效果见图12。</p>
 <p>对精细对应模型保持权重并改用边际聚合，三个种子、228条查询的预测均不变；配套训练的聚合版平均表现更好。保留类别关系与参考选择后，区域聚合已能提供有效的回写消息。</p>
 <p>在全骨干微调模型上，进一步固定权重、原图和32个源参考，对实际聚合回写路径进行干预。原路径的OA／BA为64.727%／59.396%，同权重关闭回写为64.374%／59.702%，使用简单类别均值替代为64.109%／58.664%。原路径相对简单均值平均提高OA
 0.617、BA
 0.732个百分点；相对无回写则出现OA小幅提高、BA小幅降低，反映收益在类别间的不同分配。该比较定位已训练路径的作用，不等同于删除模块后重新训练。</p>
-<p>对应案例中，查询002422（seed29）的真实类分差为+0.0928，改用简单类别均值后为−0.0769，撤除框内回写后为−0.0545，说明该样本需要当前框内证据组织才能越过判别边界。对图12的历史样本12457，撤除VV或VH轴端回写分别将分差从+0.13756降至+0.10698或+0.10911，仍保持正确。这一区别表明局部回写既可能决定预测翻转，也可能只增加已有判断的余量；更新热图的幅度与其分类贡献需结合路径撤除共同解释。</p>
+<p>对应案例中，查询002422（seed29）的真实类分差为+0.0928，改用简单类别均值后为−0.0769，撤除框内回写后为−0.0545，说明该样本需要当前框内证据组织才能越过判别边界。对图13的历史样本12457，撤除VV或VH轴端回写分别将分差从+0.13756降至+0.10698或+0.10911，仍保持正确。这一区别表明局部回写既可能决定预测翻转，也可能只增加已有判断的余量；更新热图的幅度与其分类贡献需结合路径撤除共同解释。</p>
 <h2 id="固定上游下的参考与读出协同">6.6 固定上游下的参考与读出协同</h2>
 <p>固定相同上游，移除RCEW残差后重新计算layer4与深层区域摘要，再以相同初始化、源样本顺序和180步预算训练区域补充及分类头。保留RCEW的组合沿用表11结果。此对照比较固定上游条件下、有无参考证据时的配套末阶段优化，不等同于表10的共同起点完整重训。</p>
 <p><strong>表14 固定上游下有无RCEW的末阶段配套训练比较。</strong></p>
@@ -1913,7 +1918,7 @@ OSS2训练方案与验证集性能。轮数按seed17／29／43排列；OA／BA�
 </table>
 <p>完整模型三个微调运行共新增1,920次更新，连同继承的三次分阶段训练合计4,128次；R50-Tuned三个运行共4,440次更新。两者的源图像暴露次数分别为96,356和106,412，均为重复训练暴露而非独立样本数。完整模型还包含参考前向、辅助监督与历史分阶段学习，更新次数不能直接换算为相同计算量。这些预算与表15的稳态推理延迟分别报告，以区分训练投入和部署开销。</p>
 <h2 id="逐类识别表现">6.14 逐类识别表现</h2>
-<p>表23给出表9分阶段完整模型的逐类召回及相对普通骨干的变化，用于区分总体改善与类别间收益分配。公开集四类之外的单元格标为不适用，不参与其BA或宏F1计算。误差分析结合实际查询及同类、混淆类参考，沿用图10—12的响应、局部替换与回写路径诊断。</p>
+<p>表23给出表9分阶段完整模型的逐类召回及相对普通骨干的变化，用于区分总体改善与类别间收益分配。公开集四类之外的单元格标为不适用，不参与其BA或宏F1计算。误差分析结合实际查询及同类、混淆类参考，沿用图11—13的响应、局部替换与回写路径诊断。</p>
 <p><strong>表23
 完整模型的逐类召回。单元格为召回率（%）及相对普通骨干的增量（百分点）。</strong></p>
 <table>

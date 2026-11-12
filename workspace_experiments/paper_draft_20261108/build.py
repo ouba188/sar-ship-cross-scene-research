@@ -9,6 +9,7 @@ import subprocess
 ROOT = Path(__file__).resolve().parent
 WORK = ROOT.parent
 FIGURES = {
+    "fig2_evidence_framework.jpg": Path("E:/Program_documents/Weixin/xwechat_files/wxid_mjwmzhlgjh6222_f9ca/temp/RWTemp/2026-11/924bcb2c8402d46c5235f48a939e86f7/f65592b940c5f898a413074f64ff266d.jpg"),
     "fig2_intervention_case.png": WORK / "paper_evidence_20261027/full_model_interventions_20261027/figures/case_10488.png",
     "fig6_m1_m2_case.png": WORK / "m1_guided_m2_20261106/mean_rescue_s29_1142.png",
     "fig7_m3_case.png": WORK / "m3_frequency_increment_20261028/source_hard_task_20261101/oss2/internal_contribution/writer_review/evidence_vs_feature_rescue_s17_735.png",
@@ -49,12 +50,14 @@ def main():
     rendered = rendered.replace("# 摘要", "[^author-details]\n\n# 摘要", 1)
     rendered += "\n\n[^author-details]: " + funding + " " + affiliation + "\n"
     html_rendered = rendered
+    figure_numbers = {path: number for number, path in re.findall(
+        r"^!\[图(\d+) [^\n]+\]\(([^)]+)\)", source, re.M)}
     for path, info in manifest.items():
         width, height = info["size"]
         x0, y0, x1, y1 = info["viewport"]
         cw, ch = x1 - x0, y1 - y0
         viewport = (f'<div style="position:relative;width:100%;aspect-ratio:{cw}/{ch};overflow:hidden">'
-                    f'<img src="{path}" alt="图{info["figure"]}" '
+                    f'<img src="{path}" alt="图{figure_numbers.get(path, info["figure"])}" '
                     f'style="position:absolute;max-width:none;width:{100*width/cw:.6f}%;'
                     f'height:auto;left:{-100*x0/cw:.6f}%;top:{-100*y0/ch:.6f}%;margin:0" /></div>')
         html_rendered = re.sub(r"!\[\]\(" + re.escape(path) + r"\)(\{[^\n]*\})?", lambda m: viewport, html_rendered)

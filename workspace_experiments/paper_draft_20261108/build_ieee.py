@@ -77,16 +77,16 @@ def table(block, number, caption):
 
 
 def figure(number, caption, path=None):
-    env = "figure*" if number in {3, 4, 6, 8, 9} else "figure"
+    env = "figure*" if number in {2, 4, 5, 7, 9, 10} else "figure"
     placement = "!htb" if env == "figure" else "!tb"
     out = [rf"\begin{{{env}}}[{placement}]", r"\centering",
            rf"\setcounter{{figure}}{{{number-1}}}"]
     if path:
         if "author_20261109/" in path or "author_20261110/" in path:
             path = str(Path(path).with_suffix(".pdf")).replace("\\", "/")
-        height = {1: ".38", 2: ".36", 3: ".42", 4: ".42",
-                  5: ".25", 6: ".28", 7: ".30", 8: ".44",
-                  9: ".42", 12: ".28"}.get(number, ".28")
+        height = {1: ".38", 2: ".53", 3: ".36", 4: ".42", 5: ".42",
+                  6: ".25", 7: ".28", 8: ".30", 9: ".44",
+                  10: ".42", 13: ".28"}.get(number, ".28")
         out.append(r"\includegraphics[width=\linewidth,height=" +
                    height + r"\textheight,keepaspectratio]{" + path + "}")
     else:
