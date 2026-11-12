@@ -39,7 +39,10 @@ def main():
         writer = csv.writer(stream)
         writer.writerow(["figure", "archived_file", "source"])
         for number, path in re.findall(r"^!\[图(\d+) [^\n]+\]\(([^)]+)\)", source, re.M):
-            origin = manifest[path]["source"] if path in manifest else str(FIGURES[Path(path).name])
+            if path.startswith("figures/results_20261112/"):
+                origin = "two_dataset_results_20261112/build_figures.py; saved test predictions"
+            else:
+                origin = manifest[path]["source"] if path in manifest else str(FIGURES[Path(path).name])
             writer.writerow([number, path, origin])
     # Keep the same manual figure numbering as the IEEE edition.
     rendered = re.sub(r"^!\[([^\n]+)\]\(([^)]+)\)(\{[^\n]*\})?$",

@@ -2,6 +2,8 @@
 
 更新：2026-11-12。后续论文写作、公式、图表与文献整理统一在本目录进行。
 
+最新结果稿：`manuscript_ieee_20261112_two_datasets.pdf`。更新OSS2及24港完整模型微调结果、逐类表、训练配置和结论；新增图10逐类召回及图14—15混淆/差值矩阵。图件与可编辑SVG、CSV入口：`two_dataset_results_20261112/index.html`。原始极化可用性主结果与输入恢复结果分开报告。
+
 最新排版稿：`manuscript_ieee_20261112_framework.pdf`。第三章开头加入作者分层证据框架图及引导段落，新图2跨双栏，原图2—12顺延为图3—13。图片原样使用，图内待核对事项见`figure2_framework_20261112/REVISION_ZH.md`。
 
 最新实验章节：`manuscript_ieee_20261112_experiments.pdf`。新增OSS2完整模型微调与强基线、极化参数策略、干预选样、RGRP区域替换及OBB扰动结果。分阶段比较、微调系统比较、固定权重路径干预分别说明。24港微调测试未提前填入，旧分阶段三种子结果保留。修订范围和数值来源见`experiment_revision_20261112/REVISION_ZH.md`与`EVIDENCE_AUDIT_ZH.md`。
