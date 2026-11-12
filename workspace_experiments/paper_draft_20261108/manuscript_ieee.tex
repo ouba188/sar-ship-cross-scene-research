@@ -525,7 +525,7 @@ OSS2 & 6,780条GRDH记录 & 本文分类取4类；训练集719、验证集228、
 
 \subsection{逐类识别与混淆关系}\label{ux9010ux7c7bux8bc6ux522bux4e0eux6df7ux6dc6ux5173ux7cfb}
 
-表6与图10首先给出两个数据集的逐类识别结果，本文模型均为全骨干微调后的完整模型。OSS2中的散货船和化学品／成品油轮相对Plain分别提高16.16和10.04个百分点；普通货船的平均召回不变。自建24港中七类取得平均召回增益，其中原油轮、集装箱船和普通货船分别提高21.88、15.60和14.62个百分点。
+表6首先给出两个数据集的逐类识别结果，本文模型均为全骨干微调后的完整模型。OSS2中的散货船和化学品／成品油轮相对Plain分别提高16.16和10.04个百分点；普通货船的平均召回不变。自建24港中七类取得平均召回增益，其中原油轮、集装箱船和普通货船分别提高21.88、15.60和14.62个百分点。
 
 \begin{table}[H]
 \centering\footnotesize
@@ -549,32 +549,24 @@ OSS2 & 6,780条GRDH记录 & 本文分类取4类；训练集719、验证集228、
 \end{tabularx}
 \end{table}
 
+图10显示，OSS2散货船误判为集装箱船的比例下降14.39个百分点，化学品／成品油轮误判为散货船与集装箱船分别下降6.02和5.62个百分点。普通货船误判为油轮的比例下降11.54个百分点，但误判为集装箱船相应增加，表明总体召回不变仍可能伴随竞争类别转移。相对R50-Tuned，完整模型在散货船、普通货船与集装箱船上的召回分别提高3.03、3.85和2.19个百分点，在化学品／成品油轮上降低2.01个百分点。
+
 \begin{figure*}[!tb]
 \centering
 \setcounter{figure}{9}
-\includegraphics[width=\linewidth,height=.36\textheight,keepaspectratio]{figures/results_20261112/per_class_recall_current.pdf}
-\caption{两个数据集的逐类召回率。Plain为普通双极化骨干，Ours为全骨干微调完整模型；柱高及误差棒为三次训练的均值和样本标准差，各方法设置见第5.3节。}
+\includegraphics[width=\linewidth,height=.38\textheight,keepaspectratio]{figures/results_20261112/oss2_full_delta_plain_current.pdf}
+\caption{OSS2完整模型的混淆矩阵（左）及相对Plain的差值（右）。行和列分别为真实与预测类别，数值为三种子的行归一化均值。差值单位为百分点：对角线增加表示召回提高，非对角线减少表示相应混淆降低。}
 \label{fig:10}
 \end{figure*}
 
-图11显示，OSS2散货船误判为集装箱船的比例下降14.39个百分点，化学品／成品油轮误判为散货船与集装箱船分别下降6.02和5.62个百分点。普通货船误判为油轮的比例下降11.54个百分点，但误判为集装箱船相应增加，表明总体召回不变仍可能伴随竞争类别转移。相对R50-Tuned，完整模型在散货船、普通货船与集装箱船上的召回分别提高3.03、3.85和2.19个百分点，在化学品／成品油轮上降低2.01个百分点。
+在自建24港中，原油轮误判为散货船、化学品／成品油轮分别下降11.85和6.25个百分点，集装箱船误判为散货船下降8.68个百分点（图11）。收益覆盖多个类别对，并非仅由样本最多的散货船贡献。拖轮／拖带船召回降低2.42个百分点，仍是主要混淆类别之一。
 
 \begin{figure*}[!tb]
 \centering
 \setcounter{figure}{10}
-\includegraphics[width=\linewidth,height=.38\textheight,keepaspectratio]{figures/results_20261112/oss2_full_delta_plain_current.pdf}
-\caption{OSS2完整模型的混淆矩阵（左）及相对Plain的差值（右）。行和列分别为真实与预测类别，数值为三种子的行归一化均值。差值单位为百分点：对角线增加表示召回提高，非对角线减少表示相应混淆降低。}
-\label{fig:11}
-\end{figure*}
-
-在自建24港中，原油轮误判为散货船、化学品／成品油轮分别下降11.85和6.25个百分点，集装箱船误判为散货船下降8.68个百分点（图12）。收益覆盖多个类别对，并非仅由样本最多的散货船贡献。拖轮／拖带船召回降低2.42个百分点，仍是主要混淆类别之一。
-
-\begin{figure*}[!tb]
-\centering
-\setcounter{figure}{11}
 \includegraphics[width=\linewidth,height=.42\textheight,keepaspectratio]{figures/results_20261112/ports24_full_delta_plain_current.pdf}
-\caption{自建24港完整模型的混淆矩阵（左）及相对Plain的差值（右）。采用与图11相同的统计方式和色标。BC、FV、GC、PT、CS、CT、TT、OS分别为散货船、渔船、普通货船、化学品／成品油轮、集装箱船、原油轮、拖轮／拖带船和海工补给船。}
-\label{fig:12}
+\caption{自建24港完整模型的混淆矩阵（左）及相对Plain的差值（右）。采用与图10相同的统计方式和色标。BC、FV、GC、PT、CS、CT、TT、OS分别为散货船、渔船、普通货船、化学品／成品油轮、集装箱船、原油轮、拖轮／拖带船和海工补给船。}
+\label{fig:11}
 \end{figure*}
 
 \subsection{整体性能比较}\label{ux6574ux4f53ux6027ux80fdux6bd4ux8f83}

@@ -80,7 +80,7 @@ def table(block, number, caption):
 
 
 def figure(number, caption, path=None):
-    wide = number in {2, 4, 5, 7, 9, 10, 11, 12}
+    wide = number in {2, 4, 5, 7, 9, 10, 11}
     if SUPPLEMENT:
         wide = bool(path and any(x in path for x in ("fig3_author", "fig4_author", "fig6_author", "fig8_author", "results_20261112/")))
     env = "figure*" if wide else "figure"
@@ -92,7 +92,7 @@ def figure(number, caption, path=None):
             path = str(Path(path).with_suffix(".pdf")).replace("\\", "/")
         height = {1: ".38", 2: ".53", 3: ".36", 4: ".42", 5: ".42",
                   6: ".25", 7: ".28", 8: ".30", 9: ".44",
-                  10: ".36", 11: ".38", 12: ".42"}.get(number, ".28")
+                  10: ".38", 11: ".42"}.get(number, ".28")
         if SUPPLEMENT:
             height = ".40" if wide else ".30"
         out.append(r"\includegraphics[width=\linewidth,height=" +

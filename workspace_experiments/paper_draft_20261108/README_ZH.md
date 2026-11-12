@@ -4,7 +4,7 @@
 
 ## 当前入口：正文与独立补充材料
 
-- `MANUSCRIPT_ZH.md` / `manuscript_ieee.pdf`：当前IEEE双栏正文；采用作者新摘要，全文以全骨干微调完整模型为主。第VI章首先呈现逐类与混淆分析。共12图、16表、15组编号公式；尚未完成的对照和消融按作者要求保留占位，不填写历史模型数字。
+- `MANUSCRIPT_ZH.md` / `manuscript_ieee.pdf`：当前IEEE双栏正文；采用作者新摘要，全文以全骨干微调完整模型为主。第VI章首先呈现逐类与混淆分析。共11图、16表、15组编号公式；尚未完成的对照和消融按作者要求保留占位，不填写历史模型数字。
 - `SUPPLEMENT_ZH.md` / `supplement_ieee.pdf`：独立补充材料，不附在正文后。包含诊断统计、方法实现、初始化训练配置、旧配置配套消融、机制替换和历史案例。
 - `main_supplement_revision_20261112/REVISION_ZH.md`：本轮取舍及证据版本说明。下方标为“最新”的条目均为历史修订记录，以本节为准。
 - 主图由 `two_dataset_results_20261112/plot_current.py` 从已有统计生成，仅比较Plain与当前Ours；旧三配置图保留在原目录。
