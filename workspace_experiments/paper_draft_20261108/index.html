@@ -83,18 +83,18 @@ id="toc-分阶段优化及干预指导约束">4.6 分阶段优化及干预指导
 <li><a href="#数据集介绍" id="toc-数据集介绍">5.1 数据集介绍</a></li>
 <li><a href="#跨场景划分与参考设置" id="toc-跨场景划分与参考设置">5.2
 跨场景划分与参考设置</a></li>
-<li><a href="#实现细节与训练配置" id="toc-实现细节与训练配置">5.3
-实现细节与训练配置</a></li>
+<li><a href="#实现细节与优化协议" id="toc-实现细节与优化协议">5.3
+实现细节与优化协议</a></li>
 <li><a href="#评价指标" id="toc-评价指标">5.4 评价指标</a></li>
 <li><a href="#比较与机制评价" id="toc-比较与机制评价">5.5
 比较与机制评价</a></li>
 </ul></li>
 <li><a href="#结果与分析" id="toc-结果与分析">6 结果与分析</a>
 <ul>
-<li><a href="#跨场景完整模型比较" id="toc-跨场景完整模型比较">6.1
-跨场景完整模型比较</a></li>
-<li><a href="#完整训练的组件消融" id="toc-完整训练的组件消融">6.2
-完整训练的组件消融</a></li>
+<li><a href="#跨场景分类与强基线比较"
+id="toc-跨场景分类与强基线比较">6.1 跨场景分类与强基线比较</a></li>
+<li><a href="#分阶段训练的组件消融" id="toc-分阶段训练的组件消融">6.2
+分阶段训练的组件消融</a></li>
 <li><a href="#响应引导区域池化" id="toc-响应引导区域池化">6.3
 响应引导区域池化</a></li>
 <li><a href="#正确空间对应是否参与判断"
@@ -114,13 +114,11 @@ id="toc-固定上游下的参考与读出协同">6.6
 源参考库规模与抽样</a></li>
 <li><a href="#干预指导训练" id="toc-干预指导训练">6.11
 干预指导训练</a></li>
-<li><a href="#跨数据集迁移" id="toc-跨数据集迁移">6.12
-跨数据集迁移</a></li>
-<li><a href="#分场景与输入边界" id="toc-分场景与输入边界">6.13
-分场景与输入边界</a></li>
-<li><a href="#参数与优化敏感性" id="toc-参数与优化敏感性">6.14
-参数与优化敏感性</a></li>
-<li><a href="#逐类识别表现" id="toc-逐类识别表现">6.15
+<li><a href="#分场景表现与定位鲁棒性"
+id="toc-分场景表现与定位鲁棒性">6.12 分场景表现与定位鲁棒性</a></li>
+<li><a href="#优化范围与训练成本" id="toc-优化范围与训练成本">6.13
+优化范围与训练成本</a></li>
+<li><a href="#逐类识别表现" id="toc-逐类识别表现">6.14
 逐类识别表现</a></li>
 </ul></li>
 <li><a href="#讨论" id="toc-讨论">7 讨论</a></li>
@@ -132,7 +130,7 @@ id="toc-固定上游下的参考与读出协同">6.6
 role="doc-noteref"><sup>1</sup></a></p>
 <h1 id="摘要">摘要</h1>
 <p>跨场景合成孔径雷达（SAR）船舶分类不仅受到观测条件变化的影响，还面临局部判别证据利用不充分的问题。不同极化通道及目标空间区域中的响应具有不同的类别判别作用，其贡献随局部尺度及类别竞争关系而变化。针对这一问题，本文通过同船重复观测与极化、区域及尺度受控干预，分析局部响应对类别判别的影响，并提出一种受控干预启发的极化与区域证据学习网络。该网络基于共享ResNet-50骨干，设计类别响应反馈模块（CRFB）、响应引导区域池化模块（RGRP）和参考类别证据回写模块（RCEW），分别实现类别相关特征调节、结构化区域证据提取及跨样本类别证据引入。同时，采用受控干预选样与判别优势保护约束，将源样本的干预响应用于训练对象选择与原图判别保护。在OpenSARShip
-2.0四分类跨场景评估中，完整模型相较于同协议普通骨干，三种随机种子的平均总体准确率（OA）提高5.115个百分点，平衡准确率（BA）提高3.454个百分点。配套消融实验表明，RGRP分别带来4.762和3.466个百分点的OA与BA增益。实验结果表明，差异化组织极化与区域判别证据能够改善跨场景SAR船舶分类性能。</p>
+2.0四分类和自建24港八分类跨场景评估中，分阶段完整模型相较于同协议普通骨干，三种随机种子的平均总体准确率（OA）分别提高5.115和5.485个百分点，平衡准确率（BA）分别提高3.454和3.730个百分点。OSS2全骨干微调进一步达到64.727%的OA与59.396%的BA；分阶段配套消融中，RGRP分别带来4.762和3.466个百分点的OA与BA增益。实验结果表明，差异化组织极化与区域判别证据能够改善跨场景SAR船舶分类性能。</p>
 <p><strong>关键词：</strong>
 SAR船舶分类；跨场景泛化；双极化；区域池化；参考证据；受控干预</p>
 <h1 id="引言">1 引言</h1>
@@ -594,8 +592,8 @@ style="position:relative;width:100%;aspect-ratio:1700/1562;overflow:hidden">
 <p>教师量均停止梯度。该约束以教师原图分差为下界，而非以干预图的更高分差作为学生必须达到的目标。未通过筛选的样本仍参与分类监督，教师原本判对时也参与KL保持，仅不施加式（17）的额外保护。预测时输入原始SAR图像，不执行依赖真实类别的干预筛选。完整模型及配套对照均由各自的源端教师生成筛选标记，并采用相同的适配规则。</p>
 <h1 id="实验设置">5 实验设置</h1>
 <h2 id="数据集介绍">5.1 数据集介绍</h2>
-<p>本文使用OpenSARShip 1.0（OSS1）、OpenSARShip
-2.0（OSS2）和自建24港数据集。表4汇总实际整理的数据规模；公开数据数量按本研究解析清单统计。每条观测对应一个船舶目标，VV/VH为其两种极化视图。</p>
+<p>本文使用OpenSARShip
+2.0（OSS2）和自建24港数据集开展跨场景分类实验，分别考察公开四分类与自建八分类任务。表4汇总实际整理的数据规模；公开数据数量按本研究解析清单统计。每条观测对应一个船舶目标，VV/VH为其两种极化视图。</p>
 <p><strong>表4 数据集组成。</strong></p>
 <table>
 <colgroup>
@@ -612,11 +610,6 @@ style="position:relative;width:100%;aspect-ratio:1700/1562;overflow:hidden">
 </thead>
 <tbody>
 <tr>
-<td>OSS1</td>
-<td>3,030条GRDH记录；兼容子集1,349条、1,110艘船</td>
-<td>—</td>
-</tr>
-<tr>
 <td>OSS2</td>
 <td>6,780条GRDH记录</td>
 <td>本文分类取4类；训练集719、验证集228、测试集378条</td>
@@ -629,7 +622,7 @@ style="position:relative;width:100%;aspect-ratio:1700/1562;overflow:hidden">
 </tbody>
 </table>
 <p><strong>公开数据集。</strong>
-OSS1与OSS2沿用原生船舶裁片及元数据，本文使用IW-GRDH产品。细粒度标签仅保留与任务类别一致的记录，笼统Cargo和Tanker标签不直接映射为普通货船或原油轮。OSS2分类比较采用散货船、普通货船、化学品／成品油轮和集装箱船四类图像，以保证各类参考与输入覆盖。</p>
+OSS2沿用原生船舶裁片及元数据，本文使用IW-GRDH产品。细粒度标签仅保留与任务类别一致的记录，笼统Cargo和Tanker标签不直接映射为普通货船或原油轮。OSS2分类比较采用散货船、普通货船、化学品／成品油轮和集装箱船四类图像，以保证各类参考与输入覆盖。</p>
 <p>公开集各极化分别执行固定OBB定位，检测置信度达到0.25且几何有效时进入对应分支。在OSS2训练集、验证集和测试集中，分别有48、22和30条观测仅一个极化满足条件；这些观测的另一极化原始文件仍存在。模型通过式（16）的可用性标记处理该情况，符合检测后分类中某一极化定位不成功、另一极化仍可用于识别的输入条件。</p>
 <p><strong>自建24港数据集。</strong>
 数据来源为Sentinel-1A和Sentinel-1C的IW-GRDH双极化产品，依据AIS关联的船舶身份与类型组织八类目标，保存VV/VH图像、源产品号、港口、裁片位置及目标几何信息。采集时间为2025年1月1日至2026年2月24日；38,091条观测中，32,184条来自Sentinel-1A，5,907条来自Sentinel-1C。841个产品按平台与绝对轨道合并为720个过境组，避免将同次过境的不同产品切片视为独立观测条件。本文使用地理处理后的8位动态裁片，不将其视为原始复数SAR。模型输入遵循第4.1节的原生像素裁剪／补零规则；可恢复的10
@@ -639,15 +632,13 @@ m像素间距不等同于传感器空间分辨率。</p>
 各数据集的Sentinel-1产品、像素表示与预处理对照。</strong></p>
 <table>
 <colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
 </colgroup>
 <thead>
 <tr>
 <th>对照项</th>
-<th>OpenSARShip 1.0</th>
 <th>OpenSARShip 2.0</th>
 <th>自建24港SAR–AIS</th>
 </tr>
@@ -656,12 +647,10 @@ m像素间距不等同于传感器空间分辨率。</p>
 <tr>
 <td>源产品</td>
 <td>Sentinel-1 IW-GRDH</td>
-<td>Sentinel-1 IW-GRDH</td>
 <td>Sentinel-1A／1C IW-GRDH</td>
 </tr>
 <tr>
 <td>极化</td>
-<td>VV/VH</td>
 <td>VV/VH</td>
 <td>VV/VH</td>
 </tr>
@@ -669,37 +658,29 @@ m像素间距不等同于传感器空间分辨率。</p>
 <td>源产品标称像素间距</td>
 <td>约10 × 10 m</td>
 <td>约10 × 10 m</td>
-<td>约10 × 10 m</td>
 </tr>
 <tr>
 <td>像素表示</td>
-<td>原始幅度与定标裁片均为32位浮点；另提供8位灰度图</td>
 <td>提供原始幅度、定标与灰度裁片</td>
 <td>地理处理后的8位灰度PNG动态裁片</td>
 </tr>
 <tr>
 <td>辐射定标</td>
-<td>SNAP 3.0生成
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>σ</mi><mn>0</mn></msup><annotation encoding="application/x-tex">\sigma^0</annotation></semantics></math>
-定标裁片，与原始幅度分开保存</td>
 <td>提供定标裁片，具体参数未详述</td>
 <td>使用灰度显示值；已追溯服务器分支未应用定标LUT</td>
 </tr>
 <tr>
 <td>几何处理</td>
 <td>沿用数据集裁片；论文未明确重投影设置</td>
-<td>沿用数据集裁片；论文未明确重投影设置</td>
 <td>UTM地理编码、10 m输出格网；重采样方式随处理批次不同</td>
 </tr>
 <tr>
 <td>灰度转换</td>
-<td>MATLAB增强生成8位灰度图</td>
 <td>提供灰度图，映射参数未详述</td>
 <td>按极化作百分位拉伸；已追溯服务器分支采用整景2%／98%阈值</td>
 </tr>
 <tr>
 <td>本文分类输入</td>
-<td>8位灰度裁片</td>
 <td>8位灰度裁片</td>
 <td>8位灰度裁片</td>
 </tr>
@@ -983,10 +964,14 @@ style="position:relative;width:100%;aspect-ratio:4514/2700;overflow:hidden">
 </tbody>
 </table>
 <p>OSS2训练集进一步分为478条表征训练观测和241条干预适配观测。固定32个源参考，每类8个，均来自表征训练子集；测试集覆盖五个过境。</p>
-<p>自建24港完整训练采用20,653条合法训练记录，其中19,981条用于表征训练、672条用于干预适配；验证集含160条观测、158艘船和3个过境，测试集含3,075条观测、1,950艘船和81个过境组。训练集覆盖24港，测试集覆盖18港，沿用既有身份与过境隔离划分。源参考共16艘，每类2艘。类别反馈和区域读出阶段各遍历训练数据两轮，其余阶段沿用相应训练配方。</p>
-<h2 id="实现细节与训练配置">5.3 实现细节与训练配置</h2>
+<p>自建24港完整训练采用20,653条合法训练记录，其中19,981条用于表征训练、672条用于干预适配；验证集含160条观测、158艘船和3个过境，测试集含3,075条观测、1,950艘船和85个完整过境组。完整过境组由卫星平台、绝对轨道号及数据获取批次（datatake）共同确定；测试集对应81个平台—绝对轨道组合，其中4个组合各包含两个datatake。训练集覆盖24港，测试集覆盖18港，沿用既有身份与过境隔离划分。源参考共16艘，每类2艘。类别反馈和区域读出阶段各遍历训练数据两轮，其余阶段沿用相应训练配方。</p>
+<h2 id="实现细节与优化协议">5.3 实现细节与优化协议</h2>
 <p>完整模型与普通骨干、匹配位置的SE[15]对照从同一ImageNet起点训练，均使用双极化输入、相同源划分和训练策略。SE以压缩比16插入layer2与layer3末块的残差相加前。表征学习、干预适配和参考训练分别为8、6和4轮；公开集的类别反馈与区域补充各180步，自建数据按第5.2节的两轮遍历执行。移除组件时保留相应阶段的分类头训练。除各模块外，骨干可更新范围为layer3末块的三层卷积及layer2末块的conv3，其余卷积固定。</p>
 <p>完整模型、普通骨干和SE分别在OSS2验证集上比较基础学习率倍率1.0和0.3，以BA、OA、NLL依次选择，完整模型与普通骨干选择1.0，SE选择0.3。删除组件的模型继承完整模型倍率。完整训练使用种子17、29和43。配对区间按船舶重采样，保留同船各观测及种子的对应关系。</p>
+<p>上述配置称为分阶段训练版，用于共同起点的主比较和组件消融。另以各自分阶段终点初始化完整模型的全骨干微调版，联合更新骨干与CRFB、RGRP、RCEW，BN运行统计保持固定。微调仍使用相同训练、验证和测试划分，参考特征由当前骨干重新计算，不沿用旧骨干的特征缓存。两个优化协议的结果分别列示，分阶段消融用于解释对应训练配置，不作为微调版的重新训练消融。</p>
+<p>OSS2微调使用AdamW、权重衰减0.01、有效batch
+24、梯度裁剪5以及两轮预热后的余弦学习率。骨干和模块的选定学习率均为<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>4</mn></mrow></msup><annotation encoding="application/x-tex">10^{-4}</annotation></semantics></math>；损失为类别／船舶平衡交叉熵与权重0.02的类别响应辅助监督。最多训练30轮，至少12轮后允许连续8轮验证性能不改善时早停。解冻范围与学习率先在seed17验证集上比较六组配置，再固定全骨干、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>4</mn></mrow></msup><annotation encoding="application/x-tex">10^{-4}</annotation></semantics></math>的组合复核seed29、43。微调继承已完成的干预指导训练，不在此阶段重新生成筛选标记。</p>
+<p>充分训练的普通ResNet-50（R50-Tuned）从ImageNet起点独立训练，骨干与分类头学习率分别为<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>4</mn></mrow></msup><annotation encoding="application/x-tex">10^{-4}</annotation></semantics></math>和<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">10^{-3}</annotation></semantics></math>，最多60轮，至少30轮后按15轮耐心值早停。CPINet采用适配本任务输入与标签的独立实现，从随机初始化训练300轮，在验证集选择学习率。二者与完整模型共享数据划分和评价对象，但初始化、损失和实际训练预算不同，属于系统性能比较而非等预算模块消融。</p>
 <h2 id="评价指标">5.4 评价指标</h2>
 <p>本文采用总体准确率（OA）、平衡准确率（BA）、宏平均F1及负对数似然（NLL）评价分类性能。OA为全部样本的正确分类比例；BA为各纳入类别召回率的平均，用于补充类别不平衡条件下的总体表现；宏F1对各类F1等权平均；NLL衡量真实类别预测概率的质量。四分类任务的OA、BA和宏F1均针对相同的四类测试集合计算。</p>
 <p>重复训练报告均值与样本标准差，配对收益采用船级重采样区间。进一步统计完整模型相对对照的纠错和误伤，结合逐类、逐场景及原图案例分析收益来源。同一观测在不同种子中的预测翻转分别计为事件，独立船舶数量另行统计。</p>
@@ -994,12 +979,20 @@ style="position:relative;width:100%;aspect-ratio:4514/2700;overflow:hidden">
 <p>普通双极化ResNet-50用于衡量整体增益，匹配位置SE用于比较一般通道重标定与类别、区域证据处理的差异。表9还为极化交互方法CPINet[4]、结构建模方法SCRC-Net[13]以及同源参考类原型设置对照行，分别考察极化融合、目标结构及源参考信息的作用。比较统一源标签权限、输入和测试集合，各方法的超参数仅在验证集选择。</p>
 <p>完整训练消融分别移除CRFB、RGRP或RCEW，检验组件在其余网络可重新适配时的增量。RGRP删除同时移除区域读出及响应引导接口，其余组件删除仅移除对应反馈或参考路径。</p>
 <p>算子机制实验固定上游表征，比较区域读出、参考消息形式及末阶段优化；同权重替换仅改变取证或回写关系，定位当前预测所依赖的证据。这些结果用于解释模块作用，与共同起点的完整训练结果分开分析。</p>
+<p>实验围绕三个层面展开：首先以共同起点比较整体分类能力，并单独考察扩大可训练范围后的性能；其次通过配套重训与算子替换分析各组件的增量；最后固定模型，对响应位置、参考回写和检测几何进行受控改变，检验模型实际利用的证据。训练种子、参考抽样和同一模型的路径干预分别作为不同的重复来源，不将其合并为独立训练次数。</p>
 <h1 id="结果与分析">6 结果与分析</h1>
-<h2 id="跨场景完整模型比较">6.1 跨场景完整模型比较</h2>
-<p>表9比较完整模型、普通骨干、匹配位置SE及相关方法。普通骨干和SE采用共同预训练起点与配套训练；CPINet[4]和SCRC-Net[13]分别作为极化交互与结构组织方向的比较方法，在同一数据划分和输入权限下采用各自训练配方。类原型对照使用相同源参考和特征版本。所有方法仅使用训练集标签，超参数在验证集确定。</p>
+<h2 id="跨场景分类与强基线比较">6.1 跨场景分类与强基线比较</h2>
+<p>表9包含两类比较。分阶段完整模型、普通骨干与匹配位置SE采用共同预训练起点和配套优化，用于检验整体证据组织的作用；R50-Tuned、CPINet[4]与完整模型微调版采用第5.3节各自的训练方案，用于比较相同数据权限下的系统性能。所有已列结果采用相同测试观测与原始极化可用性，不把输入恢复后的结果混入本表。优化范围与成本进一步见第6.13节。</p>
 <p><strong>表9
-跨场景分类比较，三次完整训练的均值与标准差。公开集为四分类，自建24港为八分类。破折号为待填结果。</strong></p>
+相同数据评价协议下的跨场景分类结果，三种子均值与标准差。各方法训练方案见第5.3节。</strong></p>
 <table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+</colgroup>
 <thead>
 <tr>
 <th>数据集</th>
@@ -1011,67 +1004,25 @@ style="position:relative;width:100%;aspect-ratio:4514/2700;overflow:hidden">
 </thead>
 <tbody>
 <tr>
-<td>OSS1</td>
-<td>普通骨干</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1</td>
-<td>匹配位置SE</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1</td>
-<td>CPINet [4]</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1</td>
-<td>SCRC-Net [13]</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1</td>
-<td>同源参考类原型</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1</td>
-<td>本文完整模型</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
 <td>OSS2</td>
-<td>普通骨干</td>
+<td>普通骨干（分阶段）</td>
 <td style="text-align: right;">55.908 ± 1.332</td>
 <td style="text-align: right;">52.176 ± 1.506</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">50.173 ± 1.359</td>
 </tr>
 <tr>
 <td>OSS2</td>
-<td>匹配位置SE</td>
+<td>SE（分阶段）</td>
 <td style="text-align: right;">54.233 ± 0.954</td>
 <td style="text-align: right;">53.497 ± 1.802</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">49.862 ± 1.323</td>
 </tr>
 <tr>
 <td>OSS2</td>
-<td>CPINet [4]</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
+<td>CPINet [4]，独立复现</td>
+<td style="text-align: right;">56.261 ± 1.986</td>
+<td style="text-align: right;">56.988 ± 0.960</td>
+<td style="text-align: right;">52.413 ± 1.482</td>
 </tr>
 <tr>
 <td>OSS2</td>
@@ -1089,24 +1040,38 @@ style="position:relative;width:100%;aspect-ratio:4514/2700;overflow:hidden">
 </tr>
 <tr>
 <td>OSS2</td>
-<td>本文完整模型</td>
-<td style="text-align: right;"><strong>61.023 ± 2.610</strong></td>
-<td style="text-align: right;"><strong>55.630 ± 3.498</strong></td>
-<td style="text-align: right;">—</td>
+<td>R50-Tuned</td>
+<td style="text-align: right;">63.051 ± 2.138</td>
+<td style="text-align: right;">57.631 ± 2.625</td>
+<td style="text-align: right;">55.929 ± 1.862</td>
+</tr>
+<tr>
+<td>OSS2</td>
+<td>本文（分阶段）</td>
+<td style="text-align: right;">61.023 ± 2.610</td>
+<td style="text-align: right;">55.630 ± 3.498</td>
+<td style="text-align: right;">54.020 ± 3.267</td>
+</tr>
+<tr>
+<td>OSS2</td>
+<td>本文（全骨干微调）</td>
+<td style="text-align: right;"><strong>64.727 ± 2.702</strong></td>
+<td style="text-align: right;"><strong>59.396 ± 3.831</strong></td>
+<td style="text-align: right;"><strong>57.693 ± 3.187</strong></td>
 </tr>
 <tr>
 <td>自建24港</td>
-<td>普通骨干</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
+<td>普通骨干（分阶段）</td>
+<td style="text-align: right;">42.927 ± 0.620</td>
+<td style="text-align: right;">40.172 ± 1.041</td>
+<td style="text-align: right;">38.385 ± 0.784</td>
 </tr>
 <tr>
 <td>自建24港</td>
-<td>匹配位置SE</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
+<td>SE（分阶段）</td>
+<td style="text-align: right;">42.309 ± 0.523</td>
+<td style="text-align: right;">41.218 ± 0.668</td>
+<td style="text-align: right;">38.742 ± 0.693</td>
 </tr>
 <tr>
 <td>自建24港</td>
@@ -1131,20 +1096,32 @@ style="position:relative;width:100%;aspect-ratio:4514/2700;overflow:hidden">
 </tr>
 <tr>
 <td>自建24港</td>
-<td>本文完整模型</td>
+<td>本文（分阶段）</td>
+<td style="text-align: right;"><strong>48.412 ± 1.203</strong></td>
+<td style="text-align: right;"><strong>43.902 ± 0.654</strong></td>
+<td style="text-align: right;"><strong>42.459 ± 0.937</strong></td>
+</tr>
+<tr>
+<td>自建24港</td>
+<td>本文（全骨干微调）</td>
 <td style="text-align: right;">—</td>
 <td style="text-align: right;">—</td>
 <td style="text-align: right;">—</td>
 </tr>
 </tbody>
 </table>
-<p>完整模型在OSS2中相对普通骨干的平均OA提高5.115个百分点，BA提高3.454个百分点。相对普通骨干和SE的OA增量船级95%区间分别为[1.422,8.642]和[2.814,10.908]个百分点，BA增量区间包含零。区间采用类别分层的配对船级bootstrap，共3000次，刻画测试船舶上的抽样不确定性。</p>
+<p>在共同起点的分阶段比较中，完整模型在OSS2中相对普通骨干的平均OA提高5.115个百分点，BA提高3.454个百分点。相对普通骨干和SE的OA增量船级95%区间分别为[1.422,8.642]和[2.814,10.908]个百分点，BA增量区间包含零。区间采用类别分层的配对船级bootstrap，共3000次，刻画测试船舶上的抽样不确定性。</p>
+<p>扩大可训练范围后，完整模型的OA和BA达到64.727%和59.396%，相对其分阶段版本提高3.704和3.766个百分点。相对R50-Tuned平均提高OA
+1.675、BA
+1.765个百分点，三个种子的OA均更高；两项增量的船级95%区间分别为[−1.243,4.674]和[−1.558,5.177]个百分点。结果说明骨干与证据模块联合优化后仍具有平均净收益，但系统间差异同时包含训练历史与损失设计，组件归因由后续配套消融承担。</p>
+<p>在自建24港八分类任务中，完整模型相对普通骨干的OA、BA和宏F1分别提高5.485、3.730和4.074个百分点，相对SE分别提高6.103、2.684和3.716个百分点。三个训练种子的OA和BA均优于两种对照，说明完整证据组织方式的收益能够延续到类别更细、场景覆盖更广的自建数据。以MMSI为簇对配对差进行1000次重采样，完整模型相对普通骨干的OA与BA增量95%区间分别为[3.98,7.03]和[1.87,5.44]个百分点，相对SE分别为[4.66,7.66]和[1.08,4.53]个百分点。上述区间保留同船重复观测的关联，描述固定模型在当前测试船舶上的抽样不确定性。</p>
 <blockquote>
 <p>图9占位：完整模型纠错案例。</p>
 </blockquote>
-<h2 id="完整训练的组件消融">6.2 完整训练的组件消融</h2>
+<h2 id="分阶段训练的组件消融">6.2 分阶段训练的组件消融</h2>
 <p>表10在OSS2中分别移除一个组件，保留其余结构、共同起点和训练阶段，并重新训练。删除RGRP同时取消相应区域读出及引导接口，删除CRFB或RCEW则移除对应反馈或参考路径。</p>
-<p><strong>表10 完整训练的组件消融，三种子均值与标准差。</strong></p>
+<p><strong>表10
+分阶段训练协议下的组件删除重训，三种子均值与标准差。</strong></p>
 <table>
 <thead>
 <tr>
@@ -1155,30 +1132,6 @@ style="position:relative;width:100%;aspect-ratio:4514/2700;overflow:hidden">
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>OSS1</td>
-<td>无CRFB</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1</td>
-<td>无RGRP</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1</td>
-<td>无RCEW</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1</td>
-<td>完整模型</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
 <tr>
 <td>OSS2</td>
 <td>无CRFB</td>
@@ -1224,8 +1177,8 @@ style="position:relative;width:100%;aspect-ratio:4514/2700;overflow:hidden">
 <tr>
 <td>自建24港</td>
 <td>完整模型</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">48.412 ± 1.203</td>
+<td style="text-align: right;">43.902 ± 0.654</td>
 </tr>
 </tbody>
 </table>
@@ -1367,6 +1320,10 @@ style="position:relative;width:100%;aspect-ratio:2519/1607;overflow:hidden">
 <p>图12
 空间参考回写的路径诊断。上方为散货船12457、同类参考31512与混淆类参考13000的VH图像及区域位置，下方为局部软对应、16个参考的聚合权重和查询回写强度。该图取自早期空间回写配置，展示参考比较至特征更新的过程；当前类别证据回写的效果见图11。</p>
 <p>对精细对应模型保持权重并改用边际聚合，三个种子、228条查询的预测均不变；配套训练的聚合版平均表现更好。保留类别关系与参考选择后，区域聚合已能提供有效的回写消息。</p>
+<p>在全骨干微调模型上，进一步固定权重、原图和32个源参考，对实际聚合回写路径进行干预。原路径的OA／BA为64.727%／59.396%，同权重关闭回写为64.374%／59.702%，使用简单类别均值替代为64.109%／58.664%。原路径相对简单均值平均提高OA
+0.617、BA
+0.732个百分点；相对无回写则出现OA小幅提高、BA小幅降低，反映收益在类别间的不同分配。该比较定位已训练路径的作用，不等同于删除模块后重新训练。</p>
+<p>对应案例中，查询002422（seed29）的真实类分差为+0.0928，改用简单类别均值后为−0.0769，撤除框内回写后为−0.0545，说明该样本需要当前框内证据组织才能越过判别边界。对图12的历史样本12457，撤除VV或VH轴端回写分别将分差从+0.13756降至+0.10698或+0.10911，仍保持正确。这一区别表明局部回写既可能决定预测翻转，也可能只增加已有判断的余量；更新热图的幅度与其分类贡献需结合路径撤除共同解释。</p>
 <h2 id="固定上游下的参考与读出协同">6.6 固定上游下的参考与读出协同</h2>
 <p>固定相同上游，移除RCEW残差后重新计算layer4与深层区域摘要，再以相同初始化、源样本顺序和180步预算训练区域补充及分类头。保留RCEW的组合沿用表11结果。此对照比较固定上游条件下、有无参考证据时的配套末阶段优化，不等同于表10的共同起点完整重训。</p>
 <p><strong>表14 固定上游下有无RCEW的末阶段配套训练比较。</strong></p>
@@ -1427,7 +1384,7 @@ GB）上测量，采用FP32、关闭TF32，输入为双极化
 chip。计时覆盖GPU上的图像及掩膜到分类分数的完整前向，不含检测、文件读取和CPU预处理。完整模型缓存32个源参考描述子，并将RCEW固定形状的60步传输迭代捕获为CUDA
 Graph。延迟均在预热后测量并取中位数：普通骨干和SE各三组、每组15次，完整模型各三组、每组10次。</p>
 <p><strong>表15
-四分类模型的在线计算成本。运算量仅统计卷积与矩阵乘，一次乘加计两次操作。</strong></p>
+分阶段四分类模型的在线计算成本。运算量仅统计卷积与矩阵乘，一次乘加计两次操作。</strong></p>
 <table>
 <thead>
 <tr>
@@ -1489,10 +1446,16 @@ MiB，一次构建耗时43.43 ms。</p>
 ms，吞吐达125.3张/s。图重放不改变模型权重和数值精度，OSS2同一种子的378条预测类别全部保持一致。稳态计时不含参考库构建和一次性图初始化；单张配置的图初始化约0.683
 s。</p>
 <h2 id="核心算子的配套替换">6.8 核心算子的配套替换</h2>
-<p>表16分别考察类别反馈、区域身份和参考消息形式。CRFB比较保持反馈位置和幅度一致；RGRP的合并与分区域方案读取相同像素范围，另以保留末端区域读出、仅去内部回写区分两个作用位置；RCEW比较保持源参考、局部描述及对应计算一致。每组从共同起点训练受替换影响的阶段及后续阶段，测试样本保持相同。已有表11—14用于解释局部路径，本表对应冻结设计后的配套测试比较。</p>
+<p>表16进一步分解CRFB的均值反馈与类别关系反馈，以及RCEW的通道度量与类别竞争偏置。CRFB对照保留类别响应读出、辅助监督及RGRP引导接口，仅关闭指定反馈支路；因此无反馈配置不同于表10的整块删除。RCEW的单位度量对照将通道权重固定为1，无竞争偏置对照将相应项置零，其余参考比较和回写路径保持不变。各配置从对应机制启用前的共同检查点开始，重新训练受影响阶段及后续阶段；训练步数、源参考成员和样本顺序保持一致，干预与源难例权重沿用相同生成规则。已有表11—14的固定上游结果与本表分开比较。</p>
 <p><strong>表16
-核心算子替换的测试集结果。各数据集单元格为OA／BA（%），破折号为待填结果。</strong></p>
-<table>
+核心算子替换的测试集结果。各数据集单元格为三种子平均OA／BA（%），破折号为待填结果。</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 28%" />
+<col style="width: 28%" />
+</colgroup>
 <thead>
 <tr>
 <th>组件</th>
@@ -1504,19 +1467,31 @@ s。</p>
 <tbody>
 <tr>
 <td>CRFB</td>
-<td>仅均值反馈</td>
+<td>无反馈，保留响应读出</td>
+<td style="text-align: right;">60.670／55.897</td>
 <td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>CRFB</td>
+<td>仅均值反馈</td>
+<td style="text-align: right;">60.935／55.606</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>CRFB</td>
+<td>仅类别关系反馈</td>
+<td style="text-align: right;">60.317／55.619</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>CRFB</td>
+<td>均值＋类别关系反馈</td>
+<td style="text-align: right;">61.023／55.630</td>
 <td style="text-align: right;">—</td>
 </tr>
 <tr>
 <td>CRFB</td>
 <td>普通内容注意反馈</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>CRFB</td>
-<td>相对类别响应反馈</td>
 <td style="text-align: right;">—</td>
 <td style="text-align: right;">—</td>
 </tr>
@@ -1528,8 +1503,14 @@ s。</p>
 </tr>
 <tr>
 <td>RGRP</td>
-<td>同范围合并池化</td>
+<td>同范围内外合并池化</td>
+<td style="text-align: right;">60.847／57.221</td>
 <td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>RGRP</td>
+<td>保留内部区域，仅合并最终读出</td>
+<td style="text-align: right;">61.640／58.086</td>
 <td style="text-align: right;">—</td>
 </tr>
 <tr>
@@ -1541,8 +1522,8 @@ s。</p>
 <tr>
 <td>RGRP</td>
 <td>分区域池化，内部回写＋末端读出</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">61.023／55.630</td>
+<td style="text-align: right;">48.412／43.902</td>
 </tr>
 <tr>
 <td>RCEW</td>
@@ -1559,13 +1540,43 @@ s。</p>
 <tr>
 <td>RCEW</td>
 <td>参考类别证据回写</td>
+<td style="text-align: right;">61.023／55.630</td>
+<td style="text-align: right;">48.412／43.902</td>
+</tr>
+<tr>
+<td>RCEW</td>
+<td>单位通道度量，无竞争偏置</td>
+<td style="text-align: right;">60.847／56.060</td>
 <td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>RCEW</td>
+<td>学习通道度量，无竞争偏置</td>
+<td style="text-align: right;">61.199／56.311</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>RCEW</td>
+<td>单位通道度量，保留竞争偏置</td>
+<td style="text-align: right;">60.847／56.716</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>RCEW</td>
+<td>学习通道度量＋竞争偏置</td>
+<td style="text-align: right;">61.023／55.630</td>
 <td style="text-align: right;">—</td>
 </tr>
 </tbody>
 </table>
+<p>CRFB双反馈相对仅均值反馈的平均OA和BA分别提高0.088和0.024个百分点，相对仅类别关系反馈的OA提高0.705个百分点、BA基本持平。均值与关系分支的组合能够保留部分边界样本的判别优势，但本设置下额外平均收益较小。该结果与表11的响应引导收益对应不同作用位置：前者衡量中间特征反馈，后者衡量类别响应在区域取证中的复用。</p>
+<p>RGRP的区域身份比较保持图像覆盖范围和局部处理路径不变。保留内部区域回写、仅合并最终读出，相对内外全部合并提高OA
+0.794、BA
+0.865个百分点，三个种子的BA均提高；相比之下，最终三区域读出并未在测试集上优于合并读出。因此，RGRP相对整块删除的收益来自局部取证与回写的组合，内部区域组织具有增量，而不宜把全部收益归因于最终描述中的三区域区分。原区域配置在验证集上的BA为57.582%，高于仅合并最终读出的53.572%，模型选择仍沿用验证集结果。</p>
+<p>RCEW在关闭竞争偏置时，学习通道度量相对单位度量提高OA 0.353、BA
+0.250个百分点，三个种子的BA增量均为正。加入竞争偏置后，平均OA和BA分别较仅通道度量下降0.176和0.681个百分点，说明两个机制的收益并非简单相加。因而，类别比较与参考回写的有效性应结合表13—14的消息形式和路径对照解释，而不能仅以内部组件数量说明优势。</p>
 <h2 id="极化处理方式">6.9 极化处理方式</h2>
-<p>极化比较使用同一批双极化完整观测，以避免不同输入可用组的样本构成差异。表17中的单极化模型分别配套训练，不采用关闭双极化模型分支后的分数替代。双极化比较保持骨干共享方式不变，只调整模块参数是否专属；通道堆叠作为早期融合对照，同时记录其计算成本。</p>
+<p>极化参数比较保持共享ResNet-50骨干、模块位置、训练阶段及输入可用性不变，仅改变极化对应模块的参数绑定方式。每个种子先把VV初始化复制给VH，使共享组与专属组从相同初始函数出发；两组均完成736次更新并使用配对的样本顺序。参数共享作用于CRFB、RGRP的可训练变换及RCEW的极化对应变换，原本共用的度量部分保持不变。两组使用相同378条测试观测，而非分别挑选可用样本。</p>
 <p><strong>表17
 极化输入与参数组织比较。各数据集单元格为OA／BA（%）。</strong></p>
 <table>
@@ -1593,13 +1604,13 @@ s。</p>
 <tr>
 <td>VV＋VH</td>
 <td>共享骨干、共享模块</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">59.965／53.971</td>
 <td style="text-align: right;">—</td>
 </tr>
 <tr>
 <td>VV＋VH</td>
 <td>共享骨干、极化专属模块</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;"><strong>61.376／56.252</strong></td>
 <td style="text-align: right;">—</td>
 </tr>
 <tr>
@@ -1610,6 +1621,11 @@ s。</p>
 </tr>
 </tbody>
 </table>
+<p>极化专属参数相对共享参数提高OA 1.411、BA
+2.281个百分点，三个种子的BA均提高；在两路均可用的348条子集中，仍提高OA
+0.766、BA
+1.514个百分点。普通货船召回提高6.410个百分点，是主要BA收益来源。该结果支持共享通用骨干、允许极化相关证据变换分别学习的组织方式；它评价的是整体参数策略，包含新增参数容量的作用，而非证明每个模块都必须独立处理两种极化。</p>
+<p>针对一侧未获得有效OBB的输入，另固定微调完整模型与原参考，在核实两极化裁片共用地理格网后，用可用极化的目标框恢复另一视图。OSS2的30条单路测试观测均具有对应原图，恢复后全测试OA由64.727%提高至65.344%，BA由59.396%变为59.430%。这一输入恢复结果单独报告，说明定位可用性会影响识别，但不把缺失极化作为所有误分类的共同解释。</p>
 <h2 id="源参考库规模与抽样">6.10 源参考库规模与抽样</h2>
 <p>表18固定模型权重、查询集合和合法源候选池，每个预算进行五次配对参考抽样，考察部署时更换参考库的敏感性。预算按每类独立船数计，总参考数随类别数变化；抽样标准差与训练种子标准差分别报告。参考均来自训练集，不使用目标标签，且不同预算不改变测试集类别组成。</p>
 <p><strong>表18
@@ -1725,113 +1741,30 @@ s。</p>
 <tr>
 <td>普通适配</td>
 <td>无</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">60.141／54.866</td>
 <td style="text-align: right;">—</td>
 </tr>
 <tr>
 <td>类内配额随机选样</td>
 <td>随机选中的源样本</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">60.141／55.297</td>
 <td style="text-align: right;">—</td>
 </tr>
 <tr>
 <td>干预有效性选样</td>
 <td>通过干预筛选的源样本</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;"><strong>61.023／55.630</strong></td>
 <td style="text-align: right;">—</td>
 </tr>
 </tbody>
 </table>
-<h2 id="跨数据集迁移">6.12 跨数据集迁移</h2>
-<p>跨数据集比较固定源训练模型、预处理和参考库，在共同类别上测试，不用目标标签选择参数。表20分方向报告结果，并按产品、过境和MMSI排除与源训练重叠的观测。该比较检验数据来源变化下的迁移能力，与数据集内部跨场景测试分开。</p>
+<p>干预选样相对类内配额随机选样提高OA 0.882、BA
+0.333个百分点，三个种子的OA均提高；相对无分差保护提高OA 0.882、BA
+0.764个百分点。前一比较在五个测试过境中有四个取得平均OA增量，说明收益不只出现在单个场景。其船级配对OA增量95%区间为[−0.440,2.216]个百分点，故这一结果支持小幅净收益，不作显著提升判断。</p>
+<p>三种策略均训练全部源图像，只改变额外分差保护的分配。干预筛选的保护项在各96步适配中有89、88、90步非零，确认约束实际参与优化。化学品／成品油轮000141在两个种子中被干预选样模型救回；seed17下，相对随机选样的真实类分差由−0.678提高至+0.176。该例说明样本保护能通过后续完整训练转化为判别改善，而非要求预测时修改输入图像。</p>
+<h2 id="分场景表现与定位鲁棒性">6.12 分场景表现与定位鲁棒性</h2>
+<p>表20按过境和港口汇总分阶段完整模型相对普通骨干的配对增量，保留不同场景的类别覆盖；场景BA仅在该组实际存在的类别上计算。表中平均增量先在每个场景内对三个训练种子取均值，再对场景等权汇总，不同于表9按全部测试观测统计的OA。自建数据的过境统计采用包含datatake的85个完整过境组。定位鲁棒性另固定图像和标签，仅改变OBB并重新生成局部区域，避免把输入像素变化与区域组织误差混为一谈。</p>
 <p><strong>表20
-当前模型的跨数据集测试。两方向均为共同四类；样本数为重叠排除后的目标测试规模。</strong></p>
-<table>
-<thead>
-<tr>
-<th>方向</th>
-<th>方法</th>
-<th style="text-align: right;">目标样本数</th>
-<th style="text-align: right;">OA（%）</th>
-<th style="text-align: right;">BA（%）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>OSS2→OSS1</td>
-<td>普通骨干</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS2→OSS1</td>
-<td>匹配位置SE</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS2→OSS1</td>
-<td>CPINet</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS2→OSS1</td>
-<td>SCRC-Net</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS2→OSS1</td>
-<td>本文完整模型</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1→OSS2</td>
-<td>普通骨干</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1→OSS2</td>
-<td>匹配位置SE</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1→OSS2</td>
-<td>CPINet</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1→OSS2</td>
-<td>SCRC-Net</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-<tr>
-<td>OSS1→OSS2</td>
-<td>本文完整模型</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-</tr>
-</tbody>
-</table>
-<h2 id="分场景与输入边界">6.13 分场景与输入边界</h2>
-<p>表21按过境和港口汇总完整模型相对普通骨干的配对增量，保留不同场景的类别覆盖；场景BA仅在该组实际存在的类别上计算。表22区分自然输入分层与OBB受控扰动。船体占比的分组阈值由训练集三分位确定，位置、尺度和轴向扰动范围依据训练端定位误差确定；同一扰动比较保持图像、标签及查询集合不变。</p>
-<p><strong>表21
 场景级增量分布。增量相对普通骨干，以百分点计；正／平／负为场景数。</strong></p>
 <table style="width:100%;">
 <colgroup>
@@ -1854,37 +1787,34 @@ s。</p>
 </thead>
 <tbody>
 <tr>
-<td>OSS1／过境</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td>—</td>
-</tr>
-<tr>
 <td>OSS2／过境</td>
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td>—</td>
+<td style="text-align: right;">+5.199</td>
+<td style="text-align: right;">+7.322</td>
+<td>4／0／1</td>
 </tr>
 <tr>
 <td>自建24港／过境</td>
-<td style="text-align: right;">81</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td>—</td>
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">+3.813</td>
+<td style="text-align: right;">+2.183</td>
+<td>58／3／24</td>
 </tr>
 <tr>
 <td>自建24港／港口</td>
 <td style="text-align: right;">18</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td>—</td>
+<td style="text-align: right;">+1.876</td>
+<td style="text-align: right;">+0.088</td>
+<td>12／0／6</td>
 </tr>
 </tbody>
 </table>
-<p><strong>表22
-输入条件与定位扰动下的识别结果。各数据集单元格为样本数及OA／BA（%）。</strong></p>
+<p>完整模型在自建数据的12个港口和58个完整过境组中取得平均OA增益，其中10个港口、35个过境组在三个种子中均提高。Port
+Klang、Santos与Richards
+Bay相对普通骨干的OA分别提高6.52、10.04和9.91个百分点，说明收益分布于多个水域。场景内的类别构成仍会影响增量：Singapore的OA提高6.49个百分点，而BA下降3.72个百分点；Jebel
+Ali的OA下降0.16个百分点，BA提高1.24个百分点。因此，跨场景净收益与各场景内部的类别收益分配需要分别评价。这里的逐港统计基于同一跨场景划分，不等同于留一港训练。</p>
+<p><strong>表21
+固定分阶段模型的RGRP定位扰动结果。OSS2使用相同378条查询，单元格为三种子平均OA／BA（%）。</strong></p>
 <table>
 <thead>
 <tr>
@@ -1896,57 +1826,45 @@ s。</p>
 </thead>
 <tbody>
 <tr>
-<td>自然分层</td>
-<td>船体占比低／中／高</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>自然分层</td>
-<td>VV/VH均可用</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>自然分层</td>
-<td>仅VV可用</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>自然分层</td>
-<td>仅VH可用</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>自然分层</td>
-<td>高补零比例</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>定位扰动</td>
+<td>基准</td>
 <td>原始OBB</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>定位扰动</td>
-<td>中心位置扰动</td>
-<td>—</td>
+<td>61.023／55.630</td>
 <td>—</td>
 </tr>
 <tr>
-<td>定位扰动</td>
-<td>长宽尺度扰动</td>
-<td>—</td>
+<td>中心位置</td>
+<td>沿轴−20%／+20%</td>
+<td>62.346／57.338；60.317／55.678</td>
 <td>—</td>
 </tr>
 <tr>
-<td>定位扰动</td>
-<td>轴向角度扰动</td>
+<td>中心位置</td>
+<td>横轴−20%／+20%</td>
+<td>61.728／55.681；60.406／54.870</td>
 <td>—</td>
+</tr>
+<tr>
+<td>长宽尺度</td>
+<td>等比−20%／+20%</td>
+<td>58.995／56.057；62.610／56.221</td>
+<td>—</td>
+</tr>
+<tr>
+<td>长度</td>
+<td>−20%／+20%</td>
+<td>59.524／56.324；62.434／56.061</td>
+<td>—</td>
+</tr>
+<tr>
+<td>宽度</td>
+<td>−20%／+20%</td>
+<td>60.141／55.369；60.317／55.245</td>
+<td>—</td>
+</tr>
+<tr>
+<td>轴向角度</td>
+<td>−20°／+20°</td>
+<td>61.464／56.936；61.993／55.768</td>
 <td>—</td>
 </tr>
 <tr>
@@ -1957,85 +1875,51 @@ s。</p>
 </tr>
 </tbody>
 </table>
-<h2 id="参数与优化敏感性">6.14 参数与优化敏感性</h2>
-<p>表23围绕当前值分别调整CRFB反馈增益、RGRP补充增益、RCEW回写增益和比较温度，每次只改变一个量。参数选择仅使用验证集；确认配置后再进行固定测试。训练配方比较保持骨干起点和数据权限一致，区分仅更新分类头、当前局部解冻与扩大解冻范围的收益及训练成本。</p>
-<p><strong>表23
-参数与解冻配方的验证集比较。参数行按当前值的0.5、1、2倍分别报告BA；配方行报告对应BA及可训练参数量。</strong></p>
+<p>中心位移分别按框长和框宽归一化，并比较5%、10%、20%的正负偏移；尺寸改变包括10%、20%的独立长宽及等比变化，角度比较正负5°、10°、20°，合计30个非零条件与零扰动。表21列出各变量的最大幅度，较小扰动保留相同定义。所有条件只更新查询的RGRP局部区域，图像像素、参考描述及RCEW回写保持固定，因此衡量的是区域定位敏感性，而不是整个检测流程的误差传播。</p>
+<p>30个非零条件的平均OA变化为−2.028至+1.587个百分点，BA变化为−0.760至+1.708个百分点。缩框和扩框产生不同类别权衡：等比缩小20%使集装箱船平均召回降低7.056个百分点、化学品／成品油轮提高8.434个百分点。故小幅总体变化并不代表每个预测不变，扩大范围也不是统一最优策略。该实验保留原框作为评价基准，不根据测试扰动择优修改输入。</p>
+<h2 id="优化范围与训练成本">6.13 优化范围与训练成本</h2>
+<p>表22列出分阶段完整模型与两种全骨干配置的优化结果，验证集用于选择范围、学习率与检查点，测试性能见表9。完整模型微调不改变模块位置、参考数量和原始输入权限，改善来自新增联合优化而非增加测试信息。</p>
+<p><strong>表22
+OSS2训练方案与验证集性能。轮数按seed17／29／43排列；OA／BA为三种子平均（%）。</strong></p>
 <table>
 <thead>
 <tr>
-<th>对照项</th>
-<th>候选设置</th>
-<th>OSS2</th>
-<th>自建24港</th>
+<th>配置</th>
+<th>初始化</th>
+<th>实际轮数</th>
+<th>验证OA／BA</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>CRFB反馈增益</td>
-<td>0.15／0.30／0.60</td>
-<td>—</td>
-<td>—</td>
+<td>本文分阶段版</td>
+<td>ImageNet</td>
+<td>五阶段固定预算</td>
+<td>63.304／57.582</td>
 </tr>
 <tr>
-<td>RGRP补充增益</td>
-<td>0.05／0.10／0.20</td>
-<td>—</td>
-<td>—</td>
+<td>R50-Tuned</td>
+<td>ImageNet</td>
+<td>46／49／53</td>
+<td>64.035／61.110</td>
 </tr>
 <tr>
-<td>RCEW回写增益</td>
-<td>0.05／0.10／0.20</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>RCEW比较温度</td>
-<td>0.05／0.10／0.20</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>普通骨干训练配方</td>
-<td>仅分类头</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>普通骨干训练配方</td>
-<td>当前局部解冻</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>普通骨干训练配方</td>
-<td>扩大解冻范围</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>完整模型训练配方</td>
-<td>当前局部解冻</td>
-<td>—</td>
-<td>—</td>
-</tr>
-<tr>
-<td>完整模型训练配方</td>
-<td>扩大解冻范围</td>
-<td>—</td>
-<td>—</td>
+<td>本文全骨干微调</td>
+<td>对应分阶段终点</td>
+<td>23／19／22</td>
+<td>65.936／61.224</td>
 </tr>
 </tbody>
 </table>
-<h2 id="逐类识别表现">6.15 逐类识别表现</h2>
-<p>表24给出完整模型的逐类召回及相对普通骨干的变化，用于区分总体改善与类别间收益分配。公开集四类之外的单元格标为不适用，不参与其BA或宏F1计算。误差分析结合实际查询及同类、混淆类参考，沿用图10—12的响应、局部替换与回写路径诊断。</p>
-<p><strong>表24
+<p>完整模型三个微调运行共新增1,920次更新，连同继承的三次分阶段训练合计4,128次；R50-Tuned三个运行共4,440次更新。两者的源图像暴露次数分别为96,356和106,412，均为重复训练暴露而非独立样本数。完整模型还包含参考前向、辅助监督与历史分阶段学习，更新次数不能直接换算为相同计算量。这些预算与表15的稳态推理延迟分别报告，以区分训练投入和部署开销。</p>
+<h2 id="逐类识别表现">6.14 逐类识别表现</h2>
+<p>表23给出表9分阶段完整模型的逐类召回及相对普通骨干的变化，用于区分总体改善与类别间收益分配。公开集四类之外的单元格标为不适用，不参与其BA或宏F1计算。误差分析结合实际查询及同类、混淆类参考，沿用图10—12的响应、局部替换与回写路径诊断。</p>
+<p><strong>表23
 完整模型的逐类召回。单元格为召回率（%）及相对普通骨干的增量（百分点）。</strong></p>
 <table>
 <thead>
 <tr>
 <th>船型</th>
-<th style="text-align: right;">OSS1</th>
 <th style="text-align: right;">OSS2</th>
 <th style="text-align: right;">自建24港</th>
 </tr>
@@ -2043,59 +1927,56 @@ s。</p>
 <tbody>
 <tr>
 <td>散货船</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">53.54（+3.54）</td>
+<td style="text-align: right;">63.46（+11.19）</td>
 </tr>
 <tr>
 <td>普通货船</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">35.90（−3.85）</td>
+<td style="text-align: right;">40.75（+7.20）</td>
 </tr>
 <tr>
 <td>化学品／成品油轮</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">58.63（+6.83）</td>
+<td style="text-align: right;">42.76（+2.53）</td>
 </tr>
 <tr>
 <td>集装箱船</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">74.45（+7.30）</td>
+<td style="text-align: right;">43.49（+1.94）</td>
 </tr>
 <tr>
 <td>渔船</td>
 <td style="text-align: right;">不适用</td>
-<td style="text-align: right;">不适用</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">65.69（+2.29）</td>
 </tr>
 <tr>
 <td>原油轮</td>
 <td style="text-align: right;">不适用</td>
-<td style="text-align: right;">不适用</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">48.44（+3.39）</td>
 </tr>
 <tr>
 <td>拖轮／拖带船</td>
 <td style="text-align: right;">不适用</td>
-<td style="text-align: right;">不适用</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">14.49（−1.69）</td>
 </tr>
 <tr>
 <td>海工补给船</td>
 <td style="text-align: right;">不适用</td>
-<td style="text-align: right;">不适用</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">32.14（+2.99）</td>
 </tr>
 </tbody>
 </table>
+<p>在自建数据中，八类中的七类相对普通骨干取得平均召回增益，其中散货船与普通货船分别提高11.19和7.20个百分点。散货船有947条测试观测，贡献约62.85%的净OA增量；其余类别合计仍贡献正增量，且BA同时提高，说明收益并非仅由最大类别的数量优势构成。OSS2的化学品／成品油轮和集装箱船分别提高6.83和7.30个百分点，而普通货船下降3.85个百分点，体现了不同类别和数据条件下的作用差异。</p>
+<p>原图回看进一步将总体结果落实到具体预测。自建数据中，Singapore散货船样本198在三个种子中均由普通骨干的原油轮误判恢复为散货船；Tanger
+Med普通货船样本551均由化学品／成品油轮误判恢复为普通货船。前者双极化呈细长响应，后者查询与同类参考的轴向并不一致，表明粗外形或方向一致性不足以单独解释分类。相对SE，Jebel
+Ali化学品／成品油轮样本1070也在三个种子中均被完整模型判对。上述实例与逐类、逐场景增量相互补充；具体模块的作用仍由配套消融和路径干预确定。</p>
 <h1 id="讨论">7 讨论</h1>
-<p>公开集比较与机制实验形成了相互补充的证据链：完整训练检验证据组织的整体效用，区域消融定位主要收益来源，权重置换检验类别响应与位置对应的必要性，参考案例展示竞争类别优势如何被修正。三类模块分别承担特征反馈、区域汇总和跨样本比较，局部机制贡献与完整训练增量不作简单相加。</p>
+<p>公开集、自建数据比较与机制实验形成了相互补充的证据链：分阶段配套训练检验证据组织的整体效用，全骨干微调考察表征与模块的联合适配，区域消融定位主要收益来源，权重置换及参考回写干预则解释已训练预测如何形成。三类模块分别承担特征反馈、区域汇总和跨样本比较，其局部作用与完整训练增量不作简单相加。区域身份合并、极化共享和参考替换进一步说明，整体系统有效并不要求每个内部设计在所有指标上同时占优；保留模块应依据其可重复净收益及明确作用范围。</p>
+<p>识别正确率与预测概率质量并不完全一致。自建数据中，完整模型的NLL为2.0670，高于普通骨干的1.8320和SE的1.6081，说明正确预测增多的同时，剩余错误仍存在过度自信。本文的主要收益体现为OA、BA和宏F1的改善，概率校准可作为进一步完善方向。</p>
 <p>参考规模、类内观测覆盖及前端表征共同影响回写效用，外围响应的物理来源可结合更精细标注继续研究。干预选样为训练提供样本级判别保护，公平比较中的各方法采用相同规则。不同港口、时相与成像条件构成联合场景变化，本文以可追溯的局部证据处理提升分类能力，不要求将所有变化压缩为单一不变表征。</p>
 <h1 id="结论">8 结论</h1>
-<p>本文针对跨场景SAR船舶分类中局部判别证据利用不充分的问题，结合同船重复观测与受控图像干预，发现局部响应的判别作用依赖极化、区域及类别竞争。在此基础上，提出共享骨干的极化与区域证据学习网络：CRFB将相对类别响应用于局部特征反馈，RGRP在目标几何区域内组织多层证据，RCEW将源参考比较转换为中间层类别证据场；训练结合干预选样与原图判别优势保护。OSS2上的完整训练相对普通骨干取得OA和BA增益，组件消融显示RGRP具有明确的净收益，内部替换与真实案例进一步揭示类别响应和参考回写的作用。研究表明，保留证据来源与区域身份，并将其同类别竞争关系结合，是改善跨场景SAR船舶分类的一条有效途径。</p>
+<p>本文针对跨场景SAR船舶分类中局部判别证据利用不充分的问题，结合同船重复观测与受控图像干预，发现局部响应的判别作用依赖极化、区域及类别竞争。在此基础上，提出共享骨干的极化与区域证据学习网络：CRFB将相对类别响应用于局部特征反馈，RGRP在目标几何区域内组织多层证据，RCEW将源参考比较转换为中间层类别证据场；训练结合干预选样与原图判别优势保护。OSS2四分类和自建24港八分类的分阶段完整训练相对匹配普通骨干均取得OA、BA及宏F1增益，OSS2全骨干微调进一步提升系统性能。配套消融显示RGRP具有明确的净收益，极化参数比较与干预选样对照支持差异化证据处理，内部替换与真实案例揭示类别响应和参考回写的具体作用。研究表明，按来源与区域组织局部证据，并将其同类别竞争关系结合，是改善跨场景SAR船舶分类的一条有效途径。</p>
 <h1 id="参考文献">参考文献</h1>
 <p>[1] L. Huang, B. Liu, B. Li, W. Guo, W. Yu, Z. Zhang, and W. Yu.
 OpenSARShip: A Dataset Dedicated to Sentinel-1 Ship Interpretation.

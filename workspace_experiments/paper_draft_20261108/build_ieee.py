@@ -32,17 +32,21 @@ def table(block, number, caption):
     c = block["c"]
     head = c[3][1]
     rows = [row for body in c[4] for row in body[3]]
-    env = "table*" if number == 5 else "table"
-    specs = {1: "LL", 2: "LCCCC", 3: "LCCC", 4: "LLL", 5: "LLLL",
+    env = "table"
+    specs = {1: "LL", 2: "LCCCC", 3: "LCCC", 4: "LLL",
+             5: r">{\hsize=.7\hsize}L>{\hsize=1.0\hsize}L>{\hsize=1.3\hsize}L",
              6: r">{\hsize=1.6\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
              7: "LCC", 8: "LCCCCC", 9: "LCCC", 10: "LCC",
              11: "LCCC", 12: "LCC", 13: "LCC", 14: "LCCC",
              15: "LCCCC",
              16: r">{\hsize=.6\hsize}L>{\hsize=1.8\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
              17: r">{\hsize=.8\hsize}L>{\hsize=1.6\hsize}L>{\hsize=.8\hsize}C>{\hsize=.8\hsize}C",
-             18: "LCCCC", 19: "LLCC", 20: "LCCC", 21: "LCCCL", 22: "LLCC",
-             23: r">{\hsize=1.2\hsize}L>{\hsize=1.6\hsize}L>{\hsize=.6\hsize}L>{\hsize=.6\hsize}L",
-             24: "LCCC"}
+             18: "LCCCC",
+             19: r">{\hsize=.9\hsize}L>{\hsize=1.1\hsize}L>{\hsize=1.4\hsize}C>{\hsize=.6\hsize}C",
+             20: "LCCCL",
+             21: r">{\hsize=.6\hsize}L>{\hsize=1.1\hsize}L>{\hsize=1.7\hsize}C>{\hsize=.6\hsize}C",
+             22: r">{\hsize=1.1\hsize}L>{\hsize=.9\hsize}L>{\hsize=.9\hsize}C>{\hsize=1.1\hsize}C",
+             23: "LCC"}
     placement = "!t" if env == "table*" else ("!htbp" if number in {6, 7, 8, 9} else "H")
     out = [rf"\begin{{{env}}}[{placement}]", r"\centering\footnotesize",
            rf"\setcounter{{table}}{{{number-1}}}",
@@ -53,7 +57,9 @@ def table(block, number, caption):
     group = None
     for i, row in enumerate(head + rows):
         cells = [convert(cell[4]).replace("\n", " ") for cell in row[1]]
-        if number in {9, 10, 14, 18, 20}:
+        if number == 21 and i >= len(head) and "；" in cells[2]:
+            cells[2] = r"\shortstack{" + cells[2].replace("；", r"\\") + "}"
+        if number in {9, 10, 14, 18}:
             label, cells = cells[0], cells[1:]
             if i >= len(head) and label != group:
                 if group is not None:
