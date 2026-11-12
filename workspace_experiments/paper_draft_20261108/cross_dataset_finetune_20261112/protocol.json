@@ -1,0 +1,42 @@
+{
+  "directions": [
+    "oss2_to_ports24",
+    "ports24_to_oss2"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "arms": [
+    "plain",
+    "full"
+  ],
+  "source_protocol": "E:\\临时会话\\paper_draft_20261108\\cross_dataset_retrained_20261111",
+  "recipe": {
+    "scope": "full",
+    "lr": 0.0001,
+    "seed": 17,
+    "module_lr": 0.0001,
+    "epochs_max": 30,
+    "epochs_min": 12,
+    "patience": 8,
+    "batch": 24,
+    "microbatch": 12,
+    "initialization": "staged Full seed17, five stages already trained",
+    "optimizer": "AdamW wd=.01, warmup2 cosine .05, clip5",
+    "loss": "class/vessel balanced CE + .02 M1 auxiliary CE",
+    "augmentation": "paired rot90/flip; native region masks transformed and re-integrated",
+    "references": "32 fixed legal source records; current shared-prefix features each batch",
+    "bn": "running statistics fixed; affine trainable in scope",
+    "intervention": "retained checkpoint training history; no new teacher selection",
+    "selection": "validation BA, OA, -NLL; epoch0 is eligible",
+    "inference": "all M1 M2 M3 active; no spectral module; no feature/delta cache"
+  },
+  "task": "Four-class bidirectional source-only transfer; matched 644 source records, not full-source training",
+  "target_data_used_in_training": false,
+  "target_labels_for_selection": false,
+  "selection": "source validation BA then OA then -NLL, epoch0 eligible",
+  "reference": "32 source records; original legal-pair exclusions retained",
+  "reused": "All completed source-only stages reused; no within-dataset trained weights"
+}

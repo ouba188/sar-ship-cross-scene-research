@@ -1,0 +1,77 @@
+{
+  "scope": "full",
+  "lr": 0.0001,
+  "seed": 43,
+  "module_lr": 0.0001,
+  "epochs_max": 30,
+  "epochs_min": 12,
+  "patience": 8,
+  "batch": 24,
+  "microbatch": 12,
+  "initialization": "E:\\临时会话\\paper_draft_20261108\\cross_dataset_retrained_20261111\\oss2_to_ports24\\full_s43_lr1\\readout\\final.pt",
+  "optimizer": "AdamW wd=.01, warmup2 cosine .05, clip5",
+  "loss": "class/vessel balanced CE + .02 M1 auxiliary CE",
+  "augmentation": "paired rot90/flip; native region masks transformed and re-integrated",
+  "references": "32 fixed legal source records; current shared-prefix features each batch",
+  "bn": "running statistics fixed; affine trainable in scope",
+  "intervention": "retained checkpoint training history; no new teacher selection",
+  "selection": "validation BA, OA, -NLL; epoch0 is eligible",
+  "inference": "all M1 M2 M3 active; no spectral module; no feature/delta cache",
+  "direction": "oss2_to_ports24",
+  "arm": "full",
+  "target_training_images": 0,
+  "target_training_labels": 0,
+  "hyperparameter_search": false,
+  "train_records": 644,
+  "validation_records": 223,
+  "target_records": 2412,
+  "references_per_class": 8,
+  "input_policy": "unchanged native160 and polarization availability; live backbone, no neural caches",
+  "epochs": 22,
+  "steps": 594,
+  "best": {
+    "epoch": 14,
+    "key": [
+      61.61212985944003,
+      66.3677130044843,
+      -1.068459391593933
+    ],
+    "metrics": {
+      "oa": 66.3677130044843,
+      "ba": 61.61212985944003,
+      "macro_f1": 61.22886775976909,
+      "nll": 1.068459391593933,
+      "confusion": [
+        [
+          60,
+          3,
+          5,
+          17
+        ],
+        [
+          3,
+          12,
+          4,
+          4
+        ],
+        [
+          8,
+          4,
+          15,
+          1
+        ],
+        [
+          15,
+          11,
+          0,
+          61
+        ]
+      ]
+    }
+  },
+  "seconds": 488.87043830007315,
+  "stop_reason": "validation_patience",
+  "trainable": 24985988,
+  "peak_gib": 3.5565452575683594,
+  "test_read": false
+}
