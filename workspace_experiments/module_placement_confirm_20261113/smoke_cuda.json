@@ -1,0 +1,163 @@
+{
+  "histories": [
+    {
+      "seed": 17,
+      "source_adapt": 241,
+      "selected": 126,
+      "inherited_steps": 96,
+      "intervention_retrained": false,
+      "checkpoint": "reference.pt",
+      "m1_active_in_common_stages": false
+    },
+    {
+      "seed": 29,
+      "source_adapt": 241,
+      "selected": 128,
+      "inherited_steps": 96,
+      "intervention_retrained": false,
+      "checkpoint": "reference.pt",
+      "m1_active_in_common_stages": false
+    },
+    {
+      "seed": 43,
+      "source_adapt": 241,
+      "selected": 127,
+      "inherited_steps": 96,
+      "intervention_retrained": false,
+      "checkpoint": "reference.pt",
+      "m1_active_in_common_stages": false
+    }
+  ],
+  "variants": {
+    "current": {
+      "common_replay_error": 2.0265579223632812e-05,
+      "feedback_trainable": [
+        "base.backbone.model.layer2.3.conv3.weight",
+        "guide.head.bias",
+        "guide.head.weight",
+        "m1.0.auxiliary.bias",
+        "m1.0.auxiliary.weight",
+        "m1.0.mean_transform.bias",
+        "m1.0.mean_transform.weight",
+        "m1.0.output.weight",
+        "m1.0.reader.weight",
+        "m1.0.relation_output.weight",
+        "m1.0.transforms.0.bias",
+        "m1.0.transforms.0.weight",
+        "m1.0.transforms.1.bias",
+        "m1.0.transforms.1.weight",
+        "m1.0.transforms.2.bias",
+        "m1.0.transforms.2.weight",
+        "m1.0.transforms.3.bias",
+        "m1.0.transforms.3.weight",
+        "m1.0.value.weight",
+        "m1.1.auxiliary.bias",
+        "m1.1.auxiliary.weight",
+        "m1.1.mean_transform.bias",
+        "m1.1.mean_transform.weight",
+        "m1.1.output.weight",
+        "m1.1.reader.weight",
+        "m1.1.relation_output.weight",
+        "m1.1.transforms.0.bias",
+        "m1.1.transforms.0.weight",
+        "m1.1.transforms.1.bias",
+        "m1.1.transforms.1.weight",
+        "m1.1.transforms.2.bias",
+        "m1.1.transforms.2.weight",
+        "m1.1.transforms.3.bias",
+        "m1.1.transforms.3.weight",
+        "m1.1.value.weight"
+      ],
+      "full_gradient_norms": {
+        "net.m1.": 0.8196030042599887,
+        "net.base.internal_m2.": 1.632993382983841,
+        "net.matcher.": 13.100953160668773,
+        "net.base.backbone.model.conv1.": 51.46782302856445
+      },
+      "trace": [
+        [
+          "m1",
+          3,
+          "after_conv2_relu"
+        ],
+        [
+          "m2",
+          5,
+          "after_conv1_relu"
+        ],
+        [
+          "m3",
+          5,
+          "after_block_relu"
+        ]
+      ],
+      "microbatch": 12,
+      "peak_gib": 7.95424747467041
+    },
+    "m1_middle": {
+      "common_replay_error": 2.0265579223632812e-05,
+      "feedback_trainable": [
+        "base.backbone.model.layer2.3.conv3.weight",
+        "guide.head.bias",
+        "guide.head.weight",
+        "m1.0.auxiliary.bias",
+        "m1.0.auxiliary.weight",
+        "m1.0.mean_transform.bias",
+        "m1.0.mean_transform.weight",
+        "m1.0.output.weight",
+        "m1.0.reader.weight",
+        "m1.0.relation_output.weight",
+        "m1.0.transforms.0.bias",
+        "m1.0.transforms.0.weight",
+        "m1.0.transforms.1.bias",
+        "m1.0.transforms.1.weight",
+        "m1.0.transforms.2.bias",
+        "m1.0.transforms.2.weight",
+        "m1.0.transforms.3.bias",
+        "m1.0.transforms.3.weight",
+        "m1.0.value.weight",
+        "m1.1.auxiliary.bias",
+        "m1.1.auxiliary.weight",
+        "m1.1.mean_transform.bias",
+        "m1.1.mean_transform.weight",
+        "m1.1.output.weight",
+        "m1.1.reader.weight",
+        "m1.1.relation_output.weight",
+        "m1.1.transforms.0.bias",
+        "m1.1.transforms.0.weight",
+        "m1.1.transforms.1.bias",
+        "m1.1.transforms.1.weight",
+        "m1.1.transforms.2.bias",
+        "m1.1.transforms.2.weight",
+        "m1.1.transforms.3.bias",
+        "m1.1.transforms.3.weight",
+        "m1.1.value.weight"
+      ],
+      "full_gradient_norms": {
+        "net.m1.": 0.6927093951962888,
+        "net.base.internal_m2.": 1.6329933470115066,
+        "net.matcher.": 13.10095287109356,
+        "net.base.backbone.model.conv1.": 51.44915008544922
+      },
+      "trace": [
+        [
+          "m1",
+          2,
+          "after_conv2_relu"
+        ],
+        [
+          "m2",
+          5,
+          "after_conv1_relu"
+        ],
+        [
+          "m3",
+          5,
+          "after_block_relu"
+        ]
+      ],
+      "microbatch": 12,
+      "peak_gib": 7.95424747467041
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "variants": [
+    "current",
+    "m1_middle"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "dataset": "oss2",
+  "shared_stages": [
+    "carrier",
+    "intervention",
+    "reference"
+  ],
+  "repeated_stages": [
+    "feedback",
+    "readout",
+    "full_finetune"
+  ],
+  "feedback_conv": "layer2[3].conv3 for BOTH positions",
+  "source_only_intervention_inherited": true,
+  "formal_model_changed": false,
+  "test_policy": "score both fixed positions only after all six fits",
+  "finetune": {
+    "max_epochs": 30,
+    "min_epochs": 12,
+    "patience": 8,
+    "batch": 24,
+    "micro": 12,
+    "backbone_lr": 0.0001,
+    "module_lr": 0.0001
+  }
+}
