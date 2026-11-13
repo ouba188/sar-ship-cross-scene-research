@@ -1,0 +1,188 @@
+{
+  "current_original_logit_error": 0.0,
+  "variants": {
+    "current": {
+      "trainable": 24985988,
+      "trace": [
+        [
+          "m1",
+          3,
+          "after_conv2_relu"
+        ],
+        [
+          "m2",
+          5,
+          "after_conv1_relu"
+        ],
+        [
+          "m3",
+          5,
+          "after_block_relu"
+        ]
+      ],
+      "gradients": {
+        "net.m1.": 0.6069891164079309,
+        "net.base.internal_m2.": 0.09551608073525131,
+        "net.matcher.": 0.09664360620081425,
+        "net.base.backbone.model.conv1.": 17.71062660217285
+      }
+    },
+    "m1_early": {
+      "trainable": 24985988,
+      "trace": [
+        [
+          "m1",
+          1,
+          "after_conv2_relu"
+        ],
+        [
+          "m2",
+          5,
+          "after_conv1_relu"
+        ],
+        [
+          "m3",
+          5,
+          "after_block_relu"
+        ]
+      ],
+      "gradients": {
+        "net.m1.": 0.3965440751053393,
+        "net.base.internal_m2.": 0.09551608073525131,
+        "net.matcher.": 0.09664360620081425,
+        "net.base.backbone.model.conv1.": 17.68967628479004
+      }
+    },
+    "m1_middle": {
+      "trainable": 24985988,
+      "trace": [
+        [
+          "m1",
+          2,
+          "after_conv2_relu"
+        ],
+        [
+          "m2",
+          5,
+          "after_conv1_relu"
+        ],
+        [
+          "m3",
+          5,
+          "after_block_relu"
+        ]
+      ],
+      "gradients": {
+        "net.m1.": 0.5310174878686666,
+        "net.base.internal_m2.": 0.09551608073525131,
+        "net.matcher.": 0.09664360620081425,
+        "net.base.backbone.model.conv1.": 17.651105880737305
+      }
+    },
+    "m2_early": {
+      "trainable": 24985988,
+      "trace": [
+        [
+          "m1",
+          3,
+          "after_conv2_relu"
+        ],
+        [
+          "m2",
+          1,
+          "after_conv1_relu"
+        ],
+        [
+          "m3",
+          5,
+          "after_block_relu"
+        ]
+      ],
+      "gradients": {
+        "net.m1.": 0.6069891164079309,
+        "net.base.internal_m2.": 0.08632412785664201,
+        "net.matcher.": 0.09664360620081425,
+        "net.base.backbone.model.conv1.": 17.71062660217285
+      }
+    },
+    "m2_middle": {
+      "trainable": 24985988,
+      "trace": [
+        [
+          "m1",
+          3,
+          "after_conv2_relu"
+        ],
+        [
+          "m2",
+          3,
+          "after_conv1_relu"
+        ],
+        [
+          "m3",
+          5,
+          "after_block_relu"
+        ]
+      ],
+      "gradients": {
+        "net.m1.": 0.6069891164079309,
+        "net.base.internal_m2.": 0.05386532307602465,
+        "net.matcher.": 0.09664360620081425,
+        "net.base.backbone.model.conv1.": 17.71062660217285
+      }
+    },
+    "m3_early": {
+      "trainable": 24985988,
+      "trace": [
+        [
+          "m1",
+          3,
+          "after_conv2_relu"
+        ],
+        [
+          "m3",
+          1,
+          "after_block_relu"
+        ],
+        [
+          "m2",
+          5,
+          "after_conv1_relu"
+        ]
+      ],
+      "gradients": {
+        "net.m1.": 0.6069891164079309,
+        "net.base.internal_m2.": 0.09551608073525131,
+        "net.matcher.": 0.07368984818458557,
+        "net.base.backbone.model.conv1.": 17.71062660217285
+      }
+    },
+    "m3_middle": {
+      "trainable": 24985988,
+      "trace": [
+        [
+          "m1",
+          3,
+          "after_conv2_relu"
+        ],
+        [
+          "m3",
+          3,
+          "after_block_relu"
+        ],
+        [
+          "m2",
+          5,
+          "after_conv1_relu"
+        ]
+      ],
+      "gradients": {
+        "net.m1.": 0.6069891164079309,
+        "net.base.internal_m2.": 0.09551608073525131,
+        "net.matcher.": 0.08419233374297619,
+        "net.base.backbone.model.conv1.": 17.71062660217285
+      }
+    }
+  },
+  "training": false
+}
