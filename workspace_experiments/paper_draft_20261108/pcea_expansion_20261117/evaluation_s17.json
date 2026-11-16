@@ -1,0 +1,263 @@
+{
+  "seed": 17,
+  "n": 378,
+  "split": "evaluation378 has historical research exposure; held-out split / frozen confirmation, not a new blind test; no evaluation selection",
+  "selected": {
+    "coordinated": {
+      "arm": "coordinated",
+      "seed": 17,
+      "config": "base",
+      "learning_rates": {
+        "ccrel_value": 1e-05,
+        "other_trainable": 0.001
+      },
+      "epoch": 4,
+      "metrics": {
+        "oa": 68.85964912280701,
+        "ba": 63.04249560612952,
+        "macro_f1": 61.59304329960964,
+        "nll": 1.1628262996673584,
+        "confusion": [
+          [
+            65,
+            5,
+            6,
+            11
+          ],
+          [
+            2,
+            10,
+            8,
+            3
+          ],
+          [
+            8,
+            2,
+            18,
+            1
+          ],
+          [
+            10,
+            11,
+            4,
+            64
+          ]
+        ]
+      },
+      "key": [
+        63.04249560612952,
+        68.85964912280701,
+        -1.1628262996673584
+      ],
+      "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\coordinated_s17\\best.pt",
+      "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\coordinated_s17\\validation.npz",
+      "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\coordinated_s17\\receipt.json",
+      "reused_coordinate_base": true,
+      "receipt_note": "Inherited trainable_scope prose contains literal default rates. Use learning_rates and parameter_groups for the actual rates; the inherited receipt is not modified."
+    },
+    "common": {
+      "arm": "common",
+      "seed": 17,
+      "config": "slow",
+      "learning_rates": {
+        "ccrel_value": 1e-05,
+        "other_trainable": 0.0003
+      },
+      "epoch": 4,
+      "metrics": {
+        "oa": 68.42105263157895,
+        "ba": 62.761596729725035,
+        "macro_f1": 61.29847803151315,
+        "nll": 1.1627686023712158,
+        "confusion": [
+          [
+            65,
+            5,
+            6,
+            11
+          ],
+          [
+            2,
+            10,
+            8,
+            3
+          ],
+          [
+            8,
+            2,
+            18,
+            1
+          ],
+          [
+            11,
+            11,
+            4,
+            63
+          ]
+        ]
+      },
+      "key": [
+        62.761596729725035,
+        68.42105263157895,
+        -1.1627686023712158
+      ],
+      "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\common_s17\\best.pt",
+      "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\common_s17\\validation.npz",
+      "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\common_s17\\receipt.json",
+      "reused_coordinate_base": false,
+      "receipt_note": "Inherited trainable_scope prose contains literal default rates. Use learning_rates and parameter_groups for the actual rates; the inherited receipt is not modified."
+    }
+  },
+  "metrics": {
+    "coordinated": {
+      "oa": 66.66666666666666,
+      "ba": 61.96145410594447,
+      "macro_f1": 59.79174484052532,
+      "nll": 1.1097875833511353,
+      "confusion": [
+        [
+          100,
+          6,
+          12,
+          14
+        ],
+        [
+          3,
+          12,
+          7,
+          4
+        ],
+        [
+          9,
+          19,
+          50,
+          5
+        ],
+        [
+          16,
+          19,
+          12,
+          90
+        ]
+      ]
+    },
+    "initial_full": {
+      "oa": 66.66666666666666,
+      "ba": 61.96145410594447,
+      "macro_f1": 59.811584606220514,
+      "nll": 1.1121183633804321,
+      "confusion": [
+        [
+          100,
+          6,
+          12,
+          14
+        ],
+        [
+          3,
+          12,
+          7,
+          4
+        ],
+        [
+          9,
+          19,
+          50,
+          5
+        ],
+        [
+          17,
+          19,
+          11,
+          90
+        ]
+      ]
+    },
+    "common": {
+      "oa": 66.66666666666666,
+      "ba": 61.96145410594447,
+      "macro_f1": 59.79174484052532,
+      "nll": 1.1115732192993164,
+      "confusion": [
+        [
+          100,
+          6,
+          12,
+          14
+        ],
+        [
+          3,
+          12,
+          7,
+          4
+        ],
+        [
+          9,
+          19,
+          50,
+          5
+        ],
+        [
+          16,
+          19,
+          12,
+          90
+        ]
+      ]
+    }
+  },
+  "paired": {
+    "coordinated_vs_initial": {
+      "rescue": 0,
+      "harm": 0,
+      "net": 0,
+      "stable_good": 252,
+      "stable_bad": 126,
+      "prediction_diff": 1,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0
+    },
+    "common_vs_initial": {
+      "rescue": 0,
+      "harm": 0,
+      "net": 0,
+      "stable_good": 252,
+      "stable_bad": 126,
+      "prediction_diff": 1,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0
+    },
+    "coordinated_vs_common": {
+      "rescue": 0,
+      "harm": 0,
+      "net": 0,
+      "stable_good": 252,
+      "stable_bad": 126,
+      "prediction_diff": 0,
+      "delta_oa": 0.0,
+      "delta_ba": 0.0
+    }
+  },
+  "replay": {
+    "coordinated_validation": {
+      "max_abs_error": 0.0,
+      "prediction_diff": 0
+    },
+    "coordinated_off_original_full": {
+      "max_abs_error": 0.0,
+      "prediction_diff": 0
+    },
+    "common_validation": {
+      "max_abs_error": 0.0,
+      "prediction_diff": 0
+    },
+    "common_off_original_full": {
+      "max_abs_error": 0.0,
+      "prediction_diff": 0
+    },
+    "both_arms_off": {
+      "max_abs_error": 0.0,
+      "prediction_diff": 0
+    }
+  }
+}

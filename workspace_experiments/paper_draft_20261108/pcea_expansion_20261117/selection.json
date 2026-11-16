@@ -1,0 +1,453 @@
+{
+  "status": "frozen",
+  "selection_seed": 17,
+  "selection_split": "validation228",
+  "rule": "lexicographic BA/OA/-NLL; epoch0 eligible; ties use config order",
+  "config_order": [
+    "base",
+    "slow",
+    "reader_slow"
+  ],
+  "configs": {
+    "base": {
+      "ccrel_value": 1e-05,
+      "other_trainable": 0.001
+    },
+    "slow": {
+      "ccrel_value": 1e-05,
+      "other_trainable": 0.0003
+    },
+    "reader_slow": {
+      "ccrel_value": 3e-06,
+      "other_trainable": 0.001
+    }
+  },
+  "arms": {
+    "coordinated": {
+      "arm": "coordinated",
+      "seed": 17,
+      "config": "base",
+      "learning_rates": {
+        "ccrel_value": 1e-05,
+        "other_trainable": 0.001
+      },
+      "epoch": 4,
+      "metrics": {
+        "oa": 68.85964912280701,
+        "ba": 63.04249560612952,
+        "macro_f1": 61.59304329960964,
+        "nll": 1.1628262996673584,
+        "confusion": [
+          [
+            65,
+            5,
+            6,
+            11
+          ],
+          [
+            2,
+            10,
+            8,
+            3
+          ],
+          [
+            8,
+            2,
+            18,
+            1
+          ],
+          [
+            10,
+            11,
+            4,
+            64
+          ]
+        ]
+      },
+      "key": [
+        63.04249560612952,
+        68.85964912280701,
+        -1.1628262996673584
+      ],
+      "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\coordinated_s17\\best.pt",
+      "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\coordinated_s17\\validation.npz",
+      "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\coordinated_s17\\receipt.json",
+      "reused_coordinate_base": true,
+      "receipt_note": "Inherited trainable_scope prose contains literal default rates. Use learning_rates and parameter_groups for the actual rates; the inherited receipt is not modified."
+    },
+    "common": {
+      "arm": "common",
+      "seed": 17,
+      "config": "slow",
+      "learning_rates": {
+        "ccrel_value": 1e-05,
+        "other_trainable": 0.0003
+      },
+      "epoch": 4,
+      "metrics": {
+        "oa": 68.42105263157895,
+        "ba": 62.761596729725035,
+        "macro_f1": 61.29847803151315,
+        "nll": 1.1627686023712158,
+        "confusion": [
+          [
+            65,
+            5,
+            6,
+            11
+          ],
+          [
+            2,
+            10,
+            8,
+            3
+          ],
+          [
+            8,
+            2,
+            18,
+            1
+          ],
+          [
+            11,
+            11,
+            4,
+            63
+          ]
+        ]
+      },
+      "key": [
+        62.761596729725035,
+        68.42105263157895,
+        -1.1627686023712158
+      ],
+      "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\common_s17\\best.pt",
+      "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\common_s17\\validation.npz",
+      "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\common_s17\\receipt.json",
+      "reused_coordinate_base": false,
+      "receipt_note": "Inherited trainable_scope prose contains literal default rates. Use learning_rates and parameter_groups for the actual rates; the inherited receipt is not modified."
+    }
+  },
+  "candidates": {
+    "coordinated": [
+      {
+        "arm": "coordinated",
+        "seed": 17,
+        "config": "base",
+        "learning_rates": {
+          "ccrel_value": 1e-05,
+          "other_trainable": 0.001
+        },
+        "epoch": 4,
+        "metrics": {
+          "oa": 68.85964912280701,
+          "ba": 63.04249560612952,
+          "macro_f1": 61.59304329960964,
+          "nll": 1.1628262996673584,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              10,
+              11,
+              4,
+              64
+            ]
+          ]
+        },
+        "key": [
+          63.04249560612952,
+          68.85964912280701,
+          -1.1628262996673584
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\coordinated_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\coordinated_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\coordinated_s17\\receipt.json",
+        "reused_coordinate_base": true,
+        "receipt_note": "Inherited trainable_scope prose contains literal default rates. Use learning_rates and parameter_groups for the actual rates; the inherited receipt is not modified."
+      },
+      {
+        "arm": "coordinated",
+        "seed": 17,
+        "config": "slow",
+        "learning_rates": {
+          "ccrel_value": 1e-05,
+          "other_trainable": 0.0003
+        },
+        "epoch": 4,
+        "metrics": {
+          "oa": 68.42105263157895,
+          "ba": 62.761596729725035,
+          "macro_f1": 61.29847803151315,
+          "nll": 1.1634347438812256,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              11,
+              11,
+              4,
+              63
+            ]
+          ]
+        },
+        "key": [
+          62.761596729725035,
+          68.42105263157895,
+          -1.1634347438812256
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\coordinated_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\coordinated_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\coordinated_s17\\receipt.json",
+        "reused_coordinate_base": false,
+        "receipt_note": "Inherited trainable_scope prose contains literal default rates. Use learning_rates and parameter_groups for the actual rates; the inherited receipt is not modified."
+      },
+      {
+        "arm": "coordinated",
+        "seed": 17,
+        "config": "reader_slow",
+        "learning_rates": {
+          "ccrel_value": 3e-06,
+          "other_trainable": 0.001
+        },
+        "epoch": 4,
+        "metrics": {
+          "oa": 68.85964912280701,
+          "ba": 63.04249560612952,
+          "macro_f1": 61.59304329960964,
+          "nll": 1.1628512144088745,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              10,
+              11,
+              4,
+              64
+            ]
+          ]
+        },
+        "key": [
+          63.04249560612952,
+          68.85964912280701,
+          -1.1628512144088745
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\reader_slow\\coordinated_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\reader_slow\\coordinated_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\reader_slow\\coordinated_s17\\receipt.json",
+        "reused_coordinate_base": false,
+        "receipt_note": "Inherited trainable_scope prose contains literal default rates. Use learning_rates and parameter_groups for the actual rates; the inherited receipt is not modified."
+      }
+    ],
+    "common": [
+      {
+        "arm": "common",
+        "seed": 17,
+        "config": "base",
+        "learning_rates": {
+          "ccrel_value": 1e-05,
+          "other_trainable": 0.001
+        },
+        "epoch": 1,
+        "metrics": {
+          "oa": 68.42105263157895,
+          "ba": 62.761596729725035,
+          "macro_f1": 61.29847803151315,
+          "nll": 1.1632592678070068,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              11,
+              11,
+              4,
+              63
+            ]
+          ]
+        },
+        "key": [
+          62.761596729725035,
+          68.42105263157895,
+          -1.1632592678070068
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\common_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\common_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117\\common_s17\\receipt.json",
+        "reused_coordinate_base": true,
+        "receipt_note": "Inherited trainable_scope prose contains literal default rates. Use learning_rates and parameter_groups for the actual rates; the inherited receipt is not modified."
+      },
+      {
+        "arm": "common",
+        "seed": 17,
+        "config": "slow",
+        "learning_rates": {
+          "ccrel_value": 1e-05,
+          "other_trainable": 0.0003
+        },
+        "epoch": 4,
+        "metrics": {
+          "oa": 68.42105263157895,
+          "ba": 62.761596729725035,
+          "macro_f1": 61.29847803151315,
+          "nll": 1.1627686023712158,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              11,
+              11,
+              4,
+              63
+            ]
+          ]
+        },
+        "key": [
+          62.761596729725035,
+          68.42105263157895,
+          -1.1627686023712158
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\common_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\common_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\slow\\common_s17\\receipt.json",
+        "reused_coordinate_base": false,
+        "receipt_note": "Inherited trainable_scope prose contains literal default rates. Use learning_rates and parameter_groups for the actual rates; the inherited receipt is not modified."
+      },
+      {
+        "arm": "common",
+        "seed": 17,
+        "config": "reader_slow",
+        "learning_rates": {
+          "ccrel_value": 3e-06,
+          "other_trainable": 0.001
+        },
+        "epoch": 1,
+        "metrics": {
+          "oa": 68.42105263157895,
+          "ba": 62.761596729725035,
+          "macro_f1": 61.29847803151315,
+          "nll": 1.16326904296875,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              11,
+              11,
+              4,
+              63
+            ]
+          ]
+        },
+        "key": [
+          62.761596729725035,
+          68.42105263157895,
+          -1.16326904296875
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\reader_slow\\common_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\reader_slow\\common_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_expansion_20261117\\tuning\\reader_slow\\common_s17\\receipt.json",
+        "reused_coordinate_base": false,
+        "receipt_note": "Inherited trainable_scope prose contains literal default rates. Use learning_rates and parameter_groups for the actual rates; the inherited receipt is not modified."
+      }
+    ]
+  },
+  "evaluation_note": "evaluation378 has historical research exposure; held-out split / frozen confirmation, not a new blind test; no evaluation selection",
+  "source_samples": 719,
+  "references": 32,
+  "epochs": 4
+}
