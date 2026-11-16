@@ -1,0 +1,102 @@
+{
+  "arm": "independent_fine",
+  "seed": 17,
+  "source": 719,
+  "validation": 228,
+  "epochs": 4,
+  "optimizer": "AdamW",
+  "parameter_groups": [
+    {
+      "name": "ccrel_value",
+      "base_lr": 1e-05,
+      "weight_decay": 0.01,
+      "parameter_count": 32768,
+      "parameter_names": [
+        "ccrel.value.0.weight",
+        "ccrel.value.1.weight"
+      ],
+      "epoch_learning_rates": [
+        5e-06,
+        1e-05,
+        5.500000000000001e-06,
+        1.0000000000000002e-06
+      ]
+    },
+    {
+      "name": "other_trainable",
+      "base_lr": 0.001,
+      "weight_decay": 0.01,
+      "parameter_count": 58368,
+      "parameter_names": [
+        "exchange.project.0.weight",
+        "exchange.project.1.weight",
+        "exchange.output.0.weight",
+        "exchange.output.1.weight",
+        "ccrel.fine_value.0.weight",
+        "ccrel.fine_value.1.weight"
+      ],
+      "epoch_learning_rates": [
+        0.0005,
+        0.001,
+        0.00055,
+        0.0001
+      ]
+    }
+  ],
+  "learning_rates": {
+    "ccrel_value": 1e-05,
+    "other_trainable": 0.001
+  },
+  "weight_decay": 0.01,
+  "clip_grad_norm": 5.0,
+  "batch": 24,
+  "microbatch": 12,
+  "references": 32,
+  "schedule": "same previous 4-epoch multipliers: 0.5, 1.0, 0.55, 0.1",
+  "order_rng_seed": 20261133,
+  "augmentation_rng_seed": 20261134,
+  "trainable_scope": "ccrel.value at 1e-5; ALL remaining trainable parameters at 1e-3, including new ccrel.fine_value; original network frozen by Model",
+  "selection": "validation BA/OA/-NLL; epoch0 eligible",
+  "initial": {
+    "oa": 68.42105263157895,
+    "ba": 62.761596729725035,
+    "macro_f1": 61.29847803151315,
+    "nll": 1.1634663343429565,
+    "confusion": [
+      [
+        65,
+        5,
+        6,
+        11
+      ],
+      [
+        2,
+        10,
+        8,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        11,
+        11,
+        4,
+        63
+      ]
+    ]
+  },
+  "initial_logit_error": 0.0,
+  "initial_predictions_identical": true,
+  "test_read": false,
+  "source_statistics": "unchanged model.calibrate: previous identical initial reader source-only moments, fixed during training",
+  "calibration_root": "E:\\临时会话\\paper_draft_20261108\\pcea_readout_repair_20261116",
+  "evidence_interface": "CCREL [B,2,3,5,32] passed to PCEA without detach",
+  "fine_residual": "native layer1 residual before pooling",
+  "augmentation": "paired rot90/flip with native geometry; same RNG and per-batch draws as previous fit",
+  "loss": "same class/vessel weighted CE + .02 frozen M1 auxiliary CE",
+  "run_root": "E:\\临时会话\\paper_draft_20261108\\ccrel_pcea_joint_20261116\\reader_lr1e5"
+}

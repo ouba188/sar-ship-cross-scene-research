@@ -1,0 +1,52 @@
+{
+  "arm": "joint_fine_gate",
+  "seed": 17,
+  "source": 719,
+  "validation": 228,
+  "epochs": 4,
+  "learning_rate": 0.001,
+  "batch": 24,
+  "microbatch": 12,
+  "references": 32,
+  "trainable_scope": "CCREL value projection + optional layer1 residual projection + PCEA; original backbone/class response/reference/classifier frozen",
+  "selection": "validation BA/OA/-NLL; epoch0 eligible",
+  "initial": {
+    "oa": 68.42105263157895,
+    "ba": 62.761596729725035,
+    "macro_f1": 61.29847803151315,
+    "nll": 1.1634663343429565,
+    "confusion": [
+      [
+        65,
+        5,
+        6,
+        11
+      ],
+      [
+        2,
+        10,
+        8,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        11,
+        11,
+        4,
+        63
+      ]
+    ]
+  },
+  "initial_logit_error": 0.0,
+  "test_read": false,
+  "source_statistics": "previous identical initial reader source-only calibration, fixed units during joint reader learning",
+  "augmentation": "paired rot90/flip with native geometry",
+  "loss": "same class/vessel weighted CE + .02 frozen M1 auxiliary CE",
+  "evidence_interface": "CCREL [B,2,3,5,32] passed directly to PCEA without detach",
+  "fine_residual": "native layer1 256x40x40 -> LN/1x1/tanh -> area alignment20 -> bounded addition BEFORE regional pooling"
+}

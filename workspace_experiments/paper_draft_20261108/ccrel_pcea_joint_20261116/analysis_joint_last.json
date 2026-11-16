@@ -1,0 +1,1032 @@
+{
+  "arm": "joint",
+  "seed": 17,
+  "checkpoint": "last",
+  "epoch": 4,
+  "requested_checkpoint": "best",
+  "best_epoch": 0,
+  "trained_last_fallback": true,
+  "trained_checkpoint": true,
+  "last_diagnostic": true,
+  "split": "existing OSS2 validation; not independent test",
+  "scope": "Read projection/conditional relation and PCEA path study; not a new whole architecture.",
+  "initial_full": "E:\\临时会话\\paper_draft_20261108\\full_finetune_20261111\\selected_s17\\validation.npz",
+  "control_checkpoints": {
+    "joint": {
+      "checkpoint": "last",
+      "epoch": 4
+    },
+    "joint_fine": {
+      "checkpoint": "last",
+      "epoch": 4
+    },
+    "joint_fine_gate": {
+      "checkpoint": "last",
+      "epoch": 4
+    },
+    "independent_fine": {
+      "checkpoint": "last",
+      "epoch": 4
+    }
+  },
+  "pending_arms": [],
+  "replay": {
+    "checkpoint": {
+      "max_abs_error": 1.9073486328125e-06,
+      "top1_identical": true,
+      "bitwise_equal": false,
+      "tolerance": 0.001
+    },
+    "branch_off_initial_full": {
+      "max_abs_error": 0.0,
+      "top1_identical": true,
+      "bitwise_equal": true,
+      "tolerance": 0.001
+    }
+  },
+  "metrics": {
+    "initial_full": {
+      "n": 228,
+      "oa": 68.42105263157895,
+      "ba": 62.761596729725035,
+      "confusion": [
+        [
+          65,
+          5,
+          6,
+          11
+        ],
+        [
+          2,
+          10,
+          8,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          11,
+          11,
+          4,
+          63
+        ]
+      ]
+    },
+    "joint": {
+      "n": 228,
+      "oa": 67.54385964912281,
+      "ba": 61.37436899527764,
+      "confusion": [
+        [
+          62,
+          5,
+          6,
+          14
+        ],
+        [
+          2,
+          9,
+          9,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          10,
+          10,
+          4,
+          65
+        ]
+      ]
+    },
+    "joint_fine": {
+      "n": 228,
+      "oa": 67.54385964912281,
+      "ba": 61.37436899527764,
+      "confusion": [
+        [
+          62,
+          5,
+          6,
+          14
+        ],
+        [
+          2,
+          9,
+          9,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          10,
+          10,
+          4,
+          65
+        ]
+      ]
+    },
+    "joint_fine_gate": {
+      "n": 228,
+      "oa": 67.54385964912281,
+      "ba": 61.37436899527764,
+      "confusion": [
+        [
+          62,
+          5,
+          6,
+          14
+        ],
+        [
+          2,
+          9,
+          9,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          10,
+          10,
+          4,
+          65
+        ]
+      ]
+    },
+    "independent_fine": {
+      "n": 228,
+      "oa": 67.54385964912281,
+      "ba": 61.37436899527764,
+      "confusion": [
+        [
+          62,
+          5,
+          6,
+          14
+        ],
+        [
+          2,
+          9,
+          9,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          10,
+          10,
+          4,
+          65
+        ]
+      ]
+    },
+    "branch_off": {
+      "n": 228,
+      "oa": 68.42105263157895,
+      "ba": 62.761596729725035,
+      "confusion": [
+        [
+          65,
+          5,
+          6,
+          11
+        ],
+        [
+          2,
+          10,
+          8,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          11,
+          11,
+          4,
+          63
+        ]
+      ]
+    },
+    "no_product": {
+      "n": 228,
+      "oa": 67.54385964912281,
+      "ba": 61.37436899527764,
+      "confusion": [
+        [
+          62,
+          5,
+          6,
+          14
+        ],
+        [
+          2,
+          9,
+          9,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          10,
+          10,
+          4,
+          65
+        ]
+      ]
+    },
+    "initial_reader": {
+      "n": 228,
+      "oa": 68.42105263157895,
+      "ba": 62.755139284290436,
+      "confusion": [
+        [
+          64,
+          5,
+          6,
+          12
+        ],
+        [
+          2,
+          10,
+          8,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          10,
+          11,
+          4,
+          64
+        ]
+      ]
+    }
+  },
+  "versus_initial": {
+    "initial_full": {
+      "rescued": 0,
+      "harmed": 0,
+      "stable_correct": 156,
+      "stable_wrong": 72,
+      "prediction_changes": 0
+    },
+    "joint": {
+      "rescued": 2,
+      "harmed": 4,
+      "stable_correct": 152,
+      "stable_wrong": 70,
+      "prediction_changes": 6
+    },
+    "joint_fine": {
+      "rescued": 2,
+      "harmed": 4,
+      "stable_correct": 152,
+      "stable_wrong": 70,
+      "prediction_changes": 6
+    },
+    "joint_fine_gate": {
+      "rescued": 2,
+      "harmed": 4,
+      "stable_correct": 152,
+      "stable_wrong": 70,
+      "prediction_changes": 6
+    },
+    "independent_fine": {
+      "rescued": 2,
+      "harmed": 4,
+      "stable_correct": 152,
+      "stable_wrong": 70,
+      "prediction_changes": 6
+    },
+    "branch_off": {
+      "rescued": 0,
+      "harmed": 0,
+      "stable_correct": 156,
+      "stable_wrong": 72,
+      "prediction_changes": 0
+    },
+    "no_product": {
+      "rescued": 2,
+      "harmed": 4,
+      "stable_correct": 152,
+      "stable_wrong": 70,
+      "prediction_changes": 6
+    },
+    "initial_reader": {
+      "rescued": 1,
+      "harmed": 1,
+      "stable_correct": 155,
+      "stable_wrong": 71,
+      "prediction_changes": 2
+    }
+  },
+  "withdrawals": {
+    "branch_off": {
+      "factual_vs_withdrawn": {
+        "rescued": 2,
+        "harmed": 4,
+        "stable_correct": 152,
+        "stable_wrong": 70,
+        "prediction_changes": 6
+      },
+      "score_effect": {
+        "prediction_diff": 6,
+        "max_abs": 0.349606990814209,
+        "rms": 0.13439970264890624,
+        "centered_rms": 0.13431375880398533,
+        "direction": "factual minus counterfactual; same trained head"
+      },
+      "fixed_initial_rival_margin_effect": {
+        "n": 228,
+        "mean": 0.04772222705446837,
+        "median": 0.0,
+        "p90": 0.4546133399009706,
+        "max": 0.6615447998046875
+      },
+      "absolute_margin_effect": {
+        "n": 228,
+        "mean": 0.2676174814175618,
+        "median": 0.281635046005249,
+        "p90": 0.48175811767578125,
+        "max": 0.6615447998046875
+      },
+      "class_correct_change": [
+        -3,
+        -1,
+        0,
+        2
+      ]
+    },
+    "no_product": {
+      "factual_vs_withdrawn": {
+        "rescued": 0,
+        "harmed": 0,
+        "stable_correct": 154,
+        "stable_wrong": 74,
+        "prediction_changes": 0
+      },
+      "score_effect": {
+        "prediction_diff": 0,
+        "max_abs": 0.10353231430053711,
+        "rms": 0.03476387638703352,
+        "centered_rms": 0.03474058833112178,
+        "direction": "factual minus counterfactual; same trained head"
+      },
+      "fixed_initial_rival_margin_effect": {
+        "n": 228,
+        "mean": 0.012759816522399584,
+        "median": 0.0,
+        "p90": 0.12111289501190188,
+        "max": 0.2022991180419922
+      },
+      "absolute_margin_effect": {
+        "n": 228,
+        "mean": 0.06903903529440102,
+        "median": 0.06776291131973267,
+        "p90": 0.12706542015075684,
+        "max": 0.2022991180419922
+      },
+      "class_correct_change": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "constant_shift": {
+    "all_queries": {
+      "n": 228,
+      "mean_centered_logits": [
+        -0.1607325380477082,
+        -0.06509539353295654,
+        0.08821454802436117,
+        0.1376133835563036
+      ],
+      "mean_centered_logit_energy": 0.056791608863425096,
+      "mean_squared_change": 0.07216074321622058,
+      "residual_squared_change": 0.01536913435279549,
+      "fraction_squared_change": 0.7870152985156512,
+      "matched_predictions": 227,
+      "changed_predictions": 6,
+      "matched_changed_predictions": 6,
+      "approximation_metrics": {
+        "n": 228,
+        "oa": 67.54385964912281,
+        "ba": 61.37436899527764,
+        "confusion": [
+          [
+            62,
+            4,
+            6,
+            15
+          ],
+          [
+            2,
+            9,
+            9,
+            3
+          ],
+          [
+            8,
+            2,
+            18,
+            1
+          ],
+          [
+            10,
+            10,
+            4,
+            65
+          ]
+        ]
+      },
+      "note": "Validation-fitted descriptive mean; not an independent trained calibration control."
+    },
+    "active_queries": {
+      "n": 206,
+      "mean_centered_logits": [
+        -0.1778981489071722,
+        -0.07204732876463152,
+        0.09763551917259392,
+        0.15230995849920978
+      ],
+      "mean_centered_logit_energy": 0.06956958702885029,
+      "mean_squared_change": 0.07986723035581696,
+      "residual_squared_change": 0.010297643326966689,
+      "fraction_squared_change": 0.8710654760270315,
+      "matched_predictions": 206,
+      "changed_predictions": 6,
+      "matched_changed_predictions": 6,
+      "approximation_metrics": {
+        "n": 228,
+        "oa": 67.54385964912281,
+        "ba": 61.37436899527764,
+        "confusion": [
+          [
+            62,
+            5,
+            6,
+            14
+          ],
+          [
+            2,
+            9,
+            9,
+            3
+          ],
+          [
+            8,
+            2,
+            18,
+            1
+          ],
+          [
+            10,
+            10,
+            4,
+            65
+          ]
+        ]
+      },
+      "note": "Validation-fitted descriptive mean; not an independent trained calibration control."
+    }
+  },
+  "trace": {
+    "regions": {
+      "body": {
+        "active_samples": 206,
+        "polarizations": {
+          "VV": {
+            "effective_cells": {
+              "n": 212,
+              "mean": 5.201249055142672,
+              "median": 4.937357425689697,
+              "p90": 7.45830192565918,
+              "max": 8.89757251739502
+            },
+            "class_vs_uniform_slot_rms": {
+              "n": 212,
+              "mean": 0.1924647441450155,
+              "median": 0.1871040314435959,
+              "p90": 0.2647928655147552,
+              "max": 0.3546348810195923
+            },
+            "class_vs_uniform_slot_relative_rms": {
+              "n": 212,
+              "mean": 0.0961368317487386,
+              "median": 0.09217633306980133,
+              "p90": 0.13419239670038224,
+              "max": 0.1788507103919983
+            },
+            "class_slot_pairwise_rms": {
+              "n": 1272,
+              "mean": 0.2812853889560339,
+              "median": 0.2682727575302124,
+              "p90": 0.4632867127656938,
+              "max": 0.752929151058197
+            }
+          },
+          "VH": {
+            "effective_cells": {
+              "n": 222,
+              "mean": 5.583996484945486,
+              "median": 5.191951274871826,
+              "p90": 8.496525382995607,
+              "max": 14.506514549255371
+            },
+            "class_vs_uniform_slot_rms": {
+              "n": 222,
+              "mean": 0.23621186875813716,
+              "median": 0.23183975368738174,
+              "p90": 0.3383711576461792,
+              "max": 0.4256770610809326
+            },
+            "class_vs_uniform_slot_relative_rms": {
+              "n": 222,
+              "mean": 0.1700091595585282,
+              "median": 0.16427554935216904,
+              "p90": 0.2418062135577202,
+              "max": 0.33605170249938965
+            },
+            "class_slot_pairwise_rms": {
+              "n": 1332,
+              "mean": 0.33710090713799223,
+              "median": 0.30143041908741,
+              "p90": 0.6062660932540893,
+              "max": 1.0501765012741089
+            }
+          }
+        },
+        "alpha_across_samples": {
+          "n": 206,
+          "std_by_slot_and_pol": [
+            [
+              0.005610336549580097,
+              0.005610334221273661
+            ],
+            [
+              0.005030194763094187,
+              0.005030196625739336
+            ],
+            [
+              0.006708038505166769,
+              0.006708037108182907
+            ],
+            [
+              0.005185715388506651,
+              0.005185715854167938
+            ],
+            [
+              0.011677577160298824,
+              0.011677583679556847
+            ]
+          ]
+        }
+      },
+      "ends": {
+        "active_samples": 206,
+        "polarizations": {
+          "VV": {
+            "effective_cells": {
+              "n": 212,
+              "mean": 4.310762859740347,
+              "median": 4.308575391769409,
+              "p90": 5.541727924346924,
+              "max": 6.715294361114502
+            },
+            "class_vs_uniform_slot_rms": {
+              "n": 212,
+              "mean": 0.2343853982341177,
+              "median": 0.23112652450799942,
+              "p90": 0.30704226791858674,
+              "max": 0.3993079960346222
+            },
+            "class_vs_uniform_slot_relative_rms": {
+              "n": 212,
+              "mean": 0.12332021728825737,
+              "median": 0.12323613092303276,
+              "p90": 0.16329258084297182,
+              "max": 0.208980992436409
+            },
+            "class_slot_pairwise_rms": {
+              "n": 1272,
+              "mean": 0.33744416742017436,
+              "median": 0.3156486600637436,
+              "p90": 0.563629823923111,
+              "max": 0.958164632320404
+            }
+          },
+          "VH": {
+            "effective_cells": {
+              "n": 222,
+              "mean": 4.44319398016543,
+              "median": 4.398971796035767,
+              "p90": 6.062416648864747,
+              "max": 7.210573196411133
+            },
+            "class_vs_uniform_slot_rms": {
+              "n": 222,
+              "mean": 0.30106698412884464,
+              "median": 0.3000159114599228,
+              "p90": 0.41952041685581215,
+              "max": 0.5261539816856384
+            },
+            "class_vs_uniform_slot_relative_rms": {
+              "n": 222,
+              "mean": 0.23356574626119286,
+              "median": 0.2318885251879692,
+              "p90": 0.3227735698223114,
+              "max": 0.42881977558135986
+            },
+            "class_slot_pairwise_rms": {
+              "n": 1332,
+              "mean": 0.43613153623344303,
+              "median": 0.4024682193994522,
+              "p90": 0.7397399067878724,
+              "max": 1.127774953842163
+            }
+          }
+        },
+        "alpha_across_samples": {
+          "n": 206,
+          "std_by_slot_and_pol": [
+            [
+              0.0059018610045313835,
+              0.005901858676224947
+            ],
+            [
+              0.00787231046706438,
+              0.00787231232970953
+            ],
+            [
+              0.005608413368463516,
+              0.0056084091775119305
+            ],
+            [
+              0.005544569808989763,
+              0.005544569808989763
+            ],
+            [
+              0.011152208782732487,
+              0.011152208782732487
+            ]
+          ]
+        }
+      },
+      "side": {
+        "active_samples": 206,
+        "polarizations": {
+          "VV": {
+            "effective_cells": {
+              "n": 212,
+              "mean": 8.343549489974976,
+              "median": 7.976343631744385,
+              "p90": 11.40663537979126,
+              "max": 13.942821502685547
+            },
+            "class_vs_uniform_slot_rms": {
+              "n": 212,
+              "mean": 0.20794719302991652,
+              "median": 0.20800570398569107,
+              "p90": 0.2639781296253204,
+              "max": 0.3423862159252167
+            },
+            "class_vs_uniform_slot_relative_rms": {
+              "n": 212,
+              "mean": 0.10884925211727056,
+              "median": 0.10773589089512825,
+              "p90": 0.13860912173986437,
+              "max": 0.18920475244522095
+            },
+            "class_slot_pairwise_rms": {
+              "n": 1272,
+              "mean": 0.3080650102727865,
+              "median": 0.2898312360048294,
+              "p90": 0.49803488552570346,
+              "max": 0.7878590226173401
+            }
+          },
+          "VH": {
+            "effective_cells": {
+              "n": 222,
+              "mean": 8.719173046919677,
+              "median": 8.001004695892334,
+              "p90": 12.479242134094239,
+              "max": 19.273035049438477
+            },
+            "class_vs_uniform_slot_rms": {
+              "n": 222,
+              "mean": 0.29498686346116365,
+              "median": 0.2964107096195221,
+              "p90": 0.3799364596605301,
+              "max": 0.5036799907684326
+            },
+            "class_vs_uniform_slot_relative_rms": {
+              "n": 222,
+              "mean": 0.22696423178186287,
+              "median": 0.22867846488952637,
+              "p90": 0.2804483324289322,
+              "max": 0.35514310002326965
+            },
+            "class_slot_pairwise_rms": {
+              "n": 1332,
+              "mean": 0.42603767706590284,
+              "median": 0.3829649090766907,
+              "p90": 0.7287582278251649,
+              "max": 1.1245841979980469
+            }
+          }
+        },
+        "alpha_across_samples": {
+          "n": 206,
+          "std_by_slot_and_pol": [
+            [
+              0.00814973283559084,
+              0.008149734698235989
+            ],
+            [
+              0.006286597810685635,
+              0.006286598742008209
+            ],
+            [
+              0.008346453309059143,
+              0.008346453309059143
+            ],
+            [
+              0.005208373535424471,
+              0.005208376795053482
+            ],
+            [
+              0.011288042180240154,
+              0.01128803938627243
+            ]
+          ]
+        }
+      }
+    },
+    "alpha_between_query_std": {
+      "n": 30,
+      "mean": 0.0073046951554715635,
+      "median": 0.006286598276346922,
+      "p90": 0.011288039665669203,
+      "max": 0.011677583679556847
+    },
+    "active_samples_any": 206,
+    "update_to_input_rms": {
+      "n": 434,
+      "mean": 0.011209967577280605,
+      "median": 0.011231300421059132,
+      "p90": 0.015250445995479821,
+      "max": 0.021516576409339905
+    },
+    "slot_definition": "Raw shallow reader tokens: slot0 uniform, slots1-4 candidate-class responses; no truth-selected slot.",
+    "eligibility": "Reader statistics: available polarization and nonempty region. Alpha: actual dual-valid active region."
+  },
+  "fine_residual_rms": {
+    "available_polarizations": {
+      "n": 434,
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0
+    },
+    "active_queries": {
+      "n": 412,
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0
+    },
+    "per_pol": {
+      "VV": {
+        "n": 212,
+        "mean": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0
+      },
+      "VH": {
+        "n": 222,
+        "mean": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0
+      }
+    }
+  },
+  "initial_reader_counterfactual": {
+    "regions": {
+      "body": {
+        "n": 206,
+        "polarizations": {
+          "VV": {
+            "n": 206,
+            "trained_mean_rms": 6.399052278594215,
+            "initial_reader_mean_rms": 0.3066503918051472,
+            "mean_drift_rms": 6.3184203433273245,
+            "paired_standardized_change_rms": 6.338867663358517,
+            "trained_mean_by_slot_rms": [
+              7.084922659726947,
+              6.243183539918387,
+              6.6990215315713995,
+              5.94506062647869,
+              5.945186723772807
+            ],
+            "initial_reader_mean_by_slot_rms": [
+              0.3172464882903025,
+              0.34900798122444576,
+              0.28594015524446903,
+              0.3018793621106707,
+              0.27354613327697175
+            ]
+          },
+          "VH": {
+            "n": 206,
+            "trained_mean_rms": 4.566663641802193,
+            "initial_reader_mean_rms": 0.28965746889848354,
+            "mean_drift_rms": 4.564896471953502,
+            "paired_standardized_change_rms": 4.661919170053775,
+            "trained_mean_by_slot_rms": [
+              4.983234224963103,
+              4.385003649480829,
+              4.272829261354978,
+              4.667237916215792,
+              4.491216324864889
+            ],
+            "initial_reader_mean_by_slot_rms": [
+              0.31056973482748085,
+              0.2257949773679633,
+              0.2794202793228472,
+              0.274961764031141,
+              0.3440794243659365
+            ]
+          }
+        }
+      },
+      "ends": {
+        "n": 206,
+        "polarizations": {
+          "VV": {
+            "n": 206,
+            "trained_mean_rms": 5.7296038307647015,
+            "initial_reader_mean_rms": 0.3105828515372686,
+            "mean_drift_rms": 5.663583641465248,
+            "paired_standardized_change_rms": 5.681403195655366,
+            "trained_mean_by_slot_rms": [
+              6.599294107322769,
+              5.594684877357834,
+              5.495934181762734,
+              5.481620779046626,
+              5.388613903421037
+            ],
+            "initial_reader_mean_by_slot_rms": [
+              0.3416613930668208,
+              0.3440361581155797,
+              0.2584311965586073,
+              0.33330712233530213,
+              0.2633150804410237
+            ]
+          },
+          "VH": {
+            "n": 206,
+            "trained_mean_rms": 4.230005439312393,
+            "initial_reader_mean_rms": 0.2682917558204419,
+            "mean_drift_rms": 4.1941663082988025,
+            "paired_standardized_change_rms": 4.25355583279817,
+            "trained_mean_by_slot_rms": [
+              4.927180161714782,
+              3.8342067732357146,
+              4.082389837212923,
+              4.266320243958853,
+              3.952099309246586
+            ],
+            "initial_reader_mean_by_slot_rms": [
+              0.28946718663516074,
+              0.2672955893649331,
+              0.24303432471326408,
+              0.2478823792770266,
+              0.29009100301247576
+            ]
+          }
+        }
+      },
+      "side": {
+        "n": 206,
+        "polarizations": {
+          "VV": {
+            "n": 206,
+            "trained_mean_rms": 6.706130874309624,
+            "initial_reader_mean_rms": 0.3692621917904297,
+            "mean_drift_rms": 6.5882118878301235,
+            "paired_standardized_change_rms": 6.611457929428618,
+            "trained_mean_by_slot_rms": [
+              7.93084549537142,
+              6.0293568907277315,
+              6.976510289474155,
+              6.20144436348037,
+              6.20321640096035
+            ],
+            "initial_reader_mean_by_slot_rms": [
+              0.4116260938938732,
+              0.42183226604669466,
+              0.37091428227109924,
+              0.3228617241448869,
+              0.30426506842956763
+            ]
+          },
+          "VH": {
+            "n": 206,
+            "trained_mean_rms": 4.836280056976508,
+            "initial_reader_mean_rms": 0.29031806100149526,
+            "mean_drift_rms": 4.830377339031442,
+            "paired_standardized_change_rms": 4.932622390691946,
+            "trained_mean_by_slot_rms": [
+              5.608556167346926,
+              4.337319142378266,
+              4.686601497520132,
+              4.883939824979661,
+              4.5675685557895
+            ],
+            "initial_reader_mean_by_slot_rms": [
+              0.32829433394966673,
+              0.2598150454388813,
+              0.2959870090682378,
+              0.2602702606771314,
+              0.30131866362436516
+            ]
+          }
+        }
+      }
+    },
+    "eligibility": "same actual dual-valid active region for both reader states",
+    "note": "Unweighted validation token means in fixed initial-source units. Restoring only ccrel.value retains the trained fine residual, PCEA, and normalizer; not initial-model replay or a training ablation.",
+    "executed": true,
+    "score_effect": {
+      "prediction_diff": 4,
+      "max_abs": 0.4023735523223877,
+      "rms": 0.1275501069584488,
+      "centered_rms": 0.1274729680928005,
+      "direction": "factual minus counterfactual; same trained head"
+    },
+    "factual_vs_restored": {
+      "rescued": 1,
+      "harmed": 3,
+      "stable_correct": 153,
+      "stable_wrong": 71,
+      "prediction_changes": 4
+    }
+  },
+  "state_counts": {
+    "rescued": 2,
+    "harmed": 4,
+    "stable_correct": 152,
+    "stable_wrong": 70
+  },
+  "notes": [
+    "Best epoch0 triggers trained-last diagnosis, explicitly labeled; it is not a selected improvement.",
+    "branch_off disables the exchange; the trained reader is a separate copy, so original Full must replay.",
+    "no_product disables only the exchange product at fixed weights.",
+    "fine_off sets ccrel.no_fine=True; residual_off is an identical compatibility alias, not another forward.",
+    "All withdrawal margins fix the initial Full rival. These are inference path effects, not training ablations.",
+    "Validation-fitted mean shifts are descriptive and do not prove a physical mechanism."
+  ],
+  "cases": {
+    "count": 4,
+    "file": "E:\\临时会话\\paper_draft_20261108\\ccrel_pcea_joint_20261116\\gallery_joint_last\\cases.json",
+    "gallery": "E:\\临时会话\\paper_draft_20261108\\ccrel_pcea_joint_20261116\\gallery_joint_last\\index.html",
+    "unavailable_states": []
+  }
+}
