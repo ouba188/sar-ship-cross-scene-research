@@ -1,0 +1,125 @@
+{
+  "arm": "fine_raw",
+  "seed": 17,
+  "source": 719,
+  "validation": 228,
+  "epochs": 4,
+  "learning_rate": 0.001,
+  "batch": 24,
+  "microbatch": 12,
+  "references": 32,
+  "trainable_scope": "new projection/gate/output only; old network and shallow reader fixed",
+  "selection": "validation BA/OA/-NLL; epoch0 eligible",
+  "initial": {
+    "oa": 68.42105263157895,
+    "ba": 62.761596729725035,
+    "macro_f1": 61.29847803151315,
+    "nll": 1.1634663343429565,
+    "confusion": [
+      [
+        65,
+        5,
+        6,
+        11
+      ],
+      [
+        2,
+        10,
+        8,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        11,
+        11,
+        4,
+        63
+      ]
+    ]
+  },
+  "initial_logit_error": 0.0,
+  "test_read": false,
+  "source_statistics": "all source code0, dual-valid regional class/vessel-weighted moments; no label-specific slots",
+  "augmentation": "paired rot90/flip with native geometry",
+  "loss": "same class/vessel weighted CE + .02 frozen M1 auxiliary CE",
+  "best": {
+    "epoch": 2,
+    "metrics": {
+      "oa": 68.85964912280701,
+      "ba": 63.04249560612952,
+      "macro_f1": 61.59304329960964,
+      "nll": 1.161280632019043,
+      "confusion": [
+        [
+          65,
+          5,
+          6,
+          11
+        ],
+        [
+          2,
+          10,
+          8,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          10,
+          11,
+          4,
+          64
+        ]
+      ]
+    },
+    "key": [
+      63.04249560612952,
+      68.85964912280701,
+      -1.161280632019043
+    ]
+  },
+  "last": {
+    "oa": 67.98245614035088,
+    "ba": 61.66172531711673,
+    "macro_f1": 60.35529682367364,
+    "nll": 1.1589652299880981,
+    "confusion": [
+      [
+        63,
+        5,
+        6,
+        13
+      ],
+      [
+        2,
+        9,
+        9,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        10,
+        10,
+        4,
+        65
+      ]
+    ]
+  },
+  "seconds": 73.4123976000119,
+  "trainable": 43203,
+  "peak_gib": 0.5510759353637695
+}

@@ -1,0 +1,92 @@
+{
+  "scope": "seed17 branch-only LAST epoch; validation diagnostic, not a retained winner",
+  "constant_shift": {
+    "mean_centered_logits": [
+      -0.16658669710159302,
+      -0.07049363851547241,
+      0.09311050921678543,
+      0.14396977424621582
+    ],
+    "fraction_squared_change": 0.7841871976852417,
+    "matched_predictions": 227,
+    "n": 228,
+    "warning": "Mean estimated from observed validation score changes for descriptive diagnosis only; not a trainable control or deployable calibration."
+  },
+  "rescue": 2,
+  "harm": 4,
+  "product_off_prediction_changes": 0,
+  "class_correct_change": [
+    -3,
+    -1,
+    0,
+    2
+  ],
+  "body_interaction": {
+    "n": 206,
+    "absolute_fixed_rival": {
+      "mean": 4.3328309402568266e-05,
+      "median": 2.288818359375e-05,
+      "p90": 0.00010097026824951172,
+      "max": 0.0004930496215820312
+    },
+    "above_1e4": 21,
+    "additive_prediction_mismatch": 0
+  },
+  "update_to_input_rms": {
+    "mean": 0.012211990542709827,
+    "median": 0.012242050841450691,
+    "p90": 0.016611440107226372,
+    "max": 0.02355632744729519
+  },
+  "body_end_mask_cosine": {
+    "mean": 0.34779611229896545,
+    "median": 0.3105674088001251,
+    "p90": 0.6138017773628235,
+    "max": 0.9729496240615845
+  },
+  "regions": {
+    "body": {
+      "effective_cells": {
+        "mean": 1.9571589231491089,
+        "median": 1.836846113204956,
+        "p90": 2.937652587890625,
+        "max": 5.344563007354736
+      },
+      "class_token_relative_difference": {
+        "mean": 0.08124635368585587,
+        "median": 0.08019953221082687,
+        "p90": 0.11816761642694473,
+        "max": 0.21087898313999176
+      }
+    },
+    "ends": {
+      "effective_cells": {
+        "mean": 3.121244192123413,
+        "median": 2.846071720123291,
+        "p90": 4.679478645324707,
+        "max": 7.775634765625
+      },
+      "class_token_relative_difference": {
+        "mean": 0.12156429886817932,
+        "median": 0.11314411461353302,
+        "p90": 0.18781833350658417,
+        "max": 0.3100440204143524
+      }
+    },
+    "side": {
+      "effective_cells": {
+        "mean": 3.397552013397217,
+        "median": 3.193232536315918,
+        "p90": 5.361600399017334,
+        "max": 8.448416709899902
+      },
+      "class_token_relative_difference": {
+        "mean": 0.11988358199596405,
+        "median": 0.11400873959064484,
+        "p90": 0.17084115743637085,
+        "max": 0.26550623774528503
+      }
+    }
+  },
+  "alpha_between_query_std": 0.000859103340189904
+}

@@ -1,0 +1,131 @@
+{
+  "arm": "independent",
+  "seed": 17,
+  "backbone_lr": 1e-05,
+  "old_modules_lr": 0.0001,
+  "new_branch_lr": 0.001,
+  "epochs": 4,
+  "batch": 24,
+  "microbatch": 12,
+  "source": 719,
+  "validation": 228,
+  "reference_records": 32,
+  "initial_checkpoint": "E:\\临时会话\\paper_draft_20261108\\full_finetune_20261111\\selected_s17\\best.pt",
+  "selection": "validation BA, OA, -NLL; epoch0 included",
+  "scheduler": "one epoch warmup then cosine to .1",
+  "loss": "same class/vessel balanced CE + .02 M1 auxiliary CE",
+  "trainable_backbone": "none; branch-only diagnostic",
+  "optimization_scope": "branch",
+  "intervention": "checkpoint history retained, no new teacher selection",
+  "test_read": false,
+  "initial": {
+    "oa": 68.42105263157895,
+    "ba": 62.761596729725035,
+    "macro_f1": 61.29847803151315,
+    "nll": 1.1634663343429565,
+    "confusion": [
+      [
+        65,
+        5,
+        6,
+        11
+      ],
+      [
+        2,
+        10,
+        8,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        11,
+        11,
+        4,
+        63
+      ]
+    ]
+  },
+  "initial_logit_error": 0.0,
+  "best": {
+    "epoch": 0,
+    "metrics": {
+      "oa": 68.42105263157895,
+      "ba": 62.761596729725035,
+      "macro_f1": 61.29847803151315,
+      "nll": 1.1634663343429565,
+      "confusion": [
+        [
+          65,
+          5,
+          6,
+          11
+        ],
+        [
+          2,
+          10,
+          8,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          11,
+          11,
+          4,
+          63
+        ]
+      ]
+    },
+    "key": [
+      62.761596729725035,
+      68.42105263157895,
+      -1.1634663343429565
+    ]
+  },
+  "last": {
+    "oa": 67.54385964912281,
+    "ba": 61.37436899527764,
+    "macro_f1": 60.058581209232884,
+    "nll": 1.1570826768875122,
+    "confusion": [
+      [
+        62,
+        5,
+        6,
+        14
+      ],
+      [
+        2,
+        9,
+        9,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        10,
+        10,
+        4,
+        65
+      ]
+    ]
+  },
+  "steps": 120,
+  "seconds": 86.92559610001626,
+  "trainable": 58368,
+  "branch_parameters": 58368,
+  "peak_gib": 2.712244987487793
+}

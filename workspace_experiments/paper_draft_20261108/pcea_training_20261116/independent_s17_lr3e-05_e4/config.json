@@ -1,0 +1,20 @@
+{
+  "arm": "independent",
+  "seed": 17,
+  "backbone_lr": 3e-05,
+  "old_modules_lr": 0.00030000000000000003,
+  "new_branch_lr": 0.003,
+  "epochs": 4,
+  "batch": 24,
+  "microbatch": 12,
+  "source": 719,
+  "validation": 228,
+  "reference_records": 32,
+  "initial_checkpoint": "E:\\临时会话\\paper_draft_20261108\\full_finetune_20261111\\selected_s17\\best.pt",
+  "selection": "validation BA, OA, -NLL; epoch0 included",
+  "scheduler": "one epoch warmup then cosine to .1",
+  "loss": "same class/vessel balanced CE + .02 M1 auxiliary CE",
+  "trainable_backbone": "full; frozen BN running statistics",
+  "intervention": "checkpoint history retained, no new teacher selection",
+  "test_read": false
+}
