@@ -1,0 +1,185 @@
+{
+  "arm": "centered",
+  "seed": 17,
+  "source": 719,
+  "validation": 228,
+  "epochs": 4,
+  "optimizer": "AdamW",
+  "parameter_groups": [
+    {
+      "name": "ccrel_value",
+      "base_lr": 1e-05,
+      "weight_decay": 0.01,
+      "parameter_count": 32768,
+      "parameter_names": [
+        "ccrel.value.0.weight",
+        "ccrel.value.1.weight"
+      ],
+      "epoch_learning_rates": [
+        5e-06,
+        1e-05,
+        5.500000000000001e-06,
+        1.0000000000000002e-06
+      ]
+    },
+    {
+      "name": "other_trainable",
+      "base_lr": 0.001,
+      "weight_decay": 0.01,
+      "parameter_count": 43203,
+      "parameter_names": [
+        "exchange.region",
+        "exchange.slot",
+        "exchange.project.0.weight",
+        "exchange.project.1.weight",
+        "exchange.gate.0.weight",
+        "exchange.gate.0.bias",
+        "exchange.gate.2.weight",
+        "exchange.gate.2.bias",
+        "exchange.output.0.weight",
+        "exchange.output.1.weight"
+      ],
+      "epoch_learning_rates": [
+        0.0005,
+        0.001,
+        0.00055,
+        0.0001
+      ]
+    }
+  ],
+  "learning_rates": {
+    "ccrel_value": 1e-05,
+    "other_trainable": 0.001
+  },
+  "weight_decay": 0.01,
+  "clip_grad_norm": 5.0,
+  "batch": 24,
+  "microbatch": 12,
+  "references": 32,
+  "schedule": "unchanged four-epoch multipliers: 0.5, 1.0, 0.55, 0.1",
+  "order_rng_seed": 20261133,
+  "augmentation_rng_seed": 20261134,
+  "trainable_scope": "ccrel.value reader at 1e-5; ALL other trainable parameters at 1e-3; original network frozen by Model; no fine residual",
+  "selection": "validation BA/OA/-NLL; epoch0 eligible",
+  "initial": {
+    "oa": 68.42105263157895,
+    "ba": 62.761596729725035,
+    "macro_f1": 61.29847803151315,
+    "nll": 1.1634663343429565,
+    "confusion": [
+      [
+        65,
+        5,
+        6,
+        11
+      ],
+      [
+        2,
+        10,
+        8,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        11,
+        11,
+        4,
+        63
+      ]
+    ]
+  },
+  "initial_logit_error": 0.0,
+  "initial_predictions_identical": true,
+  "test_read": false,
+  "split": "existing OSS2 validation; not independent test",
+  "calibration": "model.calibrate(net, inputs, seed), train-source only",
+  "source_statistics": "source raw-token moments pushed through the current reader; no validation/test estimation",
+  "arm_behavior": "coordinated readout; subtract the current train-source mean output",
+  "centering": "subtract current train-source mean output",
+  "common_control": "none",
+  "fine_residual": "none",
+  "augmentation": "paired rot90/flip with native geometry; unchanged RNG seeds and per-batch draws",
+  "loss": "same class/vessel weighted CE + .02 frozen M1 auxiliary CE",
+  "run_root": "E:\\临时会话\\paper_draft_20261108\\pcea_coordinate_repair_20261117",
+  "best": {
+    "epoch": 4,
+    "metrics": {
+      "oa": 68.85964912280701,
+      "ba": 63.04249560612952,
+      "macro_f1": 61.59304329960964,
+      "nll": 1.1634143590927124,
+      "confusion": [
+        [
+          65,
+          5,
+          6,
+          11
+        ],
+        [
+          2,
+          10,
+          8,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          10,
+          11,
+          4,
+          64
+        ]
+      ]
+    },
+    "key": [
+      63.04249560612952,
+      68.85964912280701,
+      -1.1634143590927124
+    ]
+  },
+  "last": {
+    "oa": 68.85964912280701,
+    "ba": 63.04249560612952,
+    "macro_f1": 61.59304329960964,
+    "nll": 1.1634143590927124,
+    "confusion": [
+      [
+        65,
+        5,
+        6,
+        11
+      ],
+      [
+        2,
+        10,
+        8,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        10,
+        11,
+        4,
+        64
+      ]
+    ]
+  },
+  "steps": 120,
+  "seconds": 71.61617550000665,
+  "trainable": 75971,
+  "peak_gib": 0.5926885604858398
+}
