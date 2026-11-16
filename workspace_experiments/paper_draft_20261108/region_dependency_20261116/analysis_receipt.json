@@ -1,0 +1,59 @@
+{
+  "prediction_sets": 234,
+  "queries": 228,
+  "ships": 223,
+  "passes": 4,
+  "available": [
+    212,
+    222
+  ],
+  "class_counts": [
+    87,
+    23,
+    29,
+    89
+  ],
+  "replay": {
+    "full_s17": {
+      "max_logit_error": 1.9073486328125e-05,
+      "changed_ids": [],
+      "current_precision": "FP32 no TF32",
+      "baseline": "new clean forward used for every intervention comparison"
+    },
+    "full_s29": {
+      "max_logit_error": 6.67572021484375e-06,
+      "changed_ids": [],
+      "current_precision": "FP32 no TF32",
+      "baseline": "new clean forward used for every intervention comparison"
+    },
+    "full_s43": {
+      "max_logit_error": 6.735324859619141e-06,
+      "changed_ids": [],
+      "current_precision": "FP32 no TF32",
+      "baseline": "new clean forward used for every intervention comparison"
+    },
+    "r50_s17": {
+      "max_logit_error": 0.044384002685546875,
+      "changed_ids": [
+        799
+      ],
+      "current_precision": "FP32 no TF32",
+      "baseline": "new clean forward used for every intervention comparison"
+    },
+    "r50_s29": {
+      "max_logit_error": 0.029541015625,
+      "changed_ids": [],
+      "current_precision": "FP32 no TF32",
+      "baseline": "new clean forward used for every intervention comparison"
+    },
+    "r50_s43": {
+      "max_logit_error": 0.06901311874389648,
+      "changed_ids": [],
+      "current_precision": "FP32 no TF32",
+      "baseline": "new clean forward used for every intervention comparison"
+    }
+  },
+  "bootstrap": "MMSI clusters, mean over three fixed seeds first; conditional on these seeds and four observed passes",
+  "self_tests": "additive/pair/triple games passed; efficiency checked on every actual sample",
+  "analysis": "complete; fixed-weight validation diagnosis, not new held-out test or retrained ablation"
+}

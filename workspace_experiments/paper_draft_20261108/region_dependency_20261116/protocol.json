@@ -1,0 +1,214 @@
+{
+  "dataset": "OSS2",
+  "split": "validation; diagnostic, not held-out confirmation",
+  "n": 228,
+  "ships": 223,
+  "passes": 4,
+  "counts": [
+    87,
+    23,
+    29,
+    89
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "references": [
+    352,
+    363,
+    301,
+    270,
+    366,
+    329,
+    16,
+    3,
+    124,
+    263,
+    69,
+    389,
+    12,
+    45,
+    430,
+    208,
+    471,
+    291,
+    421,
+    458,
+    262,
+    396,
+    249,
+    395,
+    341,
+    66,
+    171,
+    0,
+    474,
+    96,
+    86,
+    322
+  ],
+  "conditions": [
+    {
+      "name": "clean",
+      "kind": "clean"
+    },
+    {
+      "name": "VV_mean50_keep0",
+      "kind": "coalition",
+      "p": 0,
+      "keep": 0
+    },
+    {
+      "name": "VV_mean50_keep1",
+      "kind": "coalition",
+      "p": 0,
+      "keep": 1
+    },
+    {
+      "name": "VV_mean50_keep2",
+      "kind": "coalition",
+      "p": 0,
+      "keep": 2
+    },
+    {
+      "name": "VV_mean50_keep3",
+      "kind": "coalition",
+      "p": 0,
+      "keep": 3
+    },
+    {
+      "name": "VV_mean50_keep4",
+      "kind": "coalition",
+      "p": 0,
+      "keep": 4
+    },
+    {
+      "name": "VV_mean50_keep5",
+      "kind": "coalition",
+      "p": 0,
+      "keep": 5
+    },
+    {
+      "name": "VV_mean50_keep6",
+      "kind": "coalition",
+      "p": 0,
+      "keep": 6
+    },
+    {
+      "name": "VV_outside_gain0.8",
+      "kind": "gain",
+      "p": 0,
+      "gain": 0.8
+    },
+    {
+      "name": "VV_outside_gain1.2",
+      "kind": "gain",
+      "p": 0,
+      "gain": 1.2
+    },
+    {
+      "name": "VV_body_permute",
+      "kind": "permute",
+      "p": 0,
+      "r": 0
+    },
+    {
+      "name": "VV_ends_permute",
+      "kind": "permute",
+      "p": 0,
+      "r": 1
+    },
+    {
+      "name": "VV_side_permute",
+      "kind": "permute",
+      "p": 0,
+      "r": 2
+    },
+    {
+      "name": "VH_mean50_keep0",
+      "kind": "coalition",
+      "p": 1,
+      "keep": 0
+    },
+    {
+      "name": "VH_mean50_keep1",
+      "kind": "coalition",
+      "p": 1,
+      "keep": 1
+    },
+    {
+      "name": "VH_mean50_keep2",
+      "kind": "coalition",
+      "p": 1,
+      "keep": 2
+    },
+    {
+      "name": "VH_mean50_keep3",
+      "kind": "coalition",
+      "p": 1,
+      "keep": 3
+    },
+    {
+      "name": "VH_mean50_keep4",
+      "kind": "coalition",
+      "p": 1,
+      "keep": 4
+    },
+    {
+      "name": "VH_mean50_keep5",
+      "kind": "coalition",
+      "p": 1,
+      "keep": 5
+    },
+    {
+      "name": "VH_mean50_keep6",
+      "kind": "coalition",
+      "p": 1,
+      "keep": 6
+    },
+    {
+      "name": "VH_outside_gain0.8",
+      "kind": "gain",
+      "p": 1,
+      "gain": 0.8
+    },
+    {
+      "name": "VH_outside_gain1.2",
+      "kind": "gain",
+      "p": 1,
+      "gain": 1.2
+    },
+    {
+      "name": "VH_body_permute",
+      "kind": "permute",
+      "p": 1,
+      "r": 0
+    },
+    {
+      "name": "VH_ends_permute",
+      "kind": "permute",
+      "p": 1,
+      "r": 1
+    },
+    {
+      "name": "VH_side_permute",
+      "kind": "permute",
+      "p": 1,
+      "r": 2
+    }
+  ],
+  "regions": "body, axis ends, lateral; existing OBB native masks threshold .5, disjoint ownership; far field unchanged in structure games",
+  "coalition": "50% attenuation toward own original regional mean; NOT region absence or physical causal attribution",
+  "gain": "entire valid OBB exterior times .8 or1.2; no clipping/no renormalization; display gray, NOT calibrated SCR",
+  "permutation": "fixed within-region permutation; exact original histogram and mean; spatial arrangement disrupted, different dose from attenuation",
+  "switches": "M1 feedback only (response retained), M2 internal write only, M2 guided pooling -> uniform, M3 write off; all keep full trained head",
+  "switch_conditions": "clean and six single-region mean50 operations; three seeds",
+  "comparison": "ordinary full-tuned R50 is a system comparator, not matched training-history module ablation",
+  "attribution": "fixed original rival within each model/seed; additionally rerank strongest rival after operation; normalize Shapley by sum(abs) only within sample",
+  "frozen": "weights, query cohort, OBB, availability, native160 crop/pad, legal source reference members and reference descriptors",
+  "training": false,
+  "formal_model_changed": false,
+  "source": "Li et al. GRSL 2023 doi:10.1109/LGRS.2023.3266493, equations1-4/figures1-4; bounded adapted diagnosis, not its random-SCR training replication"
+}
