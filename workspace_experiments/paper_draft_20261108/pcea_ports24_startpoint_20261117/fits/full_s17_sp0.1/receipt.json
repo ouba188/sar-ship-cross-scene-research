@@ -1,0 +1,326 @@
+{
+  "arm": "full",
+  "strength": 0.1,
+  "seed": 17,
+  "dataset": "24ports-eight-classes",
+  "start_checkpoint": "E:\\临时会话\\paper_draft_20261108\\ports24_recovered_training_20261113\\selected_s17\\best.pt",
+  "initial": {
+    "oa": 45.0,
+    "ba": 39.66110080395794,
+    "macro_f1": 32.098465847083105,
+    "nll": 1.6025683879852295,
+    "present_classes": 7,
+    "confusion": [
+      [
+        8,
+        0,
+        0,
+        7,
+        6,
+        1,
+        3,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        5,
+        0,
+        1,
+        0,
+        2,
+        4
+      ],
+      [
+        7,
+        2,
+        14,
+        33,
+        9,
+        0,
+        2,
+        3
+      ],
+      [
+        0,
+        1,
+        0,
+        2,
+        18,
+        0,
+        1,
+        0
+      ],
+      [
+        4,
+        0,
+        0,
+        1,
+        6,
+        4,
+        1,
+        0
+      ],
+      [
+        1,
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        1,
+        4
+      ]
+    ]
+  },
+  "replay": {
+    "max_abs_error": 2.5033950805664062e-06,
+    "prediction_diff": 0
+  },
+  "learning_rates": {
+    "backbone": 1e-05,
+    "modules": 1e-05,
+    "reader": 0.0001,
+    "exchange": 0.0003
+  },
+  "steps": 240,
+  "rounds": 8,
+  "batch": 24,
+  "microbatch": 12,
+  "unique_source_observations": 5760,
+  "full_training_pool": 20653,
+  "validation": 160,
+  "references": 16,
+  "test_pixels_loaded": false,
+  "scope": "Full backbone and used original modules trainable; BN stats fixed",
+  "objective": "weighted CE + .02 M1 auxiliary CE + lambda/2 SUM old parameter drift squared",
+  "selection": "validation BA/OA/-NLL; starting checkpoint eligible",
+  "groups": {
+    "backbone": 23508032,
+    "modules": 1658712
+  },
+  "recovery": "existing geospatial rule; equal across four arms",
+  "note": "Fixed-budget continuation pilot, NOT eight full-data epochs",
+  "new_teacher_selection": false,
+  "best": {
+    "step": 0,
+    "metrics": {
+      "oa": 45.0,
+      "ba": 39.66110080395794,
+      "macro_f1": 32.098465847083105,
+      "nll": 1.6025683879852295,
+      "present_classes": 7,
+      "confusion": [
+        [
+          8,
+          0,
+          0,
+          7,
+          6,
+          1,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          1,
+          0,
+          2,
+          4
+        ],
+        [
+          7,
+          2,
+          14,
+          33,
+          9,
+          0,
+          2,
+          3
+        ],
+        [
+          0,
+          1,
+          0,
+          2,
+          18,
+          0,
+          1,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          1,
+          6,
+          4,
+          1,
+          0
+        ],
+        [
+          1,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          0,
+          1,
+          4
+        ]
+      ]
+    },
+    "key": [
+      39.66110080395794,
+      45.0,
+      -1.6025683879852295
+    ]
+  },
+  "last": {
+    "oa": 40.0,
+    "ba": 34.65754483611626,
+    "macro_f1": 29.161217236166536,
+    "nll": 1.6143707036972046,
+    "present_classes": 7,
+    "confusion": [
+      [
+        5,
+        0,
+        0,
+        6,
+        3,
+        4,
+        7,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        6,
+        4
+      ],
+      [
+        7,
+        3,
+        13,
+        33,
+        3,
+        2,
+        4,
+        5
+      ],
+      [
+        1,
+        1,
+        0,
+        5,
+        13,
+        0,
+        2,
+        0
+      ],
+      [
+        4,
+        0,
+        0,
+        2,
+        1,
+        7,
+        2,
+        0
+      ],
+      [
+        1,
+        3,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        4
+      ]
+    ]
+  },
+  "final_drift": {
+    "backbone": {
+      "squared_distance": 0.028310041176567324,
+      "origin_squared_norm": 244997.83824157715,
+      "l2_distance": 0.16825588006535558,
+      "relative_l2_distance": 0.00033992971045662955
+    },
+    "old_modules": {
+      "squared_distance": 0.00535430197152782,
+      "origin_squared_norm": 6119.828236372094,
+      "l2_distance": 0.07317309595423593,
+      "relative_l2_distance": 0.0009353665047757418
+    }
+  },
+  "seconds": 212.99626240000362
+}

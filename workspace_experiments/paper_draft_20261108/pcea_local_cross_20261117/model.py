@@ -92,7 +92,7 @@ class LocalExchange(old.RegionalModulation):
             own = uv[p]
             other_p = p if self.mode == 'independent' else 1-p
             other = uv[other_p]
-            key_mask = masks[:, other_p, :, None].expand(-1, -1, 5, -1)
+            key_mask = masks[:, other_p, :, None].expand(-1, -1, evidence.shape[3], -1)
             if self.other_mean:
                 other = (other*mass[:, other_p, :, None, :, None]).sum(-2, keepdim=True).expand_as(other)
             uniform = self.mode != 'cross_local' or self.uniform_attention
@@ -104,7 +104,7 @@ class LocalExchange(old.RegionalModulation):
             batch, regions, slots, _, rank = h.shape
             # All arms interact on 20x20 content BEFORE the identical 10x10 writer reduction.
             h = h.permute(0, 1, 2, 4, 3).reshape(batch*regions*slots, rank, 20, 20)
-            rm = reader_masks[:, p, :, None].expand(-1, -1, 5, -1, -1).reshape(-1, 1, 20, 20)
+            rm = reader_masks[:, p, :, None].expand(-1, -1, slots, -1, -1).reshape(-1, 1, 20, 20)
             h = regional_reduce(h,rm,self.overlap)
             h = h.reshape(batch, regions, slots, rank, 10, 10).permute(0, 1, 4, 5, 2, 3).flatten(-2)
             a = self.scale_output[p](h).permute(0, 1, 4, 2, 3)

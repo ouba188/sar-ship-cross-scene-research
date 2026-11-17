@@ -29,7 +29,8 @@ class CCREL(old.CCREL):
             value, mask, response, occupancy = (t.flatten(2) for t in
                 (value, masks[:, p], responses[:, p], valid[:, p]))
             uniform = mask/mask.sum(-1, keepdim=True).clamp_min(1e-8)
-            relative = (4*response-response.sum(1, keepdim=True))/3
+            classes_count = response.shape[1]
+            relative = (classes_count*response-response.sum(1, keepdim=True))/(classes_count-1)
             vw = occupancy/occupancy.sum(-1, keepdim=True).clamp_min(1e-8)
             centered = relative-(relative*vw).sum(-1, keepdim=True)
             score = 2*torch.tanh(centered/((centered.square()*vw).sum(-1, keepdim=True)+.01).sqrt())
