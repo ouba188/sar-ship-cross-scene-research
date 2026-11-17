@@ -1,0 +1,115 @@
+{
+  "arm": "both",
+  "seed": 17,
+  "config": "slow",
+  "source": 719,
+  "validation": 228,
+  "references": 32,
+  "epochs": 4,
+  "expected_steps": 120,
+  "batch": 24,
+  "microbatch": 12,
+  "optimizer": "AdamW",
+  "weight_decay": 0.01,
+  "clip_grad_norm": 5.0,
+  "learning_rates": {
+    "reader": 1e-05,
+    "exchange": 0.0003,
+    "head": 1e-05
+  },
+  "parameter_groups": [
+    {
+      "name": "reader",
+      "base_lr": 1e-05,
+      "parameter_names": [
+        "ccrel.value.0.weight",
+        "ccrel.value.1.weight"
+      ],
+      "parameter_count": 32768,
+      "epoch_learning_rates": [
+        5e-06,
+        1e-05,
+        5.500000000000001e-06,
+        1.0000000000000002e-06
+      ]
+    },
+    {
+      "name": "exchange",
+      "base_lr": 0.0003,
+      "parameter_names": [
+        "exchange.region",
+        "exchange.slot",
+        "exchange.project.0.weight",
+        "exchange.project.1.weight",
+        "exchange.gate.0.weight",
+        "exchange.gate.0.bias",
+        "exchange.gate.2.weight",
+        "exchange.gate.2.bias",
+        "exchange.output.0.weight",
+        "exchange.output.1.weight",
+        "exchange.scale_output.0.weight",
+        "exchange.scale_output.1.weight"
+      ],
+      "parameter_count": 84163,
+      "epoch_learning_rates": [
+        0.00015,
+        0.0003,
+        0.000165,
+        2.9999999999999997e-05
+      ]
+    }
+  ],
+  "trainable_scope": "Model requires_grad preserved; named reader/exchange/head groups only",
+  "schedule": [
+    0.5,
+    1.0,
+    0.55,
+    0.1
+  ],
+  "order_rng_seed": 20261133,
+  "augmentation_rng_seed": 20261134,
+  "loss": "unchanged class/vessel weighted CE + .02 M1 auxiliary CE",
+  "augmentation": "unchanged paired rot90/flip and native geometry",
+  "calibration": "model.calibrate(net, inputs, seed); source719 only, seed-specific bank",
+  "selection": "validation BA/OA/-NLL; epoch0 eligible; ties retain earlier epoch",
+  "initial": {
+    "oa": 68.42105263157895,
+    "ba": 62.761596729725035,
+    "macro_f1": 61.29847803151315,
+    "nll": 1.163466215133667,
+    "confusion": [
+      [
+        65,
+        5,
+        6,
+        11
+      ],
+      [
+        2,
+        10,
+        8,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        11,
+        11,
+        4,
+        63
+      ]
+    ]
+  },
+  "initial_replay": {
+    "max_abs_error": 2.574920654296875e-05,
+    "prediction_diff": 0
+  },
+  "head_only_reuse": null,
+  "evaluation_loaded": false,
+  "fine_residual": false,
+  "split_note": "existing validation, not independent test"
+}
