@@ -1,0 +1,351 @@
+{
+  "status": "partial",
+  "selection_seed": 17,
+  "selection_split": "validation228",
+  "rule": "BA/OA/-NLL; epoch0 eligible; config ties choose base",
+  "configs": {
+    "base": {
+      "reader": 1e-05,
+      "exchange": 0.001,
+      "head": 1e-05
+    },
+    "slow": {
+      "reader": 1e-05,
+      "exchange": 0.0003,
+      "head": 1e-05
+    }
+  },
+  "arms": {
+    "independent": {
+      "arm": "independent",
+      "seed": 17,
+      "config": "base",
+      "effective_fit_config": "base",
+      "reused_identical_fit": false,
+      "reuse_reason": null,
+      "learning_rates": {
+        "reader": 1e-05,
+        "exchange": 0.001,
+        "head": 1e-05
+      },
+      "epoch": 4,
+      "metrics": {
+        "oa": 68.85964912280701,
+        "ba": 63.04249560612952,
+        "macro_f1": 61.59304329960964,
+        "nll": 1.1613465547561646,
+        "confusion": [
+          [
+            65,
+            5,
+            6,
+            11
+          ],
+          [
+            2,
+            10,
+            8,
+            3
+          ],
+          [
+            8,
+            2,
+            18,
+            1
+          ],
+          [
+            10,
+            11,
+            4,
+            64
+          ]
+        ]
+      },
+      "key": [
+        63.04249560612952,
+        68.85964912280701,
+        -1.1613465547561646
+      ],
+      "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\independent_s17\\best.pt",
+      "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\independent_s17\\validation.npz",
+      "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\independent_s17\\receipt.json"
+    },
+    "cross_mean": {
+      "arm": "cross_mean",
+      "seed": 17,
+      "config": "base",
+      "effective_fit_config": "base",
+      "reused_identical_fit": false,
+      "reuse_reason": null,
+      "learning_rates": {
+        "reader": 1e-05,
+        "exchange": 0.001,
+        "head": 1e-05
+      },
+      "epoch": 4,
+      "metrics": {
+        "oa": 68.85964912280701,
+        "ba": 63.04249560612952,
+        "macro_f1": 61.59304329960964,
+        "nll": 1.1626276969909668,
+        "confusion": [
+          [
+            65,
+            5,
+            6,
+            11
+          ],
+          [
+            2,
+            10,
+            8,
+            3
+          ],
+          [
+            8,
+            2,
+            18,
+            1
+          ],
+          [
+            10,
+            11,
+            4,
+            64
+          ]
+        ]
+      },
+      "key": [
+        63.04249560612952,
+        68.85964912280701,
+        -1.1626276969909668
+      ],
+      "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\cross_mean_s17\\best.pt",
+      "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\cross_mean_s17\\validation.npz",
+      "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\cross_mean_s17\\receipt.json"
+    }
+  },
+  "candidates": {
+    "independent": [
+      {
+        "arm": "independent",
+        "seed": 17,
+        "config": "base",
+        "effective_fit_config": "base",
+        "reused_identical_fit": false,
+        "reuse_reason": null,
+        "learning_rates": {
+          "reader": 1e-05,
+          "exchange": 0.001,
+          "head": 1e-05
+        },
+        "epoch": 4,
+        "metrics": {
+          "oa": 68.85964912280701,
+          "ba": 63.04249560612952,
+          "macro_f1": 61.59304329960964,
+          "nll": 1.1613465547561646,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              10,
+              11,
+              4,
+              64
+            ]
+          ]
+        },
+        "key": [
+          63.04249560612952,
+          68.85964912280701,
+          -1.1613465547561646
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\independent_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\independent_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\independent_s17\\receipt.json"
+      },
+      {
+        "arm": "independent",
+        "seed": 17,
+        "config": "slow",
+        "effective_fit_config": "slow",
+        "reused_identical_fit": false,
+        "reuse_reason": null,
+        "learning_rates": {
+          "reader": 1e-05,
+          "exchange": 0.0003,
+          "head": 1e-05
+        },
+        "epoch": 4,
+        "metrics": {
+          "oa": 68.42105263157895,
+          "ba": 62.761596729725035,
+          "macro_f1": 61.29847803151315,
+          "nll": 1.1628696918487549,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              11,
+              11,
+              4,
+              63
+            ]
+          ]
+        },
+        "key": [
+          62.761596729725035,
+          68.42105263157895,
+          -1.1628696918487549
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\slow\\independent_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\slow\\independent_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\slow\\independent_s17\\receipt.json"
+      }
+    ],
+    "cross_mean": [
+      {
+        "arm": "cross_mean",
+        "seed": 17,
+        "config": "base",
+        "effective_fit_config": "base",
+        "reused_identical_fit": false,
+        "reuse_reason": null,
+        "learning_rates": {
+          "reader": 1e-05,
+          "exchange": 0.001,
+          "head": 1e-05
+        },
+        "epoch": 4,
+        "metrics": {
+          "oa": 68.85964912280701,
+          "ba": 63.04249560612952,
+          "macro_f1": 61.59304329960964,
+          "nll": 1.1626276969909668,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              10,
+              11,
+              4,
+              64
+            ]
+          ]
+        },
+        "key": [
+          63.04249560612952,
+          68.85964912280701,
+          -1.1626276969909668
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\cross_mean_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\cross_mean_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\base\\cross_mean_s17\\receipt.json"
+      },
+      {
+        "arm": "cross_mean",
+        "seed": 17,
+        "config": "slow",
+        "effective_fit_config": "slow",
+        "reused_identical_fit": false,
+        "reuse_reason": null,
+        "learning_rates": {
+          "reader": 1e-05,
+          "exchange": 0.0003,
+          "head": 1e-05
+        },
+        "epoch": 4,
+        "metrics": {
+          "oa": 68.42105263157895,
+          "ba": 62.761596729725035,
+          "macro_f1": 61.29847803151315,
+          "nll": 1.1634095907211304,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              11,
+              11,
+              4,
+              63
+            ]
+          ]
+        },
+        "key": [
+          62.761596729725035,
+          68.42105263157895,
+          -1.1634095907211304
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\slow\\cross_mean_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\slow\\cross_mean_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_local_cross_20261117\\tuning\\slow\\cross_mean_s17\\receipt.json"
+      }
+    ]
+  },
+  "evaluation_loaded": false
+}

@@ -1,0 +1,83 @@
+{
+  "arm": "independent",
+  "seed": 17,
+  "config": "base",
+  "parameter_groups": [
+    {
+      "name": "reader",
+      "base_lr": 1e-05,
+      "parameter_names": [
+        "ccrel.value.0.weight",
+        "ccrel.value.1.weight"
+      ],
+      "parameter_count": 32768,
+      "epoch_learning_rates": [
+        5e-06,
+        1e-05,
+        5.500000000000001e-06,
+        1.0000000000000002e-06
+      ]
+    },
+    {
+      "name": "exchange",
+      "base_lr": 0.001,
+      "parameter_names": [
+        "exchange.region",
+        "exchange.slot",
+        "exchange.project.0.weight",
+        "exchange.project.1.weight",
+        "exchange.gate.0.weight",
+        "exchange.gate.0.bias",
+        "exchange.gate.2.weight",
+        "exchange.gate.2.bias",
+        "exchange.output.0.weight",
+        "exchange.output.1.weight",
+        "exchange.scale_output.0.weight",
+        "exchange.scale_output.1.weight"
+      ],
+      "parameter_count": 84163,
+      "epoch_learning_rates": [
+        0.0005,
+        0.001,
+        0.00055,
+        0.0001
+      ]
+    }
+  ],
+  "passes": [
+    {
+      "stage": "initial",
+      "loss": 0.09951014816761017,
+      "groups": {
+        "reader": {
+          "tensors_with_grad": 2,
+          "nonzero_tensors": 0,
+          "norm": 0.0
+        },
+        "exchange": {
+          "tensors_with_grad": 12,
+          "nonzero_tensors": 4,
+          "norm": 0.006852819261402439
+        }
+      }
+    },
+    {
+      "stage": "after_one_update",
+      "loss": 0.0983656793832779,
+      "groups": {
+        "reader": {
+          "tensors_with_grad": 2,
+          "nonzero_tensors": 2,
+          "norm": 0.00404622097352455
+        },
+        "exchange": {
+          "tensors_with_grad": 12,
+          "nonzero_tensors": 12,
+          "norm": 0.006830592073915523
+        }
+      }
+    }
+  ],
+  "note": "Disposable one-step check; no checkpoint changed. Initial zero-gated gradients may be zero.",
+  "passed": true
+}
