@@ -1,0 +1,178 @@
+{
+  "replay": {
+    "max_abs_error": 1.9073486328125e-06,
+    "prediction_diff": 0
+  },
+  "config": "slow",
+  "checkpoint_kind": "last_not_selected",
+  "variants": [
+    {
+      "flag": "uniform_attention",
+      "metrics": {
+        "n": 228,
+        "oa": 65.78947368421053,
+        "ba": 59.425343508021264,
+        "confusion": [
+          [
+            59,
+            4,
+            6,
+            18
+          ],
+          [
+            1,
+            8,
+            11,
+            3
+          ],
+          [
+            7,
+            2,
+            18,
+            2
+          ],
+          [
+            10,
+            9,
+            5,
+            65
+          ]
+        ]
+      },
+      "paired": {
+        "rescued": 0,
+        "harmed": 0,
+        "stable_correct": 150,
+        "stable_wrong": 78,
+        "prediction_changes": 0
+      },
+      "max_logit_change": 0.003024725243449211
+    },
+    {
+      "flag": "no_detail",
+      "metrics": {
+        "n": 228,
+        "oa": 65.78947368421053,
+        "ba": 59.425343508021264,
+        "confusion": [
+          [
+            59,
+            4,
+            6,
+            18
+          ],
+          [
+            1,
+            8,
+            11,
+            3
+          ],
+          [
+            7,
+            2,
+            18,
+            2
+          ],
+          [
+            10,
+            9,
+            5,
+            65
+          ]
+        ]
+      },
+      "paired": {
+        "rescued": 0,
+        "harmed": 0,
+        "stable_correct": 150,
+        "stable_wrong": 78,
+        "prediction_changes": 0
+      },
+      "max_logit_change": 0.007175445556640625
+    },
+    {
+      "flag": "no_product",
+      "metrics": {
+        "n": 228,
+        "oa": 66.22807017543859,
+        "ba": 60.512300029760404,
+        "confusion": [
+          [
+            59,
+            4,
+            6,
+            18
+          ],
+          [
+            1,
+            9,
+            10,
+            3
+          ],
+          [
+            7,
+            2,
+            18,
+            2
+          ],
+          [
+            10,
+            9,
+            5,
+            65
+          ]
+        ]
+      },
+      "paired": {
+        "rescued": 1,
+        "harmed": 0,
+        "stable_correct": 150,
+        "stable_wrong": 77,
+        "prediction_changes": 1
+      },
+      "max_logit_change": 0.019086837768554688
+    },
+    {
+      "flag": "disabled",
+      "metrics": {
+        "n": 228,
+        "oa": 66.66666666666666,
+        "ba": 60.799656351599474,
+        "confusion": [
+          [
+            60,
+            4,
+            6,
+            17
+          ],
+          [
+            1,
+            9,
+            10,
+            3
+          ],
+          [
+            7,
+            2,
+            18,
+            2
+          ],
+          [
+            10,
+            9,
+            5,
+            65
+          ]
+        ]
+      },
+      "paired": {
+        "rescued": 2,
+        "harmed": 0,
+        "stable_correct": 150,
+        "stable_wrong": 76,
+        "prediction_changes": 2
+      },
+      "max_logit_change": 0.10216093063354492
+    }
+  ]
+}

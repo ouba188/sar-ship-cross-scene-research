@@ -1,0 +1,312 @@
+{
+  "arm": "cross_local",
+  "seed": 17,
+  "config": "slow",
+  "source": 719,
+  "validation": 228,
+  "references": 32,
+  "epochs": 4,
+  "expected_steps": 120,
+  "batch": 24,
+  "microbatch": 12,
+  "optimizer": "AdamW",
+  "weight_decay": 0.01,
+  "clip_grad_norm": 5.0,
+  "learning_rates": {
+    "backbone": 1e-06,
+    "head": 1e-06,
+    "reader": 1e-05,
+    "exchange": 0.001
+  },
+  "parameter_groups": [
+    {
+      "name": "backbone",
+      "base_lr": 1e-06,
+      "parameter_names": [
+        "net.base.backbone.model.layer3.0.conv1.weight",
+        "net.base.backbone.model.layer3.0.bn1.weight",
+        "net.base.backbone.model.layer3.0.bn1.bias",
+        "net.base.backbone.model.layer3.0.conv2.weight",
+        "net.base.backbone.model.layer3.0.bn2.weight",
+        "net.base.backbone.model.layer3.0.bn2.bias",
+        "net.base.backbone.model.layer3.0.conv3.weight",
+        "net.base.backbone.model.layer3.0.bn3.weight",
+        "net.base.backbone.model.layer3.0.bn3.bias",
+        "net.base.backbone.model.layer3.0.downsample.0.weight",
+        "net.base.backbone.model.layer3.0.downsample.1.weight",
+        "net.base.backbone.model.layer3.0.downsample.1.bias",
+        "net.base.backbone.model.layer3.1.conv1.weight",
+        "net.base.backbone.model.layer3.1.bn1.weight",
+        "net.base.backbone.model.layer3.1.bn1.bias",
+        "net.base.backbone.model.layer3.1.conv2.weight",
+        "net.base.backbone.model.layer3.1.bn2.weight",
+        "net.base.backbone.model.layer3.1.bn2.bias",
+        "net.base.backbone.model.layer3.1.conv3.weight",
+        "net.base.backbone.model.layer3.1.bn3.weight",
+        "net.base.backbone.model.layer3.1.bn3.bias",
+        "net.base.backbone.model.layer3.2.conv1.weight",
+        "net.base.backbone.model.layer3.2.bn1.weight",
+        "net.base.backbone.model.layer3.2.bn1.bias",
+        "net.base.backbone.model.layer3.2.conv2.weight",
+        "net.base.backbone.model.layer3.2.bn2.weight",
+        "net.base.backbone.model.layer3.2.bn2.bias",
+        "net.base.backbone.model.layer3.2.conv3.weight",
+        "net.base.backbone.model.layer3.2.bn3.weight",
+        "net.base.backbone.model.layer3.2.bn3.bias",
+        "net.base.backbone.model.layer3.3.conv1.weight",
+        "net.base.backbone.model.layer3.3.bn1.weight",
+        "net.base.backbone.model.layer3.3.bn1.bias",
+        "net.base.backbone.model.layer3.3.conv2.weight",
+        "net.base.backbone.model.layer3.3.bn2.weight",
+        "net.base.backbone.model.layer3.3.bn2.bias",
+        "net.base.backbone.model.layer3.3.conv3.weight",
+        "net.base.backbone.model.layer3.3.bn3.weight",
+        "net.base.backbone.model.layer3.3.bn3.bias",
+        "net.base.backbone.model.layer3.4.conv1.weight",
+        "net.base.backbone.model.layer3.4.bn1.weight",
+        "net.base.backbone.model.layer3.4.bn1.bias",
+        "net.base.backbone.model.layer3.4.conv2.weight",
+        "net.base.backbone.model.layer3.4.bn2.weight",
+        "net.base.backbone.model.layer3.4.bn2.bias",
+        "net.base.backbone.model.layer3.4.conv3.weight",
+        "net.base.backbone.model.layer3.4.bn3.weight",
+        "net.base.backbone.model.layer3.4.bn3.bias",
+        "net.base.backbone.model.layer3.5.conv1.weight",
+        "net.base.backbone.model.layer3.5.bn1.weight",
+        "net.base.backbone.model.layer3.5.bn1.bias",
+        "net.base.backbone.model.layer3.5.conv2.weight",
+        "net.base.backbone.model.layer3.5.bn2.weight",
+        "net.base.backbone.model.layer3.5.bn2.bias",
+        "net.base.backbone.model.layer3.5.conv3.weight",
+        "net.base.backbone.model.layer3.5.bn3.weight",
+        "net.base.backbone.model.layer3.5.bn3.bias",
+        "net.base.backbone.model.layer4.0.conv1.weight",
+        "net.base.backbone.model.layer4.0.bn1.weight",
+        "net.base.backbone.model.layer4.0.bn1.bias",
+        "net.base.backbone.model.layer4.0.conv2.weight",
+        "net.base.backbone.model.layer4.0.bn2.weight",
+        "net.base.backbone.model.layer4.0.bn2.bias",
+        "net.base.backbone.model.layer4.0.conv3.weight",
+        "net.base.backbone.model.layer4.0.bn3.weight",
+        "net.base.backbone.model.layer4.0.bn3.bias",
+        "net.base.backbone.model.layer4.0.downsample.0.weight",
+        "net.base.backbone.model.layer4.0.downsample.1.weight",
+        "net.base.backbone.model.layer4.0.downsample.1.bias",
+        "net.base.backbone.model.layer4.1.conv1.weight",
+        "net.base.backbone.model.layer4.1.bn1.weight",
+        "net.base.backbone.model.layer4.1.bn1.bias",
+        "net.base.backbone.model.layer4.1.conv2.weight",
+        "net.base.backbone.model.layer4.1.bn2.weight",
+        "net.base.backbone.model.layer4.1.bn2.bias",
+        "net.base.backbone.model.layer4.1.conv3.weight",
+        "net.base.backbone.model.layer4.1.bn3.weight",
+        "net.base.backbone.model.layer4.1.bn3.bias",
+        "net.base.backbone.model.layer4.2.conv1.weight",
+        "net.base.backbone.model.layer4.2.bn1.weight",
+        "net.base.backbone.model.layer4.2.bn1.bias",
+        "net.base.backbone.model.layer4.2.conv2.weight",
+        "net.base.backbone.model.layer4.2.bn2.weight",
+        "net.base.backbone.model.layer4.2.bn2.bias",
+        "net.base.backbone.model.layer4.2.conv3.weight",
+        "net.base.backbone.model.layer4.2.bn3.weight",
+        "net.base.backbone.model.layer4.2.bn3.bias"
+      ],
+      "parameter_count": 22063104,
+      "epoch_learning_rates": [
+        5e-07,
+        1e-06,
+        5.5e-07,
+        1e-07
+      ]
+    },
+    {
+      "name": "head",
+      "base_lr": 1e-06,
+      "parameter_names": [
+        "net.guide.head.weight",
+        "net.guide.head.bias"
+      ],
+      "parameter_count": 28684,
+      "epoch_learning_rates": [
+        5e-07,
+        1e-06,
+        5.5e-07,
+        1e-07
+      ]
+    },
+    {
+      "name": "reader",
+      "base_lr": 1e-05,
+      "parameter_names": [
+        "ccrel.value.0.weight",
+        "ccrel.value.1.weight"
+      ],
+      "parameter_count": 32768,
+      "epoch_learning_rates": [
+        5e-06,
+        1e-05,
+        5.500000000000001e-06,
+        1.0000000000000002e-06
+      ]
+    },
+    {
+      "name": "exchange",
+      "base_lr": 0.001,
+      "parameter_names": [
+        "exchange.region",
+        "exchange.slot",
+        "exchange.project.0.weight",
+        "exchange.project.1.weight",
+        "exchange.gate.0.weight",
+        "exchange.gate.0.bias",
+        "exchange.gate.2.weight",
+        "exchange.gate.2.bias",
+        "exchange.output.0.weight",
+        "exchange.output.1.weight",
+        "exchange.scale_output.0.weight",
+        "exchange.scale_output.1.weight"
+      ],
+      "parameter_count": 84163,
+      "epoch_learning_rates": [
+        0.0005,
+        0.001,
+        0.00055,
+        0.0001
+      ]
+    }
+  ],
+  "trainable_scope": "shared layer3 + layer4, classifier; added reader/exchange only in PCEA arms",
+  "schedule": [
+    0.5,
+    1.0,
+    0.55,
+    0.1
+  ],
+  "order_rng_seed": 20261133,
+  "augmentation_rng_seed": 20261134,
+  "loss": "unchanged class/vessel weighted CE + .02 M1 auxiliary CE",
+  "augmentation": "unchanged paired rot90/flip and native geometry",
+  "calibration": "source719 raw bank remains valid: pre-reader prefix and class-response projection fixed; current reader projection recomputes moments",
+  "selection": "validation BA/OA/-NLL; epoch0 eligible; ties retain earlier epoch",
+  "initial": {
+    "oa": 68.42105263157895,
+    "ba": 62.761596729725035,
+    "macro_f1": 61.29847803151315,
+    "nll": 1.1634663343429565,
+    "confusion": [
+      [
+        65,
+        5,
+        6,
+        11
+      ],
+      [
+        2,
+        10,
+        8,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        11,
+        11,
+        4,
+        63
+      ]
+    ]
+  },
+  "initial_replay": {
+    "max_abs_error": 0.0,
+    "prediction_diff": 0
+  },
+  "head_only_reuse": null,
+  "evaluation_loaded": false,
+  "fine_residual": false,
+  "split_note": "existing validation, not independent test",
+  "best": {
+    "epoch": 0,
+    "metrics": {
+      "oa": 68.42105263157895,
+      "ba": 62.761596729725035,
+      "macro_f1": 61.29847803151315,
+      "nll": 1.1634663343429565,
+      "confusion": [
+        [
+          65,
+          5,
+          6,
+          11
+        ],
+        [
+          2,
+          10,
+          8,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          11,
+          11,
+          4,
+          63
+        ]
+      ]
+    },
+    "key": [
+      62.761596729725035,
+      68.42105263157895,
+      -1.1634663343429565
+    ]
+  },
+  "last": {
+    "oa": 65.78947368421053,
+    "ba": 59.425343508021264,
+    "macro_f1": 58.088517233735345,
+    "nll": 1.1667914390563965,
+    "confusion": [
+      [
+        59,
+        4,
+        6,
+        18
+      ],
+      [
+        1,
+        8,
+        11,
+        3
+      ],
+      [
+        7,
+        2,
+        18,
+        2
+      ],
+      [
+        10,
+        9,
+        5,
+        65
+      ]
+    ]
+  },
+  "steps": 120,
+  "seconds": 90.35549039999023,
+  "trainable": 22208719,
+  "peak_gib": 1.13462495803833,
+  "bn": "running statistics fixed; layer3/layer4 affine trainable",
+  "frozen_prefix": "stem, layer1, layer2, original modules and anchor projection",
+  "references_policy": "32 source references re-extracted by the existing live path per microbatch; prefix fixed",
+  "scope_note": "late-backbone fine-tuning, NOT full-backbone unfreezing",
+  "hypothesis": "does matched downstream co-adaptation enable incremental local-interaction utility?"
+}
