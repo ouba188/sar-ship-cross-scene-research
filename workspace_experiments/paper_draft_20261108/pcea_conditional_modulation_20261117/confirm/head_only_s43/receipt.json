@@ -1,0 +1,166 @@
+{
+  "arm": "head_only",
+  "seed": 43,
+  "config": "head_small",
+  "source": 719,
+  "validation": 228,
+  "references": 32,
+  "epochs": 4,
+  "expected_steps": 120,
+  "batch": 24,
+  "microbatch": 12,
+  "optimizer": "AdamW",
+  "weight_decay": 0.01,
+  "clip_grad_norm": 5.0,
+  "learning_rates": {
+    "reader": 1e-05,
+    "exchange": 0.001,
+    "head": 1e-06
+  },
+  "parameter_groups": [
+    {
+      "name": "head",
+      "base_lr": 1e-06,
+      "parameter_names": [
+        "net.guide.head.weight",
+        "net.guide.head.bias"
+      ],
+      "parameter_count": 28684,
+      "epoch_learning_rates": [
+        5e-07,
+        1e-06,
+        5.5e-07,
+        1e-07
+      ]
+    }
+  ],
+  "trainable_scope": "Model requires_grad preserved; named reader/exchange/head groups only",
+  "schedule": [
+    0.5,
+    1.0,
+    0.55,
+    0.1
+  ],
+  "order_rng_seed": 20261159,
+  "augmentation_rng_seed": 20261160,
+  "loss": "unchanged class/vessel weighted CE + .02 M1 auxiliary CE",
+  "augmentation": "unchanged paired rot90/flip and native geometry",
+  "calibration": "model.calibrate(net, inputs, seed); source719 only, seed-specific bank",
+  "selection": "validation BA/OA/-NLL; epoch0 eligible; ties retain earlier epoch",
+  "initial": {
+    "oa": 62.71929824561403,
+    "ba": 61.311900229660445,
+    "macro_f1": 57.16532851385069,
+    "nll": 1.2852517366409302,
+    "confusion": [
+      [
+        46,
+        10,
+        15,
+        16
+      ],
+      [
+        1,
+        10,
+        8,
+        4
+      ],
+      [
+        4,
+        3,
+        22,
+        0
+      ],
+      [
+        9,
+        9,
+        6,
+        65
+      ]
+    ]
+  },
+  "initial_replay": {
+    "max_abs_error": 0.0,
+    "prediction_diff": 0
+  },
+  "head_only_reuse": "base and slow share the base fit; head_small is a separate head-rate fit",
+  "evaluation_loaded": false,
+  "fine_residual": false,
+  "split_note": "existing validation, not independent test",
+  "best": {
+    "epoch": 1,
+    "metrics": {
+      "oa": 62.71929824561403,
+      "ba": 61.311900229660445,
+      "macro_f1": 57.16532851385069,
+      "nll": 1.2844691276550293,
+      "confusion": [
+        [
+          46,
+          10,
+          15,
+          16
+        ],
+        [
+          1,
+          10,
+          8,
+          4
+        ],
+        [
+          4,
+          3,
+          22,
+          0
+        ],
+        [
+          9,
+          9,
+          6,
+          65
+        ]
+      ]
+    },
+    "key": [
+      61.311900229660445,
+      62.71929824561403,
+      -1.2844691276550293
+    ]
+  },
+  "last": {
+    "oa": 62.28070175438597,
+    "ba": 60.22494370792132,
+    "macro_f1": 56.237999669855164,
+    "nll": 1.2826706171035767,
+    "confusion": [
+      [
+        46,
+        10,
+        15,
+        16
+      ],
+      [
+        1,
+        9,
+        9,
+        4
+      ],
+      [
+        4,
+        3,
+        22,
+        0
+      ],
+      [
+        9,
+        9,
+        6,
+        65
+      ]
+    ]
+  },
+  "steps": 120,
+  "seconds": 79.84875880001346,
+  "trainable": 28684,
+  "peak_gib": 0.5941190719604492
+}

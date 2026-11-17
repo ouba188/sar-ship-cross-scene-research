@@ -1,0 +1,131 @@
+{
+  "seed": 43,
+  "arm": "affine_frozen",
+  "selected": {
+    "arm": "affine_frozen",
+    "seed": 43,
+    "config": "base",
+    "effective_fit_config": "base",
+    "reused_identical_fit": false,
+    "reuse_reason": null,
+    "learning_rates": {
+      "reader": 1e-05,
+      "exchange": 0.001,
+      "head": 1e-05
+    },
+    "epoch": 1,
+    "metrics": {
+      "oa": 62.71929824561403,
+      "ba": 61.311900229660445,
+      "macro_f1": 57.16532851385069,
+      "nll": 1.2850468158721924,
+      "confusion": [
+        [
+          46,
+          10,
+          15,
+          16
+        ],
+        [
+          1,
+          10,
+          8,
+          4
+        ],
+        [
+          4,
+          3,
+          22,
+          0
+        ],
+        [
+          9,
+          9,
+          6,
+          65
+        ]
+      ]
+    },
+    "key": [
+      61.311900229660445,
+      62.71929824561403,
+      -1.2850468158721924
+    ],
+    "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\affine_frozen_s43\\best.pt",
+    "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\affine_frozen_s43\\validation.npz",
+    "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\affine_frozen_s43\\receipt.json"
+  },
+  "note": "Historically exposed evaluation378; held-out frozen confirmation, not a new blind test; no evaluation-based selection.",
+  "metrics": {
+    "oa": 61.37566137566137,
+    "ba": 54.802785231067695,
+    "macro_f1": 53.8060626976249,
+    "nll": 1.1951240301132202,
+    "confusion": [
+      [
+        70,
+        14,
+        20,
+        28
+      ],
+      [
+        1,
+        7,
+        9,
+        9
+      ],
+      [
+        1,
+        23,
+        55,
+        4
+      ],
+      [
+        8,
+        15,
+        14,
+        100
+      ]
+    ]
+  },
+  "initial": {
+    "oa": 61.64021164021164,
+    "ba": 54.99217917046164,
+    "macro_f1": 54.028225407481536,
+    "nll": 1.1951913833618164,
+    "confusion": [
+      [
+        71,
+        14,
+        20,
+        27
+      ],
+      [
+        1,
+        7,
+        9,
+        9
+      ],
+      [
+        1,
+        23,
+        55,
+        4
+      ],
+      [
+        8,
+        15,
+        14,
+        100
+      ]
+    ]
+  },
+  "rescue": 0,
+  "harm": 1,
+  "net": -1,
+  "validation_replay": {
+    "max_abs_error": 0.0,
+    "prediction_diff": 0
+  },
+  "baseline_note": "Original Full cache; trained head branch-off is NOT original Full"
+}

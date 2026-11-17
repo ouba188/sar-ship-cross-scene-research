@@ -1,0 +1,795 @@
+{
+  "note": "Historically exposed evaluation378; held-out frozen confirmation, not a new blind test; no evaluation-based selection.",
+  "requested_arms": [
+    "head_only",
+    "affine_frozen"
+  ],
+  "rows": [
+    {
+      "seed": 17,
+      "arm": "head_only",
+      "selected": {
+        "arm": "head_only",
+        "seed": 17,
+        "config": "head_small",
+        "effective_fit_config": "head_small",
+        "reused_identical_fit": false,
+        "reuse_reason": null,
+        "learning_rates": {
+          "reader": 1e-05,
+          "exchange": 0.001,
+          "head": 1e-06
+        },
+        "epoch": 3,
+        "metrics": {
+          "oa": 68.85964912280701,
+          "ba": 63.04249560612952,
+          "macro_f1": 61.59304329960964,
+          "nll": 1.161771297454834,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              10,
+              11,
+              4,
+              64
+            ]
+          ]
+        },
+        "key": [
+          63.04249560612952,
+          68.85964912280701,
+          -1.161771297454834
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\tuning\\head_small\\head_only_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\tuning\\head_small\\head_only_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\tuning\\head_small\\head_only_s17\\receipt.json"
+      },
+      "note": "Historically exposed evaluation378; held-out frozen confirmation, not a new blind test; no evaluation-based selection.",
+      "metrics": {
+        "oa": 66.66666666666666,
+        "ba": 61.96145410594447,
+        "macro_f1": 59.79101019462465,
+        "nll": 1.1091736555099487,
+        "confusion": [
+          [
+            100,
+            6,
+            12,
+            14
+          ],
+          [
+            3,
+            12,
+            7,
+            4
+          ],
+          [
+            9,
+            19,
+            50,
+            5
+          ],
+          [
+            16,
+            17,
+            14,
+            90
+          ]
+        ]
+      },
+      "initial": {
+        "oa": 66.66666666666666,
+        "ba": 61.96145410594447,
+        "macro_f1": 59.811584606220514,
+        "nll": 1.1121183633804321,
+        "confusion": [
+          [
+            100,
+            6,
+            12,
+            14
+          ],
+          [
+            3,
+            12,
+            7,
+            4
+          ],
+          [
+            9,
+            19,
+            50,
+            5
+          ],
+          [
+            17,
+            19,
+            11,
+            90
+          ]
+        ]
+      },
+      "rescue": 0,
+      "harm": 0,
+      "net": 0,
+      "validation_replay": {
+        "max_abs_error": 0.0,
+        "prediction_diff": 0
+      },
+      "baseline_note": "Original Full cache; trained head branch-off is NOT original Full"
+    },
+    {
+      "seed": 17,
+      "arm": "affine_frozen",
+      "selected": {
+        "arm": "affine_frozen",
+        "seed": 17,
+        "config": "base",
+        "effective_fit_config": "base",
+        "reused_identical_fit": false,
+        "reuse_reason": null,
+        "learning_rates": {
+          "reader": 1e-05,
+          "exchange": 0.001,
+          "head": 1e-05
+        },
+        "epoch": 4,
+        "metrics": {
+          "oa": 68.85964912280701,
+          "ba": 63.04249560612952,
+          "macro_f1": 61.59304329960964,
+          "nll": 1.1626958847045898,
+          "confusion": [
+            [
+              65,
+              5,
+              6,
+              11
+            ],
+            [
+              2,
+              10,
+              8,
+              3
+            ],
+            [
+              8,
+              2,
+              18,
+              1
+            ],
+            [
+              10,
+              11,
+              4,
+              64
+            ]
+          ]
+        },
+        "key": [
+          63.04249560612952,
+          68.85964912280701,
+          -1.1626958847045898
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\tuning\\base\\affine_frozen_s17\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\tuning\\base\\affine_frozen_s17\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\tuning\\base\\affine_frozen_s17\\receipt.json"
+      },
+      "note": "Historically exposed evaluation378; held-out frozen confirmation, not a new blind test; no evaluation-based selection.",
+      "metrics": {
+        "oa": 66.66666666666666,
+        "ba": 61.96145410594447,
+        "macro_f1": 59.79174484052532,
+        "nll": 1.109246015548706,
+        "confusion": [
+          [
+            100,
+            6,
+            12,
+            14
+          ],
+          [
+            3,
+            12,
+            7,
+            4
+          ],
+          [
+            9,
+            19,
+            50,
+            5
+          ],
+          [
+            16,
+            19,
+            12,
+            90
+          ]
+        ]
+      },
+      "initial": {
+        "oa": 66.66666666666666,
+        "ba": 61.96145410594447,
+        "macro_f1": 59.811584606220514,
+        "nll": 1.1121183633804321,
+        "confusion": [
+          [
+            100,
+            6,
+            12,
+            14
+          ],
+          [
+            3,
+            12,
+            7,
+            4
+          ],
+          [
+            9,
+            19,
+            50,
+            5
+          ],
+          [
+            17,
+            19,
+            11,
+            90
+          ]
+        ]
+      },
+      "rescue": 0,
+      "harm": 0,
+      "net": 0,
+      "validation_replay": {
+        "max_abs_error": 0.0,
+        "prediction_diff": 0
+      },
+      "baseline_note": "Original Full cache; trained head branch-off is NOT original Full"
+    },
+    {
+      "seed": 29,
+      "arm": "head_only",
+      "selected": {
+        "arm": "head_only",
+        "seed": 29,
+        "config": "head_small",
+        "effective_fit_config": "head_small",
+        "reused_identical_fit": false,
+        "reuse_reason": null,
+        "learning_rates": {
+          "reader": 1e-05,
+          "exchange": 0.001,
+          "head": 1e-06
+        },
+        "epoch": 3,
+        "metrics": {
+          "oa": 66.66666666666666,
+          "ba": 59.598571500766475,
+          "macro_f1": 59.70105754752494,
+          "nll": 1.0494812726974487,
+          "confusion": [
+            [
+              54,
+              6,
+              4,
+              23
+            ],
+            [
+              4,
+              9,
+              5,
+              5
+            ],
+            [
+              8,
+              3,
+              16,
+              2
+            ],
+            [
+              8,
+              7,
+              1,
+              73
+            ]
+          ]
+        },
+        "key": [
+          59.598571500766475,
+          66.66666666666666,
+          -1.0494812726974487
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\head_only_s29\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\head_only_s29\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\head_only_s29\\receipt.json"
+      },
+      "note": "Historically exposed evaluation378; held-out frozen confirmation, not a new blind test; no evaluation-based selection.",
+      "metrics": {
+        "oa": 66.13756613756614,
+        "ba": 61.422470034289574,
+        "macro_f1": 59.434669162868104,
+        "nll": 1.0383374691009521,
+        "confusion": [
+          [
+            92,
+            7,
+            9,
+            24
+          ],
+          [
+            1,
+            12,
+            7,
+            6
+          ],
+          [
+            2,
+            25,
+            49,
+            7
+          ],
+          [
+            13,
+            15,
+            12,
+            97
+          ]
+        ]
+      },
+      "initial": {
+        "oa": 65.87301587301587,
+        "ba": 61.233076094895644,
+        "macro_f1": 59.239862786118636,
+        "nll": 1.039310336112976,
+        "confusion": [
+          [
+            91,
+            7,
+            9,
+            25
+          ],
+          [
+            1,
+            12,
+            7,
+            6
+          ],
+          [
+            2,
+            25,
+            49,
+            7
+          ],
+          [
+            13,
+            15,
+            12,
+            97
+          ]
+        ]
+      },
+      "rescue": 1,
+      "harm": 0,
+      "net": 1,
+      "validation_replay": {
+        "max_abs_error": 0.0,
+        "prediction_diff": 0
+      },
+      "baseline_note": "Original Full cache; trained head branch-off is NOT original Full"
+    },
+    {
+      "seed": 29,
+      "arm": "affine_frozen",
+      "selected": {
+        "arm": "affine_frozen",
+        "seed": 29,
+        "config": "base",
+        "effective_fit_config": "base",
+        "reused_identical_fit": false,
+        "reuse_reason": null,
+        "learning_rates": {
+          "reader": 1e-05,
+          "exchange": 0.001,
+          "head": 1e-05
+        },
+        "epoch": 4,
+        "metrics": {
+          "oa": 66.66666666666666,
+          "ba": 59.598571500766475,
+          "macro_f1": 59.71601961061697,
+          "nll": 1.0478870868682861,
+          "confusion": [
+            [
+              54,
+              6,
+              4,
+              23
+            ],
+            [
+              3,
+              9,
+              5,
+              6
+            ],
+            [
+              7,
+              3,
+              16,
+              3
+            ],
+            [
+              8,
+              7,
+              1,
+              73
+            ]
+          ]
+        },
+        "key": [
+          59.598571500766475,
+          66.66666666666666,
+          -1.0478870868682861
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\affine_frozen_s29\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\affine_frozen_s29\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\affine_frozen_s29\\receipt.json"
+      },
+      "note": "Historically exposed evaluation378; held-out frozen confirmation, not a new blind test; no evaluation-based selection.",
+      "metrics": {
+        "oa": 65.87301587301587,
+        "ba": 61.233076094895644,
+        "macro_f1": 59.239862786118636,
+        "nll": 1.0362114906311035,
+        "confusion": [
+          [
+            91,
+            7,
+            9,
+            25
+          ],
+          [
+            1,
+            12,
+            7,
+            6
+          ],
+          [
+            2,
+            25,
+            49,
+            7
+          ],
+          [
+            13,
+            15,
+            12,
+            97
+          ]
+        ]
+      },
+      "initial": {
+        "oa": 65.87301587301587,
+        "ba": 61.233076094895644,
+        "macro_f1": 59.239862786118636,
+        "nll": 1.039310336112976,
+        "confusion": [
+          [
+            91,
+            7,
+            9,
+            25
+          ],
+          [
+            1,
+            12,
+            7,
+            6
+          ],
+          [
+            2,
+            25,
+            49,
+            7
+          ],
+          [
+            13,
+            15,
+            12,
+            97
+          ]
+        ]
+      },
+      "rescue": 0,
+      "harm": 0,
+      "net": 0,
+      "validation_replay": {
+        "max_abs_error": 0.0,
+        "prediction_diff": 0
+      },
+      "baseline_note": "Original Full cache; trained head branch-off is NOT original Full"
+    },
+    {
+      "seed": 43,
+      "arm": "head_only",
+      "selected": {
+        "arm": "head_only",
+        "seed": 43,
+        "config": "head_small",
+        "effective_fit_config": "head_small",
+        "reused_identical_fit": false,
+        "reuse_reason": null,
+        "learning_rates": {
+          "reader": 1e-05,
+          "exchange": 0.001,
+          "head": 1e-06
+        },
+        "epoch": 1,
+        "metrics": {
+          "oa": 62.71929824561403,
+          "ba": 61.311900229660445,
+          "macro_f1": 57.16532851385069,
+          "nll": 1.2844691276550293,
+          "confusion": [
+            [
+              46,
+              10,
+              15,
+              16
+            ],
+            [
+              1,
+              10,
+              8,
+              4
+            ],
+            [
+              4,
+              3,
+              22,
+              0
+            ],
+            [
+              9,
+              9,
+              6,
+              65
+            ]
+          ]
+        },
+        "key": [
+          61.311900229660445,
+          62.71929824561403,
+          -1.2844691276550293
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\head_only_s43\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\head_only_s43\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\head_only_s43\\receipt.json"
+      },
+      "note": "Historically exposed evaluation378; held-out frozen confirmation, not a new blind test; no evaluation-based selection.",
+      "metrics": {
+        "oa": 61.904761904761905,
+        "ba": 55.181573109855584,
+        "macro_f1": 54.24938916009695,
+        "nll": 1.1939752101898193,
+        "confusion": [
+          [
+            72,
+            14,
+            20,
+            26
+          ],
+          [
+            1,
+            7,
+            9,
+            9
+          ],
+          [
+            1,
+            23,
+            55,
+            4
+          ],
+          [
+            8,
+            15,
+            14,
+            100
+          ]
+        ]
+      },
+      "initial": {
+        "oa": 61.64021164021164,
+        "ba": 54.99217917046164,
+        "macro_f1": 54.028225407481536,
+        "nll": 1.1951913833618164,
+        "confusion": [
+          [
+            71,
+            14,
+            20,
+            27
+          ],
+          [
+            1,
+            7,
+            9,
+            9
+          ],
+          [
+            1,
+            23,
+            55,
+            4
+          ],
+          [
+            8,
+            15,
+            14,
+            100
+          ]
+        ]
+      },
+      "rescue": 1,
+      "harm": 0,
+      "net": 1,
+      "validation_replay": {
+        "max_abs_error": 0.0,
+        "prediction_diff": 0
+      },
+      "baseline_note": "Original Full cache; trained head branch-off is NOT original Full"
+    },
+    {
+      "seed": 43,
+      "arm": "affine_frozen",
+      "selected": {
+        "arm": "affine_frozen",
+        "seed": 43,
+        "config": "base",
+        "effective_fit_config": "base",
+        "reused_identical_fit": false,
+        "reuse_reason": null,
+        "learning_rates": {
+          "reader": 1e-05,
+          "exchange": 0.001,
+          "head": 1e-05
+        },
+        "epoch": 1,
+        "metrics": {
+          "oa": 62.71929824561403,
+          "ba": 61.311900229660445,
+          "macro_f1": 57.16532851385069,
+          "nll": 1.2850468158721924,
+          "confusion": [
+            [
+              46,
+              10,
+              15,
+              16
+            ],
+            [
+              1,
+              10,
+              8,
+              4
+            ],
+            [
+              4,
+              3,
+              22,
+              0
+            ],
+            [
+              9,
+              9,
+              6,
+              65
+            ]
+          ]
+        },
+        "key": [
+          61.311900229660445,
+          62.71929824561403,
+          -1.2850468158721924
+        ],
+        "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\affine_frozen_s43\\best.pt",
+        "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\affine_frozen_s43\\validation.npz",
+        "receipt": "E:\\临时会话\\paper_draft_20261108\\pcea_conditional_modulation_20261117\\confirm\\affine_frozen_s43\\receipt.json"
+      },
+      "note": "Historically exposed evaluation378; held-out frozen confirmation, not a new blind test; no evaluation-based selection.",
+      "metrics": {
+        "oa": 61.37566137566137,
+        "ba": 54.802785231067695,
+        "macro_f1": 53.8060626976249,
+        "nll": 1.1951240301132202,
+        "confusion": [
+          [
+            70,
+            14,
+            20,
+            28
+          ],
+          [
+            1,
+            7,
+            9,
+            9
+          ],
+          [
+            1,
+            23,
+            55,
+            4
+          ],
+          [
+            8,
+            15,
+            14,
+            100
+          ]
+        ]
+      },
+      "initial": {
+        "oa": 61.64021164021164,
+        "ba": 54.99217917046164,
+        "macro_f1": 54.028225407481536,
+        "nll": 1.1951913833618164,
+        "confusion": [
+          [
+            71,
+            14,
+            20,
+            27
+          ],
+          [
+            1,
+            7,
+            9,
+            9
+          ],
+          [
+            1,
+            23,
+            55,
+            4
+          ],
+          [
+            8,
+            15,
+            14,
+            100
+          ]
+        ]
+      },
+      "rescue": 0,
+      "harm": 1,
+      "net": -1,
+      "validation_replay": {
+        "max_abs_error": 0.0,
+        "prediction_diff": 0
+      },
+      "baseline_note": "Original Full cache; trained head branch-off is NOT original Full"
+    }
+  ]
+}
