@@ -1,0 +1,158 @@
+{
+  "arm": "cross_mean",
+  "seed": 17,
+  "strength": 0.1,
+  "start_checkpoint": "E:\\临时会话\\paper_draft_20261108\\full_finetune_20261111\\selected_s17\\best.pt",
+  "initial": {
+    "oa": 68.42105263157895,
+    "ba": 62.761596729725035,
+    "macro_f1": 61.29847803151315,
+    "nll": 1.1634663343429565,
+    "confusion": [
+      [
+        65,
+        5,
+        6,
+        11
+      ],
+      [
+        2,
+        10,
+        8,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        11,
+        11,
+        4,
+        63
+      ]
+    ]
+  },
+  "replay": {
+    "max_abs_error": 0.0,
+    "prediction_diff": 0
+  },
+  "learning_rates": {
+    "backbone": 1e-05,
+    "modules": 1e-05,
+    "reader": 0.0001,
+    "exchange": 0.0003
+  },
+  "epochs": 8,
+  "steps_expected": 240,
+  "batch": 24,
+  "microbatch": 12,
+  "source": 719,
+  "validation": 228,
+  "references": 32,
+  "evaluation_loaded": false,
+  "scope": "Full backbone and original used modules trainable; BN stats fixed, affine trainable",
+  "objective": "weighted CE + .02 M1 auxiliary CE + lambda/2 * SUM old trainable parameter drift squared",
+  "new_parameters": "reader/exchange ordinary AdamW decay, not constrained to initial zero writer",
+  "optimizer": "AdamW wd .01, clip5, cosine floor .1",
+  "checkpoint_rule": "validation BA/OA/-NLL, epoch0 eligible, tie keeps earlier",
+  "groups": {
+    "backbone": 23508032,
+    "modules": 1477956,
+    "reader": 32768,
+    "exchange": 84163
+  },
+  "native_input": "160 crop/pad, same paired rot90/flip, no resize, no OBB transfer",
+  "intervention": "retained trained Full history; no new teacher selection",
+  "best": {
+    "epoch": 0,
+    "metrics": {
+      "oa": 68.42105263157895,
+      "ba": 62.761596729725035,
+      "macro_f1": 61.29847803151315,
+      "nll": 1.1634663343429565,
+      "confusion": [
+        [
+          65,
+          5,
+          6,
+          11
+        ],
+        [
+          2,
+          10,
+          8,
+          3
+        ],
+        [
+          8,
+          2,
+          18,
+          1
+        ],
+        [
+          11,
+          11,
+          4,
+          63
+        ]
+      ]
+    },
+    "key": [
+      62.761596729725035,
+      68.42105263157895,
+      -1.1634663343429565
+    ]
+  },
+  "last": {
+    "oa": 64.91228070175438,
+    "ba": 60.00651359713402,
+    "macro_f1": 57.83866470063093,
+    "nll": 1.3496549129486084,
+    "confusion": [
+      [
+        56,
+        4,
+        9,
+        18
+      ],
+      [
+        0,
+        8,
+        11,
+        4
+      ],
+      [
+        6,
+        2,
+        20,
+        1
+      ],
+      [
+        10,
+        8,
+        7,
+        64
+      ]
+    ]
+  },
+  "final_drift": {
+    "backbone": {
+      "squared_distance": 0.08807556629454893,
+      "origin_squared_norm": 247443.35285186768,
+      "l2_distance": 0.2967752791162851,
+      "relative_l2_distance": 0.0005966090353513831
+    },
+    "old_modules": {
+      "squared_distance": 0.006940913509175239,
+      "origin_squared_norm": 973.7555698427161,
+      "l2_distance": 0.08331214502805241,
+      "relative_l2_distance": 0.0026698283410952683
+    }
+  },
+  "seconds": 218.63647799997125,
+  "checkpoint": "E:\\临时会话\\paper_draft_20261108\\pcea_startpoint_20261117\\fits\\cross_mean_s17_sp0.1\\best.pt",
+  "validation_predictions": "E:\\临时会话\\paper_draft_20261108\\pcea_startpoint_20261117\\fits\\cross_mean_s17_sp0.1\\validation.npz"
+}

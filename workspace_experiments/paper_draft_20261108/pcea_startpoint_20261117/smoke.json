@@ -1,0 +1,88 @@
+{
+  "passed": true,
+  "arms": {
+    "full": {
+      "replay": {
+        "max_abs_error": 0.0,
+        "prediction_diff": 0
+      },
+      "passes": [
+        {
+          "task": 0.16447152197360992,
+          "penalty": 0.0,
+          "grad": {
+            "backbone": 8.945173266856457,
+            "modules": 2.8646788226743265
+          }
+        },
+        {
+          "task": 0.10248392820358276,
+          "penalty": 6.706522253807634e-05,
+          "grad": {
+            "backbone": 5.349299647589964,
+            "modules": 1.688324990177822
+          }
+        }
+      ],
+      "drift": {
+        "backbone": {
+          "squared_distance": 0.0039050530195776645,
+          "origin_squared_norm": 247443.35285186768,
+          "l2_distance": 0.06249042342293469,
+          "relative_l2_distance": 0.00012562485442882269
+        },
+        "old_modules": {
+          "squared_distance": 0.0005179962695795876,
+          "origin_squared_norm": 973.7555698427161,
+          "l2_distance": 0.022759531400703036,
+          "relative_l2_distance": 0.0007293539488532496
+        }
+      },
+      "anchor_gradient_error": 0.0
+    },
+    "cross_mean": {
+      "replay": {
+        "max_abs_error": 0.0,
+        "prediction_diff": 0
+      },
+      "passes": [
+        {
+          "task": 0.16447152197360992,
+          "penalty": 0.0,
+          "grad": {
+            "backbone": 8.945173134358507,
+            "modules": 2.864678821703537,
+            "reader": 0.0,
+            "exchange": 0.006907162171935413
+          }
+        },
+        {
+          "task": 0.10228072106838226,
+          "penalty": 6.706522981403396e-05,
+          "grad": {
+            "backbone": 5.338312413227573,
+            "modules": 1.68396287752963,
+            "reader": 0.0008228023614261576,
+            "exchange": 0.004046330041278642
+          }
+        }
+      ],
+      "drift": {
+        "backbone": {
+          "squared_distance": 0.003904624615362451,
+          "origin_squared_norm": 247443.35285186768,
+          "l2_distance": 0.062486995569978006,
+          "relative_l2_distance": 0.00012561796339648367
+        },
+        "old_modules": {
+          "squared_distance": 0.0005177478113982531,
+          "origin_squared_norm": 973.7555698427161,
+          "l2_distance": 0.022754072413487945,
+          "relative_l2_distance": 0.0007291790096679049
+        }
+      },
+      "anchor_gradient_error": 0.0
+    }
+  },
+  "initial_max_difference": 0.0
+}

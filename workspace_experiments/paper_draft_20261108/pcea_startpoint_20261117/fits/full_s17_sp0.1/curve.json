@@ -1,0 +1,538 @@
+[
+  {
+    "epoch": 1,
+    "validation": {
+      "oa": 65.78947368421053,
+      "ba": 59.1939985063648,
+      "macro_f1": 57.470527393084225,
+      "nll": 1.2681682109832764,
+      "confusion": [
+        [
+          58,
+          3,
+          8,
+          18
+        ],
+        [
+          0,
+          7,
+          13,
+          3
+        ],
+        [
+          6,
+          2,
+          19,
+          2
+        ],
+        [
+          9,
+          8,
+          6,
+          66
+        ]
+      ]
+    },
+    "train_loss": 0.22253818428649028,
+    "train_oa": 92.76773296244784,
+    "mean_regularization": 0.0010553229476499837,
+    "drift": {
+      "backbone": {
+        "squared_distance": 0.036580563108657316,
+        "origin_squared_norm": 247443.35285186768,
+        "l2_distance": 0.19126045882162188,
+        "relative_l2_distance": 0.0003844919906341662
+      },
+      "old_modules": {
+        "squared_distance": 0.003027142008826887,
+        "origin_squared_norm": 973.7555698427161,
+        "l2_distance": 0.055019469361553164,
+        "relative_l2_distance": 0.0017631587635156501
+      }
+    },
+    "gradient_diagnostics": [
+      {
+        "batch": 0,
+        "old_task_gradient": 12.644958743905802,
+        "anchor_gradient": 0.0,
+        "anchor_to_task_ratio": 0.0
+      },
+      {
+        "batch": 29,
+        "old_task_gradient": 10.569228955457522,
+        "anchor_gradient": 0.019634006084465583,
+        "anchor_to_task_ratio": 0.0018576573719057696
+      }
+    ],
+    "seconds": 27.6647770999989
+  },
+  {
+    "epoch": 2,
+    "validation": {
+      "oa": 67.10526315789474,
+      "ba": 63.029580715260344,
+      "macro_f1": 61.048312103028394,
+      "nll": 1.2389883995056152,
+      "confusion": [
+        [
+          57,
+          5,
+          7,
+          18
+        ],
+        [
+          1,
+          10,
+          9,
+          3
+        ],
+        [
+          6,
+          2,
+          20,
+          1
+        ],
+        [
+          10,
+          8,
+          5,
+          66
+        ]
+      ]
+    },
+    "train_loss": 0.19312467070630596,
+    "train_oa": 94.85396383866481,
+    "mean_regularization": 0.0025894895195961,
+    "drift": {
+      "backbone": {
+        "squared_distance": 0.0555504047578097,
+        "origin_squared_norm": 247443.35285186768,
+        "l2_distance": 0.2356913336501996,
+        "relative_l2_distance": 0.0004738116315767302
+      },
+      "old_modules": {
+        "squared_distance": 0.004065658450259444,
+        "origin_squared_norm": 973.7555698427161,
+        "l2_distance": 0.0637625160283018,
+        "relative_l2_distance": 0.0020433392074418544
+      }
+    },
+    "gradient_diagnostics": [
+      {
+        "batch": 0,
+        "old_task_gradient": 12.340334539947273,
+        "anchor_gradient": 0.019901688951496552,
+        "anchor_to_task_ratio": 0.0016127349616878043
+      },
+      {
+        "batch": 29,
+        "old_task_gradient": 4.048745298065033,
+        "anchor_gradient": 0.024359230264964112,
+        "anchor_to_task_ratio": 0.006016488682705187
+      }
+    ],
+    "seconds": 51.41489400001592
+  },
+  {
+    "epoch": 3,
+    "validation": {
+      "oa": 64.91228070175438,
+      "ba": 60.00651359713402,
+      "macro_f1": 57.739748810001714,
+      "nll": 1.3218770027160645,
+      "confusion": [
+        [
+          56,
+          5,
+          8,
+          18
+        ],
+        [
+          0,
+          8,
+          12,
+          3
+        ],
+        [
+          6,
+          2,
+          20,
+          1
+        ],
+        [
+          10,
+          9,
+          6,
+          64
+        ]
+      ]
+    },
+    "train_loss": 0.18078711485912471,
+    "train_oa": 94.71488178025035,
+    "mean_regularization": 0.003300582935723166,
+    "drift": {
+      "backbone": {
+        "squared_distance": 0.06852781021396481,
+        "origin_squared_norm": 247443.35285186768,
+        "l2_distance": 0.2617781698575433,
+        "relative_l2_distance": 0.0005262541471102919
+      },
+      "old_modules": {
+        "squared_distance": 0.005194311437027413,
+        "origin_squared_norm": 973.7555698427161,
+        "l2_distance": 0.07207157162867626,
+        "relative_l2_distance": 0.002309611935411426
+      }
+    },
+    "gradient_diagnostics": [
+      {
+        "batch": 0,
+        "old_task_gradient": 9.175786464767484,
+        "anchor_gradient": 0.024416398508847394,
+        "anchor_to_task_ratio": 0.0026609597556132873
+      },
+      {
+        "batch": 29,
+        "old_task_gradient": 13.495881059732307,
+        "anchor_gradient": 0.027054592924423655,
+        "anchor_to_task_ratio": 0.0020046555541413675
+      }
+    ],
+    "seconds": 74.76190370001132
+  },
+  {
+    "epoch": 4,
+    "validation": {
+      "oa": 64.47368421052632,
+      "ba": 58.9130996299603,
+      "macro_f1": 57.017819706498955,
+      "nll": 1.2929047346115112,
+      "confusion": [
+        [
+          55,
+          5,
+          7,
+          20
+        ],
+        [
+          1,
+          7,
+          10,
+          5
+        ],
+        [
+          6,
+          2,
+          20,
+          1
+        ],
+        [
+          10,
+          8,
+          6,
+          65
+        ]
+      ]
+    },
+    "train_loss": 0.15757731760700489,
+    "train_oa": 95.41029207232268,
+    "mean_regularization": 0.004001817634950082,
+    "drift": {
+      "backbone": {
+        "squared_distance": 0.07919425980765027,
+        "origin_squared_norm": 247443.35285186768,
+        "l2_distance": 0.28141474696193564,
+        "relative_l2_distance": 0.0005657296700000004
+      },
+      "old_modules": {
+        "squared_distance": 0.00624365036008097,
+        "origin_squared_norm": 973.7555698427161,
+        "l2_distance": 0.07901677265037449,
+        "relative_l2_distance": 0.00253217845936889
+      }
+    },
+    "gradient_diagnostics": [
+      {
+        "batch": 0,
+        "old_task_gradient": 8.090103916472314,
+        "anchor_gradient": 0.0271518211177248,
+        "anchor_to_task_ratio": 0.0033561770526137247
+      },
+      {
+        "batch": 29,
+        "old_task_gradient": 12.0105283886117,
+        "anchor_gradient": 0.029195956299879755,
+        "anchor_to_task_ratio": 0.0024308636019347123
+      }
+    ],
+    "seconds": 99.13256920001004
+  },
+  {
+    "epoch": 5,
+    "validation": {
+      "oa": 65.35087719298247,
+      "ba": 61.09347011887315,
+      "macro_f1": 58.80357859723576,
+      "nll": 1.3436923027038574,
+      "confusion": [
+        [
+          56,
+          5,
+          8,
+          18
+        ],
+        [
+          0,
+          9,
+          11,
+          3
+        ],
+        [
+          6,
+          2,
+          20,
+          1
+        ],
+        [
+          10,
+          8,
+          7,
+          64
+        ]
+      ]
+    },
+    "train_loss": 0.16138722052245877,
+    "train_oa": 95.96662030598053,
+    "mean_regularization": 0.0043849435945351916,
+    "drift": {
+      "backbone": {
+        "squared_distance": 0.0838684227492763,
+        "origin_squared_norm": 247443.35285186768,
+        "l2_distance": 0.289600453641351,
+        "relative_l2_distance": 0.0005821854427996001
+      },
+      "old_modules": {
+        "squared_distance": 0.006582961768440477,
+        "origin_squared_norm": 973.7555698427161,
+        "l2_distance": 0.08113545321522815,
+        "relative_l2_distance": 0.00260007388344985
+      }
+    },
+    "gradient_diagnostics": [
+      {
+        "batch": 0,
+        "old_task_gradient": 8.56553369622744,
+        "anchor_gradient": 0.02922975990611488,
+        "anchor_to_task_ratio": 0.0034124855429602343
+      },
+      {
+        "batch": 29,
+        "old_task_gradient": 6.075695788646387,
+        "anchor_gradient": 0.03003414456075972,
+        "anchor_to_task_ratio": 0.004943325934271483
+      }
+    ],
+    "seconds": 122.60424529999727
+  },
+  {
+    "epoch": 6,
+    "validation": {
+      "oa": 65.78947368421053,
+      "ba": 61.37436899527764,
+      "macro_f1": 59.23900731300178,
+      "nll": 1.3321526050567627,
+      "confusion": [
+        [
+          56,
+          5,
+          8,
+          18
+        ],
+        [
+          1,
+          9,
+          10,
+          3
+        ],
+        [
+          6,
+          2,
+          20,
+          1
+        ],
+        [
+          10,
+          8,
+          6,
+          65
+        ]
+      ]
+    },
+    "train_loss": 0.14572057539340683,
+    "train_oa": 95.54937413073714,
+    "mean_regularization": 0.004591667108858625,
+    "drift": {
+      "backbone": {
+        "squared_distance": 0.0865149771602205,
+        "origin_squared_norm": 247443.35285186768,
+        "l2_distance": 0.2941342842312342,
+        "relative_l2_distance": 0.0005912998282791836
+      },
+      "old_modules": {
+        "squared_distance": 0.006740524999182535,
+        "origin_squared_norm": 973.7555698427161,
+        "l2_distance": 0.08210070035744235,
+        "relative_l2_distance": 0.00263100627842752
+      }
+    },
+    "gradient_diagnostics": [
+      {
+        "batch": 0,
+        "old_task_gradient": 8.204008248850652,
+        "anchor_gradient": 0.030075137497800858,
+        "anchor_to_task_ratio": 0.003665907759419216
+      },
+      {
+        "batch": 29,
+        "old_task_gradient": 7.5393809601522355,
+        "anchor_gradient": 0.03051448836897926,
+        "anchor_to_task_ratio": 0.004047346662843671
+      }
+    ],
+    "seconds": 146.08913030000986
+  },
+  {
+    "epoch": 7,
+    "validation": {
+      "oa": 64.91228070175438,
+      "ba": 59.20045595179939,
+      "macro_f1": 57.02465934980416,
+      "nll": 1.3643876314163208,
+      "confusion": [
+        [
+          56,
+          4,
+          9,
+          18
+        ],
+        [
+          0,
+          7,
+          12,
+          4
+        ],
+        [
+          6,
+          2,
+          20,
+          1
+        ],
+        [
+          9,
+          8,
+          7,
+          65
+        ]
+      ]
+    },
+    "train_loss": 0.14393124666184146,
+    "train_oa": 95.54937413073714,
+    "mean_regularization": 0.0046943795556823415,
+    "drift": {
+      "backbone": {
+        "squared_distance": 0.0876214104540054,
+        "origin_squared_norm": 247443.35285186768,
+        "l2_distance": 0.2960091391393269,
+        "relative_l2_distance": 0.0005950688597883839
+      },
+      "old_modules": {
+        "squared_distance": 0.006972580104327684,
+        "origin_squared_norm": 973.7555698427161,
+        "l2_distance": 0.0835019766492248,
+        "relative_l2_distance": 0.0026759117019554577
+      }
+    },
+    "gradient_diagnostics": [
+      {
+        "batch": 0,
+        "old_task_gradient": 10.918217736955706,
+        "anchor_gradient": 0.030537767979589465,
+        "anchor_to_task_ratio": 0.0027969553928409033
+      },
+      {
+        "batch": 29,
+        "old_task_gradient": 5.99090935810733,
+        "anchor_gradient": 0.030748868407773546,
+        "anchor_to_task_ratio": 0.005132587820939398
+      }
+    ],
+    "seconds": 170.22506260001683
+  },
+  {
+    "epoch": 8,
+    "validation": {
+      "oa": 65.35087719298247,
+      "ba": 60.2874124735385,
+      "macro_f1": 58.12988453397673,
+      "nll": 1.3517111539840698,
+      "confusion": [
+        [
+          56,
+          4,
+          9,
+          18
+        ],
+        [
+          0,
+          8,
+          11,
+          4
+        ],
+        [
+          6,
+          2,
+          20,
+          1
+        ],
+        [
+          9,
+          8,
+          7,
+          65
+        ]
+      ]
+    },
+    "train_loss": 0.14008138899760053,
+    "train_oa": 96.24478442280946,
+    "mean_regularization": 0.004747703780109683,
+    "drift": {
+      "backbone": {
+        "squared_distance": 0.08832021999387507,
+        "origin_squared_norm": 247443.35285186768,
+        "l2_distance": 0.2971871800631297,
+        "relative_l2_distance": 0.0005974370821728333
+      },
+      "old_modules": {
+        "squared_distance": 0.006986868399205491,
+        "origin_squared_norm": 973.7555698427161,
+        "l2_distance": 0.08358748948978843,
+        "relative_l2_distance": 0.002678652053979613
+      }
+    },
+    "gradient_diagnostics": [
+      {
+        "batch": 0,
+        "old_task_gradient": 4.464313832174374,
+        "anchor_gradient": 0.03075613546414087,
+        "anchor_to_task_ratio": 0.006889330952156849
+      },
+      {
+        "batch": 29,
+        "old_task_gradient": 9.130559516169296,
+        "anchor_gradient": 0.030868509606558594,
+        "anchor_to_task_ratio": 0.00338079058045606
+      }
+    ],
+    "seconds": 194.0751458000159
+  }
+]

@@ -1,0 +1,67 @@
+{
+  "arm": "full",
+  "seed": 17,
+  "strength": 0.0,
+  "start_checkpoint": "E:\\临时会话\\paper_draft_20261108\\full_finetune_20261111\\selected_s17\\best.pt",
+  "initial": {
+    "oa": 68.42105263157895,
+    "ba": 62.761596729725035,
+    "macro_f1": 61.29847803151315,
+    "nll": 1.1634663343429565,
+    "confusion": [
+      [
+        65,
+        5,
+        6,
+        11
+      ],
+      [
+        2,
+        10,
+        8,
+        3
+      ],
+      [
+        8,
+        2,
+        18,
+        1
+      ],
+      [
+        11,
+        11,
+        4,
+        63
+      ]
+    ]
+  },
+  "replay": {
+    "max_abs_error": 0.0,
+    "prediction_diff": 0
+  },
+  "learning_rates": {
+    "backbone": 1e-05,
+    "modules": 1e-05,
+    "reader": 0.0001,
+    "exchange": 0.0003
+  },
+  "epochs": 8,
+  "steps_expected": 240,
+  "batch": 24,
+  "microbatch": 12,
+  "source": 719,
+  "validation": 228,
+  "references": 32,
+  "evaluation_loaded": false,
+  "scope": "Full backbone and original used modules trainable; BN stats fixed, affine trainable",
+  "objective": "weighted CE + .02 M1 auxiliary CE + lambda/2 * SUM old trainable parameter drift squared",
+  "new_parameters": "reader/exchange ordinary AdamW decay, not constrained to initial zero writer",
+  "optimizer": "AdamW wd .01, clip5, cosine floor .1",
+  "checkpoint_rule": "validation BA/OA/-NLL, epoch0 eligible, tie keeps earlier",
+  "groups": {
+    "backbone": 23508032,
+    "modules": 1477956
+  },
+  "native_input": "160 crop/pad, same paired rot90/flip, no resize, no OBB transfer",
+  "intervention": "retained trained Full history; no new teacher selection"
+}

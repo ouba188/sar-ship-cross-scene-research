@@ -1,0 +1,638 @@
+{
+  "table": [
+    {
+      "arm": "full",
+      "seed": 17,
+      "strength": 0.0,
+      "epoch": 0,
+      "oa": 68.42105263157895,
+      "ba": 62.761596729725035,
+      "macro_f1": 61.29847803151315,
+      "nll": 1.1634663343429565,
+      "last_oa": 64.91228070175438,
+      "last_ba": 60.00651359713402,
+      "final_backbone_drift": 0.5185913626221432,
+      "final_module_drift": 0.13621912453764212
+    },
+    {
+      "arm": "cross_mean",
+      "seed": 17,
+      "strength": 0.0,
+      "epoch": 0,
+      "oa": 68.42105263157895,
+      "ba": 62.761596729725035,
+      "macro_f1": 61.29847803151315,
+      "nll": 1.1634663343429565,
+      "last_oa": 65.35087719298247,
+      "last_ba": 60.2874124735385,
+      "final_backbone_drift": 0.5185971899518923,
+      "final_module_drift": 0.13607873970635026
+    },
+    {
+      "arm": "full",
+      "seed": 17,
+      "strength": 0.1,
+      "epoch": 2,
+      "oa": 67.10526315789474,
+      "ba": 63.029580715260344,
+      "macro_f1": 61.048312103028394,
+      "nll": 1.2389883995056152,
+      "last_oa": 65.35087719298247,
+      "last_ba": 60.2874124735385,
+      "final_backbone_drift": 0.2971871800631297,
+      "final_module_drift": 0.08358748948978843
+    },
+    {
+      "arm": "cross_mean",
+      "seed": 17,
+      "strength": 0.1,
+      "epoch": 0,
+      "oa": 68.42105263157895,
+      "ba": 62.761596729725035,
+      "macro_f1": 61.29847803151315,
+      "nll": 1.1634663343429565,
+      "last_oa": 64.91228070175438,
+      "last_ba": 60.00651359713402,
+      "final_backbone_drift": 0.2967752791162851,
+      "final_module_drift": 0.08331214502805241
+    }
+  ],
+  "comparisons": {
+    "pcea_minus_full_sp0": {
+      "overall": {
+        "n": 228,
+        "rescued": 0,
+        "harmed": 0,
+        "net": 0
+      },
+      "dual": {
+        "n": 206,
+        "rescued": 0,
+        "harmed": 0,
+        "net": 0
+      },
+      "single": {
+        "n": 22,
+        "rescued": 0,
+        "harmed": 0,
+        "net": 0
+      },
+      "classes": {
+        "0": {
+          "n": 87,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "1": {
+          "n": 23,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "2": {
+          "n": 29,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "3": {
+          "n": 89,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        }
+      },
+      "passes": {
+        "S1A_006718_008FE4": {
+          "n": 16,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_007768_00ACD0": {
+          "n": 79,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_009737_00E392": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_010218_00F169": {
+          "n": 125,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        }
+      }
+    },
+    "pcea_minus_full_sp0.1": {
+      "overall": {
+        "n": 228,
+        "rescued": 11,
+        "harmed": 8,
+        "net": 3
+      },
+      "dual": {
+        "n": 206,
+        "rescued": 9,
+        "harmed": 8,
+        "net": 1
+      },
+      "single": {
+        "n": 22,
+        "rescued": 2,
+        "harmed": 0,
+        "net": 2
+      },
+      "classes": {
+        "0": {
+          "n": 87,
+          "rescued": 9,
+          "harmed": 1,
+          "net": 8
+        },
+        "1": {
+          "n": 23,
+          "rescued": 1,
+          "harmed": 1,
+          "net": 0
+        },
+        "2": {
+          "n": 29,
+          "rescued": 0,
+          "harmed": 2,
+          "net": -2
+        },
+        "3": {
+          "n": 89,
+          "rescued": 1,
+          "harmed": 4,
+          "net": -3
+        }
+      },
+      "passes": {
+        "S1A_006718_008FE4": {
+          "n": 16,
+          "rescued": 2,
+          "harmed": 1,
+          "net": 1
+        },
+        "S1A_007768_00ACD0": {
+          "n": 79,
+          "rescued": 3,
+          "harmed": 4,
+          "net": -1
+        },
+        "S1A_009737_00E392": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_010218_00F169": {
+          "n": 125,
+          "rescued": 6,
+          "harmed": 3,
+          "net": 3
+        }
+      }
+    },
+    "full_anchor_minus_plain": {
+      "overall": {
+        "n": 228,
+        "rescued": 8,
+        "harmed": 11,
+        "net": -3
+      },
+      "dual": {
+        "n": 206,
+        "rescued": 8,
+        "harmed": 9,
+        "net": -1
+      },
+      "single": {
+        "n": 22,
+        "rescued": 0,
+        "harmed": 2,
+        "net": -2
+      },
+      "classes": {
+        "0": {
+          "n": 87,
+          "rescued": 1,
+          "harmed": 9,
+          "net": -8
+        },
+        "1": {
+          "n": 23,
+          "rescued": 1,
+          "harmed": 1,
+          "net": 0
+        },
+        "2": {
+          "n": 29,
+          "rescued": 2,
+          "harmed": 0,
+          "net": 2
+        },
+        "3": {
+          "n": 89,
+          "rescued": 4,
+          "harmed": 1,
+          "net": 3
+        }
+      },
+      "passes": {
+        "S1A_006718_008FE4": {
+          "n": 16,
+          "rescued": 1,
+          "harmed": 2,
+          "net": -1
+        },
+        "S1A_007768_00ACD0": {
+          "n": 79,
+          "rescued": 4,
+          "harmed": 3,
+          "net": 1
+        },
+        "S1A_009737_00E392": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_010218_00F169": {
+          "n": 125,
+          "rescued": 3,
+          "harmed": 6,
+          "net": -3
+        }
+      }
+    },
+    "full_anchor_minus_initial": {
+      "overall": {
+        "n": 228,
+        "rescued": 8,
+        "harmed": 11,
+        "net": -3
+      },
+      "dual": {
+        "n": 206,
+        "rescued": 8,
+        "harmed": 9,
+        "net": -1
+      },
+      "single": {
+        "n": 22,
+        "rescued": 0,
+        "harmed": 2,
+        "net": -2
+      },
+      "classes": {
+        "0": {
+          "n": 87,
+          "rescued": 1,
+          "harmed": 9,
+          "net": -8
+        },
+        "1": {
+          "n": 23,
+          "rescued": 1,
+          "harmed": 1,
+          "net": 0
+        },
+        "2": {
+          "n": 29,
+          "rescued": 2,
+          "harmed": 0,
+          "net": 2
+        },
+        "3": {
+          "n": 89,
+          "rescued": 4,
+          "harmed": 1,
+          "net": 3
+        }
+      },
+      "passes": {
+        "S1A_006718_008FE4": {
+          "n": 16,
+          "rescued": 1,
+          "harmed": 2,
+          "net": -1
+        },
+        "S1A_007768_00ACD0": {
+          "n": 79,
+          "rescued": 4,
+          "harmed": 3,
+          "net": 1
+        },
+        "S1A_009737_00E392": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_010218_00F169": {
+          "n": 125,
+          "rescued": 3,
+          "harmed": 6,
+          "net": -3
+        }
+      }
+    },
+    "full_last_anchor_minus_initial": {
+      "overall": {
+        "n": 228,
+        "rescued": 8,
+        "harmed": 15,
+        "net": -7
+      },
+      "dual": {
+        "n": 206,
+        "rescued": 8,
+        "harmed": 14,
+        "net": -6
+      },
+      "single": {
+        "n": 22,
+        "rescued": 0,
+        "harmed": 1,
+        "net": -1
+      },
+      "classes": {
+        "0": {
+          "n": 87,
+          "rescued": 1,
+          "harmed": 10,
+          "net": -9
+        },
+        "1": {
+          "n": 23,
+          "rescued": 1,
+          "harmed": 3,
+          "net": -2
+        },
+        "2": {
+          "n": 29,
+          "rescued": 2,
+          "harmed": 0,
+          "net": 2
+        },
+        "3": {
+          "n": 89,
+          "rescued": 4,
+          "harmed": 2,
+          "net": 2
+        }
+      },
+      "passes": {
+        "S1A_006718_008FE4": {
+          "n": 16,
+          "rescued": 1,
+          "harmed": 2,
+          "net": -1
+        },
+        "S1A_007768_00ACD0": {
+          "n": 79,
+          "rescued": 4,
+          "harmed": 3,
+          "net": 1
+        },
+        "S1A_009737_00E392": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_010218_00F169": {
+          "n": 125,
+          "rescued": 3,
+          "harmed": 10,
+          "net": -7
+        }
+      }
+    },
+    "cross_mean_anchor_minus_plain": {
+      "overall": {
+        "n": 228,
+        "rescued": 0,
+        "harmed": 0,
+        "net": 0
+      },
+      "dual": {
+        "n": 206,
+        "rescued": 0,
+        "harmed": 0,
+        "net": 0
+      },
+      "single": {
+        "n": 22,
+        "rescued": 0,
+        "harmed": 0,
+        "net": 0
+      },
+      "classes": {
+        "0": {
+          "n": 87,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "1": {
+          "n": 23,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "2": {
+          "n": 29,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "3": {
+          "n": 89,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        }
+      },
+      "passes": {
+        "S1A_006718_008FE4": {
+          "n": 16,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_007768_00ACD0": {
+          "n": 79,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_009737_00E392": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_010218_00F169": {
+          "n": 125,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        }
+      }
+    },
+    "cross_mean_anchor_minus_initial": {
+      "overall": {
+        "n": 228,
+        "rescued": 0,
+        "harmed": 0,
+        "net": 0
+      },
+      "dual": {
+        "n": 206,
+        "rescued": 0,
+        "harmed": 0,
+        "net": 0
+      },
+      "single": {
+        "n": 22,
+        "rescued": 0,
+        "harmed": 0,
+        "net": 0
+      },
+      "classes": {
+        "0": {
+          "n": 87,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "1": {
+          "n": 23,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "2": {
+          "n": 29,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "3": {
+          "n": 89,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        }
+      },
+      "passes": {
+        "S1A_006718_008FE4": {
+          "n": 16,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_007768_00ACD0": {
+          "n": 79,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_009737_00E392": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_010218_00F169": {
+          "n": 125,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        }
+      }
+    },
+    "cross_mean_last_anchor_minus_initial": {
+      "overall": {
+        "n": 228,
+        "rescued": 7,
+        "harmed": 15,
+        "net": -8
+      },
+      "dual": {
+        "n": 206,
+        "rescued": 7,
+        "harmed": 14,
+        "net": -7
+      },
+      "single": {
+        "n": 22,
+        "rescued": 0,
+        "harmed": 1,
+        "net": -1
+      },
+      "classes": {
+        "0": {
+          "n": 87,
+          "rescued": 1,
+          "harmed": 10,
+          "net": -9
+        },
+        "1": {
+          "n": 23,
+          "rescued": 1,
+          "harmed": 3,
+          "net": -2
+        },
+        "2": {
+          "n": 29,
+          "rescued": 2,
+          "harmed": 0,
+          "net": 2
+        },
+        "3": {
+          "n": 89,
+          "rescued": 3,
+          "harmed": 2,
+          "net": 1
+        }
+      },
+      "passes": {
+        "S1A_006718_008FE4": {
+          "n": 16,
+          "rescued": 1,
+          "harmed": 2,
+          "net": -1
+        },
+        "S1A_007768_00ACD0": {
+          "n": 79,
+          "rescued": 4,
+          "harmed": 3,
+          "net": 1
+        },
+        "S1A_009737_00E392": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "net": 0
+        },
+        "S1A_010218_00F169": {
+          "n": 125,
+          "rescued": 2,
+          "harmed": 10,
+          "net": -8
+        }
+      }
+    }
+  }
+}
