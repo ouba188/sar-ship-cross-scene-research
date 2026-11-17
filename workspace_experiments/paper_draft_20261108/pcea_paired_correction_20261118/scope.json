@@ -1,0 +1,89 @@
+{
+  "fit": {
+    "n": 15316,
+    "classes": [
+      5243,
+      2820,
+      3112,
+      1753,
+      790,
+      672,
+      589,
+      337
+    ],
+    "dual": 13100,
+    "ports": 24,
+    "passes": 467,
+    "vessels": 10315
+  },
+  "inner": {
+    "n": 1000,
+    "classes": [
+      409,
+      103,
+      223,
+      111,
+      54,
+      35,
+      46,
+      19
+    ],
+    "dual": 1000,
+    "ports": 23,
+    "passes": 106,
+    "vessels": 960
+  },
+  "validation": {
+    "n": 160,
+    "classes": [
+      25,
+      0,
+      12,
+      70,
+      22,
+      16,
+      7,
+      8
+    ],
+    "dual": 151,
+    "ports": 3,
+    "passes": 3,
+    "vessels": 158
+  },
+  "references": {
+    "n": 16,
+    "classes": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "dual": 16,
+    "ports": 9,
+    "passes": 13,
+    "vessels": 16
+  },
+  "selection": "source-inner BA/OA/-NLL; encoder has previously seen these source observations",
+  "external_validation_only_after_all_fits": true,
+  "test_accessed": false,
+  "all_arms_start": "formal selected_s17/best.pt",
+  "seeds": "continuation order/augmentation replicates",
+  "new_arms": [
+    "paired_ce",
+    "guided"
+  ],
+  "reused_arms": [
+    "full",
+    "generic"
+  ],
+  "teacher": "fixed formal selected_s17; same augmentation as source query",
+  "tau": 0.2,
+  "improvement": 0.1,
+  "margin_weight": 0.2,
+  "equal_updates_not_equal_compute": true,
+  "new_gates": false
+}

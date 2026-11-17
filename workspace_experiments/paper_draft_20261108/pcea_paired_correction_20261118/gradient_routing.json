@@ -1,0 +1,62 @@
+{
+  "records": [
+    {
+      "source_offset": 0,
+      "n": 6,
+      "stats": {
+        "improve": 0.01983732357621193,
+        "protect": 0.0,
+        "hard": 0.3333333432674408,
+        "safe": 0.8333333730697632,
+        "eligible": 1.0,
+        "delta_margin": 0.0
+      },
+      "output_max_abs_difference": 0.0,
+      "gradients": {
+        "backbone": {
+          "extra_loss_gradient_norm": 1.9809402538320853
+        },
+        "modules": {
+          "extra_loss_gradient_norm": 1.8496018489995614
+        },
+        "reader": {
+          "extra_loss_gradient_norm": 0.0
+        },
+        "exchange": {
+          "extra_loss_gradient_norm": 0.0007556606531003931
+        }
+      }
+    },
+    {
+      "source_offset": 6,
+      "n": 6,
+      "stats": {
+        "improve": 0.00991866085678339,
+        "protect": 0.0,
+        "hard": 0.1666666716337204,
+        "safe": 0.6666666865348816,
+        "eligible": 0.8333333730697632,
+        "delta_margin": 0.0
+      },
+      "output_max_abs_difference": 0.0,
+      "gradients": {
+        "backbone": {
+          "extra_loss_gradient_norm": 1.0489003436983226
+        },
+        "modules": {
+          "extra_loss_gradient_norm": 0.7856114984547052
+        },
+        "reader": {
+          "extra_loss_gradient_norm": 0.0
+        },
+        "exchange": {
+          "extra_loss_gradient_norm": 0.00022414146767391256
+        }
+      }
+    }
+  ],
+  "updates": 0,
+  "interpretation": "At zero writeout on/off predictions are equal, yet the actual detached-off auxiliary loss sends gradients to common parameters. This establishes a routing path, not the unique cause of external failure; raw norm does not measure eventual contribution.",
+  "test_accessed": false,
+  "external_predictions_used": false
+}
