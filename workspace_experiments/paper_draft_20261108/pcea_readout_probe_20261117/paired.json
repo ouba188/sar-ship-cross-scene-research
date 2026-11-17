@@ -1,0 +1,988 @@
+{
+  "aggregate": {
+    "summary": {
+      "oa": {
+        "mean": 41.041666666666664,
+        "std": 0.9547032697824667
+      },
+      "ba": {
+        "mean": 35.990723562152134,
+        "std": 1.7703189894278455
+      },
+      "macro_f1": {
+        "mean": 29.17181766722896,
+        "std": 0.6819513225727414
+      }
+    },
+    "detail_mean": {
+      "oa": {
+        "mean": 41.041666666666664,
+        "std": 0.9547032697824667
+      },
+      "ba": {
+        "mean": 36.139146567718,
+        "std": 1.9804196168948869
+      },
+      "macro_f1": {
+        "mean": 29.204845765787837,
+        "std": 0.6457677293182752
+      }
+    },
+    "detail_grid": {
+      "oa": {
+        "mean": 40.416666666666664,
+        "std": 0.7216878364870323
+      },
+      "ba": {
+        "mean": 35.51576994434137,
+        "std": 1.4175433105405828
+      },
+      "macro_f1": {
+        "mean": 28.687900688339543,
+        "std": 0.3291328347360493
+      }
+    }
+  },
+  "comparisons": {
+    "summary_s17": {
+      "n": 160,
+      "rescued": 6,
+      "harmed": 3,
+      "changed": 24,
+      "flips": [
+        {
+          "id": "5747",
+          "class_name": "container_ship",
+          "port": "Jebel Ali",
+          "kind": "rescued",
+          "before_margin": -0.05249667167663574,
+          "after_margin": 0.20372283458709717
+        },
+        {
+          "id": "9574",
+          "class_name": "product_chemical_tanker",
+          "port": "Jebel Ali",
+          "kind": "rescued",
+          "before_margin": -0.008463382720947266,
+          "after_margin": 0.03751254081726074
+        },
+        {
+          "id": "10407",
+          "class_name": "container_ship",
+          "port": "Port Klang",
+          "kind": "rescued",
+          "before_margin": -0.37257707118988037,
+          "after_margin": 0.10615146160125732
+        },
+        {
+          "id": "12741",
+          "class_name": "crude_oil_tanker",
+          "port": "Singapore",
+          "kind": "rescued",
+          "before_margin": -0.23585271835327148,
+          "after_margin": 0.6166096925735474
+        },
+        {
+          "id": "13481",
+          "class_name": "product_chemical_tanker",
+          "port": "Singapore",
+          "kind": "rescued",
+          "before_margin": -0.2595411539077759,
+          "after_margin": 0.03554856777191162
+        },
+        {
+          "id": "26846",
+          "class_name": "product_chemical_tanker",
+          "port": "Jebel Ali",
+          "kind": "rescued",
+          "before_margin": -0.23090863227844238,
+          "after_margin": 0.0038480758666992188
+        },
+        {
+          "id": "30792",
+          "class_name": "product_chemical_tanker",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.3682277202606201,
+          "after_margin": -0.05554068088531494
+        },
+        {
+          "id": "31069",
+          "class_name": "product_chemical_tanker",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.24785923957824707,
+          "after_margin": -0.09159588813781738
+        },
+        {
+          "id": "31178",
+          "class_name": "product_chemical_tanker",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.05142819881439209,
+          "after_margin": -0.3525775671005249
+        }
+      ],
+      "classes": {
+        "bulk_carrier": {
+          "n": 25,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 3
+        },
+        "fishing_vessel": {
+          "n": 0,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "general_cargo": {
+          "n": 12,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 1
+        },
+        "product_chemical_tanker": {
+          "n": 70,
+          "rescued": 3,
+          "harmed": 3,
+          "changed": 15
+        },
+        "container_ship": {
+          "n": 22,
+          "rescued": 2,
+          "harmed": 0,
+          "changed": 2
+        },
+        "crude_oil_tanker": {
+          "n": 16,
+          "rescued": 1,
+          "harmed": 0,
+          "changed": 2
+        },
+        "tug_towing": {
+          "n": 7,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "offshore_supply": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 1
+        }
+      },
+      "ports": {
+        "Jebel Ali": {
+          "n": 69,
+          "rescued": 3,
+          "harmed": 0,
+          "changed": 8
+        },
+        "Port Klang": {
+          "n": 28,
+          "rescued": 1,
+          "harmed": 0,
+          "changed": 3
+        },
+        "Singapore": {
+          "n": 63,
+          "rescued": 2,
+          "harmed": 3,
+          "changed": 13
+        }
+      }
+    },
+    "detail_mean_s17": {
+      "n": 160,
+      "rescued": 0,
+      "harmed": 1,
+      "changed": 3,
+      "flips": [
+        {
+          "id": "13481",
+          "class_name": "product_chemical_tanker",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.03554856777191162,
+          "after_margin": -0.01829230785369873
+        }
+      ],
+      "classes": {
+        "bulk_carrier": {
+          "n": 25,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "fishing_vessel": {
+          "n": 0,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "general_cargo": {
+          "n": 12,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "product_chemical_tanker": {
+          "n": 70,
+          "rescued": 0,
+          "harmed": 1,
+          "changed": 3
+        },
+        "container_ship": {
+          "n": 22,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "crude_oil_tanker": {
+          "n": 16,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "tug_towing": {
+          "n": 7,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "offshore_supply": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        }
+      },
+      "ports": {
+        "Jebel Ali": {
+          "n": 69,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 2
+        },
+        "Port Klang": {
+          "n": 28,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "Singapore": {
+          "n": 63,
+          "rescued": 0,
+          "harmed": 1,
+          "changed": 1
+        }
+      }
+    },
+    "detail_grid_s17": {
+      "n": 160,
+      "rescued": 0,
+      "harmed": 3,
+      "changed": 3,
+      "flips": [
+        {
+          "id": "5915",
+          "class_name": "product_chemical_tanker",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.07271671295166016,
+          "after_margin": -0.023737788200378418
+        },
+        {
+          "id": "13481",
+          "class_name": "product_chemical_tanker",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.03554856777191162,
+          "after_margin": -0.05831623077392578
+        },
+        {
+          "id": "35709",
+          "class_name": "bulk_carrier",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.028491973876953125,
+          "after_margin": -0.008939623832702637
+        }
+      ],
+      "classes": {
+        "bulk_carrier": {
+          "n": 25,
+          "rescued": 0,
+          "harmed": 1,
+          "changed": 1
+        },
+        "fishing_vessel": {
+          "n": 0,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "general_cargo": {
+          "n": 12,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "product_chemical_tanker": {
+          "n": 70,
+          "rescued": 0,
+          "harmed": 2,
+          "changed": 2
+        },
+        "container_ship": {
+          "n": 22,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "crude_oil_tanker": {
+          "n": 16,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "tug_towing": {
+          "n": 7,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "offshore_supply": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        }
+      },
+      "ports": {
+        "Jebel Ali": {
+          "n": 69,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "Port Klang": {
+          "n": 28,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "Singapore": {
+          "n": 63,
+          "rescued": 0,
+          "harmed": 3,
+          "changed": 3
+        }
+      }
+    },
+    "summary_s29": {
+      "n": 160,
+      "rescued": 5,
+      "harmed": 3,
+      "changed": 18,
+      "flips": [
+        {
+          "id": "5747",
+          "class_name": "container_ship",
+          "port": "Jebel Ali",
+          "kind": "rescued",
+          "before_margin": -0.05249667167663574,
+          "after_margin": 0.2098933458328247
+        },
+        {
+          "id": "5915",
+          "class_name": "product_chemical_tanker",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.47197914123535156,
+          "after_margin": -0.3645848035812378
+        },
+        {
+          "id": "7672",
+          "class_name": "container_ship",
+          "port": "Jebel Ali",
+          "kind": "rescued",
+          "before_margin": -0.3341796398162842,
+          "after_margin": 0.04018449783325195
+        },
+        {
+          "id": "10407",
+          "class_name": "container_ship",
+          "port": "Port Klang",
+          "kind": "rescued",
+          "before_margin": -0.37257707118988037,
+          "after_margin": 0.4662289619445801
+        },
+        {
+          "id": "10777",
+          "class_name": "bulk_carrier",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.49043071269989014,
+          "after_margin": -0.10141897201538086
+        },
+        {
+          "id": "12741",
+          "class_name": "crude_oil_tanker",
+          "port": "Singapore",
+          "kind": "rescued",
+          "before_margin": -0.23585271835327148,
+          "after_margin": 0.5000265836715698
+        },
+        {
+          "id": "26255",
+          "class_name": "container_ship",
+          "port": "Singapore",
+          "kind": "rescued",
+          "before_margin": -0.46190714836120605,
+          "after_margin": 0.0861443281173706
+        },
+        {
+          "id": "31178",
+          "class_name": "product_chemical_tanker",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.05142819881439209,
+          "after_margin": -0.2518773078918457
+        }
+      ],
+      "classes": {
+        "bulk_carrier": {
+          "n": 25,
+          "rescued": 0,
+          "harmed": 1,
+          "changed": 4
+        },
+        "fishing_vessel": {
+          "n": 0,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "general_cargo": {
+          "n": 12,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 1
+        },
+        "product_chemical_tanker": {
+          "n": 70,
+          "rescued": 0,
+          "harmed": 2,
+          "changed": 7
+        },
+        "container_ship": {
+          "n": 22,
+          "rescued": 4,
+          "harmed": 0,
+          "changed": 4
+        },
+        "crude_oil_tanker": {
+          "n": 16,
+          "rescued": 1,
+          "harmed": 0,
+          "changed": 2
+        },
+        "tug_towing": {
+          "n": 7,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "offshore_supply": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        }
+      },
+      "ports": {
+        "Jebel Ali": {
+          "n": 69,
+          "rescued": 2,
+          "harmed": 0,
+          "changed": 4
+        },
+        "Port Klang": {
+          "n": 28,
+          "rescued": 1,
+          "harmed": 0,
+          "changed": 3
+        },
+        "Singapore": {
+          "n": 63,
+          "rescued": 2,
+          "harmed": 3,
+          "changed": 11
+        }
+      }
+    },
+    "detail_mean_s29": {
+      "n": 160,
+      "rescued": 1,
+      "harmed": 0,
+      "changed": 2,
+      "flips": [
+        {
+          "id": "29641",
+          "class_name": "container_ship",
+          "port": "Port Klang",
+          "kind": "rescued",
+          "before_margin": -0.04380059242248535,
+          "after_margin": 0.012347936630249023
+        }
+      ],
+      "classes": {
+        "bulk_carrier": {
+          "n": 25,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "fishing_vessel": {
+          "n": 0,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "general_cargo": {
+          "n": 12,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "product_chemical_tanker": {
+          "n": 70,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 1
+        },
+        "container_ship": {
+          "n": 22,
+          "rescued": 1,
+          "harmed": 0,
+          "changed": 1
+        },
+        "crude_oil_tanker": {
+          "n": 16,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "tug_towing": {
+          "n": 7,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "offshore_supply": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        }
+      },
+      "ports": {
+        "Jebel Ali": {
+          "n": 69,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 1
+        },
+        "Port Klang": {
+          "n": 28,
+          "rescued": 1,
+          "harmed": 0,
+          "changed": 1
+        },
+        "Singapore": {
+          "n": 63,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        }
+      }
+    },
+    "detail_grid_s29": {
+      "n": 160,
+      "rescued": 1,
+      "harmed": 1,
+      "changed": 2,
+      "flips": [
+        {
+          "id": "7672",
+          "class_name": "container_ship",
+          "port": "Jebel Ali",
+          "kind": "harmed",
+          "before_margin": 0.04018449783325195,
+          "after_margin": -0.12142622470855713
+        },
+        {
+          "id": "9574",
+          "class_name": "product_chemical_tanker",
+          "port": "Jebel Ali",
+          "kind": "rescued",
+          "before_margin": -0.009814977645874023,
+          "after_margin": 0.05315589904785156
+        }
+      ],
+      "classes": {
+        "bulk_carrier": {
+          "n": 25,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "fishing_vessel": {
+          "n": 0,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "general_cargo": {
+          "n": 12,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "product_chemical_tanker": {
+          "n": 70,
+          "rescued": 1,
+          "harmed": 0,
+          "changed": 1
+        },
+        "container_ship": {
+          "n": 22,
+          "rescued": 0,
+          "harmed": 1,
+          "changed": 1
+        },
+        "crude_oil_tanker": {
+          "n": 16,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "tug_towing": {
+          "n": 7,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "offshore_supply": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        }
+      },
+      "ports": {
+        "Jebel Ali": {
+          "n": 69,
+          "rescued": 1,
+          "harmed": 1,
+          "changed": 2
+        },
+        "Port Klang": {
+          "n": 28,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "Singapore": {
+          "n": 63,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        }
+      }
+    },
+    "summary_s43": {
+      "n": 160,
+      "rescued": 3,
+      "harmed": 3,
+      "changed": 20,
+      "flips": [
+        {
+          "id": "5747",
+          "class_name": "container_ship",
+          "port": "Jebel Ali",
+          "kind": "rescued",
+          "before_margin": -0.05249667167663574,
+          "after_margin": 0.16459965705871582
+        },
+        {
+          "id": "9574",
+          "class_name": "product_chemical_tanker",
+          "port": "Jebel Ali",
+          "kind": "rescued",
+          "before_margin": -0.008463382720947266,
+          "after_margin": 0.07687389850616455
+        },
+        {
+          "id": "12741",
+          "class_name": "crude_oil_tanker",
+          "port": "Singapore",
+          "kind": "rescued",
+          "before_margin": -0.23585271835327148,
+          "after_margin": 0.7168350219726562
+        },
+        {
+          "id": "25145",
+          "class_name": "tug_towing",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.008990168571472168,
+          "after_margin": -0.06010103225708008
+        },
+        {
+          "id": "30792",
+          "class_name": "product_chemical_tanker",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.3682277202606201,
+          "after_margin": -0.005648612976074219
+        },
+        {
+          "id": "31178",
+          "class_name": "product_chemical_tanker",
+          "port": "Singapore",
+          "kind": "harmed",
+          "before_margin": 0.05142819881439209,
+          "after_margin": -0.2860245704650879
+        }
+      ],
+      "classes": {
+        "bulk_carrier": {
+          "n": 25,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 2
+        },
+        "fishing_vessel": {
+          "n": 0,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "general_cargo": {
+          "n": 12,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 1
+        },
+        "product_chemical_tanker": {
+          "n": 70,
+          "rescued": 1,
+          "harmed": 2,
+          "changed": 12
+        },
+        "container_ship": {
+          "n": 22,
+          "rescued": 1,
+          "harmed": 0,
+          "changed": 1
+        },
+        "crude_oil_tanker": {
+          "n": 16,
+          "rescued": 1,
+          "harmed": 0,
+          "changed": 2
+        },
+        "tug_towing": {
+          "n": 7,
+          "rescued": 0,
+          "harmed": 1,
+          "changed": 1
+        },
+        "offshore_supply": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 1
+        }
+      },
+      "ports": {
+        "Jebel Ali": {
+          "n": 69,
+          "rescued": 2,
+          "harmed": 0,
+          "changed": 7
+        },
+        "Port Klang": {
+          "n": 28,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 1
+        },
+        "Singapore": {
+          "n": 63,
+          "rescued": 1,
+          "harmed": 3,
+          "changed": 12
+        }
+      }
+    },
+    "detail_mean_s43": {
+      "n": 160,
+      "rescued": 0,
+      "harmed": 0,
+      "changed": 0,
+      "flips": [],
+      "classes": {
+        "bulk_carrier": {
+          "n": 25,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "fishing_vessel": {
+          "n": 0,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "general_cargo": {
+          "n": 12,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "product_chemical_tanker": {
+          "n": 70,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "container_ship": {
+          "n": 22,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "crude_oil_tanker": {
+          "n": 16,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "tug_towing": {
+          "n": 7,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "offshore_supply": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        }
+      },
+      "ports": {
+        "Jebel Ali": {
+          "n": 69,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "Port Klang": {
+          "n": 28,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "Singapore": {
+          "n": 63,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        }
+      }
+    },
+    "detail_grid_s43": {
+      "n": 160,
+      "rescued": 0,
+      "harmed": 0,
+      "changed": 0,
+      "flips": [],
+      "classes": {
+        "bulk_carrier": {
+          "n": 25,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "fishing_vessel": {
+          "n": 0,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "general_cargo": {
+          "n": 12,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "product_chemical_tanker": {
+          "n": 70,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "container_ship": {
+          "n": 22,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "crude_oil_tanker": {
+          "n": 16,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "tug_towing": {
+          "n": 7,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "offshore_supply": {
+          "n": 8,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        }
+      },
+      "ports": {
+        "Jebel Ali": {
+          "n": 69,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "Port Klang": {
+          "n": 28,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        },
+        "Singapore": {
+          "n": 63,
+          "rescued": 0,
+          "harmed": 0,
+          "changed": 0
+        }
+      }
+    }
+  }
+}
