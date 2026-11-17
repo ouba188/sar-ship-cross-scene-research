@@ -1,0 +1,217 @@
+{
+  "arm": "cross_local",
+  "replay_error": 6.67572021484375e-06,
+  "single_batch_error": 5.632638931274414e-06,
+  "variants": [
+    {
+      "flag": "uniform_attention",
+      "metrics": {
+        "n": 228,
+        "oa": 67.54385964912281,
+        "ba": 61.12365165731741,
+        "confusion": [
+          [
+            58,
+            0,
+            10,
+            19
+          ],
+          [
+            3,
+            8,
+            8,
+            4
+          ],
+          [
+            7,
+            2,
+            19,
+            1
+          ],
+          [
+            9,
+            8,
+            3,
+            69
+          ]
+        ]
+      },
+      "paired": {
+        "rescued": 0,
+        "harmed": 0,
+        "stable_correct": 154,
+        "stable_wrong": 74,
+        "prediction_changes": 0
+      },
+      "max_logit_change": 0.12183815240859985
+    },
+    {
+      "flag": "no_detail",
+      "metrics": {
+        "n": 228,
+        "oa": 67.54385964912281,
+        "ba": 61.12365165731741,
+        "confusion": [
+          [
+            58,
+            0,
+            10,
+            19
+          ],
+          [
+            3,
+            8,
+            8,
+            4
+          ],
+          [
+            7,
+            2,
+            19,
+            1
+          ],
+          [
+            9,
+            8,
+            3,
+            69
+          ]
+        ]
+      },
+      "paired": {
+        "rescued": 0,
+        "harmed": 0,
+        "stable_correct": 154,
+        "stable_wrong": 74,
+        "prediction_changes": 0
+      },
+      "max_logit_change": 0.14592492580413818
+    },
+    {
+      "flag": "no_product",
+      "metrics": {
+        "n": 228,
+        "oa": 67.10526315789474,
+        "ba": 60.84275278091291,
+        "confusion": [
+          [
+            58,
+            0,
+            10,
+            19
+          ],
+          [
+            3,
+            8,
+            8,
+            4
+          ],
+          [
+            7,
+            2,
+            19,
+            1
+          ],
+          [
+            10,
+            8,
+            3,
+            68
+          ]
+        ]
+      },
+      "paired": {
+        "rescued": 0,
+        "harmed": 1,
+        "stable_correct": 153,
+        "stable_wrong": 74,
+        "prediction_changes": 1
+      },
+      "max_logit_change": 0.2776218056678772
+    },
+    {
+      "flag": "disabled",
+      "metrics": {
+        "n": 228,
+        "oa": 67.10526315789474,
+        "ba": 60.25512524636558,
+        "confusion": [
+          [
+            57,
+            1,
+            11,
+            18
+          ],
+          [
+            3,
+            8,
+            8,
+            4
+          ],
+          [
+            7,
+            2,
+            18,
+            2
+          ],
+          [
+            8,
+            8,
+            3,
+            70
+          ]
+        ]
+      },
+      "paired": {
+        "rescued": 1,
+        "harmed": 2,
+        "stable_correct": 152,
+        "stable_wrong": 73,
+        "prediction_changes": 5
+      },
+      "max_logit_change": 0.5909233093261719
+    },
+    {
+      "flag": "own_context",
+      "metrics": {
+        "n": 228,
+        "oa": 67.10526315789474,
+        "ba": 60.84275278091291,
+        "confusion": [
+          [
+            58,
+            0,
+            11,
+            18
+          ],
+          [
+            3,
+            8,
+            8,
+            4
+          ],
+          [
+            7,
+            2,
+            19,
+            1
+          ],
+          [
+            10,
+            8,
+            3,
+            68
+          ]
+        ]
+      },
+      "paired": {
+        "rescued": 1,
+        "harmed": 2,
+        "stable_correct": 152,
+        "stable_wrong": 73,
+        "prediction_changes": 4
+      },
+      "max_logit_change": 0.63893723487854
+    }
+  ]
+}
