@@ -47,6 +47,14 @@ class AxisCoupledMatch(RelationContextMatch):
             plans.append(self.transport(adjusted, qa, ra, allowed))
         return torch.stack(plans, -3), torch.stack(costs, -3)
 
+    def orientation_weights(self, scores):
+        return (scores/.1).softmax(-1)
+
+    def comparison_distance(self, query, reference, plans, orientation, class_beta,
+                            metric, ref_labels, aligned, prototype):
+        distance = ((query[:, None]-prototype).square()*metric[:, :, None]).sum(-1)
+        return distance, {}
+
     def forward(self, q, r, qm, rm, write, legal, ref_labels, arm='aggregate', details=False):
         if len(r) == 0:
             return super().forward(q, r, qm, rm, write, legal, ref_labels, arm=arm, details=details)
@@ -91,7 +99,7 @@ class AxisCoupledMatch(RelationContextMatch):
             # One direction distribution per query/reference/polarization, shared by all regions.
             hs, hv = torch.stack(hypothesis_scores), torch.stack(hypothesis_valid)
             hs = (hs*hv).sum(0)/hv.sum(0).clamp_min(1)
-            orientation = (hs/.1).softmax(-1)
+            orientation = self.orientation_weights(hs)
             fields, regions = [], []
             ds, dn = q.new_zeros((len(q), self.classes)), q.new_zeros((len(q), self.classes))
             for ix, qa, available, active, w, sim, competition, plans in records:
@@ -111,7 +119,9 @@ class AxisCoupledMatch(RelationContextMatch):
                 # Average references of the same class, NOT query locations.
                 proto = torch.einsum('brci,brid->bcid', class_beta, aligned)
                 active = (denom > 0) & active
-                distance = ((vq[:, None, ix]-proto).square()*w[:, :, None]).sum(-1)
+                distance, comparison_trace = self.comparison_distance(
+                    vq[:, ix], vr[:, ix], plans, orientation, class_beta,
+                    w, ref_labels, aligned, proto)
                 evidence = (-distance/.1)*active
                 centered = (evidence-evidence.sum(1, keepdim=True)/active.sum(1, keepdim=True).clamp_min(1))*active
                 message = self.write_message(centered, proto, active, p)
@@ -124,7 +134,7 @@ class AxisCoupledMatch(RelationContextMatch):
                                         value=vr[:, ix], query_value=vq[:, ix], metric=w, sim=sim,
                                         competition=competition, available=available, evidence=centered,
                                         message=message, prototype=proto, orientation=orientation,
-                                        hypothesis_transport=plans))
+                                        hypothesis_transport=plans, **comparison_trace))
             field = torch.cat(fields, 1)
             mixed = torch.einsum('bshw,bsc->bchw', write[:, p], field)
             updates.append(.1*self.output[p](mixed))

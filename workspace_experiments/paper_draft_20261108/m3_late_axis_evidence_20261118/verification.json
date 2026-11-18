@@ -1,0 +1,51 @@
+{
+  "mechanism": {
+    "passed": true,
+    "cancellation_example": {
+      "early": 0.0,
+      "late": 1.0
+    },
+    "unequal_mass_example": {
+      "late": 8.2,
+      "early": 6.760000000000001,
+      "expected_weights": [
+        0.1,
+        0.9
+      ]
+    },
+    "legacy_replay": 0.0,
+    "late_vs_pair_mean_write": 0.021694225721413232,
+    "independent_axis_flip_errors": {
+      "content": {
+        "reference": 6.396792817664476e-17,
+        "query": 8.326672684688674e-17
+      },
+      "equal": {
+        "reference": 9.020562075079397e-17,
+        "query": 1.0408340855860843e-16
+      }
+    },
+    "gradients": {
+      "position_strength_raw": 0.1154786330930603,
+      "key.0.weight": 9.357367550611137,
+      "value.0.weight": 10.986634903149714
+    },
+    "added_parameters": 0
+  },
+  "integration": {
+    "passed": true,
+    "queries": 2,
+    "references": 16,
+    "optimizer_steps": 0,
+    "fixed_fine_inference": true,
+    "late_vs_pair_mean_logit": 0.1356755495071411,
+    "late_vs_legacy_logit": 1.502665638923645,
+    "off_difference": 0.0,
+    "soft_selection_training_gradients": {
+      "backbone": 25.334439577869816,
+      "modules": 14.690333199170873,
+      "selector": 0.15915666558733935
+    },
+    "peak_gpu_gib": 3.8148951530456543
+  }
+}
