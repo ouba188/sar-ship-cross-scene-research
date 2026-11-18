@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "initial_max_error": 0.0,
+  "non_target_gradients_exactly_ce_only": true,
+  "target_gradients_exact_sum": true,
+  "detached_off_teacher": true,
+  "inactive_loss": 0,
+  "steps": [
+    {
+      "improve": 0.014877992682158947,
+      "protect": 0.0,
+      "hard": 0.25,
+      "safe": 0.75,
+      "eligible": 0.9166666865348816,
+      "delta_margin": 0.0,
+      "routing_max_error": {
+        "non_target": 0.0,
+        "target": 0.0
+      },
+      "auxiliary_gradient_norm": {
+        "reader": 0.0,
+        "exchange": 0.00019720513458332866
+      },
+      "loss": 0.32606817851774395,
+      "off_ce_aux": 0.32309257984161377,
+      "on_ce_aux": 0.32309257984161377,
+      "extra": 0.0029755986761301756,
+      "total_gradients": {
+        "backbone": 3.1458773749424798,
+        "modules": 3.2607531562575653,
+        "reader": 0.0,
+        "exchange": 0.000707916108018445
+      }
+    },
+    {
+      "improve": 0.014755554497241974,
+      "protect": 0.0,
+      "hard": 0.25,
+      "safe": 0.75,
+      "eligible": 0.9166666865348816,
+      "delta_margin": 0.0006932318210601807,
+      "routing_max_error": {
+        "non_target": 0.0,
+        "target": 0.0
+      },
+      "auxiliary_gradient_norm": {
+        "reader": 0.00013949185442709233,
+        "exchange": 0.00019905516005209
+      },
+      "loss": 0.3225002840626985,
+      "off_ce_aux": 0.31961360573768616,
+      "on_ce_aux": 0.31948474049568176,
+      "extra": 0.0029511109460145235,
+      "total_gradients": {
+        "backbone": 3.1171084574057955,
+        "modules": 3.2320997615080675,
+        "reader": 0.0005097222922077354,
+        "exchange": 0.0007102134919917704
+      }
+    }
+  ],
+  "max_cuda_gib": 4.792618274688721
+}

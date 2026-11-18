@@ -1,0 +1,29 @@
+{
+  "arm": "routed",
+  "continuation_seed": 29,
+  "checkpoint_seed": 17,
+  "rates": {
+    "backbone": 1e-06,
+    "modules": 1e-06,
+    "reader": 1e-05,
+    "exchange": 0.0003
+  },
+  "steps": 240,
+  "batch": 24,
+  "microbatch": 12,
+  "selection": "source-inner BA/OA/-NLL, step0 eligible",
+  "objective": ".5 on CE/aux + .5 off CE/aux; guided adds paired improve/protect",
+  "tau": 0.2,
+  "improvement": 0.1,
+  "margin_weight": 0.2,
+  "original_teacher_fixed": true,
+  "backbone_trainable": true,
+  "bn_running_fixed": true,
+  "scale": 1,
+  "formal_model_changed": false,
+  "correction_gradient_targets": [
+    "ccrel",
+    "exchange"
+  ],
+  "classification_gradient_targets": "all trainable parameters"
+}
