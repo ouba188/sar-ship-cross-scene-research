@@ -43,6 +43,10 @@ class CompetitiveMatch(nn.Module):
             return torch.cat((mean, mean, torch.zeros_like(mu)), -1)
         return torch.cat((mu, other, mu - other), -1)
 
+    def other_class_context(self, mu, available):
+        count = (available.sum(-1, keepdim=True) - available.long()).clamp_min(1)
+        return (mu.sum(1, keepdim=True) - mu) / count[..., None]
+
     def cost_competition(self, competition, arm):
         return torch.zeros_like(competition) if arm == 'shared' else competition
 
@@ -75,7 +79,7 @@ class CompetitiveMatch(nn.Module):
                 n = available.sum(-1, keepdim=True)
                 all_mu = mu.sum(1, keepdim=True) / n[..., None].clamp_min(1)
                 other_count = (n - available.long()).clamp_min(1)[..., None]
-                other = (mu.sum(1, keepdim=True) - mu) / other_count
+                other = self.other_class_context(mu, available)
                 condition = self.metric_condition(mu, other, all_mu, arm)
                 w = 1 + .5 * self.metric(condition).tanh()
                 sim = weighted_cosine(kq[:, ix], kr[:, ix], w[:, ref_labels])
