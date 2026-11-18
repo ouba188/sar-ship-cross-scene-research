@@ -24,6 +24,8 @@ REVERSE = torch.tensor(list(range(7, -1, -1))+list(range(15, 7, -1))+list(range(
 
 
 class AxisCoupledMatch(RelationContextMatch):
+    regions = REGIONS
+
     def __init__(self, seed=17, classes=8, geometry='axis', coupling='paired', strength=.25):
         super().__init__(seed=seed, classes=classes)
         if geometry not in ('none', 'signed', 'axis') or coupling not in ('paired', 'aggregate'):
@@ -57,7 +59,7 @@ class AxisCoupledMatch(RelationContextMatch):
             kq, vq = self.encode(q[:, p], p)
             kr, vr = self.encode(r[:, p], p)
             records, hypothesis_scores, hypothesis_valid = [], [], []
-            for region in REGIONS:
+            for region in self.regions:
                 ix = region.tolist()
                 qa, ra = qm[:, p, ix], rm[:, p, ix]
                 live_ref = legal[:, :, p] & (ra.sum(-1) > 0)[None] & (qa.sum(-1) > 0)[:, None]
