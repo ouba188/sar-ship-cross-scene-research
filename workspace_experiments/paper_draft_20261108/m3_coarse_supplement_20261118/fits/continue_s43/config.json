@@ -1,0 +1,28 @@
+{
+  "arm": "continue",
+  "continuation_seed": 43,
+  "checkpoint_seed": 17,
+  "rates": {
+    "backbone": 1e-06,
+    "modules": 1e-06,
+    "reader": 1e-05,
+    "exchange": 1e-05,
+    "supplement": 0.0003
+  },
+  "steps": 120,
+  "batch": 24,
+  "microbatch": 12,
+  "samples": 2880,
+  "selection": "source-inner BA/OA/-NLL, step0 eligible",
+  "objective": "source class/vessel weighted CE + .02 original M1 auxiliary CE",
+  "initialization": "E:\\临时会话\\paper_draft_20261108\\pcea_routed_correction_20261118\\fits\\routed_s17\\best.pt",
+  "full_backbone_trainable": true,
+  "bn_running_fixed": true,
+  "intervention": "inherited checkpoint history; no new intervention teacher",
+  "params": {
+    "backbone": 23508032,
+    "modules": 1658712,
+    "reader": 32768,
+    "exchange": 149763
+  }
+}

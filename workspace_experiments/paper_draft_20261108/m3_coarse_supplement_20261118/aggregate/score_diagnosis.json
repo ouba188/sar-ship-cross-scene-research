@@ -1,0 +1,482 @@
+{
+  "definition": "Remove class-common logit offset within each query; decompose remaining intervention effect into sample-mean class vector plus query-specific residual. Descriptive decomposition only, not causal attribution or deployable bias subtraction.",
+  "effects": [
+    {
+      "seed": 17,
+      "split": "validation",
+      "arm": "pointwise",
+      "common_class_offset_energy_fraction": 0.6169635840546649,
+      "mean_class_centered_offset": [
+        -0.007718452041444834,
+        -0.01795234167802846,
+        -0.017763861965795512,
+        0.011225262658263091,
+        -0.01705309669341659,
+        0.02996925208863104,
+        0.011300102587847504,
+        0.007993135043943767
+      ],
+      "mean_query_specific_l2": 0.03410767855418593,
+      "mean_effect_l2": 0.05572599647277958
+    },
+    {
+      "seed": 17,
+      "split": "validation",
+      "arm": "coarse_plus",
+      "common_class_offset_energy_fraction": 0.6706507705975753,
+      "mean_class_centered_offset": [
+        -0.009766078274697065,
+        -0.0202798904851079,
+        -0.021444159047678112,
+        0.01411088677123189,
+        -0.015429995302110911,
+        0.031058362871408462,
+        0.011368904635310173,
+        0.010381968831643463
+      ],
+      "mean_query_specific_l2": 0.03272045326720831,
+      "mean_effect_l2": 0.05853389713656999
+    },
+    {
+      "seed": 17,
+      "split": "validation",
+      "comparison": "pointwise/coarse_plus",
+      "centered_effect_cosine": 0.9697621627981907,
+      "relative_effect_difference": 0.25475489275746915
+    },
+    {
+      "seed": 17,
+      "split": "expansion",
+      "arm": "pointwise",
+      "common_class_offset_energy_fraction": 0.3882904608487337,
+      "mean_class_centered_offset": [
+        -0.008401471037285948,
+        -0.013873112592563935,
+        -0.014178022448293338,
+        0.0065183620453069,
+        -0.013167669871972517,
+        0.0295202003514413,
+        0.00983915891206701,
+        0.00374255464130053
+      ],
+      "mean_query_specific_l2": 0.044825207303229544,
+      "mean_effect_l2": 0.05886023572418967
+    },
+    {
+      "seed": 17,
+      "split": "expansion",
+      "arm": "coarse_plus",
+      "common_class_offset_energy_fraction": 0.48851726529341283,
+      "mean_class_centered_offset": [
+        -0.010206991627887643,
+        -0.01629595954272181,
+        -0.01799036320675202,
+        0.009889398663859777,
+        -0.012704484155307514,
+        0.03113886451517994,
+        0.010197467509318481,
+        0.005972067844310794
+      ],
+      "mean_query_specific_l2": 0.041158592884817956,
+      "mean_effect_l2": 0.059086139346698006
+    },
+    {
+      "seed": 17,
+      "split": "expansion",
+      "comparison": "pointwise/coarse_plus",
+      "centered_effect_cosine": 0.9617952478118801,
+      "relative_effect_difference": 0.27553713144181563
+    },
+    {
+      "seed": 29,
+      "split": "validation",
+      "arm": "pointwise",
+      "common_class_offset_energy_fraction": 0.693458264191288,
+      "mean_class_centered_offset": [
+        -0.013682422298006713,
+        -0.033503621350973845,
+        -0.024032967118546366,
+        0.013183896522969007,
+        0.0020099844550713897,
+        0.024304404202848674,
+        0.01339879329316318,
+        0.018321932293474674
+      ],
+      "mean_query_specific_l2": 0.03386421541800308,
+      "mean_effect_l2": 0.06211918698711054
+    },
+    {
+      "seed": 29,
+      "split": "validation",
+      "arm": "coarse_plus",
+      "common_class_offset_energy_fraction": 0.6718907057363839,
+      "mean_class_centered_offset": [
+        -0.015077574766473844,
+        -0.0370433257019613,
+        -0.027408947848016396,
+        0.016444367304211484,
+        0.0017972607107367366,
+        0.02684998704935424,
+        0.013189557142322884,
+        0.02124867610982619
+      ],
+      "mean_query_specific_l2": 0.03972371357714437,
+      "mean_effect_l2": 0.07049646891257688
+    },
+    {
+      "seed": 29,
+      "split": "validation",
+      "comparison": "pointwise/coarse_plus",
+      "centered_effect_cosine": 0.9919223703061076,
+      "relative_effect_difference": 0.19258991333335818
+    },
+    {
+      "seed": 29,
+      "split": "expansion",
+      "arm": "pointwise",
+      "common_class_offset_energy_fraction": 0.5634899023842327,
+      "mean_class_centered_offset": [
+        -0.012592836165556101,
+        -0.032748800152066077,
+        -0.022094508355502227,
+        0.010153974222978859,
+        0.0039019149050793863,
+        0.024229993418122483,
+        0.013749673845001845,
+        0.015400588281941836
+      ],
+      "mean_query_specific_l2": 0.041081832864395366,
+      "mean_effect_l2": 0.06573554914129216
+    },
+    {
+      "seed": 29,
+      "split": "expansion",
+      "arm": "coarse_plus",
+      "common_class_offset_energy_fraction": 0.5758899434999531,
+      "mean_class_centered_offset": [
+        -0.014126822646387448,
+        -0.03745419140011449,
+        -0.026447579257585334,
+        0.01451519339326581,
+        0.003639169702908457,
+        0.02751305812941582,
+        0.013497122372923926,
+        0.018864049705573253
+      ],
+      "mean_query_specific_l2": 0.04675117835262885,
+      "mean_effect_l2": 0.07550939163288686
+    },
+    {
+      "seed": 29,
+      "split": "expansion",
+      "comparison": "pointwise/coarse_plus",
+      "centered_effect_cosine": 0.9865221332452302,
+      "relative_effect_difference": 0.22789217812038387
+    },
+    {
+      "seed": 43,
+      "split": "validation",
+      "arm": "pointwise",
+      "common_class_offset_energy_fraction": 0.7983055773486071,
+      "mean_class_centered_offset": [
+        -0.06019909390452085,
+        -0.15310547895933269,
+        -0.12127623189444421,
+        0.07209004262258531,
+        0.003014644056383986,
+        0.12093094379670219,
+        0.051919801051553804,
+        0.08662537323107244
+      ],
+      "mean_query_specific_l2": 0.11800853556327236,
+      "mean_effect_l2": 0.2770452371636723
+    },
+    {
+      "seed": 43,
+      "split": "validation",
+      "arm": "coarse_plus",
+      "common_class_offset_energy_fraction": 0.8106423575600383,
+      "mean_class_centered_offset": [
+        -0.07303501318383496,
+        -0.1900321386725409,
+        -0.1527403916203184,
+        0.09206795445934404,
+        -0.004665502809803002,
+        0.15032944409467747,
+        0.0643922937597381,
+        0.11368335397273768
+      ],
+      "mean_query_specific_l2": 0.14124585728710137,
+      "mean_effect_l2": 0.34753893462485186
+    },
+    {
+      "seed": 43,
+      "split": "validation",
+      "comparison": "pointwise/coarse_plus",
+      "centered_effect_cosine": 0.9967011479230988,
+      "relative_effect_difference": 0.26084331334832983
+    },
+    {
+      "seed": 43,
+      "split": "expansion",
+      "arm": "pointwise",
+      "common_class_offset_energy_fraction": 0.3834132595245709,
+      "mean_class_centered_offset": [
+        -0.04663205750267765,
+        -0.1197881542212057,
+        -0.0911385696334294,
+        0.04404401531292483,
+        0.0068139806060553195,
+        0.10395578152471871,
+        0.04872340077270913,
+        0.05402160314090475
+      ],
+      "mean_query_specific_l2": 0.19725646188933715,
+      "mean_effect_l2": 0.3004392003380837
+    },
+    {
+      "seed": 43,
+      "split": "expansion",
+      "arm": "coarse_plus",
+      "common_class_offset_energy_fraction": 0.4393264081134175,
+      "mean_class_centered_offset": [
+        -0.05818879692768208,
+        -0.15041296272491567,
+        -0.11863148940557783,
+        0.061554597389667925,
+        0.0010773957791653547,
+        0.12963594325037317,
+        0.0589545854753015,
+        0.07601072716366764
+      ],
+      "mean_query_specific_l2": 0.22991714379556216,
+      "mean_effect_l2": 0.36376949122628094
+    },
+    {
+      "seed": 43,
+      "split": "expansion",
+      "comparison": "pointwise/coarse_plus",
+      "centered_effect_cosine": 0.9944586818951336,
+      "relative_effect_difference": 0.22424842930455227
+    }
+  ],
+  "source_selected_comparisons": [
+    {
+      "seed": 17,
+      "arm": "pointwise",
+      "delta_oa_pp": 0.0,
+      "delta_ba_pp": 0.0,
+      "class_counts": [
+        409,
+        103,
+        223,
+        111,
+        54,
+        35,
+        46,
+        19
+      ],
+      "delta_correct_by_class": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "delta_recall_pp": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "seed": 17,
+      "arm": "coarse_plus",
+      "delta_oa_pp": -0.10000000000000142,
+      "delta_ba_pp": -0.056053811659182884,
+      "class_counts": [
+        409,
+        103,
+        223,
+        111,
+        54,
+        35,
+        46,
+        19
+      ],
+      "delta_correct_by_class": [
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "delta_recall_pp": [
+        0.0,
+        0.0,
+        -0.4484304932735426,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "seed": 29,
+      "arm": "pointwise",
+      "delta_oa_pp": -0.4000000000000057,
+      "delta_ba_pp": 0.7241217809601039,
+      "class_counts": [
+        409,
+        103,
+        223,
+        111,
+        54,
+        35,
+        46,
+        19
+      ],
+      "delta_correct_by_class": [
+        -4,
+        0,
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "delta_recall_pp": [
+        -0.9779951100244498,
+        0.0,
+        -0.4484304932735426,
+        -0.9009009009009009,
+        0.0,
+        2.857142857142857,
+        0.0,
+        5.2631578947368425
+      ]
+    },
+    {
+      "seed": 29,
+      "arm": "coarse_plus",
+      "delta_oa_pp": -0.30000000000000426,
+      "delta_ba_pp": 0.7801755926192868,
+      "class_counts": [
+        409,
+        103,
+        223,
+        111,
+        54,
+        35,
+        46,
+        19
+      ],
+      "delta_correct_by_class": [
+        -4,
+        0,
+        0,
+        -1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "delta_recall_pp": [
+        -0.9779951100244498,
+        0.0,
+        0.0,
+        -0.9009009009009009,
+        0.0,
+        2.857142857142857,
+        0.0,
+        5.2631578947368425
+      ]
+    },
+    {
+      "seed": 43,
+      "arm": "pointwise",
+      "delta_oa_pp": -1.9000000000000057,
+      "delta_ba_pp": 0.4208405329416678,
+      "class_counts": [
+        409,
+        103,
+        223,
+        111,
+        54,
+        35,
+        46,
+        19
+      ],
+      "delta_correct_by_class": [
+        -17,
+        1,
+        -8,
+        3,
+        0,
+        0,
+        1,
+        1
+      ],
+      "delta_recall_pp": [
+        -4.156479217603912,
+        0.970873786407767,
+        -3.587443946188341,
+        2.7027027027027026,
+        0.0,
+        0.0,
+        2.1739130434782608,
+        5.2631578947368425
+      ]
+    },
+    {
+      "seed": 43,
+      "arm": "coarse_plus",
+      "delta_oa_pp": -2.200000000000003,
+      "delta_ba_pp": 0.44227109328370773,
+      "class_counts": [
+        409,
+        103,
+        223,
+        111,
+        54,
+        35,
+        46,
+        19
+      ],
+      "delta_correct_by_class": [
+        -20,
+        1,
+        -10,
+        5,
+        0,
+        0,
+        1,
+        1
+      ],
+      "delta_recall_pp": [
+        -4.88997555012225,
+        0.970873786407767,
+        -4.484304932735426,
+        4.504504504504505,
+        0.0,
+        0.0,
+        2.1739130434782608,
+        5.2631578947368425
+      ]
+    }
+  ],
+  "note": "Source uses separately selected checkpoints. Off/on uses identical weights. No extra inference or validation-based selection."
+}
