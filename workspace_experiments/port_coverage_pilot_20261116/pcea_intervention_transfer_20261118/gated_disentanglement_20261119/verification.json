@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "source_samples": 4,
+  "references": 16,
+  "updates": 2,
+  "not_performance_evidence": true,
+  "gate_sample_difference": 8.20159912109375e-05,
+  "swap_logit_effect": 0.5497705936431885,
+  "full_gate_replay": 0.0,
+  "zero_gate_bypass_effect": 1.804856781317425e-35,
+  "checkpoint_error": 0.0,
+  "steps": [
+    {
+      "ce": 4.449563503265381,
+      "consistency": 0.0012010623468086123,
+      "swapped": 4,
+      "cross_passage_swaps": 4,
+      "kl": 0.002691115252673626,
+      "reliability": 0.5538182258605957,
+      "probability_mse": 0.0001730983203742653,
+      "loss": 4.4507645656121895,
+      "gradient_norms": {
+        "backbone": 60.12511134206932,
+        "modules": 49.31765447280729,
+        "reader": 0.048040776185500865,
+        "exchange": 0.020197110195115654,
+        "selector": 0.2583322457744995,
+        "disentangler": 0.2967777574603817
+      }
+    },
+    {
+      "ce": 2.2876627445220947,
+      "consistency": 0.05410967022180557,
+      "swapped": 4,
+      "cross_passage_swaps": 4,
+      "kl": 0.15925414860248566,
+      "reliability": 0.5064481496810913,
+      "probability_mse": 0.007598408497869968,
+      "loss": 2.3417724147439003,
+      "gradient_norms": {
+        "backbone": 34.9106814875503,
+        "modules": 32.75786156136402,
+        "reader": 0.05578208215811379,
+        "exchange": 0.01985394288459661,
+        "selector": 0.613903952952684,
+        "disentangler": 1.0200331373268707
+      }
+    }
+  ],
+  "peak_cuda_gib": 5.836814880371094
+}

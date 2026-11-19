@@ -1,0 +1,29 @@
+{
+  "phase": "train",
+  "arm": "gate_ce",
+  "seed": 17,
+  "steps": 120,
+  "batch": 8,
+  "initial_gate": 0.95,
+  "consistency_weight": 1.0,
+  "eval_every": 30,
+  "source_queries": 15300,
+  "validation": 243,
+  "initialization": "E:\\临时会话\\paper_draft_20261108\\pcea_routed_correction_20261118\\fits\\routed_s17\\best.pt",
+  "reference_count": 16,
+  "rates": {
+    "backbone": 1e-06,
+    "modules": 1e-06,
+    "reader": 1e-05,
+    "exchange": 0.0003,
+    "selector": 0.0001,
+    "disentangler": 0.001
+  },
+  "source_only_selection": true,
+  "hard_split": false,
+  "prior_loss": false,
+  "clutter_loss": false,
+  "box_regression_loss": false,
+  "old_intervention_margin_loss": false,
+  "default_inference": "content only"
+}

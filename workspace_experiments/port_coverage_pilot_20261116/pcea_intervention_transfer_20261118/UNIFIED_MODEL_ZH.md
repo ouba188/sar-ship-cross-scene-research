@@ -1,6 +1,6 @@
 # 新M3作为统一模型：接入完成
 
-2026-11-19更新：本文记录的是分离前统一候选，保留用于对照。当前`unified_run.py`已转到显式特征分离候选，见`CAUSAL_SUBFEATURES_ZH.md`。分离前版本使用`matched_run.py --model unified`；新旧结果分别保存，不覆盖历史模型或论文结果。
+2026-11-19更新：本文记录的是分离前统一候选，保留用于对照。当前`unified_run.py`已按用户要求转到GDOS启发的连续门控候选，见`GATED_DISENTANGLEMENT_ZH.md`。固定半通道版本及负结果保留在`CAUSAL_SUBFEATURES_ZH.md`；分离前版本使用`matched_run.py --model unified`。新旧结果分别保存，不覆盖论文结果。
 
 ## 1. 统一了什么
 
