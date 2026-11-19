@@ -1,0 +1,56 @@
+{
+  "comparisons": [
+    {
+      "cohort": "development160",
+      "comparison": "causal_vs_baseline",
+      "rescue": 11,
+      "harm": 32,
+      "both_correct": 53,
+      "both_wrong": 64
+    },
+    {
+      "cohort": "development160",
+      "comparison": "causal_vs_split_ce",
+      "rescue": 12,
+      "harm": 28,
+      "both_correct": 52,
+      "both_wrong": 68
+    },
+    {
+      "cohort": "development198",
+      "comparison": "causal_vs_baseline",
+      "rescue": 16,
+      "harm": 38,
+      "both_correct": 86,
+      "both_wrong": 58
+    },
+    {
+      "cohort": "development198",
+      "comparison": "causal_vs_split_ce",
+      "rescue": 25,
+      "harm": 27,
+      "both_correct": 77,
+      "both_wrong": 69
+    }
+  ],
+  "optimization": {
+    "baseline": {
+      "mean_mask_changes": 0.0,
+      "max_mask_changes": 0,
+      "mean_mask_changes_last30": 0.0,
+      "training_seconds": 168.89923689997522
+    },
+    "split_ce": {
+      "mean_mask_changes": 5.277310924369748,
+      "max_mask_changes": 20,
+      "mean_mask_changes_last30": 4.4,
+      "training_seconds": 167.81543229997624
+    },
+    "causal": {
+      "mean_mask_changes": 5.4789915966386555,
+      "max_mask_changes": 20,
+      "mean_mask_changes_last30": 4.666666666666667,
+      "training_seconds": 274.94004940002924
+    }
+  }
+}
