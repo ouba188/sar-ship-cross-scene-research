@@ -23,20 +23,39 @@ def write(name, value):
     (ROOT/name).write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
-def model():
-    net = m.Model('generic')
-    net.load_state_dict(torch.load(CHECKPOINT, map_location='cuda', weights_only=True), strict=True)
+def model(variant='legacy'):
+    if variant == 'unified':
+        from unified_model import Model
+        net = Model()
+    elif variant == 'legacy':
+        net = m.Model('generic')
+        net.load_state_dict(torch.load(CHECKPOINT, map_location='cuda', weights_only=True), strict=True)
+    else:
+        raise ValueError(variant)
     net.accelerate()
     return net
 
 
-def runtime():
+def runtime(variant='legacy'):
     # Do not call the inherited runtime(), which writes main-thread reports.
-    inputs = m.Inputs()
+    if variant == 'unified':
+        from unified_model import Inputs
+        inputs = Inputs()
+    elif variant == 'legacy':
+        inputs = m.Inputs()
+    else:
+        raise ValueError(variant)
     split = json.loads((PAPER/'pcea_routed_correction_20261118/split_local.json').read_text(encoding='utf-8'))
     fit, inner = [np.asarray(split[k], np.int64) for k in ('fit','inner')]
     inputs.weights = m.old.t.e.weights(inputs.rows, fit)
     return inputs, fit, inner
+
+
+def optimizer_groups(net, variant='legacy'):
+    if variant == 'unified':
+        from unified_model import groups_for
+        return groups_for(net)
+    return recipe.previous.groups_for(net)
 
 
 def native_masks(inputs, ids, code):

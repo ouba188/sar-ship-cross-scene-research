@@ -19,9 +19,16 @@ OUT = ROOT/'matched_20261119'
 BATCH = 8
 
 
-def provenance():
+def output_dir(variant='legacy'):
+    return ROOT/'unified_20261119' if variant == 'unified' else OUT
+
+
+def provenance(variant='legacy'):
     paths = [base.CHECKPOINT, ROOT/'objective.py', ROOT/'run.py', Path(__file__),
              base.PAPER/'pcea_routed_correction_20261118/split_local.json']
+    if variant == 'unified':
+        from unified_model import SOURCE_FILES
+        paths.extend(SOURCE_FILES)
     return {str(p): [p.stat().st_size, p.stat().st_mtime_ns] for p in paths}
 
 
@@ -34,8 +41,8 @@ def schedule(fit, references, steps, seed):
     return order, codes
 
 
-def build_bank(inputs, ids, codes, seed):
-    teacher = base.model().requires_grad_(False).eval()
+def build_bank(inputs, ids, codes, seed, variant='legacy'):
+    teacher = base.model(variant).requires_grad_(False).eval()
     packs, clean, off, changed, controls, active, eligible = [], [], [], [], [], [], []
     tick = time.perf_counter()
     for step, code in enumerate(codes):
@@ -62,7 +69,8 @@ def build_bank(inputs, ids, codes, seed):
     return dict(targets=targets, labels=labels, active=active, ids=torch.as_tensor(ids),
         codes=torch.as_tensor(codes), references=torch.as_tensor(inputs.groups['references']),
         clean_off=off, intervention_scores=changed, control_scores=controls,
-        region_eligible=eligible, diagnostics=packs, provenance=provenance(), seed=seed,
+        region_eligible=eligible, diagnostics=packs, provenance=provenance(variant), seed=seed,
+        model_variant=variant,
         seconds=time.perf_counter()-tick, source_only=True,
         protocol='26 teacher forwards per batch: original on/off + 12 interventions + 12 controls')
 
@@ -106,14 +114,15 @@ def write_rows(path, rows, append=False):
         writer.writerows(rows)
 
 
-def prepare(seed, steps):
-    dest = OUT/f'bank_s{seed}_n{steps}.pt'
+def prepare(seed, steps, variant='legacy'):
+    out = output_dir(variant)
+    dest = out/f'bank_s{seed}_n{steps}.pt'
     if dest.exists():
         raise FileExistsError('Reuse existing bank explicitly; do not overwrite: '+str(dest))
-    inputs, fit, _ = base.runtime()
+    inputs, fit, _ = base.runtime(variant)
     ids, codes = schedule(fit, inputs.groups['references'], steps, seed)
-    bank = build_bank(inputs, ids, codes, seed)
-    OUT.mkdir(exist_ok=True)
+    bank = build_bank(inputs, ids, codes, seed, variant)
+    out.mkdir(exist_ok=True)
     torch.save(bank, dest)
     print('BANK', dest, 'eligible', int(bank['targets']['eligible'].sum()),
           'matched', int(bank['targets']['matched'].sum()), flush=True)
@@ -128,22 +137,24 @@ def evaluate_pair(net, inputs, ids):
     return on, off
 
 
-def train(path, mode):
+def train(path, mode, variant='legacy'):
     bank = torch.load(path, map_location='cpu', weights_only=True)
-    if bank['provenance'] != provenance():
+    if bank.get('model_variant','legacy') != variant:
+        raise ValueError('Teacher bank belongs to a different model variant')
+    if bank['provenance'] != provenance(variant):
         raise ValueError('Teacher, split or measurement code changed; prepare a fresh bank')
-    inputs, fit, inner = base.runtime()
+    inputs, fit, inner = base.runtime(variant)
     ids, codes = bank['ids'].numpy(), bank['codes'].numpy()
     if not np.isin(ids, fit).all() or np.isin(ids, inputs.groups['references']).any():
         raise ValueError('Bank must contain only non-reference source-fit queries')
     if not np.array_equal(bank['references'].numpy(), inputs.groups['references']) or not np.array_equal(bank['labels'].numpy(), inputs.y[ids]):
         raise ValueError('Source identities/labels or reference bank changed')
-    dest = OUT/f'{path.stem}_{mode}'
+    dest = output_dir(variant)/f'{path.stem}_{mode}'
     dest.mkdir(parents=True, exist_ok=False)
     torch.manual_seed(bank['seed'])
     torch.cuda.manual_seed_all(bank['seed'])
-    net = base.model()
-    groups = base.recipe.previous.groups_for(net)
+    net = base.model(variant)
+    groups = base.optimizer_groups(net, variant)
     opt = torch.optim.AdamW(groups, weight_decay=.01)
     initial_on, initial_off = evaluate_pair(net, inputs, inner)
     best = base.m.full.metrics(inputs.y[inner], initial_on)
@@ -151,7 +162,8 @@ def train(path, mode):
     np.savez_compressed(dest/'inner_start_local.npz', ids=inner, label=inputs.y[inner], on=initial_on, off=initial_off)
     np.savez_compressed(dest/'inner_best_local.npz', ids=inner, label=inputs.y[inner], on=initial_on, off=initial_off)
     config = dict(mode=mode, bank=str(path), seed=bank['seed'], steps=len(codes), batch=BATCH,
-        start=str(base.CHECKPOINT), rates=base.recipe.previous.RATES, extra_weight=.2, fixed_gain=.1,
+        start=str(base.CHECKPOINT), rates={g['name']:g['lr'] for g in groups}, extra_weight=.2, fixed_gain=.1,
+        model_variant=variant, selection_mode=getattr(net,'selection_mode',None),
         gain_routing=['ccrel','exchange'], classification='all existing trainable parameters',
         references=16, selection='source-inner BA/OA/-NLL including step0; previously exposed development set',
         external_evaluation=False, singleton_gain_policy='excluded equally in fixed/measured/shuffled')
@@ -189,8 +201,9 @@ def train(path, mode):
     (dest/'receipt.json').write_text(json.dumps(dict(completed=True, updates=len(codes), source_only=True)), encoding='utf-8')
 
 
-def verify():
-    inputs, fit, _ = base.runtime()
+def verify(variant='legacy'):
+    out = output_dir(variant)
+    inputs, fit, _ = base.runtime(variant)
     refs = set(inputs.groups['references'].tolist())
     ids = np.asarray([int(i) for label in range(8) for i in
         [j for j in fit if inputs.y[j] == label and j not in refs and bool(np.asarray(inputs.arrays['available'][j]).all())][:2]])
@@ -198,10 +211,14 @@ def verify():
         raise ValueError('Verification needs two available source observations per class')
     # Nontrivial geometric augmentation is covered in the second batch.
     codes = np.array([0, 3])
-    bank = build_bank(inputs, ids, codes, 17)
-    OUT.mkdir(exist_ok=True)
-    torch.save(bank, OUT/'verification_bank_local.pt')
-    net = base.model()
+    bank = build_bank(inputs, ids, codes, 17, variant)
+    out.mkdir(exist_ok=True)
+    torch.save(bank, out/'verification_bank_local.pt')
+    net = base.model(variant)
+    groups = base.optimizer_groups(net, variant)
+    grouped = [id(p) for g in groups for p in g['params']]
+    assert len(grouped) == len(set(grouped))
+    assert set(grouped) == {id(p) for p in net.parameters() if p.requires_grad}
     reports, baseline_grads = {}, {}
     max_replay = 0.
     for mode in MATCHED_MODES:
@@ -215,6 +232,9 @@ def verify():
             max_replay = max(max_replay, replay)
             assert replay < 1e-4, (mode, replay)
             assert all(torch.isfinite(p.grad).all() for p in net.parameters() if p.grad is not None)
+            stats['classification_and_aux_gradients'] = {
+                g['name']: sum(float(p.grad.square().sum()) for p in g['params'] if p.grad is not None)**.5
+                for g in groups}
             # Routing must not change backbone/other-module gradients before shared clipping.
             others = {n:p.grad.detach().cpu().clone() for n,p in net.named_parameters()
                       if p.grad is not None and not n.startswith(('ccrel.','exchange.'))}
@@ -227,7 +247,7 @@ def verify():
             assert torch.equal(active.cpu(), bank['active'][start:start+BATCH])
             rows.extend(source_rows(bank,start,on,off,active,targets,0,mode))
             norms.append(stats)
-        write_rows(OUT/f'verify_{mode}_local.csv', rows)
+        write_rows(out/f'verify_{mode}_local.csv', rows)
         reports[mode] = dict(batches=norms, repeated_backward_non_target_difference=max(errors,default=0.))
     t = bank['targets']
     matched = t['matched']
@@ -236,29 +256,39 @@ def verify():
     assert bool((torch.where(matched)[0] != t['donor'][matched]).all())
     assert float(sum(row['auxiliary_norm']['exchange'] for row in reports['measured']['batches'])) > 0
     assert float(sum(row['auxiliary_norm']['reader'] for row in reports['measured']['batches'])) > 0
+    for group in groups:
+        assert sum(row['classification_and_aux_gradients'][group['name']]
+                   for row in reports['none']['batches']) > 0, group['name']
     result = dict(passed=True, optimizer_steps=0, samples=16,
         selected=int(t['use'].sum()), eligible=int(t['eligible'].sum()), matched=int(matched.sum()),
         excluded_singletons=int((t['eligible'] & ~matched).sum()),
         replay_max=max_replay, modes=reports, seconds=bank['seconds'],
         max_cuda_gib=torch.cuda.max_memory_allocated()/1024**3,
+        model_variant=variant, selection_mode=getattr(net,'selection_mode',None),
+        optimizer_groups={g['name']:dict(lr=g['lr'],parameters=sum(p.numel() for p in g['params'])) for g in groups},
         formal_model_modified=False, external_evaluation=False)
-    (OUT/'verification.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
+    (out/'verification.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
     print(json.dumps(result), flush=True)
 
 
-if __name__ == '__main__':
+def main(default_model='legacy'):
     parser = argparse.ArgumentParser()
     parser.add_argument('--phase', choices=('verify','prepare','train'), default='verify')
     parser.add_argument('--mode', choices=MATCHED_MODES, default='measured')
     parser.add_argument('--bank', type=Path)
     parser.add_argument('--seed', type=int, default=17)
     parser.add_argument('--steps', type=int, default=120)
+    parser.add_argument('--model', choices=('legacy','unified'), default=default_model)
     args = parser.parse_args()
     if args.phase == 'verify':
-        verify()
+        verify(args.model)
     elif args.phase == 'prepare':
-        prepare(args.seed,args.steps)
+        prepare(args.seed,args.steps,args.model)
     else:
         if args.bank is None:
             parser.error('--bank is required for train')
-        train(args.bank,args.mode)
+        train(args.bank,args.mode,args.model)
+
+
+if __name__ == '__main__':
+    main()

@@ -49,6 +49,13 @@ class MatchedTests(unittest.TestCase):
         self.assertLess(float(on.grad[0,0]),0)
         self.assertGreater(float(on.grad[0,1]),0)
 
+    def test_eligible_count_is_not_active_count(self):
+        y,t,active = self.data()
+        _,stats = matched_auxiliary(t['clean'],t['clean'],y,torch.ones(6),t,active,'measured')
+        self.assertEqual(stats['active'],6)
+        self.assertEqual(stats['eligible'],5)
+        self.assertEqual(stats['selected'],3)
+
     def test_no_gain_still_protected_and_inactive_is_zero(self):
         y = torch.tensor([0])
         t = dict(clean=torch.tensor([[.1,0.,-.4]]),use=torch.tensor([False]),

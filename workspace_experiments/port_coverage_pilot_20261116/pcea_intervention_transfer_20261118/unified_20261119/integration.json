@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "optimizer_steps": 0,
+  "queries": 2,
+  "references": 16,
+  "train_eval_soft_replay_error": 0.0,
+  "selector_effect_when_m3_off": {
+    "0": 0.0,
+    "1": 0.0
+  },
+  "m3_logit_effect": 1.4326777458190918,
+  "pcea_logit_effect": 0.02819538116455078,
+  "granularity_logit_effect": 0.4724864959716797,
+  "m3_effect_without_pcea": 1.4326772689819336,
+  "pcea_effect_without_m3": 0.02820730209350586,
+  "live_reference_gradient": 0.12608972191810608,
+  "specific_classification_gradients": {
+    "net.matcher.position_strength_raw": 0.027521148324012756,
+    "net.matcher.key.0.weight": 0.12033294141292572,
+    "net.matcher.value.0.weight": 0.432476669549942,
+    "selector.gates.0.0.weight": 0.03916819021105766,
+    "selector.gates.0.0.bias": 0.0009862200822681189,
+    "selector.gates.0.2.weight": 0.006201494485139847,
+    "selector.gates.0.2.bias": 0.0022370440419763327,
+    "selector.gates.1.0.weight": 0.03511163219809532,
+    "selector.gates.1.0.bias": 0.001262181787751615,
+    "selector.gates.1.2.weight": 0.004938632715493441,
+    "selector.gates.1.2.bias": 0.0030902125872671604
+  },
+  "optimizer_groups": [
+    "backbone",
+    "modules",
+    "reader",
+    "exchange",
+    "selector"
+  ],
+  "bn_statistics_unchanged": true,
+  "peak_gpu_gib": 3.8190345764160156
+}

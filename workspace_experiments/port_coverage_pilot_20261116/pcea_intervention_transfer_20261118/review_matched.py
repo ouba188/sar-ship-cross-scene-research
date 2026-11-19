@@ -1,5 +1,6 @@
 """Review cached source measurements without running another network forward."""
 import json
+import argparse
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -8,9 +9,12 @@ import matched_run as run
 torch, np, base = run.torch, run.np, run.base
 
 
-def main():
-    bank = torch.load(run.OUT/'verification_bank_local.pt', map_location='cpu', weights_only=True)
-    inputs, _, _ = base.runtime()
+def main(variant='legacy'):
+    out = run.output_dir(variant)
+    bank = torch.load(out/'verification_bank_local.pt', map_location='cpu', weights_only=True)
+    if bank.get('model_variant', 'legacy') != variant:
+        raise ValueError('Review bank and model variant differ')
+    inputs, _, _ = base.runtime(variant)
     ids = bank['ids'].numpy()
     t = bank['targets']
     clean = t['clean'].numpy()
@@ -60,14 +64,16 @@ def main():
             reference_note='Actual bank examples, not identified top contributors; not independently rescaled')
         fig.suptitle(f"{record['source']} | {record['condition']} | margin {record['original_margin']:.3f} -> {record['intervention_margin']:.3f}")
         fig.tight_layout()
-        path = run.OUT/f'review_{j:02d}_local.png'
+        path = out/f'review_{j:02d}_local.png'
         fig.savefig(path,dpi=120)
         plt.close(fig)
         record['panel'] = str(path)
         records.append(record)
-    (run.OUT/'review_local.json').write_text(json.dumps(records,ensure_ascii=False,indent=2),encoding='utf-8')
+    (out/'review_local.json').write_text(json.dumps(records,ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps(records,ensure_ascii=False),flush=True)
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--model',choices=('legacy','unified'),default='legacy')
+    main(parser.parse_args().model)

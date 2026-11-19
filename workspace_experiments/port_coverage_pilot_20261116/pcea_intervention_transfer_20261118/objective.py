@@ -135,7 +135,8 @@ def matched_auxiliary(z_on, z_off, y, weights, targets, active, mode, weight=.2)
         protect = protect*0
     loss = weight*((improve+protect)*weights).mean()
     return loss, dict(selected=int(use.sum()) if mode in ('fixed','measured','shuffled') else 0,
-        eligible=int(active.sum()), unpaired=int((eligible & ~targets['matched'].bool()).sum()),
+        eligible=int(eligible.sum()), active=int(active.sum()),
+        unpaired=int((eligible & ~targets['matched'].bool()).sum()),
         active_gain_relations=int(((gap > 0) & (gain > 0) & use[:,None]).sum()),
         improve=float(improve.mean().detach()), protect=float(protect.mean().detach()))
 
