@@ -1,6 +1,6 @@
 # 新M3作为统一模型：接入完成
 
-2026-11-19。当前实验默认入口：`unified_run.py`。旧`matched_run.py`默认仍为legacy，用于复现既有对照；新旧结果分别保存，不覆盖历史模型或论文结果。
+2026-11-19更新：本文记录的是分离前统一候选，保留用于对照。当前`unified_run.py`已转到显式特征分离候选，见`CAUSAL_SUBFEATURES_ZH.md`。分离前版本使用`matched_run.py --model unified`；新旧结果分别保存，不覆盖历史模型或论文结果。
 
 ## 1. 统一了什么
 
@@ -70,10 +70,10 @@
 在本目录、现有ClearSAR环境执行：
 
 ```powershell
-python -B -X utf8 unified_run.py --phase verify
+python -B -X utf8 matched_run.py --model unified --phase verify
 python -B -X utf8 verify_unified.py
-python -B -X utf8 unified_run.py --phase prepare --seed 17 --steps 120
-python -B -X utf8 unified_run.py --phase train --bank unified_20261119/bank_s17_n120.pt --mode measured
+python -B -X utf8 matched_run.py --model unified --phase prepare --seed 17 --steps 120
+python -B -X utf8 matched_run.py --model unified --phase train --bank unified_20261119/bank_s17_n120.pt --mode measured
 ```
 
 另外四种损失只改mode，共用同一bank。默认phase为verify，不会自动训练。验证/训练结果只写unified_20261119。旧入口仍可用`matched_run.py --model legacy`。

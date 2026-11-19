@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "source_samples": 4,
+  "reference_count": 16,
+  "optimizer_steps": 2,
+  "not_a_performance_experiment": true,
+  "external_evaluation": false,
+  "full_capacity_legacy_replay": 0.0,
+  "excluded_query_input_logit_effect": 0.0,
+  "excluded_reference_desc_effect": 0.0,
+  "excluded_pcea_source_effect": 0.0,
+  "excluded_input_bias_branch_effect": 0.7088558673858643,
+  "swap_logit_effect": 5.374167442321777,
+  "train_eval_error": 0.0,
+  "checkpoint_error": 0.0,
+  "score_update": 0.002001597546041012,
+  "retained_channels_per_polar": 128,
+  "total_channels_per_polar": 256,
+  "source_prior": [
+    0.1252586990594864,
+    0.12522922456264496,
+    0.12521947920322418,
+    0.12515810132026672,
+    0.12503188848495483,
+    0.12485641241073608,
+    0.12501876056194305,
+    0.12422741949558258
+  ],
+  "steps": [
+    {
+      "ce": 5.368406772613525,
+      "swap": 0.08660066872835159,
+      "bias": 4.055318355560303,
+      "swapped": 4,
+      "strength": 1.0,
+      "loss": 7.482666619122028,
+      "gradient_norms": {
+        "backbone": 77.8152662058155,
+        "modules": 62.96176779211654,
+        "reader": 0.12834753708631144,
+        "exchange": 0.032189954265805266,
+        "selector": 0.24505778239175388,
+        "disentangler": 1.033558890633579
+      }
+    },
+    {
+      "ce": 4.267294883728027,
+      "swap": 0.06981709599494934,
+      "bias": 3.981553554534912,
+      "swapped": 4,
+      "strength": 1.0,
+      "loss": 6.327888756990433,
+      "gradient_norms": {
+        "backbone": 83.37062077967292,
+        "modules": 66.97403795692657,
+        "reader": 0.13719437836106954,
+        "exchange": 0.030417860470416953,
+        "selector": 0.5875154782077358,
+        "disentangler": 1.1683561773329747
+      }
+    }
+  ],
+  "peak_cuda_gib": 4.125087261199951,
+  "seconds": 38.18660420004744
+}
