@@ -1,0 +1,69 @@
+{
+  "status": "passed",
+  "synthetic_only": true,
+  "scientific_accuracy_claim": false,
+  "source_rows": 4,
+  "validation_rows": 2,
+  "test_rows": 2,
+  "classes": 2,
+  "bank_size": 2,
+  "optimizer_steps": 2,
+  "teacher_forwards_per_student_batch": 25,
+  "third_layer": true,
+  "gate": true,
+  "layer_matching": "cross",
+  "port_aggregation": "hierarchical",
+  "training_terms": {
+    "classification": 7.0464768409729,
+    "budget": 0.43155622482299805,
+    "prior_kl": 0.020562008023262024,
+    "effect_huber": 1.1473768949508667,
+    "consistency": -4.0665810274731484e-08,
+    "step": 1,
+    "loss": 7.167585849761963,
+    "samples": 2
+  },
+  "export_probability_max_error": 0.0,
+  "stages": [
+    {
+      "stage": "split",
+      "seconds": 1.9578193000052124,
+      "returncode": 0
+    },
+    {
+      "stage": "random_bank",
+      "seconds": 2.038976999989245,
+      "returncode": 0
+    },
+    {
+      "stage": "bootstrap",
+      "seconds": 10.21978849999141,
+      "returncode": 0
+    },
+    {
+      "stage": "coverage_bank",
+      "seconds": 6.061448800028302,
+      "returncode": 0
+    },
+    {
+      "stage": "full_train",
+      "seconds": 13.443753500003368,
+      "returncode": 0
+    },
+    {
+      "stage": "evaluate",
+      "seconds": 6.091872399963904,
+      "returncode": 0
+    },
+    {
+      "stage": "export",
+      "seconds": 5.423628300020937,
+      "returncode": 0
+    },
+    {
+      "stage": "predict",
+      "seconds": 5.121680499985814,
+      "returncode": 0
+    }
+  ]
+}
