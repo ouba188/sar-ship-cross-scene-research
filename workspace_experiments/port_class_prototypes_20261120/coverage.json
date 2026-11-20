@@ -1,0 +1,26 @@
+{
+  "source_observations": 20653,
+  "source_vessels": 12581,
+  "source_ports": 24,
+  "source_passages": 573,
+  "ais_valid_observations": 20075,
+  "class_conflicted_source_vessels": 0,
+  "consistent_observations": 19630,
+  "consistent_vessels": 11893,
+  "plausibility_flag_observations": 212,
+  "dimension_scopes": {
+    "valid_same_product_static": 11854,
+    "valid_exact_record": 7328,
+    "valid_cross_observation_static": 861,
+    "missing_or_conflicting_static": 578,
+    "valid_uid_metadata": 32
+  },
+  "current_fit_observations": 15316,
+  "notes": [
+    "Training-side exploration only; no held test inspection or model modification.",
+    "One vessel gets one vote per port/class, not one vote per observation.",
+    "Port membership can repeat across ports; pair comparisons remove shared vessels.",
+    "AIS size is associated metadata, not an independently verified SAR target measurement.",
+    "Plausibility limits only sensitivity analysis; no source data are changed."
+  ]
+}
