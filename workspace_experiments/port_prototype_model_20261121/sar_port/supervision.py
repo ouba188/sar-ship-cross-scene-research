@@ -65,10 +65,11 @@ def _weighted_mean(value, weight):
     return (value * weight).sum() / weight.sum().clamp_min(1e-12)
 
 
-def distillation_losses(pred, target_attention, target_effects, attention_mask, effect_mask):
-    """Independent weak-prior KL and signed-response Huber terms.
+def distillation_losses(pred, target_attention, target_effects, attention_mask, effect_mask,
+                        effect_target="frequency"):
+    """Independent weak-prior KL and explicitly typed signed-response Huber terms.
 
-    attention_mask [B,2,C] and effect_mask [B,2,3,J] may be confidence weights.
+    attention_mask [B,2,C]; effect_mask [B,2,8] or [B,2,3,J] follows target type.
     Callers combine source availability and intervention validity into these
     masks; teacher correctness is not a universal effect-supervision filter.
     Empty masks yield graph-connected zero losses. Targets never receive grads.
@@ -80,6 +81,14 @@ def distillation_losses(pred, target_attention, target_effects, attention_mask, 
     kl = (target * (target.clamp_min(1e-20).log() - attention.clamp_min(1e-20).log())).sum((-1, -2))
     active = (target_mass[..., 0, 0] > 0) & (attention.sum((-1, -2)) > 0)
     prior = _weighted_mean(kl, attention_mask * active)
-    huber = F.huber_loss(pred["effects"].float(), target_effects.detach().float(), reduction="none")
+    if effect_target not in ("frequency", "utility"):
+        raise ValueError("effect_target must be frequency or utility")
+    key = "utility" if effect_target == "utility" else "effects"
+    if pred[key].shape != target_effects.shape:
+        raise ValueError(f"{key} target shape differs from the student; frequency targets are not utility targets")
+    expected_mask = target_effects.shape[:2] + target_effects.shape[3:]
+    if effect_mask.shape != expected_mask:
+        raise ValueError(f"{key} mask shape must be {tuple(expected_mask)}")
+    huber = F.huber_loss(pred[key].float(), target_effects.detach().float(), reduction="none")
     effect = _weighted_mean(huber, effect_mask[:, :, None])
-    return {"prior_kl": prior, "effect_huber": effect}
+    return {"prior_kl": prior, "utility_huber" if key == "utility" else "effect_huber": effect}

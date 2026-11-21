@@ -49,7 +49,8 @@ def prepare_record(row, code=0):
                   available=np.zeros(2,np.float32), read40=np.zeros((2,20,40,40),np.float32),
                   read20=np.zeros((2,20,20,20),np.float32), slots=np.zeros((2,20,10,10),np.float32),
                   local_slots=np.zeros((2,20,20,20),np.float32), fine_write=np.zeros((2,20,10,10),np.float32),
-                  eligible=np.zeros((2,8),bool), regions_native=np.zeros((2,3,160,160),np.float32))
+                  eligible=np.zeros((2,8),bool), regions_native=np.zeros((2,3,160,160),np.float32),
+                  size_condition=np.zeros((2,8,5),np.float32))
     def transform(x):
         value = np.rot90(x, code % 4, axes=(-2,-1))
         return np.ascontiguousarray(value[..., ::-1] if code >= 4 else value)
@@ -66,6 +67,11 @@ def prepare_record(row, code=0):
         writer = result['slots'][p].copy()
         result['fine_write'][p] = writer/np.maximum(writer.sum(0,keepdims=True),1)
         result['eligible'][p] = eligible_parents((result['read40'][p],result['read20'][p]))
+        result['size_condition'][p,:,:2] = np.log1p(view['geometry'][2:4])/np.log1p(160)
+        for level, name in enumerate(('read40','read20','slots'), start=2):
+            read = result[name][p]
+            coverage = np.asarray([read[list(ids)].sum() for ids in GROUPS])
+            result['size_condition'][p,:,level] = np.log1p(coverage)/np.log1p(read.shape[-1]**2)
     return result
 
 

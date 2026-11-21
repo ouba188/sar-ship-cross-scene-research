@@ -95,7 +95,10 @@ def _load_bank(path, rows, split):
 def _load_model(path, device):
     from .model import ModelConfig, PortPrototypeModel
     checkpoint = torch.load(path, map_location="cpu", weights_only=True)
-    model = PortPrototypeModel(ModelConfig(**checkpoint["config"]))
+    config = dict(checkpoint["config"])
+    if "effect_target" not in config:
+        config.update(effect_target="frequency", size_prior=False, gate_fusion="learned")
+    model = PortPrototypeModel(ModelConfig(**config))
     model.load_state_dict(checkpoint["model"], strict=True)
     model.to(device).eval()
     return model, checkpoint
@@ -186,24 +189,27 @@ def select_bank_command(args):
     source_rows = _source_rows(rows, split)
     if not source_rows:
         raise ValueError("Source training set is empty")
-    if args.method == "coverage":
-        if not args.checkpoint:
-            raise ValueError("Coverage selection requires a source-trained --checkpoint")
+    if args.method == "coverage" and not args.checkpoint:
+        raise ValueError("Coverage selection requires a source-trained --checkpoint")
+    if args.checkpoint:
         model, checkpoint = _load_model(args.checkpoint, args.device)
         _check_source_checkpoint(checkpoint, source_rows, split)
         with torch.no_grad():
-            features = [model.describe(prepare_batch(source_rows[i:i + args.batch], args.device)).cpu().numpy()
+            features = [model.describe(prepare_batch(source_rows[i:i + args.batch], args.device),
+                                      descriptor=args.descriptor).cpu().numpy()
                         for i in range(0, len(source_rows), args.batch)]
         descriptors = np.concatenate(features)
     else:
         descriptors = np.zeros((len(source_rows), 1), dtype=np.float32)
     local = select_prototypes(source_rows, descriptors, args.per_class, args.method, args.seed,
-                              port_balance=not args.no_port_balance)
+                              port_balance=not args.no_port_balance, observation=args.observation)
     indices = [split["train"][i] for i in local]
     chosen = [rows[i] for i in indices]
     validate_bank_source(chosen, source_rows)
     payload = dict(indices=indices, record_ids=[r["id"] for r in chosen],
                    method=args.method, per_class=args.per_class, seed=args.seed,
+                   descriptor=args.descriptor if args.checkpoint else None,
+                   observation=args.observation, learned_descriptors=bool(args.checkpoint),
                    port_balance=not args.no_port_balance,
                    actual_per_class={str(c): sum(r["label"] == c for r in chosen)
                                      for c in sorted({r["label"] for r in source_rows})},
@@ -258,6 +264,7 @@ def _checkpoint_payload(model, rows, bank_rows, split, step, metrics, args):
 def train_command(args):
     from .model import ModelConfig, PortPrototypeModel
     from .supervision import distillation_losses
+    from .disentangle import consistency_scale, paired_order
     rows = load_records(args.manifest)
     split = _load_split(args.split, rows)
     if split["missing_source_classes"]:
@@ -272,6 +279,8 @@ def train_command(args):
         raise ValueError("Nonzero prior/effect weights require a source-fold --teacher; bootstrap uses both weights 0")
     if args.steps < 0 or args.batch < 1 or args.eval_every < 1:
         raise ValueError("Use steps >= 0, batch >= 1 and eval-every >= 1")
+    if args.batch_sampling == "paired" and args.batch % 2:
+        raise ValueError("paired sampling requires an even batch size; use shuffle for odd batches")
     random.seed(args.seed)
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
@@ -292,9 +301,11 @@ def train_command(args):
     teacher = teacher_reference = teacher_labels = None
     teacher_rows = []
     if args.teacher:
-        from .teacher import measure_teacher
+        from .teacher import measure_teacher, measure_utility_teacher
         teacher, teacher_checkpoint = _load_model(args.teacher, args.device)
         _check_source_checkpoint(teacher_checkpoint, source_rows, split)
+        if config.effect_weight and config.effect_target == "utility" and teacher.matcher is None:
+            raise ValueError("Coarse/fine utility measurement requires a source teacher with M3 enabled")
         args.teacher_protocol = teacher_checkpoint.get("protocol", {})
         teacher.requires_grad_(False)
         teacher_rows = teacher_checkpoint["bank_records"]
@@ -312,11 +323,15 @@ def train_command(args):
     _write_json(output_dir / "config.json", asdict(config))
     _write_json(output_dir / "training.json", dict(steps=args.steps, batch=args.batch, seed=args.seed,
                 device=args.device, lr=args.lr, backbone_lr=args.backbone_lr,
-                frozen_prefixes=args.freeze, frozen_parameter_counts=frozen))
+                frozen_prefixes=args.freeze, frozen_parameter_counts=frozen, batch_sampling=args.batch_sampling))
     rng = np.random.default_rng(args.seed)
     best_key = (-float("inf"), -float("inf"))
     history = []
-    order, cursor = rng.permutation(len(source_rows)), 0
+
+    def next_order():
+        return paired_order(source_rows, rng) if args.batch_sampling == "paired" else rng.permutation(len(source_rows))
+
+    order, cursor = next_order(), 0
 
     def evaluate_and_save(step):
         nonlocal best_key
@@ -339,7 +354,7 @@ def train_command(args):
     evaluate_and_save(0)
     for step in range(1, args.steps + 1):
         if cursor >= len(order):
-            order, cursor = rng.permutation(len(source_rows)), 0
+            order, cursor = next_order(), 0
         indices = order[cursor:cursor + args.batch]
         cursor += len(indices)
         batch_rows = [source_rows[i] for i in indices]
@@ -359,17 +374,33 @@ def train_command(args):
             stats['budget'] = float(budget.detach())
         if teacher is not None and (config.prior_weight or config.effect_weight):
             teacher_legal = _legal(batch_rows, teacher_rows, args.device)
-            targets = measure_teacher(teacher, data, teacher_reference, teacher_labels,
-                                      legal=teacher_legal, labels=labels, strength=config.intervention_strength)
-            terms = distillation_losses(prediction, targets["attention"], targets["effects"],
-                                        targets["attention_mask"], targets["effect_mask"])
-            loss = loss + config.prior_weight * terms["prior_kl"] + config.effect_weight * terms["effect_huber"]
+            if config.effect_target == "utility":
+                targets = measure_utility_teacher(teacher, data, teacher_reference, teacher_labels,
+                                                   legal=teacher_legal, labels=labels, seed=args.seed + step,
+                                                   samples=config.utility_samples if config.effect_weight else 0)
+                target_key, loss_key = "utility", "utility_huber"
+            else:
+                targets = measure_teacher(teacher, data, teacher_reference, teacher_labels,
+                                          legal=teacher_legal, labels=labels, strength=config.intervention_strength,
+                                          measure_effects=bool(config.effect_weight))
+                target_key, loss_key = "effects", "effect_huber"
+            terms = distillation_losses(prediction, targets["attention"], targets[target_key],
+                                        targets["attention_mask"], targets["effect_mask"],
+                                        effect_target=config.effect_target)
+            loss = loss + config.prior_weight * terms["prior_kl"] + config.effect_weight * terms[loss_key]
             stats.update({key: float(value.detach()) for key, value in terms.items()})
+            stats.update(teacher_forwards=targets["teacher_forwards"],
+                         supervised_effect_parents=int(targets["effect_mask"].sum()))
         if config.gate and config.consistency_weight:
-            consistency = model.consistency_loss(data, reference, reference_labels, legal,
-                                                 prediction["logits"], query_rows=batch_rows)
-            loss = loss + config.consistency_weight * consistency
-            stats["consistency"] = float(consistency.detach())
+            weight = config.consistency_weight * consistency_scale(step, config.consistency_warmup_steps,
+                                                                   config.consistency_ramp_steps)
+            term = dict(loss=prediction["logits"].sum()*0, eligible_donors=0)
+            if weight:
+                term = model.consistency_loss(data, reference, reference_labels, legal, prediction["logits"],
+                                              query_rows=batch_rows, seed=args.seed + step, details=True)
+            loss = loss + weight * term["loss"]
+            stats.update(consistency=float(term["loss"].detach()), consistency_weight=weight,
+                         eligible_donors=term["eligible_donors"])
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 5., error_if_nonfinite=True)
         optimizer.step()
@@ -444,6 +475,8 @@ def build_parser():
     bank.add_argument("--checkpoint")
     bank.add_argument("--per-class", type=int, required=True)
     bank.add_argument("--method", choices=("coverage", "random"), default="coverage")
+    bank.add_argument("--descriptor", choices=("body", "global"), default="body")
+    bank.add_argument("--observation", choices=("medoid", "first"), default="medoid")
     bank.add_argument("--seed", type=int, default=17)
     bank.add_argument("--no-port-balance", action="store_true")
     bank.add_argument("--batch", type=int, default=8)
@@ -461,6 +494,8 @@ def build_parser():
     train.add_argument("--teacher", help="Frozen source-fold teacher with its own reference bank")
     train.add_argument("--steps", type=int, required=True)
     train.add_argument("--batch", type=int, default=8)
+    train.add_argument("--batch-sampling", choices=("shuffle", "paired"), default="shuffle",
+                       help="paired keeps same-class different-vessel/group observations adjacent; use even batches")
     train.add_argument("--seed", type=int, default=17)
     train.add_argument("--device", default="cpu")
     train.add_argument("--lr", type=float, default=1e-4)

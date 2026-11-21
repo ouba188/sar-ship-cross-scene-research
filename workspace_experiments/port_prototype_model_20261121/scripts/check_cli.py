@@ -1,4 +1,4 @@
-"""Two optimizer steps on synthetic chips verify the complete CLI contract.
+"""Three optimizer steps on synthetic chips verify the complete CLI contract.
 
 Artifacts stay under local_validation. This is an integration check, never a
 scientific accuracy result or a SAR experiment. No external dataset is read.
@@ -68,7 +68,8 @@ def main(argv=None):
     base = dict(classes=2, third_layer=True, gate=True, layer_matching="cross",
                 port_aggregation="hierarchical", prior_weight=0., effect_weight=0.,
                 consistency_weight=0., budget_weight=0., sinkhorn_steps=20)
-    full = dict(base, prior_weight=.1, effect_weight=.1, consistency_weight=.1, budget_weight=.01)
+    full = dict(base, prior_weight=.1, effect_weight=.1, consistency_weight=.1, budget_weight=.01,
+                consistency_warmup_steps=1, consistency_ramp_steps=1)
     write(dest / "bootstrap_config.json", base)
     write(dest / "full_config.json", full)
     stages = []
@@ -89,17 +90,17 @@ def main(argv=None):
     run("split", ["split", "--manifest", manifest, "--target-ports", "T", "--validation-ports", "V", "--output", split])
     run("random_bank", ["select-bank", "--manifest", manifest, "--split", split, "--per-class", 1,
                         "--method", "random", "--output", random_bank])
-    common = ["--manifest", manifest, "--split", split, "--steps", 1, "--batch", 2,
+    common = ["--manifest", manifest, "--split", split, "--batch", 2, "--batch-sampling", "paired",
               "--device", args.device, "--eval-every", 1]
-    run("bootstrap", ["train", *common, "--bank", random_bank, "--config", dest / "bootstrap_config.json",
+    run("bootstrap", ["train", *common, "--steps", 1, "--bank", random_bank, "--config", dest / "bootstrap_config.json",
                       "--output", dest / "bootstrap"])
-    teacher = dest / "bootstrap" / "best.pt"
+    teacher = dest / "bootstrap" / "last.pt"
     run("coverage_bank", ["select-bank", "--manifest", manifest, "--split", split, "--per-class", 1,
                           "--method", "coverage", "--checkpoint", teacher, "--device", args.device,
                           "--batch", 2, "--output", coverage_bank])
-    run("full_train", ["train", *common, "--bank", coverage_bank, "--config", dest / "full_config.json",
+    run("full_train", ["train", *common, "--steps", 2, "--bank", coverage_bank, "--config", dest / "full_config.json",
                        "--initialize", teacher, "--teacher", teacher, "--output", dest / "full"])
-    checkpoint = dest / "full" / "best.pt"
+    checkpoint = dest / "full" / "last.pt"
     run("evaluate", ["evaluate", "--checkpoint", checkpoint, "--manifest", manifest, "--split", split,
                      "--partition", "test", "--batch", 2, "--device", args.device, "--output", dest / "evaluate.json"])
     exported = dest / "deployment.pt"
@@ -110,9 +111,13 @@ def main(argv=None):
                     "--batch", 2, "--device", args.device, "--output", dest / "predict.json"])
 
     history = json.loads((dest / "full" / "history.json").read_text())
-    for key in ("classification", "prior_kl", "effect_huber", "consistency", "budget", "loss"):
-        if key not in history[0] or not np.isfinite(history[0][key]):
+    for key in ("classification", "prior_kl", "utility_huber", "consistency", "budget", "loss"):
+        if any(key not in item or not np.isfinite(item[key]) for item in history):
             raise AssertionError(f"Missing/nonfinite training term {key}")
+    assert history[0]["consistency_weight"] == 0 and history[1]["consistency_weight"] == .1
+    assert history[1]["eligible_donors"] == 2 and history[1]["consistency"] > 0
+    assert all(1 < item["teacher_forwards"] <= 5 and item["supervised_effect_parents"] > 0 for item in history)
+    assert json.loads(coverage_bank.read_text())["descriptor"] == "body"
     evaluated = json.loads((dest / "evaluate.json").read_text())["predictions"]
     predicted = json.loads((dest / "predict.json").read_text())
     expected = torch.tensor([item["logits"] for item in evaluated]).softmax(-1).numpy()
@@ -126,11 +131,19 @@ def main(argv=None):
     artifact = torch.load(exported, map_location="cpu", weights_only=True)
     if any("vv" in row or "vh" in row for row in artifact["bank_records"]):
         raise AssertionError("Export unexpectedly retains reference image specifications")
+    for name, value in artifact["model"].items():
+        if name.startswith("disentangler.fusions.") and name.endswith("weight"):
+            channels = value.shape[0]
+            expected_fusion = torch.cat((torch.eye(channels), torch.eye(channels)), 1)
+            torch.testing.assert_close(value[:, :, 0, 0], expected_fusion, atol=0, rtol=0)
+    assert artifact["config"]["effect_target"] == "utility" and artifact["config"]["size_prior"]
     summary = dict(status="passed", synthetic_only=True, scientific_accuracy_claim=False,
                    source_rows=4, validation_rows=2, test_rows=2, classes=2, bank_size=2,
-                   optimizer_steps=2, teacher_forwards_per_student_batch=25,
-                   third_layer=True, gate=True, layer_matching="cross", port_aggregation="hierarchical",
-                   training_terms=history[0], export_probability_max_error=difference, stages=stages)
+                   optimizer_steps=3, teacher_forwards_per_student_batch=[h["teacher_forwards"] for h in history],
+                   effect_target="coarse_fine_margin_v1", size_prior=True, descriptor="body", observation="medoid",
+                   third_layer=True, gate=True, gate_fusion="fixed", donor_policy="same_class", batch_sampling="paired",
+                   consistency_warmup_verified=True, layer_matching="cross", port_aggregation="hierarchical",
+                   training_terms=history, export_probability_max_error=difference, stages=stages)
     write(dest / "summary.json", summary)
     print(json.dumps(summary, indent=2))
     print("Local artifacts:", dest)

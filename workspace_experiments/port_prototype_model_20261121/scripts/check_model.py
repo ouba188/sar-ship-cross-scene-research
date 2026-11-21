@@ -17,7 +17,7 @@ def synthetic_rows(directory):
     rng = np.random.default_rng(17)
     rows=[]
     for i in range(4):
-        row=dict(id=str(i),vessel_id=str(i),group_id=str(i),port=str(i%2),label=i%2)
+        row=dict(id=str(i),vessel_id=str(i),group_id=str(i),port=str(i%2),label=i%2 if i<2 else 0)
         for p in ('vv','vh'):
             pixels=rng.integers(0,80,(96,112),dtype=np.uint8)
             pixels[42:54,22:88]=rng.integers(90,240,(12,66),dtype=np.uint8)
@@ -41,6 +41,7 @@ def main():
         data=prepare_batch(rows[2:],args.device)
         refs=prepare_batch(rows[:2],args.device)
         labels=torch.tensor([0,1],device=args.device)
+        query_labels=torch.tensor([r['label'] for r in rows[2:]],device=args.device)
         legal=torch.ones(2,2,dtype=torch.bool,device=args.device)
         for name,config in (
             ('two_layer',ModelConfig(classes=2)),
@@ -53,9 +54,12 @@ def main():
                 optimizer.zero_grad(set_to_none=True)
                 reference=model.encode_reference(refs)
                 result=model(data,reference,labels,legal)
-                loss=torch.nn.functional.cross_entropy(result['logits'],labels)+.02*result['auxiliary'].square().mean()
+                loss=torch.nn.functional.cross_entropy(result['logits'],query_labels)+.02*result['auxiliary'].square().mean()
                 if config.gate:
-                    loss=loss+.1*model.consistency_loss(data,reference,labels,legal,result['logits'],query_rows=rows[2:])
+                    term=model.consistency_loss(data,reference,labels,legal,result['logits'],query_rows=rows[2:],
+                                                seed=17+step,details=True)
+                    assert term['eligible_donors']==2
+                    loss=loss+.1*term['loss']
                 loss.backward()
                 norm=torch.nn.utils.clip_grad_norm_(model.parameters(),5.,error_if_nonfinite=True)
                 for group in ('backbone.resnet','selector','student','matcher','exchange')+ (('deep_context','disentangler') if config.gate else ()):
@@ -66,7 +70,21 @@ def main():
             model.eval()
             with torch.no_grad():
                 reference=model.encode_reference(refs)
-                baseline=model(data,reference,labels,legal)['logits']
+                clean=model(data,reference,labels,legal)
+                baseline=clean['logits']
+                assert clean['utility'].shape==(2,2,2,8)
+                altered_size=dict(data,size_condition=data['size_condition']*.25)
+                size_result=model(altered_size,reference,labels,legal)
+                size_change=float((size_result['scale_trace']['probability']-clean['scale_trace']['probability']).abs().max())
+                assert size_change>0,'size does not reach the selector'
+                torch.testing.assert_close(model(altered_size,reference,labels,legal,m3_on=False)['logits'],
+                                           model(data,reference,labels,legal,m3_on=False)['logits'],atol=0,rtol=0)
+                for view in model.disentangler.fusions if model.disentangler is not None else ():
+                    assert not view.weight.requires_grad and view.weight.grad is None
+                from sar_port.teacher import measure_utility_teacher
+                targets=measure_utility_teacher(model,data,reference,labels,legal,labels=query_labels,samples=2,seed=17)
+                assert targets['teacher_forwards']==5 and targets['effect_mask'].sum()>0
+                assert torch.isfinite(targets['utility']).all()
                 path=Path(temp)/'bank.pt'
                 torch.save(_tree_to(reference,'cpu',True),path)
                 bank=_tree_to(torch.load(path,weights_only=True),args.device)
@@ -85,7 +103,11 @@ def main():
                 first=model(missing,bank,labels,legal)['logits']
                 missing['images'][:,1]=torch.randn_like(missing['images'][:,1])*100
                 torch.testing.assert_close(model(missing,bank,labels,legal)['logits'],first,atol=0,rtol=0)
-            report[name]=dict(steps=2,losses=losses,finite_gradient_norm=float(norm),frozen_bank_max_difference=float((baseline-frozen).abs().max()),missing_polarization_invariant=True)
+            report[name]=dict(steps=2,losses=losses,finite_gradient_norm=float(norm),frozen_bank_max_difference=float((baseline-frozen).abs().max()),
+                              missing_polarization_invariant=True,size_prior_selector_max_change=size_change,
+                              size_has_no_direct_classifier_path=True,utility_teacher_forwards=targets['teacher_forwards'],
+                              utility_supervised_parents=int(targets['effect_mask'].sum()),
+                              fixed_fusion_same_class_donors=config.gate)
             del result,reference,model,optimizer,loss,bank,no_ref,off
             if args.device.startswith('cuda'):torch.cuda.empty_cache()
         # Independent insertion switches use the same forward contract.

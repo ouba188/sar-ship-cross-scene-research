@@ -16,6 +16,45 @@ def record(identifier, port, label=0):
 
 
 class CLIContractTests(unittest.TestCase):
+    def test_size_condition_uses_pixel_obb_and_masks_absent_views(self):
+        from PIL import Image
+        from sar_port.data import prepare_batch
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "chip.png"
+            Image.fromarray(np.full((96, 112), 70, np.uint8)).save(path)
+            row = dict(record(0, "S"), vv=dict(image=str(path), target_index=0,
+                       detections=[dict(confidence=.9, corners=[[22, 42], [88, 42], [88, 54], [22, 54]])]))
+            first = prepare_batch([row])
+            self.assertEqual(tuple(first["size_condition"].shape), (1, 2, 8, 5))
+            self.assertEqual(first["size_condition"][:, 1].abs().sum().item(), 0)
+            self.assertTrue((first["size_condition"][0, 0, :, 0] > first["size_condition"][0, 0, :, 1]).all())
+            for code in range(8):
+                changed = prepare_batch([dict(row, label=7)], code=code)
+                torch.testing.assert_close(changed["size_condition"][..., :2], first["size_condition"][..., :2])
+            self.assertTrue(torch.isfinite(first["size_condition"]).all())
+
+    def test_coverage_descriptor_pools_body_not_whole_chip(self):
+        from types import SimpleNamespace
+        from sar_port.model import PortPrototypeModel
+        features = torch.arange(64, dtype=torch.float32).reshape(1, 2, 2, 4, 4)
+        early = dict(f2=features, valid20=torch.ones(1, 2, 1, 4, 4))
+        proxy = SimpleNamespace(_early=lambda data: early)
+        read = torch.zeros(1, 2, 20, 4, 4)
+        read[:, :, :8, 1, 1] = 1 / 8
+        data = dict(read20=read, available=torch.tensor([[1., 0.]]))
+        body = PortPrototypeModel.describe(proxy, data)
+        global_vector = PortPrototypeModel.describe(proxy, data, descriptor="global")
+        features[..., 3, 3] += 1000
+        torch.testing.assert_close(PortPrototypeModel.describe(proxy, data), body, atol=0, rtol=0)
+        self.assertGreater((PortPrototypeModel.describe(proxy, data, "global") - global_vector).abs().sum(), 0)
+        self.assertEqual(body[0, 2:].abs().sum().item(), 0)
+
+    def test_consistency_weight_warms_up_before_ramping(self):
+        from sar_port.disentangle import consistency_scale
+        self.assertEqual([consistency_scale(step, 2, 3) for step in range(7)],
+                         [0., 0., 0., 1 / 3, 2 / 3, 1., 1.])
+        self.assertEqual(consistency_scale(1, 0, 0), 1.)
+
     def test_help_does_not_import_model_or_start_training(self):
         with contextlib.redirect_stdout(io.StringIO()) as output:
             with self.assertRaises(SystemExit) as stopped:

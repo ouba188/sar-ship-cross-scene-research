@@ -27,23 +27,26 @@ class PolarDisentangler(nn.Module):
     is the all-open control. Missing views are zero in all three modes.
     """
 
-    def __init__(self, channels=256, hidden=16, initial_gate=.95):
+    def __init__(self, channels=256, hidden=16, initial_gate=.95, fusion="learned"):
         super().__init__()
         if not 0 < initial_gate < 1:
             raise ValueError("initial_gate must be strictly between zero and one")
+        if fusion not in ("fixed", "learned"):
+            raise ValueError("fusion must be fixed or learned")
         self.gates = nn.ModuleList(
             nn.Sequential(nn.Linear(channels, hidden), nn.ReLU(), nn.Linear(hidden, channels))
             for _ in range(2)
         )
         self.fusions = nn.ModuleList(nn.Conv2d(2 * channels, channels, 1, bias=False) for _ in range(2))
-        for gate, fusion in zip(self.gates, self.fusions):
+        for gate, recombine in zip(self.gates, self.fusions):
             nn.init.normal_(gate[-1].weight, std=1e-3)
             nn.init.constant_(gate[-1].bias, math.log(initial_gate / (1 - initial_gate)))
             with torch.no_grad():
-                fusion.weight.zero_()
+                recombine.weight.zero_()
                 eye = torch.eye(channels)
-                fusion.weight[:, :channels, 0, 0].copy_(eye)
-                fusion.weight[:, channels:, 0, 0].copy_(eye)
+                recombine.weight[:, :channels, 0, 0].copy_(eye)
+                recombine.weight[:, channels:, 0, 0].copy_(eye)
+            recombine.requires_grad_(fusion == "learned")
 
     def split(self, features, valid, available):
         area = _occupancy(valid, available, features.shape[-2:]).to(features)
@@ -77,7 +80,42 @@ class PolarDisentangler(nn.Module):
         return content + weight * (mixed - content)
 
 
-def donor_permutation(rows, available, seed=None):
+def consistency_scale(step, warmup_steps, ramp_steps):
+    if step <= warmup_steps:
+        return 0.
+    return min(1., (step - warmup_steps) / max(ramp_steps, 1))
+
+
+def paired_order(rows, rng):
+    """One permutation with legal same-class pairs, then unmatched single rows.
+
+    Pairing uses declared view availability; actual prepared availability is
+    checked again by donor_permutation. No observation is copied or dropped.
+    Use even batches to keep pairs intact, including in the no-gate control.
+    """
+    buckets = {}
+    for index in rng.permutation(len(rows)):
+        row = rows[index]
+        pattern = tuple(bool(row.get(p)) and row[p].get("alignment_valid", True) for p in ("vv", "vh"))
+        buckets.setdefault((row["label"], pattern), []).append(int(index))
+    pairs, singles = [], []
+    for members in buckets.values():
+        while members:
+            index = members.pop()
+            row = rows[index]
+            partner = next((j for j in range(len(members) - 1, -1, -1)
+                            if rows[members[j]]["vessel_id"] != row["vessel_id"]
+                            and rows[members[j]]["group_id"] != row["group_id"]), None)
+            if partner is None:
+                singles.append(index)
+            else:
+                pairs.append((index, members.pop(partner)))
+    rng.shuffle(pairs)
+    rng.shuffle(singles)
+    return np.asarray([index for pair in pairs for index in pair] + singles, dtype=np.int64)
+
+
+def donor_permutation(rows, available, seed=None, policy="any"):
     """Choose same-availability donors with different vessel and group identities.
 
     Choices are independently sampled from each recipient's legal donor list,
@@ -85,6 +123,8 @@ def donor_permutation(rows, available, seed=None):
     A row with no legal donor maps to itself and has eligible=False. Metadata
     fields are vessel_id/group_id, matching the package data protocol.
     """
+    if policy not in ("same_class", "cross_class", "any"):
+        raise ValueError("policy must be same_class, cross_class, or any")
     patterns = available.detach().cpu().bool().numpy()
     if len(rows) != len(patterns):
         raise ValueError("rows and availability batch dimensions must agree")
@@ -96,7 +136,8 @@ def donor_permutation(rows, available, seed=None):
                       if j != i and patterns[i].any()
                       and np.array_equal(patterns[i], patterns[j])
                       and row["vessel_id"] != other["vessel_id"]
-                      and row["group_id"] != other["group_id"]]
+                      and row["group_id"] != other["group_id"]
+                      and (policy == "any" or (row["label"] == other["label"]) == (policy == "same_class"))]
         if candidates:
             donor[i] = rng.choice(candidates)
             eligible[i] = True

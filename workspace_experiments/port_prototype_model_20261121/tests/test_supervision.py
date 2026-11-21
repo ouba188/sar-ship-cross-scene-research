@@ -30,6 +30,30 @@ class SupervisionTests(unittest.TestCase):
         self.assertEqual(result["effect_mask"].sum().item(), 1)
         self.assertEqual(result["effect_mask"][0, 1, 2, 1].item(), 1)
 
+    def test_parent_utility_head_and_loss_are_not_frequency_targets(self):
+        torch.manual_seed(11)
+        model = PriorEffectStudent(channels=6, classes=3, hidden=8, effect_target="utility")
+        features = torch.randn(2, 2, 6, 4, 4, requires_grad=True)
+        valid = torch.ones(2, 2, 1, 4, 4)
+        available = torch.tensor([[1., 0.], [1., 1.]])
+        regions = torch.ones(2, 2, 8, 4, 4)
+        pred = model(features, valid, regions, available)
+        self.assertEqual(tuple(pred["utility"].shape), (2, 2, 3, 8))
+        self.assertNotIn("effects", pred)
+        self.assertEqual(pred["utility"][0, 1].abs().sum().item(), 0)
+        target = torch.randn_like(pred["utility"], requires_grad=True)
+        losses = distillation_losses(pred, pred["attention"].detach(), target,
+                                     torch.ones(2, 2, 3), available[:, :, None].expand(-1, -1, 8),
+                                     effect_target="utility")
+        self.assertIn("utility_huber", losses)
+        sum(losses.values()).backward()
+        for head in model.effect_heads:
+            self.assertTrue((head.weight.grad.abs().sum(-1) > 0).all())
+        self.assertIsNone(target.grad)
+        with self.assertRaisesRegex(ValueError, "shape"):
+            distillation_losses(pred, pred["attention"].detach(), torch.zeros(2, 2, 3, 3, 2),
+                                torch.ones(2, 2, 3), torch.ones(2, 2, 3, 2), effect_target="utility")
+
     def test_missing_view_cannot_change_available_prediction(self):
         torch.manual_seed(7)
         model = PriorEffectStudent(channels=6, classes=3, hidden=8)

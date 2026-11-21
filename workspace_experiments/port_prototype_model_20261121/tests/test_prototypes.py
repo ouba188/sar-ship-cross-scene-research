@@ -24,6 +24,15 @@ class PrototypeTests(unittest.TestCase):
         self.assertNotIn(1, chosen)
         self.assertIn("only 3 distinct", str(observed[0].message))
 
+    def test_representative_is_nearest_real_observation_to_vessel_center(self):
+        rows = [row(name, "same", port="A") for name in ("a", "b", "c", "d")]
+        features = np.asarray([[-1., 0.], [1., 0.], [1., .1], [1., -.1]])
+        for method in ("coverage", "random"):
+            chosen = select_prototypes(rows, features, 1, method)
+            self.assertEqual(chosen.tolist(), [1])
+            legacy = select_prototypes(rows, features, 1, method, observation="first")
+            self.assertEqual(legacy.tolist(), [0])
+
     def test_budget_per_class_and_port_coverage(self):
         rows = [row(i, port=p, label=c) for i, (p, c) in enumerate(
             [("A", 0)] * 5 + [("B", 0)] * 2 + [("C", 0)] + [("A", 1), ("B", 1), ("C", 1)])]

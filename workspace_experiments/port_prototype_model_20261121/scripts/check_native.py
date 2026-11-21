@@ -42,12 +42,15 @@ def main():
         result=model(qdata,bank,labels,legal,details=True)
     assert torch.isfinite(result['logits']).all()
     assert (qdata['available']==1).all() and legal.all()
-    assert all(torch.isfinite(t).all() for t in (bank['desc'],bank['mass'],result['attention'],result['effects']))
+    assert all(torch.isfinite(t).all() for t in (bank['desc'],bank['mass'],result['attention'],result['utility'],qdata['size_condition']))
+    assert result['utility'].shape==(len(queries),2,model.config.classes,8)
     report=dict(scope='engineering only; random initialization; no accuracy inference',
                 query_count=len(queries),reference_count=len(refs),independent_vessels=len(vessels),
                 independent_groups=len(groups),classes_in_bank=len({r['label'] for r in refs}),
                 input_shape=list(qdata['images'].shape),valid_pixels=qdata['valid'].sum((-1,-2,-3)).cpu().tolist(),
                 eligible_parents=qdata['eligible'].sum(-1).cpu().tolist(),
+                size_prior_shape=list(qdata['size_condition'].shape),utility_shape=list(result['utility'].shape),
+                gate_fusion=model.config.gate_fusion,
                 finite_logits=True,mean_match_acceptance=float(result['matching']['reliability'].mean()))
     out=Path(args.output);out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(report,indent=2),encoding='utf-8')

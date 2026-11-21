@@ -12,13 +12,13 @@ def _squared_distances(x, y):
 
 
 def select_prototypes(records, descriptors, per_class, method="coverage", seed=17,
-                      port_balance=True):
+                      port_balance=True, observation="medoid"):
     """Return indices into source-only ``records``, ordered by class then choice.
 
-    Each vessel supplies one vote and one real observation: its smallest string
-    observation ID. Conflicting labels for a vessel are rejected. Global source
-    descriptors are L2-normalized for selection only; local spatial tokens are
-    not averaged, and selected ships are re-encoded by the live model later.
+    Each vessel supplies one vote and one real observation nearest its normalized
+    descriptor mean. Observation IDs only break ties; observation='first' is the
+    historical control. Conflicting vessel labels are rejected. Descriptors are
+    normalized for selection only; selected ships are re-encoded by the live model.
 
     Coverage starts at the real observation nearest the class mean and uses
     farthest-first coverage. With port_balance, each next choice comes from a
@@ -42,15 +42,20 @@ def select_prototypes(records, descriptors, per_class, method="coverage", seed=1
         raise ValueError("descriptors contain nonfinite values")
     features = features / np.maximum(np.linalg.norm(features, axis=1, keepdims=True), 1e-12)
 
-    unique = {}
+    if observation not in ("medoid", "first"):
+        raise ValueError("observation must be medoid or first")
+    vessels = {}
     for i in sorted(range(len(records)), key=lambda j: str(records[j]["id"])):
         row = records[i]
-        if row["vessel_id"] in unique:
-            previous = records[unique[row["vessel_id"]]]
-            if previous["label"] != row["label"]:
-                raise ValueError(f"Conflicting source labels for vessel: {row['vessel_id']}")
-        else:
-            unique[row["vessel_id"]] = i
+        members = vessels.setdefault(row["vessel_id"], [])
+        if members and records[members[0]]["label"] != row["label"]:
+            raise ValueError(f"Conflicting source labels for vessel: {row['vessel_id']}")
+        members.append(i)
+    unique = {}
+    for vessel, members in vessels.items():
+        center = features[members].mean(0, keepdims=True)
+        nearest = _squared_distances(features[members], center)[:, 0].argmin()
+        unique[vessel] = members[int(nearest)] if observation == "medoid" else members[0]
 
     rng = np.random.default_rng(seed)
     selected = []

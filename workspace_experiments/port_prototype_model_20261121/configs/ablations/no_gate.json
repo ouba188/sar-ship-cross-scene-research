@@ -7,6 +7,9 @@
   "m3": true,
   "priors": true,
   "effects": true,
+  "effect_target": "utility",
+  "utility_samples": 2,
+  "size_prior": true,
   "dynamic_selection": true,
   "third_layer": true,
   "gate": false,
@@ -39,6 +42,10 @@
   "effect_weight": 0.1,
   "consistency_weight": 0,
   "consistency_temperature": 1.0,
+  "consistency_warmup_steps": 100,
+  "consistency_ramp_steps": 200,
+  "donor_policy": "same_class",
+  "gate_fusion": "fixed",
   "intervention_strength": 0.5,
   "budget_weight": 0.01
 }

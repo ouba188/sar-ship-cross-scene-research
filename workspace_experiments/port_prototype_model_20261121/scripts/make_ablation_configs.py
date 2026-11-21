@@ -25,6 +25,11 @@ def main():
         'no_class_competition':dict(class_competition=False),
         'hierarchical_ports':dict(port_aggregation='hierarchical'),
         'hard_selection':dict(selection_mode='hard',budget_weight=0),
+        'no_size_prior':dict(size_prior=False),
+        'frequency_effect':dict(effect_target='frequency'),
+        'gate_ce_only':dict(consistency_weight=0),
+        'cross_class_donor':dict(donor_policy='cross_class'),
+        'learned_fusion':dict(gate_fusion='learned'),
     }
     output=Path(args.output);output.mkdir(parents=True,exist_ok=True)
     for name,patch in changes.items():

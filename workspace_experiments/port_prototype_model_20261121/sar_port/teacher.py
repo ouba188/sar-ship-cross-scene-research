@@ -2,8 +2,8 @@
 
 The frequency attenuation and signed-intensity-sum controls are ported from
 pcea_intervention_transfer_20261118/objective.py without changing the operation.
-These controls are not energy matched. A batch uses 25 teacher forwards:
-one original, 12 interventions and 12 brightness controls.
+These controls are not energy matched. Frequency measurement uses 25 forwards;
+parent utility uses one baseline plus two forwards per sampled condition.
 """
 
 import numpy as np
@@ -13,7 +13,7 @@ from torch.nn import functional as F
 
 from .priors import OPERATIONS, REGIONS, attention_from_response
 from .region_ops import grid_occupancy
-from .supervision import effects_from_legacy
+from .supervision import candidate_margins, effects_from_legacy
 
 
 CONDITIONS = tuple((p, r, band) for p in range(2) for r in range(3) for band in OPERATIONS)
@@ -78,7 +78,8 @@ def make_interventions(data, strength=.5):
 
 
 @torch.no_grad()
-def measure_teacher(teacher, data, reference, reference_labels, legal=None, *, labels, strength=.5):
+def measure_teacher(teacher, data, reference, reference_labels, legal=None, *, labels, strength=.5,
+                    measure_effects=True):
     """Freeze the supplied source teacher and measure all candidate responses.
 
     teacher(data, reference, reference_labels, legal=legal) returns logits and
@@ -100,6 +101,10 @@ def measure_teacher(teacher, data, reference, reference_labels, legal=None, *, l
     present = (valid.sum((-1, -2, -3)) > 0) & available.bool()
     attention_mask = F.one_hot(labels, clean.shape[-1])[:, None] * correct[:, None, None] * present[:, :, None]
 
+    if not measure_effects:
+        return dict(attention=attention.detach(), effects=clean.new_zeros(len(clean),2,clean.shape[-1],3,2),
+                    attention_mask=attention_mask.to(clean.dtype), effect_mask=clean.new_zeros(len(clean),2,3,2),
+                    clean_logits=clean.detach(), target_type="frequency_margin_v1", teacher_forwards=1)
     operations = make_interventions(data, strength)
     changed_scores, control_scores = [], []
     for intervention, control in zip(operations["interventions"], operations["controls"]):
@@ -114,4 +119,56 @@ def measure_teacher(teacher, data, reference, reference_labels, legal=None, *, l
                 attention_mask=attention_mask.to(clean.dtype), effect_mask=effects["effect_mask"],
                 clean_logits=clean.detach(), control_effects=controls["effects"],
                 conditions=CONDITIONS, region_names=REGIONS, strength=float(strength),
-                diagnostics=operations["diagnostics"], teacher_forwards=25)
+                diagnostics=operations["diagnostics"], target_type="frequency_margin_v1", teacher_forwards=25)
+
+
+@torch.no_grad()
+def measure_utility_teacher(teacher, data, reference, reference_labels, legal=None, *, labels,
+                            samples=2, seed=None):
+    """Measure fine-minus-coarse margins, changing one polar parent at a time.
+
+    The frozen reference, input and all other parent choices stay unchanged.
+    Sample at most ``samples`` valid (polarization,parent) conditions per batch;
+    unmeasured or unsupported rows carry zero supervision weight.
+    """
+    if not 0 <= samples <= 16:
+        raise ValueError("utility samples must lie in [0,16]")
+    teacher.requires_grad_(False).eval()
+    original = teacher(data, reference, reference_labels, legal=legal)
+    clean, responses = original["logits"], original["responses"]
+    labels = torch.as_tensor(labels, device=clean.device, dtype=torch.long)
+    valid = grid_occupancy(data["valid"].flatten(0, 1).float(), responses.shape[-2:])
+    valid = valid.reshape(len(clean), 2, 1, *responses.shape[-2:])
+    available = data["available"]
+    attention = attention_from_response(responses, valid, available)
+    present = (valid.sum((-1, -2, -3)) > 0) & available.bool()
+    attention_mask = F.one_hot(labels, clean.shape[-1])[:, None]
+    attention_mask = attention_mask * (clean.argmax(-1) == labels)[:, None, None] * present[:, :, None]
+    baseline = original["scale_trace"]["choice"].detach()
+    eligible = original["scale_trace"]["eligible"].bool() & present[:, :, None]
+    if reference is not None and "available" in reference:
+        compatible = reference["available"].bool()[None].expand(len(clean), -1, -1)
+        if legal is not None:
+            compatible = compatible & legal.bool()[..., None]
+        eligible = eligible & compatible.any(1)[..., None]
+    elif legal is not None:
+        eligible = eligible & legal.bool().any(-1)[:, None, None]
+    candidates = eligible.any(0).nonzero(as_tuple=False).cpu().tolist()
+    rng = np.random.default_rng(seed)
+    selected = rng.choice(len(candidates), min(samples, len(candidates)), replace=False)
+    conditions = [tuple(candidates[int(i)]) for i in selected]
+    utility = clean.new_zeros(len(clean), 2, clean.shape[-1], 8)
+    mask = clean.new_zeros(len(clean), 2, 8)
+    for p, g in conditions:
+        scores = []
+        for choice in (0., 1.):
+            override = baseline.clone()
+            override[:, p, g] = choice
+            changed = teacher(data, reference, reference_labels, legal=legal, selection_override=override)
+            scores.append(candidate_margins(changed["logits"]))
+        active = eligible[:, p, g]
+        utility[:, p, :, g] = (scores[1] - scores[0]) * active[:, None]
+        mask[:, p, g] = active
+    return dict(attention=attention.detach(), utility=utility, attention_mask=attention_mask.to(clean.dtype),
+                effect_mask=mask, clean_logits=clean.detach(), conditions=conditions,
+                target_type="coarse_fine_margin_v1", teacher_forwards=1 + 2 * len(conditions))
