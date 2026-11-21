@@ -1,0 +1,27 @@
+{
+  "seed": 20261121,
+  "manifest_observations": 1519,
+  "source_observations": 719,
+  "source_ships": 683,
+  "source_products": 13,
+  "source_class_counts": {
+    "container_ship": 284,
+    "bulk_carrier": 221,
+    "product_chemical_tanker": 141,
+    "general_cargo": 73
+  },
+  "static_or_class_conflicted_ships": 0,
+  "valid_observations": 697,
+  "heldout_overlap_source_observations": 0,
+  "outside_observations": 8,
+  "primary_observations": 689,
+  "primary_ships": 656,
+  "primary_vessel_port_cells": 661,
+  "primary_area_groups": 6,
+  "eligible_pairs": 20,
+  "reference_count": 32,
+  "scope": "Existing fit_train + utility_train only. No heldout images/predictions used. Four classes; local GRDH source subset, not full OSS2.",
+  "geography": "Reused 20261116 nearest-anchor water-area proxies, <=150km; conservative <=75km and second-nearest gap>=10km. Not official port labels.",
+  "bootstrap": "2000 within-group vessel resamples; exploratory selected extrema; CI does not account for product clustering or selection.",
+  "prediction_cache": "Existing m1_coverage initial_source, source-side descriptive evidence, not unseen-port performance"
+}
