@@ -67,6 +67,7 @@ TUNING_OPTIONAL = ['FINDINGS_ZH.md','aggregate_fusion_scan_summary.json',
 TUNING_OPTIONAL += [f'final_seed{seed}/aggregate_validation_fusion_scan.json' for seed in (17,29,43)]
 DESIGNS = ['STAGE1_MULTISCALE_DISENTANGLEMENT_DESIGN_ZH.md',
            'STAGE2_H_MULTIPORT_EVIDENCE_DESIGN_ZH.md']
+WORKSPACE_PUBLIC = ['run_on_d.py', 'STORAGE_LAYOUT_ZH.md']
 PREFLIGHT_KEYS = '''input_records retained split_counts split_class_counts canvas_counts
 reviewed_q_observations independent_donors empirical_queries supplemental_query_exposures_per_epoch
 strong_controlled_samples pure_q_cells_by_scale sensor_nodata_masks_recovered
@@ -85,6 +86,7 @@ class Entry:
 
 def entries(work=WORK, code=CODE):
     result = []
+    result += [Entry(work/name, 'workspace_experiments/'+name) for name in WORKSPACE_PUBLIC]
     model_dest = 'workspace_experiments/port_prototype_model_20261121/'
     result += [Entry(code/name, model_dest+name) for name in MODEL_FILES]
     result += [Entry(code/name, model_dest+name, template=True) for name in TEMPLATE_CONFIGS]
@@ -154,7 +156,7 @@ def destination_same(target, payload):
 
 
 def dirty_repo_paths(repo):
-    result = subprocess.run(['git','-C',str(repo),'status','--porcelain=v1','-z','--untracked-files=all'],
+    result = subprocess.run(['git','-c','core.longpaths=true','-C',str(repo),'status','--porcelain=v1','-z','--untracked-files=all'],
                              check=True,capture_output=True)
     chunks = result.stdout.decode('utf8').split('\0')
     dirty = set()

@@ -6,7 +6,7 @@ import time
 import requests
 
 URL = 'https://download.pytorch.org/models/convnext_tiny-983f1562.pth'
-DEST = Path.home()/'.cache/torch/hub/checkpoints/convnext_tiny-983f1562.pth'
+DEST = Path(__file__).resolve().parent.parent/'model_weights/convnext_tiny-983f1562.pth'
 SIZE = 114419221
 PART = 4*1024*1024
 

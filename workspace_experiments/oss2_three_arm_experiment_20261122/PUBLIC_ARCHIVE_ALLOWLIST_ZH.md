@@ -1,17 +1,20 @@
 # 本轮公开归档与代码 ZIP 白名单
 
-状态：已准备脚本，尚未复制、打包、提交或推送。`archive_public_experiment.py` 默认只预览；真正复制需要 `--apply`，新建代码包另传 `--zip`。已有 ZIP 一律拒绝覆盖。
+状态：脚本支持增量归档；已有运行中代码包保留，最终结果按显式白名单补齐。`archive_public_experiment.py` 默认只预览；真正复制需要 `--apply`，新建代码包另传 `--zip`。已有 ZIP 一律拒绝覆盖。
 
 ## 目标目录
 
 仓库根为 `E:/临时会话/_sar_ship_cross_scene_incremental_git`。同步位置固定为：
 
+- `workspace_experiments/run_on_d.py`、`workspace_experiments/STORAGE_LAYOUT_ZH.md`：D 盘启动器和存储说明；保持启动器与实验目录的相对层级。
 - `workspace_experiments/port_prototype_model_20261121/`：代码根 `E:/临时会话/port_prototype_model_20261121` 的显式源码清单。
 - `workspace_experiments/oss2_three_arm_experiment_20261122/`：本轮公开实验工具、文档及聚合结果。
 - `workspace_experiments/oss2_h_tuning_20261122/`：独立 H 融合验证调优工具、计划及聚合结果。
 - `workspace_experiments/two_stage_minimal_20261122/`：两份现有设计文档原归档目录。
 
 脚本不修改源代码树或私有实验目录；不删除文件、不复制整个目录、不执行 Git add/commit/push。目标文件若存在不同的未提交修改则拒绝覆盖；其他仓库改动保持原状。新 ZIP 由内存中的同一白名单文本组成，不能通过扫描已有仓库目录把历史私有文件带入。
+
+当前实验源根为 `D:/SAR_Experiments/cross_port_sar_ship_ATR`，由归档脚本自身位置推导；两份设计文档也从该根目录读取。启动器与存储说明通过同样的真实 ID 和文本内容检查。迁移 receipts、路径映射、备份目录及旧 C 盘副本不加入白名单。
 
 ## 代码包必需清单
 

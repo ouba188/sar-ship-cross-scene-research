@@ -139,7 +139,7 @@ def main():
     config.update(protocol='development_split', selection_metric='balanced_accuracy',
                   leakage_mode='empirical_regularization', donor_ids=donors,
                   supplemental_batches=[queries.copy() for _ in range(4)])
-    config['encoder']['weights_path'] = str(Path.home()/'.cache/torch/hub/checkpoints/convnext_tiny-983f1562.pth')
+    config['encoder']['weights_path'] = str(WORK/'model_weights/convnext_tiny-983f1562.pth')
     config['h'].update(batched_matching=True, pair_batch_size=64)
     split = protocol(kept, config)
     SupplementalInterventions(samples, kept, split['train'].tolist(), config)
