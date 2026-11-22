@@ -1,0 +1,17 @@
+{
+  "seed": 17,
+  "target_ports": ["REPLACE_TARGET_PORT"],
+  "validation_ports": ["REPLACE_SOURCE_VALIDATION_PORT"],
+  "batch_size": 8,
+  "learning_rate": 0.0001,
+  "stage1_epochs": 20,
+  "base_epochs": 10,
+  "h_epochs": 20,
+  "prototypes_per_class": 8,
+  "allow_incomplete_supervision": false,
+  "input": {"buckets": [64, 96, 128], "protect_margin": 8},
+  "geometry": {"min_lengths": [6, 16, 32], "max_depth": 3, "leaf_budget": 4},
+  "encoder": {"weights_path": null, "fusion_init": 0.1, "stochastic_depth": 0},
+  "loss": {"scene": 1, "invariance": 1, "leakage": 0.1, "hard_gate_after": 200, "warmup_steps": 50, "ramp_steps": 150},
+  "h": {"alpha": 0.25, "prototype_floor": 0.2, "gamma": 1, "match_loss_weight": 1}
+}

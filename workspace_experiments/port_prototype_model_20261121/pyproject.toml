@@ -7,10 +7,11 @@ name = "sar-port-prototypes"
 version = "0.1.0"
 description = "Composable dual-polarization SAR source-port prototype research model"
 requires-python = ">=3.10"
-dependencies = ["numpy", "torch>=2.1", "torchvision>=0.16", "Pillow", "scipy"]
+dependencies = ["numpy", "torch>=2.1", "torchvision>=0.16", "Pillow", "scipy", "shapely>=2"]
 
 [project.scripts]
 sar-port = "sar_port.cli:main"
+sar-port-two-stage = "sar_port.two_stage.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["sar_port*"]
