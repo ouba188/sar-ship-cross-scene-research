@@ -10,6 +10,7 @@
 - `workspace_experiments/port_prototype_model_20261121/`：代码根 `D:/SAR_Experiments/cross_port_sar_ship_ATR/port_prototype_model_20261121` 的显式源码清单。
 - `workspace_experiments/oss2_three_arm_experiment_20261122/`：本轮公开实验工具、文档及聚合结果。
 - `workspace_experiments/oss2_h_tuning_20261122/`：独立 H 融合验证调优工具、计划及聚合结果。
+- `workspace_experiments/oss2_disentangle_tuning_20261122/`：分类路径衔接诊断、有限辅助权重对照及聚合结果。
 - `workspace_experiments/two_stage_minimal_20261122/`：两份现有设计文档原归档目录。
 
 脚本不修改源代码树或私有实验目录；不删除文件、不复制整个目录、不执行 Git add/commit/push。目标文件若存在不同的未提交修改则拒绝覆盖；其他仓库改动保持原状。新 ZIP 由内存中的同一白名单文本组成，不能通过扫描已有仓库目录把历史私有文件带入。
@@ -57,6 +58,10 @@
 设计文档：从工作区根同步 `STAGE1_MULTISCALE_DISENTANGLEMENT_DESIGN_ZH.md` 和 `STAGE2_H_MULTIPORT_EVIDENCE_DESIGN_ZH.md` 到原 `two_stage_minimal_20261122/` 目录。
 
 ## 排除项与内容检查
+
+补充必需工具 `run_post_training_diagnostics.py`：只公开串行队列程序；队列状态、日志与锁留在本地。
+
+解耦调优目录必需文件为 `TUNING_PLAN_ZH.md`、`STAGE1_HANDOFF_DIAGNOSIS_ZH.md`、`aggregate_stage1_handoff_diagnosis.json`、`run_aux_scale_ablation.py`、`test_aux_scale_ablation.py`、`analyze_head_reuse.py`。可选文件为 `test_head_reuse.py`、`aggregate_aux_scale_validation.json`、`AUX_SCALE_RESULTS_ZH.md`、`aggregate_head_reuse_validation.json`。新对照的真实配置、冻结计划、运行状态、逐图缓存与训练产物保持本地。
 
 排除真实实验 configs、manifest、文件名/目录名含 `_local` 的内容、原图、Q 掩码、图库、权重、缓存、逐样本预测、逐样本资格记录、donor field、运行状态和 ledger、`CASE_REVIEW_LOCAL.md`，以及所有未列出的文件。只接受白名单文本后缀；不递归搜集模型文件。
 

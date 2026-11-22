@@ -1,4 +1,4 @@
-"""Post-hoc frozen-feature diagnostics, fixed seed 17, train/validation only.
+"""Post-hoc frozen-feature diagnostics, selected training seed, train/validation only.
 
 Run AFTER the planned comparison completes. This is not another experimental
 arm and never selects checkpoints or tunes probe hyperparameters on validation.
@@ -11,6 +11,7 @@ import hashlib
 import importlib.metadata
 import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -53,6 +54,18 @@ def feature_variance(values):
                 descriptive_near_zero_threshold=1e-12)
 
 
+def verify_head_replay(actual, expected):
+    # History contains a confusion matrix, not per-observation predictions.
+    for key in ('count', 'confusion_matrix'):
+        if actual[key] != expected[key]:
+            raise RuntimeError('Original Stage1 head replay changed '+key)
+    for key in ('accuracy', 'balanced_accuracy', 'macro_f1'):
+        if not math.isclose(actual[key], expected[key], rel_tol=1e-12, abs_tol=1e-12):
+            raise RuntimeError('Original Stage1 head replay changed '+key)
+    return dict(passed=True, count_and_confusion_matrix_exact=True,
+                metric_float_tolerance=1e-12, per_observation_history_predictions_available=False)
+
+
 @torch.inference_mode()
 def extract(model, samples, ordered_ids, rows, device, batch_size, batches, collate):
     n = len(ordered_ids)
@@ -62,12 +75,25 @@ def extract(model, samples, ordered_ids, rows, device, batch_size, batches, coll
               ('gate_nonzero_fraction', 'residual_gate_nonzero_fraction',
                'Fc_energy', 'Fs_energy', 'P_energy', 'Fs_energy_fraction',
                'supported_channel_elements', 'valid_weight_sum')}
-    for ids in batches(samples, ordered_ids, batch_size, shuffle=False):
+    head_logits = np.zeros((n, model.config.classes), np.float32)
+    head_valid = np.zeros((n, 3), bool)
+    # Keep validation batch boundaries identical to cli.stage1_metrics.
+    partitions = ([i for i in ordered_ids if rows[i]['development_split']=='train'],
+                  [i for i in ordered_ids if rows[i]['development_split'] in ('val','validation')])
+    batch_ids = (ids for part in partitions for ids in batches(samples, part, batch_size, shuffle=False))
+    for ids in batch_ids:
         if any(rows[i]['development_split'] not in ('train', 'val', 'validation') for i in ids):
             raise RuntimeError('Diagnostic extraction is restricted to train and validation')
         batch = collate([samples[i] for i in ids], device)
         output = model(batch['images'], batch['valid'], hard_gate=True)
         positions = [locations[i] for i in ids]
+        logits = model.class_logits(output, batch['geometries'])
+        valid = model.class_valid(batch['geometries']).to(device)
+        logits = (logits*valid[..., None]).sum(1)/valid.sum(1).clamp_min(1)[:, None]
+        if not bool(torch.isfinite(logits).all()):
+            raise ValueError('Nonfinite original Stage1 head logits')
+        head_logits[positions] = logits.cpu().numpy()
+        head_valid[positions] = valid.cpu().numpy()
         for level in range(3):
             for pol in range(2):
                 fc, fs = output['content'][level][:, pol], output['residual'][level][:, pol]
@@ -98,7 +124,7 @@ def extract(model, samples, ordered_ids, rows, device, batch_size, batches, coll
                 values['supported_channel_elements'][positions, level, pol] = count.cpu().numpy()
                 values['valid_weight_sum'][positions, level, pol] = denominator.cpu().numpy()
         del output, batch
-    return features, values
+    return features, values, head_logits, head_valid
 
 
 def summarize_maps(features, values, indices):
@@ -120,6 +146,9 @@ def main():
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--batch-size', type=int, default=8)
     parser.add_argument('--threads', type=int, default=4)
+    parser.add_argument('--seed', type=int, choices=(17, 29, 43), default=17)
+    parser.add_argument('--output-dir', type=Path,
+                        help='Separate output directory when diagnosing another training seed')
     args = parser.parse_args()
     if importlib.util.find_spec('sklearn') is None:
         raise RuntimeError('scikit-learn is not installed; stop and report rather than installing automatically')
@@ -139,6 +168,10 @@ def main():
     from sar_port.two_stage.geometry import GeometryConfig
 
     root = args.root.resolve()
+    output_dir = args.output_dir.resolve() if args.output_dir else root
+    if args.seed != 17 and args.output_dir is None:
+        raise ValueError('Use --output-dir for another seed to preserve the original seed-17 diagnostic')
+    output_dir.mkdir(parents=True, exist_ok=True)
     os.environ['SAR_PORT_PREPARE_CACHE'] = str(root/'prepared_cache_local')
     # The manifest includes held-out metadata. Filter immediately; only these rows
     # can enter prepare, feature extraction, labels, or any fitted statistic.
@@ -152,16 +185,22 @@ def main():
     split_positions = {'train': np.arange(len(train_ids)),
                        'validation': np.arange(len(train_ids),len(ordered_ids))}
     expected_metadata = metadata(rows)
-    paths = {name: root/'runs'/'seed17'/f'{name}_stage1.pt' for name in ('baseline','disentangle')}
+    paths = {name: root/'runs'/f'seed{args.seed}'/f'{name}_stage1.pt' for name in ('baseline','disentangle')}
     checkpoint_digests = {name: digest(path) for name,path in paths.items()}
-    private = root/'branch_diagnostics_features_local'
+    private = output_dir/'branch_diagnostics_features_local'
     private.mkdir(exist_ok=True)
-    all_features, map_reports, snapshots = {}, {}, {}
+    all_features, map_reports, snapshots, original_heads = {}, {}, {}, {}
+    manifest_hash = digest(root/'experiment_manifest_local.json')
+    code_hashes = {name:digest(args.code_root/'sar_port'/'two_stage'/name)
+                  for name in ('stage1.py','data.py','geometry.py','contracts.py','cli.py')}
+    if (output_dir/'aggregate_branch_diagnostics.json').exists() or any(
+            (private/f'{arm}_natural_features_local.npz').exists() for arm in ('baseline','disentangle')):
+        raise RuntimeError('Diagnostic output already exists; use a new output directory to preserve it')
     samples, common_input, common_geometry, common_labels = None, None, None, None
     for arm in ('baseline','disentangle'):
         saved = load_checkpoint(paths[arm])
-        if saved['stage'] != 'stage1' or saved['protocol_config'].get('seed') != 17:
-            raise ValueError('Only fixed seed-17 stage-one checkpoints are supported')
+        if saved['stage'] != 'stage1' or saved['protocol_config'].get('seed') != args.seed:
+            raise ValueError('Stage-one checkpoint does not match the requested training seed')
         gated = saved['encoder_config'].get('gate_enabled', True)
         if gated != (arm == 'disentangle'):
             raise ValueError('Baseline/disentangle checkpoint gate settings mismatch')
@@ -181,8 +220,14 @@ def main():
             raise ValueError('The two fixed arms must share normalization, geometry and class ordering')
         model = restore_encoder(saved, args.device).freeze_for_h()
         model.requires_grad_(False)
-        features, statistics = extract(model, samples, ordered_ids, rows, args.device,
-                                       args.batch_size, batches, collate)
+        features, statistics, head_logits, head_valid = extract(model, samples, ordered_ids, rows, args.device,
+                                                               args.batch_size, batches, collate)
+        head_labels = {str(v):i for i,v in enumerate(labels)}
+        head_targets = np.asarray([head_labels[str(rows[i]['label'])] for i in ordered_ids], dtype=np.int64)
+        head_metrics = {split:classification_metrics(head_targets[positions],head_logits[positions].argmax(1),len(labels))
+                        for split,positions in split_positions.items()}
+        replay = verify_head_replay(head_metrics['validation'],saved['history'][-1]['validation_metrics'])
+        original_heads[arm] = dict(metrics=head_metrics, validation_checkpoint_replay=replay)
         if arm == 'baseline':
             if np.count_nonzero(features['Fs']):
                 raise ValueError('Gate-disabled baseline residual is expected to be identically zero')
@@ -195,12 +240,22 @@ def main():
             selected_training_epoch=saved['history'][-1].get('epoch'),
             checkpoint_objective=saved.get('training_objective'),
             normalization=dict(mean=list(input_cfg['mean']),std=list(input_cfg['std'])))
+        head_provenance = dict(schema_version=1, seed=args.seed, arm=arm, encoder_stage='stage1',
+            checkpoint_sha256=checkpoint_digests[arm], selected_training_epoch=saved['history'][-1]['epoch'],
+            manifest_sha256=manifest_hash, code_sha256=code_hashes, class_order=[str(v) for v in labels],
+            head_formula='Sum(class_logits * valid_scale) / max(sum(valid_scale),1); exact cli.stage1_metrics formula',
+            head_metrics=head_metrics, validation_checkpoint_replay=replay,
+            checkpoint_validation_metrics=saved['history'][-1]['validation_metrics'],
+            frozen_encoder=True, hard_gate=True, natural_views_only=True,
+            test_images_or_predictions_read=False, input_config=input_cfg, geometry_config=geometry_cfg)
         np.savez_compressed(private/f'{arm}_natural_features_local.npz',
             ids=np.asarray([rows[i]['id'] for i in ordered_ids], dtype=np.str_),
             split=np.asarray(['train']*len(train_ids)+['validation']*len(val_ids), dtype=np.str_),
             label=np.asarray([rows[i]['label'] for i in ordered_ids], dtype=np.str_),
-            Fc=features['Fc'], Fs=features['Fs'], **statistics)
-        del model, saved, features, statistics
+            Fc=features['Fc'], Fs=features['Fs'], stage1_logits=head_logits, stage1_valid_scales=head_valid,
+            class_order=np.asarray([str(v) for v in labels], dtype=np.str_),
+            metadata_json=np.asarray(json.dumps(head_provenance,ensure_ascii=False)), **statistics)
+        del model, saved, features, statistics, head_logits, head_valid
         print(f'Extracted {arm}: 718 train + 227 validation natural views', flush=True)
     for arm,path in paths.items():
         if digest(path) != checkpoint_digests[arm]:
@@ -234,7 +289,7 @@ def main():
             train_predictions=predictions['train'],validation_predictions=predictions['validation'])
     result = dict(created_at=datetime.now(timezone.utc).isoformat(),
         purpose='Post-hoc diagnostics only; not a new comparison arm or checkpoint selection criterion',
-        seed=17, counts=dict(train=718,validation=227,test_images_read=0,test_predictions_read=0),
+        seed=args.seed, counts=dict(train=718,validation=227,test_images_read=0,test_predictions_read=0),
         class_order=[str(v) for v in common_labels],
         class_counts={split:dict(Counter(map(int,y[positions]))) for split,positions in split_positions.items()},
         checkpoints=snapshots, frozen_encoder=True, hard_gate=True, natural_views_only=True,
@@ -246,7 +301,7 @@ def main():
                         hyperparameter_selection=False, validation_used_for_fit=False),
         uniform_guess_reference=dict(expected_accuracy=1/len(common_labels),expected_balanced_accuracy=1/len(common_labels),
                                      interpretation='Descriptive reference, not a significance test or an Fs leakage threshold'),
-        probes=probe_results, scale_polarization_diagnostics=map_reports,
+        probes=probe_results, scale_polarization_diagnostics=map_reports, original_stage1_heads=original_heads,
         interpretation_notes=[
             'Independent held-out linear probes assess natural-view linearly decodable class information, not success against the jointly trained discriminator.',
             'Fs probe performance above uniform guessing is evidence to investigate residual class information; it alone does not establish an implementation bug or disprove useful regularization.',
@@ -256,16 +311,15 @@ def main():
             'The original checkpoints were selected by their existing validation protocol, so this validation probe is a development diagnostic, not an untouched external test.',
             'No training discriminator score is used; this diagnostic alone cannot attribute a discrepancy specifically to fooling that discriminator.'
         ],
-        provenance=dict(manifest_sha256=digest(root/'experiment_manifest_local.json'),
+        provenance=dict(manifest_sha256=manifest_hash,
                         diagnostic_script_sha256=digest(Path(__file__)),
-                        code_sha256={name:digest(args.code_root/'sar_port'/'two_stage'/name)
-                                     for name in ('stage1.py','data.py','geometry.py','contracts.py','cli.py')},
+                        code_sha256=code_hashes,
                         sklearn_version=importlib.metadata.version('scikit-learn'),
                         numpy_version=np.__version__,torch_version=str(torch.__version__),device=args.device))
     encoded = json.dumps(result, ensure_ascii=False)
     if 'pub2_opensarship2_' in encoded:
         raise ValueError('Aggregate diagnostic output must not contain sample IDs')
-    write_json(root/'aggregate_branch_diagnostics.json', result)
+    write_json(output_dir/'aggregate_branch_diagnostics.json', result)
     print(json.dumps({k:v['metrics']['validation'] for k,v in probe_results.items()},indent=2),flush=True)
 
 

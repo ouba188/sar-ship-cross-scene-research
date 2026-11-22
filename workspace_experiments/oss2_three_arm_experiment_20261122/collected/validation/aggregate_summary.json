@@ -9,14 +9,6 @@
   "missing": [
     {
       "seed": 29,
-      "arm": "baseline"
-    },
-    {
-      "seed": 29,
-      "arm": "disentangle"
-    },
-    {
-      "seed": 29,
       "arm": "full_h"
     },
     {
@@ -32,7 +24,7 @@
       "arm": "full_h"
     }
   ],
-  "loaded_results": 3,
+  "loaded_results": 5,
   "expected_sample_count": 227,
   "classes": [
     "bulk_carrier",
@@ -115,7 +107,48 @@
     },
     {
       "seed": 29,
-      "arms": {}
+      "arms": {
+        "baseline": {
+          "count": 227,
+          "metrics": {
+            "OA": 0.6784140969162996,
+            "BA": 0.615423376631517,
+            "macroF1": 0.6098692929956463
+          },
+          "per_class_recall": {
+            "bulk_carrier": 0.6744186046511628,
+            "container_ship": 0.7752808988764045,
+            "general_cargo": 0.391304347826087,
+            "product_chemical_tanker": 0.6206896551724138
+          },
+          "per_class_support": {
+            "bulk_carrier": 86,
+            "container_ship": 89,
+            "general_cargo": 23,
+            "product_chemical_tanker": 29
+          }
+        },
+        "disentangle": {
+          "count": 227,
+          "metrics": {
+            "OA": 0.5859030837004405,
+            "BA": 0.5054432543331157,
+            "macroF1": 0.5060146374484744
+          },
+          "per_class_recall": {
+            "bulk_carrier": 0.6744186046511628,
+            "container_ship": 0.6292134831460674,
+            "general_cargo": 0.30434782608695654,
+            "product_chemical_tanker": 0.41379310344827586
+          },
+          "per_class_support": {
+            "bulk_carrier": 86,
+            "container_ship": 89,
+            "general_cargo": 23,
+            "product_chemical_tanker": 29
+          }
+        }
+      }
     },
     {
       "seed": 43,
@@ -126,82 +159,82 @@
     "baseline": {
       "metrics": {
         "OA": {
-          "n_seeds": 1,
-          "mean": 0.6167400881057269,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.6475770925110133,
+          "seed_sd": 0.04361010985291485
         },
         "BA": {
-          "n_seeds": 1,
-          "mean": 0.5625722545050965,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.5889978155683068,
+          "seed_sd": 0.03737138684891033
         },
         "macroF1": {
-          "n_seeds": 1,
-          "mean": 0.5564732493191156,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.5831712711573809,
+          "seed_sd": 0.03775670457220794
         }
       },
       "per_class_recall": {
         "bulk_carrier": {
-          "n_seeds": 1,
-          "mean": 0.6046511627906976,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.6395348837209303,
+          "seed_sd": 0.04933303124557309
         },
         "container_ship": {
-          "n_seeds": 1,
-          "mean": 0.7191011235955056,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.747191011235955,
+          "seed_sd": 0.03972510006665999
         },
         "general_cargo": {
-          "n_seeds": 1,
-          "mean": 0.4782608695652174,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.4347826086956522,
+          "seed_sd": 0.061487546190134565
         },
         "product_chemical_tanker": {
-          "n_seeds": 1,
-          "mean": 0.4482758620689655,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.5344827586206897,
+          "seed_sd": 0.12191496227354269
         }
       }
     },
     "disentangle": {
       "metrics": {
         "OA": {
-          "n_seeds": 1,
-          "mean": 0.6299559471365639,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.6079295154185023,
+          "seed_sd": 0.031150078466367737
         },
         "BA": {
-          "n_seeds": 1,
-          "mean": 0.5683053593401888,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.5368743068366522,
+          "seed_sd": 0.04445022073016223
         },
         "macroF1": {
-          "n_seeds": 1,
-          "mean": 0.5625034887709107,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.5342590631096926,
+          "seed_sd": 0.03994364983153339
         }
       },
       "per_class_recall": {
         "bulk_carrier": {
-          "n_seeds": 1,
-          "mean": 0.6627906976744186,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.6686046511627907,
+          "seed_sd": 0.008222171874262196
         },
         "container_ship": {
-          "n_seeds": 1,
-          "mean": 0.6853932584269663,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.6573033707865168,
+          "seed_sd": 0.03972510006665999
         },
         "general_cargo": {
-          "n_seeds": 1,
+          "n_seeds": 2,
           "mean": 0.30434782608695654,
-          "seed_sd": null
+          "seed_sd": 0.0
         },
         "product_chemical_tanker": {
-          "n_seeds": 1,
-          "mean": 0.6206896551724138,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 0.5172413793103449,
+          "seed_sd": 0.14629795472825122
         }
       }
     },
@@ -310,47 +343,68 @@
         "harmed": 28,
         "both_wrong": 56
       }
+    },
+    {
+      "seed": 29,
+      "comparison": "disentangle-minus-baseline",
+      "delta_percentage_points": {
+        "OA": -9.251101321585908,
+        "BA": -10.998012229840137,
+        "macroF1": -10.385465554717188
+      },
+      "per_class_recall_delta_pp": {
+        "bulk_carrier": 0.0,
+        "container_ship": -14.60674157303371,
+        "general_cargo": -8.695652173913043,
+        "product_chemical_tanker": -20.689655172413797
+      },
+      "paired_outcomes": {
+        "both_correct": 119,
+        "rescued": 14,
+        "harmed": 35,
+        "both_wrong": 59
+      }
     }
   ],
   "paired_aggregate": {
     "disentangle-minus-baseline": {
       "delta_percentage_points": {
         "OA": {
-          "n_seeds": 1,
-          "mean": 1.3215859030836996,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": -3.9647577092511046,
+          "seed_sd": 7.476018831928259
         },
         "BA": {
-          "n_seeds": 1,
-          "mean": 0.5733104835092262,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": -5.212350873165455,
+          "seed_sd": 8.182160757907257
         },
         "macroF1": {
-          "n_seeds": 1,
-          "mean": 0.603023945179515,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": -4.891220804768836,
+          "seed_sd": 7.770035440374133
         }
       },
       "per_class_recall_delta_pp": {
         "bulk_carrier": {
-          "n_seeds": 1,
-          "mean": 5.813953488372093,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": 2.9069767441860463,
+          "seed_sd": 4.11108593713109
         },
         "container_ship": {
-          "n_seeds": 1,
-          "mean": -3.3707865168539297,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": -8.98876404494382,
+          "seed_sd": 7.945020013331999
         },
         "general_cargo": {
-          "n_seeds": 1,
-          "mean": -17.391304347826086,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": -13.043478260869565,
+          "seed_sd": 6.148754619013457
         },
         "product_chemical_tanker": {
-          "n_seeds": 1,
-          "mean": 17.24137931034483,
-          "seed_sd": null
+          "n_seeds": 2,
+          "mean": -1.724137931034484,
+          "seed_sd": 26.821291700179394
         }
       }
     },

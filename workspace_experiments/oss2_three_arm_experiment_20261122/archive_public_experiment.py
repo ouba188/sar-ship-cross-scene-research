@@ -53,7 +53,7 @@ EXPERIMENT_REQUIRED = '''EXPERIMENT_PROTOCOL_ZH.md CONTROLLED_QUALIFICATION_REVI
 DATA_COMPOSITION_ZH.md prepare_experiment.py run_comparison.py progress.py
 download_official_weights.py smoke_real_supervision.py make_intervention_gallery.py
 record_gallery_review.py summarize_data_composition.py collect_results.py collect_subgroups.py
-branch_diagnostics.py verify_finished_comparison.py review_cases.py archive_public_experiment.py
+branch_diagnostics.py verify_finished_comparison.py review_cases.py archive_public_experiment.py run_post_training_diagnostics.py
 PUBLIC_ARCHIVE_ALLOWLIST_ZH.md aggregate_data_composition.json aggregate_intervention_audit.json'''.split()
 EXPERIMENT_OPTIONAL = '''FINDINGS_ZH.md
 aggregate_training_integrity.json aggregate_branch_diagnostics.json aggregate_h_margin_diagnostics.json
@@ -66,6 +66,11 @@ TUNING_REQUIRED = ['TUNING_PLAN_ZH.md','scan_validation.py','test_scan_validatio
 TUNING_OPTIONAL = ['FINDINGS_ZH.md','aggregate_fusion_scan_summary.json',
                    'fusion_candidate_table.csv','selected_gamma.json']
 TUNING_OPTIONAL += [f'final_seed{seed}/aggregate_validation_fusion_scan.json' for seed in (17,29,43)]
+DISENTANGLE_REQUIRED = ['TUNING_PLAN_ZH.md','STAGE1_HANDOFF_DIAGNOSIS_ZH.md',
+    'aggregate_stage1_handoff_diagnosis.json','run_aux_scale_ablation.py',
+    'test_aux_scale_ablation.py','analyze_head_reuse.py']
+DISENTANGLE_OPTIONAL = ['test_head_reuse.py','aggregate_aux_scale_validation.json',
+    'AUX_SCALE_RESULTS_ZH.md','aggregate_head_reuse_validation.json']
 DESIGNS = ['STAGE1_MULTISCALE_DISENTANGLEMENT_DESIGN_ZH.md',
            'STAGE2_H_MULTIPORT_EVIDENCE_DESIGN_ZH.md']
 WORKSPACE_PUBLIC = ['run_on_d.py', 'STORAGE_LAYOUT_ZH.md']
@@ -93,7 +98,8 @@ def entries(work=WORK, code=CODE):
     result += [Entry(code/name, model_dest+name, template=True) for name in TEMPLATE_CONFIGS]
     for folder, required, optional in (
         ('oss2_three_arm_experiment_20261122',EXPERIMENT_REQUIRED,EXPERIMENT_OPTIONAL),
-        ('oss2_h_tuning_20261122',TUNING_REQUIRED,TUNING_OPTIONAL)):
+        ('oss2_h_tuning_20261122',TUNING_REQUIRED,TUNING_OPTIONAL),
+        ('oss2_disentangle_tuning_20261122',DISENTANGLE_REQUIRED,DISENTANGLE_OPTIONAL)):
         for names, mandatory in ((required,True),(optional,False)):
             result += [Entry(work/folder/name,f'workspace_experiments/{folder}/{name}',mandatory) for name in names]
     result += [Entry(work/name,'workspace_experiments/two_stage_minimal_20261122/'+name) for name in DESIGNS]
