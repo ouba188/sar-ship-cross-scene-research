@@ -19,7 +19,7 @@ WORK = Path(__file__).resolve().parent.parent
 CODE = WORK/'port_prototype_model_20261121'
 REPO = Path('E:/临时会话/_sar_ship_cross_scene_incremental_git')
 SAMPLE_ID = re.compile(r'pub2_opensarship2_\d+', re.IGNORECASE)
-TEXT_SUFFIXES = {'.py', '.md', '.json', '.csv', '.toml', '.txt'}
+TEXT_SUFFIXES = {'.py', '.ps1', '.md', '.json', '.csv', '.toml', '.txt'}
 PRIVATE_JSON_KEYS = {'id','sample_id','sample_ids','vessel_id','vessel_ids','mmsi',
                     'donor_id','donor_ids','query_id','query_ids','reference_ids',
                     'source_ids','predictions','destination_flat_indices',
@@ -71,8 +71,10 @@ DISENTANGLE_REQUIRED = ['TUNING_PLAN_ZH.md','STAGE1_HANDOFF_DIAGNOSIS_ZH.md',
     'test_aux_scale_ablation.py','analyze_head_reuse.py']
 DISENTANGLE_OPTIONAL = ['test_head_reuse.py','aggregate_aux_scale_validation.json',
     'AUX_SCALE_RESULTS_ZH.md','aggregate_head_reuse_validation.json']
+DISENTANGLE_OPTIONAL += [f'seed{seed}/aggregate_branch_diagnostics.json' for seed in (17,29,43)]
 SEED29_REQUIRED = ['FINDINGS_ZH.md','OPTIMIZATION_REVIEW_ZH.md','aggregate_optimization_review.json',
-    'aggregate_error_diagnosis.json','analyze_errors.py','run_seed29_pilot.py']
+    'aggregate_error_diagnosis.json','analyze_errors.py','run_seed29_pilot.py','test_seed29_pilot.py',
+    'run_priority_recovery.py','yield_original_after_seed29.ps1']
 SEED29_OPTIONAL = ['aggregate_seed29_aux_pilot.json']
 DESIGNS = ['STAGE1_MULTISCALE_DISENTANGLEMENT_DESIGN_ZH.md',
            'STAGE2_H_MULTIPORT_EVIDENCE_DESIGN_ZH.md']

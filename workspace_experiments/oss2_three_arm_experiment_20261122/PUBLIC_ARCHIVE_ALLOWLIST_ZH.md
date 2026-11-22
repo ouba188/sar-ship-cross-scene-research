@@ -60,7 +60,7 @@
 
 ## 排除项与内容检查
 
-种子29目录必需文件为 `FINDINGS_ZH.md`、`OPTIMIZATION_REVIEW_ZH.md`、`aggregate_optimization_review.json`、`aggregate_error_diagnosis.json`、`analyze_errors.py`、`run_seed29_pilot.py`；可选结果为 `aggregate_seed29_aux_pilot.json`。`cases_local/`原图、图板、样本列表和队列重排前状态均排除。
+种子29目录必需文件为 `FINDINGS_ZH.md`、`OPTIMIZATION_REVIEW_ZH.md`、`aggregate_optimization_review.json`、`aggregate_error_diagnosis.json`、`analyze_errors.py`、`run_seed29_pilot.py`、`test_seed29_pilot.py`、`run_priority_recovery.py`、`yield_original_after_seed29.ps1`；可选结果为 `aggregate_seed29_aux_pilot.json`。该显式PowerShell脚本也经过文本检查。`cases_local/`原图、图板、样本列表、priority_local运行日志和队列重排前状态均排除。
 
 补充必需工具 `run_post_training_diagnostics.py`：只公开串行队列程序；队列状态、日志与锁留在本地。
 

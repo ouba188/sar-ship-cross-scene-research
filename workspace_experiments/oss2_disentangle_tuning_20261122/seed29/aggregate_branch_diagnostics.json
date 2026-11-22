@@ -1,0 +1,2716 @@
+{
+  "created_at": "2026-11-22T13:38:13.829858+00:00",
+  "purpose": "Post-hoc diagnostics only; not a new comparison arm or checkpoint selection criterion",
+  "seed": 29,
+  "counts": {
+    "train": 718,
+    "validation": 227,
+    "test_images_read": 0,
+    "test_predictions_read": 0
+  },
+  "class_order": [
+    "0",
+    "1",
+    "2",
+    "3"
+  ],
+  "class_counts": {
+    "train": {
+      "3": 283,
+      "0": 221,
+      "1": 73,
+      "2": 141
+    },
+    "validation": {
+      "3": 89,
+      "0": 86,
+      "1": 23,
+      "2": 29
+    }
+  },
+  "checkpoints": {
+    "baseline": {
+      "checkpoint_sha256": "239d16dea3078ea947025105b620c3042ec1fabb107abc531b43567f16f1a1be",
+      "selected_training_epoch": 5,
+      "checkpoint_objective": "classification_baseline",
+      "normalization": {
+        "mean": [
+          0.03956576809287071,
+          0.052391815930604935
+        ],
+        "std": [
+          0.07243642210960388,
+          0.07836800813674927
+        ]
+      }
+    },
+    "disentangle": {
+      "checkpoint_sha256": "10c40c9d2095e4beae8bc981a3ab297960584e8dd63248b6d4cb9ff9958a0260",
+      "selected_training_epoch": 14,
+      "checkpoint_objective": "disentanglement",
+      "normalization": {
+        "mean": [
+          0.03956576809287071,
+          0.052391815930604935
+        ],
+        "std": [
+          0.07243642210960388,
+          0.07836800813674927
+        ]
+      }
+    }
+  },
+  "frozen_encoder": true,
+  "hard_gate": true,
+  "natural_views_only": true,
+  "training_discriminator_called": false,
+  "representation_dimension": 1536,
+  "feature_order": "scale1_VV,scale1_VH,scale2_VV,scale2_VH,scale3_VV,scale3_VH; 256 channels each",
+  "pooling": "Sum(feature * valid_fraction) / sum(valid_fraction); original fused P for gate-disabled baseline",
+  "probe_spec": {
+    "StandardScaler": "Separate train-only fit per branch; identical recipe",
+    "LogisticRegression": {
+      "C": 1,
+      "max_iter": 1000,
+      "class_weight": "balanced",
+      "solver": "lbfgs",
+      "random_state": 17
+    },
+    "hyperparameter_selection": false,
+    "validation_used_for_fit": false
+  },
+  "uniform_guess_reference": {
+    "expected_accuracy": 0.25,
+    "expected_balanced_accuracy": 0.25,
+    "interpretation": "Descriptive reference, not a significance test or an Fs leakage threshold"
+  },
+  "probes": {
+    "baseline_P": {
+      "metrics": {
+        "train": {
+          "accuracy": 0.9944289693593314,
+          "balanced_accuracy": 0.9944392867636145,
+          "macro_f1": 0.9928212933903019,
+          "confusion_matrix": [
+            [
+              220,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              73,
+              0,
+              0
+            ],
+            [
+              0,
+              2,
+              139,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              282
+            ]
+          ],
+          "count": 718
+        },
+        "validation": {
+          "accuracy": 0.6651982378854625,
+          "balanced_accuracy": 0.581108779292089,
+          "macro_f1": 0.579944671087372,
+          "confusion_matrix": [
+            [
+              54,
+              4,
+              5,
+              23
+            ],
+            [
+              1,
+              8,
+              9,
+              5
+            ],
+            [
+              8,
+              2,
+              15,
+              4
+            ],
+            [
+              6,
+              8,
+              1,
+              74
+            ]
+          ],
+          "count": 227
+        }
+      },
+      "convergence_warning": false,
+      "warning_messages": [],
+      "iterations": [
+        515
+      ],
+      "natural_feature_variance": {
+        "train": {
+          "dimensions": 1536,
+          "population_variance": {
+            "count": 1536,
+            "mean": 19.711827071752612,
+            "minimum": 0.0004481187282294632,
+            "median": 2.3019987930776122,
+            "maximum": 825.7201155454633
+          },
+          "exactly_zero_variance_dimensions": 0,
+          "variance_le_1e_minus_12_dimensions": 0,
+          "descriptive_near_zero_threshold": 1e-12
+        },
+        "validation": {
+          "dimensions": 1536,
+          "population_variance": {
+            "count": 1536,
+            "mean": 14.057012221474812,
+            "minimum": 0.0003169451585611206,
+            "median": 1.7518100871088156,
+            "maximum": 573.852815811281
+          },
+          "exactly_zero_variance_dimensions": 0,
+          "variance_le_1e_minus_12_dimensions": 0,
+          "descriptive_near_zero_threshold": 1e-12
+        }
+      }
+    },
+    "disentangle_Fc": {
+      "metrics": {
+        "train": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "confusion_matrix": [
+            [
+              221,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              73,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              141,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              283
+            ]
+          ],
+          "count": 718
+        },
+        "validation": {
+          "accuracy": 0.5991189427312775,
+          "balanced_accuracy": 0.5332602349204285,
+          "macro_f1": 0.5292046646911454,
+          "confusion_matrix": [
+            [
+              55,
+              5,
+              4,
+              22
+            ],
+            [
+              6,
+              8,
+              8,
+              1
+            ],
+            [
+              12,
+              3,
+              14,
+              0
+            ],
+            [
+              15,
+              11,
+              4,
+              59
+            ]
+          ],
+          "count": 227
+        }
+      },
+      "convergence_warning": false,
+      "warning_messages": [],
+      "iterations": [
+        10
+      ],
+      "natural_feature_variance": {
+        "train": {
+          "dimensions": 1536,
+          "population_variance": {
+            "count": 1536,
+            "mean": 19.186513798405198,
+            "minimum": 0.0,
+            "median": 1.4669194980724685,
+            "maximum": 840.2562888055401
+          },
+          "exactly_zero_variance_dimensions": 58,
+          "variance_le_1e_minus_12_dimensions": 58,
+          "descriptive_near_zero_threshold": 1e-12
+        },
+        "validation": {
+          "dimensions": 1536,
+          "population_variance": {
+            "count": 1536,
+            "mean": 14.89781251511802,
+            "minimum": 0.0,
+            "median": 1.4038524661537553,
+            "maximum": 571.7222893895836
+          },
+          "exactly_zero_variance_dimensions": 60,
+          "variance_le_1e_minus_12_dimensions": 60,
+          "descriptive_near_zero_threshold": 1e-12
+        }
+      }
+    },
+    "disentangle_Fs": {
+      "metrics": {
+        "train": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "confusion_matrix": [
+            [
+              221,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              73,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              141,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              283
+            ]
+          ],
+          "count": 718
+        },
+        "validation": {
+          "accuracy": 0.6035242290748899,
+          "balanced_accuracy": 0.5398280249736642,
+          "macro_f1": 0.5376653821168322,
+          "confusion_matrix": [
+            [
+              57,
+              3,
+              4,
+              22
+            ],
+            [
+              7,
+              7,
+              8,
+              1
+            ],
+            [
+              12,
+              1,
+              16,
+              0
+            ],
+            [
+              18,
+              10,
+              4,
+              57
+            ]
+          ],
+          "count": 227
+        }
+      },
+      "convergence_warning": false,
+      "warning_messages": [],
+      "iterations": [
+        11
+      ],
+      "natural_feature_variance": {
+        "train": {
+          "dimensions": 1536,
+          "population_variance": {
+            "count": 1536,
+            "mean": 14.160904247000206,
+            "minimum": 0.0,
+            "median": 0.30693592856320395,
+            "maximum": 1086.3143557852386
+          },
+          "exactly_zero_variance_dimensions": 169,
+          "variance_le_1e_minus_12_dimensions": 169,
+          "descriptive_near_zero_threshold": 1e-12
+        },
+        "validation": {
+          "dimensions": 1536,
+          "population_variance": {
+            "count": 1536,
+            "mean": 11.41323014662153,
+            "minimum": 0.0,
+            "median": 0.2776144532916333,
+            "maximum": 731.3847475580229
+          },
+          "exactly_zero_variance_dimensions": 176,
+          "variance_le_1e_minus_12_dimensions": 176,
+          "descriptive_near_zero_threshold": 1e-12
+        }
+      }
+    }
+  },
+  "scale_polarization_diagnostics": {
+    "baseline": {
+      "train": [
+        {
+          "scale": 1,
+          "stride": 4,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 1.377461171768668,
+              "minimum": 0.24382106959819794,
+              "median": 1.235284447669983,
+              "maximum": 3.130866527557373
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 1.377461171768668,
+              "minimum": 0.24382106959819794,
+              "median": 1.235284447669983,
+              "maximum": 3.130866527557373
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 59510.373259052925,
+              "minimum": 20736.0,
+              "median": 65536.0,
+              "maximum": 65536.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 225.76357938718664,
+              "minimum": 68.0625,
+              "median": 256.0,
+              "maximum": 256.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.4126073419283003,
+              "minimum": 0.00059345762017949,
+              "median": 0.24571245734064096,
+              "maximum": 2.5829346000400646
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 1,
+          "stride": 4,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 2.8091422217303994,
+              "minimum": 0.125015988945961,
+              "median": 1.0493702292442322,
+              "maximum": 10.702003479003906
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 2.8091422217303994,
+              "minimum": 0.125015988945961,
+              "median": 1.0493702292442322,
+              "maximum": 10.702003479003906
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 59510.373259052925,
+              "minimum": 20736.0,
+              "median": 65536.0,
+              "maximum": 65536.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 225.76357938718664,
+              "minimum": 68.0625,
+              "median": 256.0,
+              "maximum": 256.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 1.692049910698993,
+              "minimum": 0.0004481187282294632,
+              "median": 1.4081280573908028,
+              "maximum": 6.572660894259748
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 2,
+          "stride": 8,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 4.476234884232199,
+              "minimum": 0.25665637850761414,
+              "median": 4.360910415649414,
+              "maximum": 10.698641777038574
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 4.476234884232199,
+              "minimum": 0.25665637850761414,
+              "median": 4.360910415649414,
+              "maximum": 10.698641777038574
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 15401.359331476324,
+              "minimum": 6400.0,
+              "median": 16384.0,
+              "maximum": 16384.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 56.44089484679666,
+              "minimum": 17.015625,
+              "median": 64.0,
+              "maximum": 64.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 1.824740543405861,
+              "minimum": 0.005348756063248559,
+              "median": 1.231385069125859,
+              "maximum": 7.893470064277343
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 2,
+          "stride": 8,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 10.50282517295528,
+              "minimum": 0.21780848503112793,
+              "median": 3.6740487813949585,
+              "maximum": 41.398963928222656
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 10.50282517295528,
+              "minimum": 0.21780848503112793,
+              "median": 3.6740487813949585,
+              "maximum": 41.398963928222656
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 15401.359331476324,
+              "minimum": 6400.0,
+              "median": 16384.0,
+              "maximum": 16384.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 56.44089484679666,
+              "minimum": 17.015625,
+              "median": 64.0,
+              "maximum": 64.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 6.419822607953293,
+              "minimum": 0.0064234110912169875,
+              "median": 5.302551105450576,
+              "maximum": 28.6606992444102
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 3,
+          "stride": 16,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 53.3503274466417,
+              "minimum": 0.3488609492778778,
+              "median": 46.1099967956543,
+              "maximum": 134.71510314941406
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 53.3503274466417,
+              "minimum": 0.3488609492778778,
+              "median": 46.1099967956543,
+              "maximum": 134.71510314941406
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 4076.033426183844,
+              "minimum": 2304.0,
+              "median": 4096.0,
+              "maximum": 4096.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 14.110223711699165,
+              "minimum": 4.25390625,
+              "median": 16.0,
+              "maximum": 16.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 20.337796629158163,
+              "minimum": 0.02694587716645618,
+              "median": 9.092396026704774,
+              "maximum": 142.0588638737635
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 3,
+          "stride": 16,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 134.47343940275377,
+              "minimum": 0.16988475620746613,
+              "median": 41.791006088256836,
+              "maximum": 548.3270263671875
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 134.47343940275377,
+              "minimum": 0.16988475620746613,
+              "median": 41.791006088256836,
+              "maximum": 548.3270263671875
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 4076.033426183844,
+              "minimum": 2304.0,
+              "median": 4096.0,
+              "maximum": 4096.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 14.110223711699165,
+              "minimum": 4.25390625,
+              "median": 16.0,
+              "maximum": 16.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 87.58394539737105,
+              "minimum": 0.07177739660910595,
+              "median": 43.20221641689657,
+              "maximum": 825.7201155454633
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        }
+      ],
+      "validation": [
+        {
+          "scale": 1,
+          "stride": 4,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 1.1321247344762744,
+              "minimum": 0.25975194573402405,
+              "median": 0.9440008401870728,
+              "maximum": 2.7240097522735596
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 1.1321247344762744,
+              "minimum": 0.25975194573402405,
+              "median": 0.9440008401870728,
+              "maximum": 2.7240097522735596
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 58180.79295154185,
+              "minimum": 20736.0,
+              "median": 65536.0,
+              "maximum": 65536.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 220.87802863436124,
+              "minimum": 68.0625,
+              "median": 256.0,
+              "maximum": 256.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.3238367499191547,
+              "minimum": 0.0004895171028885367,
+              "median": 0.19249583496253828,
+              "maximum": 1.997974070051635
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 1,
+          "stride": 4,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 2.159741142904181,
+              "minimum": 0.1386449635028839,
+              "median": 0.8705738186836243,
+              "maximum": 9.038650512695312
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 2.159741142904181,
+              "minimum": 0.1386449635028839,
+              "median": 0.8705738186836243,
+              "maximum": 9.038650512695312
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 58180.79295154185,
+              "minimum": 20736.0,
+              "median": 65536.0,
+              "maximum": 65536.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 220.87802863436124,
+              "minimum": 68.0625,
+              "median": 256.0,
+              "maximum": 256.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 1.1931565663685841,
+              "minimum": 0.0003169451585611206,
+              "median": 0.9911224424348724,
+              "maximum": 4.649494947897001
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 2,
+          "stride": 8,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 3.787956773447045,
+              "minimum": 0.44928252696990967,
+              "median": 3.3850605487823486,
+              "maximum": 9.72920036315918
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 3.787956773447045,
+              "minimum": 0.44928252696990967,
+              "median": 3.3850605487823486,
+              "maximum": 9.72920036315918
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 15175.04845814978,
+              "minimum": 6400.0,
+              "median": 16384.0,
+              "maximum": 16384.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 55.21950715859031,
+              "minimum": 17.015625,
+              "median": 64.0,
+              "maximum": 64.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 1.5362156839784813,
+              "minimum": 0.004944580558877858,
+              "median": 1.027638074344787,
+              "maximum": 6.801704679862099
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 2,
+          "stride": 8,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 8.13120416121861,
+              "minimum": 0.19126653671264648,
+              "median": 3.1431264877319336,
+              "maximum": 35.221717834472656
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 8.13120416121861,
+              "minimum": 0.19126653671264648,
+              "median": 3.1431264877319336,
+              "maximum": 35.221717834472656
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 15175.04845814978,
+              "minimum": 6400.0,
+              "median": 16384.0,
+              "maximum": 16384.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 55.21950715859031,
+              "minimum": 17.015625,
+              "median": 64.0,
+              "maximum": 64.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 4.62960245826056,
+              "minimum": 0.0043074202293348005,
+              "median": 3.729629347561527,
+              "maximum": 20.845102252495536
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 3,
+          "stride": 16,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 42.13277692219759,
+              "minimum": 0.42870548367500305,
+              "median": 30.83843231201172,
+              "maximum": 127.03279113769531
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 42.13277692219759,
+              "minimum": 0.42870548367500305,
+              "median": 30.83843231201172,
+              "maximum": 127.03279113769531
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 4088.1057268722466,
+              "minimum": 2304.0,
+              "median": 4096.0,
+              "maximum": 4096.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 13.804876789647578,
+              "minimum": 4.25390625,
+              "median": 16.0,
+              "maximum": 16.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 15.78649693661708,
+              "minimum": 0.023467264946225305,
+              "median": 7.101232160692286,
+              "maximum": 109.43745836318197
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 3,
+          "stride": 16,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 1.0,
+              "minimum": 1.0,
+              "median": 1.0,
+              "maximum": 1.0
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 100.6724040329719,
+              "minimum": 0.1643182635307312,
+              "median": 32.52973175048828,
+              "maximum": 468.852294921875
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 100.6724040329719,
+              "minimum": 0.1643182635307312,
+              "median": 32.52973175048828,
+              "maximum": 468.852294921875
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 4088.1057268722466,
+              "minimum": 2304.0,
+              "median": 4096.0,
+              "maximum": 4096.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 13.804876789647578,
+              "minimum": 4.25390625,
+              "median": 16.0,
+              "maximum": 16.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 60.872764933705,
+              "minimum": 0.04004462016096721,
+              "median": 30.044848233426464,
+              "maximum": 573.852815811281
+            },
+            "exactly_zero_variance_dimensions": 0,
+            "variance_le_1e_minus_12_dimensions": 0,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.0,
+              "minimum": 0.0,
+              "median": 0.0,
+              "maximum": 0.0
+            },
+            "exactly_zero_variance_dimensions": 256,
+            "variance_le_1e_minus_12_dimensions": 256,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        }
+      ]
+    },
+    "disentangle": {
+      "train": [
+        {
+          "scale": 1,
+          "stride": 4,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.5748374658872822,
+              "minimum": 0.5435003638267517,
+              "median": 0.5763871967792511,
+              "maximum": 0.593414306640625
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.4251625337806585,
+              "minimum": 0.406585693359375,
+              "median": 0.4236128032207489,
+              "maximum": 0.4564996361732483
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 1.7794541709104288,
+              "minimum": 0.5542175769805908,
+              "median": 1.7387911081314087,
+              "maximum": 4.138749122619629
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 0.5911819846641718,
+              "minimum": 0.15924787521362305,
+              "median": 0.5428041219711304,
+              "maximum": 1.155617117881775
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 2.3706361589159473,
+              "minimum": 0.7464342713356018,
+              "median": 2.299652099609375,
+              "maximum": 5.255990505218506
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.24838633604949564,
+              "minimum": 0.1544816792011261,
+              "median": 0.24479839950799942,
+              "maximum": 0.3229782283306122
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 59510.373259052925,
+              "minimum": 20736.0,
+              "median": 65536.0,
+              "maximum": 65536.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 225.76357938718664,
+              "minimum": 68.0625,
+              "median": 256.0,
+              "maximum": 256.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.5880526706550002,
+              "minimum": 0.0,
+              "median": 0.26151405047681986,
+              "maximum": 4.938311176471278
+            },
+            "exactly_zero_variance_dimensions": 19,
+            "variance_le_1e_minus_12_dimensions": 19,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.18471324822937643,
+              "minimum": 0.0,
+              "median": 0.08278996798379298,
+              "maximum": 2.245788447872837
+            },
+            "exactly_zero_variance_dimensions": 29,
+            "variance_le_1e_minus_12_dimensions": 29,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 1,
+          "stride": 4,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.6120824431144427,
+              "minimum": 0.5848090052604675,
+              "median": 0.6014556884765625,
+              "maximum": 0.6576485633850098
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.38791755626294605,
+              "minimum": 0.3423514664173126,
+              "median": 0.3985443115234375,
+              "maximum": 0.4151909649372101
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 4.027965615884839,
+              "minimum": 0.5855081677436829,
+              "median": 3.9114797115325928,
+              "maximum": 12.533899307250977
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 1.485526718074731,
+              "minimum": 0.243120476603508,
+              "median": 1.337893307209015,
+              "maximum": 3.5907340049743652
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 5.513492331365357,
+              "minimum": 0.8414422273635864,
+              "median": 5.47426176071167,
+              "maximum": 15.843371391296387
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.27709956610352215,
+              "minimum": 0.20218737423419952,
+              "median": 0.29109930992126465,
+              "maximum": 0.33171388506889343
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 59510.373259052925,
+              "minimum": 20736.0,
+              "median": 65536.0,
+              "maximum": 65536.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 225.76357938718664,
+              "minimum": 68.0625,
+              "median": 256.0,
+              "maximum": 256.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 2.2341070395319065,
+              "minimum": 0.0,
+              "median": 0.8659207198977639,
+              "maximum": 13.882175911883884
+            },
+            "exactly_zero_variance_dimensions": 8,
+            "variance_le_1e_minus_12_dimensions": 8,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.6387988748247562,
+              "minimum": 0.0,
+              "median": 0.07042868772839017,
+              "maximum": 8.334855165982798
+            },
+            "exactly_zero_variance_dimensions": 29,
+            "variance_le_1e_minus_12_dimensions": 29,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 2,
+          "stride": 8,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.611859938145348,
+              "minimum": 0.57830810546875,
+              "median": 0.61529541015625,
+              "maximum": 0.663330078125
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.38814006156410014,
+              "minimum": 0.336669921875,
+              "median": 0.38470458984375,
+              "maximum": 0.42169189453125
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 7.0401223157441715,
+              "minimum": 1.917384386062622,
+              "median": 6.43134069442749,
+              "maximum": 17.48920440673828
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 2.5030182198229607,
+              "minimum": 0.7088302373886108,
+              "median": 2.2181512117385864,
+              "maximum": 6.292102813720703
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 9.543140545196852,
+              "minimum": 2.6443092823028564,
+              "median": 8.666444778442383,
+              "maximum": 23.781307220458984
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.2612797691172876,
+              "minimum": 0.23292604088783264,
+              "median": 0.26377107203006744,
+              "maximum": 0.2950252592563629
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 15401.359331476324,
+              "minimum": 6400.0,
+              "median": 16384.0,
+              "maximum": 16384.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 56.44089484679666,
+              "minimum": 17.015625,
+              "median": 64.0,
+              "maximum": 64.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 2.3496667294881672,
+              "minimum": 0.0,
+              "median": 1.2402833139502534,
+              "maximum": 15.365364632662695
+            },
+            "exactly_zero_variance_dimensions": 18,
+            "variance_le_1e_minus_12_dimensions": 18,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.7184872887554528,
+              "minimum": 0.0,
+              "median": 0.12942249756004756,
+              "maximum": 11.722588527006028
+            },
+            "exactly_zero_variance_dimensions": 45,
+            "variance_le_1e_minus_12_dimensions": 45,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 2,
+          "stride": 8,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.648918613417899,
+              "minimum": 0.6234130859375,
+              "median": 0.652435302734375,
+              "maximum": 0.6786024570465088
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.3510813867481306,
+              "minimum": 0.3213975727558136,
+              "median": 0.347564697265625,
+              "maximum": 0.3765869140625
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 19.655855528823512,
+              "minimum": 2.3626999855041504,
+              "median": 18.956589698791504,
+              "maximum": 48.99266052246094
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 6.251901023816266,
+              "minimum": 0.7949458956718445,
+              "median": 6.114306449890137,
+              "maximum": 15.324281692504883
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 25.907756555047207,
+              "minimum": 3.1576457023620605,
+              "median": 25.017497062683105,
+              "maximum": 64.31694793701172
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.23868862273882357,
+              "minimum": 0.2159077376127243,
+              "median": 0.24159318208694458,
+              "maximum": 0.2700989842414856
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 15401.359331476324,
+              "minimum": 6400.0,
+              "median": 16384.0,
+              "maximum": 16384.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 56.44089484679666,
+              "minimum": 17.015625,
+              "median": 64.0,
+              "maximum": 64.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 10.347703513249346,
+              "minimum": 0.0,
+              "median": 5.3848262849626245,
+              "maximum": 67.96803687669403
+            },
+            "exactly_zero_variance_dimensions": 4,
+            "variance_le_1e_minus_12_dimensions": 4,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 2.7234470957890005,
+              "minimum": 0.0,
+              "median": 0.29515331539837586,
+              "maximum": 41.19988223918675
+            },
+            "exactly_zero_variance_dimensions": 48,
+            "variance_le_1e_minus_12_dimensions": 48,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 3,
+          "stride": 16,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.5059073191333282,
+              "minimum": 0.5,
+              "median": 0.5,
+              "maximum": 0.529296875
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.4940926809496866,
+              "minimum": 0.470703125,
+              "median": 0.5,
+              "maximum": 0.5
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 55.62020393018935,
+              "minimum": 1.846762776374817,
+              "median": 42.235029220581055,
+              "maximum": 163.32049560546875
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 64.35882574851135,
+              "minimum": 1.7129732370376587,
+              "median": 44.62575912475586,
+              "maximum": 194.04940795898438
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 119.97902991180632,
+              "minimum": 4.016335487365723,
+              "median": 85.74450302124023,
+              "maximum": 357.36993408203125
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.5248002641546361,
+              "minimum": 0.41955286264419556,
+              "median": 0.534831166267395,
+              "maximum": 0.5802240967750549
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 4076.033426183844,
+              "minimum": 2304.0,
+              "median": 4096.0,
+              "maximum": 4096.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 14.110223711699165,
+              "minimum": 4.25390625,
+              "median": 16.0,
+              "maximum": 16.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 17.5726385263938,
+              "minimum": 0.0,
+              "median": 4.135202799132383,
+              "maximum": 361.7446104571554
+            },
+            "exactly_zero_variance_dimensions": 4,
+            "variance_le_1e_minus_12_dimensions": 4,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 20.16837797225008,
+              "minimum": 0.0,
+              "median": 2.732111617185159,
+              "maximum": 403.35933316554696
+            },
+            "exactly_zero_variance_dimensions": 9,
+            "variance_le_1e_minus_12_dimensions": 9,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 3,
+          "stride": 16,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.5254379268476226,
+              "minimum": 0.508056640625,
+              "median": 0.521728515625,
+              "maximum": 0.55712890625
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 718,
+              "mean": 0.4745620731938848,
+              "minimum": 0.44287109375,
+              "median": 0.478271484375,
+              "maximum": 0.491943359375
+            },
+            "Fc_energy": {
+              "count": 718,
+              "mean": 171.53126954567466,
+              "minimum": 6.620693683624268,
+              "median": 163.47532653808594,
+              "maximum": 422.35760498046875
+            },
+            "Fs_energy": {
+              "count": 718,
+              "mean": 143.73786275034828,
+              "minimum": 4.142590522766113,
+              "median": 105.61320877075195,
+              "maximum": 389.30828857421875
+            },
+            "P_energy": {
+              "count": 718,
+              "mean": 315.269132509205,
+              "minimum": 10.763283729553223,
+              "median": 273.45977783203125,
+              "maximum": 805.7474365234375
+            },
+            "Fs_energy_fraction": {
+              "count": 718,
+              "mean": 0.42913689275471945,
+              "minimum": 0.3472785949707031,
+              "median": 0.41983936727046967,
+              "maximum": 0.5024059414863586
+            },
+            "supported_channel_elements": {
+              "count": 718,
+              "mean": 4076.033426183844,
+              "minimum": 2304.0,
+              "median": 4096.0,
+              "maximum": 4096.0
+            },
+            "valid_weight_sum": {
+              "count": 718,
+              "mean": 14.110223711699165,
+              "minimum": 4.25390625,
+              "median": 16.0,
+              "maximum": 16.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 82.02691431111293,
+              "minimum": 0.0,
+              "median": 15.465035722892864,
+              "maximum": 840.2562888055401
+            },
+            "exactly_zero_variance_dimensions": 5,
+            "variance_le_1e_minus_12_dimensions": 5,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 60.53160100215256,
+              "minimum": 0.0,
+              "median": 9.374523118804678,
+              "maximum": 1086.3143557852386
+            },
+            "exactly_zero_variance_dimensions": 9,
+            "variance_le_1e_minus_12_dimensions": 9,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        }
+      ],
+      "validation": [
+        {
+          "scale": 1,
+          "stride": 4,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.5726116974448318,
+              "minimum": 0.5444711446762085,
+              "median": 0.5734405517578125,
+              "maximum": 0.5877227783203125
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.4273883032116071,
+              "minimum": 0.4122772216796875,
+              "median": 0.4265594482421875,
+              "maximum": 0.4555288553237915
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 1.7211597230991078,
+              "minimum": 0.4309864044189453,
+              "median": 1.7199699878692627,
+              "maximum": 3.6313743591308594
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 0.5831198953584428,
+              "minimum": 0.15914714336395264,
+              "median": 0.5192280411720276,
+              "maximum": 1.0290307998657227
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 2.304279603096882,
+              "minimum": 0.610058605670929,
+              "median": 2.185842514038086,
+              "maximum": 4.642014503479004
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.24958896886409643,
+              "minimum": 0.16556963324546814,
+              "median": 0.24673384428024292,
+              "maximum": 0.3077397644519806
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 58180.79295154185,
+              "minimum": 20736.0,
+              "median": 65536.0,
+              "maximum": 65536.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 220.87802863436124,
+              "minimum": 68.0625,
+              "median": 256.0,
+              "maximum": 256.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.6363541722714723,
+              "minimum": 0.0,
+              "median": 0.2719117168174675,
+              "maximum": 5.669297235105853
+            },
+            "exactly_zero_variance_dimensions": 20,
+            "variance_le_1e_minus_12_dimensions": 20,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.1912421176730148,
+              "minimum": 0.0,
+              "median": 0.07793347038808415,
+              "maximum": 2.7663896320712738
+            },
+            "exactly_zero_variance_dimensions": 30,
+            "variance_le_1e_minus_12_dimensions": 30,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 1,
+          "stride": 4,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.6110533620292394,
+              "minimum": 0.585052490234375,
+              "median": 0.6009368896484375,
+              "maximum": 0.6575520634651184
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.38894663757689724,
+              "minimum": 0.3424479067325592,
+              "median": 0.3990631103515625,
+              "maximum": 0.414947509765625
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 3.1261836067170297,
+              "minimum": 0.7521408796310425,
+              "median": 2.0117006301879883,
+              "maximum": 11.875896453857422
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 1.1670316544398338,
+              "minimum": 0.29581475257873535,
+              "median": 0.7950655221939087,
+              "maximum": 3.3587265014648438
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 4.293215280062301,
+              "minimum": 1.0905135869979858,
+              "median": 2.753345012664795,
+              "maximum": 15.067757606506348
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.28234739647562807,
+              "minimum": 0.20234161615371704,
+              "median": 0.2956410050392151,
+              "maximum": 0.31444051861763
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 58180.79295154185,
+              "minimum": 20736.0,
+              "median": 65536.0,
+              "maximum": 65536.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 220.87802863436124,
+              "minimum": 68.0625,
+              "median": 256.0,
+              "maximum": 256.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 1.5909530444348559,
+              "minimum": 0.0,
+              "median": 0.6681809786173781,
+              "maximum": 9.771280093660486
+            },
+            "exactly_zero_variance_dimensions": 8,
+            "variance_le_1e_minus_12_dimensions": 8,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.4588431099052671,
+              "minimum": 0.0,
+              "median": 0.0488765845572032,
+              "maximum": 5.987132261901481
+            },
+            "exactly_zero_variance_dimensions": 31,
+            "variance_le_1e_minus_12_dimensions": 31,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 2,
+          "stride": 8,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.6095451715234093,
+              "minimum": 0.5782470703125,
+              "median": 0.613037109375,
+              "maximum": 0.6578369140625
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.390454828345303,
+              "minimum": 0.3421630859375,
+              "median": 0.386962890625,
+              "maximum": 0.4217529296875
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 7.455764125622316,
+              "minimum": 1.44027841091156,
+              "median": 6.546841621398926,
+              "maximum": 14.929343223571777
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 2.6618986555133097,
+              "minimum": 0.5627778768539429,
+              "median": 2.281047821044922,
+              "maximum": 5.468391418457031
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 10.117662808968632,
+              "minimum": 2.003056287765503,
+              "median": 8.76602840423584,
+              "maximum": 20.352977752685547
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.26217945596195,
+              "minimum": 0.239312544465065,
+              "median": 0.2661585509777069,
+              "maximum": 0.2846421003341675
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 15175.04845814978,
+              "minimum": 6400.0,
+              "median": 16384.0,
+              "maximum": 16384.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 55.21950715859031,
+              "minimum": 17.015625,
+              "median": 64.0,
+              "maximum": 64.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 2.7673305445535736,
+              "minimum": 0.0,
+              "median": 1.3403078444760983,
+              "maximum": 18.484128742256093
+            },
+            "exactly_zero_variance_dimensions": 18,
+            "variance_le_1e_minus_12_dimensions": 18,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 0.8400045431362286,
+              "minimum": 0.0,
+              "median": 0.1231399485669082,
+              "maximum": 14.009118900400862
+            },
+            "exactly_zero_variance_dimensions": 47,
+            "variance_le_1e_minus_12_dimensions": 47,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 2,
+          "stride": 8,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.6506751300479872,
+              "minimum": 0.62677001953125,
+              "median": 0.651123046875,
+              "maximum": 0.67730712890625
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.34932487087102715,
+              "minimum": 0.32269287109375,
+              "median": 0.348876953125,
+              "maximum": 0.37322998046875
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 15.566043636347228,
+              "minimum": 3.7337989807128906,
+              "median": 10.452875137329102,
+              "maximum": 49.745452880859375
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 4.898148282509018,
+              "minimum": 1.1143616437911987,
+              "median": 3.205854892730713,
+              "maximum": 15.441118240356445
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 20.464191894699297,
+              "minimum": 4.875620365142822,
+              "median": 13.512194633483887,
+              "maximum": 65.18656158447266
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.236846073871142,
+              "minimum": 0.21867144107818604,
+              "median": 0.23869295418262482,
+              "maximum": 0.2552202641963959
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 15175.04845814978,
+              "minimum": 6400.0,
+              "median": 16384.0,
+              "maximum": 16384.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 55.21950715859031,
+              "minimum": 17.015625,
+              "median": 64.0,
+              "maximum": 64.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 7.487195148455701,
+              "minimum": 0.0,
+              "median": 4.021292465820795,
+              "maximum": 49.24281295625504
+            },
+            "exactly_zero_variance_dimensions": 4,
+            "variance_le_1e_minus_12_dimensions": 4,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 1.9750800873490868,
+              "minimum": 0.0,
+              "median": 0.23495113206344548,
+              "maximum": 28.704001271637686
+            },
+            "exactly_zero_variance_dimensions": 52,
+            "variance_le_1e_minus_12_dimensions": 52,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 3,
+          "stride": 16,
+          "polarization": "VV",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.5064344140926647,
+              "minimum": 0.5,
+              "median": 0.501953125,
+              "maximum": 0.530029296875
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.4935655860386231,
+              "minimum": 0.469970703125,
+              "median": 0.498046875,
+              "maximum": 0.5
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 59.035696355781894,
+              "minimum": 1.5979098081588745,
+              "median": 44.728248596191406,
+              "maximum": 144.82806396484375
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 68.98223562177583,
+              "minimum": 1.1473660469055176,
+              "median": 50.64363479614258,
+              "maximum": 173.82443237304688
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 128.01793130273862,
+              "minimum": 2.7452757358551025,
+              "median": 94.36970520019531,
+              "maximum": 318.6524658203125
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.5252524557880368,
+              "minimum": 0.41794201731681824,
+              "median": 0.5394740700721741,
+              "maximum": 0.5712536573410034
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 4088.1057268722466,
+              "minimum": 2304.0,
+              "median": 4096.0,
+              "maximum": 4096.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 13.804876789647578,
+              "minimum": 4.25390625,
+              "median": 16.0,
+              "maximum": 16.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 20.337365007998862,
+              "minimum": 0.0,
+              "median": 4.181055827774296,
+              "maximum": 423.38401641503805
+            },
+            "exactly_zero_variance_dimensions": 4,
+            "variance_le_1e_minus_12_dimensions": 4,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 23.7040616894288,
+              "minimum": 0.0,
+              "median": 2.956212810500917,
+              "maximum": 477.79325303067606
+            },
+            "exactly_zero_variance_dimensions": 7,
+            "variance_le_1e_minus_12_dimensions": 7,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        },
+        {
+          "scale": 3,
+          "stride": 16,
+          "polarization": "VH",
+          "measures": {
+            "gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.5234755012432384,
+              "minimum": 0.5078125,
+              "median": 0.519287109375,
+              "maximum": 0.555908203125
+            },
+            "residual_gate_nonzero_fraction": {
+              "count": 227,
+              "mean": 0.4765244986254738,
+              "minimum": 0.444091796875,
+              "median": 0.480712890625,
+              "maximum": 0.4921875
+            },
+            "Fc_energy": {
+              "count": 227,
+              "mean": 127.90811129078466,
+              "minimum": 15.797484397888184,
+              "median": 83.54847717285156,
+              "maximum": 405.984619140625
+            },
+            "Fs_energy": {
+              "count": 227,
+              "mean": 106.06028507249471,
+              "minimum": 10.457229614257812,
+              "median": 67.53176879882812,
+              "maximum": 364.68939208984375
+            },
+            "P_energy": {
+              "count": 227,
+              "mean": 233.96839563647032,
+              "minimum": 26.254714965820312,
+              "median": 154.58062744140625,
+              "maximum": 748.9364624023438
+            },
+            "Fs_energy_fraction": {
+              "count": 227,
+              "mean": 0.43431539538148217,
+              "minimum": 0.34683746099472046,
+              "median": 0.4300084710121155,
+              "maximum": 0.5107539892196655
+            },
+            "supported_channel_elements": {
+              "count": 227,
+              "mean": 4088.1057268722466,
+              "minimum": 2304.0,
+              "median": 4096.0,
+              "maximum": 4096.0
+            },
+            "valid_weight_sum": {
+              "count": 227,
+              "mean": 13.804876789647578,
+              "minimum": 4.25390625,
+              "median": 16.0,
+              "maximum": 16.0
+            }
+          },
+          "Fc_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 56.56767717299367,
+              "minimum": 0.0,
+              "median": 11.609522660690729,
+              "maximum": 571.7222893895836
+            },
+            "exactly_zero_variance_dimensions": 6,
+            "variance_le_1e_minus_12_dimensions": 6,
+            "descriptive_near_zero_threshold": 1e-12
+          },
+          "Fs_cross_sample_GAP_variance": {
+            "dimensions": 256,
+            "population_variance": {
+              "count": 256,
+              "mean": 41.31014933223679,
+              "minimum": 0.0,
+              "median": 6.781981965721901,
+              "maximum": 731.3847475580229
+            },
+            "exactly_zero_variance_dimensions": 9,
+            "variance_le_1e_minus_12_dimensions": 9,
+            "descriptive_near_zero_threshold": 1e-12
+          }
+        }
+      ]
+    }
+  },
+  "original_stage1_heads": {
+    "baseline": {
+      "metrics": {
+        "train": {
+          "accuracy": 0.9387186629526463,
+          "balanced_accuracy": 0.9184466459659063,
+          "macro_f1": 0.9144915148103597,
+          "confusion_matrix": [
+            [
+              219,
+              0,
+              1,
+              1
+            ],
+            [
+              2,
+              62,
+              8,
+              1
+            ],
+            [
+              3,
+              13,
+              125,
+              0
+            ],
+            [
+              12,
+              3,
+              0,
+              268
+            ]
+          ],
+          "count": 718
+        },
+        "validation": {
+          "accuracy": 0.6519823788546255,
+          "balanced_accuracy": 0.5930517070965432,
+          "macro_f1": 0.5899189749387601,
+          "confusion_matrix": [
+            [
+              61,
+              2,
+              5,
+              18
+            ],
+            [
+              4,
+              9,
+              7,
+              3
+            ],
+            [
+              7,
+              2,
+              17,
+              3
+            ],
+            [
+              16,
+              9,
+              3,
+              61
+            ]
+          ],
+          "count": 227
+        }
+      },
+      "validation_checkpoint_replay": {
+        "passed": true,
+        "count_and_confusion_matrix_exact": true,
+        "metric_float_tolerance": 1e-12,
+        "per_observation_history_predictions_available": false
+      }
+    },
+    "disentangle": {
+      "metrics": {
+        "train": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "confusion_matrix": [
+            [
+              221,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              73,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              141,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              283
+            ]
+          ],
+          "count": 718
+        },
+        "validation": {
+          "accuracy": 0.6343612334801763,
+          "balanced_accuracy": 0.5508023359629305,
+          "macro_f1": 0.5546669714417509,
+          "confusion_matrix": [
+            [
+              64,
+              2,
+              4,
+              16
+            ],
+            [
+              8,
+              8,
+              7,
+              0
+            ],
+            [
+              12,
+              4,
+              13,
+              0
+            ],
+            [
+              19,
+              10,
+              1,
+              59
+            ]
+          ],
+          "count": 227
+        }
+      },
+      "validation_checkpoint_replay": {
+        "passed": true,
+        "count_and_confusion_matrix_exact": true,
+        "metric_float_tolerance": 1e-12,
+        "per_observation_history_predictions_available": false
+      }
+    }
+  },
+  "interpretation_notes": [
+    "Independent held-out linear probes assess natural-view linearly decodable class information, not success against the jointly trained discriminator.",
+    "Fs probe performance above uniform guessing is evidence to investigate residual class information; it alone does not establish an implementation bug or disprove useful regularization.",
+    "Low probe accuracy cannot establish causal independence or absence of nonlinear/spatial class information.",
+    "Gate occupancy is measured over valid channel-position elements; zero/near-zero energy and unstandardized cross-sample GAP variance help identify collapse.",
+    "Cross-sample variance is of valid-weighted GAP channels, not registered map pixels; the 1e-12 count is descriptive, not an automatic scientific verdict.",
+    "The original checkpoints were selected by their existing validation protocol, so this validation probe is a development diagnostic, not an untouched external test.",
+    "No training discriminator score is used; this diagnostic alone cannot attribute a discrepancy specifically to fooling that discriminator."
+  ],
+  "provenance": {
+    "manifest_sha256": "05d629ed80e2657de3313970d544a9d9d59cfe4cb7d2cb4abf08d945b604837e",
+    "diagnostic_script_sha256": "3ff315c278444f5fd31cdbbf0d5f0bc879c16d41f7985ec834d65bd2aa0985b9",
+    "code_sha256": {
+      "stage1.py": "4d2cfabbb1909741a9f9cfb925aae8c627170fbbecd7b666b0d502998290c432",
+      "data.py": "f98e2c79e42490220b3620c2563d3cd57240b880b04c7893902fe1d18468d303",
+      "geometry.py": "5e8040f4af022efba6dce50116ca1d16a80520b4e4dee0fe3cf4cd3136754cdf",
+      "contracts.py": "27286268e395436a1fae11f83a70b224ae3a1587deb258a0b0c6614b710255d0",
+      "cli.py": "e91aa97f3cf11c48e998a3d7d94d2b192e71a32c6b30f172acf65c3308069735"
+    },
+    "sklearn_version": "1.7.2",
+    "numpy_version": "2.3.5",
+    "torch_version": "2.10.0+cu128",
+    "device": "cuda"
+  }
+}
