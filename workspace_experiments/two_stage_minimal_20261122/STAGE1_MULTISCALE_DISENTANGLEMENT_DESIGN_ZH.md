@@ -1,6 +1,6 @@
 # 第一阶段完整流程：独立双极化 ConvNeXt-T 前三阶段 + 本层通路与弱深层注入
 
-日期：2026-11-22。状态：采用独立双极化ConvNeXt-T前三阶段、本层通路加弱深层注入，沿用64主要画布、96/128按几何回退及6px主要候选/8px基线。四类损失与冻结Fc/G接口保留；本轮经用户确认，将OSS2的L_leak定义为经验类别抑制正则，另用操作级资格接入，严格受控模式仍为默认。首版独立入口已通过92项回归，包含合成训练与保存恢复；本次OSS2经验正则协议的真实训练和收益尚待验证。运行说明见[两阶段代码说明](<E:/临时会话/port_prototype_model_20261121/TWO_STAGE_README_ZH.md>)。
+日期：2026-11-22。状态：采用独立双极化ConvNeXt-T前三阶段、本层通路加弱深层注入，沿用64主要画布、96/128按几何回退及6px主要候选/8px基线。四类损失与冻结Fc/G接口保留；本轮经用户确认，将OSS2的L_leak定义为经验类别抑制正则，另用操作级资格接入，严格受控模式仍为默认。首版独立入口已通过92项回归，包含合成训练与保存恢复；本次OSS2经验正则协议的真实训练和收益尚待验证。运行说明见[两阶段代码说明](<D:/SAR_Experiments/cross_port_sar_ship_ATR/port_prototype_model_20261121/TWO_STAGE_README_ZH.md>)。
 
 ## 1. 固定主线与两阶段边界
 
@@ -45,7 +45,7 @@
 
 强度处理单独配置：当前自建芯片上游已有地理编码/8bit映射，OSS2使用既有uint8芯片；“原像素”指保留这些现有芯片的空间采样和数值，不声称原始传感器或物理后向散射值未被处理。网络输入的固定强度归一化使用源训练集的各极化统计，不随S或裁后内容重新做逐图min–max。填充位置在训练张量中按V置零，处理参数随检查点保存。
 
-交付V、T、Q、极化可用性a∈{0,1}²、canvas_hw、保护半径、整数crop/pad变换及目标几何。尺寸选择不使用查询类别或港口。64只减少背景与填充，12px长的船仍为12px；它不增加原生分辨率或保证更多原子。骨干上下文范围随画布改变，分类影响待实验。尺寸、按类/港覆盖、保护带敏感性及格点复核见[原生画布统计](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/native_canvas_audit_20261122/FINDINGS_ZH.md>)。
+交付V、T、Q、极化可用性a∈{0,1}²、canvas_hw、保护半径、整数crop/pad变换及目标几何。尺寸选择不使用查询类别或港口。64只减少背景与填充，12px长的船仍为12px；它不增加原生分辨率或保证更多原子。骨干上下文范围随画布改变，分类影响待实验。尺寸、按类/港覆盖、保护带敏感性及格点复核见[原生画布统计](<D:/SAR_Experiments/cross_port_sar_ship_ATR/native_canvas_audit_20261122/FINDINGS_ZH.md>)。
 
 **实际数据与资格。** OSS2原始训练719、验证228、历史测试378条的共同像素来源链已逐条核查，以派生记录恢复缺检测的极化分支；同网格证据不等于实测物理残余配准精度。输入审计按目标几何超出原生边界的同一规则排除7条（训练1、验证1、历史测试5），三组实际共用1318条：训练718、验证227、历史测试373，全部适配64画布。具体记录见实验目录`preflight_summary.json`，历史统计表不改为本轮分母。
 
@@ -90,7 +90,7 @@
 |自建24港／8px基线|12,563|3,306（26.3%）|7,074（56.3%）|2,183（17.4%）|
 |自建24港／6px候选|12,563|2,667（21.2%）|5,812（46.3%）|4,084（32.5%）|
 
-保持长度8而取消格点限制，≥3原子也只达到OSS2的14.1%、自建数据的17.4%，因此本轮优先调整长度。6px候选保留两个有效中心和4px跨度，增加的是合法细分机会；现有统计未测量训练后的局部可靠性或分类收益。自建数据采用VV优先、否则VH的完整参考几何；双路联合使用仍需验证共同坐标。完整规则、按类／港口分布及配准子集核对见[原子覆盖统计](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/atom_coverage_audit_20261122/FINDINGS_ZH.md>)。
+保持长度8而取消格点限制，≥3原子也只达到OSS2的14.1%、自建数据的17.4%，因此本轮优先调整长度。6px候选保留两个有效中心和4px跨度，增加的是合法细分机会；现有统计未测量训练后的局部可靠性或分类收益。自建数据采用VV优先、否则VH的完整参考几何；双路联合使用仍需验证共同坐标。完整规则、按类／港口分布及配准子集核对见[原子覆盖统计](<D:/SAR_Experiments/cross_port_sar_ship_ATR/atom_coverage_audit_20261122/FINDINGS_ZH.md>)。
 
 采用第2节的64/96/128分桶与8px保护带后，OSS2的6px计数为85／413／184（1／2／≥3原子），8px为106／481／95；自建两配置分别仍为2,667／5,812／4,084和3,306／7,074／2,183。OSS2有402艘、自建49艘的stride4格点相位变化，逐一重算后，6px原子数变化77／0艘，8px变化17／0艘。6px的≥3原子比例因此为27.0%／32.5%；不是缩小画布提高了真实分辨率。未变相位且目标完整的样本，其目标内格点归属和覆盖保持。实际特征仍必须重新提取。
 
@@ -117,7 +117,7 @@
 
 通道数与块数采用标准ConvNeXt-T的前三阶段。Stem输入通道由RGB的3改为1；加载RGB权重时按三通道求和初始化，再复制到两个独立分支。其与灰度复制三通道的首层响应等价仅在各通道预处理相同时成立。两极化强度归一化从源训练集分别固定，不加载自动resize到ImageNet尺寸的预处理。
 
-真实数据支持细粗层分工：64桶下，符合既定长轴两半读出资格的比例，OSS2为stride4/8/16的87.54%/2.64%/0，自建为78.59%/9.32%/0。C1主要提供局部证据，C2兼顾较粗结构，C3保留整体语义和上下文。该统计不关闭任何尺度的整体类别监督；96/128回退样本仍逐层按几何检查。来源见[骨干、融合与门控复核](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/native_canvas_audit_20261122/STAGE_DEPTH_FUSION_GATE_REVIEW_ZH.md>)。
+真实数据支持细粗层分工：64桶下，符合既定长轴两半读出资格的比例，OSS2为stride4/8/16的87.54%/2.64%/0，自建为78.59%/9.32%/0。C1主要提供局部证据，C2兼顾较粗结构，C3保留整体语义和上下文。该统计不关闭任何尺度的整体类别监督；96/128回退样本仍逐层按几何检查。来源见[骨干、融合与门控复核](<D:/SAR_Experiments/cross_port_sar_ship_ATR/native_canvas_audit_20261122/STAGE_DEPTH_FUSION_GATE_REVIEW_ZH.md>)。
 
 ## 4. 三层投影、本层通路与弱深层注入
 
@@ -376,7 +376,7 @@ encoder_fingerprint与geometry_fingerprint分开保存；match_representation_fi
 
 当前主配置标识：backbone_profile=convnext_tiny_stages123_v1，independent_polarizations=true，fusion_profile=residual_deep_injection_v1，λ_fuse,max=1，λ_fuse,init=0.1，β_fuse,init=(0.5,0.5)。其余为native_crop_pad_bucket_64_96_128_v1、protect_margin_px=8（候选）、joint_gate、3_output_scales、d=256、spatial_axis_v1、readout_width=64、axis_order_symmetry=on、geometry_schema=obb_long_axis_atoms_v2。主候选geometry_profile=main_l6，长度向量(6,16,32)；基线baseline_l8为(8,16,32)。门控与四类损失公式保留，类别抑制的模式与资格以第6.4–6.5节为准；阶段末冻结已有G，按第8节交付H。
 
-H接口另存descriptor_mode=frozen_g_prepool_v1、cut_mode=geometry_area、transport_mass=area、region_weight_alpha=0.25及prior_distillation=false；A的0.25有界混合系数属于源端选择的候选，不是实验最优值。代码位于原工程的独立 [sar_port/two_stage](<E:/临时会话/port_prototype_model_20261121/sar_port/two_stage/>) 路径，旧ResNet入口保留为历史对照。
+H接口另存descriptor_mode=frozen_g_prepool_v1、cut_mode=geometry_area、transport_mass=area、region_weight_alpha=0.25及prior_distillation=false；A的0.25有界混合系数属于源端选择的候选，不是实验最优值。代码位于原工程的独立 [sar_port/two_stage](<D:/SAR_Experiments/cross_port_sar_ship_ATR/port_prototype_model_20261121/sar_port/two_stage/>) 路径，旧ResNet入口保留为历史对照。
 
 保留配置接口：骨干/阶段数、画布桶/统一画布模式、保护半径、强度预处理、融合模式、注入初始化/上界/开关、d、门控内部宽度与分支、τ、路由比例、干预强度、四类目标权重、D容量，以及空间/GAP读出、读出宽度、轴有效阈值、原生覆盖阈值和槽位交换对称。显式关闭深层注入时直接令λ_fuse=0并移除无作用的注入参数，不用有限sigmoid值冒充精确关闭。改变骨干/融合或输入按第8节更新模型/特征依赖，改变几何规则同步H几何缓存。输入消融固定main_l6和本骨干/融合；6/8长度对照固定同一输入与结构。
 
@@ -399,9 +399,9 @@ H接口另存descriptor_mode=frozen_g_prepool_v1、cut_mode=geometry_area、tran
 - ConvNeXt 原论文 A ConvNet for the 2020s，arXiv:2201.03545；Torchvision官方 convnext 源码：核对标准 stem、stage通道/深度、downsample。本文给出64主画布及96/128回退的算子尺寸推导。
 - EfficientDet: Scalable and Efficient Object Detection，arXiv:1911.09070，第3.3节：可学习融合权重。本文直接单向连接为研究适配，不称完整BiFPN。
 - SAR 因果解耦文献作为前轮背景；本方案具体监督组合与有效性仍待本任务实验，不把结构提案写成既有论文已证实结论。
-- 2026-11-22文献与真实数据复核：[两阶段评审](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/literature_review_20261122/TWO_STAGE_LITERATURE_REVIEW_ZH.md>)。本版空间类别读出、原生网格合法性和无向轴槽位对称为该评审后的具体设计选择，不新增一项损失。
-- 2026-11-22源端原子覆盖统计：[完整报告](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/atom_coverage_audit_20261122/FINDINGS_ZH.md>)。用户据此确定stride4长度6px为主要候选、8px为基线；其余约束不变。
-- 2026-11-22原生画布审计：[尺寸、保护区、类别/港口和新画布原子统计](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/native_canvas_audit_20261122/FINDINGS_ZH.md>)。依据已核验源几何确定64主要画布与96/128回退；8px保护带仅为明确的候选参数，可信Q覆盖与分类影响仍需验证。
-- [64输入下的骨干、融合与门控复核](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/native_canvas_audit_20261122/STAGE_DEPTH_FUSION_GATE_REVIEW_ZH.md>)及stage_grid_summary_64.csv：支持本版尺度职责划分；骨干选择与弱注入的分类收益尚待配套实验。该历史复核中的候选已由本轮确定为设计主配置。
+- 2026-11-22文献与真实数据复核：[两阶段评审](<D:/SAR_Experiments/cross_port_sar_ship_ATR/literature_review_20261122/TWO_STAGE_LITERATURE_REVIEW_ZH.md>)。本版空间类别读出、原生网格合法性和无向轴槽位对称为该评审后的具体设计选择，不新增一项损失。
+- 2026-11-22源端原子覆盖统计：[完整报告](<D:/SAR_Experiments/cross_port_sar_ship_ATR/atom_coverage_audit_20261122/FINDINGS_ZH.md>)。用户据此确定stride4长度6px为主要候选、8px为基线；其余约束不变。
+- 2026-11-22原生画布审计：[尺寸、保护区、类别/港口和新画布原子统计](<D:/SAR_Experiments/cross_port_sar_ship_ATR/native_canvas_audit_20261122/FINDINGS_ZH.md>)。依据已核验源几何确定64主要画布与96/128回退；8px保护带仅为明确的候选参数，可信Q覆盖与分类影响仍需验证。
+- [64输入下的骨干、融合与门控复核](<D:/SAR_Experiments/cross_port_sar_ship_ATR/native_canvas_audit_20261122/STAGE_DEPTH_FUSION_GATE_REVIEW_ZH.md>)及stage_grid_summary_64.csv：支持本版尺度职责划分；骨干选择与弱注入的分类收益尚待配套实验。该历史复核中的候选已由本轮确定为设计主配置。
 
-- 本轮最小修正：保留冻结G作为匹配前空间读出；几何cut、面积OT与最终有界区域加权分别承担结构、容量及任务权重职责，详见[第二阶段设计](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/STAGE2_H_MULTIPORT_EVIDENCE_DESIGN_ZH.md>)。
+- 本轮最小修正：保留冻结G作为匹配前空间读出；几何cut、面积OT与最终有界区域加权分别承担结构、容量及任务权重职责，详见[第二阶段设计](<D:/SAR_Experiments/cross_port_sar_ship_ATR/STAGE2_H_MULTIPORT_EVIDENCE_DESIGN_ZH.md>)。

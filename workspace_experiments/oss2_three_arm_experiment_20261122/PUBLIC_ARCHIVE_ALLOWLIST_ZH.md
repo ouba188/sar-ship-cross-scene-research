@@ -7,7 +7,7 @@
 仓库根为 `E:/临时会话/_sar_ship_cross_scene_incremental_git`。同步位置固定为：
 
 - `workspace_experiments/run_on_d.py`、`workspace_experiments/STORAGE_LAYOUT_ZH.md`：D 盘启动器和存储说明；保持启动器与实验目录的相对层级。
-- `workspace_experiments/port_prototype_model_20261121/`：代码根 `E:/临时会话/port_prototype_model_20261121` 的显式源码清单。
+- `workspace_experiments/port_prototype_model_20261121/`：代码根 `D:/SAR_Experiments/cross_port_sar_ship_ATR/port_prototype_model_20261121` 的显式源码清单。
 - `workspace_experiments/oss2_three_arm_experiment_20261122/`：本轮公开实验工具、文档及聚合结果。
 - `workspace_experiments/oss2_h_tuning_20261122/`：独立 H 融合验证调优工具、计划及聚合结果。
 - `workspace_experiments/two_stage_minimal_20261122/`：两份现有设计文档原归档目录。
@@ -50,7 +50,7 @@
 
 ## 独立调优目录
 
-必需：`TUNING_PLAN_ZH.md`、`scan_validation.py`、`test_scan_validation.py`、`collect_fusion_scan.py`。
+必需：`TUNING_PLAN_ZH.md`、`scan_validation.py`、`test_scan_validation.py`、`collect_fusion_scan.py`、`evaluate_selected_gamma.py`。
 
 可选：`FINDINGS_ZH.md`、`selected_gamma.json`、`aggregate_fusion_scan_summary.json`、`fusion_candidate_table.csv`，以及 `final_seed17/`、`final_seed29/`、`final_seed43/` 下各自的 `aggregate_validation_fusion_scan.json`。公共 JSON 不得含原检查点绝对路径；检查点哈希和相对公共扫描文件名可以保留。未来调优测试汇总需另行显式加入，不按通配符自动收录。
 

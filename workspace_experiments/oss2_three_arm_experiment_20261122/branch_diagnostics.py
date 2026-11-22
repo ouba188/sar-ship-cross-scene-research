@@ -21,7 +21,7 @@ import torch
 
 
 ROOT = Path(__file__).resolve().parent
-CODE = Path('E:/临时会话/port_prototype_model_20261121')
+CODE = ROOT.parent/'port_prototype_model_20261121'
 BRANCHES = ('baseline_P', 'disentangle_Fc', 'disentangle_Fs')
 
 

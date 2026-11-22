@@ -16,7 +16,7 @@ import zipfile
 
 
 WORK = Path(__file__).resolve().parent.parent
-CODE = Path('E:/临时会话/port_prototype_model_20261121')
+CODE = WORK/'port_prototype_model_20261121'
 REPO = Path('E:/临时会话/_sar_ship_cross_scene_incremental_git')
 SAMPLE_ID = re.compile(r'pub2_opensarship2_\d+', re.IGNORECASE)
 TEXT_SUFFIXES = {'.py', '.md', '.json', '.csv', '.toml', '.txt'}
@@ -61,7 +61,8 @@ aggregate_validation_subgroups.json aggregate_test_subgroups.json
 collected/validation/aggregate_summary.json collected/validation/aggregate_summary.csv
 collected/test/aggregate_summary.json collected/test/aggregate_summary.csv
 real_smoke_summary.json real_smoke_original_loop.json'''.split()
-TUNING_REQUIRED = ['TUNING_PLAN_ZH.md','scan_validation.py','test_scan_validation.py','collect_fusion_scan.py']
+TUNING_REQUIRED = ['TUNING_PLAN_ZH.md','scan_validation.py','test_scan_validation.py','collect_fusion_scan.py',
+                   'evaluate_selected_gamma.py']
 TUNING_OPTIONAL = ['FINDINGS_ZH.md','aggregate_fusion_scan_summary.json',
                    'fusion_candidate_table.csv','selected_gamma.json']
 TUNING_OPTIONAL += [f'final_seed{seed}/aggregate_validation_fusion_scan.json' for seed in (17,29,43)]

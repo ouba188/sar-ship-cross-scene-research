@@ -34,6 +34,6 @@
 
 本轮显式采用`empirical_regularization`，强`leakage_controlled`全部false；只有合格补充query激活经验KL/D。原始sensor nodata mask尚未知，以`stored_native_pixel_footprint`约定标记存储像素覆盖，保留`training_qualified=false`，另记`empirical_experiment_eligible=true`。20个样本双极化纯Q格数为stride4/8/16的320/0/0，只有stride4场景回归有直接监督，不宣称中、深尺度各自接受背景监督。
 
-[真实批次工程记录](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/oss2_three_arm_experiment_20261122/real_smoke_summary.json>)显示8个query的cls/scene/inv/leak均非零、门控梯度有限，经验参与8条且四类各2、强受控参与0；该记录的`formal_training=false`。这是正式运行前的接入核验，不证明已经解耦或产生涨点。
+[真实批次工程记录](<D:/SAR_Experiments/cross_port_sar_ship_ATR/oss2_three_arm_experiment_20261122/real_smoke_summary.json>)显示8个query的cls/scene/inv/leak均非零、门控梯度有限，经验参与8条且四类各2、强受控参与0；该记录的`formal_training=false`。这是正式运行前的接入核验，不证明已经解耦或产生涨点。
 
-随后三组、三种子正式训练已启动，代码与配置锁定，尚无完整三组收益结论。固定seed17/29/43，第一阶段/h0/H分别20/10/20 epoch，以验证BA选模；完整H复用同seed经验解耦的已选base。最新进度见[运行状态](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/oss2_three_arm_experiment_20261122/state_local.json>)，解释与评估边界见[固定实验协议](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/oss2_three_arm_experiment_20261122/EXPERIMENT_PROTOCOL_ZH.md>)。历史测试已有曝光，不用于调参，不称新盲测；OSS2港口代理也不等同严格跨港留一。本文只记录工程核验与运行状态，不报告尚不存在的正式精度或增量收益。
+随后三组、三种子正式训练已启动，代码与配置锁定，尚无完整三组收益结论。固定seed17/29/43，第一阶段/h0/H分别20/10/20 epoch，以验证BA选模；完整H复用同seed经验解耦的已选base。最新进度见[运行状态](<D:/SAR_Experiments/cross_port_sar_ship_ATR/oss2_three_arm_experiment_20261122/state_local.json>)，解释与评估边界见[固定实验协议](<D:/SAR_Experiments/cross_port_sar_ship_ATR/oss2_three_arm_experiment_20261122/EXPERIMENT_PROTOCOL_ZH.md>)。历史测试已有曝光，不用于调参，不称新盲测；OSS2港口代理也不等同严格跨港留一。本文只记录工程核验与运行状态，不报告尚不存在的正式精度或增量收益。

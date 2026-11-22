@@ -1,6 +1,6 @@
 # 第二阶段H：冻结G空间描述、几何划分与多港口证据匹配
 
-日期：2026-11-22。状态：首版独立入口通过92项回归，含合成训练、冻结、保存恢复及评估；本轮OSS2的真实训练和收益尚待验证。第一阶段为独立双极化ConvNeXt-T前三阶段与弱深层注入，四类损失保留；默认strict_controlled，本轮经用户批准采用empirical_regularization，L_leak为经验类别抑制正则，强受控标记仍为false。H期间完整冻结编码器及六套G；64画布、96/128回退、spatial_axis_v1和main_l6／baseline_l8几何保持。运行说明见[两阶段代码说明](<E:/临时会话/port_prototype_model_20261121/TWO_STAGE_README_ZH.md>)。
+日期：2026-11-22。状态：首版独立入口通过92项回归，含合成训练、冻结、保存恢复及评估；本轮OSS2的真实训练和收益尚待验证。第一阶段为独立双极化ConvNeXt-T前三阶段与弱深层注入，四类损失保留；默认strict_controlled，本轮经用户批准采用empirical_regularization，L_leak为经验类别抑制正则，强受控标记仍为false。H期间完整冻结编码器及六套G；64画布、96/128回退、spatial_axis_v1和main_l6／baseline_l8几何保持。运行说明见[两阶段代码说明](<D:/SAR_Experiments/cross_port_sar_ship_ATR/port_prototype_model_20261121/TWO_STAGE_README_ZH.md>)。
 
 本版用冻结G承接第一阶段空间监督；区域划分与运输容量由几何决定；A仅在匹配后学习有界区域权重。停用教师响应探针、先验KL和学习式动态细分，保留多港口多原型、跨位置/邻尺度匹配及多个参考来源。旧方案的历史边界见第12节。
 
@@ -8,7 +8,7 @@
 
 ### 1.1 冻结输入与三尺度职责
 
-[第一阶段第8节](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/STAGE1_MULTISCALE_DISENTANGLEMENT_DESIGN_ZH.md>)交付E_c、六套G、几何与有效性元数据。E_c为每极化Stage 1–3（3/3/9个block）→ 256通道投影 → 本层/弱深层注入 → 3×3整合 → 原门控/确定性路由。模型身份为convnext_tiny_stages123_v1 / residual_deep_injection_v1。β_fuse、λ_fuse与G一起冻结；H边内β是另一个可训练模块。
+[第一阶段第8节](<D:/SAR_Experiments/cross_port_sar_ship_ATR/STAGE1_MULTISCALE_DISENTANGLEMENT_DESIGN_ZH.md>)交付E_c、六套G、几何与有效性元数据。E_c为每极化Stage 1–3（3/3/9个block）→ 256通道投影 → 本层/弱深层注入 → 3×3整合 → 原门控/确定性路由。模型身份为convnext_tiny_stages123_v1 / residual_deep_injection_v1。β_fuse、λ_fuse与G一起冻结；H边内β是另一个可训练模块。
 
 64主画布的同桶batch接口：
 
@@ -28,7 +28,7 @@
 
 非根局部逐层检查observable：main_l6的最小长度为6/16/32原像素，baseline_l8为8/16/32；均要求至少2个有效归属中心、跨度≥4/8/16px、单格及区域覆盖≥0.5。根整体使用v_pool有效分支。上采样不会增加粗层的局部资格。
 
-64桶首次长轴两半的合法覆盖，OSS2为87.54%/2.64%/0，自建为78.59%/9.32%/0。因此F1承担主要局部，F2按资格开放粗局部，F3通常承担整体。统计只说明几何读出资格，不衡量语义信息量；分母及计算见[逐层审计](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/native_canvas_audit_20261122/STAGE_DEPTH_FUSION_GATE_REVIEW_ZH.md>)。
+64桶首次长轴两半的合法覆盖，OSS2为87.54%/2.64%/0，自建为78.59%/9.32%/0。因此F1承担主要局部，F2按资格开放粗局部，F3通常承担整体。统计只说明几何读出资格，不衡量语义信息量；分母及计算见[逐层审计](<D:/SAR_Experiments/cross_port_sar_ship_ATR/native_canvas_audit_20261122/STAGE_DEPTH_FUSION_GATE_REVIEW_ZH.md>)。
 
 C3/L3深层信息已在第一阶段门控前弱注入细层；门控后的F3不在H中回写F1/F2。F3仍进入h0、区域评分A及离线原型代表选择。若根或较大区域有合法同/邻层参考分支，也可进入对应匹配；它不会被复制为多个不可分辨小区域的独立描述。
 
@@ -136,9 +136,9 @@ h0拟合完成后冻结参数、六个源端RMS标量和运行状态，正常前
 
 这些是长度上界，不保证某角度／有效掩码一定通过检查；真实树可因分支资格不同而有3、5等非2次幂叶数。最大树8原子与实际匹配最多4叶是两项独立预算。报告各类／港／尺寸段的实际原子数，而不以L/6替代几何检查。
 
-**真实源端覆盖。** 原128画布审计按固定首次观测、MMSI去重，OSS2的682艘兼容船由8px的1／2／≥3原子=109／479／94，变为6px的86／415／181；自建24港12,563艘由3,306／7,074／2,183变为2,667／5,812／4,084。仅放宽跨度或覆盖权重几乎不增加≥3比例，本轮维持原值。OSS2另1艘、自建另18艘原始截断单列；自建结果为完整参考极化几何统计。原口径保存在[源端原子覆盖报告](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/atom_coverage_audit_20261122/FINDINGS_ZH.md>)。
+**真实源端覆盖。** 原128画布审计按固定首次观测、MMSI去重，OSS2的682艘兼容船由8px的1／2／≥3原子=109／479／94，变为6px的86／415／181；自建24港12,563艘由3,306／7,074／2,183变为2,667／5,812／4,084。仅放宽跨度或覆盖权重几乎不增加≥3比例，本轮维持原值。OSS2另1艘、自建另18艘原始截断单列；自建结果为完整参考极化几何统计。原口径保存在[源端原子覆盖报告](<D:/SAR_Experiments/cross_port_sar_ship_ATR/atom_coverage_audit_20261122/FINDINGS_ZH.md>)。
 
-按当前64/96/128分桶、8px保护带重新计算，OSS2的8px原子配置为106／481／95，6px为85／413／184；自建两种配置的计数保持上述数值。6px下至少两区域覆盖为OSS2的87.5%、自建78.8%，≥3原子机会为27.0%／32.5%。不同整数窗口引起格点相位变化，不能把小幅计数变化解释为分辨率提升；逐样本复核见[原生画布审计](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/native_canvas_audit_20261122/FINDINGS_ZH.md>)。这些比例均不等于合法跨船匹配或分类受益率，应分别统计。
+按当前64/96/128分桶、8px保护带重新计算，OSS2的8px原子配置为106／481／95，6px为85／413／184；自建两种配置的计数保持上述数值。6px下至少两区域覆盖为OSS2的87.5%、自建78.8%，≥3原子机会为27.0%／32.5%。不同整数窗口引起格点相位变化，不能把小幅计数变化解释为分辨率提升；逐样本复核见[原生画布审计](<D:/SAR_Experiments/cross_port_sar_ship_ATR/native_canvas_audit_20261122/FINDINGS_ZH.md>)。这些比例均不等于合法跨船匹配或分类受益率，应分别统计。
 
 **区域有效量。** 对每个实际区域R_i及(l,p)保存v_pool和v_match。v_pool要求w_pool之和>0；根整体按v_pool直接比较，非根叶须observable。匹配资格由固定几何得到，与类别、门控值、相似度及A无关。本版不生成v_probe或teacher_cache。
 
@@ -581,7 +581,7 @@ flowchart TD
 
 实际分区为718 train、227 val、373历史测试回归，selection194隔离；7个原始目标几何超界样本（训练1、验证1、历史测试5）在三组统一排除，清单与理由保留。训练样本、donor、归一化和原型库不借用验证/测试；OSS2港口代理与此分区不构成严格跨港留一。只依验证结果定位持续正确/错误、救回与误伤案例；配置锁定后统一测试，不根据测试调参。测试在历史工作中已有曝光，只能称历史测试回归，不能包装成新的盲测。
 
-真实8query批次已完成四项损失非零与门控梯度有限的工程核验，强受控样本数仍为0。正式训练的逐epoch覆盖、冻结E_c/G/h0不变、H实际梯度及参考隔离均需随运行核验。固定协议与审计依据另见[本轮实验协议](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/oss2_three_arm_experiment_20261122/EXPERIMENT_PROTOCOL_ZH.md>)；当前不报告正式训练完成或性能提升。
+真实8query批次已完成四项损失非零与门控梯度有限的工程核验，强受控样本数仍为0。正式训练的逐epoch覆盖、冻结E_c/G/h0不变、H实际梯度及参考隔离均需随运行核验。固定协议与审计依据另见[本轮实验协议](<D:/SAR_Experiments/cross_port_sar_ship_ATR/oss2_three_arm_experiment_20261122/EXPERIMENT_PROTOCOL_ZH.md>)；当前不报告正式训练完成或性能提升。
 
 ## 11. 可插拔范围与最小验证
 
@@ -619,11 +619,11 @@ flowchart TD
 - 合法性仅由观测/身份条件确定，不能按相似度或接受率移除弱参考；最终无支持区域不重新分配ω。
 - Fc/G信息是否空间常量、64维是否保留同类差异，需通过整船描述替代局部描述等诊断判断；分类成功不单独证明局部部件语义。
 
-实现入口为 [sar_port/two_stage](<E:/临时会话/port_prototype_model_20261121/sar_port/two_stage/>)，与旧ResNet/M1/M2/M3路径并存。验证完成情况由对应实现记录说明；本设计文档不把未运行的正式实验写成已完成结果。
+实现入口为 [sar_port/two_stage](<D:/SAR_Experiments/cross_port_sar_ship_ATR/port_prototype_model_20261121/sar_port/two_stage/>)，与旧ResNet/M1/M2/M3路径并存。验证完成情况由对应实现记录说明；本设计文档不把未运行的正式实验写成已完成结果。
 
 ## 12. 研究依据与历史方案边界
 
-- 多港口真实船原型、多位置/多尺度匹配与分层聚合沿用用户研究主线。真实问题依据：[文献与数据复核](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/literature_review_20261122/TWO_STAGE_LITERATURE_REVIEW_ZH.md>)、[原子覆盖统计](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/atom_coverage_audit_20261122/FINDINGS_ZH.md>)、[原生画布审计](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/native_canvas_audit_20261122/FINDINGS_ZH.md>)。
+- 多港口真实船原型、多位置/多尺度匹配与分层聚合沿用用户研究主线。真实问题依据：[文献与数据复核](<D:/SAR_Experiments/cross_port_sar_ship_ATR/literature_review_20261122/TWO_STAGE_LITERATURE_REVIEW_ZH.md>)、[原子覆盖统计](<D:/SAR_Experiments/cross_port_sar_ship_ATR/atom_coverage_audit_20261122/FINDINGS_ZH.md>)、[原生画布审计](<D:/SAR_Experiments/cross_port_sar_ship_ATR/native_canvas_audit_20261122/FINDINGS_ZH.md>)。
 - SuperGlue（arXiv:1911.11763）提供dustbin与可微部分匹配的相关方法背景；本方案使用区域类别监督，不具备其精确对应标签。ProtoPNet（arXiv:1806.10574）提供局部原型分类背景；本库为分港组织的真实整船空间特征集合。
 - 原子树、几何代价、面积OT、冻结G复用及有界最终权重是本项目针对低分辨率SAR的设计组合，其分类与跨港收益需配套实验验证。
 - 历史版以h0双向内容探针和幅值对照生成可信原子集合，在集合内计算KL，再由全原子A控制cut与运输容量。条件KL不能确定集合外总质量，且教师任务响应不直接等于匹配价值。本版停用该训练链，不加载其先验缓存，也不把最终权重A解释为教师因果贡献。

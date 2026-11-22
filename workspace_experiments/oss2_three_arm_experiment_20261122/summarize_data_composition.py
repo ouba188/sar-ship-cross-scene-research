@@ -10,7 +10,7 @@ import torch
 
 ROOT = Path(__file__).resolve().parent
 WORK = ROOT.parent
-CODE = Path('E:/临时会话/port_prototype_model_20261121')
+CODE = ROOT.parent/'port_prototype_model_20261121'
 sys.path.insert(0, str(CODE))
 from sar_port.two_stage.cache import cache_key
 from sar_port.two_stage.data import InputConfig

@@ -17,7 +17,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parent
 SEEDS = (17, 29, 43)
-DEFAULT_CODE_ROOT = Path('E:/临时会话/port_prototype_model_20261121')
+DEFAULT_CODE_ROOT = ROOT.parent/'port_prototype_model_20261121'
 LAUNCH = "import numpy, runpy; runpy.run_module('sar_port.two_stage.cli', run_name='__main__')"
 TRAIN_STAGES = ('baseline_stage1', 'baseline_base', 'disentangle_stage1', 'disentangle_base', 'full_h')
 EVALUATION_ARMS = {'baseline': 'baseline_base', 'disentangle': 'disentangle_base', 'full_h': 'full_h'}

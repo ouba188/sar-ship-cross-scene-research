@@ -74,7 +74,7 @@ python -m sar_port.two_stage.cli evaluate --manifest manifest.json --config conf
 
 `train-base` 只接受 stage1 检查点，保存独立 base 结果；`train-h` 接受 stage1 或 base。直接传 stage1 仍兼容内部先训 h0 的旧路径；三组增量对照使用上面的独立 base 路径，复用已选 h0，避免重训造成比较对象变化。接续 base 时要求清单、源划分和 H 配置一致，冻结 E/G/h0。
 
-当前 OSS2 三组、三种子训练正在进行，配置和代码已经锁定。固定预算为第一阶段20、h0为10、H为20 epoch；验证 BA 选模。最新进度以[运行状态](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/oss2_three_arm_experiment_20261122/state_local.json>)为准，输入与测试边界见[实验协议](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/oss2_three_arm_experiment_20261122/EXPERIMENT_PROTOCOL_ZH.md>)。历史测试已经曝光，待所有训练完成、配置锁定后统一回归，不用于调参。
+当前 OSS2 三组、三种子训练正在进行，配置和代码已经锁定。固定预算为第一阶段20、h0为10、H为20 epoch；验证 BA 选模。最新进度以[运行状态](<D:/SAR_Experiments/cross_port_sar_ship_ATR/oss2_three_arm_experiment_20261122/state_local.json>)为准，输入与测试边界见[实验协议](<D:/SAR_Experiments/cross_port_sar_ship_ATR/oss2_three_arm_experiment_20261122/EXPERIMENT_PROTOCOL_ZH.md>)。历史测试已经曝光，待所有训练完成、配置锁定后统一回归，不用于调参。
 
 检查点保存 E/G、h0、H 参数、归一化和几何配置、源划分、标签映射、真实参考 ID 和表示版本。加载完整检查点不依赖原初始化文件。H 的 CPU 特征目前缓存在内存；参考投影每步用当前 φ 重算，双侧梯度保留。此版尚未提供大数据集的磁盘分块特征缓存或中断续训优化器状态。
 
