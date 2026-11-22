@@ -1,0 +1,470 @@
+{
+  "scope": "Read-only train/validation optimization review; no Torch/checkpoint/test predictions",
+  "config_differences_between_disentangle_seeds": [
+    "seed"
+  ],
+  "effective_gate": {
+    "rho_min": 0.5,
+    "rho_max": 0.95,
+    "temperature": 1.0,
+    "quota_unit": "per-polarization per-scale channel-by-spatial element",
+    "temperature_changes_fixed_weight_hard_mask": false
+  },
+  "selected_history_rule": "first strict maximum validation BA among eligible epochs; disentangle eligible from epoch3",
+  "natural_uniform_prior_ce": 1.3862943611198906,
+  "results": [
+    {
+      "seed": 17,
+      "selected_epoch": 11,
+      "selected": {
+        "epoch": 11,
+        "ba": 0.5655943585562849,
+        "ce": 0.0041047969479745434,
+        "scene": 0.010526530927621779,
+        "discriminator_ce_per_active_batch": 2.2763217091560364,
+        "prior_kl_per_active_batch": 0.729118674993515,
+        "invariant_huber_per_active_batch": 0.04872462898492813,
+        "all_step_mean_aux_to_ce": 3.8254150579508237
+      },
+      "curve": [
+        {
+          "epoch": 1,
+          "ba": 0.36303758233242933,
+          "ce": 1.2529817654731426,
+          "scene": 0.1250997016285645,
+          "discriminator_ce_per_active_batch": 1.3773991763591766,
+          "prior_kl_per_active_batch": 0.007772102952003479,
+          "invariant_huber_per_active_batch": 0.005727616313379258,
+          "all_step_mean_aux_to_ce": null
+        },
+        {
+          "epoch": 2,
+          "ba": 0.4424100988439671,
+          "ce": 1.0913674913822335,
+          "scene": 0.0900924026649049,
+          "discriminator_ce_per_active_batch": 1.2983148097991943,
+          "prior_kl_per_active_batch": 0.030850685201585293,
+          "invariant_huber_per_active_batch": 0.008342607441591099,
+          "all_step_mean_aux_to_ce": null
+        },
+        {
+          "epoch": 3,
+          "ba": 0.4126499103466297,
+          "ce": 0.9550005413116293,
+          "scene": 0.07678960254812177,
+          "discriminator_ce_per_active_batch": 1.27140474319458,
+          "prior_kl_per_active_batch": 0.042643518187105656,
+          "invariant_huber_per_active_batch": 0.01427189679816365,
+          "all_step_mean_aux_to_ce": null
+        },
+        {
+          "epoch": 4,
+          "ba": 0.4550735149801634,
+          "ce": 0.7038313508667844,
+          "scene": 0.04928896341353972,
+          "discriminator_ce_per_active_batch": 1.1439931392669678,
+          "prior_kl_per_active_batch": 0.09925160743296146,
+          "invariant_huber_per_active_batch": 0.030671905260533094,
+          "all_step_mean_aux_to_ce": 0.0724839808205175
+        },
+        {
+          "epoch": 5,
+          "ba": 0.46579171545661713,
+          "ce": 0.4698779739122442,
+          "scene": 0.04444956138452634,
+          "discriminator_ce_per_active_batch": 1.058789223432541,
+          "prior_kl_per_active_batch": 0.10011933837085962,
+          "invariant_huber_per_active_batch": 0.06854166556149721,
+          "all_step_mean_aux_to_ce": 0.10171208355222602
+        },
+        {
+          "epoch": 6,
+          "ba": 0.4787439047656731,
+          "ce": 0.30438827037652755,
+          "scene": 0.021868078692003766,
+          "discriminator_ce_per_active_batch": 0.9664276987314224,
+          "prior_kl_per_active_batch": 0.10347961261868477,
+          "invariant_huber_per_active_batch": 0.03532668948173523,
+          "all_step_mean_aux_to_ce": 0.07822798434989317
+        },
+        {
+          "epoch": 7,
+          "ba": 0.5273437882574261,
+          "ce": 0.24510271343937579,
+          "scene": 0.021851383020823942,
+          "discriminator_ce_per_active_batch": 0.9796793311834335,
+          "prior_kl_per_active_batch": 0.12816518917679787,
+          "invariant_huber_per_active_batch": 0.06844110786914825,
+          "all_step_mean_aux_to_ce": 0.10325938060132876
+        },
+        {
+          "epoch": 8,
+          "ba": 0.5396275438188928,
+          "ce": 0.11007865050564856,
+          "scene": 0.012391789717243073,
+          "discriminator_ce_per_active_batch": 0.9019699990749359,
+          "prior_kl_per_active_batch": 0.21178086288273335,
+          "invariant_huber_per_active_batch": 0.06212687585502863,
+          "all_step_mean_aux_to_ce": 0.14477540967422428
+        },
+        {
+          "epoch": 9,
+          "ba": 0.49901943462551457,
+          "ce": 0.06910511817562671,
+          "scene": 0.015349420362171974,
+          "discriminator_ce_per_active_batch": 1.1265218406915665,
+          "prior_kl_per_active_batch": 0.18912570923566818,
+          "invariant_huber_per_active_batch": 0.042256742250174284,
+          "all_step_mean_aux_to_ce": 0.25978350566309705
+        },
+        {
+          "epoch": 10,
+          "ba": 0.5508401893905412,
+          "ce": 0.06947819956273653,
+          "scene": 0.009812376954830549,
+          "discriminator_ce_per_active_batch": 0.9567414671182632,
+          "prior_kl_per_active_batch": 0.2800285294651985,
+          "invariant_huber_per_active_batch": 0.035552687011659145,
+          "all_step_mean_aux_to_ce": 0.18015533067431316
+        },
+        {
+          "epoch": 11,
+          "ba": 0.5655943585562849,
+          "ce": 0.0041047969479745434,
+          "scene": 0.010526530927621779,
+          "discriminator_ce_per_active_batch": 2.2763217091560364,
+          "prior_kl_per_active_batch": 0.729118674993515,
+          "invariant_huber_per_active_batch": 0.04872462898492813,
+          "all_step_mean_aux_to_ce": 3.8254150579508237
+        },
+        {
+          "epoch": 12,
+          "ba": 0.5417851891927045,
+          "ce": 0.0014045175560161798,
+          "scene": 0.006148002454713779,
+          "discriminator_ce_per_active_batch": 0.7531601786613464,
+          "prior_kl_per_active_batch": 0.7687393724918364,
+          "invariant_huber_per_active_batch": 0.05817628791555762,
+          "all_step_mean_aux_to_ce": 8.46897249228361
+        },
+        {
+          "epoch": 13,
+          "ba": 0.5655241852551643,
+          "ce": 0.004674188925220849,
+          "scene": 0.008538158174524916,
+          "discriminator_ce_per_active_batch": 0.8882009088993073,
+          "prior_kl_per_active_batch": 0.30013154447078705,
+          "invariant_huber_per_active_batch": 0.04822847433388233,
+          "all_step_mean_aux_to_ce": 2.5389622405816596
+        },
+        {
+          "epoch": 14,
+          "ba": 0.5505996022109144,
+          "ce": 0.0008330793315643801,
+          "scene": 0.005902892509921196,
+          "discriminator_ce_per_active_batch": 1.2056640535593033,
+          "prior_kl_per_active_batch": 0.13080455921590328,
+          "invariant_huber_per_active_batch": 0.037338878493756056,
+          "all_step_mean_aux_to_ce": 9.661020021886856
+        },
+        {
+          "epoch": 15,
+          "ba": 0.539169923791697,
+          "ce": 0.0004954319412060245,
+          "scene": 0.007108669792440661,
+          "discriminator_ce_per_active_batch": 0.7831978946924211,
+          "prior_kl_per_active_batch": 0.23022182285785675,
+          "invariant_huber_per_active_batch": 0.032797564286738634,
+          "all_step_mean_aux_to_ce": 19.142847621294226
+        },
+        {
+          "epoch": 16,
+          "ba": 0.5477906134468695,
+          "ce": 0.0004093919253639971,
+          "scene": 0.0034711831360758143,
+          "discriminator_ce_per_active_batch": 0.7885586023330688,
+          "prior_kl_per_active_batch": 0.2089976593852043,
+          "invariant_huber_per_active_batch": 0.025807509664446115,
+          "all_step_mean_aux_to_ce": 13.333743145768684
+        },
+        {
+          "epoch": 17,
+          "ba": 0.5557554545173193,
+          "ce": 0.00033766249737496724,
+          "scene": 0.005217731457223442,
+          "discriminator_ce_per_active_batch": 0.8037990182638168,
+          "prior_kl_per_active_batch": 0.1971917375922203,
+          "invariant_huber_per_active_batch": 0.03255156916566193,
+          "all_step_mean_aux_to_ce": 22.039813269322057
+        },
+        {
+          "epoch": 18,
+          "ba": 0.544885889299928,
+          "ce": 0.0003069688588398771,
+          "scene": 0.0035239917776012358,
+          "discriminator_ce_per_active_batch": 0.8998881876468657,
+          "prior_kl_per_active_batch": 0.1510504838079214,
+          "invariant_huber_per_active_batch": 0.027166453190147877,
+          "all_step_mean_aux_to_ce": 17.33980149846014
+        },
+        {
+          "epoch": 19,
+          "ba": 0.544885889299928,
+          "ce": 0.00026534726553205823,
+          "scene": 0.003528114955654328,
+          "discriminator_ce_per_active_batch": 1.0248852521181107,
+          "prior_kl_per_active_batch": 0.12913678959012032,
+          "invariant_huber_per_active_batch": 0.02515817293897271,
+          "all_step_mean_aux_to_ce": 19.401721549687146
+        },
+        {
+          "epoch": 20,
+          "ba": 0.5505038668280179,
+          "ce": 0.00023708988317864963,
+          "scene": 0.0028013432883915116,
+          "discriminator_ce_per_active_batch": 0.9341087490320206,
+          "prior_kl_per_active_batch": 0.1437210887670517,
+          "invariant_huber_per_active_batch": 0.030036585172638297,
+          "all_step_mean_aux_to_ce": 19.786061248893226
+        }
+      ],
+      "all_epochs_end_with_exact_supplemental_schedule": true,
+      "identical_eight_queries_repeated_four_times": true,
+      "natural_batches": 90,
+      "supplemental_batches": 4,
+      "discriminator_updates_per_epoch": 4
+    },
+    {
+      "seed": 29,
+      "selected_epoch": 14,
+      "selected": {
+        "epoch": 14,
+        "ba": 0.5508023359629305,
+        "ce": 0.0011245507156808286,
+        "scene": 0.007591093072984764,
+        "discriminator_ce_per_active_batch": 0.8596289306879044,
+        "prior_kl_per_active_batch": 0.19524714536964893,
+        "invariant_huber_per_active_batch": 0.05992708262056112,
+        "all_step_mean_aux_to_ce": 9.7568037249082
+      },
+      "curve": [
+        {
+          "epoch": 1,
+          "ba": 0.47729156717695503,
+          "ce": 1.2183412484666134,
+          "scene": 0.12473934151707812,
+          "discriminator_ce_per_active_batch": 1.342866688966751,
+          "prior_kl_per_active_batch": 0.012187306769192217,
+          "invariant_huber_per_active_batch": 0.01903080864576623,
+          "all_step_mean_aux_to_ce": null
+        },
+        {
+          "epoch": 2,
+          "ba": 0.40102200336988547,
+          "ce": 1.0799956714853327,
+          "scene": 0.07985349251155524,
+          "discriminator_ce_per_active_batch": 1.2396416366100311,
+          "prior_kl_per_active_batch": 0.05930427275598049,
+          "invariant_huber_per_active_batch": 0.004458437964785844,
+          "all_step_mean_aux_to_ce": null
+        },
+        {
+          "epoch": 3,
+          "ba": 0.41545664651342995,
+          "ce": 0.9232840119524205,
+          "scene": 0.07498993192541789,
+          "discriminator_ce_per_active_batch": 1.1502897441387177,
+          "prior_kl_per_active_batch": 0.05673923343420029,
+          "invariant_huber_per_active_batch": 0.041251207469031215,
+          "all_step_mean_aux_to_ce": null
+        },
+        {
+          "epoch": 4,
+          "ba": 0.4148053031231967,
+          "ce": 0.7225099640323761,
+          "scene": 0.05941926640398959,
+          "discriminator_ce_per_active_batch": 1.1090915501117706,
+          "prior_kl_per_active_batch": 0.06031279172748327,
+          "invariant_huber_per_active_batch": 0.02053985488601029,
+          "all_step_mean_aux_to_ce": 0.08380500750709116
+        },
+        {
+          "epoch": 5,
+          "ba": 0.4775121747984121,
+          "ce": 0.48987441050245406,
+          "scene": 0.03319581118511393,
+          "discriminator_ce_per_active_batch": 0.9070394784212112,
+          "prior_kl_per_active_batch": 0.20695116743445396,
+          "invariant_huber_per_active_batch": 0.04359319107607007,
+          "all_step_mean_aux_to_ce": 0.07334835845258915
+        },
+        {
+          "epoch": 6,
+          "ba": 0.4955490637226462,
+          "ce": 0.3648359383991424,
+          "scene": 0.024138818594052435,
+          "discriminator_ce_per_active_batch": 0.858844980597496,
+          "prior_kl_per_active_batch": 0.1488741971552372,
+          "invariant_huber_per_active_batch": 0.047146859578788274,
+          "all_step_mean_aux_to_ce": 0.07339895098402067
+        },
+        {
+          "epoch": 7,
+          "ba": 0.49929523087946487,
+          "ce": 0.22645299582484554,
+          "scene": 0.023421249322672474,
+          "discriminator_ce_per_active_batch": 0.7293925434350967,
+          "prior_kl_per_active_batch": 0.26119616627693176,
+          "invariant_huber_per_active_batch": 0.08623862266540527,
+          "all_step_mean_aux_to_ce": 0.12453997745533446
+        },
+        {
+          "epoch": 8,
+          "ba": 0.5001377022489539,
+          "ce": 0.11842411218032717,
+          "scene": 0.014256442262929804,
+          "discriminator_ce_per_active_batch": 0.8341312408447266,
+          "prior_kl_per_active_batch": 0.18954245932400224,
+          "invariant_huber_per_active_batch": 0.10244208946824074,
+          "all_step_mean_aux_to_ce": 0.16400582121118504
+        },
+        {
+          "epoch": 9,
+          "ba": 0.5354883963818979,
+          "ce": 0.08128917233106937,
+          "scene": 0.02167293967362097,
+          "discriminator_ce_per_active_batch": 0.6694662570953369,
+          "prior_kl_per_active_batch": 0.3361397758126259,
+          "invariant_huber_per_active_batch": 0.11295178905129433,
+          "all_step_mean_aux_to_ce": 0.34333946338206134
+        },
+        {
+          "epoch": 10,
+          "ba": 0.510965496478309,
+          "ce": 0.0217391714872297,
+          "scene": 0.013480700582186592,
+          "discriminator_ce_per_active_batch": 1.083166852593422,
+          "prior_kl_per_active_batch": 0.3286951966583729,
+          "invariant_huber_per_active_batch": 0.06681929249316454,
+          "all_step_mean_aux_to_ce": 0.8152462344642043
+        },
+        {
+          "epoch": 11,
+          "ba": 0.5221969463399996,
+          "ce": 0.0022861649786330204,
+          "scene": 0.015300928525864444,
+          "discriminator_ce_per_active_batch": 0.7478291243314743,
+          "prior_kl_per_active_batch": 0.34957990795373917,
+          "invariant_huber_per_active_batch": 0.07335440441966057,
+          "all_step_mean_aux_to_ce": 8.708893192837776
+        },
+        {
+          "epoch": 12,
+          "ba": 0.5312095879157364,
+          "ce": 0.0014708000230615305,
+          "scene": 0.009269107990165023,
+          "discriminator_ce_per_active_batch": 1.7352655529975893,
+          "prior_kl_per_active_batch": 0.5816793739795685,
+          "invariant_huber_per_active_batch": 0.06145912129431962,
+          "all_step_mean_aux_to_ce": 9.763136320950306
+        },
+        {
+          "epoch": 13,
+          "ba": 0.5196841741136226,
+          "ce": 0.001173821297112575,
+          "scene": 0.011278473850131589,
+          "discriminator_ce_per_active_batch": 0.6946806758642197,
+          "prior_kl_per_active_batch": 0.6244188398122787,
+          "invariant_huber_per_active_batch": 0.08253924455493689,
+          "all_step_mean_aux_to_ce": 14.864173633579453
+        },
+        {
+          "epoch": 14,
+          "ba": 0.5508023359629305,
+          "ce": 0.0011245507156808286,
+          "scene": 0.007591093072984764,
+          "discriminator_ce_per_active_batch": 0.8596289306879044,
+          "prior_kl_per_active_batch": 0.19524714536964893,
+          "invariant_huber_per_active_batch": 0.05992708262056112,
+          "all_step_mean_aux_to_ce": 9.7568037249082
+        },
+        {
+          "epoch": 15,
+          "ba": 0.5337246127393581,
+          "ce": 0.0008506983248615994,
+          "scene": 0.013661674033117263,
+          "discriminator_ce_per_active_batch": 0.9700728207826613,
+          "prior_kl_per_active_batch": 0.16978656314313412,
+          "invariant_huber_per_active_batch": 0.0846220888197422,
+          "all_step_mean_aux_to_ce": 21.141583885444437
+        },
+        {
+          "epoch": 16,
+          "ba": 0.5338226007194992,
+          "ce": 0.0008288637007044212,
+          "scene": 0.011436446470783112,
+          "discriminator_ce_per_active_batch": 0.8104865252971648,
+          "prior_kl_per_active_batch": 0.2517789788544178,
+          "invariant_huber_per_active_batch": 0.0662505067884922,
+          "all_step_mean_aux_to_ce": 18.491601055051632
+        },
+        {
+          "epoch": 17,
+          "ba": 0.5339205886996402,
+          "ce": 0.0007469557676813565,
+          "scene": 0.009457939290788342,
+          "discriminator_ce_per_active_batch": 1.3393159806728363,
+          "prior_kl_per_active_batch": 0.2731385678052902,
+          "invariant_huber_per_active_batch": 0.08596511371433735,
+          "all_step_mean_aux_to_ce": 19.11535010740439
+        },
+        {
+          "epoch": 18,
+          "ba": 0.5340185766797814,
+          "ce": 0.0006929494970307209,
+          "scene": 0.008114721933181615,
+          "discriminator_ce_per_active_batch": 0.6985442340373993,
+          "prior_kl_per_active_batch": 0.42373941838741297,
+          "invariant_huber_per_active_batch": 0.06763584446161985,
+          "all_step_mean_aux_to_ce": 18.46597694370987
+        },
+        {
+          "epoch": 19,
+          "ba": 0.5341165646599224,
+          "ce": 0.0007897710306582318,
+          "scene": 0.007750127784055757,
+          "discriminator_ce_per_active_batch": 1.1947412192821503,
+          "prior_kl_per_active_batch": 0.25824927538633347,
+          "invariant_huber_per_active_batch": 0.06473790667951107,
+          "all_step_mean_aux_to_ce": 14.692695680023329
+        },
+        {
+          "epoch": 20,
+          "ba": 0.5252976464472232,
+          "ce": 0.0005803587047650697,
+          "scene": 0.006205722783751627,
+          "discriminator_ce_per_active_batch": 1.0851508527994156,
+          "prior_kl_per_active_batch": 0.17264267057180405,
+          "invariant_huber_per_active_batch": 0.06392477732151747,
+          "all_step_mean_aux_to_ce": 16.645870315578815
+        }
+      ],
+      "all_epochs_end_with_exact_supplemental_schedule": true,
+      "identical_eight_queries_repeated_four_times": true,
+      "natural_batches": 90,
+      "supplemental_batches": 4,
+      "discriminator_updates_per_epoch": 4
+    }
+  ],
+  "proven_schedule": "90 natural batches, then the same 8-query set in 4 consecutive intervention batches, then validation",
+  "candidate_explanation": "Concentrated late auxiliary updates can bias epoch-end model/momentum; causality not established",
+  "one_new_control": "Interleave exactly the same 4 supplemental batches after natural batches 22,44,66,88; preserve all data/order within streams/counts/coefficients/initialization/budget",
+  "source_sha256": {
+    "port_prototype_model_20261121/sar_port/two_stage/stage1.py": "4d2cfabbb1909741a9f9cfb925aae8c627170fbbecd7b666b0d502998290c432",
+    "port_prototype_model_20261121/sar_port/two_stage/training.py": "c497bf45692f58656f5eb643466f0257644b20c07364f1060268274e069f1db2",
+    "port_prototype_model_20261121/sar_port/two_stage/cli.py": "e91aa97f3cf11c48e998a3d7d94d2b192e71a32c6b30f172acf65c3308069735",
+    "port_prototype_model_20261121/sar_port/two_stage/h.py": "0186efeb353768c7c3212a8cee0d50c64e8df18403c0fb6dc91ce2044e26d195",
+    "port_prototype_model_20261121/sar_port/two_stage/stage1_losses.py": "779b9dc13176a61946444dd1192a57624f4c0c572414b745a5de987b85c060aa",
+    "port_prototype_model_20261121/sar_port/two_stage/data.py": "f98e2c79e42490220b3620c2563d3cd57240b880b04c7893902fe1d18468d303"
+  }
+}

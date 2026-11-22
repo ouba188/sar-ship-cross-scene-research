@@ -67,10 +67,15 @@ def available_gib():
 def plan():
     commands = [('training_integrity', [str(ROOT/'verify_finished_comparison.py')]),
                 ('collect_validation', [str(ROOT/'collect_results.py'), '--split', 'validation'])]
+    commands += [('branches_seed29', [str(ROOT/'branch_diagnostics.py'), '--seed', '29',
+        '--output-dir', str(LAB/'oss2_disentangle_tuning_20261122/seed29'), '--device', 'cuda']),
+        ('seed29_auxiliary_pilot', [str(LAB/'seed29_diagnosis_20261122/run_seed29_pilot.py'), '--run'])]
     commands += [(f'fusion_seed{seed}', [str(TUNING/'scan_validation.py'), '--seed', str(seed),
                  '--output-dir', str(TUNING/f'final_seed{seed}')]) for seed in SEEDS]
     commands += [('collect_fusion', [str(TUNING/'collect_fusion_scan.py')])]
     for seed in SEEDS:
+        if seed == 29:
+            continue
         output = LAB/'oss2_disentangle_tuning_20261122'/f'seed{seed}'
         commands.append((f'branches_seed{seed}', [str(ROOT/'branch_diagnostics.py'),
             '--seed', str(seed), '--output-dir', str(output), '--device', 'cuda']))

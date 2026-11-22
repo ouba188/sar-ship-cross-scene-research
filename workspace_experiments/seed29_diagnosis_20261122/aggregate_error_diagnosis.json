@@ -1,0 +1,587 @@
+{
+  "scope": "Paired validation error diagnosis; descriptive strata, no causal attribution",
+  "test_access": false,
+  "source_prediction_sha256": {
+    "seed17_baseline": "79e90103dcb4a7566b7b5402c5cf18ccfbf16820b8676a975ac6e710830d332d",
+    "seed17_disentangle": "6e77bf0927f77c2195f8ab72205365bcd89298800cc728f643543026f7581f6a",
+    "seed29_baseline": "c5ca13f580765b56e544a51158438e0c7061e9418640b52f0ea807ea84eba02e",
+    "seed29_disentangle": "c1c3c7170d95ca9d7146e17621df099e60a7dabb5591ffb6241dfbbf1d5f72c4"
+  },
+  "groups": {
+    "all": {
+      "17": {
+        "n": 227,
+        "baseline_correct": 140,
+        "disentangle_correct": 143,
+        "harmed": 30,
+        "rescued": 33,
+        "delta_accuracy_pp": 1.3215859030837005
+      },
+      "29": {
+        "n": 227,
+        "baseline_correct": 154,
+        "disentangle_correct": 133,
+        "harmed": 35,
+        "rescued": 14,
+        "delta_accuracy_pp": -9.251101321585903
+      }
+    },
+    "class/bulk_carrier": {
+      "17": {
+        "n": 86,
+        "baseline_correct": 52,
+        "disentangle_correct": 57,
+        "harmed": 14,
+        "rescued": 19,
+        "delta_accuracy_pp": 5.813953488372093
+      },
+      "29": {
+        "n": 86,
+        "baseline_correct": 58,
+        "disentangle_correct": 58,
+        "harmed": 12,
+        "rescued": 12,
+        "delta_accuracy_pp": 0.0
+      }
+    },
+    "class/general_cargo": {
+      "17": {
+        "n": 23,
+        "baseline_correct": 11,
+        "disentangle_correct": 7,
+        "harmed": 5,
+        "rescued": 1,
+        "delta_accuracy_pp": -17.391304347826086
+      },
+      "29": {
+        "n": 23,
+        "baseline_correct": 9,
+        "disentangle_correct": 7,
+        "harmed": 2,
+        "rescued": 0,
+        "delta_accuracy_pp": -8.695652173913043
+      }
+    },
+    "class/product_chemical_tanker": {
+      "17": {
+        "n": 29,
+        "baseline_correct": 13,
+        "disentangle_correct": 18,
+        "harmed": 1,
+        "rescued": 6,
+        "delta_accuracy_pp": 17.24137931034483
+      },
+      "29": {
+        "n": 29,
+        "baseline_correct": 18,
+        "disentangle_correct": 12,
+        "harmed": 7,
+        "rescued": 1,
+        "delta_accuracy_pp": -20.689655172413794
+      }
+    },
+    "class/container_ship": {
+      "17": {
+        "n": 89,
+        "baseline_correct": 64,
+        "disentangle_correct": 61,
+        "harmed": 10,
+        "rescued": 7,
+        "delta_accuracy_pp": -3.3707865168539324
+      },
+      "29": {
+        "n": 89,
+        "baseline_correct": 69,
+        "disentangle_correct": 56,
+        "harmed": 14,
+        "rescued": 1,
+        "delta_accuracy_pp": -14.606741573033707
+      }
+    },
+    "atoms/1": {
+      "17": {
+        "n": 30,
+        "baseline_correct": 15,
+        "disentangle_correct": 16,
+        "harmed": 5,
+        "rescued": 6,
+        "delta_accuracy_pp": 3.3333333333333335
+      },
+      "29": {
+        "n": 30,
+        "baseline_correct": 19,
+        "disentangle_correct": 15,
+        "harmed": 4,
+        "rescued": 0,
+        "delta_accuracy_pp": -13.333333333333334
+      }
+    },
+    "atoms/2": {
+      "17": {
+        "n": 139,
+        "baseline_correct": 77,
+        "disentangle_correct": 80,
+        "harmed": 19,
+        "rescued": 22,
+        "delta_accuracy_pp": 2.158273381294964
+      },
+      "29": {
+        "n": 139,
+        "baseline_correct": 86,
+        "disentangle_correct": 72,
+        "harmed": 26,
+        "rescued": 12,
+        "delta_accuracy_pp": -10.071942446043165
+      }
+    },
+    "atoms/more_than_2": {
+      "17": {
+        "n": 58,
+        "baseline_correct": 48,
+        "disentangle_correct": 47,
+        "harmed": 6,
+        "rescued": 5,
+        "delta_accuracy_pp": -1.7241379310344827
+      },
+      "29": {
+        "n": 58,
+        "baseline_correct": 49,
+        "disentangle_correct": 46,
+        "harmed": 5,
+        "rescued": 2,
+        "delta_accuracy_pp": -5.172413793103448
+      }
+    },
+    "acquisition/1": {
+      "17": {
+        "n": 16,
+        "baseline_correct": 10,
+        "disentangle_correct": 12,
+        "harmed": 0,
+        "rescued": 2,
+        "delta_accuracy_pp": 12.5
+      },
+      "29": {
+        "n": 16,
+        "baseline_correct": 11,
+        "disentangle_correct": 12,
+        "harmed": 0,
+        "rescued": 1,
+        "delta_accuracy_pp": 6.25
+      }
+    },
+    "acquisition/2": {
+      "17": {
+        "n": 79,
+        "baseline_correct": 47,
+        "disentangle_correct": 41,
+        "harmed": 15,
+        "rescued": 9,
+        "delta_accuracy_pp": -7.594936708860759
+      },
+      "29": {
+        "n": 79,
+        "baseline_correct": 46,
+        "disentangle_correct": 47,
+        "harmed": 6,
+        "rescued": 7,
+        "delta_accuracy_pp": 1.2658227848101267
+      }
+    },
+    "acquisition/3": {
+      "17": {
+        "n": 8,
+        "baseline_correct": 6,
+        "disentangle_correct": 7,
+        "harmed": 1,
+        "rescued": 2,
+        "delta_accuracy_pp": 12.5
+      },
+      "29": {
+        "n": 8,
+        "baseline_correct": 7,
+        "disentangle_correct": 5,
+        "harmed": 2,
+        "rescued": 0,
+        "delta_accuracy_pp": -25.0
+      }
+    },
+    "acquisition/4": {
+      "17": {
+        "n": 124,
+        "baseline_correct": 77,
+        "disentangle_correct": 83,
+        "harmed": 14,
+        "rescued": 20,
+        "delta_accuracy_pp": 4.838709677419355
+      },
+      "29": {
+        "n": 124,
+        "baseline_correct": 90,
+        "disentangle_correct": 69,
+        "harmed": 27,
+        "rescued": 6,
+        "delta_accuracy_pp": -16.93548387096774
+      }
+    },
+    "acquisition_class/1/bulk_carrier": {
+      "17": {
+        "n": 6,
+        "baseline_correct": 3,
+        "disentangle_correct": 5,
+        "harmed": 0,
+        "rescued": 2,
+        "delta_accuracy_pp": 33.333333333333336
+      },
+      "29": {
+        "n": 6,
+        "baseline_correct": 4,
+        "disentangle_correct": 5,
+        "harmed": 0,
+        "rescued": 1,
+        "delta_accuracy_pp": 16.666666666666668
+      }
+    },
+    "acquisition_class/1/general_cargo": {
+      "17": {
+        "n": 4,
+        "baseline_correct": 2,
+        "disentangle_correct": 2,
+        "harmed": 0,
+        "rescued": 0,
+        "delta_accuracy_pp": 0.0
+      },
+      "29": {
+        "n": 4,
+        "baseline_correct": 2,
+        "disentangle_correct": 2,
+        "harmed": 0,
+        "rescued": 0,
+        "delta_accuracy_pp": 0.0
+      }
+    },
+    "acquisition_class/1/product_chemical_tanker": {
+      "17": {
+        "n": 3,
+        "baseline_correct": 3,
+        "disentangle_correct": 3,
+        "harmed": 0,
+        "rescued": 0,
+        "delta_accuracy_pp": 0.0
+      },
+      "29": {
+        "n": 3,
+        "baseline_correct": 3,
+        "disentangle_correct": 3,
+        "harmed": 0,
+        "rescued": 0,
+        "delta_accuracy_pp": 0.0
+      }
+    },
+    "acquisition_class/1/container_ship": {
+      "17": {
+        "n": 3,
+        "baseline_correct": 2,
+        "disentangle_correct": 2,
+        "harmed": 0,
+        "rescued": 0,
+        "delta_accuracy_pp": 0.0
+      },
+      "29": {
+        "n": 3,
+        "baseline_correct": 2,
+        "disentangle_correct": 2,
+        "harmed": 0,
+        "rescued": 0,
+        "delta_accuracy_pp": 0.0
+      }
+    },
+    "acquisition_class/2/bulk_carrier": {
+      "17": {
+        "n": 35,
+        "baseline_correct": 23,
+        "disentangle_correct": 16,
+        "harmed": 12,
+        "rescued": 5,
+        "delta_accuracy_pp": -20.0
+      },
+      "29": {
+        "n": 35,
+        "baseline_correct": 21,
+        "disentangle_correct": 22,
+        "harmed": 4,
+        "rescued": 5,
+        "delta_accuracy_pp": 2.857142857142857
+      }
+    },
+    "acquisition_class/2/general_cargo": {
+      "17": {
+        "n": 6,
+        "baseline_correct": 2,
+        "disentangle_correct": 1,
+        "harmed": 2,
+        "rescued": 1,
+        "delta_accuracy_pp": -16.666666666666668
+      },
+      "29": {
+        "n": 6,
+        "baseline_correct": 2,
+        "disentangle_correct": 2,
+        "harmed": 0,
+        "rescued": 0,
+        "delta_accuracy_pp": 0.0
+      }
+    },
+    "acquisition_class/2/product_chemical_tanker": {
+      "17": {
+        "n": 10,
+        "baseline_correct": 4,
+        "disentangle_correct": 6,
+        "harmed": 0,
+        "rescued": 2,
+        "delta_accuracy_pp": 20.0
+      },
+      "29": {
+        "n": 10,
+        "baseline_correct": 5,
+        "disentangle_correct": 4,
+        "harmed": 2,
+        "rescued": 1,
+        "delta_accuracy_pp": -10.0
+      }
+    },
+    "acquisition_class/2/container_ship": {
+      "17": {
+        "n": 28,
+        "baseline_correct": 18,
+        "disentangle_correct": 18,
+        "harmed": 1,
+        "rescued": 1,
+        "delta_accuracy_pp": 0.0
+      },
+      "29": {
+        "n": 28,
+        "baseline_correct": 18,
+        "disentangle_correct": 19,
+        "harmed": 0,
+        "rescued": 1,
+        "delta_accuracy_pp": 3.5714285714285716
+      }
+    },
+    "acquisition_class/3/bulk_carrier": {
+      "17": {
+        "n": 2,
+        "baseline_correct": 1,
+        "disentangle_correct": 2,
+        "harmed": 0,
+        "rescued": 1,
+        "delta_accuracy_pp": 50.0
+      },
+      "29": {
+        "n": 2,
+        "baseline_correct": 2,
+        "disentangle_correct": 1,
+        "harmed": 1,
+        "rescued": 0,
+        "delta_accuracy_pp": -50.0
+      }
+    },
+    "acquisition_class/3/general_cargo": {
+      "17": {
+        "n": 1,
+        "baseline_correct": 1,
+        "disentangle_correct": 1,
+        "harmed": 0,
+        "rescued": 0,
+        "delta_accuracy_pp": 0.0
+      },
+      "29": {
+        "n": 1,
+        "baseline_correct": 1,
+        "disentangle_correct": 1,
+        "harmed": 0,
+        "rescued": 0,
+        "delta_accuracy_pp": 0.0
+      }
+    },
+    "acquisition_class/3/product_chemical_tanker": {
+      "17": {
+        "n": 1,
+        "baseline_correct": 0,
+        "disentangle_correct": 1,
+        "harmed": 0,
+        "rescued": 1,
+        "delta_accuracy_pp": 100.0
+      },
+      "29": {
+        "n": 1,
+        "baseline_correct": 1,
+        "disentangle_correct": 0,
+        "harmed": 1,
+        "rescued": 0,
+        "delta_accuracy_pp": -100.0
+      }
+    },
+    "acquisition_class/3/container_ship": {
+      "17": {
+        "n": 4,
+        "baseline_correct": 4,
+        "disentangle_correct": 3,
+        "harmed": 1,
+        "rescued": 0,
+        "delta_accuracy_pp": -25.0
+      },
+      "29": {
+        "n": 4,
+        "baseline_correct": 3,
+        "disentangle_correct": 3,
+        "harmed": 0,
+        "rescued": 0,
+        "delta_accuracy_pp": 0.0
+      }
+    },
+    "acquisition_class/4/bulk_carrier": {
+      "17": {
+        "n": 43,
+        "baseline_correct": 25,
+        "disentangle_correct": 34,
+        "harmed": 2,
+        "rescued": 11,
+        "delta_accuracy_pp": 20.930232558139537
+      },
+      "29": {
+        "n": 43,
+        "baseline_correct": 31,
+        "disentangle_correct": 30,
+        "harmed": 7,
+        "rescued": 6,
+        "delta_accuracy_pp": -2.3255813953488373
+      }
+    },
+    "acquisition_class/4/general_cargo": {
+      "17": {
+        "n": 12,
+        "baseline_correct": 6,
+        "disentangle_correct": 3,
+        "harmed": 3,
+        "rescued": 0,
+        "delta_accuracy_pp": -25.0
+      },
+      "29": {
+        "n": 12,
+        "baseline_correct": 4,
+        "disentangle_correct": 2,
+        "harmed": 2,
+        "rescued": 0,
+        "delta_accuracy_pp": -16.666666666666668
+      }
+    },
+    "acquisition_class/4/product_chemical_tanker": {
+      "17": {
+        "n": 15,
+        "baseline_correct": 6,
+        "disentangle_correct": 8,
+        "harmed": 1,
+        "rescued": 3,
+        "delta_accuracy_pp": 13.333333333333334
+      },
+      "29": {
+        "n": 15,
+        "baseline_correct": 9,
+        "disentangle_correct": 5,
+        "harmed": 4,
+        "rescued": 0,
+        "delta_accuracy_pp": -26.666666666666668
+      }
+    },
+    "acquisition_class/4/container_ship": {
+      "17": {
+        "n": 54,
+        "baseline_correct": 40,
+        "disentangle_correct": 38,
+        "harmed": 8,
+        "rescued": 6,
+        "delta_accuracy_pp": -3.7037037037037037
+      },
+      "29": {
+        "n": 54,
+        "baseline_correct": 46,
+        "disentangle_correct": 32,
+        "harmed": 14,
+        "rescued": 0,
+        "delta_accuracy_pp": -25.925925925925927
+      }
+    }
+  },
+  "class_order": [
+    "bulk_carrier",
+    "general_cargo",
+    "product_chemical_tanker",
+    "container_ship"
+  ],
+  "seed29_harmed_transitions": [
+    {
+      "true_class": "bulk_carrier",
+      "disentangle_prediction": "container_ship",
+      "count": 10
+    },
+    {
+      "true_class": "bulk_carrier",
+      "disentangle_prediction": "general_cargo",
+      "count": 1
+    },
+    {
+      "true_class": "bulk_carrier",
+      "disentangle_prediction": "product_chemical_tanker",
+      "count": 1
+    },
+    {
+      "true_class": "container_ship",
+      "disentangle_prediction": "bulk_carrier",
+      "count": 13
+    },
+    {
+      "true_class": "container_ship",
+      "disentangle_prediction": "product_chemical_tanker",
+      "count": 1
+    },
+    {
+      "true_class": "general_cargo",
+      "disentangle_prediction": "product_chemical_tanker",
+      "count": 2
+    },
+    {
+      "true_class": "product_chemical_tanker",
+      "disentangle_prediction": "bulk_carrier",
+      "count": 2
+    },
+    {
+      "true_class": "product_chemical_tanker",
+      "disentangle_prediction": "general_cargo",
+      "count": 5
+    }
+  ],
+  "seed29_rescued_transitions": [
+    {
+      "true_class": "bulk_carrier",
+      "disentangle_prediction": "bulk_carrier",
+      "count": 12
+    },
+    {
+      "true_class": "container_ship",
+      "disentangle_prediction": "container_ship",
+      "count": 1
+    },
+    {
+      "true_class": "product_chemical_tanker",
+      "disentangle_prediction": "product_chemical_tanker",
+      "count": 1
+    }
+  ],
+  "overlap": {
+    "harmed_both": 10,
+    "harmed_only29": 25,
+    "rescued_both": 6
+  },
+  "ports": "All validation ports unknown; acquisition strata are not port labels"
+}

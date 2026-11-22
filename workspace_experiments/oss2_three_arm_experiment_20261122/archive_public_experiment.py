@@ -71,6 +71,9 @@ DISENTANGLE_REQUIRED = ['TUNING_PLAN_ZH.md','STAGE1_HANDOFF_DIAGNOSIS_ZH.md',
     'test_aux_scale_ablation.py','analyze_head_reuse.py']
 DISENTANGLE_OPTIONAL = ['test_head_reuse.py','aggregate_aux_scale_validation.json',
     'AUX_SCALE_RESULTS_ZH.md','aggregate_head_reuse_validation.json']
+SEED29_REQUIRED = ['FINDINGS_ZH.md','OPTIMIZATION_REVIEW_ZH.md','aggregate_optimization_review.json',
+    'aggregate_error_diagnosis.json','analyze_errors.py','run_seed29_pilot.py']
+SEED29_OPTIONAL = ['aggregate_seed29_aux_pilot.json']
 DESIGNS = ['STAGE1_MULTISCALE_DISENTANGLEMENT_DESIGN_ZH.md',
            'STAGE2_H_MULTIPORT_EVIDENCE_DESIGN_ZH.md']
 WORKSPACE_PUBLIC = ['run_on_d.py', 'STORAGE_LAYOUT_ZH.md']
@@ -99,7 +102,8 @@ def entries(work=WORK, code=CODE):
     for folder, required, optional in (
         ('oss2_three_arm_experiment_20261122',EXPERIMENT_REQUIRED,EXPERIMENT_OPTIONAL),
         ('oss2_h_tuning_20261122',TUNING_REQUIRED,TUNING_OPTIONAL),
-        ('oss2_disentangle_tuning_20261122',DISENTANGLE_REQUIRED,DISENTANGLE_OPTIONAL)):
+        ('oss2_disentangle_tuning_20261122',DISENTANGLE_REQUIRED,DISENTANGLE_OPTIONAL),
+        ('seed29_diagnosis_20261122',SEED29_REQUIRED,SEED29_OPTIONAL)):
         for names, mandatory in ((required,True),(optional,False)):
             result += [Entry(work/folder/name,f'workspace_experiments/{folder}/{name}',mandatory) for name in names]
     result += [Entry(work/name,'workspace_experiments/two_stage_minimal_20261122/'+name) for name in DESIGNS]

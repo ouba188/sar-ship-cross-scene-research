@@ -11,6 +11,7 @@
 - `workspace_experiments/oss2_three_arm_experiment_20261122/`：本轮公开实验工具、文档及聚合结果。
 - `workspace_experiments/oss2_h_tuning_20261122/`：独立 H 融合验证调优工具、计划及聚合结果。
 - `workspace_experiments/oss2_disentangle_tuning_20261122/`：分类路径衔接诊断、有限辅助权重对照及聚合结果。
+- `workspace_experiments/seed29_diagnosis_20261122/`：种子29错误分层、优化审查和优先试跑工具。
 - `workspace_experiments/two_stage_minimal_20261122/`：两份现有设计文档原归档目录。
 
 脚本不修改源代码树或私有实验目录；不删除文件、不复制整个目录、不执行 Git add/commit/push。目标文件若存在不同的未提交修改则拒绝覆盖；其他仓库改动保持原状。新 ZIP 由内存中的同一白名单文本组成，不能通过扫描已有仓库目录把历史私有文件带入。
@@ -58,6 +59,8 @@
 设计文档：从工作区根同步 `STAGE1_MULTISCALE_DISENTANGLEMENT_DESIGN_ZH.md` 和 `STAGE2_H_MULTIPORT_EVIDENCE_DESIGN_ZH.md` 到原 `two_stage_minimal_20261122/` 目录。
 
 ## 排除项与内容检查
+
+种子29目录必需文件为 `FINDINGS_ZH.md`、`OPTIMIZATION_REVIEW_ZH.md`、`aggregate_optimization_review.json`、`aggregate_error_diagnosis.json`、`analyze_errors.py`、`run_seed29_pilot.py`；可选结果为 `aggregate_seed29_aux_pilot.json`。`cases_local/`原图、图板、样本列表和队列重排前状态均排除。
 
 补充必需工具 `run_post_training_diagnostics.py`：只公开串行队列程序；队列状态、日志与锁留在本地。
 
