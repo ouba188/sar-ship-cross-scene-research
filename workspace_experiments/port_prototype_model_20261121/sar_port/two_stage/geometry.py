@@ -59,15 +59,20 @@ def grid(side, stride):
 
 
 def coverage(poly, side, stride):
-    _, cells = grid(side, stride)
+    coords, cells = grid(side, stride)
     if poly.is_empty:
         return np.zeros((side//stride, side//stride), np.float32)
     bounds = poly.bounds
     result = np.zeros(len(cells), np.float32)
-    for j, cell in enumerate(cells):
-        a, b, c, d = cell.bounds
-        if c >= bounds[0] and a <= bounds[2] and d >= bounds[1] and b <= bounds[3]:
-            result[j] = poly.intersection(cell).area / stride**2
+    # Grid cell bounds are exactly center +/- half-stride. Filter numerically
+    # before GEOS calls; the same candidate cells and exact intersections remain.
+    half = stride / 2
+    candidates = ((coords[:, 0] + half >= bounds[0]) &
+                  (coords[:, 0] - half <= bounds[2]) &
+                  (coords[:, 1] + half >= bounds[1]) &
+                  (coords[:, 1] - half <= bounds[3]))
+    for j in np.flatnonzero(candidates):
+        result[j] = poly.intersection(cells[j]).area / stride**2
     return result.reshape(side//stride, side//stride)
 
 

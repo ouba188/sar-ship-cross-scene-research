@@ -19,23 +19,73 @@ class LossConfig:
 
 
 def stage1_optimizers(model, lr=1e-4, weight_decay=.01):
-    discriminator = set(model.discriminator.parameters())
-    main = [p for p in model.parameters() if p not in discriminator]
+    discriminator = [p for p in model.discriminator.parameters() if p.requires_grad]
+    excluded = set(discriminator)
+    main = [p for p in model.parameters() if p.requires_grad and p not in excluded]
     return (torch.optim.AdamW(main, lr=lr, weight_decay=weight_decay),
-            torch.optim.AdamW(model.discriminator.parameters(), lr=lr, weight_decay=weight_decay))
+            torch.optim.AdamW(discriminator, lr=lr, weight_decay=weight_decay) if discriminator else None)
+
+
+def baseline_step(model, batch, labels, optimizer):
+    """One original-image forward and CE only, with the complementary gate off."""
+    if model.config.gate_enabled:
+        raise ValueError('Classification baseline requires gate_enabled=false')
+    model.train(); optimizer.zero_grad(set_to_none=True)
+    original = model(batch['images'], batch['valid'], hard_gate=True)
+    flags = model.class_valid(batch['geometries']).to(labels.device)
+    cls = classification_loss(model.class_logits(original, batch['geometries']), labels, flags)
+    if not torch.isfinite(cls):
+        raise FloatingPointError('Nonfinite classification objective')
+    cls.backward(); optimizer.step()
+    return dict(total=float(cls.detach()), cls=float(cls.detach()), scene=0., invariance=0.,
+                leakage=0., discriminator=0., paired_samples=0, controlled_samples=0,
+                regularization_samples=0, regularization_class_counts=[0]*model.config.classes,
+                scene_targets=0, constraint_ramp=0., hard_gate=0,
+                controlled_class_counts=[0]*model.config.classes)
+
+
+def intervention_inputs(batch, generator=None):
+    """Validate explicit intervention views without creating audit qualifications."""
+    supplied = ('intervention_images' in batch, 'intervention_eligible' in batch)
+    if not any(supplied):
+        return intervene_background(batch, generator)
+    if not all(supplied):
+        raise ValueError('Supply intervention_images and intervention_eligible together')
+    images, changed = batch['images'], batch['intervention_images']
+    paired = batch['intervention_eligible']
+    if changed.shape != images.shape or changed.device != images.device or changed.dtype != images.dtype:
+        raise ValueError('Explicit intervention shape/device/dtype must match images')
+    if paired.shape != (len(images),) or paired.dtype != torch.bool or paired.device != images.device:
+        raise ValueError('intervention_eligible must be a device-matched boolean batch vector')
+    if not torch.isfinite(changed).all():
+        raise ValueError('Explicit intervention contains nonfinite pixels')
+    q = batch['background'].bool()
+    if not torch.equal(changed[~q], images[~q]) or not torch.equal(changed[~paired], images[~paired]):
+        raise ValueError('Explicit intervention must leave Q exterior and ineligible samples unchanged')
+    active = batch['valid'].flatten(2).sum(-1) > 0
+    has_q = q.flatten(2).any(-1)
+    qualified = batch['pair_eligible'].bool() & active.any(1) & (has_q | ~active).all(1)
+    if (paired & ~qualified).any():
+        raise ValueError('Explicit intervention lacks protected target or trusted Q')
+    return changed, paired
 
 
 def stage1_step(model, batch, labels, optimizers, prior, scene_mean, scene_std,
-                controlled_views, config=None, step=0, generator=None):
+                controlled_views, config=None, step=0, generator=None,
+                leakage_mode='strict_controlled', regularization_views=None):
     """controlled_views certifies class-independent nuisance/mask/position/size design.
 
-    Natural Q replacement alone must NOT set this flag. The caller supplies an
-    audited controlled-view manifest; absent flags disable the leakage update.
+    Empirical mode instead uses a separately audited regularization_views mask;
+    it makes no claim that nuisance or acquisition metadata are controlled.
     """
     config = config or LossConfig()
     model.train()
     main, disc = optimizers
-    changed, paired = intervene_background(batch, generator)
+    if leakage_mode not in ('strict_controlled', 'empirical_regularization'):
+        raise ValueError('Unknown leakage_mode')
+    if leakage_mode == 'empirical_regularization' and regularization_views is None:
+        raise ValueError('Empirical mode requires explicit regularization_views')
+    changed, paired = intervention_inputs(batch, generator)
     hard = step >= config.hard_gate_after
     cpu_rng = torch.get_rng_state() if model.config.stochastic_depth else None
     cuda_rng = (torch.cuda.get_rng_state(batch['images'].device)
@@ -46,7 +96,10 @@ def stage1_step(model, batch, labels, optimizers, prior, scene_mean, scene_std,
         if cuda_rng is not None:
             torch.cuda.set_rng_state(cuda_rng, batch['images'].device)
     intervened = model(changed, batch['valid'], hard_gate=hard)
-    legal = paired & controlled_views.to(paired.device)
+    qualification = controlled_views if leakage_mode == 'strict_controlled' else regularization_views
+    if qualification.shape != paired.shape or qualification.dtype != torch.bool:
+        raise ValueError('Leakage qualification must be a boolean batch vector')
+    legal = paired & qualification.to(paired.device)
     ramp = min(1., max(0., (step-config.warmup_steps+1)/max(config.ramp_steps, 1)))
     # D sees detached residuals. Its update cannot change encoder or G.
     disc.zero_grad(set_to_none=True)
@@ -88,9 +141,14 @@ def stage1_step(model, batch, labels, optimizers, prior, scene_mean, scene_std,
     main.step()
     return {**{k: float(v.detach()) for k, v in dict(total=total, cls=cls, scene=scene,
              invariance=inv, leakage=leak, discriminator=d_loss).items()},
-            'paired_samples': int(paired.sum()), 'controlled_samples': int(legal.sum()),
+            'paired_samples': int(paired.sum()),
+            'controlled_samples': int(legal.sum()) if leakage_mode == 'strict_controlled' else 0,
+            'regularization_samples': int(legal.sum()) if leakage_mode == 'empirical_regularization' else 0,
             'scene_targets': reliable_count, 'constraint_ramp': ramp, 'hard_gate': int(hard),
-            'controlled_class_counts': torch.bincount(labels[legal], minlength=len(prior)).detach().cpu().tolist()}
+            'controlled_class_counts': (torch.bincount(labels[legal], minlength=len(prior)).detach().cpu().tolist()
+                                        if leakage_mode == 'strict_controlled' else [0]*len(prior)),
+            'regularization_class_counts': (torch.bincount(labels[legal], minlength=len(prior)).detach().cpu().tolist()
+                                            if leakage_mode == 'empirical_regularization' else [0]*len(prior))}
 
 
 def base_step(h, features, labels, optimizer):

@@ -1,6 +1,6 @@
 # 第一阶段完整流程：独立双极化 ConvNeXt-T 前三阶段 + 本层通路与弱深层注入
 
-日期：2026-11-22。状态：设计与首版代码已同步；采用独立双极化ConvNeXt-T前三阶段、本层通路加弱深层注入的融合。输入沿用64主要画布、96/128按几何回退；门控、四类损失及6px主要候选/8px基线几何规则保持原定义。明确逐层尺寸、训练路径及冻结Fc/G接口。独立入口通过92项完整回归，含合成训练、冻结、保存恢复及评估；真实SAR正式训练和分类收益尚未验证。运行说明见[两阶段代码说明](<E:/临时会话/port_prototype_model_20261121/TWO_STAGE_README_ZH.md>)。
+日期：2026-11-22。状态：采用独立双极化ConvNeXt-T前三阶段、本层通路加弱深层注入，沿用64主要画布、96/128按几何回退及6px主要候选/8px基线。四类损失与冻结Fc/G接口保留；本轮经用户确认，将OSS2的L_leak定义为经验类别抑制正则，另用操作级资格接入，严格受控模式仍为默认。首版独立入口已通过92项回归，包含合成训练与保存恢复；本次OSS2经验正则协议的真实训练和收益尚待验证。运行说明见[两阶段代码说明](<E:/临时会话/port_prototype_model_20261121/TWO_STAGE_README_ZH.md>)。
 
 ## 1. 固定主线与两阶段边界
 
@@ -10,7 +10,7 @@
 - 编码：两套独立ConvNeXt-T，仅取前三阶段，block数3/3/9、通道96/192/384；两极化的stem、骨干、LayerNorm、投影、融合与门控均不共享参数。
 - 融合：三层投影到256通道，每层保留系数为1的本层通路，细层另接弱初始化、可学习的深层加权注入；输出三个空间尺度。
 - 解耦：每尺度、每极化的通道—空间联合门控，互补产生 Fc/Fs。
-- 监督：以“局部卷积＋整体/长轴两半读出”接目标类别CE，另保留背景统计、同船局部稳定性、Fs类别泄漏抑制，仍为四类职责。
+- 监督：以“局部卷积＋整体/长轴两半读出”接目标类别CE，另保留背景统计、同船局部稳定性和Fs类别抑制。默认strict_controlled；本轮OSS2采用empirical_regularization，详见第6.4节。
 - 区域资格：三尺度最小纵向长度主候选为(6,16,32)原像素，基线为(8,16,32)；其他格点、跨度、覆盖与轴可靠性条件相同。
 - 交付：冻结完整编码器及六套已训练空间读出G，向H提供三尺度256通道Fc、64通道Z=G(Fc)的生成权重及几何/有效性元数据。
 
@@ -47,7 +47,11 @@
 
 交付V、T、Q、极化可用性a∈{0,1}²、canvas_hw、保护半径、整数crop/pad变换及目标几何。尺寸选择不使用查询类别或港口。64只减少背景与填充，12px长的船仍为12px；它不增加原生分辨率或保证更多原子。骨干上下文范围随画布改变，分类影响待实验。尺寸、按类/港覆盖、保护带敏感性及格点复核见[原生画布统计](<C:/Users/25791/Documents/ChatGPT/cross port sar ship ATR/native_canvas_audit_20261122/FINDINGS_ZH.md>)。
 
-**实际实现的数据前提。** 当前legacy清单尚未补齐逐极化`alignment_valid`、双极化共坐标核验及经验证的可信背景Q；不能把已有图像/OBB或画布统计自动当作完整解耦监督已经就绪。接入新入口前，应核验可用极化及共同坐标，提供`background_mask`与`background_validated`，并审计受控视图的`leakage_controlled`声明。还须统计实际可配对供体、有效Q读出及受控样本的类别覆盖，据合格受控采样确定固定先验；只有布尔字段或全局Q数量不足以证明这些条件。缺项时仅运行明确标注的不完整监督对照，不将其训练或检查点称为完整四职责解耦。代码接口与损失链路齐备，不代表真实数据标记和监督条件已经补齐。
+**实际数据与资格。** OSS2原始训练719、验证228、历史测试378条的共同像素来源链已逐条核查，以派生记录恢复缺检测的极化分支；同网格证据不等于实测物理残余配准精度。输入审计按目标几何超出原生边界的同一规则排除7条（训练1、验证1、历史测试5），三组实际共用1318条：训练718、验证227、历史测试373，全部适配64画布。具体记录见实验目录`preflight_summary.json`，历史统计表不改为本轮分母。
+
+原始sensor nodata mask尚未恢复，显式采用`stored_native_pixel_footprint`支持约定；清单中的`availability_mask_semantics=stored_native_pixel_footprint_not_sensor_nodata`只表示存储原生像素的覆盖，不表示传感器质量有效性，不从零灰度推断nodata。强资格`training_qualified=false`保留，另以`empirical_experiment_eligible=true`标识可参加带此限制的OSS2开发实验。Q接口为`background_mask`与`background_validated`，20个样本已通过双极化逐图、水域上下文与目标保护区检查，仅证明选定局部区域的背景资格。
+
+监督模式独立记录：默认`strict_controlled`检查`leakage_controlled`及其受控采样证据；本轮OSS2使用用户批准的`empirical_regularization`，强字段`leakage_controlled`保持false，另审计`leakage_regularization_eligible`。后者只覆盖合法图像/配对、Q、训练来源、预定采样与类别覆盖，不声明整张Fs背景与类别独立。四项损失是否实际工作，由训练日志中的有效scene、paired和经验类别抑制样本数及梯度核验；四项齐全的经验正则实验与严格受控实验分别命名，不能通过修改布尔字段互相冒充。
 
 ### 2.1 两阶段共用的几何与原生网格规则
 
@@ -208,7 +212,7 @@ logits_l(z)=0.5[h_l(z)+h_l(Swap(z))]。
 
 两个顺序使用同一h_l参数，先平均logits再计算一次CE；不旋转Fc、不重跑编码器。这保证读出不依赖轴正负编号，不保证原图180°旋转不变，也不对两个极化分别任选朝向。无局部槽时两个顺序相同。可配置有向读出，但默认没有艏艉标签。
 
-对原图x和合法受控视图x'使用真实船型y：
+对原图x和经保护检查、保持目标的合法背景干预视图x'使用真实船型y；x'是否参与L_leak另按第6.4节判断：
 
 L_cls=Mean_i Mean_(有效尺度l) Mean_(v∈views(i)) CE(logits_l(z_l(v)),y_i)。
 
@@ -237,6 +241,8 @@ L_scene=Mean_valid Huber(r_(l,p)(Pool_Q(Fs_l^p)), b^p)。
 
 无可靠背景或有效权重和为零时跳过该项。头只能读取 Fs，不能读原始背景像素、供体ID或目标值。目的为让 Fs 承担可核验背景任务；两项统计不等于完整场景因素。
 
+本轮20个已审核Q样本、双极化合计的纯Q有效格数为stride4／8／16：320／0／0。因此当前只有stride4的两个场景头获得直接监督，中、深尺度场景项跳过。弱深层注入可传递细尺度任务梯度，但不能据此声称中、深尺度Fs或其场景头获得了各自独立的背景监督；该覆盖限制随检查点交付H。
+
 ### 6.3 Fc：同船局部稳定性 L_inv
 
 同一目标的 x/x' 使用相同裁剪与几何，不需要跨船对齐。直接比较门控之后、未经可学习投影或向量归一化的 Fc：
@@ -246,13 +252,13 @@ L_inv=Mean_(i,l,p)[Σ_u T_(i,l,p)(u) Σ_c Huber(Fc_(l,p)(x_i)_(c,u),Fc_(l,p)(x'_
 
 只在存在合法配对及非零目标权重时计算。原特征 Huber 约束输出幅值和方向变化；不拉齐不同船、不同尺度或不同极化。
 
-该资格与原子数独立：K_atom=1或2仍在整个T上比较对应Fc空间位置，不改成原子均值一致性。L_scene按可信背景有效性计算，L_leak按合法受控视图条件计算；小船既不新增损失，也不因无法细分而退出已有四类监督。缺少合法背景干预时，按原规则跳过相关配对项，正常类别CE保留。
+该资格与原子数独立：K_atom=1或2仍在整个T上比较对应Fc空间位置，不改成原子均值一致性。L_scene按可信背景有效性计算，L_leak按第6.4节所选模式的资格计算；小船既不新增损失，也不因无法细分而退出已有四类监督。缺少合法背景干预时跳过相关配对项，正常类别CE保留。
 
 本版建议训练时 stochastic depth 概率设为0，避免两次前向的独立随机路径被误当作背景变化。以后若启用，配对前向需同步随机路径。正常几何/强度增强也必须遵守目标保护条件。
 
 低 Huber 仍可能部分来自特征整体缩小而分类头放大，故记录 Fc 范数和头权重尺度，并验证冻结后的局部信息；不以损失数值单独证明解耦。
 
-### 6.4 Fs：类别泄漏 L_leak
+### 6.4 Fs：类别抑制 L_leak 与两种监督模式
 
 一个联合类别判别器 D 读取六张 Fs 的整个有效空间，而不是只看背景池化：
 
@@ -260,14 +266,34 @@ L_inv=Mean_(i,l,p)[Σ_u T_(i,l,p)(u) Σ_c Huber(Fc_(l,p)(x_i)_(c,u),Fc_(l,p)(x'_
 
 每份特征512维，六份共3072维，再加明确的有效性元数据；无有效区域的格子显式标记，不靠填充值猜测。D 与场景回归头不共享 trunk。
 
-仅在背景与类别经过受控解关联的合法视图上交替优化：
+两种模式保留同一个D与以下交替优化公式，区别在于样本资格和结论范围：
+
 1. L_D=CE(D(stopgrad(Fs)),y)，更新 D。
 2. 固定 D 的参数和状态，保留对 Fs 的输入梯度，更新编码器/门控：
    L_leak=KL(π || D(Fs))。
 
-π 是受控采样设计的固定类别先验，类别平衡时均匀。不让 D 自己拟合 π。供体在可用性/几何条件组内独立于类别选取；还需控制极化缺失和填充模式等可被 D 利用的类别线索。自然相关原图不承担无条件类别混淆。
+|模式|资格字段|L_leak的解释|
+|---|---|---|
+|`strict_controlled`，默认|`leakage_controlled=true`，且有对应控制与采样证据|仅在声明因素已受控解关联的合法视图上使用；自然相关原图不自动参加|
+|`empirical_regularization`，本轮OSS2|独立的`leakage_regularization_eligible=true`，逐项检查数据与采样条件；`leakage_controlled=false`|经验性抑制D可从Fs读取的类别信息，同时由L_scene要求Fs承担可核验背景统计任务|
 
-D 的能力有边界，阶段结束用独立类别 probe 判断剩余泄漏；不能由训练 D 接近先验直接证明 Fs 不含任何类别信息。
+π由预先固定的参与采样分布给出，类别平衡时均匀，不让D自己拟合π。局部Q替换只改变指定背景区域；Q外背景、保护带内混合背景及编码器上下文仍可保留原有相关性，因此局部Q与平衡donor不能证明整张Fs的背景已解关联。本轮批准的是经验正则模式，不是把强受控标记改真。
+
+经验模式下，若背景统计本身与类别相关，L_scene与L_leak可能存在真实目标冲突。通过验证集背景回归相对常数基线、独立类别probe、Fc分类信息和局部稳定性，以及匹配预算的消融来判断该权衡。D接近先验本身不证明Fs已不含类别信息或已获得纯因果分解。
+
+### 6.5 OSS2经验正则的实际输入与固定采样
+
+本轮输入审计与Q资格已落地，正式训练的逐epoch覆盖仍由日志核验：
+
+1. 20个样本已完成水域上下文与双极化逐图Q审核；其中锁定四类各4个核心样本，共16个。每类2个独立donor、2个query，合计8个donor和8个query；船舶身份不交叉。其余4个用于自然批次的合法场景监督，不参加经验KL，不改变类别先验。
+2. 已审核样本均使用64原像素画布，Q统一为底部左右各8×8、合计128像素，确切坐标和整数crop/pad写入清单。逐图检查已确认Q避开目标8px保护区、邻船与不确定响应；位置相同不作为审核证据。Q外及目标保护区不变，VV/VH共用配对donor像素索引。
+3. 每epoch对8个query各追加4次，合计32次query曝光。配对台账预先固定并检查每类的donor分布；不依赖随机同batch碰巧出现两个Q。baseline匹配同样的query身份、次数及曝光顺序，按纯类别CE训练；辅助donor读取和实际前向成本另记。
+4. 只有这些合格补充批次激活经验模式的D更新与L_leak，四类query平衡，固定π=(1/4,1/4,1/4,1/4)。自然训练样本保留类别监督；有可信Q及合法读出时可参加场景监督，有合法同船干预配对时按规则计算L_inv。单有Q不能自动激活经验KL。
+5. 全20个样本双极化的纯Q格数已核实为细320、中0、深0。L_scene仅在stride4直接监督；不插值或扩大Q补齐中、深尺度。记录每类实际配对次数、scene目标数、经验KL/D参与量和各项梯度。四项损失实际参与不等于每尺度均有场景监督。
+
+本轮实际使用训练718、验证227、历史测试回归373，原始目标几何超界的7条按同一规则在三组排除，selection194继续隔离。donor、归一化和原型均仅来自训练侧。种子固定17/29/43；第一阶段20epoch、冻结特征上的h0为10epoch、H为20epoch；验证balanced accuracy选模，历史测试只在配置锁定后作回归，不依据测试调参。
+
+真实8query工程核验已记录四项损失均非零、门控梯度有限、经验资格8条且四类各2、强受控样本0（见`real_smoke_summary.json`）。这验证了真实批次接入，不是正式训练结果或涨点证据。
 
 ## 7. 总目标、梯度与训练顺序
 
@@ -285,14 +311,15 @@ L_A=L_cls+λ_s L_scene+λ_i L_inv+λ_a L_leak。
 背景任务通过 Fs=(1−M)P 影响门控；类别任务通过 Fc=MP 影响门控。两种职责共同要求门控和上游特征协作，而不是骨干固定后只训练一个分割器。H 在以上任何步骤都不参与。
 
 训练顺序：
-1. 软门控起步，先训练 L_cls/L_scene，同时让 D 学会读取当前 Fs。
+
+1. 软门控起步，先训练L_cls/L_scene，D仅在所选监督模式的合格批次上学习读取当前Fs。
 2. 渐增 L_inv/L_leak 权重，按交替更新规则工作，并过渡到硬前向路由。
 3. 用确定性硬路由收尾和验证，检查每尺度类别能力、整体/两半读出覆盖、场景回归相对常数基线、独立类别泄漏probe与同船局部稳定性。空间读出的隔离对照按第6.1节与第二阶段第11节执行；gap_linear实验单独记录其H描述路径。
 4. 固定最终编码器及六套G的权重和运行状态，进入第二阶段。
 
 不以四个损失数值相等来设权重。所有权重/温度/配额均可调，但本轮不给未经验证的最优数值。
 
-四类监督分别覆盖判别性、背景可观察性、干预稳定性、泄漏抑制。配额和硬路由处理形式退化；监督处理任务分工。仍需实验证实信息分工及跨港收益，不能据此声称获得纯因果表征。本版不加重建、正交、重组预测一致性或新的跨尺度损失。
+四类监督分别覆盖判别性、背景可观察性、干预稳定性和类别抑制。配额与硬路由处理形式退化，监督处理任务分工；模式与资格决定类别抑制的适用范围。当前OSS2经验模式的实际信息分工及收益由实验检验。本版不加重建、正交、重组预测一致性或新的跨尺度损失。
 
 ## 8. 第一阶段如何交给 H
 
@@ -327,6 +354,7 @@ E_c^p = ConvNeXt-T前三阶段^p + 三层1×1投影^p + 本层通路/弱深层�
 |input/geometry元数据|canvas_hw、整数变换、V/T、OBB、axis_valid；stride=(4,8,16)、offset=(1.5,3.5,7.5)|H重算原子树、实际区域及match资格|
 |encoder元数据|backbone_profile、fusion_profile、检查点及encoder_fingerprint；β_fuse/λ_fuse状态、强度预处理与路由配置|绑定产生Fc的模型身份|
 |G与匹配表示元数据|六套G权重/结构、readout_width=64、descriptor_mode=frozen_g_prepool_v1、match_representation_fingerprint|绑定Z及区域描述的生成路径|
+|监督协议元数据|leakage_mode、固定π、Q/配对台账版本、强/经验资格字段、支持mask语义及逐尺度实际参与统计|区分严格受控与经验正则检查点；本轮sensor未知、scene仅stride4；供H追溯，不进入查询特征|
 
 encoder_fingerprint与geometry_fingerprint分开保存；match_representation_fingerprint额外绑定G结构/权重及描述模式，用于判断缓存能否复用。valid_coverage与target_weights由固定几何产生，不用门控幅值生成。跨桶保留原空间网格，不先把整张Fc/Z缩放成统一尺寸。
 
@@ -346,7 +374,7 @@ encoder_fingerprint与geometry_fingerprint分开保存；match_representation_fi
 
 ## 9. 可插拔设计与当前范围
 
-当前主配置标识（设计约定，独立两阶段入口正在实现）：backbone_profile=convnext_tiny_stages123_v1，independent_polarizations=true，fusion_profile=residual_deep_injection_v1，λ_fuse,max=1，λ_fuse,init=0.1，β_fuse,init=(0.5,0.5)。其余为native_crop_pad_bucket_64_96_128_v1、protect_margin_px=8（候选）、joint_gate、3_output_scales、d=256、spatial_axis_v1、readout_width=64、axis_order_symmetry=on、geometry_schema=obb_long_axis_atoms_v2。主候选geometry_profile=main_l6，长度向量(6,16,32)；基线baseline_l8为(8,16,32)。第5–7节的门控与四类损失保持原定义；阶段末额外保留并冻结已有G，按第8节交付H。
+当前主配置标识：backbone_profile=convnext_tiny_stages123_v1，independent_polarizations=true，fusion_profile=residual_deep_injection_v1，λ_fuse,max=1，λ_fuse,init=0.1，β_fuse,init=(0.5,0.5)。其余为native_crop_pad_bucket_64_96_128_v1、protect_margin_px=8（候选）、joint_gate、3_output_scales、d=256、spatial_axis_v1、readout_width=64、axis_order_symmetry=on、geometry_schema=obb_long_axis_atoms_v2。主候选geometry_profile=main_l6，长度向量(6,16,32)；基线baseline_l8为(8,16,32)。门控与四类损失公式保留，类别抑制的模式与资格以第6.4–6.5节为准；阶段末冻结已有G，按第8节交付H。
 
 H接口另存descriptor_mode=frozen_g_prepool_v1、cut_mode=geometry_area、transport_mass=area、region_weight_alpha=0.25及prior_distillation=false；A的0.25有界混合系数属于源端选择的候选，不是实验最优值。代码位于原工程的独立 [sar_port/two_stage](<E:/临时会话/port_prototype_model_20261121/sar_port/two_stage/>) 路径，旧ResNet入口保留为历史对照。
 
@@ -362,7 +390,7 @@ H接口另存descriptor_mode=frozen_g_prepool_v1、cut_mode=geometry_area、tran
 
 三组共用输入/几何、原门控和四类损失，第一阶段分别训练后冻结，再训练同配置H；记录各自backbone/fusion身份。几何相同不代表Fc可共享。此表列出验证路径，不代表这些结构对照已经训练。
 
-源端目标几何与原子覆盖已完成统计；可信背景及合法干预覆盖仍需在训练前核查。后续在相同纳入样本上比较6px／8px两条配置的空间监督覆盖、模块职责及H收益。当前新增的是几何统计依据，尚无新训练或分类结果。
+源端目标几何与原子覆盖已完成统计；本轮OSS2的输入、20个Q和经验配对资格已按第6.5节落定，真实批次完成四损失与有限门控梯度工程核验。首轮先比较分类基线、经验解耦与同一冻结特征上的完整H；后续6px／8px比较须保持纳入样本、监督模式及预算一致。当前尚无正式训练或分类收益结果。
 
 ## 10. 核对来源
 

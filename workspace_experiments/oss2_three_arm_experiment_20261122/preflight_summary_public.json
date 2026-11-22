@@ -1,0 +1,59 @@
+{
+  "input_records": 1325,
+  "retained": 1318,
+  "split_counts": {
+    "train": 718,
+    "validation": 227,
+    "test": 373
+  },
+  "split_class_counts": {
+    "train": {
+      "container_ship": 283,
+      "bulk_carrier": 221,
+      "general_cargo": 73,
+      "product_chemical_tanker": 141
+    },
+    "val": {
+      "container_ship": 89,
+      "bulk_carrier": 86,
+      "general_cargo": 23,
+      "product_chemical_tanker": 29
+    },
+    "test": {
+      "general_cargo": 26,
+      "bulk_carrier": 131,
+      "product_chemical_tanker": 79,
+      "container_ship": 137
+    }
+  },
+  "canvas_counts": {
+    "64": 1318
+  },
+  "reviewed_q_observations": 20,
+  "independent_donors": 8,
+  "empirical_queries": 8,
+  "supplemental_query_exposures_per_epoch": 32,
+  "strong_controlled_samples": 0,
+  "pure_q_cells_by_scale": [
+    320,
+    0,
+    0
+  ],
+  "sensor_nodata_masks_recovered": false,
+  "availability_convention": "native stored pixel footprint; no inferred sensor nodata recovery",
+  "evaluation_scope": "OSS2 development; historical test exposed; port values are proxies",
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "stage1_epochs": 20,
+  "base_epochs": 10,
+  "h_epochs": 20,
+  "selection_metric": "validation_balanced_accuracy",
+  "test_selection": false,
+  "excluded_count": 7,
+  "excluded_reason_counts": {
+    "Original target truncated or nodata; not a natural one-atom ship": 7
+  }
+}

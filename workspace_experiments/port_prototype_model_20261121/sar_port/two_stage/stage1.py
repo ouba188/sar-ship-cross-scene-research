@@ -29,6 +29,7 @@ class Stage1Config:
     stochastic_depth: float = 0.0
     axis_symmetric: bool = True
     fusion_enabled: bool = True
+    gate_enabled: bool = True
 
     def __post_init__(self):
         if self.classes < 2:
@@ -147,6 +148,12 @@ class Stage1(nn.Module):
         self.scene_heads = nn.ModuleList([
             nn.Sequential(nn.Linear(256, 32), nn.ReLU(), nn.Linear(32, 2)) for _ in range(6)])
         self.discriminator = ResidualClassDiscriminator(config.classes)
+        # Keep construction/RNG order identical to the gated arm so the same seed
+        # initializes every shared parameter identically; inactive heads do not train.
+        if not config.gate_enabled:
+            self.gates.requires_grad_(False)
+            self.scene_heads.requires_grad_(False)
+            self.discriminator.requires_grad_(False)
         self._frozen_for_h = False
 
     def train(self, mode=True):
@@ -187,7 +194,8 @@ class Stage1(nn.Module):
                 support = (weight > 0).to(images.dtype)
                 p = self.integrators[pol][level](fused[level] * support) * support
                 index = 2 * level + pol
-                gate = self.gates[index](p, weight, hard=hard_gate)
+                gate = (self.gates[index](p, weight, hard=hard_gate)
+                        if self.config.gate_enabled else support.expand_as(p))
                 fc, fs = gate * p, (1 - gate) * p
                 spatial = self.spatial_readouts[index](fc, weight)
                 for key, value in zip(output, (fc, spatial, fs, gate)):

@@ -1,0 +1,52 @@
+{
+  "seed": 17,
+  "supplemental_occurrence": 1,
+  "queries": 8,
+  "polarizations": 2,
+  "canvas_hw": [
+    64,
+    64
+  ],
+  "q_pixels_per_polarization": 128,
+  "donor_pool_count": 8,
+  "actual_distinct_donors": 1,
+  "q_outside_exact_equal_all": true,
+  "protected_pixels_exact_equal_all": true,
+  "q_protection_overlap_pixels": 0,
+  "shared_donor_field_verified_all": true,
+  "donor_samples_inside_joint_q_all": true,
+  "reconstructed_intervention_exact_all": true,
+  "changed_pixels_per_pol_total": [
+    973,
+    924
+  ],
+  "changed_pixels_per_pol_min": [
+    113,
+    105
+  ],
+  "changed_pixels_per_pol_max": [
+    127,
+    126
+  ],
+  "controlled_qualified_queries": 0,
+  "no_training": true,
+  "all_queries_and_donors_training_split": true,
+  "normalization": "none; native uint8 / 255; fixed 0..1 display",
+  "scope": "Trusted-Q-only paired-pixel replacement; no whole-background independence claim",
+  "visual_review": {
+    "status": "completed",
+    "reviewer": "Codex visual inspection via view_image",
+    "rendered_pages_checked": 2,
+    "page_sha256": [
+      "a80dd414ce9cd514efb28d895cf462f13381e042439d85c8be9d51ccd9a6ab9b",
+      "ae28d2614511ee01af2bb023f3b9c504bac04dd99f95299a993b2be85edfdeda"
+    ],
+    "observations": [
+      "Both pages show the same two bottom-corner Q patches, clear of the orange protection boundary.",
+      "Central ship structure remains visually unchanged in all eight original/intervened pairs in both polarizations.",
+      "The upper-right bright neighboring return in page 1 row 3 remains unchanged and is outside Q.",
+      "Replacement changes are subtle at the fixed 0..1 scale; numerical checks establish exact unchanged pixels outside Q.",
+      "This is local trusted-Q replacement, not replacement of the whole background or a certification of scene independence."
+    ]
+  }
+}

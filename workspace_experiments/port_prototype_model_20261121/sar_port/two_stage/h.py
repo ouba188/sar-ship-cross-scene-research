@@ -29,6 +29,8 @@ class HConfig:
     descriptor_mode: str = "frozen_g"
     learn_edge_weights: bool = True
     prototype_weighting: str = "floor"
+    batched_matching: bool = True
+    pair_batch_size: int = 64
 
     def __post_init__(self):
         if self.classes < 2 or self.descriptor_dim < 1:
@@ -45,6 +47,8 @@ class HConfig:
             raise ValueError("descriptor_mode must be frozen_g or raw_fc")
         if self.prototype_weighting not in {"floor", "uniform", "attention"}:
             raise ValueError("prototype_weighting must be floor, uniform or attention")
+        if self.pair_batch_size < 1:
+            raise ValueError("pair_batch_size must be positive")
 
 
 def _resize(x, shape):
@@ -205,6 +209,30 @@ def geometric_cost(query, reference, direction, config):
     size = ((qi[:, 1, None] / ri[None, :, 1]).log().abs()
             - math.log(config.size_tolerance)).clamp_min(0)
     return position, size
+
+
+def partial_transport_batched(scores, valid, query_mass, reference_mass, dustbin,
+                              temperature=.1, iterations=60):
+    """The identical area/dustbin Sinkhorn update for equal-shaped pair batches."""
+    batch, n, m = scores.shape
+    top = torch.cat((scores.masked_fill(~valid, -torch.inf), dustbin.expand(batch, n, 1)), -1)
+    augmented = torch.cat((top, dustbin.expand(batch, 1, m+1)), -2)
+    log_kernel = augmented / temperature
+    row = torch.cat((query_mass, query_mass.new_ones(batch, 1)), -1)
+    col = torch.cat((reference_mass, reference_mass.new_ones(batch, 1)), -1)
+    log_row, log_col = row.log(), col.log()
+    u, v = torch.zeros_like(row), torch.zeros_like(col)
+    for _ in range(iterations):
+        u = log_row - torch.logsumexp(log_kernel + v[:, None, :], -1)
+        v = log_col - torch.logsumexp(log_kernel + u[:, :, None], -2)
+    real = torch.exp(log_kernel + u[:, :, None] + v[:, None, :])[:, :n, :m]
+    real = real.masked_fill(~valid, 0)
+    real = real * (query_mass / real.sum(-1).clamp_min(1e-12)).clamp(max=1)[:, :, None]
+    real = real * (reference_mass / real.sum(-2).clamp_min(1e-12)).clamp(max=1)[:, None, :]
+    query_rejected = (query_mass - real.sum(-1)).clamp_min(0)
+    reference_rejected = (reference_mass - real.sum(-2)).clamp_min(0)
+    return torch.cat((torch.cat((real, query_rejected[:, :, None]), -1),
+                      torch.cat((reference_rejected, real.sum((-2, -1))[:, None]), -1)[:, None, :]), -2)
 
 
 class HModel(nn.Module):
@@ -377,6 +405,137 @@ class HModel(nn.Module):
                     direction_identifiable=not identical, direction_solves=len(candidates),
                     rate=rate, mean_support=support, quality=quality)
 
+    def _edges_batched(self, query, refs, qdesc, rdesc):
+        q = torch.stack([item[0] for item in qdesc])
+        qvalid = torch.stack([item[1] for item in qdesc])
+        r = torch.stack([item[0] for item in rdesc])
+        rvalid = torch.stack([item[1] for item in rdesc])
+        batch, n, _, _, _ = q.shape
+        m = r.shape[1]
+        qcoverage = torch.stack([ship.geometry.coverage for ship in query])
+        rcoverage = torch.stack([ship.geometry.coverage for ship in refs])
+        availability = torch.stack([torch.cat((a.geometry.levels[0].slot_valid[:, 0],
+                                               b.geometry.levels[0].slot_valid[:, 0]))
+                                    for a, b in zip(query, refs)]).to(q)
+        availability = availability[:, None, None, :].expand(batch, n, m, 4)
+        cosines, logits, masks, polar = [], [], [], []
+        # Keep the legacy branch order exactly: polarization, query scale, reference scale.
+        for p in range(2):
+            for l in range(3):
+                for t in range(3):
+                    if abs(l-t) > (1 if self.config.adjacent_scales else 0):
+                        continue
+                    qv = q[:, :, p, l, None, :].expand(batch, n, m, -1)
+                    rv = r[:, None, :, p, t, :].expand(batch, n, m, -1)
+                    cosine = (qv*rv).sum(-1).clamp(-1, 1)
+                    mask = qvalid[:, :, p, l, None] & rvalid[:, None, :, p, t]
+                    if self.edge_score is None:
+                        logits.append(torch.zeros_like(cosine))
+                    else:
+                        qc = qcoverage[:, :, p, l, None].expand(batch, n, m)
+                        rc = rcoverage[:, None, :, p, t].expand(batch, n, m)
+                        layer_id = torch.cat((F.one_hot(torch.tensor(l, device=q.device), 3),
+                                              F.one_hot(torch.tensor(t, device=q.device), 3))).to(q)
+                        metadata = torch.cat((cosine[..., None], qc[..., None], rc[..., None],
+                                              layer_id.expand(batch, n, m, 6), availability), -1)
+                        logits.append(self.edge_score(torch.cat((qv, rv, metadata), -1)).squeeze(-1))
+                    cosines.append(cosine); masks.append(mask); polar.append(p)
+        valid = torch.stack(masks, -1)
+        scores = torch.stack(logits, -1).masked_fill(~valid, -1e4)
+        beta = torch.softmax(scores, -1)*valid
+        beta = beta/beta.sum(-1, keepdim=True).clamp_min(1e-12)
+        appearance = (beta*torch.stack(cosines, -1)).sum(-1)
+        common = torch.stack([valid[..., [i for i, item in enumerate(polar) if item == p]].any(-1)
+                              for p in range(2)], -1)
+        return appearance, valid.any(-1), beta, valid, common
+
+    def _match_group(self, query, refs, qdesc, rdesc, qcoverage, rcoverage):
+        appearance, valid, beta, branch_valid, common = self._edges_batched(query, refs, qdesc, rdesc)
+        mu = torch.stack([ship.geometry.mass for ship in query])
+        nu = torch.stack([ship.geometry.mass for ship in refs])
+        qi = torch.stack([ship.geometry.intervals for ship in query])
+        ri = torch.stack([ship.geometry.intervals for ship in refs])
+        axes = torch.tensor([a.geometry.axis_valid and b.geometry.axis_valid for a, b in zip(query, refs)],
+                            dtype=torch.bool, device=appearance.device)[:, None, None]
+        pos = ((qi[:, :, 0, None]-ri[:, None, :, 0]).abs()
+               -.5*(qi[:, :, 1, None]+ri[:, None, :, 1])).clamp_min(0)
+        reverse_pos = ((qi[:, :, 0, None]+ri[:, None, :, 0]).abs()
+                       -.5*(qi[:, :, 1, None]+ri[:, None, :, 1])).clamp_min(0)
+        size = ((qi[:, :, 1, None]/ri[:, None, :, 1]).log().abs()
+                -math.log(self.config.size_tolerance)).clamp_min(0)
+        pos, reverse_pos, size = [torch.where(axes, value, 0.) for value in (pos, reverse_pos, size)]
+        plus = appearance-self.config.position_weight*pos-self.config.size_weight*size
+        minus = appearance-self.config.position_weight*reverse_pos-self.config.size_weight*size
+        identical = ((plus.detach()-minus.detach()).abs() <= 1e-7).flatten(1).all(1)
+        transport = partial_transport_batched(plus, valid, mu, nu, self.dustbin,
+                                              self.config.ot_temperature, self.config.sinkhorn_iterations)
+        # Only identifiable pairs require a second solve, as in match_pair.
+        reverse_ids = torch.where(~identical)[0]
+        choose_reverse = torch.zeros(len(query), dtype=torch.bool, device=appearance.device)
+        if len(reverse_ids):
+            reverse = partial_transport_batched(minus[reverse_ids], valid[reverse_ids], mu[reverse_ids],
+                                                  nu[reverse_ids], self.dustbin,
+                                                  self.config.ot_temperature, self.config.sinkhorn_iterations)
+            def quality(plan, app, mass):
+                real = plan[:, :-1, :-1]
+                row_mass = real.sum(-1)
+                rate = row_mass/mass
+                support = (real*((app+1)/2)).sum(-1)/row_mass.clamp_min(1e-12)
+                return (mass*(rate*support)).sum(-1)
+            forward_quality = quality(transport[reverse_ids], appearance[reverse_ids], mu[reverse_ids])
+            reverse_quality = quality(reverse, appearance[reverse_ids], mu[reverse_ids])
+            # Strict greater-than preserves legacy max's first-candidate tie rule.
+            choose = reverse_quality.detach() > forward_quality.detach()
+            choose_reverse[reverse_ids] = choose
+            selected = torch.where(choose[:, None, None], reverse, transport[reverse_ids])
+            transport = transport.index_copy(0, reverse_ids, selected)
+        real = transport[:, :-1, :-1]
+        row_mass = real.sum(-1)
+        rate = row_mass/mu
+        support = (real*((appearance+1)/2)).sum(-1)/row_mass.clamp_min(1e-12)
+        evidence = rate*support
+        quality = (mu*evidence).sum(-1)
+        count = valid.sum(-1)
+        probability = real/row_mass[:, :, None].clamp_min(1e-12)
+        entropy = -(probability*probability.clamp_min(1e-12).log()).sum(-1)
+        entropy_valid = (count > 1) & (row_mass > 0)
+        entropy = entropy/count.clamp_min(2).to(appearance).log()*entropy_valid
+        reference_coverage = (valid*torch.stack(rcoverage)[:, None, :]).sum(-1)/count.clamp_min(1)
+        pair_fraction = (branch_valid.to(appearance).sum(-1)/14*valid).sum(-1)/count.clamp_min(1)
+        stats = torch.stack((rate, support, entropy, entropy_valid.to(appearance), torch.stack(qcoverage),
+                             reference_coverage, common[..., 0].any(-1).to(appearance),
+                             common[..., 1].any(-1).to(appearance), pair_fraction), -1)
+        geometry_cost = (self.config.position_weight*torch.where(choose_reverse[:, None, None], reverse_pos, pos)
+                         +self.config.size_weight*size)
+        directions = choose_reverse.detach().cpu().tolist()
+        identities = identical.detach().cpu().tolist()
+        return [dict(evidence=evidence[i], stats=stats[i], valid=valid[i].any(-1), transport=transport[i],
+                     beta=beta[i], appearance=appearance[i], edge_valid=valid[i], geometry_cost=geometry_cost[i],
+                     direction=-1 if directions[i] else 1, direction_identifiable=not identities[i],
+                     direction_solves=1 if identities[i] else 2, rate=rate[i], mean_support=support[i],
+                     quality=quality[i]) for i in range(len(query))]
+
+    def _match_all_batched(self, query, refs, qtokens, rtokens, legal):
+        groups = defaultdict(list)
+        # Copy eligibility once, avoiding a CUDA synchronization per candidate pair.
+        for qi, row in enumerate(legal.detach().cpu().tolist()):
+            for ri, allowed in enumerate(row):
+                if allowed:
+                    groups[len(query[qi].geometry.area), len(refs[ri].geometry.area)].append((qi, ri))
+        result = [{} for _ in query]
+        qcoverage = [_region_union_coverage(ship) for ship in query]
+        rcoverage = [_region_union_coverage(ship) for ship in refs]
+        for indices in groups.values():
+            for start in range(0, len(indices), self.config.pair_batch_size):
+                pairs = indices[start:start+self.config.pair_batch_size]
+                matches = self._match_group([query[q] for q, _ in pairs], [refs[r] for _, r in pairs],
+                    [qtokens[q] for q, _ in pairs], [rtokens[r] for _, r in pairs],
+                    [qcoverage[q] for q, _ in pairs], [rcoverage[r] for _, r in pairs])
+                for (qi, ri), match in zip(pairs, matches):
+                    result[qi][ri] = match
+        # Preserve the public reference-index insertion order in details.
+        return [dict(sorted(pairs.items())) for pairs in result]
+
     def forward(self, query, refs, ref_labels, ref_ports, legal=None):
         if len(refs) != len(ref_ports) or len(refs) != len(ref_labels):
             raise ValueError("reference metadata lengths differ")
@@ -396,11 +555,14 @@ class HModel(nn.Module):
         z0 = self.forward_base(query)
         qtokens = [self._descriptors(ship) for ship in query]
         rtokens = [self._descriptors(ship) for ship in refs]
+        batched_pairs = (self._match_all_batched(query, refs, qtokens, rtokens, legal)
+                         if self.config.batched_matching else None)
         evidence_rows, support_rows, weights, details = [], [], [], []
         for qi, ship in enumerate(query):
             omega = self.region_weights(ship)
-            pairs = {ri: self.match_pair(ship, ref, qtokens[qi], rtokens[ri])
-                     for ri, ref in enumerate(refs) if bool(legal[qi, ri])}
+            pairs = (batched_pairs[qi] if batched_pairs is not None else
+                     {ri: self.match_pair(ship, ref, qtokens[qi], rtokens[ri])
+                      for ri, ref in enumerate(refs) if bool(legal[qi, ri])})
             class_evidence, class_support = [], []
             mixtures = {}
             for c in range(self.config.classes):
